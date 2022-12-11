@@ -14,7 +14,6 @@ const CommitteeCard = ({committee}: CommitteeCardProps) => {
             <br></br>
             <div className={committeesStyles.footer}>
                 <p className={committeesStyles.p}>Maila oss!</p>
-
             </div>
         </div>
     );

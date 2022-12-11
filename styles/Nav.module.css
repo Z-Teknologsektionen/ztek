@@ -1,11 +1,12 @@
 .nav {
-    height: 50px;
+    height: 6rem;
     padding: 10px;
     /* background: #7C7C7C; */
-    color: #fff;
+    color: white;
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    background-color: #757575;
   }
   
   .nav ul {
@@ -17,4 +18,5 @@
   
   .nav ul li a {
     margin: 5px 15px;
+    font-size: 1.5rem;
   }

@@ -17,6 +17,7 @@
     transition: color 0.15s ease, border-color 0.15s ease;
     max-width: 400px;
     flex-flow :row wrap;
+    background-color: #757575;
   }
   
   .card:hover,
