@@ -22,7 +22,7 @@ const CommitteesList = (props: any) => {
       <hr></hr>
       <div className={committeesStyles.grid}>
         {committees?.map((c: Committee) => (
-          <Link href={`/committees/${c.route}`}>
+          <Link key={c.route} href={`/committees/${c.route}`}>
             <CommitteeCard key={c.name} card={{
               title: c.name,
               description: c.description,
@@ -36,7 +36,7 @@ const CommitteesList = (props: any) => {
       <hr></hr>
       <div className={committeesStyles.grid}>
         {utskott?.map((c: Committee) => (
-          <Link href={`/committees/${c.route}`}>
+          <Link key={c.route} href={`/committees/${c.route}`}>
             <CommitteeCard key={c.name} card={{
               title: c.name,
               description: c.description,
