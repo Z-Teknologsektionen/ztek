@@ -1,4 +1,5 @@
 import useSWR from 'swr'
+import { Committee } from '../interfaces'
 import sektionsorgan from './sektionsorgan.json'
 
 const fetcher = (url: string) => {
@@ -19,4 +20,3 @@ export default function getAllCommittees() {
         isError: error
     }
 }
-

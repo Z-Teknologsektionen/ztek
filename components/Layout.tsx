@@ -1,16 +1,16 @@
-import Nav from './Nav'
+import Navbar from './Nav'
 import { ReactNode } from 'react';
 import styles from "../styles/Layout.module.css"
 
-type LaoutProps = {
+type LayoutProps = {
   children: ReactNode; // 👈️ type children
 };
 
 
-const Layout = (props: LaoutProps) => {
+const Layout = (props: LayoutProps) => {
   return (
     <>
-      <Nav />
+      <Navbar />
       <div className={styles.container}>
         <main className={styles.main}>
           {props.children}
