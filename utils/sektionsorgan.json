@@ -12,35 +12,35 @@
         "role": "General",
         "name": "Zakø",
         "email": "ordf.znollk@ztek.se",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "prio": 10
       },
       {
         "role": "Kazzør",
         "name": "ViDan",
         "email": "ekonomi.znollk@ztek.se",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "prio": 9
       },
       {
         "role": "Zpønzchef",
         "name": "Røhan",
         "email": "sponz.znollk@ztek.se",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "prio": 8
       },
       {
         "role": "Øhlchef",
         "name": "Balder",
         "email": "znollk@ztek.se",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "prio": 6
       },
       {
         "role": "Terapeut",
         "name": "TiramizHu",
         "email": "znollk@ztek.se",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "phoneNumber": "070-2688662",
         "prio": 5
       },
@@ -48,21 +48,21 @@
         "role": "Redaktør",
         "name": "Køda",
         "email": "znollk@ztek.se",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "prio": 4
       },
       {
         "role": "Inføchef",
         "name": "Ztikkling",
         "email": "znollk@ztek.se",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "prio": 3
       },
       {
         "role": "Jourlinjeansvarig",
         "name": "Praktikant Putte",
         "email": "znollk@ztek.se",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "phoneNumber": "073-0864575",
         "prio": 2
       }
@@ -80,45 +80,43 @@
       {
         "role": "Revolverman (Ordförande)",
         "name": "Albin \"Dizco\" Svenske",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "ordf.daltonz@ztek.se",
         "prio": 10
       },
       {
         "role": "Fifflare (Kazzør)",
         "name": "Albin \"HumAnna\" Hallander",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "ekonomi.daltonz@ztek.se",
         "prio": 9
       },
       {
         "role": "Tjallare",
         "name": "Samuel \"Zhonk\" Lee",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "daltonz@ztek.se",
         "prio": 8
       },
       {
         "role": "Bryggare",
         "name": "Alva \"Yuzu\" Andreasson",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "daltonz@ztek.se",
         "prio": 7
       },
       {
         "role": "Zlaktare",
         "name": "Hubert \"Znack\" Hermodsson",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "daltonz@ztek.se",
         "prio": 6
       },
       {
         "role": "Trixare",
         "name": "Felix \"Zierra\" Sjöstedt",
-        "imageUrl": "default.png",
-        "email": "znollk@ztek.se",
-        "phoneNumber": "070-2688662",
-        "prio": 5
+        "imageUrl": "",
+        "email": "daltonz@ztek.se"
       }
     ]
   },
@@ -134,49 +132,49 @@
       {
         "role": "Revolverman (Ordförande)",
         "name": "David \"Pepi II\" Mörck",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "ordf.zenith@ztek.se",
         "prio": 10
       },
       {
         "role": "Kazzör",
         "name": "Andreas \"Perzyval\" Särnholm",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "ekonomi.daltonz@ztek.se",
         "prio": 9
       },
       {
         "role": "Tjallare",
         "name": "Martin \"Mannix\" Ma",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "zenith@ztek.se",
         "prio": 8
       },
       {
         "role": "Knäppare",
         "name": "Alexander \"1000 km/h\" Nilsson",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "zenith@ztek.se",
         "prio": 7
       },
       {
         "role": "Murvel",
         "name": "Majed \"Vizerion\" Mazen",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "zenith@ztek.se",
         "prio": 6
       },
       {
         "role": "Första Kaffekokare",
         "name": "Hanna \"Zkånerost\" Klevedal",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "zenith@ztek.se",
         "prio": 5
       },
       {
         "role": "Klåpare",
         "name": "Jacob \"Kapzten\" Engström",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "zenith@ztek.se",
         "prio": 4
       }
@@ -194,28 +192,28 @@
       {
         "role": "Ordförande",
         "name": "Måns Jakobi",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "ordf.snz@ztek.se",
         "prio": 10
       },
       {
         "role": "Kazzör",
         "name": "Andreas Nylén",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "ekonomi.snz@ztek.se",
         "prio": 9
       },
       {
         "role": "Vice Ordförande",
         "name": "Max Roman",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "snz@ztek.se",
         "prio": 8
       },
       {
         "role": "Masteransvarig",
         "name": "Eskil Nordlund Eggesjö",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "snz@ztek.se",
         "prio": 7
       }
@@ -233,58 +231,217 @@
       {
         "role": "Zexmästare",
         "name": "Lisa \"Pyzen\" Holländer",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "ordf.zexet@ztek.se",
         "prio": 10
       },
       {
         "role": "Kazzör",
         "name": "Gustav \"Gurgel\" Wikman",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "ekonomi.zexet@ztek.se",
         "prio": 9
       },
       {
         "role": "Phixchef",
         "name": "Moa \"Prizma\" Bäckström",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "zexet@ztek.se",
         "prio": 8
       },
       {
         "role": "Kalazchef",
         "name": "Alexander \"Tukk\" Kongstad",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "kalaz.zexet@ztek.se",
         "prio": 7
       },
       {
         "role": "Øhlchef",
         "name": "Samuel \"bRandy\" Armgren",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "zexet@ztek.se",
         "prio": 6
       },
       {
         "role": "Ztallchef",
         "name": "Oskar \"Zhell\" Nilsson",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "zexet@ztek.se",
         "prio": 5
       },
       {
         "role": "Gourmetchef",
         "name": "Hannes \"QP\" Lundberg",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "zexet@ztek.se",
         "prio": 4
       },
       {
         "role": "PR-chef",
         "name": "Noel \"Groot\" Andersson",
-        "imageUrl": "default.png",
+        "imageUrl": "",
         "email": "zexet@ztek.se",
         "prio": 4
+      }
+    ]
+  },
+  {
+    "route": "ztyret",
+    "name": "Ztyret",
+    "type": "committee",
+    "description": "Ztyretgang Ztyretgang Ztyretgang ",
+    "longDescription": "Ztyret styr sektionens dagliga ",
+    "imageUrl": "",
+    "email": "ztyret@ztek.se",
+    "members": [
+      {
+        "role": "Ordförande",
+        "name": "Johan Florin Källgren",
+        "imageUrl": "",
+        "email": "ordf.ztyret@ztek.se",
+        "prio": 10
+      },
+      {
+        "role": "Kazzör",
+        "name": "Ludvig Eriksson",
+        "imageUrl": "",
+        "email": "ekonomi.ztek@ztek.se",
+        "prio": 9
+      },
+      {
+        "role": "Vice Ordförande",
+        "name": "Kristoffer Waidringer",
+        "imageUrl": "",
+        "email": "vordf@ztek.se",
+        "prio": 8
+      },
+      {
+        "role": "Informationsansvarig",
+        "name": "Mårten Sanderöd",
+        "imageUrl": "",
+        "email": "info@ztek.se",
+        "prio": 7
+      },
+      {
+        "role": "Nöjeslivsansvarig",
+        "name": "Kalle Funck",
+        "imageUrl": "",
+        "email": "nojes@ztek.se",
+        "prio": 6
+      },
+      {
+        "role": "SAMO (StuderandeArbetsMiljöOmbud)",
+        "name": "Felicia Ekenstam",
+        "imageUrl": "",
+        "email": "samo@ztek.se",
+        "prio": 5
+      }
+    ]
+  },
+  {
+    "route": "zkk",
+    "name": "ZKK",
+    "type": "utskott",
+    "description": "Zätas Kaffe Kommitté",
+    "longDescription": "Zätas Kaffe Kommitté Zätas Kaffe Kommitté Zätas Kaffe Kommitté Zätas Kaffe Kommitté Zätas Kaffe Kommitté Zätas Kaffe Kommitté Zätas Kaffe Kommitté Zätas Kaffe Kommitté ",
+    "imageUrl": "",
+    "email": "zkk@ztek.se",
+    "members": [
+      {
+        "role": "Ordförande",
+        "name": "Johan Florin Källgren",
+        "imageUrl": "",
+        "email": "ordf.ztyret@ztek.se",
+        "prio": 10
+      },
+      {
+        "role": "Kazzör",
+        "name": "Ludvig Eriksson",
+        "imageUrl": "",
+        "email": "ekonomi.ztek@ztek.se",
+        "prio": 9
+      },
+      {
+        "role": "Vice Ordförande",
+        "name": "Kristoffer Waidringer",
+        "imageUrl": "",
+        "email": "vordf@ztek.se",
+        "prio": 8
+      },
+      {
+        "role": "Informationsansvarig",
+        "name": "Mårten Sanderöd",
+        "imageUrl": "",
+        "email": "info@ztek.se",
+        "prio": 7
+      },
+      {
+        "role": "Nöjeslivsansvarig",
+        "name": "Kalle Funck",
+        "imageUrl": "",
+        "email": "nojes@ztek.se",
+        "prio": 6
+      },
+      {
+        "role": "SAMO (StuderandeArbetsMiljöOmbud)",
+        "name": "Felicia Ekenstam",
+        "imageUrl": "",
+        "email": "samo@ztek.se",
+        "prio": 5
+      }
+    ]
+  },
+  {
+    "route": "webbgruppen",
+    "name": "Webbgruppen",
+    "type": "utskott",
+    "description": "Webbgruppen Webbgruppen Webbgruppen ",
+    "longDescription": "Webbgruppen Webbgruppen Webbgruppen Webbgruppen Webbgruppen Webbgruppen Webbgruppen Webbgruppen Webbgruppen ",
+    "imageUrl": "",
+    "email": "webbgruppen@ztek.se",
+    "members": [
+      {
+        "role": "Sammankallande Ledamot",
+        "name": "Mårten Sanderöd",
+        "imageUrl": "",
+        "email": "info.ztyret@ztek.se",
+        "prio": 10
+      },
+      {
+        "role": "Ledamot",
+        "name": "Ludvig Eriksson",
+        "imageUrl": "",
+        "email": "dev@ztek.se",
+        "prio": 9
+      },
+      {
+        "role": "Ledamot",
+        "name": "Jonatan Nilsson",
+        "imageUrl": "",
+        "email": "dev@ztek.se",
+        "prio": 8
+      },
+      {
+        "role": "Informationsansvarig",
+        "name": "Mårten Sanderöd",
+        "imageUrl": "",
+        "email": "info@ztek.se",
+        "prio": 7
+      },
+      {
+        "role": "Nöjeslivsansvarig",
+        "name": "Kalle Funck",
+        "imageUrl": "",
+        "email": "nojes@ztek.se",
+        "prio": 6
+      },
+      {
+        "role": "SAMO (StuderandeArbetsMiljöOmbud)",
+        "name": "Felicia Ekenstam",
+        "imageUrl": "",
+        "email": "samo@ztek.se",
+        "prio": 5
       }
     ]
   }

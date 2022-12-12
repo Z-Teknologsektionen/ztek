@@ -1,5 +1,7 @@
+
 const about = () => {
-    return(
+
+    return (
         <div>
             <h1>About</h1>
         </div>
