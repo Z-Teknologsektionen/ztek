@@ -1,38 +1,38 @@
 import { ZtekCard } from "../interfaces";
-import committeesStyles from '../styles/Committees.module.css'
-import Image from 'next/image'
-
+import cardStyles from "../styles/ZtekCard.module.css";
+import Image from "next/image";
 
 type ZtekCardProps = {
-  card: ZtekCard
+  card: ZtekCard;
 };
 
-
 const CommitteeCard = ({ card }: ZtekCardProps) => {
-  let imageUrl: string = "/default.png"
+  let imageUrl: string = "/default.png";
   if (card.imageUrl !== "") {
-    imageUrl = "/committees/" + card.imageUrl
+    imageUrl = "/committees/" + card.imageUrl;
   }
   return (
-    <div className={committeesStyles.card}>
-      <div className={committeesStyles.imageContainer}>
+    <div className={cardStyles.card}>
+      <div className={cardStyles.imageContainer}>
         <Image
-          className={committeesStyles.image}
+          className={cardStyles.image}
           src={imageUrl}
           alt="Profile picture"
           width={372}
           height={372}
         />
-
       </div>
-      <h1>{card.title}</h1>
-      <p>{card.description}</p>
-      <br></br>
-      <div className={committeesStyles.footer}>
-        <p className={committeesStyles.p}>Maila oss!</p>
+      <div className={cardStyles.cardBody}>
+        <h4>{card.title}</h4>
+        <br />
+        <p>{card.description}</p>
+        <br></br>
+      </div>
+      <div className={cardStyles.footer}>
+        <p className={cardStyles.p}>Maila oss!</p>
       </div>
     </div>
   );
-}
+};
 
 export default CommitteeCard;

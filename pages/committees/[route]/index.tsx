@@ -23,7 +23,7 @@ const committee = ({ committee }: CommitteeProps) => {
                     height={400}
                 />
             </div>
-            <h1>{committee.name}</h1>
+            <h2>{committee.name}</h2>
             <hr></hr>
             <p>{committee.longDescription}</p>
             <div className={committeesStyles.grid}>

@@ -17,7 +17,7 @@ const CommitteesList = (props: any) => {
   }
 
   return (
-    <div>
+    <div className={committeesStyles.container}>
       <h1 className={committeesStyles.title}>Kommittéer</h1>
       <hr></hr>
       <div className={committeesStyles.grid}>

@@ -10,7 +10,7 @@ const NavItem = ({ text, href, active }: NavItemProps) => {
     <>
       <style jsx>{`
         .nav__link{
-          font-size: 1.5rem; 
+          font-size: 1rem; 
           position: relative;
           transition: all 0.2s;
         }

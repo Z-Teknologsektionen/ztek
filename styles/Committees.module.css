@@ -5,78 +5,16 @@
 .container {
   width: 100%;
   justify-content: center;
+  padding-right: 10%;
+  padding-left: 10%;
 }
-
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-auto-rows: auto;
   grid-gap: 1rem;
 }
-
-
-
-.card {
-  margin: 1rem;
-  padding: 1.5rem;
-  text-align: center;
-  color: inherit;
-  text-decoration: none;
-  border: 1px solid #eaeaea;
-  border-radius: 10px;
-  transition: color 0.15s ease, border-color 0.15s ease;
-  background-color: #757575;
-  transition: 0.1s;
-}
-
-.card:hover,
-.card:focus,
-.card:active {
-  color: #0070f3;
-  border-color: #0070f3;
-  cursor: pointer;
-  margin: 0.5rem
-}
-
-.card h1 {
-  margin: 0 0 1rem 0;
-  text-align: center;
-  font-size: 2rem;
-  overflow-wrap: break-word;
-}
-
-.card p {
-  margin: 0;
-  font-size: 1.25rem;
-  line-height: 1.5;
-}
-.imageContainer {
-  width: 100%;
-  position: unset !important;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-
-}
-
-.image {
-  border-radius: 5px 5px 0 0;
-  object-fit: contain;
-    width: 100% !important;
-    position: relative !important;
-    height: unset !important;
-}
-
-.card footer {
-  width: 100%;
-  text-align: center;
-  height: 3rem;
-  border-top: white;
-}
-
-
 
 .logo {
   height: 1em;
@@ -91,7 +29,6 @@
 }
 
 @media (prefers-color-scheme: dark) {
-
   .card,
   .footer {
     border-color: #222;
