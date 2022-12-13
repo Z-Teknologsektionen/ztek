@@ -15,7 +15,7 @@
   text-decoration: none;
   border: 1px solid black;
   border-radius: 4px;
-  background-color: #757575;
+  background-color: #D7D2D1;
 }
 
 .left {
@@ -27,7 +27,7 @@
 
 .right {
   width: 35%;
-  padding: 0 0 0 0;
+  padding: 1rem;
   float: right;
 }
 
@@ -38,10 +38,25 @@
 
 .section h5 {
   margin-bottom: 0;
+  color: #3E3E3E;
+}
+.topTitle {
+color: #3E3E3E;
 }
 
 .text {
   font-size: 1rem;
+}
+
+.link {
+  color: darkgrey;
+  text-decoration: underline;
+}
+
+.hoverLink:hover {
+  color: darkgrey;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 800px) {

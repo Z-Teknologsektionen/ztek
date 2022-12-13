@@ -1,0 +1,95 @@
+.nav {
+  display: flex;
+  padding: 16px;
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: #757575; */
+  background-color: #333;
+  height: 5rem;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+  color: #CCC7C7;
+  border-bottom: 1px solid black;
+}
+.nav img {
+  max-width: 20%;
+  max-height: 20%;
+}
+.navMenuBar {
+  display: flex;
+  flex-direction: column;
+  row-gap: 6px;
+  cursor: pointer;
+}
+.navMenuBar div {
+  width: 40px;
+  height: 4px;
+  background-color: black;
+  border-radius: 2px;
+}
+
+.navMenuList {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 5rem;
+  width: 12rem;
+  row-gap: 24px;
+  right: -12rem;
+  height: 100%;
+  padding: 24px 16px;
+  transition: all 0.2s;
+  min-height: calc(100vh - 60px);
+  background-color: #333;
+}
+.navMenuList.active {
+  right: 0;
+}
+
+.center {
+  min-height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.navLink{
+  font-size: 1rem; 
+  position: relative;
+  transition: all 0.2s;
+}
+
+.navLink:hover{
+font-weight: bold;
+color: white;
+}
+
+
+@media screen and (min-width: 768px) {
+  .navMenuBar {
+    display: none;
+  }
+  .navMenuList {
+    position: unset;
+    flex-direction: row;
+    min-height: fit-content;
+    width: fit-content;
+    column-gap: 24px;
+    align-items: center;
+  }
+  .navLink::before {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 6px;
+    bottom: -16px;
+    left: 0;
+    background-color: #CCC7C7;
+    transition: all 0.2s;
+  }
+
+  .navLink:hover:before {
+    width: 100%;
+  }
+}

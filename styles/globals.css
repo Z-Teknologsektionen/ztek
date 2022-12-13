@@ -20,7 +20,10 @@ a {
     color-scheme: dark;
   }
   body {
-    color: white;
-    background: #454545;
+    color: black;
+    background: white;
+    /* background: #ABABAB; */
+    /* background: #757575; */
+    /* background: #C5C5C5; */
   }
 }
