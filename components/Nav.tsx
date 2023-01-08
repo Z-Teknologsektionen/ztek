@@ -2,6 +2,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import NavItem from "./NavItem";
 import navStyles from "../styles/Nav.module.css";
+import { useRouter } from "next/router";
 
 const MENU_LIST = [
   { text: "Hem", href: "/" },
@@ -15,6 +16,14 @@ const MENU_LIST = [
 const Navbar = () => {
   const [navActive, setNavActive] = useState<boolean | null>(null);
   const [activeIdx, setActiveIdx] = useState(-1);
+
+  const router = useRouter();
+
+  //Kolla vilket index vi är på ifall de navigerar tillbaka till sidan.
+  const currIdx = MENU_LIST.findIndex(r => r.href === router.pathname)
+  if (activeIdx !== currIdx) {
+    setActiveIdx(currIdx)
+  }
 
   return (
     <header>

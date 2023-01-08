@@ -5,6 +5,21 @@
   align-items: center;
   /* background-color: #757575; */
   background-color: #333;
+  background-image: linear-gradient(
+      to right,
+      #555555,
+      #5b5b5b,
+      #616161,
+      #676767,
+      #6d6d6d,
+      #6d6d6d,
+      #6d6d6d,
+      #6d6d6d,
+      #676767,
+      #616161,
+      #5b5b5b,
+      #555555
+    );
   height: 5rem;
   position: fixed;
   top: 0;
@@ -14,8 +29,8 @@
   border-bottom: 1px solid black;
 }
 .nav img {
-  max-width: 20%;
-  max-height: 20%;
+  max-width: 15%;
+  max-height: 15%;
 }
 .navMenuBar {
   display: flex;
@@ -26,9 +41,14 @@
 .navMenuBar div {
   width: 40px;
   height: 4px;
-  background-color: black;
+  background-color: #CCC7C7;
   border-radius: 2px;
 }
+
+.currentNav {
+  color:#333
+}
+
 
 .navMenuList {
   display: flex;
@@ -42,7 +62,6 @@
   padding: 24px 16px;
   transition: all 0.2s;
   min-height: calc(100vh - 60px);
-  background-color: #333;
 }
 .navMenuList.active {
   right: 0;
@@ -63,6 +82,27 @@
 .navLink:hover{
 font-weight: bold;
 color: white;
+}
+
+@media screen and (max-width: 768px) {
+  .navMenuList {
+    background-image: linear-gradient(
+      to right,
+      #555555,
+      #5b5b5b,
+      #616161,
+      #676767,
+      #6d6d6d,
+      #6d6d6d,
+      #6d6d6d,
+      #6d6d6d,
+      #676767,
+      #616161,
+      #5b5b5b,
+      #555555
+    );
+    border-left: 1px solid black;
+  }
 }
 
 

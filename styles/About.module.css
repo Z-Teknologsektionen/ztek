@@ -15,7 +15,23 @@
   text-decoration: none;
   border: 1px solid black;
   border-radius: 4px;
-  background-color: #D7D2D1;
+  background-color: #8B9694;
+  /* background-color: #D7D2D1; */
+  background-image: linear-gradient(
+      to right,
+      #555555,
+      #5b5b5b,
+      #616161,
+      #676767,
+      #6d6d6d,
+      #6d6d6d,
+      #6d6d6d,
+      #6d6d6d,
+      #676767,
+      #616161,
+      #5b5b5b,
+      #555555
+    );
 }
 
 .left {

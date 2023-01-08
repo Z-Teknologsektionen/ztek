@@ -21,7 +21,38 @@ a {
   }
   body {
     color: black;
-    background: white;
+    color: #CCC7C7;
+    background: rgba(180, 180, 180, 0.885);
+    /* background-image: linear-gradient(
+      to right,
+      #555555,
+      #4e4e4e,
+      #484848,
+      #414141,
+      #3b3b3b,
+      #3b3b3b,
+      #3b3b3b,
+      #3b3b3b,
+      #414141,
+      #484848,
+      #4e4e4e,
+      #555555
+    );
+    background-image: linear-gradient(
+      to right,
+      #555555,
+      #5b5b5b,
+      #616161,
+      #676767,
+      #6d6d6d,
+      #6d6d6d,
+      #6d6d6d,
+      #6d6d6d,
+      #676767,
+      #616161,
+      #5b5b5b,
+      #555555
+    ); */
     /* background: #ABABAB; */
     /* background: #757575; */
     /* background: #C5C5C5; */

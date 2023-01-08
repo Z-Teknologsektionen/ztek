@@ -5,18 +5,24 @@ import getAllCommittees from "../utils/swrFunctions";
 
 const About = () => {
   const req: any = getAllCommittees();
+  //Bara ztyret
   const ztyret: Committee = req.committees?.find(
     (c: Committee) => c.route === "ztyret"
   );
+  //Alla kommittéer
   const committes: Array<Committee> = req.committees?.filter(
     (c: Committee) => c.type === "committee"
   );
+  //Alla utskott
   const utskott: Array<Committee> = req.committees?.filter(
     (c: Committee) => c.type === "utskott"
   );
+
+  // Andra organ som inte räknas som utskott och kommitté
   const unspecified: Array<Committee> = req.committees?.filter(
     (c: Committee) => c.type !== "utskott" && c.type !== "committee"
   );
+  
   return (
     <div className={`${aboutStyles.container} ${aboutStyles.grid}`}>
       <div className={aboutStyles.row}>

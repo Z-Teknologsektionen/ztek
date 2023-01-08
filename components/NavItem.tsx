@@ -10,7 +10,9 @@ const NavItem = ({ text, href, active }: NavItemProps) => {
   return (
     <>
       <Link href={href}>
-        <h3 className={navStyles.navLink}>{text}</h3>
+        <h3 className={`${active ? navStyles.currentNav : ""} ${
+            navStyles.navLink
+          }`}>{text}</h3>
       </Link>
     </>
   );

@@ -8,6 +8,21 @@
   border-radius: 20px;
   transition: color 0.15s ease, border-color 0.15s ease;
   background-color: #837E7E;
+  background-image: linear-gradient(
+      to right,
+      #555555,
+      #5b5b5b,
+      #616161,
+      #676767,
+      #6d6d6d,
+      #6d6d6d,
+      #6d6d6d,
+      #6d6d6d,
+      #676767,
+      #616161,
+      #5b5b5b,
+      #555555
+    );
   /* background-color: #383434; */
   transition: 0.1s;
 }

@@ -15,7 +15,6 @@ const Layout = (props: LayoutProps) => {
         <main className={styles.main}>
           {props.children}
         </main>
-        Enter
       </div>
     </>
   );
