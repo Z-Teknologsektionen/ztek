@@ -35,21 +35,18 @@ export const committeeRouter = createTRPCRouter({
           image: true,
           members: {
             where: {
-              NOT: {
-                AND: [
-                  {
-                    name: {
-                      equals: "",
-                    },
+              OR: [
+                {
+                  name: {
+                    not: "",
                   },
-
-                  {
-                    nickName: {
-                      equals: "",
-                    },
+                },
+                {
+                  nickName: {
+                    not: "",
                   },
-                ],
-              },
+                },
+              ],
             },
             select: {
               name: true,

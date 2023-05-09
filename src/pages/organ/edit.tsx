@@ -2,8 +2,14 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Footer from "~/components/layout/Footer";
+import HeadLayout from "~/components/layout/HeadLayout";
+import Header from "~/components/layout/Header";
+import SectionTitle from "~/components/layout/SectionTitle";
+import SectionWrapper from "~/components/layout/SectionWrapper";
+import { UpdateUserWizard } from "~/components/organ/UpdateUserWizard";
 import { api } from "~/utils/api";
-import { TempFooter, TempHeader } from "..";
+import localeObject from "~/utils/dayjs";
 
 dayjs.extend(relativeTime);
 dayjs.locale(localeObject);
@@ -19,7 +25,7 @@ const EditOrganPage: NextPage = () => {
   return (
     <>
       <HeadLayout title="Redigera medlemmar"></HeadLayout>
-      <TempHeader />
+      <Header />
       <main>
         {session && (
           <SectionWrapper className="flex flex-col space-y-4 py-8">
@@ -96,15 +102,9 @@ const EditOrganPage: NextPage = () => {
           )}
         </SectionWrapper>
       </main>
-      <TempFooter />
+      <Footer />
     </>
   );
 };
 
 export default EditOrganPage;
-
-import HeadLayout from "~/components/layout/HeadLayout";
-import SectionTitle from "~/components/layout/SectionTitle";
-import SectionWrapper from "~/components/layout/SectionWrapper";
-import localeObject from "~/utils/dayjs";
-import { UpdateUserWizard } from "../../components/organ/UpdateUserWizard";

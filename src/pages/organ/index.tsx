@@ -1,11 +1,12 @@
 import { type GetStaticProps, type NextPage } from "next";
 import Link from "next/link";
+import Footer from "~/components/layout/Footer";
 import HeadLayout from "~/components/layout/HeadLayout";
+import Header from "~/components/layout/Header";
 import SectionTitle from "~/components/layout/SectionTitle";
 import CommitteeImage from "~/components/organ/CommitteeImage";
 import ssg from "~/server/api/helper/ssg";
 import { api, type RouterOutputs } from "~/utils/api";
-import { TempHeader } from "..";
 
 const Home: NextPage = () => {
   const { data: committees } = api.committee.getAll.useQuery();
@@ -14,7 +15,7 @@ const Home: NextPage = () => {
     <>
       <HeadLayout title="Organ"></HeadLayout>
 
-      <TempHeader />
+      <Header />
       <main>
         <section className="mx-auto my-16 max-w-7xl px-4 md:px-6 xl:px-0">
           <SectionTitle className="mb-8" center>
@@ -41,6 +42,7 @@ const Home: NextPage = () => {
           </div>
         </section>
       </main>
+      <Footer />
     </>
   );
 };
