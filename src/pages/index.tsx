@@ -1,7 +1,22 @@
 import { type NextPage } from "next";
+import type { FC } from "react";
 
-const Home: NextPage = () => {
-  return <>Hello World!</>;
+const HomePage: NextPage = () => {
+  return (
+    <>
+      <TempHeader />
+      <div>Här finns inget :)</div>
+      <TempFooter />
+    </>
+  );
 };
 
-export default Home;
+export default HomePage;
+
+export const TempHeader: FC = () => (
+  <header className="h-14 bg-red-500"></header>
+);
+
+export const TempFooter: FC = () => (
+  <footer className="h-96 bg-red-500"></footer>
+);
