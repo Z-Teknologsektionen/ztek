@@ -145,7 +145,7 @@ export const UpdateUserWizard: FC<IUpdateUserWizard> = ({
           type="file"
         />
         <input
-          className="rounded border-2 bg-gray-200 p-0.5 text-sm"
+          className="rounded border-2 bg-zLightGray p-0.5 text-sm"
           onClick={() => {
             setUpdatedMemberInfo((prev) => {
               return { ...prev, image: "" };
