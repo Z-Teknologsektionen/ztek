@@ -6,8 +6,8 @@ env:
   DATABASE_URL: "https://fake.com"
   GOOGLE_CLIENT_ID: "fake"
   GOOGLE_CLIENT_SECRET: "fake"
-  NEXTAUTH_URL: "fake"
-  NEXTAUTH_SECRET: "fake"
+  NEXTAUTH_URL: "https://fake.com"
+  NEXTAUTH_SECRET: "fakefakefakefake"
 
 jobs:
   build:
