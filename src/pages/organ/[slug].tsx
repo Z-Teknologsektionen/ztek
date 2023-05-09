@@ -31,7 +31,7 @@ const CommitteePage: NextPage<
             <p>
               - Kontakt:{" "}
               <a
-                className="hover:opacity-75"
+                className="underline decoration-zDarkGray/50 underline-offset-2 hover:opacity-75"
                 href={`mailto:${committee.email}`}
               >
                 {committee.email}

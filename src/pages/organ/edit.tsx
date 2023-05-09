@@ -5,11 +5,12 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Footer from "~/components/layout/Footer";
 import HeadLayout from "~/components/layout/HeadLayout";
 import Header from "~/components/layout/Header";
-import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { UpdateUserWizard } from "~/components/organ/UpdateUserWizard";
 import { api } from "~/utils/api";
 import localeObject from "~/utils/dayjs";
+import { EditCommitteeInformationSection } from "../../components/organ/EditCommitteeInformationSection";
+import { UpdateCommitteeWizard } from "../../components/organ/UpdateCommitteeWizard";
 
 dayjs.extend(relativeTime);
 dayjs.locale(localeObject);
@@ -27,39 +28,7 @@ const EditOrganPage: NextPage = () => {
       <HeadLayout title="Redigera medlemmar"></HeadLayout>
       <Header />
       <main>
-        {session && (
-          <SectionWrapper className="flex flex-col space-y-4 py-8">
-            <SectionTitle>Information</SectionTitle>
-            <ul className="list-disc">
-              <li>
-                <p>
-                  Om du lämnar båda namn fälten tomma så kommer personen inte
-                  visas på hemsidan. Om du vill att de ska visas ändå kan du
-                  sätta namnet till &quot;Vakant&quot;
-                </p>
-              </li>
-              <li>
-                <p>
-                  Personer med högt värde på &quot;Ordning&quot; kommer visas
-                  först
-                </p>
-              </li>
-              <li>
-                <p>
-                  Om kommitenamn finns så kommer det prioriteras och visas
-                  större
-                </p>
-              </li>
-              <li>
-                <p>
-                  Om du vill redigera något av de fält som är statiska så kan
-                  enbart webbgruppen göra detta, kontakta dem via slack eller
-                  mail.
-                </p>
-              </li>
-            </ul>
-          </SectionWrapper>
-        )}
+        {session && <EditCommitteeInformationSection />}
         {session && committee && (
           <SectionWrapper className="flex flex-col items-center justify-center space-y-8 py-16">
             <h1 className="text-center text-3xl font-semibold">
@@ -74,6 +43,10 @@ const EditOrganPage: NextPage = () => {
                 />
               ))}
             </div>
+            <UpdateCommitteeWizard
+              committee={committee}
+              refetchCommittee={() => void refetchCommittee()}
+            />
           </SectionWrapper>
         )}
         <SectionWrapper className="flex items-center justify-center py-8">
