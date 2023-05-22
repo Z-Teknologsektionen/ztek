@@ -18,8 +18,8 @@ export const CreateNewOrganWizard: FC<{
 
   const ctx = api.useContext();
 
-  const { mutateAsync: createCommittee } =
-    api.committee.createCommittee.useMutation({
+  const { mutate: createCommittee } = api.committee.createCommittee.useMutation(
+    {
       onMutate: () => toast.loading("Skapar ny kommitté..."),
       onSettled: (_c, _e, _o, toastId) => toast.dismiss(toastId),
       onError: (e) => {
@@ -46,11 +46,12 @@ export const CreateNewOrganWizard: FC<{
         toast.success("Ny kommitté skapad!");
         close();
       },
-    });
+    }
+  );
 
-  const handleFormSubmit = async (): Promise<void> => {
+  const handleFormSubmit = (): void => {
     try {
-      await createCommittee({
+      createCommittee({
         description: descRef.current?.value ?? "",
         email: emailRef.current?.value ?? "",
         name: nameRef.current?.value ?? "",
