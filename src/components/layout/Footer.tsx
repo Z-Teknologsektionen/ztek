@@ -1,8 +1,8 @@
-import React from "react";
+import { FC } from "react";
 
 import { MdBusiness, MdEmail, MdOutlineHouse } from "react-icons/md";
 
-const Footer: React.FC = () => {
+const Footer: FC = () => {
   return (
     <footer className="bg-zBlack py-10 text-zWhite">
       <div className="container mx-auto px-4">
