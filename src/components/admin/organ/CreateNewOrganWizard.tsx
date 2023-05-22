@@ -5,10 +5,15 @@ import Modal from "~/components/layout/Modal";
 import { api } from "~/utils/api";
 import { OrganWizardForm } from "./OrganWizardForm";
 
-export const CreateNewOrganWizard: FC<{
+interface ICreateNewOrganWizard {
   close: () => void;
   isOpen: boolean;
-}> = ({ close, isOpen }) => {
+}
+
+export const CreateNewOrganWizard: FC<ICreateNewOrganWizard> = ({
+  close,
+  isOpen,
+}) => {
   const nameRef = useRef<HTMLInputElement>(null);
   const slugRef = useRef<HTMLInputElement>(null);
   const descRef = useRef<HTMLTextAreaElement>(null);

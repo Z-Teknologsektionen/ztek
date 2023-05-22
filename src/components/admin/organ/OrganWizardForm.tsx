@@ -8,6 +8,7 @@ interface IOrganWizardForm {
   roleRef: RefObject<HTMLInputElement>;
   slugRef: RefObject<HTMLInputElement>;
 }
+
 export const OrganWizardForm: FC<IOrganWizardForm> = ({
   descRef,
   emailRef,

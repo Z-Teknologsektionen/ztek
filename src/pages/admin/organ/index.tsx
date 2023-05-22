@@ -9,7 +9,7 @@ import { DeleteOraganWizard } from "../../../components/admin/organ/DeleteOragan
 import { UpdateOrganWizard } from "../../../components/admin/organ/UpdateOrganWizard";
 
 const AdminOrganPage: NextPage = () => {
-  const { data: albumsAsAdmin } = api.committee.getAllAsAdmin.useQuery();
+  const { data: committeesAsAdmin } = api.committee.getAllAsAdmin.useQuery();
 
   const [showCreateNewModalPopup, setShowCreateNewModalPopup] = useState(false);
   const [editOrganSlug, setEditOrganSlug] = useState("");
@@ -38,7 +38,7 @@ const AdminOrganPage: NextPage = () => {
             </tr>
           </thead>
           <tbody>
-            {albumsAsAdmin?.map(({ id, name, order, _count, slug }) => (
+            {committeesAsAdmin?.map(({ id, name, order, _count, slug }) => (
               <tr key={id} className="odd:bg-zLightGray even:bg-zWhite">
                 <td className="p-2 font-semibold">{name}</td>
                 <td className="p-2">{order || 0}</td>
