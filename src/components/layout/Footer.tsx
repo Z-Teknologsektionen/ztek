@@ -1,4 +1,5 @@
-import { FC } from "react";
+import Image from "next/image";
+import type { FC } from "react";
 
 import { MdBusiness, MdEmail, MdOutlineHouse } from "react-icons/md";
 
@@ -31,16 +32,14 @@ const Footer: FC = () => {
           </div>
           <div className="w-full md:w-1/3">
             <h3 className="text-center text-lg font-semibold">En del av</h3>
-            <a
-              href="https://chalmersstudentkar.se/"
-              className="block"
-              target="_blank"
-            >
+            <a href="https://chalmersstudentkar.se/" target="_blank">
               <div className="relative">
-                <img
-                  src="CHS-standard-RGB-white.png"
-                  alt="Image"
+                <Image
+                  alt="CHS logo"
                   className="h-full w-full rounded-lg object-contain"
+                  height={500}
+                  src="/CHS-standard-RGB-white.png"
+                  width={500}
                 />
               </div>
             </a>
