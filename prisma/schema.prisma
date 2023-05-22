@@ -25,7 +25,7 @@ model Committee {
 
 model CommitteeMember {
     id          String    @id @default(auto()) @map("_id") @db.ObjectId
-    committee   Committee @relation(fields: [committeeId], references: [id])
+    committee   Committee @relation(fields: [committeeId], references: [id], onDelete: Restrict)
     name        String    @default("")
     nickName    String    @default("")
     email       String
