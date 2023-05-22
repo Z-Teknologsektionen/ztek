@@ -50,6 +50,7 @@ export const committeeRouter = createTRPCRouter({
                 },
               ],
             },
+            orderBy: [{ order: "desc" }],
             select: {
               name: true,
               nickName: true,
@@ -57,6 +58,48 @@ export const committeeRouter = createTRPCRouter({
               image: true,
               email: true,
               phone: true,
+            },
+          },
+        },
+      });
+    }),
+  getOneBySlugAsAdmin: adminProcedure
+    .input(
+      z.object({
+        slug: z.string(),
+      })
+    )
+    .query(({ ctx, input: { slug } }) => {
+      return ctx.prisma.committee.findUniqueOrThrow({
+        where: {
+          slug: slug,
+        },
+        select: {
+          name: true,
+          description: true,
+          email: true,
+          image: true,
+          id: true,
+          role: true,
+          slug: true,
+          updatedAt: true,
+          order: true,
+          _count: {
+            select: {
+              members: true,
+            },
+          },
+          members: {
+            select: {
+              name: true,
+              nickName: true,
+              role: true,
+              image: true,
+              email: true,
+              phone: true,
+              id: true,
+              order: true,
+              updatedAt: true,
             },
           },
         },
@@ -104,7 +147,7 @@ export const committeeRouter = createTRPCRouter({
         id: true,
         name: true,
         order: true,
-
+        slug: true,
         _count: {
           select: {
             members: true,
@@ -130,6 +173,79 @@ export const committeeRouter = createTRPCRouter({
         data: {
           description,
           image,
+        },
+      });
+    }),
+  createCommittee: adminProcedure
+    .input(
+      z.object({
+        name: z.string().min(1),
+        slug: z.string().min(1),
+        description: z.string().min(1),
+        role: z.string().min(1),
+        email: z.string().email().min(1),
+        order: z.number().min(0).max(99),
+      })
+    )
+    .mutation(
+      ({ ctx, input: { description, email, name, order, role, slug } }) => {
+        return ctx.prisma.committee.create({
+          data: {
+            description,
+            email,
+            image: "",
+            name,
+            order,
+            role,
+            slug,
+          },
+        });
+      }
+    ),
+  updateCommittee: adminProcedure
+    .input(
+      z.object({
+        id: objectId,
+        name: z.string().min(1).optional(),
+        slug: z.string().min(1).optional(),
+        description: z.string().min(1).optional(),
+        role: z.string().min(1).optional(),
+        email: z.string().email().min(1).optional(),
+        order: z.number().min(0).max(99).optional(),
+        image: z.string().min(1).optional(),
+      })
+    )
+    .mutation(
+      ({
+        ctx,
+        input: { id, description, email, name, order, role, slug, image },
+      }) => {
+        return ctx.prisma.committee.update({
+          where: {
+            id,
+          },
+          data: {
+            description,
+            email,
+            image,
+            name,
+            order,
+            role,
+            slug,
+          },
+        });
+      }
+    ),
+  deleteCommittee: adminProcedure
+    .input(
+      z.object({
+        id: objectId,
+      })
+    )
+    .mutation(({ ctx, input: { id } }) => {
+      return ctx.prisma.committee.delete({
+        where: {
+          id,
         },
       });
     }),
