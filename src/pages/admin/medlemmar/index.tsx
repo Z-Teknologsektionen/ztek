@@ -2,8 +2,8 @@ import type { NextPage } from "next";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { CreateNewMemberWizard } from "~/components/admin/medlemmar/CreateNewMemberWizard";
+import { DeleteMemberWizard } from "~/components/admin/medlemmar/DeleteMemberWizard";
 import { UpdateMemberWizard } from "~/components/admin/medlemmar/UpdateMemberWizard";
-import { DeleteOraganWizard } from "~/components/admin/organ/DeleteOraganWizard";
 import AdminWrapper from "~/components/layout/AdminWrapper";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { api } from "~/utils/api";
@@ -82,7 +82,7 @@ const AdminMemberPage: NextPage = () => {
         id={editMemberId}
         isOpen={editMemberId !== ""}
       />
-      <DeleteOraganWizard
+      <DeleteMemberWizard
         close={() => setDeleteMemberId("")}
         id={deleteMemberId}
         isOpen={deleteMemberId !== ""}

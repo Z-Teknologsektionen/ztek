@@ -9,7 +9,7 @@ interface IDeleteOraganWizard {
   isOpen: boolean;
 }
 
-export const DeleteOraganWizard: FC<IDeleteOraganWizard> = ({
+export const DeleteMemberWizard: FC<IDeleteOraganWizard> = ({
   close,
   id,
   isOpen,
@@ -33,10 +33,10 @@ export const DeleteOraganWizard: FC<IDeleteOraganWizard> = ({
       isOpen={isOpen}
       onClose={() => close()}
       onSubmit={() => deleteMember({ id })}
-      title="Radera Organ"
+      title="Radera medlem"
     >
       <div className="mx-auto w-fit max-w-prose">
-        <p>Är du säker på att du vill radera organet?</p>
+        <p>Är du säker på att du vill radera medlemmen?</p>
         <p>Denna ändring går inte att ångra!</p>
       </div>
     </Modal>
