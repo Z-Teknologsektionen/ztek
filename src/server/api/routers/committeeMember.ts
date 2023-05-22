@@ -1,8 +1,26 @@
+import isMobilePhone from "validator/lib/isMobilePhone";
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import {
+  adminProcedure,
+  createTRPCRouter,
+  protectedProcedure,
+} from "~/server/api/trpc";
 import { objectId } from "../helper/customZodTypes";
 
 export const committeeMemberRouter = createTRPCRouter({
+  getOneById: adminProcedure
+    .input(
+      z.object({
+        id: objectId,
+      })
+    )
+    .query(({ ctx, input: { id } }) => {
+      return ctx.prisma.committeeMember.findUniqueOrThrow({
+        where: {
+          id,
+        },
+      });
+    }),
   updateOne: protectedProcedure
     .input(
       z.object({
@@ -26,5 +44,91 @@ export const committeeMemberRouter = createTRPCRouter({
         },
       });
       return member;
+    }),
+  getAllMembersAsAdmin: adminProcedure.query(({ ctx }) => {
+    return ctx.prisma.committeeMember.findMany();
+  }),
+  createMember: adminProcedure
+    .input(
+      z.object({
+        committeeId: objectId,
+        name: z.string().optional(),
+        nickName: z.string().optional(),
+        email: z.string().email().min(1),
+        phone: z
+          .string()
+          .refine((val) => isMobilePhone(val, "sv-SE"))
+          .optional(),
+        role: z.string().min(1),
+        order: z.number().min(0).max(99).optional().default(0),
+      })
+    )
+    .mutation(
+      ({
+        ctx,
+        input: { committeeId, nickName, phone, email, name, order, role },
+      }) => {
+        return ctx.prisma.committeeMember.create({
+          data: {
+            email,
+            role,
+            committeeId,
+            name,
+            nickName,
+            order,
+            phone,
+          },
+        });
+      }
+    ),
+  updateMember: adminProcedure
+    .input(
+      z.object({
+        id: objectId,
+        committeeId: objectId,
+        name: z.string().optional(),
+        nickName: z.string().optional(),
+        email: z.string().email().min(1),
+        phone: z
+          .string()
+          .refine((val) => isMobilePhone(val, "sv-SE"))
+          .optional(),
+        role: z.string().min(1),
+        order: z.number().min(0).max(99).optional(),
+      })
+    )
+    .mutation(
+      ({
+        ctx,
+        input: { id, nickName, phone, email, name, order, role, committeeId },
+      }) => {
+        return ctx.prisma.committeeMember.update({
+          where: {
+            id,
+          },
+          data: {
+            email,
+            role,
+            committeeId,
+            name,
+            nickName,
+            order,
+            phone,
+          },
+        });
+      }
+    ),
+  deleteMember: adminProcedure
+    .input(
+      z.object({
+        id: objectId,
+      })
+    )
+    .mutation(({ ctx, input: { id } }) => {
+      return ctx.prisma.committeeMember.delete({
+        where: {
+          id,
+        },
+      });
     }),
 });
