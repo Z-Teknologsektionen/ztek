@@ -34,6 +34,7 @@ const Footer: FC = () => {
             <h3 className="text-center text-lg font-semibold">En del av</h3>
             <a href="https://chalmersstudentkar.se/" target="_blank">
               <div className="relative">
+                {/* height and width controlled by the className, not the variables. */}
                 <Image
                   alt="CHS logo"
                   className="h-full w-full rounded-lg object-contain"
