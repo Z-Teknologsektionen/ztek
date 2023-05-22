@@ -2,8 +2,10 @@ import { z } from "zod";
 import {
   adminProcedure,
   createTRPCRouter,
+  protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
+import { objectId } from "../helper/customZodTypes";
 
 export const committeeRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
@@ -79,6 +81,8 @@ export const committeeRouter = createTRPCRouter({
           name: true,
           description: true,
           email: true,
+          image: true,
+          id: true,
           members: {
             select: {
               id: true,
@@ -110,4 +114,23 @@ export const committeeRouter = createTRPCRouter({
       orderBy: [{ order: "desc" }],
     });
   }),
+  updateCommitteeAsUser: protectedProcedure
+    .input(
+      z.object({
+        id: objectId,
+        image: z.string().optional(),
+        description: z.string().min(1).optional(),
+      })
+    )
+    .mutation(({ ctx, input: { id, description, image } }) => {
+      return ctx.prisma.committee.update({
+        where: {
+          id,
+        },
+        data: {
+          description,
+          image,
+        },
+      });
+    }),
 });

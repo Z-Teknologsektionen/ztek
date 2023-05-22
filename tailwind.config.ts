@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        zRed: "'#ED2024",
+        zRed: "#ED2024",
         zBlack: "#333333",
         zDarkGray: "#888888",
         zLightGray: "#BBBBBB",
