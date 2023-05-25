@@ -1,5 +1,5 @@
 import Image from "next/image";
-import chsLogo from "public/CHS-standard-RGB-white.png";
+// import chsLogo from "public/CHS-standard-RGB-white.png";
 import type { FC } from "react";
 
 import { MdBusiness, MdEmail, MdOutlineHouse } from "react-icons/md";
@@ -40,7 +40,9 @@ const Footer: FC = () => {
               <Image
                 alt="CHS logo"
                 className="h-32 w-72 rounded-lg object-contain"
-                src={chsLogo}
+                height={300}
+                src="/CHS-standard-RGB-white.png"
+                width={300}
               />
             </a>
           </div>
