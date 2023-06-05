@@ -45,9 +45,19 @@ export const committeeMemberRouter = createTRPCRouter({
       });
       return member;
     }),
-  getAllMembersAsAdmin: adminProcedure.query(({ ctx }) => {
-    return ctx.prisma.committeeMember.findMany();
-  }),
+  getAllMembersAsAdmin: adminProcedure
+    .input(
+      z.object({
+        committeeId: objectId.optional(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.committeeMember.findMany({
+        where: {
+          committeeId: input.committeeId,
+        },
+      });
+    }),
   createMember: adminProcedure
     .input(
       z.object({

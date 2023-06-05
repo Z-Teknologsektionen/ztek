@@ -9,7 +9,15 @@ import SectionWrapper from "~/components/layout/SectionWrapper";
 import { api } from "~/utils/api";
 
 const AdminMemberPage: NextPage = () => {
-  const { data: memberAsAdmin } = api.member.getAllMembersAsAdmin.useQuery();
+  const [committeeFilter, setCommitteeFilter] = useState<string | undefined>(
+    undefined
+  );
+
+  const { data: committees } = api.committee.getAllAsAdmin.useQuery();
+
+  const { data: membersAsAdmin } = api.member.getAllMembersAsAdmin.useQuery({
+    committeeId: committeeFilter,
+  });
 
   const [showCreateNewModalPopup, setShowCreateNewModalPopup] = useState(false);
   const [editMemberId, setEditMemberId] = useState("");
@@ -18,7 +26,27 @@ const AdminMemberPage: NextPage = () => {
   return (
     <AdminWrapper>
       <SectionWrapper>
-        <div className="flex justify-end">
+        <div className="flex justify-between">
+          <div className="flex flex-col gap-1 ">
+            <label htmlFor="filterByOrganSelect">Filtera på organ</label>
+            <select
+              className="rounded border border-zBlack px-3 py-1"
+              defaultValue={""}
+              id="filterByOrganSelect"
+              onChange={(e) =>
+                setCommitteeFilter(
+                  e.target.value !== "" ? e.target.value : undefined
+                )
+              }
+            >
+              <option value="">Alla</option>
+              {committees?.map(({ id, name }) => (
+                <option key={id} value={id}>
+                  {name}
+                </option>
+              ))}
+            </select>
+          </div>
           <button
             className="rounded border-2 bg-green-500 px-4 py-2 shadow"
             onClick={() => setShowCreateNewModalPopup(true)}
@@ -38,7 +66,7 @@ const AdminMemberPage: NextPage = () => {
             </tr>
           </thead>
           <tbody>
-            {memberAsAdmin?.map(({ id, name, order, nickName, email }) => (
+            {membersAsAdmin?.map(({ id, name, order, nickName, email }) => (
               <tr key={id} className="odd:bg-zLightGray even:bg-zWhite">
                 <td className="p-2">{email}</td>
                 <td className="p-2 font-semibold">{`${name}, ${nickName}`}</td>
