@@ -47,10 +47,10 @@ model Document {
 }
 
 model DocumentGroup {
-    id            String     @id @default(auto()) @map("_id") @db.ObjectId
-    name          String
-    extraTextJson String     @default("")
-    Document      Document[]
+    id        String     @id @default(auto()) @map("_id") @db.ObjectId
+    name      String
+    extraText String     @default("")
+    Document  Document[]
 }
 
 // Next Auth models
