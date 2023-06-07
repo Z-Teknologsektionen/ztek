@@ -22,6 +22,17 @@ export const documentRouter = createTRPCRouter({
       },
     });
   }),
+  getAllGroupsAsAdmin: adminProcedure.query(({ ctx }) => {
+    return ctx.prisma.documentGroup.findMany({
+      select: {
+        id: true,
+        name: true,
+        extraText: true,
+        _count: true,
+        Document: true,
+      },
+    });
+  }),
   getAllAsAdmin: adminProcedure.query(({ ctx }) => {
     return ctx.prisma.document.findMany({
       select: {
@@ -34,19 +45,6 @@ export const documentRouter = createTRPCRouter({
         isPDF: true,
         title: true,
         url: true,
-      },
-    });
-  }),
-  getAllGroupsAsAdmin: adminProcedure.query(({ ctx }) => {
-    return ctx.prisma.documentGroup.findMany({
-      select: {
-        name: true,
-        extraText: true,
-        _count: {
-          select: {
-            Document: true,
-          },
-        },
       },
     });
   }),
