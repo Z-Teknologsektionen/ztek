@@ -40,7 +40,6 @@ export const documentRouter = createTRPCRouter({
   getAllGroupsAsAdmin: adminProcedure.query(({ ctx }) => {
     return ctx.prisma.documentGroup.findMany({
       select: {
-        id: true,
         name: true,
         extraText: true,
         _count: {
