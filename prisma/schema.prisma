@@ -37,6 +37,22 @@ model CommitteeMember {
     committeeId String    @db.ObjectId
 }
 
+model Document {
+    id      String        @id @default(auto()) @map("_id") @db.ObjectId
+    title   String
+    url     String
+    isPDF   Boolean       @default(false)
+    group   DocumentGroup @relation(fields: [groupId], references: [id], onDelete: Restrict)
+    groupId String        @db.ObjectId
+}
+
+model DocumentGroup {
+    id        String     @id @default(auto()) @map("_id") @db.ObjectId
+    name      String
+    extraText String     @default("")
+    Document  Document[]
+}
+
 // Next Auth models
 model Account {
     id                String  @id @default(auto()) @map("_id") @db.ObjectId
