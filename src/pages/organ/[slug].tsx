@@ -5,9 +5,7 @@ import {
   type NextPage,
 } from "next";
 import Link from "next/link";
-import Footer from "~/components/layout/Footer";
 import HeadLayout from "~/components/layout/HeadLayout";
-import Header from "~/components/layout/Header";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import CommitteeMemberCard from "~/components/organ/CommitteeMemberCard";
@@ -22,7 +20,7 @@ const CommitteePage: NextPage<
       <HeadLayout title={committee.name}>
         <link href={committee.image} rel="icon" type="image/x-icon" />
       </HeadLayout>
-      <Header />
+      {/* <Navbar /> */}
       <main>
         <SectionWrapper>
           <div className="mx-auto max-w-3xl space-y-2 border-b-2 border-t-2 p-4 text-center">
@@ -64,7 +62,7 @@ const CommitteePage: NextPage<
           </p>
         </SectionWrapper>
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

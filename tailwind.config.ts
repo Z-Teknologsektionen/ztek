@@ -1,5 +1,3 @@
-import { type Config } from "tailwindcss";
-
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
@@ -10,6 +8,9 @@ export default {
         zDarkGray: "#888888",
         zLightGray: "#BBBBBB",
         zWhite: "#EEEEEE",
+      },
+      backgroundImage: {
+        "about-image": "url('/kandidat.jpg')",
       },
     },
   },

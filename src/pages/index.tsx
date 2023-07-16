@@ -1,11 +1,9 @@
 import { type NextPage } from "next";
-import Footer from "~/components/layout/Footer";
-import Header from "~/components/layout/Header";
 
 const HomePage: NextPage = () => {
   return (
     <>
-      <Header />
+      {/* <Navbar /> */}
       <div>Här finns inget :)</div>
       <div>
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero quae
@@ -27,12 +25,17 @@ const HomePage: NextPage = () => {
       <br />
       <br />
       <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <div>
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. At ab
         voluptates facere commodi maxime saepe quia qui ut sunt accusantium. Cum
         accusamus iure dicta non atque natus maxime reiciendis officia.
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

@@ -1,8 +1,6 @@
 import { type GetStaticProps, type NextPage } from "next";
 import Link from "next/link";
-import Footer from "~/components/layout/Footer";
 import HeadLayout from "~/components/layout/HeadLayout";
-import Header from "~/components/layout/Header";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import CommitteeImage from "~/components/organ/CommitteeImage";
@@ -16,7 +14,7 @@ const Home: NextPage = () => {
     <>
       <HeadLayout title="Organ"></HeadLayout>
 
-      <Header />
+      {/* <Navbar /> */}
       <main>
         <SectionWrapper className="">
           <SectionTitle className="mb-8" center>
@@ -42,7 +40,7 @@ const Home: NextPage = () => {
           </div>
         </SectionWrapper>
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

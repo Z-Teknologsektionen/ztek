@@ -53,7 +53,7 @@ const Footer: FC = () => {
             <ul className="mt-6 content-center">
               <li className="mb-2">
                 <a
-                  className="hover:text-zRed"
+                  className="hover:underline"
                   href="https://chalmers.instructure.com/"
                   target="_blank"
                 >

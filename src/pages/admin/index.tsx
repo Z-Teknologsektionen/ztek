@@ -13,10 +13,12 @@ const AdminHomePage: NextPage = () => {
 
   return (
     <main>
+      {/* <Navbar /> */}
       <SectionWrapper>
         <SectionTitle>Admin Panel</SectionTitle>
         <div></div>
       </SectionWrapper>
+      {/* <Footer /> */}
     </main>
   );
 };
