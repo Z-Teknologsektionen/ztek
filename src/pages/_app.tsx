@@ -13,11 +13,13 @@ const MyApp: AppType<{
 }> = ({ Component, pageProps }) => {
   return (
     <SessionProvider session={pageProps.session}>
-      <div className="flex min-h-screen flex-col">
+      <Toaster position="top-center" reverseOrder={false} />
+      <HeadLayout description="bla bla"></HeadLayout>
+      <div className="zWhite flex min-h-screen flex-col">
         <Navbar />
-        <Toaster position="top-center" reverseOrder={false} />
-        <HeadLayout description="bla bla"></HeadLayout>
-        <Component {...pageProps} className="flex-grow" />
+        <main className="flex-grow">
+          <Component {...pageProps} />
+        </main>
         <Footer />
       </div>
     </SessionProvider>

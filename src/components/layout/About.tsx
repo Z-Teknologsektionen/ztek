@@ -4,7 +4,7 @@ const AboutPage: NextPage = () => {
   return (
     <>
       {/* <Navbar /> */}
-      <section className="bg-gray-100 px-4 py-16 md:px-6 lg:px-8">
+      <section className="px-4 py-16 md:px-6 lg:px-8">
         <div className="container mx-auto divide-y-4 divide-zDarkGray divide-opacity-20">
           <h1 className="pb-8 text-3xl font-bold">Om oss</h1>
 
