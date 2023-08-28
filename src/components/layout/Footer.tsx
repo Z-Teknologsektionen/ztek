@@ -14,14 +14,14 @@ const Footer: FC = () => {
             <ul className="mt-6">
               <li className="mb-2 flex items-center justify-center md:justify-start">
                 <MdEmail className="mr-2" />
-                <a className="hover:text-zRed" href="mailto:ztyret@ztek.se">
+                <a className="hover:underline" href="mailto:ztyret@ztek.se">
                   ztyret@ztek.se
                 </a>
               </li>
               <li className="mb-2 flex items-center justify-center md:justify-start">
                 <MdOutlineHouse className="mr-2" />
                 <a
-                  className="hover:text-zRed"
+                  className="hover:underline"
                   href="http://maps.google.com/?q=Hörsalsvägen 7, 412 96 Göteborg"
                   target="_blank"
                 >
@@ -62,7 +62,7 @@ const Footer: FC = () => {
               </li>
               <li className="mb-2">
                 <a
-                  className="hover:text-zRed"
+                  className="hover:underline"
                   href="https://cloud.timeedit.net/chalmers/web/public/"
                   target="_blank"
                 >
@@ -71,7 +71,7 @@ const Footer: FC = () => {
               </li>
               <li className="mb-2">
                 <a
-                  className="hover:text-zRed"
+                  className="hover:underline"
                   href="https://cloud.timeedit.net/chalmers/web/b1/"
                   target="_blank"
                 >
@@ -80,7 +80,7 @@ const Footer: FC = () => {
               </li>
               <li className="mb-2">
                 <a
-                  className="hover:text-zRed"
+                  className="hover:underline"
                   href="https://www.chalmers.se/utbildning/hitta-program/automation-och-mekatronik-civilingenjor/"
                   target="_blank"
                 >
@@ -94,7 +94,7 @@ const Footer: FC = () => {
           <p>
             Hemsidan är utvecklad av Webbgruppen, sektionens viktigaste organ.
           </p>
-          <a className="hover:text-zRed" href="mailto:webbgruppen@ztek.se">
+          <a className="hover:underline" href="mailto:webbgruppen@ztek.se">
             webbgruppen@ztek.se
           </a>
         </div>
