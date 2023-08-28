@@ -6,7 +6,7 @@ import { type RouterOutputs } from "~/utils/api";
 const CommitteeMemberCard: FC<
   RouterOutputs["committee"]["getOneBySlug"]["members"][0]
 > = ({ email, image, name, nickName, phone, role }) => (
-  <div className="flex max-w-xs justify-center rounded-lg px-2 py-4 shadow">
+  <div className="flex h-full max-w-xs justify-center rounded-lg px-2 py-4 shadow">
     <div className="space-y-4">
       <CommitteeImage
         alt={`Profilbild på ${nickName ? `"${nickName}"` : name || ""}`}
