@@ -18,6 +18,8 @@
     "@trpc/next": "^10.18.0",
     "@trpc/react-query": "^10.18.0",
     "@trpc/server": "^10.18.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
     "dayjs": "^1.11.7",
     "lucide-react": "^0.274.0",
     "mongoose": "^7.1.0",
@@ -29,6 +31,8 @@
     "react-icons": "^4.8.0",
     "react-image-file-resizer": "^0.4.8",
     "superjson": "1.12.2",
+    "tailwind-merge": "^1.14.0",
+    "tailwindcss-animate": "^1.0.7",
     "validator": "^13.9.0",
     "zod": "^3.21.4"
   },
