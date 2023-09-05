@@ -13,8 +13,6 @@ const Home: NextPage = () => {
   return (
     <>
       <HeadLayout title="Organ"></HeadLayout>
-
-      {/* <Navbar /> */}
       <main>
         <SectionWrapper className="">
           <SectionTitle className="mb-8" center>

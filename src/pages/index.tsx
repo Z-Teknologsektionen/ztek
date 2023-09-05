@@ -3,7 +3,6 @@ import { type NextPage } from "next";
 const HomePage: NextPage = () => {
   return (
     <>
-      {/* <Navbar /> */}
       <div>Här finns inget :)</div>
       <div>
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero quae
@@ -35,7 +34,6 @@ const HomePage: NextPage = () => {
         voluptates facere commodi maxime saepe quia qui ut sunt accusantium. Cum
         accusamus iure dicta non atque natus maxime reiciendis officia.
       </div>
-      {/* <Footer /> */}
     </>
   );
 };
