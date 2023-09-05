@@ -69,7 +69,6 @@ const CommitteePage: NextPage<
           </p>
         </SectionWrapper>
       </main>
-      {/* <Footer /> */}
     </>
   );
 };

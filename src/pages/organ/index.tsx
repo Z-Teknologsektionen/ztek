@@ -40,7 +40,6 @@ const Home: NextPage = () => {
           </div>
         </SectionWrapper>
       </main>
-      {/* <Footer /> */}
     </>
   );
 };

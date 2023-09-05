@@ -1,9 +1,7 @@
 import type { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
 import { MdArrowDropDown } from "react-icons/md";
-import Footer from "~/components/layout/Footer";
 import HeadLayout from "~/components/layout/HeadLayout";
-import Header from "~/components/layout/Header";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import ssg from "~/server/api/helper/ssg";
@@ -15,7 +13,6 @@ const DocumentsPage: NextPage = () => {
   return (
     <>
       <HeadLayout title="Dokument"></HeadLayout>
-      <Header />
       <main className="">
         <SectionWrapper>
           <SectionTitle center>Dokument</SectionTitle>
@@ -85,7 +82,6 @@ const DocumentsPage: NextPage = () => {
           </div>
         </SectionWrapper>
       </main>
-      <Footer />
     </>
   );
 };

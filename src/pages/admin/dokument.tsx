@@ -9,8 +9,6 @@ import { DeleteDocumentWizard } from "~/components/admin/document/DeleteDocument
 import { UpdateDocumentGroupWizard } from "~/components/admin/document/UpdateDocumentGroupWizard";
 import { UpdateDocumentWizard } from "~/components/admin/document/UpdateDocumentWizard";
 import AdminWrapper from "~/components/layout/AdminWrapper";
-import Footer from "~/components/layout/Footer";
-import Header from "~/components/layout/Header";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { api } from "~/utils/api";
@@ -31,7 +29,6 @@ const AdminDocumentPage: NextPage = () => {
 
   return (
     <AdminWrapper>
-      <Header />
       <SectionWrapper>
         <SectionTitle center>Redigera dokument</SectionTitle>
         <div className="flex justify-end">
@@ -168,7 +165,6 @@ const AdminDocumentPage: NextPage = () => {
           </table>
         </div>
       </SectionWrapper>
-      <Footer />
       <CreateNewDocumentWizard
         isOpen={showCreateDocumentWizard}
         onClose={() => setShowCreateDocumentWizard(false)}

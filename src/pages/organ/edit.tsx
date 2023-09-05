@@ -24,7 +24,6 @@ const EditOrganPage: NextPage = () => {
   return (
     <>
       <HeadLayout title="Redigera medlemmar"></HeadLayout>
-      {/* <Header /> */}
       <main>
         {session && <EditCommitteeInformationSection />}
         {session && committee && (
@@ -73,7 +72,6 @@ const EditOrganPage: NextPage = () => {
           )}
         </SectionWrapper>
       </main>
-      {/* <Footer /> */}
     </>
   );
 };
