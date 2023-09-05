@@ -9,6 +9,15 @@ import { objectId } from "../helper/customZodTypes";
 export const documentRouter = createTRPCRouter({
   getAllSortedByGroup: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.documentGroup.findMany({
+      where: {
+        Document: {
+          some: {
+            id: {
+              not: undefined,
+            },
+          },
+        },
+      },
       select: {
         name: true,
         extraText: true,
