@@ -10,6 +10,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
+import { buttonVariants } from "~/components/ui/button";
 import ssg from "~/server/api/helper/ssg";
 import { api } from "~/utils/api";
 
@@ -27,30 +28,38 @@ const DocumentsPage: NextPage = () => {
           <div className="flex flex-col gap-8">
             <Accordion type="single" collapsible>
               {documentGroups?.map(
-                ({ Document: documents, extraText, name }) => (
+                ({ Document: documents, extraText, name }, idx) => (
                   <AccordionItem key={name} value={name}>
                     <AccordionTrigger>{name}</AccordionTrigger>
                     <AccordionContent>
                       <div className="flex flex-col gap-2">
                         {documents.map(({ isPDF, title, url }) => (
                           <React.Fragment key={url}>
-                            <div className="flex flex-row justify-between px-2">
+                            <div className="flex flex-row items-center justify-between px-2">
                               <p>{title}</p>
                               <div className="flex flex-row items-center justify-center gap-2">
                                 {isPDF && (
                                   <>
                                     <a
-                                      className="text-xs font-normal hover:opacity-75"
+                                      className={buttonVariants({
+                                        variant: "link",
+                                        size: "sm",
+                                        className: "text-xs font-light",
+                                      })}
                                       href={url}
                                       download
                                     >
                                       Ladda ner
                                     </a>
-                                    <p>|</p>
+                                    <p> | </p>
                                   </>
                                 )}
                                 <Link
-                                  className="text-xs font-normal hover:opacity-75"
+                                  className={buttonVariants({
+                                    variant: "link",
+                                    size: "sm",
+                                    className: "text-xs font-light",
+                                  })}
                                   href={
                                     isPDF
                                       ? `https://docs.google.com/viewer?url=${url}`
@@ -63,12 +72,16 @@ const DocumentsPage: NextPage = () => {
                                 </Link>
                               </div>
                             </div>
-                            <div className="border-b border-black"></div>
+                            {!(idx === documents.length && !extraText) && (
+                              <div className="border-b border-black" />
+                            )}
                           </React.Fragment>
                         ))}
-                        <div className="mt-4">
-                          <p className="text-xs">{extraText}</p>
-                        </div>
+                        {extraText && (
+                          <div className="mt-2 flex flex-row items-center justify-between px-2 text-xs">
+                            <p>{extraText}</p>
+                          </div>
+                        )}
                       </div>
                     </AccordionContent>
                   </AccordionItem>
