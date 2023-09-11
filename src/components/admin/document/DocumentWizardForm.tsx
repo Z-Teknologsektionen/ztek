@@ -22,7 +22,7 @@ export const DocumentWizardForm: FC<IDocumentWizardForm> = ({
         defaultValue={""}
       >
         <option value="" disabled>
-          Välj dokument typ
+          Välj dokumenttyp
         </option>
         {documentGroups?.map((g) => (
           <option key={g.id} value={g.id}>
