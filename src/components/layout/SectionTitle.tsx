@@ -4,6 +4,7 @@ import {
   type HTMLAttributes,
   type PropsWithChildren,
 } from "react";
+import { cn } from "~/utils/utils";
 
 interface ISectionTitle
   extends DetailedHTMLProps<
@@ -21,9 +22,11 @@ const SectionTitle: FC<PropsWithChildren<ISectionTitle>> = ({
 }) => {
   return (
     <h1
-      className={`text-3xl font-semibold ${
-        center ? "text-center" : ""
-      } ${className}`}
+      className={cn(
+        `text-3xl font-semibold`,
+        center ? "text-center" : "",
+        className
+      )}
       {...rest}
     >
       {children}
