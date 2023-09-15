@@ -39,7 +39,7 @@ model CommitteeMember {
 
 model Document {
     id      String        @id @default(auto()) @map("_id") @db.ObjectId
-    title   String
+    title   String        @unique
     url     String
     isPDF   Boolean       @default(false)
     group   DocumentGroup @relation(fields: [groupId], references: [id], onDelete: Restrict)
@@ -48,7 +48,7 @@ model Document {
 
 model DocumentGroup {
     id        String     @id @default(auto()) @map("_id") @db.ObjectId
-    name      String
+    name      String     @unique
     extraText String     @default("")
     Document  Document[]
 }
