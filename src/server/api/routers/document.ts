@@ -130,6 +130,26 @@ export const documentRouter = createTRPCRouter({
         where: { id: input.id },
       });
     }),
+  getOneGroupByName: publicProcedure
+    .input(z.object({ name: z.string().min(1) }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.documentGroup.findUniqueOrThrow({
+        where: {
+          name: input.name,
+        },
+        select: {
+          name: true,
+          extraText: true,
+          Document: {
+            select: {
+              isPDF: true,
+              title: true,
+              url: true,
+            },
+          },
+        },
+      });
+    }),
   createOneGroup: adminProcedure
     .input(
       z.object({
