@@ -18,26 +18,23 @@ const Navbar: FC = () => {
       <NavLink href="/student" isActive={router.pathname === "/student"}>
         Student
       </NavLink>
+      <NavLink href="/documents" isActive={router.pathname === "/documents"}>
+        Dokument
+      </NavLink>
+      <NavLink href="/organ" isActive={router.pathname === "/organ"}>
+        Sektionsorgan
+      </NavLink>
+      <NavLink href="/about" isActive={router.pathname === "/about"}>
+        Om Z
+      </NavLink>
+      <NavLink href="/business" isActive={router.pathname === "/business"}>
+        För Företag
+      </NavLink>
       <NavLink
         href="https://zfoto.ztek.se"
         isActive={router.pathname === "/pictures"}
       >
         Bilder
-      </NavLink>
-      <NavLink href="/business" isActive={router.pathname === "/business"}>
-        För Företag
-      </NavLink>
-      <NavLink href="/organ" isActive={router.pathname === "/organ"}>
-        Sektionsorgan
-      </NavLink>
-      <NavLink href="/documents" isActive={router.pathname === "/documents"}>
-        Dokument
-      </NavLink>
-      <NavLink href="/about" isActive={router.pathname === "/about"}>
-        Om Z
-      </NavLink>
-      <NavLink href="/admin" isActive={router.pathname === "/admin"}>
-        Logga in
       </NavLink>
     </>
   );
