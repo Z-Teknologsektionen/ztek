@@ -44,7 +44,6 @@ const Footer: FC = () => {
                 src="/CHS-standard-RGB-white.png"
                 width={300}
               />
-
             </a>
           </div>
           <div className="mb-4 w-full text-center md:mb-0 md:w-1/3 md:text-right">
