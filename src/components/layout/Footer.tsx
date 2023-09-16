@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 // import chsLogo from "public/CHS-standard-RGB-white.png";
 import type { FC } from "react";
 
@@ -86,6 +87,11 @@ const Footer: FC = () => {
                 >
                   Information om programmet
                 </a>
+              </li>
+              <li className="mb-2">
+                <Link className="hover:underline" href="/admin">
+                  Logga in
+                </Link>
               </li>
             </ul>
           </div>
