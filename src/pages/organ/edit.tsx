@@ -2,9 +2,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
-import Footer from "~/components/layout/Footer";
 import HeadLayout from "~/components/layout/HeadLayout";
-import Header from "~/components/layout/Header";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { UpdateUserWizard } from "~/components/organ/UpdateUserWizard";
 import { api } from "~/utils/api";
@@ -26,7 +24,6 @@ const EditOrganPage: NextPage = () => {
   return (
     <>
       <HeadLayout title="Redigera medlemmar"></HeadLayout>
-      <Header />
       <main>
         {session && <EditCommitteeInformationSection />}
         {session && committee && (
@@ -75,7 +72,6 @@ const EditOrganPage: NextPage = () => {
           )}
         </SectionWrapper>
       </main>
-      <Footer />
     </>
   );
 };

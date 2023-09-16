@@ -1,5 +1,6 @@
 import { signIn, useSession } from "next-auth/react";
 import { type FC, type PropsWithChildren } from "react";
+import HeadLayout from "./HeadLayout";
 import Unauthorized from "./Unauthorized";
 
 const AdminWrapper: FC<PropsWithChildren> = ({ children }) => {
@@ -16,6 +17,7 @@ const AdminWrapper: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <>
+      <HeadLayout title="Admin" />
       <main>{children}</main>
     </>
   );

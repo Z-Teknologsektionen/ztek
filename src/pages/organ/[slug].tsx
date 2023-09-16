@@ -5,24 +5,29 @@ import {
   type NextPage,
 } from "next";
 import Link from "next/link";
-import Footer from "~/components/layout/Footer";
 import HeadLayout from "~/components/layout/HeadLayout";
-import Header from "~/components/layout/Header";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import CommitteeMemberCard from "~/components/organ/CommitteeMemberCard";
 import ssg from "~/server/api/helper/ssg";
-import { type RouterOutputs } from "~/utils/api";
+import { api } from "~/utils/api";
 
 const CommitteePage: NextPage<
   InferGetStaticPropsType<typeof getStaticProps>
-> = ({ committee }) => {
+> = ({ slug }) => {
+  const { data: committee } = api.committee.getOneBySlug.useQuery({
+    slug,
+  });
+
+  if (!committee) {
+    return null;
+  }
+
   return (
     <>
       <HeadLayout title={committee.name}>
         <link href={committee.image} rel="icon" type="image/x-icon" />
       </HeadLayout>
-      <Header />
       <main>
         <SectionWrapper>
           <div className="mx-auto max-w-3xl space-y-2 border-b-2 border-t-2 p-4 text-center">
@@ -64,7 +69,6 @@ const CommitteePage: NextPage<
           </p>
         </SectionWrapper>
       </main>
-      <Footer />
     </>
   );
 };
@@ -72,15 +76,16 @@ const CommitteePage: NextPage<
 export default CommitteePage;
 
 export const getStaticProps: GetStaticProps<
-  { committee: RouterOutputs["committee"]["getOneBySlug"] },
+  { slug: string },
   { slug: string }
 > = async ({ params }) => {
   try {
     const slug = params?.slug as string;
-    const committee = await ssg.committee.getOneBySlug.fetch({ slug });
+    await ssg.committee.getOneBySlug.fetch({ slug });
     return {
       props: {
-        committee,
+        trpcState: ssg.dehydrate(),
+        slug,
       },
       revalidate: 1,
     };

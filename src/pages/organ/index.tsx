@@ -1,13 +1,11 @@
 import { type GetStaticProps, type NextPage } from "next";
 import Link from "next/link";
-import Footer from "~/components/layout/Footer";
 import HeadLayout from "~/components/layout/HeadLayout";
-import Header from "~/components/layout/Header";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import CommitteeImage from "~/components/organ/CommitteeImage";
 import ssg from "~/server/api/helper/ssg";
-import { api, type RouterOutputs } from "~/utils/api";
+import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
   const { data: committees } = api.committee.getAll.useQuery();
@@ -15,8 +13,6 @@ const Home: NextPage = () => {
   return (
     <>
       <HeadLayout title="Organ"></HeadLayout>
-
-      <Header />
       <main>
         <SectionWrapper className="">
           <SectionTitle className="mb-8" center>
@@ -42,20 +38,17 @@ const Home: NextPage = () => {
           </div>
         </SectionWrapper>
       </main>
-      <Footer />
     </>
   );
 };
 
 export default Home;
 
-export const getStaticProps: GetStaticProps<{
-  committees: RouterOutputs["committee"]["getAll"];
-}> = async () => {
-  const committees = await ssg.committee.getAll.fetch();
+export const getStaticProps: GetStaticProps = async () => {
+  await ssg.committee.getAll.prefetch();
   return {
     props: {
-      committees,
+      trpcState: ssg.dehydrate(),
     },
     revalidate: 1,
   };
