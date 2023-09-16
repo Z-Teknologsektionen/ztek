@@ -44,7 +44,7 @@ const Navbar: FC = () => {
 
   return (
     <nav className="my-8 bg-zDarkGray text-zWhite">
-      <div className="max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="w-100 flex h-12 items-center justify-between">
           <div className="flex items-center">
             <div className="flex-shrink-0">
@@ -62,8 +62,8 @@ const Navbar: FC = () => {
                 </Link>
               </div>
             </div>
-            <div className="hidden lg:block">
-              <div className="flex-container max-h-12 flex-row">
+            <div className="hidden xl:block">
+              <div className="flex-container max-h-12 flex-row break-keep">
                 <Link href="/">
                   <div
                     className="text-lg
