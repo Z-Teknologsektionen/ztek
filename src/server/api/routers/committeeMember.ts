@@ -4,6 +4,7 @@ import {
   adminProcedure,
   createTRPCRouter,
   protectedProcedure,
+  publicProcedure,
 } from "~/server/api/trpc";
 import { objectId } from "../helper/customZodTypes";
 
@@ -18,6 +19,25 @@ export const committeeMemberRouter = createTRPCRouter({
       return ctx.prisma.committeeMember.findUniqueOrThrow({
         where: {
           id,
+        },
+      });
+    }),
+  getOneByEmail: publicProcedure
+    .input(
+      z.object({
+        email: z.string().email(),
+      })
+    )
+    .query(({ ctx, input: { email } }) => {
+      return ctx.prisma.committeeMember.findFirstOrThrow({
+        where: {
+          email: email,
+        },
+        select: {
+          name: true,
+          email: true,
+          phone: true,
+          image: true,
         },
       });
     }),
