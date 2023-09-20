@@ -5,16 +5,17 @@ import HeadLayout from "~/components/layout/HeadLayout";
 import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
+import CommitteeImage from "~/components/organ/CommitteeImage";
 import ssg from "~/server/api/helper/ssg";
 import { api } from "~/utils/api";
 
 const SAMO_EMAIL_KEY = "samo.ztyret@ztek.se";
 
 const SamoPage: NextPage = () => {
-  const { data, isLoading, isError } =
-    api.committeeMember.getOneByEmail.useQuery({
-      email: SAMO_EMAIL_KEY,
-    });
+  const { data } = api.member.getOneByEmail.useQuery({
+    email: SAMO_EMAIL_KEY,
+  });
+
   return (
     <>
       <HeadLayout title="Studenthälsa" />
@@ -58,13 +59,7 @@ const SamoPage: NextPage = () => {
           {/* divide-x divide-gray-400 borde ligga på nästa class men funkar inte */}
           <div className="grid grid-cols-3 justify-items-center  py-2">
             <div className="col-span-1">
-              <a
-                className="hover:underline"
-                href="https://www.chalmers.se/om-chalmers/organisation-och-styrning/trygg-pa-chalmers/"
-                target="_blank"
-              >
-                <SecondaryTitle>Trygg på Chalmers</SecondaryTitle>
-              </a>
+              <SecondaryTitle>Trygg på Chalmers</SecondaryTitle>
               <ul className="mt-6">
                 <li className="mb-2 flex items-center justify-center md:justify-start">
                   <MdInfo className="mr-2" />
@@ -146,44 +141,47 @@ const SamoPage: NextPage = () => {
         <SectionWrapper>
           <div className="grid grid-cols-3 py-8">
             <div className="m-auto hidden md:block">
-              <a
-                href="https://chalmersstudentkar.se/feel_safe/"
-                target="_blank"
-              >
-                <Image
-                  alt="image"
-                  className="hover:scale-110 hover:transition-all"
-                  height={300}
-                  src="/feeling_safe_student_union.png"
-                  width={300}
-                />
-              </a>
-              <p className="mt-4 text-center">Kårens sida om studenthälsa</p>
+              <CommitteeImage
+                alt={`Profilbild på ${data ? data.name : "SAMO"}`}
+                filename={data ? data.image : ""}
+              />
+              {data && data.image !== "" ? (
+                <p className="text-center">{data.name}, SAMO på sektionen.</p>
+              ) : (
+                <p className="text-center">Profilbild saknas</p>
+              )}
             </div>
             <div className="col-span-3 md:col-span-2 md:pl-20">
               <SectionTitle className="pb-4">
                 StuderandeArbetsMiljöOmbud (SAMO)
               </SectionTitle>
               <p>
-                Mitt namn är Simon Eriksson och jag sitter som SAMO i styrelsen
-                för Automation & Mekatronik. Det är min uppgift att jobba mot
-                att förbättra studiemiljön i de lokaler du som Z-student har
-                tillgång till. Det är även min uppgift att jobba mot en bättre
-                studenthälsa genom att ha en bra psykosocial studiemiljö. Mig
-                kan du nå via mejl, personligen eller via det anonyma formuläret
-                ovanför. Om du känner behov av att komma i kontakt med någon,
-                men inte vet vart du skall vända dig kan du kontakta mig.
+                Mitt namn är {data ? data.name : "(namn saknas)"} och jag sitter
+                som SAMO i styrelsen för Automation & Mekatronik. Det är min
+                uppgift att jobba mot att förbättra studiemiljön i de lokaler du
+                som Z-student har tillgång till. Det är även min uppgift att
+                jobba mot en bättre studenthälsa genom att ha en bra psykosocial
+                studiemiljö. Mig kan du nå via mejl, personligen eller via det
+                anonyma formuläret ovanför. Om du känner behov av att komma i
+                kontakt med någon, men inte vet vart du skall vända dig kan du
+                kontakta mig.
               </p>
               <ul className="mt-6">
                 <li className="mb-2 flex items-center justify-center md:justify-start">
                   <MdEmail className="mr-2" />
-                  <a className="hover:underline" href="mailto:samo@ztek.se">
-                    samo@ztek.se
+                  <a
+                    className="hover:underline"
+                    href={`mailto:${data ? data.email : "samo@ztek.se"}`}
+                  >
+                    {data ? data.email : "samo@ztek.se"}
                   </a>
                 </li>
                 <li className="mb-2 flex items-center justify-center md:justify-start">
                   <MdPhone className="mr-2" />
-                  <a href="tel:072 234 82 01">072 234 82 01</a>
+
+                  <a href={`tel:${data ? data.phone : ""}`}>
+                    {data ? data.phone : "Inget telefonnummer finns"}
+                  </a>
                 </li>
               </ul>
             </div>
@@ -243,7 +241,7 @@ const SamoPage: NextPage = () => {
 export default SamoPage;
 
 export const getStaticProps: GetStaticProps = async () => {
-  await ssg.committeeMember.getOneByEmail.prefetch({ email: SAMO_EMAIL_KEY });
+  await ssg.member.getOneByEmail.prefetch({ email: SAMO_EMAIL_KEY });
   return {
     props: {
       trpcState: ssg.dehydrate(),
