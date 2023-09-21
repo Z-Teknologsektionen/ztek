@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-// import chsLogo from "public/CHS-standard-RGB-white.png";
 import type { FC } from "react";
 
 import { MdBusiness, MdEmail, MdOutlineHouse } from "react-icons/md";
@@ -12,7 +11,7 @@ const Footer: FC = () => {
         <div className="flex flex-wrap justify-between px-4 md:px-6 lg:px-8">
           <div className="mb-4 w-full text-center md:mb-0 md:w-1/3 md:text-left">
             <h3 className="text-lg font-semibold underline">Kontakta Ztyret</h3>
-            <ul className="mt-6">
+            <ul className="mt-2">
               <li className="mb-2 flex items-center justify-center md:justify-start">
                 <MdEmail className="mr-2" />
                 <a className="hover:underline" href="mailto:ztyret@ztek.se">
@@ -37,7 +36,11 @@ const Footer: FC = () => {
           </div>
           <div className="flex w-full flex-col items-center md:w-1/3">
             <h3 className="text-center text-lg font-semibold">En del av</h3>
-            <a href="https://chalmersstudentkar.se/" target="_blank">
+            <a
+              className="transition-all hover:scale-110"
+              href="https://chalmersstudentkar.se/"
+              target="_blank"
+            >
               <Image
                 alt="CHS logo"
                 className="h-32 w-72 rounded-lg object-contain"
@@ -51,7 +54,7 @@ const Footer: FC = () => {
             <h3 className="align-text-top text-lg font-semibold underline">
               Snabba länkar
             </h3>
-            <ul className="mt-6 content-center">
+            <ul className="content-center">
               <li className="mb-2">
                 <a
                   className="hover:underline"
