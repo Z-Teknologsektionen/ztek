@@ -40,7 +40,7 @@ const SamoPage: NextPage = () => {
                 SAMO här på sektionen.
               </p>
             </div>
-            <div className="m-auto hidden md:block">
+            <div className="col-span-3 mx-auto mt-4 md:col-span-1 md:my-auto">
               <a
                 href="https://chalmersstudentkar.se/feel_safe/"
                 target="_blank"
@@ -48,16 +48,16 @@ const SamoPage: NextPage = () => {
                 <Image
                   alt="image"
                   className="hover:scale-110 hover:transition-all"
-                  height={300}
+                  height={500}
                   src="/feeling_safe_student_union.png"
-                  width={300}
+                  width={500}
                 />
               </a>
               <p className="mt-4 text-center">Kårens hemsida om studenthälsa</p>
             </div>
           </div>
           {/* divide-x divide-gray-400 borde ligga på nästa class men funkar inte */}
-          <div className="grid grid-cols-3 justify-items-center  py-2">
+          <div className="grid grid-cols-1 justify-items-center py-2 sm:grid-cols-2  md:grid-cols-3">
             <div className="col-span-1">
               <SecondaryTitle>Trygg på Chalmers</SecondaryTitle>
               <ul className="mt-6">
@@ -153,7 +153,7 @@ const SamoPage: NextPage = () => {
             </div>
             <div className="col-span-3 md:col-span-2 md:pl-20">
               <SectionTitle className="pb-4">
-                StuderandeArbetsMiljöOmbud (SAMO)
+                Studerande ArbetsMiljöOmbud (SAMO)
               </SectionTitle>
               <p>
                 Mitt namn är {data ? data.name : "(namn saknas)"} och jag sitter
@@ -188,8 +188,8 @@ const SamoPage: NextPage = () => {
           </div>
         </SectionWrapper>
         <SectionWrapper>
-          <div className="grid grid-cols-6 py-8">
-            <div className="col-span-6 lg:col-span-3 lg:pr-20">
+          <div className="grid grid-cols-2 py-8">
+            <div className="col-span-2 lg:col-span-1 lg:pr-20">
               <SectionTitle className="pb-4">Informera SAMO</SectionTitle>
               <p>
                 För att du ska kunna förmedla information anonymt till SAMO
@@ -222,7 +222,7 @@ const SamoPage: NextPage = () => {
                 konsulterar det specifika formuläret.
               </p>
             </div>
-            <div className="col-span-6 m-0 h-full w-full lg:col-span-3 lg:block">
+            <div className="col-span-2 mt-4 h-96 w-full lg:col-span-1 lg:mt-0 lg:h-full">
               <iframe
                 className="aspect-auto h-full w-full"
                 src="https://docs.google.com/forms/d/e/1FAIpQLSckHuuypoZ0AhazgZpA8V8FjClU1um5bm5STzbfp1rw78ARZQ/viewform?embedded=true"
