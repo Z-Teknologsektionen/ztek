@@ -12,40 +12,21 @@ const Navbar: FC = () => {
   const toggleMenu = (): void => {
     setIsMenuOpen(!isMenuOpen);
   };
-
-  const links = (
-    <>
-      <NavLink href="/student" isActive={router.pathname === "/student"}>
-        Student
-      </NavLink>
-      <NavLink href="/documents" isActive={router.pathname === "/documents"}>
-        Dokument
-      </NavLink>
-      <NavLink href="/organ" isActive={router.pathname === "/organ"}>
-        Sektionsorgan
-      </NavLink>
-      <NavLink href="/about" isActive={router.pathname === "/about"}>
-        Om Z
-      </NavLink>
-      <NavLink href="/business" isActive={router.pathname === "/business"}>
-        För Företag
-      </NavLink>
-      <NavLink
-        href="https://zfoto.ztek.se"
-        isActive={router.pathname === "/pictures"}
-      >
-        Bilder
-      </NavLink>
-    </>
-  );
+  const routes = [
+    { name: "Student", href: "/samo" },
+    { name: "Dokument", href: "/documents" },
+    { name: "Sektionsorgan", href: "/organ" },
+    { name: "Om Z", href: "/about" },
+    { name: "För Företag", href: "/business" },
+    { name: "Bilder", href: "https://zfoto.ztek.se" },
+  ];
 
   return (
-    <nav className="my-8 bg-zDarkGray text-zWhite">
+    <nav className="my-8 bg-zBlack text-zWhite">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="w-100 flex h-12 items-center justify-between">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              {/* Add a class to the logo link */}
               <Link
                 className="hidden text-xl font-bold text-zWhite md:block"
                 href="/"
@@ -74,7 +55,17 @@ const Navbar: FC = () => {
             </div>
           </div>
           <div className="hidden md:block">
-            <div className="ml-20 flex items-baseline space-x-4">{links}</div>
+            <div className="ml-20 flex items-baseline space-x-4">
+              {routes.map((route) => (
+                <NavLink
+                  key={`open-${route.name}`}
+                  href={route.href}
+                  isActive={router.pathname === route.href}
+                >
+                  {route.name}
+                </NavLink>
+              ))}
+            </div>
           </div>
           {/* Hamburger Icon for smaller screens */}
           <div className="flex items-center md:hidden">
@@ -88,8 +79,18 @@ const Navbar: FC = () => {
           </div>
         </div>
         {isMenuOpen && (
-          <div className="md:hidden ">
-            <div className="ml-10 mt-2 flex flex-col space-y-2">{links}</div>
+          <div className="md:hidden">
+            <div className="ml-10 mt-2 flex flex-col space-y-2">
+              {routes.map((route) => (
+                <NavLink
+                  key={`mobile-${route.name}`}
+                  href={route.href}
+                  isActive={router.pathname === route.href}
+                >
+                  <button onClick={toggleMenu}>{route.name}</button>
+                </NavLink>
+              ))}
+            </div>
           </div>
         )}
       </div>
@@ -116,7 +117,7 @@ const NavLink: FC<NavLinkProps> = ({ href, isActive, children }) => {
       href={href}
     >
       {children}
-      <span className={`h-1 rounded bg-zRed ${activeClass}`} />
+      <span className={`h-1 rounded bg-zDarkGray ${activeClass}`} />
     </Link>
   );
 };
