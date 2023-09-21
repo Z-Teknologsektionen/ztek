@@ -140,7 +140,7 @@ const SamoPage: NextPage = () => {
         </SectionWrapper>
         <SectionWrapper>
           <div className="grid grid-cols-3 py-8">
-            <div className="m-auto hidden md:block">
+            <div className="order-last col-span-3 m-auto lg:order-first lg:col-span-1">
               <CommitteeImage
                 alt={`Profilbild på ${data ? data.name : "SAMO"}`}
                 filename={data ? data.image : ""}
@@ -152,7 +152,7 @@ const SamoPage: NextPage = () => {
               )}
             </div>
             <div className="col-span-3 md:col-span-2 md:pl-20">
-              <SectionTitle className="pb-4">
+              <SectionTitle className="break-words pb-4">
                 Studerande ArbetsMiljöOmbud (SAMO)
               </SectionTitle>
               <p>
