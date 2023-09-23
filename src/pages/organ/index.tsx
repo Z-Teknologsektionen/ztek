@@ -18,12 +18,12 @@ const Home: NextPage = () => {
           <SectionTitle className="mb-8" center>
             Sektionsorgan
           </SectionTitle>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4">
             {committees &&
               committees.map(({ name, slug, image, role }) => (
                 <Link
                   key={slug}
-                  className="flex flex-col items-center justify-center gap-4 rounded px-2 py-4 text-center shadow"
+                  className="flex flex-col items-center justify-center gap-4 rounded px-2 py-4 text-center shadow transition-all hover:scale-105"
                   href={`/organ/${slug}`}
                 >
                   <CommitteeImage alt={`${name}s logotyp`} filename={image} />
