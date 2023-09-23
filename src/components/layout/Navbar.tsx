@@ -13,7 +13,7 @@ const Navbar: FC = () => {
     setIsMenuOpen(!isMenuOpen);
   };
   const routes = [
-    { name: "Student", href: "/samo" },
+    { name: "Student", href: "/student" },
     { name: "Dokument", href: "/documents" },
     { name: "Sektionsorgan", href: "/organ" },
     { name: "Om Z", href: "/about" },
