@@ -19,7 +19,7 @@ const SectionWrapper: FC<PropsWithChildren<ISectionWrapper>> = ({
   return (
     <section
       className={cn(
-        "mx-auto max-w-7xl space-y-8 px-4 py-16 md:px-6 xl:px-0",
+        "mx-auto max-w-7xl space-y-8 px-4 py-16 md:px-6 xl:px-4",
         className
       )}
       {...rest}
