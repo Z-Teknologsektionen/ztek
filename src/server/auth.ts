@@ -20,11 +20,13 @@ declare module "next-auth" {
       id: string;
       name: string;
       picture: string;
+      roles: [string];
     };
   }
 
   interface User {
     admin: boolean;
+    roles: [string];
     //   // ...other properties
     //   // role: UserRole;
   }
@@ -48,7 +50,7 @@ const authOptions: NextAuthOptions = {
         // eslint-disable-next-line no-param-reassign
         session.user.email = user.email;
         session.user.admin = user.admin;
-        // session.user.role = user.role; <-- put other properties on the session here
+        session.user.roles = user.roles;
       }
       return session;
     },

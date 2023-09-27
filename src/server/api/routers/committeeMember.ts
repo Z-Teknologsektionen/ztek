@@ -38,6 +38,8 @@ export const committeeMemberRouter = createTRPCRouter({
           email: true,
           phone: true,
           image: true,
+          committee: true,
+          nickName: true,
         },
       });
     }),
