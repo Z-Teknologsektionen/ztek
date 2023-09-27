@@ -47,7 +47,7 @@ const SamoPage: NextPage = () => {
               >
                 <Image
                   alt="image"
-                  className="hover:scale-110 hover:transition-all"
+                  className="hover:opacity-75 hover:transition-all"
                   height={500}
                   src="/feeling_safe_student_union.png"
                   width={500}
