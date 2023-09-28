@@ -75,7 +75,7 @@ export const UpdateMemberWizard: FC<IUpdateMemberWizard> = ({
       }
     },
     onSuccess: () => {
-      void ctx.member.getAllMembersAsAdmin.invalidate();
+      void ctx.member.getCommitteeMembersAsAdmin.invalidate();
       void ctx.member.getOneById.invalidate();
       toast.success("Uppdaterat medlem!");
       close();

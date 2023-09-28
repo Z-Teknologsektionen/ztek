@@ -67,7 +67,7 @@ export const committeeMemberRouter = createTRPCRouter({
       });
       return member;
     }),
-  getAllMembersAsAdmin: adminProcedure
+  getCommitteeMembersAsAdmin: adminProcedure
     .input(
       z.object({
         committeeId: objectId.optional(),
