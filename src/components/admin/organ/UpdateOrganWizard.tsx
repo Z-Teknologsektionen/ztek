@@ -6,13 +6,13 @@ import { api } from "~/utils/api";
 import { OrganWizardForm } from "./OrganWizardForm";
 
 interface IUpdateOrganWizard {
-  close: () => void;
   isOpen: boolean;
+  onClose: () => void;
   slug: string;
 }
 
 export const UpdateOrganWizard: FC<IUpdateOrganWizard> = ({
-  close,
+  onClose,
   isOpen,
   slug,
 }) => {
@@ -95,7 +95,7 @@ export const UpdateOrganWizard: FC<IUpdateOrganWizard> = ({
     <Modal
       buttonText="Updatera"
       isOpen={isOpen}
-      onClose={() => close()}
+      onClose={() => onClose()}
       onSubmit={() => {
         void handleFormSubmit();
       }}

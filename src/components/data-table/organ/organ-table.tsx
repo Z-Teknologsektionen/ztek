@@ -6,18 +6,18 @@ import { api } from "~/utils/api";
 import { useRouterHelpers } from "~/utils/router";
 import { columns } from "./columns";
 
-const DocuemntTable: FC = () => {
+const OrganTable: FC = () => {
   const { replaceQuery } = useRouterHelpers();
 
-  const { data, isLoading, isError } = api.document.getAllAsAdmin.useQuery();
+  const { data, isLoading, isError } = api.committee.getAllAsAdmin.useQuery();
 
   return (
     <>
       <div>
-        <SectionTitle center>Redigera dokument</SectionTitle>
+        <SectionTitle center>aklsdjaslkdjaslk</SectionTitle>
         <div className="flex justify-end">
           <Button
-            onClick={() => void replaceQuery("newDoc", "true")}
+            onClick={() => void replaceQuery("newCommittee", "true")}
             size="lg"
             type="button"
             variant="outline"
@@ -27,11 +27,11 @@ const DocuemntTable: FC = () => {
         </div>
       </div>
 
-      {isLoading && "Hämtar dokument..."}
+      {isLoading && "Hämtar organ..."}
       {isError && "Okänt fel"}
       {data && <BasicDataTable columns={columns} data={data} />}
     </>
   );
 };
 
-export default DocuemntTable;
+export default OrganTable;

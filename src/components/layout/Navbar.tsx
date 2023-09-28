@@ -1,4 +1,5 @@
 import { Menu, X } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -6,6 +7,7 @@ import type { FC } from "react";
 import { useState } from "react";
 
 const Navbar: FC = () => {
+  const { data: session } = useSession();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -20,7 +22,7 @@ const Navbar: FC = () => {
     { name: "För Företag", href: "/business" },
     { name: "Bilder", href: "https://zfoto.ztek.se" },
   ];
-
+  if (session?.user) routes.push({ name: "Admin", href: "/admin" });
   return (
     <nav className="my-8 bg-zBlack text-zWhite">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

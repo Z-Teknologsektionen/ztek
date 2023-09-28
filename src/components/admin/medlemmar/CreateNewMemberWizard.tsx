@@ -47,7 +47,7 @@ export const CreateNewMemberWizard: FC<ICreateNewMemberWizard> = ({
       }
     },
     onSuccess: () => {
-      void ctx.member.getAllMembersAsAdmin.invalidate();
+      void ctx.member.getCommitteeMembersAsAdmin.invalidate();
       toast.success("Ny medlem skapad!");
       close();
 
