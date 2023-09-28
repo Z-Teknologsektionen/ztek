@@ -49,7 +49,7 @@ const EditOrganPage: NextPage = () => {
         <SectionWrapper className="flex items-center justify-center py-8">
           {session ? (
             <button
-              className="rounded border-2 px-4 py-2 shadow "
+              className="rounded border-2 px-4 py-2 shadow hover:bg-slate-50"
               onClick={() => {
                 void signOut();
               }}
@@ -60,7 +60,7 @@ const EditOrganPage: NextPage = () => {
           ) : (
             <div className="h-96">
               <button
-                className="rounded border-2 px-4 py-2 shadow "
+                className="rounded border-2 px-4 py-2 shadow hover:bg-slate-50"
                 onClick={() => {
                   void signIn("google");
                 }}
