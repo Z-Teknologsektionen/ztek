@@ -81,14 +81,22 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(auto()) @map("_id") @db.ObjectId
+    id            String         @id @default(auto()) @map("_id") @db.ObjectId
     name          String?
-    email         String?   @unique
+    email         String?        @unique
     emailVerified DateTime?
     image         String?
-    admin         Boolean   @default(false)
+    admin         Boolean        @default(false)
+    roles         AccountRoles[]
     accounts      Account[]
     sessions      Session[]
+}
+
+enum AccountRoles {
+    ZALOONEN
+    CREATE_POST
+    MODIFY_ROLES
+    MODIFY_DOCUMENTS
 }
 
 model VerificationToken {

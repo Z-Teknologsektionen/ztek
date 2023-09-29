@@ -6,12 +6,12 @@ import { api } from "~/utils/api";
 import { OrganWizardForm } from "./OrganWizardForm";
 
 interface ICreateNewOrganWizard {
-  close: () => void;
   isOpen: boolean;
+  onClose: () => void;
 }
 
 export const CreateNewOrganWizard: FC<ICreateNewOrganWizard> = ({
-  close,
+  onClose,
   isOpen,
 }) => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -80,7 +80,7 @@ export const CreateNewOrganWizard: FC<ICreateNewOrganWizard> = ({
     <Modal
       buttonText="Skapa"
       isOpen={isOpen}
-      onClose={() => close()}
+      onClose={() => onClose()}
       onSubmit={() => void handleFormSubmit()}
       title={"Lägg till organ"}
     >

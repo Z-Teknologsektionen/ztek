@@ -74,7 +74,7 @@ export const UpdateCommitteeWizard: FC<IUpdateCommitteeWizard> = ({
           defaultValue={committee.description}
         ></textarea>
         <button
-          className="bg-z w-full rounded border-2 p-1"
+          className="bg-z w-full rounded border-2 p-1 hover:bg-slate-50"
           onClick={handleCommitteeUpdate}
           type="button"
         >

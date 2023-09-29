@@ -20,7 +20,7 @@ const AdminDocumentPage: NextPage = () => {
     router.query;
 
   return (
-    <AdminWrapper>
+    <AdminWrapper requiredRole="MODIFY_DOCUMENTS">
       <SectionWrapper>
         <DocuemntTable />
       </SectionWrapper>

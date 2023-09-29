@@ -7,8 +7,8 @@ import SectionWrapper from "~/components/layout/SectionWrapper";
 import { UpdateUserWizard } from "~/components/organ/UpdateUserWizard";
 import { api } from "~/utils/api";
 import localeObject from "~/utils/dayjs";
-import { EditCommitteeInformationSection } from "../../components/organ/EditCommitteeInformationSection";
-import { UpdateCommitteeWizard } from "../../components/organ/UpdateCommitteeWizard";
+import { EditCommitteeInformationSection } from "../../../components/organ/EditCommitteeInformationSection";
+import { UpdateCommitteeWizard } from "../../../components/organ/UpdateCommitteeWizard";
 
 dayjs.extend(relativeTime);
 dayjs.locale(localeObject);
@@ -49,7 +49,7 @@ const EditOrganPage: NextPage = () => {
         <SectionWrapper className="flex items-center justify-center py-8">
           {session ? (
             <button
-              className="rounded border-2 px-4 py-2 shadow "
+              className="rounded border-2 px-4 py-2 shadow hover:bg-slate-50"
               onClick={() => {
                 void signOut();
               }}
@@ -60,7 +60,7 @@ const EditOrganPage: NextPage = () => {
           ) : (
             <div className="h-96">
               <button
-                className="rounded border-2 px-4 py-2 shadow "
+                className="rounded border-2 px-4 py-2 shadow hover:bg-slate-50"
                 onClick={() => {
                   void signIn("google");
                 }}
