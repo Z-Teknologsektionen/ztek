@@ -9,7 +9,7 @@ import { buttonVariants } from "~/components/ui/button";
 import ssg from "~/server/api/helper/ssg";
 import { api } from "~/utils/api";
 
-const DOCUMENTGROUP_KEY = "Zaloonen dokument";
+const DOCUMENTGROUP_KEY = "Dokument för Zaloonen";
 
 const ZaloonenPage: NextPage = () => {
   const { data, isLoading, isError } = api.document.getOneGroupByName.useQuery({

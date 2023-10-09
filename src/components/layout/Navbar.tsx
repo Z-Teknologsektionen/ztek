@@ -15,8 +15,8 @@ const Navbar: FC = () => {
   const routes = [
     { name: "Student", href: "/student" },
     { name: "Dokument", href: "/documents" },
+    { name: "Sektionen", href: "/studentDivision" },
     { name: "Sektionsorgan", href: "/organ" },
-    { name: "Om Z", href: "/about" },
     { name: "För Företag", href: "/business" },
     { name: "Bilder", href: "https://zfoto.ztek.se" },
   ];
