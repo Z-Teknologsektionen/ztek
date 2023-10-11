@@ -4,8 +4,8 @@ import {
   type InferGetStaticPropsType,
   type NextPage,
 } from "next";
-import Link from "next/link";
 import HeadLayout from "~/components/layout/HeadLayout";
+import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import CommitteeMemberCard from "~/components/organ/CommitteeMemberCard";
@@ -50,7 +50,7 @@ const CommitteePage: NextPage<
               ))
             ) : (
               <div>
-                <SectionTitle center>Saknar Information</SectionTitle>
+                <SecondaryTitle center>Saknar information</SecondaryTitle>
                 <p className="block text-center">
                   Sittande har inte lagt in någon information. Se länk nedan för
                   att kunna redigera
@@ -58,15 +58,6 @@ const CommitteePage: NextPage<
               </div>
             )}
           </div>
-        </SectionWrapper>
-        <SectionWrapper>
-          <SectionTitle center>Saknar du något?</SectionTitle>
-          <p className="text-center">
-            Om du är sittande kan du redigera innehållet genom att{" "}
-            <Link className="underline underline-offset-2" href={"/organ/edit"}>
-              logga in
-            </Link>
-          </p>
         </SectionWrapper>
       </main>
     </>
