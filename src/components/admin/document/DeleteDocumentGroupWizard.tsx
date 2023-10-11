@@ -32,13 +32,13 @@ export const DeleteDocumentGroupWizard: FC<IDeleteDocumentGroupWizard> = ({
               <pre>{errorMessage}</pre>
             </button>
           ),
-          { icon: <ErrorIcon /> }
+          { icon: <ErrorIcon /> },
         );
       } else {
         toast.error(
           e.data
             ? `HTTP Error: ${e.data.httpStatus} ${e.data.code}`
-            : "Okänt fel"
+            : "Okänt fel",
         );
       }
     },

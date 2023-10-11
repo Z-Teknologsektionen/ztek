@@ -28,7 +28,7 @@ export default withAuth(
     const UNAUTHORIZED = activeRoutes.some(
       ({ requiredRole, route }) =>
         //Handles all routes with speciall roles
-        pathname.startsWith(route) && !hasRoleOrIsAdmin(requiredRole)
+        pathname.startsWith(route) && !hasRoleOrIsAdmin(requiredRole),
     );
 
     if (UNAUTHORIZED)
@@ -38,7 +38,7 @@ export default withAuth(
     callbacks: {
       authorized: ({ token }) => Boolean(token),
     },
-  }
+  },
 );
 
 export const config = {

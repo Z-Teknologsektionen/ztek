@@ -25,7 +25,7 @@ const SectionTitle: FC<PropsWithChildren<ISectionTitle>> = ({
       className={cn(
         `text-3xl font-semibold`,
         center ? "text-center" : "",
-        className
+        className,
       )}
       {...rest}
     >

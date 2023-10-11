@@ -1,7 +1,7 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import type { AccountRoles } from "@prisma/client";
 import type { GetServerSidePropsContext } from "next";
-import type { DefaultSession, NextAuthOptions } from "next-auth";
+import type { DefaultSession, NextAuthOptions, Session } from "next-auth";
 import { getServerSession } from "next-auth";
 import type { DefaultJWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
@@ -15,6 +15,7 @@ import { prisma } from "~/server/db";
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
 declare module "next-auth" {
+  // eslint-disable-next-line @typescript-eslint/no-shadow, no-shadow
   interface Session extends DefaultSession {
     user: DefaultSession["user"] & {
       admin: boolean;
@@ -81,10 +82,9 @@ const authOptions: NextAuthOptions = {
   secret: env.NEXTAUTH_SECRET,
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/explicit-function-return-type
 export const getServerAuthSession = (ctx: {
   req: GetServerSidePropsContext["req"];
   res: GetServerSidePropsContext["res"];
-}) => getServerSession(ctx.req, ctx.res, authOptions);
+}): Promise<Session | null> => getServerSession(ctx.req, ctx.res, authOptions);
 
 export default authOptions;
