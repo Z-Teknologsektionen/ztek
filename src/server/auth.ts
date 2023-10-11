@@ -1,10 +1,12 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
+import type { AccountRoles } from "@prisma/client";
 import type { GetServerSidePropsContext } from "next";
 import type { DefaultSession, NextAuthOptions } from "next-auth";
 import { getServerSession } from "next-auth";
+import type { DefaultJWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 import { env } from "~/env.mjs";
+import { prisma } from "~/server/db";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -20,43 +22,60 @@ declare module "next-auth" {
       id: string;
       name: string;
       picture: string;
-      roles: [string];
+      roles: AccountRoles[];
     };
   }
 
   interface User {
     admin: boolean;
-    roles: [string];
-    //   // ...other properties
-    //   // role: UserRole;
+    email: string;
+    roles: AccountRoles[];
   }
 }
 
-const prisma = new PrismaClient();
+declare module "next-auth/jwt" {
+  interface JWT extends DefaultJWT {
+    admin: boolean;
+    email: string;
+    roles: AccountRoles[];
+  }
+}
 
 const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
-  // Configure one or more authentication providers
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
-    // ...add more providers here
   ],
+  session: {
+    strategy: "jwt",
+    maxAge: 60 * 60 * 24, //1 dag
+  },
   callbacks: {
-    session({ session, user }) {
-      if (session.user && user.email) {
-        // eslint-disable-next-line no-param-reassign
-        session.user.email = user.email;
-        session.user.admin = user.admin;
-        session.user.roles = user.roles;
+    jwt({ token, user }) {
+      if (user) {
+        return {
+          ...token,
+          roles: user.roles,
+          admin: user.admin,
+          email: user.email,
+        };
       }
-      return session;
+      return token;
     },
-    signIn(params) {
-      if (!params.user.email) return false;
-      return params.user.email.endsWith("@ztek.se");
+    session({ session, token }) {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          admin: token.admin,
+          roles: token.roles,
+          email: token.email,
+        },
+      };
+      return session;
     },
   },
   secret: env.NEXTAUTH_SECRET,
