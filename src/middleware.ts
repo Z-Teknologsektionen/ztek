@@ -42,10 +42,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: [
-    "/admin/:path*",
-    "/active/",
-    "/organ/edit",
-    //activeRoutes.map(({ route }) => route),
-  ],
+  matcher: ["/admin/:path*", "/active/:path*"],
 };
