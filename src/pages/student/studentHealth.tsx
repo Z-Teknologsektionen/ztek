@@ -47,7 +47,7 @@ const StudentHealthPage: NextPage = () => {
               >
                 <Image
                   alt="image"
-                  className="transition-all hover:scale-110"
+                  className="rounded transition-all hover:opacity-75"
                   height={500}
                   src="/feeling_safe_student_union.png"
                   width={500}

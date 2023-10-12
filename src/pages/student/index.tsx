@@ -6,7 +6,9 @@ import {
   MdAccountBalance,
   MdAnalytics,
   MdCalendarMonth,
+  MdEmail,
   MdFacebook,
+  MdInfo,
   MdMeetingRoom,
   MdReport,
   MdSchool,
@@ -15,7 +17,7 @@ import HeadLayout from "~/components/layout/HeadLayout";
 import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
-import { buttonVariants } from "~/components/ui/button";
+import { Button, buttonVariants } from "~/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -70,6 +72,60 @@ const quickLinks = [
   },
 ];
 
+const programLedning = [
+  {
+    title: "Programansvarig",
+    fullName: "Knut Åkesson",
+    imgSrc: "/knut.jpg",
+    links: [
+      {
+        icon: <MdEmail />,
+        href: "mailto:knut@chalmers.se",
+        text: "knut@chalmers.se",
+      },
+      {
+        icon: <MdInfo />,
+        href: "https://www.chalmers.se/personer/knut/",
+        text: "Mer information",
+      },
+    ],
+  },
+  {
+    title: "Studievägledare",
+    fullName: "Anders Ankén",
+    imgSrc: "/anken.jpg",
+    links: [
+      {
+        icon: <MdEmail />,
+        href: "mailto:anken@chalmers.se",
+        text: "anken@chalmers.se",
+      },
+      {
+        icon: <MdInfo />,
+        href: "https://www.chalmers.se/personer/anken/",
+        text: "Mer information",
+      },
+    ],
+  },
+  {
+    title: "Utbildningssekreterare",
+    fullName: "Björn Friberg",
+    imgSrc: "/logo.png",
+    links: [
+      {
+        icon: <MdEmail />,
+        href: "mailto:bjorn.friberg@chalmers.se",
+        text: "bjorn.friberg@chalmers.se",
+      },
+      {
+        icon: <MdInfo />,
+        href: "https://www.chalmers.se/personer/mi2frbj/",
+        text: "Mer information",
+      },
+    ],
+  },
+];
+
 const StudentPage: NextPage = () => {
   return (
     <>
@@ -77,13 +133,13 @@ const StudentPage: NextPage = () => {
 
       <div className="container mx-auto divide-y-4 divide-zDarkGray divide-opacity-20">
         <SectionWrapper className="pt-2">
-          <div className="grid grid-cols-7 gap-3">
+          <div className="grid grid-cols-3 gap-3 md:grid-cols-5 lg:grid-cols-7">
             {quickLinks.map((link) => (
               <TooltipProvider key={link.text}>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Link
-                      className="col-span-1 mx-auto flex flex-col items-center justify-center text-center transition-all hover:scale-105"
+                      className="col-span-1 mx-auto flex flex-col items-center justify-center rounded-lg text-center transition-all hover:ring hover:ring-zWhite"
                       href={link.href}
                       target="_blank"
                     >
@@ -98,7 +154,7 @@ const StudentPage: NextPage = () => {
                       <p className="text-center text-xs">{link.text}</p>
                     </Link>
                   </TooltipTrigger>
-                  <TooltipContent>
+                  <TooltipContent className="bg-zWhite">
                     <p>{link.tooltip}</p>
                   </TooltipContent>
                 </Tooltip>
@@ -107,26 +163,41 @@ const StudentPage: NextPage = () => {
           </div>
         </SectionWrapper>
         <SectionWrapper className="p-2">
-          <div className="grid grid-cols-3 gap-4">
-            <div className="col-span-1 my-4  transition-all hover:scale-105">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="group col-span-1 my-4 rounded-md ">
               <Link href="/student/studentHealth">
-                <SecondaryTitle center={true}>Studenthälsa</SecondaryTitle>
-                <p className="mx-4 ">
-                  Vill du prata med någon eller rapportera något men vet inte
-                  riktigt vart du ska vända dig? Klicka här då.
+                <SecondaryTitle center={true}>
+                  Studiesocialt stöd
+                </SecondaryTitle>
+                <p className="mx-4">
+                  Vill du prata med någon, är orolig över dina studier eller
+                  rapportera vill något men vet inte riktigt vart du ska vända
+                  dig? Klicka här då.
                 </p>
+                <Button
+                  className="mx-auto mt-auto block w-fit transition-all group-hover:ring group-hover:ring-zWhite"
+                  variant={"outline"}
+                >
+                  Mer om studiesocialt stöd
+                </Button>
               </Link>
             </div>
-            <div className="col-span-1 my-4 transition-all hover:scale-105">
-              <Link href="/student/new_student">
+            <div className="group col-span-1 my-4 rounded-md ">
+              <Link href="/student/studentHealth">
                 <SecondaryTitle center={true}>Söka Z?</SecondaryTitle>
                 <p className="mx-4">
                   Funderar du på om Z är rätt pogram för dig? Klicka här
                   isåfall!
                 </p>
+                <Button
+                  className="mx-auto mt-2  block w-fit transition-all group-hover:ring group-hover:ring-zWhite"
+                  variant={"outline"}
+                >
+                  Mer information
+                </Button>
               </Link>
             </div>
-            <div className="col-span-1 my-4 transition-all hover:scale-105">
+            <div className="group col-span-1 my-4 rounded-md ">
               <Link href="#snz" scroll={false}>
                 <SecondaryTitle center={true}>
                   Påverka dina studier?
@@ -136,6 +207,12 @@ const StudentPage: NextPage = () => {
                   få mer information om vad Zätas studienämnd kan hjälpa dig
                   med.
                 </p>
+                <Button
+                  className="mx-auto mt-4 block w-fit transition-all group-hover:ring group-hover:ring-zWhite"
+                  variant={"outline"}
+                >
+                  Mer information
+                </Button>
               </Link>
             </div>
           </div>
@@ -176,7 +253,7 @@ const StudentPage: NextPage = () => {
               <Image
                 alt="image"
                 className="rounded"
-                height={200}
+                height={250}
                 src="/SNZArm-07.png"
                 width={250}
               />
@@ -195,8 +272,8 @@ const StudentPage: NextPage = () => {
                 i sektionens verksamhet och utbildningsarbete.
                 <br />
                 <br />
-                SNZ arbetar nära samman med fakulteten för att utveckla och
-                förbättra de olika kurserna som ges inom programmet. De
+                SNZ arbetar nära samman med programledningen för att utveckla
+                och förbättra de olika kurserna som ges inom programmet. De
                 övervakar kurserna och utvärderar deras kvalitet för att
                 säkerställa att studenterna får den bästa möjliga utbildningen.
                 Feedback från studenter är oerhört viktig för dem, och de
@@ -218,6 +295,7 @@ const StudentPage: NextPage = () => {
                     buttonVariants({ variant: "outline", size: "lg" })
                   )}
                   href={"https://snz.se"}
+                  target="_blank"
                 >
                   Gå till snz.se
                 </Link>
@@ -226,32 +304,50 @@ const StudentPage: NextPage = () => {
           </div>
         </SectionWrapper>
         <SectionWrapper>
-          <div className="grid grid-cols-3 py-8">
-            <div className="col-span-3 lg:col-span-2 lg:pr-20">
-              <SectionTitle className="mb-4">Sektionen</SectionTitle>
-              <p>
-                Sektionen leds av Sektionsstyrelsen, Ztyret, som består av 6
-                förtroendevalda. De förtroendevalda är invalda postspecifikt och
-                sitter i ett år. De sex posterna är: Ordförande, Vice
-                ordförande, Ekonomiansvarig, Informationsansvarig,
-                Nöjeslivsansvarig och SAMO. Sektionsstyrelsen lyder under
-                sektionsmötet som sammanträder minst fyra gånger per år.
-                Sektionsföreningar och -utskott ligger under sektionen och är
-                till för gemene teknolog. De kan antingen finnas för att främja
-                ett specifikt intresse, exempelvis idrott eller en sittning,
-                eller för att utföra ett uppdrag, till exempel anordna
-                mottagning eller trycka en tidning.
-              </p>
-            </div>
-            <div className="col-span-3 m-auto mt-8 lg:col-span-1 lg:mt-0">
-              <Image
-                alt="Sektionens uppbyggnad"
-                height={250}
-                src="/sektionens_uppbyggnad.png"
-                width={300}
-              />
-              <p className="mt-4 text-center">Sektionens uppbyggnad</p>
-            </div>
+          <SectionTitle className="mb-4">Programledningen</SectionTitle>
+          <p>
+            Z-programmet har en programledning som består av programansvarig,
+            studievägledare och utbildningssekreterare. Programledningen jobbar
+            med att säkra framtida kompetens inom Z-programmet och övervaka den
+            nuvarande studieplanen. Lorem ipsum dolor sit amet, consectetur
+            adipisicing elit. Nisi iste quo nihil quidem provident dolor
+            consectetur voluptatum, inventore ullam. Soluta molestiae magnam
+            adipisci non cumque ducimus nostrum excepturi natus modi?
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+            {programLedning.map((person) => (
+              <div
+                key={person.title}
+                className="mx-auto mt-2 block w-fit grid-cols-1 text-center"
+              >
+                <SecondaryTitle className="mb-4">{person.title}</SecondaryTitle>
+                <Image
+                  alt={person.fullName}
+                  className="rounded-full"
+                  height={200}
+                  src={person.imgSrc}
+                  width={200}
+                />
+                <p className="text-lg font-semibold">{person.fullName}</p>
+                <ul className="mt-2">
+                  {person.links.map((link) => (
+                    <li
+                      key={`${person.title}${link.text}`}
+                      className="mb-2 flex items-center justify-center md:justify-start"
+                    >
+                      {link.icon}
+                      <Link
+                        className="hover:underline"
+                        href={link.href}
+                        target="_blank"
+                      >
+                        {link.text}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </SectionWrapper>
       </div>

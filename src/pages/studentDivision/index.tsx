@@ -12,7 +12,10 @@ const StudentDivisionPage: NextPage = () => {
       <HeadLayout title="Sektionen" />
       <SectionWrapper>
         <SectionTitle className="w-full">Sektionen</SectionTitle>
-        <p>Z-teknologsektionen e najs, här finns lite olika funktioner</p>
+        <p>
+          Z-teknologsektionen e najs, här finns lite olika funktioner. Skriv om
+          azpning
+        </p>
         <div className="grid grid-cols-2 justify-items-center gap-4">
           <div className="col-span-1 my-4  transition-all hover:opacity-75">
             <Link href="/studentDivision/zaloonen">

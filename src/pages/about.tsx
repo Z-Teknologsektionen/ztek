@@ -41,7 +41,7 @@ const AboutPage: NextPage = () => {
             <div className="order-last col-span-3 m-auto lg:order-first lg:col-span-1">
               <Image
                 alt="image"
-                className="rounded"
+                className="rounded-full"
                 height={400}
                 src="/knut.jpg"
                 width={400}
@@ -50,10 +50,7 @@ const AboutPage: NextPage = () => {
                 <p>
                   <strong>Knut Åkesson</strong> - programansvarig
                 </p>
-                <a
-                  className="hover:font-bold hover:text-zRed"
-                  href="mailto:knut@chalmers.se"
-                >
+                <a className="hover:font-bold" href="mailto:knut@chalmers.se">
                   knut@chalmers.se
                 </a>
               </div>
