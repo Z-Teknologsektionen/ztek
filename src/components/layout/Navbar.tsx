@@ -22,7 +22,7 @@ const Navbar: FC = () => {
     { name: "För Företag", href: "/business" },
     { name: "Bilder", href: "https://zfoto.ztek.se" },
   ];
-  if (session?.user) routes.push({ name: "Admin", href: "/admin" });
+  if (session?.user) routes.push({ name: "Aktiv", href: "/active" });
   return (
     <nav className="my-8 bg-zBlack text-zWhite">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

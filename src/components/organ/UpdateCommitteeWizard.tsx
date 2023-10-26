@@ -37,11 +37,12 @@ export const UpdateCommitteeWizard: FC<IUpdateCommitteeWizard> = ({
       95,
       0,
       (uri) => {
+        // eslint-disable-next-line @typescript-eslint/no-base-to-string
         setPreviewImage(uri.toString());
       },
       "base64",
       300,
-      300
+      300,
     );
 
     setTimeout(() => (e.target.value = ""), 2500);

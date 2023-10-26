@@ -44,13 +44,13 @@ export const CreateNewDocumentWizard: FC<ICreateNewDocumentWizard> = ({
               <pre>{errorMessage}</pre>
             </button>
           ),
-          { icon: <ErrorIcon />, style: { maxWidth: "100vw" } }
+          { icon: <ErrorIcon />, style: { maxWidth: "100vw" } },
         );
       } else {
         toast.error(
           e.data
             ? `HTTP Error: ${e.data.httpStatus} ${e.data.code}`
-            : "Okänt fel"
+            : "Okänt fel",
         );
       }
     },

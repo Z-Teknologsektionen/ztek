@@ -26,7 +26,7 @@ export const DeleteOraganWizard: FC<IDeleteOraganWizard> = ({
       },
       onError: () => toast.error("Okänt fel. Försök igen senare!"),
       onSuccess: () => toast.success("Organ har raderats!"),
-    }
+    },
   );
 
   return (
