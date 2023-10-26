@@ -2,7 +2,7 @@ import type { AccountRoles } from "@prisma/client";
 import type { NextRequestWithAuth } from "next-auth/middleware";
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
-import { activeRoutes } from "./pages/active";
+import { activeRoutes } from "./data/routes";
 
 export default withAuth(
   function middleware(request: NextRequestWithAuth) {
@@ -25,9 +25,10 @@ export default withAuth(
       //Handles /active route(s). Everybody that is signed in can by default view all /active pages
       return NextResponse.rewrite(new URL("/denied", request.url));
     }
+
     const UNAUTHORIZED = activeRoutes.some(
       ({ requiredRole, route }) =>
-        //Handles all routes with speciall roles
+        //Handles all routes with special roles
         pathname.startsWith(route) && !hasRoleOrIsAdmin(requiredRole),
     );
 

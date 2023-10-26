@@ -1,4 +1,3 @@
-import { AccountRoles } from "@prisma/client";
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -15,70 +14,31 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import type { AdminRouteProps } from "~/data/routes";
+import { activeRoutes, adminRoutes } from "~/data/routes";
 
-interface InfoCardProps {
-  desc: string;
-  name: string;
-  route: string;
-}
-
-interface ActiveInfoCardProps extends InfoCardProps {
-  requiredRole: AccountRoles | undefined;
-}
-
-export const activeRoutes: ActiveInfoCardProps[] = [
-  {
-    name: "Skapa event",
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci rerum magnam soluta facilis repellat dolorum est! Maxime adipisci dolore rerum nihil aliquid architecto exercitationem perspiciatis sed! Dolorem facere fugiat placeat.",
-    route: "/active/events",
-    requiredRole: AccountRoles.CREATE_POST,
-  },
-  {
-    name: "Administera Organet",
-    desc: "Har du precis gått på och vill byta namn på sittande och byta logga? Klicka här då :)",
-    route: "/organ/edit",
-    requiredRole: undefined,
-  },
-  {
-    name: "Administera Dokument",
-    desc: "Här kan du ta bort eller lägga till olika dokument.",
-    route: "/active/documents",
-    requiredRole: AccountRoles.MODIFY_DOCUMENTS,
-  },
-  {
-    name: "Administera Zaloonen",
-    desc: "Här kan du som sittande i ZÅG administrera och se bokningar i Zaloonen.",
-    route: "/active/zaloonen",
-    requiredRole: AccountRoles.ZALOONEN,
-  },
-];
-
-export const adminRoutes: InfoCardProps[] = [
-  {
-    name: "Administrera medlemmar",
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci rerum magnam soluta facilis repellat dolorum est! Maxime adipisci dolore rerum nihil aliquid architecto exercitationem perspiciatis sed! Dolorem facere fugiat placeat.",
-    route: "/admin/members",
-  },
-  {
-    name: "Administrera organ",
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci rerum magnam soluta facilis repellat dolorum est! Maxime adipisci dolore rerum nihil aliquid architecto exercitationem perspiciatis sed! Dolorem facere fugiat placeat.",
-    route: "/admin/organ",
-  },
-];
+type InfoCardProps = AdminRouteProps;
 
 const AdminHomePage: NextPage = () => {
-  const { data: session } = useSession();
+  const { data: session } = useSession({ required: true });
 
   if (!session) return null;
 
-  const { user } = session;
+  const { user } = {
+    user: {
+      admin: true,
+      roles: [] as string[],
+      name: "test",
+    },
+  };
+
   return (
     <>
       <HeadLayout title="Aktiv panel"></HeadLayout>
 
       <SectionWrapper>
         <SectionTitle>Välkommen {user.name}!</SectionTitle>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 ">
           {user.admin &&
             adminRoutes.map((route) => (
               <InfoCard {...route} key={route.route} />
