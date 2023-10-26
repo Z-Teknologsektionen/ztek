@@ -21,7 +21,7 @@ const quickLinks = [
   },
   {
     text: "Logga in",
-    href: "/admin",
+    href: "/active",
     blank: false,
   },
 ];
