@@ -5,7 +5,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { objectId } from "../helper/customZodTypes";
+import { objectId } from "../helpers/customZodTypes";
 
 export const committeeRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
