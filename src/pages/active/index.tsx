@@ -24,13 +24,7 @@ const AdminHomePage: NextPage = () => {
 
   if (!session) return null;
 
-  const { user } = {
-    user: {
-      admin: true,
-      roles: [] as string[],
-      name: "test",
-    },
-  };
+  const { user } = session;
 
   return (
     <>
