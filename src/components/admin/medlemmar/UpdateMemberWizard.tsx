@@ -49,7 +49,7 @@ export const UpdateMemberWizard: FC<IUpdateMemberWizard> = ({
         if (phoneRef.current) phoneRef.current.value = data.phone;
         if (orderRef.current) orderRef.current.valueAsNumber = data.order;
       },
-    },
+    }
   );
 
   const { mutate: updateMember } = api.member.updateMember.useMutation({
@@ -64,13 +64,13 @@ export const UpdateMemberWizard: FC<IUpdateMemberWizard> = ({
               <pre>{errorMessage}</pre>
             </button>
           ),
-          { icon: <ErrorIcon />, style: { maxWidth: "100vw" } },
+          { icon: <ErrorIcon />, style: { maxWidth: "100vw" } }
         );
       } else {
         toast.error(
           e.data
             ? `HTTP Error: ${e.data.httpStatus} ${e.data.code}`
-            : "Okänt fel",
+            : "Okänt fel"
         );
       }
     },

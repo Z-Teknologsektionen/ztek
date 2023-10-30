@@ -25,7 +25,7 @@ const SecondaryTitle: FC<PropsWithChildren<ISecondaryTitle>> = ({
       className={cn(
         `text-xl font-semibold`,
         center ? "text-center" : "",
-        className,
+        className
       )}
       {...rest}
     >

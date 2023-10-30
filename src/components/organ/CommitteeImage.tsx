@@ -24,7 +24,7 @@ const CommitteeImage: FC<ICommitteeImage> = ({
         "h-64 w-64 rounded object-cover object-center text-transparent",
         "before:content-['']",
         "after:relative after:-top-6 after:z-10 after:grid after:h-full after:max-h-64 after:min-h-[8rem] after:w-full after:place-content-center after:truncate after:text-center after:text-xl after:text-black after:content-['Bild_saknas']",
-        className,
+        className
       )}
       height={height}
       quality={quality}

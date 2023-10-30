@@ -45,7 +45,7 @@ export const UpdateOrganWizard: FC<IUpdateOrganWizard> = ({
         if (emailRef.current) emailRef.current.value = data.email;
         if (orderRef.current) orderRef.current.valueAsNumber = data.order;
       },
-    },
+    }
   );
   const { mutate: updateCommittee } = api.committee.updateCommittee.useMutation(
     {
@@ -60,13 +60,13 @@ export const UpdateOrganWizard: FC<IUpdateOrganWizard> = ({
                 <pre>{errorMessage}</pre>
               </button>
             ),
-            { icon: <ErrorIcon /> },
+            { icon: <ErrorIcon /> }
           );
         } else {
           toast.error(
             e.data
               ? `HTTP Error: ${e.data.httpStatus} ${e.data.code}`
-              : "Okänt fel",
+              : "Okänt fel"
           );
         }
       },
@@ -76,7 +76,7 @@ export const UpdateOrganWizard: FC<IUpdateOrganWizard> = ({
         toast.success("Updaterat kommitté");
         close();
       },
-    },
+    }
   );
 
   const handleFormSubmit = (): void => {

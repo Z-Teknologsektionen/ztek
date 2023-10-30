@@ -36,13 +36,13 @@ export const CreateNewOrganWizard: FC<ICreateNewOrganWizard> = ({
                 <pre>{errorMessage}</pre>
               </button>
             ),
-            { icon: <ErrorIcon />, style: { maxWidth: "100vw" } },
+            { icon: <ErrorIcon />, style: { maxWidth: "100vw" } }
           );
         } else {
           toast.error(
             e.data
               ? `HTTP Error: ${e.data.httpStatus} ${e.data.code}`
-              : "Okänt fel",
+              : "Okänt fel"
           );
         }
       },
@@ -51,7 +51,7 @@ export const CreateNewOrganWizard: FC<ICreateNewOrganWizard> = ({
         toast.success("Ny kommitté skapad!");
         close();
       },
-    },
+    }
   );
 
   const handleFormSubmit = (): void => {

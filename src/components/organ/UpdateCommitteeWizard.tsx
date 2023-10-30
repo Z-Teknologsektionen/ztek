@@ -42,7 +42,7 @@ export const UpdateCommitteeWizard: FC<IUpdateCommitteeWizard> = ({
       },
       "base64",
       300,
-      300,
+      300
     );
 
     setTimeout(() => (e.target.value = ""), 2500);

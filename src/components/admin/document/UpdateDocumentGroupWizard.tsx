@@ -35,7 +35,7 @@ export const UpdateDocumentGroupWizard: FC<IUpdateDocumentGroupWizard> = ({
         if (nameRef.current) nameRef.current.value = data.name;
         if (textRef.current) textRef.current.value = data.extraText;
       },
-    },
+    }
   );
 
   const { mutate: updateDocument } = api.document.updateOneGroup.useMutation({
@@ -59,13 +59,13 @@ export const UpdateDocumentGroupWizard: FC<IUpdateDocumentGroupWizard> = ({
               <pre>{errorMessage}</pre>
             </button>
           ),
-          { icon: <ErrorIcon />, style: { maxWidth: "100vw" } },
+          { icon: <ErrorIcon />, style: { maxWidth: "100vw" } }
         );
       } else {
         toast.error(
           e.data
             ? `HTTP Error: ${e.data.httpStatus} ${e.data.code}`
-            : "Okänt fel",
+            : "Okänt fel"
         );
       }
     },

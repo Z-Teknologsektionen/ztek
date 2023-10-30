@@ -10,7 +10,7 @@ import { columns } from "./columns";
 const MemberTable: FC = () => {
   const { replaceQuery } = useRouterHelpers();
   const [committeeFilter, setCommitteeFilter] = useState<string | undefined>(
-    undefined,
+    undefined
   );
 
   const {
@@ -36,7 +36,7 @@ const MemberTable: FC = () => {
               id="filterByOrganSelect"
               onChange={(e) =>
                 setCommitteeFilter(
-                  e.target.value !== "" ? e.target.value : undefined,
+                  e.target.value !== "" ? e.target.value : undefined
                 )
               }
             >
