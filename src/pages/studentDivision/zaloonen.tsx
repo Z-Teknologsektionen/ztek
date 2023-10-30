@@ -43,7 +43,7 @@ const ZaloonenPage: NextPage = () => {
         </p>
       </SectionWrapper>
       <SectionWrapper>
-        {(isError || isLoading) && <SectionTitle>Dokuemnt</SectionTitle>}
+        {(isError || isLoading) && <SectionTitle>Dokument</SectionTitle>}
         {isError && (
           <p>
             Du kan hitta Zaloonens dokument{" "}

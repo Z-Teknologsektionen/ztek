@@ -1,18 +1,15 @@
-import type { GetStaticProps, NextPage } from "next";
+import type { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-
 import HeadLayout from "~/components/layout/HeadLayout";
 import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { Button } from "~/components/ui/button";
-import ssg from "~/server/api/helper/ssg";
 import { api } from "~/utils/api";
+import { DOCUMENTGROUP_KEY } from ".";
 
-const DOCUMENTGROUP_KEY = "Styrdokument";
-
-const StudentDivision: NextPage = () => {
+export const StudentDivision: NextPage = () => {
   const { data, isLoading, isError } = api.document.getOneGroupByName.useQuery({
     name: DOCUMENTGROUP_KEY,
   });
@@ -58,9 +55,7 @@ const StudentDivision: NextPage = () => {
                 variant={"outline"}
                 asChild
               >
-                <Link href="#organ" scroll={false}>
-                  Mer om azpning
-                </Link>
+                <Link href="#organ">Mer om azpning</Link>
               </Button>
             </div>
             <div className="col-span-1 my-4 flex flex-col rounded-md">
@@ -129,8 +124,7 @@ const StudentDivision: NextPage = () => {
                 alt="Sektionens uppbyggnad"
                 height={250}
                 src="/sektionens_uppbyggnad.png"
-                width={300}
-              />
+                width={300} />
               <p className="mt-4 text-center">Sektionens uppbyggnad</p>
             </div>
           </div>
@@ -149,10 +143,10 @@ const StudentDivision: NextPage = () => {
                     >
                       <Image
                         alt="Sektionens uppbyggnad"
+                        className="col-span-1"
                         height={100}
                         src="/document_stack.svg"
-                        width={100}
-                      />
+                        width={100} />
                       <Link
                         className="text-sm hover:text-blue-800 hover:underline"
                         href={doc.url}
@@ -171,27 +165,16 @@ const StudentDivision: NextPage = () => {
                 Sektionens högst beslutande organ är sektionsmötet som
                 sammanträder minst 4 gånger varje år. På sektionsmötet avhandlas
                 punkter så som inval, motioner, propositioner och
-                interpellationer. Alla sektionens medlemmar är inbjudna till
-                alla sektionsmöten och man uppmuntras starkt att gå på dessa.
-                Alla beslut som tas på sektionsmötet är demokratiska där allas
-                röst väger lika tungt. Finns det något du vill ändra på eller
-                tycker du att sektionen saknar något? Isåfall kan du skriva en
-                motion till sektionsmötet och skicka den till{" "}
+                interpellationer. Finns det något du vill ändra på eller något
+                sektionen saknar? Isåfall kan du skriva en motion till
+                sektionsmötet och skicka den till{" "}
                 <a
                   className="text-blue-800 hover:underline"
                   href="mailto:ztyret@ztek.se"
                 >
                   ztyret@ztek.se
                 </a>{" "}
-                senast 7 dagar innan sektionsmötet. Det går också att skriva en{" "}
-                <Link
-                  className="text-blue-600 hover:text-blue-800 hover:underline"
-                  href={"https://sv.wikipedia.org/wiki/Interpellation"}
-                  target="_blank"
-                >
-                  interpellation
-                </Link>{" "}
-                till sektionsmötet där du kan ställa frågor till olika organ.
+                senast 7 dagar innan sektionsmötet.
               </p>
             </div>
           </div>
@@ -207,67 +190,24 @@ const StudentDivision: NextPage = () => {
                 till för gemene teknolog. De kan antingen finnas för att främja
                 ett specifikt intresse, exempelvis idrott eller en sittning,
                 eller för att utföra ett uppdrag, till exempel anordna
-                mottagning eller trycka en tidning. Sektionens olika organ och
-                dess medlemmar hittar du{" "}
-                <Link
-                  className="text-blue-600 hover:text-blue-800 hover:underline"
-                  href="/organ"
-                >
-                  här
-                </Link>
-                .
+                mottagning eller trycka en tidning.
                 <br />
                 <br />
-                Det är sektionsmötet som bestämmer vilka som får sitta i vilka
-                organ. Till sektionens hjälp finns valberedningen som anslår
-                nomineringar innan varje sektionsmöte. Valberedningen finns till
-                för att säkerhetsställa att alla sökande söker på lika villkor.
-                Att bli nominerad till en post är inte det samma som att bli
-                invald. En eller flera personer kan väljas in i ett organ utan
-                att ha blivit nominerade.
-                <br />
-                <br />
-                Inför varje sektionsmöte så brukar en azpning hållas. Detta är
-                ett tillfälle att få större inblick i vad de olika organen
-                håller på med och hur det är att vara sittande. Hur lång tid tar
-                det egentligen att städa Gasquen eller hur många hamburgare
-                hinner man grilla på en timme? Alla dessa svar kan du få om du
-                azpar olika organ. Information om de olika azpningarna brukar
-                anslås i vår Facebookgrupp,{" "}
-                <Link
-                  className="text-blue-600 hover:text-blue-800 hover:underline"
-                  href={"https://www.facebook.com/groups/activityatz"}
-                  target="_blank"
-                >
-                  Activity@Z
-                </Link>
-                . Man kan azpa olika organ utan att söka till dem precis som man
-                kan söka de olika organen utan att ha azpat.
+                Det är sektionsmötet
               </p>
             </div>
             <div className="col-span-3 m-auto mt-8 lg:col-span-1 lg:mt-0">
               <Image
                 alt="Sektionens uppbyggnad"
-                className="rotate-6"
                 height={250}
-                src="/zarmy.png"
-                width={300}
-              />
+                src="/sektionens_uppbyggnad.png"
+                width={300} />
+              <p className="mt-4 text-center">Sektionens uppbyggnad</p>
             </div>
           </div>
-        </SectionWrapper>
+          <Button>
+          </></SectionWrapper>
       </div>
     </>
   );
-};
-
-export default StudentDivision;
-export const getStaticProps: GetStaticProps = async () => {
-  await ssg.document.getOneGroupByName.prefetch({ name: DOCUMENTGROUP_KEY });
-  return {
-    props: {
-      trpcState: ssg.dehydrate(),
-    },
-    revalidate: 1,
-  };
 };

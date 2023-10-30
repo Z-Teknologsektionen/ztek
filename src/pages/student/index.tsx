@@ -29,7 +29,7 @@ import { cn } from "~/utils/utils";
 const quickLinks = [
   {
     icon: <MdCalendarMonth />,
-    href: "https://cloud.timeedit.net/chalmers/web/public/ri1Y94ygZ05ZZQQ1X05v7Y055Q44x4966g580YQQ657.html",
+    href: "https://cloud.timeedit.net/chalmers/web/public/",
     text: "Schema",
     tooltip: "TimeEdit",
   },
@@ -164,8 +164,8 @@ const StudentPage: NextPage = () => {
         </SectionWrapper>
         <SectionWrapper className="p-2">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <div className="group col-span-1 my-4 rounded-md ">
-              <Link href="/student/studentHealth">
+            <div className="col-span-1 my-4 flex flex-col rounded-md">
+              <div className="pb-4">
                 <SecondaryTitle center={true}>
                   Studiesocialt stöd
                 </SecondaryTitle>
@@ -174,31 +174,35 @@ const StudentPage: NextPage = () => {
                   rapportera vill något men vet inte riktigt vart du ska vända
                   dig? Klicka här då.
                 </p>
-                <Button
-                  className="mx-auto mt-auto block w-fit transition-all group-hover:ring group-hover:ring-zWhite"
-                  variant={"outline"}
-                >
+              </div>
+              <Button
+                className="mx-auto mt-auto block w-fit transition-all hover:ring hover:ring-zWhite"
+                variant={"outline"}
+                asChild
+              >
+                <Link href="/student/studentHealth">
                   Mer om studiesocialt stöd
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
-            <div className="group col-span-1 my-4 rounded-md ">
-              <Link href="/student/studentHealth">
+            <div className="col-span-1 my-4 flex flex-col rounded-md">
+              <div className="pb-4">
                 <SecondaryTitle center={true}>Söka Z?</SecondaryTitle>
                 <p className="mx-4">
-                  Funderar du på om Z är rätt pogram för dig? Klicka här
-                  isåfall!
+                  Funderar du på om Z är rätt pogram för dig? Klicka här isåfall
+                  för att läsa mer om programmet och vad du kan förvänta dig!
                 </p>
-                <Button
-                  className="mx-auto mt-2  block w-fit transition-all group-hover:ring group-hover:ring-zWhite"
-                  variant={"outline"}
-                >
-                  Mer information
-                </Button>
-              </Link>
+              </div>
+              <Button
+                className="mx-auto mt-auto block w-fit transition-all hover:ring hover:ring-zWhite"
+                variant={"outline"}
+                asChild
+              >
+                <Link href="/student/studentHealth">Mer information</Link>
+              </Button>
             </div>
-            <div className="group col-span-1 my-4 rounded-md ">
-              <Link href="#snz" scroll={false}>
+            <div className="col-span-1 my-4 flex flex-col rounded-md">
+              <div className="pb-4">
                 <SecondaryTitle center={true}>
                   Påverka dina studier?
                 </SecondaryTitle>
@@ -207,13 +211,16 @@ const StudentPage: NextPage = () => {
                   få mer information om vad Zätas studienämnd kan hjälpa dig
                   med.
                 </p>
-                <Button
-                  className="mx-auto mt-4 block w-fit transition-all group-hover:ring group-hover:ring-zWhite"
-                  variant={"outline"}
-                >
+              </div>
+              <Button
+                className="mx-auto mt-auto block w-fit transition-all hover:ring hover:ring-zWhite"
+                variant={"outline"}
+                asChild
+              >
+                <Link href="#snz" scroll={false}>
                   Mer information
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </div>
           {/* 
