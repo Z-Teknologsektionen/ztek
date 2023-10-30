@@ -19,7 +19,7 @@ export const DeleteMemberWizard: FC<IDeleteOraganWizard> = ({
   const { mutate: deleteMember } = api.member.deleteMember.useMutation({
     onMutate: () => toast.loading("Raderar medlem"),
     onSettled: (_c, _d, _e, toastId) => {
-      void ctx.member.getAllMembersAsAdmin.invalidate();
+      void ctx.member.getCommitteeMembersAsAdmin.invalidate();
       toast.remove(toastId);
       close();
     },

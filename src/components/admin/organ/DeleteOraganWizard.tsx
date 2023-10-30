@@ -4,13 +4,13 @@ import Modal from "~/components/layout/Modal";
 import { api } from "~/utils/api";
 
 interface IDeleteOraganWizard {
-  close: () => void;
   id: string;
   isOpen: boolean;
+  onClose: () => void;
 }
 
 export const DeleteOraganWizard: FC<IDeleteOraganWizard> = ({
-  close,
+  onClose,
   id,
   isOpen,
 }) => {
@@ -26,14 +26,14 @@ export const DeleteOraganWizard: FC<IDeleteOraganWizard> = ({
       },
       onError: () => toast.error("Okänt fel. Försök igen senare!"),
       onSuccess: () => toast.success("Organ har raderats!"),
-    }
+    },
   );
 
   return (
     <Modal
       buttonText="Radera"
       isOpen={isOpen}
-      onClose={() => close()}
+      onClose={() => onClose()}
       onSubmit={() => deleteCommittee({ id })}
       title="Radera Organ"
     >

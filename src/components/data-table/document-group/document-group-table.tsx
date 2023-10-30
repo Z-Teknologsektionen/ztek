@@ -15,7 +15,7 @@ const DocuemntGroupTable: FC = () => {
   return (
     <>
       <div>
-        <SectionTitle center>Redigera dokument grupper</SectionTitle>
+        <SectionTitle center>Redigera dokumentgrupper</SectionTitle>
         <div className="flex justify-end">
           <Button
             onClick={() => void replaceQuery("newGroup", "true")}
@@ -27,7 +27,7 @@ const DocuemntGroupTable: FC = () => {
           </Button>
         </div>
       </div>
-      {isLoading && "Hämtar tabel..."}
+      {isLoading && "Hämtar data..."}
       {isError && "Okänt fel"}
       {data && <BasicDataTable columns={columns} data={data} />}
     </>
