@@ -14,7 +14,7 @@ const OrganTable: FC = () => {
   return (
     <>
       <div>
-        <SectionTitle center>aklsdjaslkdjaslk</SectionTitle>
+        <SectionTitle center>Sektionsorgan</SectionTitle>
         <div className="flex justify-end">
           <Button
             onClick={() => void replaceQuery("newCommittee", "true")}
@@ -22,7 +22,7 @@ const OrganTable: FC = () => {
             type="button"
             variant="outline"
           >
-            Skapa nytt
+            Skapa nytt organ
           </Button>
         </div>
       </div>

@@ -43,7 +43,7 @@ const AboutPage: NextPage = () => {
                 alt="image"
                 className="rounded-full"
                 height={400}
-                src="/knut.jpg"
+                src="/knut_akesson.jpg"
                 width={400}
               />
               <div className="mt-2 text-center">

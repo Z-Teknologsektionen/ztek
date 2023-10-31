@@ -76,7 +76,7 @@ const programLedning = [
   {
     title: "Programansvarig",
     fullName: "Knut Åkesson",
-    imgSrc: "/knut.jpg",
+    imgSrc: "/knut_akesson.jpg",
     links: [
       {
         icon: <MdEmail />,
@@ -344,7 +344,7 @@ const StudentPage: NextPage = () => {
                     >
                       {link.icon}
                       <Link
-                        className="hover:underline"
+                        className="ml-1 hover:underline"
                         href={link.href}
                         target="_blank"
                       >

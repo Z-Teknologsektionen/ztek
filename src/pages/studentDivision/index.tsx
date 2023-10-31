@@ -6,6 +6,7 @@ import HeadLayout from "~/components/layout/HeadLayout";
 import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
+import CommitteeImage from "~/components/organ/CommitteeImage";
 import { Button } from "~/components/ui/button";
 import ssg from "~/server/api/helper/ssg";
 import { api } from "~/utils/api";
@@ -13,9 +14,15 @@ import { api } from "~/utils/api";
 const DOCUMENTGROUP_KEY = "Styrdokument";
 
 const StudentDivision: NextPage = () => {
-  const { data, isLoading, isError } = api.document.getOneGroupByName.useQuery({
+  const {
+    data: documentData,
+    isLoading: documentIsLoading,
+    isError: documentIsError,
+  } = api.document.getOneGroupByName.useQuery({
     name: DOCUMENTGROUP_KEY,
   });
+
+  const { data: committeeData } = api.committee.getAll.useQuery();
   return (
     <>
       <HeadLayout title="Sektionen" />
@@ -139,10 +146,10 @@ const StudentDivision: NextPage = () => {
           <div className="grid grid-cols-3">
             <div className="order-last col-span-3 mx-auto mt-4 lg:order-first lg:col-span-1 lg:mt-8">
               <div className="grid grid-cols-4">
-                {isLoading && <p>Läser in dokument...</p>}
-                {isError && <p>Dokument kunde inte hämtas.</p>}
-                {data &&
-                  data.Document.map((doc) => (
+                {documentIsLoading && <p>Läser in dokument...</p>}
+                {documentIsError && <p>Dokument kunde inte hämtas.</p>}
+                {documentData &&
+                  documentData.Document.map((doc) => (
                     <div
                       key={doc.title}
                       className="col-span-1 mx-2 text-center"
@@ -242,17 +249,45 @@ const StudentDivision: NextPage = () => {
                   Activity@Z
                 </Link>
                 . Man kan azpa olika organ utan att söka till dem precis som man
-                kan söka de olika organen utan att ha azpat.
+                kan söka de olika organen utan att ha azpat. Följande organ har
+                inval i dessa läsperioder:
               </p>
             </div>
             <div className="col-span-3 m-auto mt-8 lg:col-span-1 lg:mt-0">
               <Image
-                alt="Sektionens uppbyggnad"
+                alt="Lucky luke poster"
                 className="rotate-6"
                 height={250}
                 src="/zarmy.png"
                 width={300}
               />
+            </div>
+            <div className="col-span-3">
+              <div className="grid grid-cols-4">
+                {[1, 2, 3, 4].map((num) => (
+                  <div key={num} className="col-span-2 md:col-span-1">
+                    <SecondaryTitle className="mb-2">
+                      Läsperiod {num}
+                    </SecondaryTitle>
+                    {committeeData
+                      ?.filter((c) => c.electionPeriod === num)
+                      .map((committee) => (
+                        <Link
+                          key={`${num}${committee.name}`}
+                          className="mb-2 flex items-center justify-start "
+                          href={`organ/${committee.slug}`}
+                        >
+                          <CommitteeImage
+                            alt={`${committee.name}s logotyp`}
+                            className="mr-2 h-8 w-8"
+                            filename={committee.image}
+                          />
+                          <p className="hover:underline">{committee.name}</p>
+                        </Link>
+                      ))}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </SectionWrapper>
@@ -264,6 +299,7 @@ const StudentDivision: NextPage = () => {
 export default StudentDivision;
 export const getStaticProps: GetStaticProps = async () => {
   await ssg.document.getOneGroupByName.prefetch({ name: DOCUMENTGROUP_KEY });
+  await ssg.committee.getAll.prefetch();
   return {
     props: {
       trpcState: ssg.dehydrate(),
