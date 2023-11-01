@@ -54,7 +54,7 @@ export const columns: ColumnDef<CommitteeMember>[] = [
 const CommitteeMemberTableActions: FC<{ id: string }> = ({ id }) => {
   const { replaceQuery } = useRouterHelpers();
   const ctx = api.useUtils();
-  const { mutate: deleteMember } = api.member.deleteMember.useMutation({
+  const { mutate: deleteMember } = api.member.deleteMemberAsAdmin.useMutation({
     onMutate: () => toast.loading("Raderar medlem..."),
     onSettled: (_c, _d, _e, toastId) => {
       toast.remove(toastId);

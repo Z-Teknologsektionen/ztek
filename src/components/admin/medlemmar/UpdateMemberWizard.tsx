@@ -52,7 +52,7 @@ export const UpdateMemberWizard: FC<IUpdateMemberWizard> = ({
     },
   );
 
-  const { mutate: updateMember } = api.member.updateMember.useMutation({
+  const { mutate: updateMember } = api.member.updateMemberAsAdmin.useMutation({
     onMutate: () => toast.loading("Skapar ny medlem..."),
     onSettled: (_c, _e, _o, toastId) => toast.dismiss(toastId),
     onError: (e) => {

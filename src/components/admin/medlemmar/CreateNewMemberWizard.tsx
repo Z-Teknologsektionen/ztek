@@ -22,9 +22,9 @@ export const CreateNewMemberWizard: FC<ICreateNewMemberWizard> = ({
   const roleRef = useRef<HTMLInputElement>(null);
   const orderRef = useRef<HTMLInputElement>(null);
 
-  const ctx = api.useContext();
+  const ctx = api.useUtils();
 
-  const { mutate: createMember } = api.member.createMember.useMutation({
+  const { mutate: createMember } = api.member.createMemberAsAdmin.useMutation({
     onMutate: () => toast.loading("Skapar ny medlem..."),
     onSettled: (_c, _e, _o, toastId) => toast.dismiss(toastId),
     onError: (e) => {

@@ -18,7 +18,7 @@ export const UpdateUserWizard: FC<IUpdateUserWizard> = ({
   member,
   refetch,
 }) => {
-  const { mutate: mutateMember } = api.member.updateOne.useMutation({
+  const { mutate: mutateMember } = api.member.updateMemberAsActive.useMutation({
     onSettled: () => refetch(),
   });
 

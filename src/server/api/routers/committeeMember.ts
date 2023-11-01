@@ -1,4 +1,3 @@
-import isMobilePhone from "validator/lib/isMobilePhone";
 import { z } from "zod";
 import {
   adminProcedure,
@@ -7,6 +6,10 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 import { objectId } from "../helpers/customZodTypes";
+import {
+  createNewMemberSchema,
+  updateMemberSchema,
+} from "../helpers/zodScheams";
 
 export const committeeMemberRouter = createTRPCRouter({
   getOneById: adminProcedure
@@ -43,7 +46,7 @@ export const committeeMemberRouter = createTRPCRouter({
         },
       });
     }),
-  updateOne: protectedProcedure
+  updateMemberAsActive: protectedProcedure
     .input(
       z.object({
         id: objectId,
@@ -80,21 +83,8 @@ export const committeeMemberRouter = createTRPCRouter({
         },
       });
     }),
-  createMember: adminProcedure
-    .input(
-      z.object({
-        committeeId: objectId,
-        name: z.string().optional(),
-        nickName: z.string().optional(),
-        email: z.string().email().min(1),
-        phone: z
-          .string()
-          .refine((val) => isMobilePhone(val, "sv-SE"))
-          .optional(),
-        role: z.string().min(1),
-        order: z.number().min(0).max(99).optional().default(0),
-      }),
-    )
+  createMemberAsAdmin: adminProcedure
+    .input(createNewMemberSchema)
     .mutation(
       ({
         ctx,
@@ -113,22 +103,8 @@ export const committeeMemberRouter = createTRPCRouter({
         });
       },
     ),
-  updateMember: adminProcedure
-    .input(
-      z.object({
-        id: objectId,
-        committeeId: objectId,
-        name: z.string().optional(),
-        nickName: z.string().optional(),
-        email: z.string().email().min(1),
-        phone: z
-          .string()
-          .refine((val) => isMobilePhone(val, "sv-SE"))
-          .optional(),
-        role: z.string().min(1),
-        order: z.number().min(0).max(99).optional(),
-      }),
-    )
+  updateMemberAsAdmin: adminProcedure
+    .input(updateMemberSchema)
     .mutation(
       ({
         ctx,
@@ -150,7 +126,7 @@ export const committeeMemberRouter = createTRPCRouter({
         });
       },
     ),
-  deleteMember: adminProcedure
+  deleteMemberAsAdmin: adminProcedure
     .input(
       z.object({
         id: objectId,
