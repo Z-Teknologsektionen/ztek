@@ -104,17 +104,19 @@ const NewStudent: NextPage = () => {
             <div className="order-first col-span-3 pl-4 lg:order-last lg:col-span-2">
               <SectionTitle className="mb-4">Mottagningen</SectionTitle>
               <p>
-                Målet med mottagningen är att hjälpa dig komma in i det sociala
-                livet såväl som studierna. Den består av fyra veckor med roliga
-                aktiviteter: allt från häfv och häfv till fester och sittningar.
-                Du kommer få lära känna andra z-teknologer, genom roliga
-                aktiviteter och phaddergrupper. Men viktigast av allt är att
-                komma med ett leende på läpparna och vara redo att ha kul
-                tillsammans! Det är naturligt att vara nervös inför
-                mottagningen, så kom ihåg att du inte är ensam i det. ZnollK
-                kommer göra vårt bästa för att mottagningen ska bli helt
-                fantastisk för dig, men det är du som gör den till vad den blir
-                för dig. Så kom med ett öppet sinne och var redo att ha kul!
+                Målet med mottagningen är att hjälpa dig att integrera både
+                socialt och akademiskt. Detta uppnås genom fyra veckor av
+                engagerande aktiviteter, som sträcker sig från tekniska
+                utmaningar till sociala sammankomster. Du kommer att få
+                möjlighet att lära känna dina medstudenter inom Automation och
+                Mekatronik genom olika aktiviteter och mentorskapsgrupper. Det
+                viktigaste är att du kommer med ett positivt sinne och är redo
+                att njuta av upplevelsen! Det är helt normalt att känna sig
+                nervös inför introduktionen, men kom ihåg att du inte är ensam.
+                Vårt team kommer att göra sitt bästa för att se till att din
+                introduktion blir fantastisk, men det är du som formar din egen
+                upplevelse. Så kom med ett öppet sinne och var redo att ha
+                roligt!
               </p>
               <div className="mt-8 grid grid-cols-2 gap-8 md:grid-cols-2 lg:grid-cols-2">
                 <div className="border-gradient rounded-lg">
