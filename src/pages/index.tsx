@@ -87,7 +87,7 @@ const ParagraphWelcome = () => {
 
                 {
                   Sponsors.map((key, value) =>
-                    <a href={key.href}  target="_blank">
+                    <a href={key.href} target="_blank" rel="noopener noreferrer">
                       <img src={key.img}  className={`mx-auto ` + key.rel_height + ` drop-shadow-md`}/>
                     </a>
                   )
@@ -119,7 +119,7 @@ const ParagraphLinks = () => {
                   <div className='flex flex-wrap gap-4'>
                     {
                       key.links.map((key, value) =>
-                        <a href={key.url} target='_blank' className='text-xl font-bold text-white hover:bg-gray-400 hover:bg-opacity-50 transition-color duration-200 bg-opacity-50 align-middle py-2 px-5 backdrop-blur-md backdrop-brightness-[0.8] rounded-full border-2'>
+                        <a href={key.url} target='_blank' rel="noopener noreferrer" className='text-xl font-bold text-white hover:bg-gray-400 hover:bg-opacity-50 transition-color duration-200 bg-opacity-50 align-middle py-2 px-5 backdrop-blur-md backdrop-brightness-[0.8] rounded-full border-2'>
                           {key.title}
                         </a>
                       )
