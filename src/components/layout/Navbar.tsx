@@ -15,10 +15,14 @@ const Navbar: FC = () => {
     setIsMenuOpen(!isMenuOpen);
   };
   const routes = [
-    { name: "Student", href: "/samo", target: "_self" },
+    { name: "Student", href: "/student", target: "_self" },
     { name: "Dokument", href: "/documents", target: "_self" },
-    { name: "Sektionsorgan", href: "/organ", target: "_self" },
-    { name: "Om Z", href: "/about", target: "_self" },
+    { name: "Sektionen", href: "/studentDivision", target: "_self" },
+    {
+      name: "Sektionsorgan",
+      href: "/studentDivision/committees",
+      target: "_self",
+    },
     { name: "För Företag", href: "/business", target: "_self" },
     { name: "Bilder", href: "https://zfoto.ztek.se", target: "_blank" },
   ];

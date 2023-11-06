@@ -274,7 +274,7 @@ const StudentDivision: NextPage = () => {
                         <Link
                           key={`${num}${committee.name}`}
                           className="mb-2 flex items-center justify-start "
-                          href={`organ/${committee.slug}`}
+                          href={`studentDivision/committees/${committee.slug}`}
                         >
                           <CommitteeImage
                             alt={`${committee.name}s logotyp`}
