@@ -16,6 +16,7 @@ export const committeeRouter = createTRPCRouter({
         role: true,
         slug: true,
         image: true,
+        electionPeriod: true,
       },
     });
   }),
@@ -35,6 +36,7 @@ export const committeeRouter = createTRPCRouter({
           description: true,
           email: true,
           image: true,
+          electionPeriod: true,
           members: {
             where: {
               OR: [
@@ -84,6 +86,7 @@ export const committeeRouter = createTRPCRouter({
           slug: true,
           updatedAt: true,
           order: true,
+          electionPeriod: true,
           _count: {
             select: {
               members: true,
@@ -126,6 +129,7 @@ export const committeeRouter = createTRPCRouter({
           email: true,
           image: true,
           id: true,
+          electionPeriod: true,
           members: {
             select: {
               id: true,
@@ -148,6 +152,7 @@ export const committeeRouter = createTRPCRouter({
         name: true,
         order: true,
         slug: true,
+        electionPeriod: true,
         _count: {
           select: {
             members: true,
@@ -185,10 +190,14 @@ export const committeeRouter = createTRPCRouter({
         role: z.string().min(1),
         email: z.string().email().min(1),
         order: z.number().min(0).max(99),
+        electionPeriod: z.number().min(1).max(4),
       }),
     )
     .mutation(
-      ({ ctx, input: { description, email, name, order, role, slug } }) => {
+      ({
+        ctx,
+        input: { description, email, name, order, role, slug, electionPeriod },
+      }) => {
         return ctx.prisma.committee.create({
           data: {
             description,
@@ -198,6 +207,7 @@ export const committeeRouter = createTRPCRouter({
             order,
             role,
             slug,
+            electionPeriod,
           },
         });
       },
@@ -213,12 +223,23 @@ export const committeeRouter = createTRPCRouter({
         email: z.string().email().min(1).optional(),
         order: z.number().min(0).max(99).optional(),
         image: z.string().min(1).optional(),
+        electionPeriod: z.number().min(1).max(4).optional(),
       }),
     )
     .mutation(
       ({
         ctx,
-        input: { id, description, email, name, order, role, slug, image },
+        input: {
+          id,
+          description,
+          email,
+          name,
+          order,
+          role,
+          slug,
+          image,
+          electionPeriod,
+        },
       }) => {
         return ctx.prisma.committee.update({
           where: {
@@ -232,6 +253,7 @@ export const committeeRouter = createTRPCRouter({
             order,
             role,
             slug,
+            electionPeriod,
           },
         });
       },

@@ -2,6 +2,7 @@ import type { FC, RefObject } from "react";
 
 interface IOrganWizardForm {
   descRef: RefObject<HTMLTextAreaElement>;
+  electionRef: RefObject<HTMLInputElement>;
   emailRef: RefObject<HTMLInputElement>;
   nameRef: RefObject<HTMLInputElement>;
   orderRef: RefObject<HTMLInputElement>;
@@ -16,6 +17,7 @@ export const OrganWizardForm: FC<IOrganWizardForm> = ({
   orderRef,
   roleRef,
   slugRef,
+  electionRef,
 }) => {
   return (
     <form className="mx-auto my-8 flex max-w-3xl flex-col gap-2">
@@ -54,6 +56,14 @@ export const OrganWizardForm: FC<IOrganWizardForm> = ({
         max={99}
         min={0}
         placeholder="Ordning"
+        type="number"
+      />
+      <input
+        ref={electionRef}
+        className="rounded border-2 p-1 shadow"
+        max={4}
+        min={1}
+        placeholder="Har inval i vilken läsperiod (1-4)"
         type="number"
       />
     </form>

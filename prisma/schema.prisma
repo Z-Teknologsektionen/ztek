@@ -11,16 +11,17 @@ datasource db {
 }
 
 model Committee {
-    id          String            @id @default(auto()) @map("_id") @db.ObjectId
-    name        String
-    slug        String            @unique
-    description String
-    role        String
-    email       String            @unique
-    members     CommitteeMember[]
-    image       String
-    order       Int
-    updatedAt   DateTime          @updatedAt
+    id             String            @id @default(auto()) @map("_id") @db.ObjectId
+    name           String
+    slug           String            @unique
+    description    String
+    role           String
+    email          String            @unique
+    members        CommitteeMember[]
+    image          String
+    order          Int
+    electionPeriod Int               @default(1)
+    updatedAt      DateTime          @updatedAt
 }
 
 model CommitteeMember {
