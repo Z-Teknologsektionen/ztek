@@ -1,43 +1,31 @@
-import type { NextPage } from "next";
-import { useRouter } from "next/router";
-import { CreateNewMemberWizard } from "~/components/admin/medlemmar/CreateNewMemberWizard";
-import { DeleteMemberWizard } from "~/components/admin/medlemmar/DeleteMemberWizard";
-import { UpdateMemberWizard } from "~/components/admin/medlemmar/UpdateMemberWizard";
+import type { GetServerSideProps, NextPage } from "next";
 import MemberTable from "~/components/data-table/members/member-table";
+import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
-import { useRouterHelpers } from "~/utils/router";
+import ssg from "~/server/api/helpers/ssg";
 
 const AdminMemberPage: NextPage = () => {
-  const router = useRouter();
-  const { clearQuery } = useRouterHelpers();
-
-  const { delMember, editMember, newMember } = router.query;
-
   return (
     <>
       <SectionWrapper>
+        <SectionTitle center>Medlemmar</SectionTitle>
         <MemberTable />
       </SectionWrapper>
-      <CreateNewMemberWizard
-        close={() => void clearQuery()}
-        isOpen={Boolean(newMember)}
-      />
-      {typeof editMember === "string" && (
-        <UpdateMemberWizard
-          close={() => void clearQuery()}
-          id={editMember}
-          isOpen={Boolean(editMember)}
-        />
-      )}
-      {typeof delMember === "string" && (
-        <DeleteMemberWizard
-          close={() => void clearQuery()}
-          id={delMember}
-          isOpen={Boolean(delMember)}
-        />
-      )}
     </>
   );
 };
 
 export default AdminMemberPage;
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  await Promise.all([
+    ssg.member.getCommitteeMembersAsAdmin.prefetch({}),
+    ssg.committee.getAllAsAdmin.prefetch(),
+  ]);
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+  };
+};

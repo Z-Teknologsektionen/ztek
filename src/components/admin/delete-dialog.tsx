@@ -1,4 +1,4 @@
-import type { FC, PropsWithChildren } from "react";
+import type { FC, ReactNode } from "react";
 import { Button } from "~/components/ui/button";
 import {
   Dialog,
@@ -17,10 +17,11 @@ interface IDeleteDialog {
   primaryButtonText?: string;
   secondaryButtonText?: string;
   title?: string;
+  trigger: ReactNode;
 }
 
-const DeleteDialog: FC<PropsWithChildren<IDeleteDialog>> = ({
-  children: trigger,
+const DeleteDialog: FC<IDeleteDialog> = ({
+  trigger,
   description = "Denna ändringen går inte att ångra!",
   title = "Är du säker?",
   onSubmit,

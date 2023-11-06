@@ -9,7 +9,7 @@ export const createNewMemberSchema = z.object({
   email: z.string().email().min(1),
   phone: z
     .string()
-    .refine((val) => isMobilePhone(val, "sv-SE"))
+    .refine((val) => (val !== "" ? isMobilePhone(val, "sv-SE") : true))
     .optional(),
   role: z.string().min(1),
   order: z.number().min(0).max(99).optional().default(0),
