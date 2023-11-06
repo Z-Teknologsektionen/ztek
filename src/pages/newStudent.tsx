@@ -115,9 +115,6 @@ const NewStudent: NextPage = () => {
                 kommer göra vårt bästa för att mottagningen ska bli helt
                 fantastisk för dig, men det är du som gör den till vad den blir
                 för dig. Så kom med ett öppet sinne och var redo att ha kul!
-                <p className="bg-red text-red-600">
-                  Stulet från DNollK. Fixa sen
-                </p>
               </p>
               <div className="mt-8 grid grid-cols-2 gap-8 md:grid-cols-2 lg:grid-cols-2">
                 <div className="border-gradient rounded-lg">
