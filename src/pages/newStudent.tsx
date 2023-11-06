@@ -160,8 +160,8 @@ const NewStudent: NextPage = () => {
             De tre första åren kommer du spendera med att läsa
           </p>
           <div className="order-first col-span-3 pl-4">
-            <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3">
-              <div className="m-10 flex h-full justify-center rounded-lg px-2 py-4 shadow">
+            <div className="flex flex-wrap justify-center">
+              <div className="m-5 flex h-full justify-center rounded-lg px-2 py-2 shadow lg:w-1/4 xl:w-1/4">
                 <dl className="max-w-md divide-y divide-gray-200 text-gray-900 dark:divide-gray-700 dark:text-white">
                   <div className="flex flex-col pb-3">
                     <dt className="mb-1 text-center font-semibold dark:text-gray-400 md:text-lg">
@@ -212,7 +212,7 @@ const NewStudent: NextPage = () => {
                   </div>
                 </dl>
               </div>
-              <div className="m-10 flex h-full justify-center rounded-lg px-2 py-4 shadow">
+              <div className="m-5 flex h-full justify-center rounded-lg px-2 py-2 shadow lg:w-1/4 xl:w-1/4">
                 <dl className="max-w-md divide-y divide-gray-200 text-gray-900 dark:divide-gray-700 dark:text-white">
                   <div className="flex flex-col pb-3">
                     <dt className="mb-1 text-center font-semibold dark:text-gray-400 md:text-lg">
@@ -263,7 +263,7 @@ const NewStudent: NextPage = () => {
                   </div>
                 </dl>
               </div>
-              <div className="m-10 flex h-full justify-center rounded-lg px-2 py-4 shadow">
+              <div className="m-5 flex h-full justify-center rounded-lg px-2 py-2 shadow lg:w-1/4 xl:w-1/4">
                 <dl className="max-w-md divide-y divide-gray-200 text-gray-900 dark:divide-gray-700 dark:text-white">
                   <div className="flex flex-col pb-3">
                     <dt className="mb-1 text-center font-semibold dark:text-gray-400 md:text-lg">
