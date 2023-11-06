@@ -162,5 +162,5 @@ const enforceUserHasRoleOrAdmin = (role: AccountRoles) =>
   });
 
 export const zaloonenProcedure = t.procedure.use(
-  enforceUserHasRoleOrAdmin("MODIFY_DOCUMENTS")
+  enforceUserHasRoleOrAdmin("MODIFY_DOCUMENTS"),
 );

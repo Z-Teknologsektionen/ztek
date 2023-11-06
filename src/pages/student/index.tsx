@@ -299,7 +299,7 @@ const StudentPage: NextPage = () => {
               <div className="mx-auto mt-2 block w-fit">
                 <Link
                   className={cn(
-                    buttonVariants({ variant: "outline", size: "lg" })
+                    buttonVariants({ variant: "outline", size: "lg" }),
                   )}
                   href={"https://snz.se"}
                   target="_blank"

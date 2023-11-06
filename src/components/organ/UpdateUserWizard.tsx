@@ -41,7 +41,7 @@ export const UpdateUserWizard: FC<IUpdateUserWizard> = ({
         order: order,
       });
     },
-    [updatedMemberInfo, member.id, mutateMember]
+    [updatedMemberInfo, member.id, mutateMember],
   );
 
   const handleFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -66,7 +66,7 @@ export const UpdateUserWizard: FC<IUpdateUserWizard> = ({
       },
       "base64",
       300,
-      300
+      300,
     );
 
     setTimeout(() => (e.target.value = ""), 2500);

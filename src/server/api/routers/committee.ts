@@ -24,7 +24,7 @@ export const committeeRouter = createTRPCRouter({
     .input(
       z.object({
         slug: z.string(),
-      })
+      }),
     )
     .query(({ ctx, input: { slug } }) => {
       return ctx.prisma.committee.findUniqueOrThrow({
@@ -69,7 +69,7 @@ export const committeeRouter = createTRPCRouter({
     .input(
       z.object({
         slug: z.string(),
-      })
+      }),
     )
     .query(({ ctx, input: { slug } }) => {
       return ctx.prisma.committee.findUniqueOrThrow({
@@ -112,7 +112,7 @@ export const committeeRouter = createTRPCRouter({
     .input(
       z.object({
         email: z.string(),
-      })
+      }),
     )
     .query(({ ctx, input: { email } }) => {
       return ctx.prisma.committee.findFirstOrThrow({
@@ -168,7 +168,7 @@ export const committeeRouter = createTRPCRouter({
         id: objectId,
         image: z.string().optional(),
         description: z.string().min(1).optional(),
-      })
+      }),
     )
     .mutation(({ ctx, input: { id, description, image } }) => {
       return ctx.prisma.committee.update({
@@ -191,7 +191,7 @@ export const committeeRouter = createTRPCRouter({
         email: z.string().email().min(1),
         order: z.number().min(0).max(99),
         electionPeriod: z.number().min(1).max(4),
-      })
+      }),
     )
     .mutation(
       ({
@@ -210,7 +210,7 @@ export const committeeRouter = createTRPCRouter({
             electionPeriod,
           },
         });
-      }
+      },
     ),
   updateCommittee: adminProcedure
     .input(
@@ -224,7 +224,7 @@ export const committeeRouter = createTRPCRouter({
         order: z.number().min(0).max(99).optional(),
         image: z.string().min(1).optional(),
         electionPeriod: z.number().min(1).max(4).optional(),
-      })
+      }),
     )
     .mutation(
       ({
@@ -256,13 +256,13 @@ export const committeeRouter = createTRPCRouter({
             electionPeriod,
           },
         });
-      }
+      },
     ),
   deleteCommittee: adminProcedure
     .input(
       z.object({
         id: objectId,
-      })
+      }),
     )
     .mutation(({ ctx, input: { id } }) => {
       return ctx.prisma.committee.delete({
