@@ -22,7 +22,7 @@ const NewStudent: NextPage = () => {
               />
               <div className="mt-2 text-center">
                 <p>
-                  <strong>Knut Åkesson</strong> - programansvarig
+                  <strong>Knut Åkessons</strong> - programansvarig
                 </p>
                 <a
                   className="hover:font-bold hover:text-zRed"
