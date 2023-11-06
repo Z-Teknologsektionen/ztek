@@ -15,14 +15,15 @@ const Navbar: FC = () => {
     setIsMenuOpen(!isMenuOpen);
   };
   const routes = [
-    { name: "Student", href: "/student" },
-    { name: "Dokument", href: "/documents" },
-    { name: "Sektionen", href: "/studentDivision" },
-    { name: "Sektionsorgan", href: "/organ" },
-    { name: "För Företag", href: "/business" },
-    { name: "Bilder", href: "https://zfoto.ztek.se" },
+    { name: "Student", href: "/samo", target: "_self" },
+    { name: "Dokument", href: "/documents", target: "_self" },
+    { name: "Sektionsorgan", href: "/organ", target: "_self" },
+    { name: "Om Z", href: "/about", target: "_self" },
+    { name: "För Företag", href: "/business", target: "_self" },
+    { name: "Bilder", href: "https://zfoto.ztek.se", target: "_blank" },
   ];
-  if (session?.user) routes.push({ name: "Aktiv", href: "/active" });
+  if (session?.user)
+    routes.push({ name: "Aktiv", href: "/active", target: "_self" });
   return (
     <nav className="my-8 bg-zBlack text-zWhite">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -63,6 +64,7 @@ const Navbar: FC = () => {
                   key={`open-${route.name}`}
                   href={route.href}
                   isActive={router.pathname === route.href}
+                  target={route.target}
                 >
                   {route.name}
                 </NavLink>
@@ -88,6 +90,7 @@ const Navbar: FC = () => {
                   key={`mobile-${route.name}`}
                   href={route.href}
                   isActive={router.pathname === route.href}
+                  target={route.target}
                 >
                   <button onClick={toggleMenu}>{route.name}</button>
                 </NavLink>
@@ -104,9 +107,10 @@ interface NavLinkProps {
   children: React.ReactNode;
   href: string;
   isActive: boolean;
+  target: string;
 }
 
-const NavLink: FC<NavLinkProps> = ({ href, isActive, children }) => {
+const NavLink: FC<NavLinkProps> = ({ href, isActive, target, children }) => {
   const activeClass = isActive
     ? "block transition-all duration-500 max-w-full"
     : "block transition-all duration-500 group-hover:max-w-full max-w-0 h-1";
@@ -117,6 +121,8 @@ const NavLink: FC<NavLinkProps> = ({ href, isActive, children }) => {
         "group items-center rounded-md px-3 py-2 text-sm font-medium transition"
       }
       href={href}
+      rel={target == "_blank" ? "noopener noreferrer" : "none"}
+      target={target}
     >
       {children}
       <span className={`h-1 rounded bg-zDarkGray ${activeClass}`} />
