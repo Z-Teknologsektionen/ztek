@@ -155,105 +155,164 @@ const NewStudent: NextPage = () => {
           </div>
         </SectionWrapper>
         <SectionWrapper>
-          <div className="text-center">
-            <div className="m-1 h-28 items-center justify-center">
-              <div className="items-center gap-4">
-                <h1 className="text-2xl font-bold">Årskurs 1</h1>
-                <h2 className="text-center font-bold">
-                  Första året på Automation och Mekatronik-programmet på
-                  Chalmers tekniska högskola innehåller en hel del matematik,
-                  med inslag av programmering, elektronik och mekanik. Här är en
-                  lista över kurser som du kan förvänta dig att läsa under ditt
-                  första år:
-                </h2>
+          <SectionTitle className="text-center">Kurser</SectionTitle>
+          <p className="text-center">
+            De tre första åren kommer du spendera med att läsa
+          </p>
+          <div className="order-first col-span-3 pl-4">
+            <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3">
+              <div className="m-10 flex h-full justify-center rounded-lg px-2 py-4 shadow">
+                <dl className="max-w-md divide-y divide-gray-200 text-gray-900 dark:divide-gray-700 dark:text-white">
+                  <div className="flex flex-col pb-3">
+                    <dt className="mb-1 text-center font-semibold dark:text-gray-400 md:text-lg">
+                      Årskurs 1
+                    </dt>
+                  </div>
+                  <div className="flex flex-col py-3">
+                    <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
+                      Läsperiod 1
+                    </dt>
+                    <dd className="text-lg ">
+                      <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                        <li>Inledande matematik</li>
+                        <li>Inledande programmering</li>
+                        <li>Introduktion till automation och mekatronik</li>
+                      </ul>
+                    </dd>
+                  </div>
+                  <div className="flex flex-col pt-3">
+                    <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
+                      Läsperiod 2
+                    </dt>
+                    <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                      <li>Inledande matematik</li>
+                      <li>Inledande programmering</li>
+                      <li>Introduktion till automation och mekatronik</li>
+                    </ul>
+                  </div>
+                  <div className="flex flex-col pt-3">
+                    <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
+                      Läsperiod 3
+                    </dt>
+                    <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                      <li>Inledande matematik</li>
+                      <li>Inledande programmering</li>
+                      <li>Introduktion till automation och mekatronik</li>
+                    </ul>
+                  </div>
+                  <div className="flex flex-col pt-3">
+                    <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
+                      Läsperiod 4
+                    </dt>
+                    <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                      <li>Inledande matematik</li>
+                      <li>Inledande programmering</li>
+                      <li>Introduktion till automation och mekatronik</li>
+                    </ul>
+                  </div>
+                </dl>
               </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2">
-              <div className="divide-2 mt-8 grid grid-cols-2 divide-x divide-y ">
-                <div className="text-size-10 m-5 bg-gray-100 p-4">
-                  <p>Läsperiod 1</p>
-                  <ul className="">
-                    <li></li>
-                  </ul>
-                </div>
-                <div className="m-5 bg-gray-100 p-4">
-                  <p>Läsperiod 2</p>
-                  <ul className="">
-                    <li></li>
-                  </ul>
-                </div>
-                <div className="col-span-2 mx-5 bg-gray-100 p-4">
-                  <ul className="">
-                    <li>Introduktion till automation och mekatronik</li>
-                  </ul>
-                </div>
-                <div className="m-5 bg-gray-100 p-4">
-                  <p></p>
-                  <ul className="">
-                    <li>Inledande programmering</li>
-                  </ul>
-                </div>
-                <div className="m-5 bg-gray-100 p-4">
-                  <p>Elektriska kretsar</p>
-                  <ul className="">
-                    <li></li>
-                  </ul>
-                </div>
-                <div className="mx-5 bg-gray-100 p-4">
-                  <p>Inledande matematik</p>
-                  <ul className="">
-                    <li></li>
-                  </ul>
-                </div>
-                <div className="mx-5 bg-gray-100 p-4">
-                  <p>Matematisk analys i en varaibel</p>
-                  <ul className="">
-                    <li></li>
-                  </ul>
-                </div>
+              <div className="m-10 flex h-full justify-center rounded-lg px-2 py-4 shadow">
+                <dl className="max-w-md divide-y divide-gray-200 text-gray-900 dark:divide-gray-700 dark:text-white">
+                  <div className="flex flex-col pb-3">
+                    <dt className="mb-1 text-center font-semibold dark:text-gray-400 md:text-lg">
+                      Årskurs 2
+                    </dt>
+                  </div>
+                  <div className="flex flex-col py-3">
+                    <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
+                      Läsperiod 1
+                    </dt>
+                    <dd className="text-lg ">
+                      <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                        <li>Inledande matematik</li>
+                        <li>Inledande programmering</li>
+                        <li>Introduktion till automation och mekatronik</li>
+                      </ul>
+                    </dd>
+                  </div>
+                  <div className="flex flex-col pt-3">
+                    <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
+                      Läsperiod 2
+                    </dt>
+                    <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                      <li>Inledande matematik</li>
+                      <li>Inledande programmering</li>
+                      <li>Introduktion till automation och mekatronik</li>
+                    </ul>
+                  </div>
+                  <div className="flex flex-col pt-3">
+                    <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
+                      Läsperiod 3
+                    </dt>
+                    <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                      <li>Inledande matematik</li>
+                      <li>Inledande programmering</li>
+                      <li>Introduktion till automation och mekatronik</li>
+                    </ul>
+                  </div>
+                  <div className="flex flex-col pt-3">
+                    <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
+                      Läsperiod 4
+                    </dt>
+                    <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                      <li>Inledande matematik</li>
+                      <li>Inledande programmering</li>
+                      <li>Introduktion till automation och mekatronik</li>
+                    </ul>
+                  </div>
+                </dl>
               </div>
-              <div className="divide-2  border- mt-8 grid grid-cols-2 divide-x divide-y ">
-                <div className="text-size-10 m-5 bg-gray-100 p-4">
-                  <p>Läsperiod 1</p>
-                  <ul className="">
-                    <li></li>
-                  </ul>
-                </div>
-                <div className="m-5 bg-gray-100 p-4">
-                  <p>Läsperiod 2</p>
-                  <ul className="">
-                    <li></li>
-                  </ul>
-                </div>
-                <div className="col-span-2 mx-5 bg-gray-100 p-4">
-                  <ul className="">
-                    <li>Introduktion till automation och mekatronik</li>
-                  </ul>
-                </div>
-                <div className="m-5 bg-gray-100 p-4">
-                  <p></p>
-                  <ul className="">
-                    <li>Inledande programmering</li>
-                  </ul>
-                </div>
-                <div className="m-5 bg-gray-100 p-4">
-                  <p>Elektriska kretsar</p>
-                  <ul className="">
-                    <li></li>
-                  </ul>
-                </div>
-                <div className="mx-5 bg-gray-100 p-4">
-                  <p>Inledande matematik</p>
-                  <ul className="">
-                    <li></li>
-                  </ul>
-                </div>
-                <div className="mx-5 bg-gray-100 p-4">
-                  <p>Matematisk analys i en varaibel</p>
-                  <ul className="">
-                    <li></li>
-                  </ul>
-                </div>
+              <div className="m-10 flex h-full justify-center rounded-lg px-2 py-4 shadow">
+                <dl className="max-w-md divide-y divide-gray-200 text-gray-900 dark:divide-gray-700 dark:text-white">
+                  <div className="flex flex-col pb-3">
+                    <dt className="mb-1 text-center font-semibold dark:text-gray-400 md:text-lg">
+                      Årskurs 3
+                    </dt>
+                  </div>
+                  <div className="flex flex-col py-3">
+                    <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
+                      Läsperiod 1
+                    </dt>
+                    <dd className="text-lg ">
+                      <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                        <li>Inledande matematik</li>
+                        <li>Inledande programmering</li>
+                        <li>Introduktion till automation och mekatronik</li>
+                      </ul>
+                    </dd>
+                  </div>
+                  <div className="flex flex-col pt-3">
+                    <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
+                      Läsperiod 2
+                    </dt>
+                    <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                      <li>Inledande matematik</li>
+                      <li>Inledande programmering</li>
+                      <li>Introduktion till automation och mekatronik</li>
+                    </ul>
+                  </div>
+                  <div className="flex flex-col pt-3">
+                    <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
+                      Läsperiod 3
+                    </dt>
+                    <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                      <li>Inledande matematik</li>
+                      <li>Inledande programmering</li>
+                      <li>Introduktion till automation och mekatronik</li>
+                    </ul>
+                  </div>
+                  <div className="flex flex-col pt-3">
+                    <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
+                      Läsperiod 4
+                    </dt>
+                    <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                      <li>Inledande matematik</li>
+                      <li>Inledande programmering</li>
+                      <li>Introduktion till automation och mekatronik</li>
+                    </ul>
+                  </div>
+                </dl>
               </div>
             </div>
           </div>
