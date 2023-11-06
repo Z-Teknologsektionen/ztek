@@ -3,6 +3,17 @@ import { useKeenSlider } from 'keen-slider/react'; // import from 'keen-slider/r
 import { type NextPage } from "next";
 import React, { useEffect, useState } from "react";
 
+const CarouselImg = [
+  "https://zfoto.ztek.se/img/full/20230902-DH6_7840.jpg",
+  "https://zfoto.ztek.se/img/full/20230908-DH8_8364.jpg",
+  "https://zfoto.ztek.se/img/full/20230904-DH8_8302.jpg",
+]
+
+const Sponsors = [
+  { img: "./cpac.png", rel_height: "h-[14vh]", href: "https://cpacsystems.se/" },
+  { img: "./TetraPak.png", rel_height: "h-[20vh]", href: "https://www.tetrapak.com/" },
+]
+
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const [loaded, setLoaded] = useState(false)
@@ -14,31 +25,28 @@ const Carousel = () => {
         setLoaded(true)
       },
       initial: 0,
-    },
-    [
-      // add plugins here
-    ]
+    }
   )
 
   useEffect(() => {
-  const interval = setInterval(() => {
-    instanceRef.current?.next()
-  }, 6000);
-  return () => clearInterval(interval);
+    const interval = setInterval(() => {
+      instanceRef.current?.next()
+    }, 6000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <>
-      <div ref={sliderRef} className="keen-slider max-w-[80vw] mx-auto w-full aspect-video rounded-xl flex-1">
-        <div className="keen-slider__slide">
-          <img className='w-full h-full object-cover' src="https://zfoto.ztek.se/img/thumb/20230902-DH6_7840.jpg"/>
-        </div>
-        <div className="keen-slider__slide">
-          <img className='w-full h-full object-cover' src="https://zfoto.ztek.se/img/thumb/20230908-DH8_8364.jpg"/>
-        </div>
-        <div className="keen-slider__slide">
-          <img className='w-full h-full object-cover' src="https://zfoto.ztek.se/img/thumb/20230904-DH8_8302.jpg"/>
-        </div>
+      <div ref={sliderRef}
+        className="keen-slider max-w-[80vw] mx-auto w-full aspect-video rounded-xl flex-1 drop-shadow-md">
+        {
+          CarouselImg.map((key, value) => 
+            <div className="keen-slider__slide">
+              <img className='w-full h-full object-cover' src={key}/>
+            </div>
+          )
+        }
       
         {loaded && instanceRef.current && (
           <>
@@ -71,12 +79,12 @@ function Arrow(props: {
   disabled: boolean
   left?: boolean
   onClick: (e: any) => void
-}) {
+  }) {
   const disabeld = props.disabled ? " arrow--disabled" : ""
   return (
     <svg
       onClick={props.onClick}
-      className={`w-[30px] h-[30px] absolute top-1/2 fill-white ${
+      className={`w-[30px] h-[30px] top-1/2 -translate-y-1/2 absolute hover:cursor-pointer fill-white ${
         props.left ? "left-1" : "right-1"
       } ${disabeld}`}
       xmlns="http://www.w3.org/2000/svg"
@@ -96,33 +104,45 @@ const HomePage: NextPage = () => {
   return (
     <>
     <div>
-      <div className="relative w-full min-h-[40vh] flex justify-between md:flex-row flex-col mx-auto max-w-[84rem]">
-        <div className="bg-white <-TEMPORÄR_TA_BORT! md:w-1/2 flex flex-col gap-4">
-          <div className="xl:text-4xl md:text-2xl text-base font-bold">
-            Välkommen till Automation och Mekatronik på Chalmers tekniska högskola!
+      <div className='mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8'>
+
+      
+        <div className="sticky w-full flex justify-between md:flex-row flex-col mx-auto max-w-[120rem] z-10">
+          <div className="md:w-1/2">
+            <div className='flex flex-col gap-4'>
+              <div className="xl:text-4xl md:text-2xl text-base font-bold">
+                Välkommen till Automation och Mekatronik på Chalmers tekniska högskola!
+              </div>
+              <div className="xl:text-xl md:text-base text-sm text-balance">
+                Z-teknologsektionen, eller Z som programmet kallas, är civilingengörsprogrammet på Chalmers som beskrivs som länken mellan maskin-, elektro och datateknik.
+              </div>
+            </div>
+            
+            <div className="relative w-full max-w-[120rem] mt-10 h-10">
+              <div className="absolute flex md:mx-0 md:flex-col flex-row gap-5">
+
+                {
+                  Sponsors.map((key, value) =>
+                    <a className='' href={key.href}  target="_blank">
+                      <img src={key.img} className={`mx-auto ` + key.rel_height + ` drop-shadow-md`}/>
+                    </a>
+                  )
+                }
+                
+              </div>
+            </div>
           </div>
-          <div className="xl:text-xl md:text-base text-sm">
-            Z-teknologsektionen, eller Z som programmet kallas, är civilingengörsprogrammet på Chalmers som beskrivs som länken mellan maskin-, elektro och datateknik.
-          </div>
+          <Carousel/>
+          <img src="./lucky_horizontal.png" className={`z-20 left-1/2 transform -translate-x-1/2 absolute xl:-bottom-[calc(7.5vh+40px)] md:-bottom-[calc(5vh+40px)] -bottom-[calc(2.5vh+40px)] xl:h-[15vh] md:h-[10vh] h-[5vh] w-auto -rotate-[4.5deg] drop-shadow-md`} height={120}  width={360} />
         </div>
-        <Carousel/>
+        
       </div>
       
-      <div className="relative w-full h-screen">
-        <img src="./lucky_horizontal.png" className={`z-20 left-1/2 transform -translate-x-1/2 absolute xl:-top-[7.5vh] md:-top-[5vh] -top-[2.5vh] xl:h-[15vh] md:h-[10vh] h-[5vh] w-auto -rotate-[4.5deg]`} height={120}  width={360} />
+      <div className="relative w-full h-screen drop-shadow-xl">
+        
         <div className="w-full h-full xl:[clip-path:polygon(0%_15%,100%_0%,100%_100%,0%_100%)] md:[clip-path:polygon(0%_10%,100%_0%,100%_100%,0%_100%)] [clip-path:polygon(0%_5%,100%_0%,100%_100%,0%_100%)]">
           <img className="w-full h-full object-cover" src="https://media.istockphoto.com/id/1290656529/photo/robotic-pneumatic-piston-sucker-unit-on-industrial-machine.jpg?s=612x612&w=0&k=20&c=KfRjZlT6CEX8KpOXylDu_3ggvOftlQF3yh5JVT2KFUw="/>
      
-        </div>
-        <div className="w-full mx-auto max-w-[84rem]">
-          <div className="absolute flex md:mx-0 mx-auto md:flex-col flex-row gap-5 top-0 z-20">
-            <a href="https://cpacsystems.se/"  target="_blank">
-              <img src="./cpac.png" className="mx-auto h-[12vh]"/>
-            </a>
-            <a href="https://www.tetrapak.com/"  target="_blank">
-              <img src="./TetraPak.png" className="mx-auto h-[20vh]"/>
-            </a>
-          </div>
         </div>
       </div>
     </div>
