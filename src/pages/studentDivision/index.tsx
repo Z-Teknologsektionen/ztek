@@ -11,8 +11,7 @@ import { Button } from "~/components/ui/button";
 import ssg from "~/server/api/helper/ssg";
 import { api } from "~/utils/api";
 
-const DOCUMENTGROUP_KEY = "Styrdokument";
-
+const DOCUMENTGROUP_KEY = "Mallar för sektionsmötet";
 const StudentDivision: NextPage = () => {
   const {
     data: documentData,
@@ -144,15 +143,15 @@ const StudentDivision: NextPage = () => {
         </SectionWrapper>
         <SectionWrapper id="sektionsmote">
           <div className="grid grid-cols-3">
-            <div className="order-last col-span-3 mx-auto mt-4 lg:order-first lg:col-span-1 lg:mt-8">
-              <div className="grid grid-cols-4">
+            <div className="order-last col-span-3 mx-auto mt-2 lg:order-first lg:col-span-1">
+              <div className="grid grid-cols-3 md:grid-cols-4">
                 {documentIsLoading && <p>Läser in dokument...</p>}
                 {documentIsError && <p>Dokument kunde inte hämtas.</p>}
                 {documentData &&
                   documentData.Document.map((doc) => (
                     <div
                       key={doc.title}
-                      className="col-span-1 mx-2 text-center"
+                      className="col-span-1 mx-2 mb-2 text-center"
                     >
                       <Image
                         alt="Sektionens uppbyggnad"
