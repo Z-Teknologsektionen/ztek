@@ -235,11 +235,26 @@ const StudentPage: NextPage = () => {
             <div className="col-span-3 md:col-span-2 md:pr-20">
               <SectionTitle className="mb-4">Student</SectionTitle>
               <p>
-                Som student på Z-sektionen så finns det massa Lorem ipsum dolor
-                sit amet consectetur adipisicing elit. Ratione sapiente natus
-                illo neque omnis similique earum placeat possimus corrupti odio
-                sequi iste pariatur harum modi iure nam architecto, quia
-                delectus.
+                Som student på Chalmers och Z-programmet finns det många olika
+                möjligheter att få hjälp och möjlighet att påverka dina studier.
+                Här nedanför finns lite information om vad som finns
+                tillgängligt för dig som student och information om programmet.
+                Programmets studieplan hittar du på{" "}
+                <Link
+                  className="text-blue-600 hover:text-blue-800 hover:underline"
+                  href={
+                    "https://www.chalmers.se/utbildning/hitta-program/automation-och-mekatronik-civilingenjor/"
+                  }
+                  target="_blank"
+                >
+                  Chalmers hemsida
+                </Link>{" "}
+                där du också kan läsa mer om de olika kurserna som du läser
+                varje år. Som student på Z-programmet har man stor möjlighet att
+                välja olika mastrar beroende på intresseområde då över 20 olika
+                masterprogram är valbara för Z-studenter. Alla masterprogram och
+                dess specifika förkunskapskrav hittar du på samma sida som
+                programplanen.
               </p>
             </div>
             <div className="col-span-3 mx-auto mt-4 md:col-span-1 md:my-auto">
@@ -299,7 +314,7 @@ const StudentPage: NextPage = () => {
               <div className="mx-auto mt-2 block w-fit">
                 <Link
                   className={cn(
-                    buttonVariants({ variant: "outline", size: "lg" }),
+                    buttonVariants({ variant: "outline", size: "lg" })
                   )}
                   href={"https://snz.se"}
                   target="_blank"
@@ -316,10 +331,9 @@ const StudentPage: NextPage = () => {
             Z-programmet har en programledning som består av programansvarig,
             studievägledare och utbildningssekreterare. Programledningen jobbar
             med att säkra framtida kompetens inom Z-programmet och övervaka den
-            nuvarande studieplanen. Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit. Nisi iste quo nihil quidem provident dolor
-            consectetur voluptatum, inventore ullam. Soluta molestiae magnam
-            adipisci non cumque ducimus nostrum excepturi natus modi?
+            nuvarande studieplanen. De arbetar också med att utveckla och
+            förbättra programmet genom att ta emot och behandla feedback från de
+            studenter som går på programmet.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
             {programLedning.map((person) => (
