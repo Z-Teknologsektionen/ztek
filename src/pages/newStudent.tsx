@@ -104,19 +104,19 @@ const NewStudent: NextPage = () => {
             <div className="order-first col-span-3 pl-4 lg:order-last lg:col-span-2">
               <SectionTitle className="mb-4">Mottagningen</SectionTitle>
               <p>
-                Målet med mottagningen är att hjälpa dig att integrera både
-                socialt och akademiskt. Detta uppnås genom fyra veckor av
-                engagerande aktiviteter, som sträcker sig från tekniska
-                utmaningar till sociala sammankomster. Du kommer att få
-                möjlighet att lära känna dina medstudenter inom Automation och
-                Mekatronik genom olika aktiviteter och mentorskapsgrupper. Det
-                viktigaste är att du kommer med ett positivt sinne och är redo
-                att njuta av upplevelsen! Det är helt normalt att känna sig
-                nervös inför introduktionen, men kom ihåg att du inte är ensam.
-                Vårt team kommer att göra sitt bästa för att se till att din
-                introduktion blir fantastisk, men det är du som formar din egen
-                upplevelse. Så kom med ett öppet sinne och var redo att ha
-                roligt!
+                Mottagningen syftar till att underlätta din integration både
+                socialt och akademiskt. Detta åstadkoms genom fyra intensiva
+                veckor av engagerande aktiviteter, som spänner från tekniska
+                utmaningar till sociala sammankomster. Genom varierande
+                aktiviteter och får du möjlighet att lära känna dina
+                medstudenter inom Automation och Mekatronik. Det viktigaste är
+                att du närmar dig upplevelsen med en positiv inställning och är
+                redo att njuta av varje stund! Det är normalt att känna
+                nervositet inför introduktionen, men kom ihåg att du inte är
+                ensam. Mottagningskommiten och deras phaddrar kommer göra sitt
+                bästa för att se till att din introduktion blir fantastisk, men
+                det är du som formar din egen upplevelse. Så kom med ett öppet
+                sinne och var redo att ha roligt!
               </p>
               <div className="mt-8 grid grid-cols-2 gap-8 md:grid-cols-2 lg:grid-cols-2">
                 <div className="border-gradient rounded-lg">
@@ -134,7 +134,13 @@ const NewStudent: NextPage = () => {
                   <p>
                     Tryck på denna knapp om du är antagen för mer information
                   </p>
-                  <Button className="mx-auto block" variant="outline">
+                  <Button
+                    className="mx-auto block"
+                    variant="outline"
+                    onClick={() =>
+                      window.open("https://www.znollk.se/", "_blank")
+                    }
+                  >
                     Antagen
                   </Button>
                 </div>
@@ -158,8 +164,21 @@ const NewStudent: NextPage = () => {
         </SectionWrapper>
         <SectionWrapper>
           <SectionTitle className="text-center">Kurser</SectionTitle>
-          <p className="text-center">
-            De tre första åren kommer du spendera med att läsa
+          <p className="text-left">
+            På Chalmers inleds civilingenjörsprogrammenmed tre år av varierande
+            studier som bygger upp en gedigen teknisk kompetens. Första året på
+            Automation & Mekatronik fokuserar på grundläggande ämnen som
+            matematik, programmering och fysik. Under det andra året
+            introduceras kärnkurser inom automation, reglerteknik och
+            elektronik. Det tredje året markerar en fördjupning genom avancerade
+            kurser inom mekatronik, realtidsystem och instrumentering. Under
+            detta år får studenten välja kurser som passar deras intressen, och
+            under våren genomförs kandidatarbete. Efter dessa tre år väljer
+            studenterna ett masterprogram för ytterligare specialisering och
+            fördjupning inom sitt valda område. Denna strukturerade progression
+            ger studenterna möjlighet att successivt specialisera sig och skapar
+            en stark teknisk grund för framtida studier och en karriär inom
+            automations- och mekatroniksektorn.
           </p>
           <div className="order-first col-span-3 pl-4">
             <div className="flex flex-wrap justify-center">
@@ -182,34 +201,34 @@ const NewStudent: NextPage = () => {
                       </ul>
                     </dd>
                   </div>
-                  <div className="flex flex-col pt-3">
+                  <div className="flex flex-col py-3">
                     <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
                       Läsperiod 2
                     </dt>
                     <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                      <li>Inledande matematik</li>
-                      <li>Inledande programmering</li>
+                      <li>Matematisk analys i en variabel</li>
+                      <li>Elektriska kretsar</li>
                       <li>Introduktion till automation och mekatronik</li>
                     </ul>
                   </div>
-                  <div className="flex flex-col pt-3">
+                  <div className="flex flex-col py-3">
                     <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
                       Läsperiod 3
                     </dt>
                     <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                      <li>Inledande matematik</li>
-                      <li>Inledande programmering</li>
-                      <li>Introduktion till automation och mekatronik</li>
+                      <li>Linjär algebra</li>
+                      <li>Mekanik 1</li>
+                      <li>Grundläggande datorteknik</li>
                     </ul>
                   </div>
-                  <div className="flex flex-col pt-3">
+                  <div className="flex flex-col py-3">
                     <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
                       Läsperiod 4
                     </dt>
                     <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                      <li>Inledande matematik</li>
-                      <li>Inledande programmering</li>
-                      <li>Introduktion till automation och mekatronik</li>
+                      <li>Matematisk analys i flera variabler</li>
+                      <li>Maskinorienterad programmering</li>
+                      <li>Grundläggande datorteknik</li>
                     </ul>
                   </div>
                 </dl>
@@ -227,40 +246,44 @@ const NewStudent: NextPage = () => {
                     </dt>
                     <dd className="text-lg ">
                       <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                        <li>Inledande matematik</li>
-                        <li>Inledande programmering</li>
-                        <li>Introduktion till automation och mekatronik</li>
+                        <li>Matematisk statistik</li>
+                        <li>Mekanik 2</li>
+                        <li>Intelligent automation</li>
                       </ul>
                     </dd>
                   </div>
-                  <div className="flex flex-col pt-3">
+                  <div className="flex flex-col py-3">
                     <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
                       Läsperiod 2
                     </dt>
                     <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                      <li>Inledande matematik</li>
-                      <li>Inledande programmering</li>
-                      <li>Introduktion till automation och mekatronik</li>
+                      <li>Datastruktuer och algoritmer</li>
+                      <li>Mätteknik</li>
+                      <li>Intelligent automation</li>
                     </ul>
                   </div>
-                  <div className="flex flex-col pt-3">
+                  <div className="flex flex-col py-3">
                     <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
                       Läsperiod 3
                     </dt>
                     <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                      <li>Inledande matematik</li>
-                      <li>Inledande programmering</li>
-                      <li>Introduktion till automation och mekatronik</li>
+                      <li>Elektriska drivsystem och fält</li>
+                      <li>Signaler och system</li>
+                      <li>
+                        Simulering och optimering av hållbara produktionssystem
+                      </li>
                     </ul>
                   </div>
-                  <div className="flex flex-col pt-3">
+                  <div className="flex flex-col py-3">
                     <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
                       Läsperiod 4
                     </dt>
                     <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                      <li>Inledande matematik</li>
-                      <li>Inledande programmering</li>
-                      <li>Introduktion till automation och mekatronik</li>
+                      <li>Ekonomi och organisation</li>
+                      <li>Reglerteknik</li>
+                      <li>
+                        Simulering och optimering av hållbara produktionssystem
+                      </li>
                     </ul>
                   </div>
                 </dl>
@@ -278,40 +301,40 @@ const NewStudent: NextPage = () => {
                     </dt>
                     <dd className="text-lg ">
                       <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                        <li>Inledande matematik</li>
-                        <li>Inledande programmering</li>
-                        <li>Introduktion till automation och mekatronik</li>
+                        <li>Introduktion till maskininlärning</li>
+                        <li>Systemkonstruktion</li>
+                        <li>Valbar kurs</li>
                       </ul>
                     </dd>
                   </div>
-                  <div className="flex flex-col pt-3">
+                  <div className="flex flex-col py-3">
                     <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
                       Läsperiod 2
                     </dt>
                     <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                      <li>Inledande matematik</li>
-                      <li>Inledande programmering</li>
-                      <li>Introduktion till automation och mekatronik</li>
+                      <li>Introduktion till maskininlärning</li>
+                      <li>Systemkonstruktion</li>
+                      <li>Valbar kurs</li>
                     </ul>
                   </div>
-                  <div className="flex flex-col pt-3">
+                  <div className="flex flex-col py-3">
                     <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
                       Läsperiod 3
                     </dt>
                     <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                      <li>Inledande matematik</li>
-                      <li>Inledande programmering</li>
-                      <li>Introduktion till automation och mekatronik</li>
+                      <li>Valbar kurs</li>
+                      <li>Valbar kurs</li>
+                      <li>Kandidatarbete</li>
                     </ul>
                   </div>
-                  <div className="flex flex-col pt-3">
+                  <div className="flex flex-col py-3">
                     <dt className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
                       Läsperiod 4
                     </dt>
                     <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                      <li>Inledande matematik</li>
-                      <li>Inledande programmering</li>
-                      <li>Introduktion till automation och mekatronik</li>
+                      <li>Valbar kurs</li>
+                      <li>Valbar kurs</li>
+                      <li>Kandidatarbete</li>
                     </ul>
                   </div>
                 </dl>
