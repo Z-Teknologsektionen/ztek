@@ -37,7 +37,7 @@ export default withAuth(
   },
   {
     callbacks: {
-      authorized: ({ token: _token }) => true,
+      authorized: ({ token: _token }) => true, // TODO: Detta borde vara !!token. Just nu behandlas alla som inloggade men fungerar konstigt nog för tillfället
     },
   },
 );
