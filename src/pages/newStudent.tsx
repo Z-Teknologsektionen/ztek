@@ -108,15 +108,15 @@ const NewStudent: NextPage = () => {
                 socialt och akademiskt. Detta åstadkoms genom fyra intensiva
                 veckor av engagerande aktiviteter, som spänner från tekniska
                 utmaningar till sociala sammankomster. Genom varierande
-                aktiviteter och får du möjlighet att lära känna dina
-                medstudenter inom Automation och Mekatronik. Det viktigaste är
-                att du närmar dig upplevelsen med en positiv inställning och är
-                redo att njuta av varje stund! Det är normalt att känna
-                nervositet inför introduktionen, men kom ihåg att du inte är
-                ensam. Mottagningskommiten och deras phaddrar kommer göra sitt
-                bästa för att se till att din introduktion blir fantastisk, men
-                det är du som formar din egen upplevelse. Så kom med ett öppet
-                sinne och var redo att ha roligt!
+                aktiviteter får du möjlighet att lära känna dina medstudenter på
+                sektionen. Det viktigaste är att du närmar dig denna period med
+                en positiv inställning och är redo att njuta av varje stund! Det
+                är normalt att känna nervositet inför introduktionen, men kom
+                ihåg att du inte är ensam. Mottagningskommiten och deras
+                phaddrar kommer göra sitt bästa för att se till att din
+                introduktion blir fantastisk, men det är du som formar din egen
+                upplevelse. Så kom med ett öppet sinne och var redo att ha
+                roligt!
               </p>
               <div className="mt-8 grid grid-cols-2 gap-8 md:grid-cols-2 lg:grid-cols-2">
                 <div className="border-gradient rounded-lg">
@@ -126,7 +126,8 @@ const NewStudent: NextPage = () => {
                   <p>
                     Första dagen, 15 augusti 2023, är det samling på
                     Götaplatsen. Efter en festlig välkomstceremoni tågar alla
-                    tillsammans upp till Chalmers campus.
+                    tillsammans upp till Chalmers campus. Därefter börjar
+                    mottagningen
                   </p>
                 </div>
                 <div className="border-gradient rounded-lg">
@@ -183,7 +184,7 @@ const NewStudent: NextPage = () => {
           <div className="order-first col-span-3 pl-4">
             <div className="flex flex-wrap justify-center">
               <div className="m-5 flex h-full justify-center rounded-lg px-2 py-2 shadow lg:w-1/4 xl:w-1/4">
-                <dl className="max-w-md divide-y divide-gray-200 text-gray-900 dark:divide-gray-700 dark:text-white">
+                <div className="max-w-md divide-y divide-gray-200 text-gray-900 dark:divide-gray-700 dark:text-white">
                   <div className="flex flex-col pb-3">
                     <dt className="mb-1 text-center font-semibold dark:text-gray-400 md:text-lg">
                       Årskurs 1
@@ -231,7 +232,7 @@ const NewStudent: NextPage = () => {
                       <li>Grundläggande datorteknik</li>
                     </ul>
                   </div>
-                </dl>
+                </div>
               </div>
               <div className="m-5 flex h-full justify-center rounded-lg px-2 py-2 shadow lg:w-1/4 xl:w-1/4">
                 <dl className="max-w-md divide-y divide-gray-200 text-gray-900 dark:divide-gray-700 dark:text-white">
@@ -323,7 +324,6 @@ const NewStudent: NextPage = () => {
                     </dt>
                     <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
                       <li>Valbar kurs</li>
-                      <li>Valbar kurs</li>
                       <li>Kandidatarbete</li>
                     </ul>
                   </div>
@@ -333,11 +333,128 @@ const NewStudent: NextPage = () => {
                     </dt>
                     <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
                       <li>Valbar kurs</li>
-                      <li>Valbar kurs</li>
                       <li>Kandidatarbete</li>
                     </ul>
                   </div>
                 </dl>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center justify-center">
+            <div className="margin-100 grid grid-cols-3 gap-1 gap-x-10 p-10 shadow-md">
+              <div className="text-center font-semibold dark:text-gray-400 md:text-lg">
+                Årskurs 1
+              </div>
+              <div className="text-center font-semibold dark:text-gray-400 md:text-lg">
+                Årskurs 2
+              </div>
+              <div className="text-center font-semibold dark:text-gray-400 md:text-lg">
+                Årskurs 3
+              </div>
+              <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
+                Läsperiod 1
+              </div>
+              <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
+                Läsperiod 1
+              </div>
+              <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
+                Läsperiod 1
+              </div>
+              <div className="border-t">
+                <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                  <li>Inledande matematik</li>
+                  <li>Inledande programmering</li>
+                  <li>Introduktion till automation och mekatronik</li>
+                </ul>
+              </div>
+              <div className="border-t">
+                <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                  <li>Matematisk statistik</li>
+                  <li>Mekanik 2</li>
+                  <li>Intelligent automation</li>
+                </ul>
+              </div>
+              <div className="border-t">
+                <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                  <li>Introduktion till maskininlärning</li>
+                  <li>Systemkonstruktion</li>
+                  <li>Valbar kurs</li>
+                </ul>
+              </div>
+
+              <div>Läsperiod 2</div>
+              <div>Läsperiod 2</div>
+              <div>Läsperiod 2</div>
+              <div className="border-t">
+                <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                  <li>Matematisk analys i en variabel</li>
+                  <li>Elektriska kretsar</li>
+                  <li>Introduktion till automation och mekatronik</li>
+                </ul>
+              </div>
+              <div className="border-t">
+                <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                  <li>Datastruktuer och algoritmer</li>
+                  <li>Mätteknik</li>
+                  <li>Intelligent automation</li>
+                </ul>
+              </div>
+              <div className="border-t">
+                <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                  <li>Introduktion till maskininlärning</li>
+                  <li>Systemkonstruktion</li>
+                  <li>Valbar kurs</li>
+                </ul>
+              </div>
+              <div>Läsperiod 3</div>
+              <div>Läsperiod 3</div>
+              <div>Läsperiod 3</div>
+              <div className="border-t">
+                <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                  <li>Linjär algebra</li>
+                  <li>Mekanik 1</li>
+                  <li>Grundläggande datorteknik</li>
+                </ul>
+              </div>
+              <div className="border-t">
+                <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                  <li>Elektriska drivsystem och fält</li>
+                  <li>Signaler och system</li>
+                  <li>
+                    Simulering och optimering av hållbara produktionssystem
+                  </li>
+                </ul>
+              </div>
+              <div className="border-t">
+                <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                  <li>Valbar kurs</li>
+                  <li>Kandidatarbete</li>
+                </ul>
+              </div>
+              <div>Läsperiod 4</div>
+              <div>Läsperiod 4</div>
+              <div>Läsperiod 4</div>
+              <div className="border-t">
+                <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                  <li>Matematisk analys i flera variabler</li>
+                  <li>Maskinorienterad programmering</li>
+                  <li>Grundläggande datorteknik</li>
+                </ul>
+              </div>
+              <div className="border-t">
+                <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                  <li>Ekonomi och organisation</li>
+                  <li>Reglerteknik</li>
+                  <li>
+                    Simulering och optimering av hållbara produktionssystem
+                  </li>
+                </ul>
+              </div>
+              <div className="border-t">
+                <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
+                  <li>Valbar kurs</li>
+                  <li>Kandidatarbete</li>
+                </ul>
               </div>
             </div>
           </div>
