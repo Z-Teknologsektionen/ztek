@@ -2,6 +2,7 @@ import type { AccountRoles } from "@prisma/client";
 import type { NextRequestWithAuth } from "next-auth/middleware";
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
+import { activeRoutes } from "./data/routes";
 
 export default withAuth(
   function middleware(request: NextRequestWithAuth) {
@@ -25,18 +26,18 @@ export default withAuth(
       return NextResponse.rewrite(new URL("/denied", request.url));
     }
 
-    /* const UNAUTHORIZED = activeRoutes.some(
+    const UNAUTHORIZED = activeRoutes.some(
       ({ requiredRole, route }) =>
         //Handles all routes with special roles
         pathname.startsWith(route) && !hasRoleOrIsAdmin(requiredRole),
     );
 
     if (UNAUTHORIZED)
-      return NextResponse.rewrite(new URL("/denied", request.url)); */
+      return NextResponse.rewrite(new URL("/denied", request.url));
   },
   {
     callbacks: {
-      authorized: ({ token }) => !!token,
+      authorized: ({ token: _token }) => true,
     },
   },
 );
