@@ -39,7 +39,7 @@ export const UpdateDocumentWizard: FC<IUpdateDocumentWizard> = ({
         if (isPDFRef.current) isPDFRef.current.checked = data.isPDF;
         if (groupIdRef.current) groupIdRef.current.value = data.groupId;
       },
-    }
+    },
   );
 
   const { mutate: updateDocument } = api.document.updateOne.useMutation({
@@ -65,13 +65,13 @@ export const UpdateDocumentWizard: FC<IUpdateDocumentWizard> = ({
               <pre>{errorMessage}</pre>
             </button>
           ),
-          { icon: <ErrorIcon />, style: { maxWidth: "100vw" } }
+          { icon: <ErrorIcon />, style: { maxWidth: "100vw" } },
         );
       } else {
         toast.error(
           e.data
             ? `HTTP Error: ${e.data.httpStatus} ${e.data.code}`
-            : "Okänt fel"
+            : "Okänt fel",
         );
       }
     },

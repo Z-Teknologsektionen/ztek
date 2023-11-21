@@ -4,6 +4,7 @@ import {
   adminProcedure,
   createTRPCRouter,
   protectedProcedure,
+  publicProcedure,
 } from "~/server/api/trpc";
 import { objectId } from "../helper/customZodTypes";
 
@@ -12,12 +13,33 @@ export const committeeMemberRouter = createTRPCRouter({
     .input(
       z.object({
         id: objectId,
-      })
+      }),
     )
     .query(({ ctx, input: { id } }) => {
       return ctx.prisma.committeeMember.findUniqueOrThrow({
         where: {
           id,
+        },
+      });
+    }),
+  getOneByEmail: publicProcedure
+    .input(
+      z.object({
+        email: z.string().email(),
+      }),
+    )
+    .query(({ ctx, input: { email } }) => {
+      return ctx.prisma.committeeMember.findFirstOrThrow({
+        where: {
+          email: email,
+        },
+        select: {
+          name: true,
+          email: true,
+          phone: true,
+          image: true,
+          committee: true,
+          nickName: true,
         },
       });
     }),
@@ -29,7 +51,7 @@ export const committeeMemberRouter = createTRPCRouter({
         nickName: z.string().optional(),
         image: z.string().optional(),
         order: z.number().min(0).max(99),
-      })
+      }),
     )
     .mutation(({ ctx, input: { id, name, nickName, image, order } }) => {
       const member = ctx.prisma.committeeMember.update({
@@ -45,11 +67,11 @@ export const committeeMemberRouter = createTRPCRouter({
       });
       return member;
     }),
-  getAllMembersAsAdmin: adminProcedure
+  getCommitteeMembersAsAdmin: adminProcedure
     .input(
       z.object({
         committeeId: objectId.optional(),
-      })
+      }),
     )
     .query(({ ctx, input }) => {
       return ctx.prisma.committeeMember.findMany({
@@ -71,7 +93,7 @@ export const committeeMemberRouter = createTRPCRouter({
           .optional(),
         role: z.string().min(1),
         order: z.number().min(0).max(99).optional().default(0),
-      })
+      }),
     )
     .mutation(
       ({
@@ -89,7 +111,7 @@ export const committeeMemberRouter = createTRPCRouter({
             phone,
           },
         });
-      }
+      },
     ),
   updateMember: adminProcedure
     .input(
@@ -105,7 +127,7 @@ export const committeeMemberRouter = createTRPCRouter({
           .optional(),
         role: z.string().min(1),
         order: z.number().min(0).max(99).optional(),
-      })
+      }),
     )
     .mutation(
       ({
@@ -126,13 +148,13 @@ export const committeeMemberRouter = createTRPCRouter({
             phone,
           },
         });
-      }
+      },
     ),
   deleteMember: adminProcedure
     .input(
       z.object({
         id: objectId,
-      })
+      }),
     )
     .mutation(({ ctx, input: { id } }) => {
       return ctx.prisma.committeeMember.delete({

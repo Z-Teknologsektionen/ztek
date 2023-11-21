@@ -11,16 +11,17 @@ datasource db {
 }
 
 model Committee {
-    id          String            @id @default(auto()) @map("_id") @db.ObjectId
-    name        String
-    slug        String            @unique
-    description String
-    role        String
-    email       String            @unique
-    members     CommitteeMember[]
-    image       String
-    order       Int
-    updatedAt   DateTime          @updatedAt
+    id             String            @id @default(auto()) @map("_id") @db.ObjectId
+    name           String
+    slug           String            @unique
+    description    String
+    role           String
+    email          String            @unique
+    members        CommitteeMember[]
+    image          String
+    order          Int
+    electionPeriod Int               @default(1)
+    updatedAt      DateTime          @updatedAt
 }
 
 model CommitteeMember {
@@ -39,7 +40,7 @@ model CommitteeMember {
 
 model Document {
     id      String        @id @default(auto()) @map("_id") @db.ObjectId
-    title   String
+    title   String        @unique
     url     String
     isPDF   Boolean       @default(false)
     group   DocumentGroup @relation(fields: [groupId], references: [id], onDelete: Restrict)
@@ -48,7 +49,7 @@ model Document {
 
 model DocumentGroup {
     id        String     @id @default(auto()) @map("_id") @db.ObjectId
-    name      String
+    name      String     @unique
     extraText String     @default("")
     Document  Document[]
 }
@@ -81,14 +82,22 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(auto()) @map("_id") @db.ObjectId
+    id            String         @id @default(auto()) @map("_id") @db.ObjectId
     name          String?
-    email         String?   @unique
+    email         String?        @unique
     emailVerified DateTime?
     image         String?
-    admin         Boolean   @default(false)
+    admin         Boolean        @default(false)
+    roles         AccountRoles[]
     accounts      Account[]
     sessions      Session[]
+}
+
+enum AccountRoles {
+    ZALOONEN
+    CREATE_POST
+    MODIFY_ROLES
+    MODIFY_DOCUMENTS
 }
 
 model VerificationToken {

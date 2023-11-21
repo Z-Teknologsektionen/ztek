@@ -61,7 +61,7 @@ export const documentRouter = createTRPCRouter({
     .input(
       z.object({
         id: objectId,
-      })
+      }),
     )
     .query(({ ctx, input }) => {
       return ctx.prisma.document.findUniqueOrThrow({ where: { id: input.id } });
@@ -73,7 +73,7 @@ export const documentRouter = createTRPCRouter({
         url: z.string().url().min(1),
         isPDF: z.boolean().optional(),
         groupId: objectId,
-      })
+      }),
     )
     .mutation(({ ctx, input }) => {
       return ctx.prisma.document.create({
@@ -93,7 +93,7 @@ export const documentRouter = createTRPCRouter({
         url: z.string().url().min(1).optional(),
         isPDF: z.boolean().optional(),
         groupId: objectId.optional(),
-      })
+      }),
     )
     .mutation(({ ctx, input }) => {
       return ctx.prisma.document.update({
@@ -110,7 +110,7 @@ export const documentRouter = createTRPCRouter({
     .input(
       z.object({
         id: objectId,
-      })
+      }),
     )
     .mutation(({ ctx, input }) => {
       return ctx.prisma.document.delete({
@@ -123,11 +123,31 @@ export const documentRouter = createTRPCRouter({
     .input(
       z.object({
         id: objectId,
-      })
+      }),
     )
     .query(({ ctx, input }) => {
       return ctx.prisma.documentGroup.findUniqueOrThrow({
         where: { id: input.id },
+      });
+    }),
+  getOneGroupByName: publicProcedure
+    .input(z.object({ name: z.string().min(1) }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.documentGroup.findUniqueOrThrow({
+        where: {
+          name: input.name,
+        },
+        select: {
+          name: true,
+          extraText: true,
+          Document: {
+            select: {
+              isPDF: true,
+              title: true,
+              url: true,
+            },
+          },
+        },
       });
     }),
   createOneGroup: adminProcedure
@@ -135,7 +155,7 @@ export const documentRouter = createTRPCRouter({
       z.object({
         name: z.string().min(1),
         extraText: z.string().optional(),
-      })
+      }),
     )
     .mutation(({ ctx, input }) => {
       return ctx.prisma.documentGroup.create({
@@ -151,7 +171,7 @@ export const documentRouter = createTRPCRouter({
         id: objectId,
         name: z.string().min(1).optional(),
         extraText: z.string().optional(),
-      })
+      }),
     )
     .mutation(({ ctx, input }) => {
       return ctx.prisma.documentGroup.update({
@@ -166,7 +186,7 @@ export const documentRouter = createTRPCRouter({
     .input(
       z.object({
         id: objectId,
-      })
+      }),
     )
     .mutation(({ ctx, input }) => {
       return ctx.prisma.documentGroup.delete({

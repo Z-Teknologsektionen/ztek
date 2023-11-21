@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require("path");
 
 /** @type {import("eslint").Linter.Config} */
@@ -28,9 +27,6 @@ const config = {
     },
   ],
   parser: "@typescript-eslint/parser",
-  parserOptions: {
-    project: path.join(__dirname, "tsconfig.json"),
-  },
   plugins: [
     "@next/next",
     "@typescript-eslint",
@@ -57,7 +53,6 @@ const config = {
       { allowExpressions: true },
     ],
     "@typescript-eslint/explicit-member-accessibility": "error",
-    "@typescript-eslint/explicit-module-boundary-types": "error",
     "@typescript-eslint/method-signature-style": "error",
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/no-misused-promises": "off",
@@ -85,7 +80,6 @@ const config = {
     "@typescript-eslint/prefer-function-type": "error",
     "@typescript-eslint/prefer-reduce-type-parameter": "error",
     "@typescript-eslint/require-await": "error",
-    "@typescript-eslint/sort-type-union-intersection-members": "error",
     curly: "error",
     "dot-notation": "off",
     "import/extensions": [
@@ -98,7 +92,6 @@ const config = {
     "jsx-a11y/label-has-associated-control": "off",
     "no-console": ["error", { allow: ["info", "error"] }],
     "no-constant-binary-expression": "error",
-    "no-implicit-coercion": "error",
     "no-new-wrappers": "error",
     "no-restricted-syntax": [
       "error",
