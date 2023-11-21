@@ -33,7 +33,7 @@ export const activeRoutes: ActiveRouteProps[] = [
   {
     name: "Administera Organet",
     desc: "Har du precis gått på och vill byta namn på sittande och byta logga? Klicka här då :)",
-    route: "/organ/edit",
+    route: "/active/organ/edit",
     requiredRole: undefined,
   },
   {
