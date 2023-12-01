@@ -17,7 +17,7 @@ const NewStudent: NextPage = () => {
                 alt="image"
                 className="rounded"
                 height={400}
-                src="/knut.jpg"
+                src="/knut_akesson.jpg"
                 width={400}
               />
               <div className="mt-2 text-center">
