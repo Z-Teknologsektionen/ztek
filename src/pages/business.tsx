@@ -36,8 +36,8 @@ const BusinessPage: NextPage = () => {
             <a
               className="text-blue-500 hover:underline"
               href="https://www.argz.se/"
-              target="_blank"
               rel="noopener noreferrer"
+              target="_blank"
             >
               ArgZ.se
             </a>
@@ -168,8 +168,8 @@ const BusinessPage: NextPage = () => {
         <a
           className="text-blue-500 hover:underline"
           href="https://www.argz.se/"
-          target="_blank"
           rel="noopener noreferrer"
+          target="_blank"
         >
           ArgZ.se
         </a>
