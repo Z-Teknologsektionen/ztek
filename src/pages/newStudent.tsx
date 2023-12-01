@@ -137,10 +137,10 @@ const NewStudent: NextPage = () => {
                   </p>
                   <Button
                     className="mx-auto block"
-                    variant="outline"
                     onClick={() =>
                       window.open("https://www.znollk.se/", "_blank")
                     }
+                    variant="outline"
                   >
                     Antagen
                   </Button>
