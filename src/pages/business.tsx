@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Image from "next/image";
 import { MdCheckCircle } from "react-icons/md";
 import HeadLayout from "~/components/layout/HeadLayout";
 import SecondaryTitle from "~/components/layout/SecondaryTitle";
@@ -25,14 +26,39 @@ const BusinessPage: NextPage = () => {
             till potentiella arbetsgivare, samtidigt får företag chansen att
             marknadsföra sig och skapa en långsiktig rekryteringsbas. Kontakta
             oss på{" "}
-            <a className="hover:underline" href="mailto:foretag@argz.se">
+            <a
+              className="text-blue-500 hover:underline"
+              href="mailto:foretag@argz.se"
+            >
               foretag@argz.se
+            </a>{" "}
+            eller gå in på vår hemsida{" "}
+            <a
+              className="text-blue-500 hover:underline"
+              href="https://www.argz.se/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              ArgZ.se
             </a>
-            <br />
-            <br />
-            Typ najs om man har något bildspel eller någon film om hur man kan
-            marknadsföra sig själv här?
           </p>
+          <br></br>
+          <div className="grid grid-cols-3 gap-2">
+            <div className="col-span-3">
+              <Image
+                alt="image"
+                className="rounded"
+                height={300}
+                src="/argz.jpg"
+                width={4000}
+              />
+              <div className="mt-2 text-center">
+                <p>
+                  <strong>Dennis Holmström/Casper Efternamn</strong> /zFoto
+                </p>
+              </div>
+            </div>
+          </div>
         </SectionWrapper>
         <SectionWrapper>
           <SectionTitle>Sammarbeta med oss!</SectionTitle>
@@ -110,7 +136,7 @@ const BusinessPage: NextPage = () => {
                 Z-teknologsektionens facebooksida och mailutskick till alla
                 studenter på z-teknologsektionen. Självklart finns det
                 ytterligare möjligheter för exponering! Hör gärna av er till os
-                med egna förslag.
+                med egna förslag eller annat.
               </p>
               <ul className="mt-2">
                 <li className="mb-2 flex items-center justify-start">
@@ -132,8 +158,20 @@ const BusinessPage: NextPage = () => {
       </div>
       <SectionTitle center={true}>
         Intresserad? Kontakta oss på{" "}
-        <a className="mb-8 hover:underline" href="mailto:foretag@argz.se">
+        <a
+          className="text-blue-500 hover:underline"
+          href="mailto:foretag@argz.se"
+        >
           foretag@argz.se
+        </a>{" "}
+        eller gå in på vår hemsida{" "}
+        <a
+          className="text-blue-500 hover:underline"
+          href="https://www.argz.se/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          ArgZ.se
         </a>
       </SectionTitle>
       <br />
