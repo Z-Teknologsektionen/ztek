@@ -55,19 +55,14 @@ const Navbar: FC = () => {
             <div className="hidden xl:block">
               <div className="flex-container max-h-12 flex-row break-keep">
                 <Link href="/">
-                  <div
-                    className="text-lg
-                  "
-                  >
-                    Automation och Mekatronik
-                  </div>
+                  <div className="text-lg">Automation och Mekatronik</div>
                   <div className="text-sm">Chalmers tekniska högskola</div>
                 </Link>
               </div>
             </div>
           </div>
           <div className="hidden lg:block">
-            <div className="ml-20 flex items-baseline space-x-4">
+            <div className="flex items-center gap-x-4">
               {routes.map((route) => (
                 <NavLink
                   key={`open-${route.name}`}
