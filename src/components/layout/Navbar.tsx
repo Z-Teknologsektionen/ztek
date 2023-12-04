@@ -35,13 +35,13 @@ const Navbar: FC = () => {
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <Link
-                className="hidden text-xl font-bold text-zWhite md:block"
+                className="hidden text-xl font-bold text-zWhite lg:block"
                 href="/"
               >
                 <Image alt="Logo" height={100} src="/logo.png" width={100} />
               </Link>
               {/* Display the logo on smaller screens */}
-              <div className="md:hidden">
+              <div className="lg:hidden">
                 <Link href="/">
                   <Image alt="Logo" height={60} src="/logo.png" width={60} />
                 </Link>
@@ -61,7 +61,7 @@ const Navbar: FC = () => {
               </div>
             </div>
           </div>
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <div className="ml-20 flex items-baseline space-x-4">
               {routes.map((route) => (
                 <NavLink
@@ -76,7 +76,7 @@ const Navbar: FC = () => {
             </div>
           </div>
           {/* Hamburger Icon for smaller screens */}
-          <div className="flex items-center md:hidden">
+          <div className="flex items-center lg:hidden">
             <button
               aria-label="Toggle Menu"
               className="rounded-md p-2 text-zWhite"
@@ -87,7 +87,7 @@ const Navbar: FC = () => {
           </div>
         </div>
         {isMenuOpen && (
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <div className="ml-10 mt-2 flex flex-col space-y-2">
               {routes.map((route) => (
                 <NavLink
