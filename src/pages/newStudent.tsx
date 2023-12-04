@@ -110,17 +110,15 @@ const NewStudent: NextPage = () => {
               <p>
                 Mottagningen syftar till att underlätta din integration både
                 socialt och akademiskt. Detta åstadkoms genom fyra intensiva
-                veckor av engagerande aktiviteter, som spänner från tekniska
-                utmaningar till sociala sammankomster. Genom varierande
-                aktiviteter får du möjlighet att lära känna dina medstudenter på
-                sektionen. Det viktigaste är att du närmar dig denna period med
-                en positiv inställning och är redo att njuta av varje stund! Det
-                är normalt att känna nervositet inför introduktionen, men kom
-                ihåg att du inte är ensam. Mottagningskommiten och deras
-                phaddrar kommer göra sitt bästa för att se till att din
-                introduktion blir fantastisk, men det är du som formar din egen
-                upplevelse. Så kom med ett öppet sinne och var redo att ha
-                roligt!
+                veckor av engagerande aktiviteter. Genom varierande aktiviteter
+                får du möjlighet att lära känna dina medstudenter på sektionen.
+                Det viktigaste är att du närmar dig denna period med en positiv
+                inställning och är redo att njuta av varje stund! Det är normalt
+                att känna nervositet inför mottagningen, men kom ihåg att du
+                inte är ensam. Mottagningskommiten och deras phaddrar kommer
+                göra sitt bästa för att se till att din mottagning blir
+                fantastisk, men det är du som formar din egen upplevelse. Så kom
+                med ett öppet sinne och var redo att ha roligt!
               </p>
               <div className="mt-8 grid grid-cols-2 gap-8 md:grid-cols-2 lg:grid-cols-2">
                 <div className="border-gradient rounded-lg">
@@ -131,7 +129,7 @@ const NewStudent: NextPage = () => {
                     Första dagen, 15 augusti 2023, är det samling på
                     Götaplatsen. Efter en festlig välkomstceremoni tågar alla
                     tillsammans upp till Chalmers campus. Därefter börjar
-                    mottagningen
+                    mottagningen.
                   </p>
                 </div>
                 <div className="border-gradient rounded-lg">
