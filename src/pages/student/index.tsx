@@ -198,7 +198,7 @@ const StudentPage: NextPage = () => {
                 variant={"outline"}
                 asChild
               >
-                <Link href="/student/studentHealth">Mer information</Link>
+                <Link href="newStudent">Mer information</Link>
               </Button>
             </div>
             <div className="col-span-1 my-4 flex flex-col rounded-md">
@@ -314,7 +314,7 @@ const StudentPage: NextPage = () => {
               <div className="mx-auto mt-2 block w-fit">
                 <Link
                   className={cn(
-                    buttonVariants({ variant: "outline", size: "lg" })
+                    buttonVariants({ variant: "outline", size: "lg" }),
                   )}
                   href={"https://snz.se"}
                   target="_blank"
