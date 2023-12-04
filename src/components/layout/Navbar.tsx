@@ -16,6 +16,11 @@ const Navbar: FC = () => {
   };
   const routes = [
     { name: "Student", href: "/student", target: "_self" },
+    {
+      name: "Zaloonen",
+      href: "/studentDivision/zaloonen",
+      target: "_self",
+    },
     { name: "Dokument", href: "/documents", target: "_self" },
     { name: "Sektionen", href: "/studentDivision", target: "_self" },
     {
