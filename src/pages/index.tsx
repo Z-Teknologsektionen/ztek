@@ -15,7 +15,6 @@ const CarouselImg = [
 // First page sponsor images and URLs
 const Sponsors = [
   {company: "Cpac", img: "./cpac.png", rel_height: "h-[12vh]", href: "https://cpacsystems.se/" },
-  {company: "Tetra Pak", img: "./TetraPak.png", rel_height: "h-[18vh]", href: "https://www.tetrapak.com/" },
 ]
 
 // Useful quick-links
