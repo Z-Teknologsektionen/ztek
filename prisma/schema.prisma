@@ -73,6 +73,19 @@ model Account {
     @@unique([provider, providerAccountId])
 }
 
+model programBoardMember {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    name      String
+    role      String
+    phone     String
+    email     String
+    url       String
+    image     String
+    order     Int      @default(0)
+    updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+}
+
 model Session {
     id           String   @id @default(auto()) @map("_id") @db.ObjectId
     sessionToken String   @unique
