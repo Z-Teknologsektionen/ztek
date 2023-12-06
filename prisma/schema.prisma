@@ -18,7 +18,7 @@ model Committee {
     role           String
     email          String            @unique
     members        CommitteeMember[]
-    image          String?
+    image          String            @default("")
     order          Int
     electionPeriod Int               @default(1)
     updatedAt      DateTime          @updatedAt
@@ -32,7 +32,7 @@ model CommitteeMember {
     email       String
     phone       String    @default("")
     role        String
-    image       String?   @default("")
+    image       String    @default("")
     order       Int       @default(0)
     updatedAt   DateTime  @updatedAt
     committeeId String    @db.ObjectId
@@ -80,7 +80,7 @@ model programBoardMember {
     phone     String
     email     String
     url       String
-    image     String?  @default("")
+    image     String   @default("")
     order     Int      @default(0)
     updatedAt DateTime @updatedAt
     createdAt DateTime @default(now())
@@ -99,7 +99,7 @@ model User {
     name          String?
     email         String?        @unique
     emailVerified DateTime?
-    image         String?
+    image         String         @default("")
     admin         Boolean        @default(false)
     roles         AccountRoles[]
     accounts      Account[]
