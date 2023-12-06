@@ -21,6 +21,11 @@ export const adminRoutes: AdminRouteProps[] = [
     desc: "Lägg till eller ta bort organ.",
     route: "/admin/organ",
   },
+  {
+    name: "Administrera programledningen",
+    desc: "Lägg till eller ta någon i programledningen.",
+    route: "/admin/programBoard",
+  },
 ];
 
 export const activeRoutes: ActiveRouteProps[] = [

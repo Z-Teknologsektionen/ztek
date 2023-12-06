@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { IconContext } from "react-icons";
@@ -24,6 +24,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import ssg from "~/server/api/helper/ssg";
+import { api } from "~/utils/api";
 import { cn } from "~/utils/utils";
 
 const quickLinks = [
@@ -71,62 +73,8 @@ const quickLinks = [
       "Här kan du rapportera olika fel eller skador som du hittar på någon av Chalmers lokaler",
   },
 ];
-
-const programLedning = [
-  {
-    title: "Programansvarig",
-    fullName: "Knut Åkesson",
-    imgSrc: "/knut_akesson.jpg",
-    links: [
-      {
-        icon: <MdEmail />,
-        href: "mailto:knut@chalmers.se",
-        text: "knut@chalmers.se",
-      },
-      {
-        icon: <MdInfo />,
-        href: "https://www.chalmers.se/personer/knut/",
-        text: "Mer information",
-      },
-    ],
-  },
-  {
-    title: "Studievägledare",
-    fullName: "Anders Ankén",
-    imgSrc: "/anken.jpg",
-    links: [
-      {
-        icon: <MdEmail />,
-        href: "mailto:anken@chalmers.se",
-        text: "anken@chalmers.se",
-      },
-      {
-        icon: <MdInfo />,
-        href: "https://www.chalmers.se/personer/anken/",
-        text: "Mer information",
-      },
-    ],
-  },
-  {
-    title: "Utbildningssekreterare",
-    fullName: "Björn Friberg",
-    imgSrc: "/logo.png",
-    links: [
-      {
-        icon: <MdEmail />,
-        href: "mailto:bjorn.friberg@chalmers.se",
-        text: "bjorn.friberg@chalmers.se",
-      },
-      {
-        icon: <MdInfo />,
-        href: "https://www.chalmers.se/personer/mi2frbj/",
-        text: "Mer information",
-      },
-    ],
-  },
-];
-
 const StudentPage: NextPage = () => {
+  const { data, isLoading, isError } = api.programBoard.getAll.useQuery();
   return (
     <>
       <HeadLayout title="Student" />
@@ -336,39 +284,49 @@ const StudentPage: NextPage = () => {
             studenter som går på programmet.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-            {programLedning.map((person) => (
-              <div
-                key={person.title}
-                className="mx-auto mt-2 block w-fit grid-cols-1 text-center"
-              >
-                <SecondaryTitle className="mb-4">{person.title}</SecondaryTitle>
-                <Image
-                  alt={person.fullName}
-                  className="rounded-full"
-                  height={200}
-                  src={person.imgSrc}
-                  width={200}
-                />
-                <p className="text-lg font-semibold">{person.fullName}</p>
-                <ul className="mt-2">
-                  {person.links.map((link) => (
-                    <li
-                      key={`${person.title}${link.text}`}
-                      className="mb-2 flex items-center justify-center md:justify-start"
-                    >
-                      {link.icon}
+            {isLoading && <p>Försöker hämta programledningens medlemmar...</p>}
+            {isError && <p>Kunde inte hämta programledningens medlemmar</p>}
+            {data &&
+              data.map((person) => (
+                <div
+                  key={person.role}
+                  className="mx-auto mt-2 block w-fit grid-cols-1 text-center"
+                >
+                  <SecondaryTitle className="mb-4">
+                    {person.role}
+                  </SecondaryTitle>
+                  <Image
+                    alt={person.name}
+                    className="rounded-full"
+                    height={200}
+                    src={"/logo.png"}
+                    width={200}
+                  />
+                  <p className="text-lg font-semibold">{person.name}</p>
+                  <ul className="mt-2">
+                    <li className="mb-2 flex items-center justify-center md:justify-start">
+                      <MdEmail />
                       <Link
                         className="ml-1 hover:underline"
-                        href={link.href}
+                        href={`mailto:${person.email}`}
                         target="_blank"
                       >
-                        {link.text}
+                        {person.email}
                       </Link>
                     </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+                    <li className="mb-2 flex items-center justify-center md:justify-start">
+                      <MdInfo />
+                      <Link
+                        className="ml-1 hover:underline"
+                        href={person.url}
+                        target="_blank"
+                      >
+                        Mer information
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              ))}
           </div>
         </SectionWrapper>
       </div>
@@ -377,3 +335,12 @@ const StudentPage: NextPage = () => {
 };
 
 export default StudentPage;
+export const getStaticProps: GetStaticProps = async () => {
+  await ssg.programBoard.getAll.prefetch();
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+    revalidate: 1,
+  };
+};
