@@ -6,54 +6,54 @@ import HeadLayout from "~/components/layout/HeadLayout";
 
 
 // First page carousel images
-const CarouselImg = [
+const carouselImg = [
   "https://zfoto.ztek.se/img/full/20230902-DH6_7840.jpg",
   "https://zfoto.ztek.se/img/full/20230908-DH8_8364.jpg",
   "https://zfoto.ztek.se/img/full/20230904-DH8_8302.jpg",
 ]
 
 // First page sponsor images and URLs
-const Sponsors = [
+const sponsors = [
   {company: "Cpac", img: "./cpac.png", href: "https://cpacsystems.se/" },
 ]
 
 // Useful quick-links
-const SelectLinks = [
-  {"title":"Canvas", "url":"https://canla.portal.chalmers.se/canvaslogin/discovery.html?v=1"},
-  {"title":"Ladok","url":"https://www.student.ladok.se/student/app/studentwebb/"},
-  {"title":"Activity@Z", "url":"https://www.facebook.com/groups/activityatz"},
+const selectLinks = [
+  {title:"Canvas", url:"https://canla.portal.chalmers.se/canvaslogin/discovery.html?v=1"},
+  {title:"Ladok",url:"https://www.student.ladok.se/student/app/studentwebb/"},
+  {title:"Activity@Z", url:"https://www.facebook.com/groups/activityatz"},
 ]
-const Links = [
+const links = [
   {
     title: "Studier",
     links: [
-      {"title":"Canvas", "url":"https://canla.portal.chalmers.se/canvaslogin/discovery.html?v=1"},
-      {"title":"Outlook","url":"https://outlook.office.com/owa/chalmers.se"},
-      {"title":"Ladok","url":"https://www.student.ladok.se/student/app/studentwebb/"},
-      {"title":"Tentastatistik","url":"https://stats.ftek.se/"},
-      {"title":"Utskrift på Chalmers","url":"https://papercut.chalmers.se/"},
+      {title:"Canvas", url:"https://canla.portal.chalmers.se/canvaslogin/discovery.html?v=1"},
+      {title:"Outlook",url:"https://outlook.office.com/owa/chalmers.se"},
+      {title:"Ladok",url:"https://www.student.ladok.se/student/app/studentwebb/"},
+      {title:"Tentastatistik",url:"https://stats.ftek.se/"},
+      {title:"Utskrift på Chalmers",url:"https://papercut.chalmers.se/"},
     ]
   },
   {
     title: "Schema & Campus",
     links: [
-      {"title":"Lunchmeny", "url":"https://chalmerskonferens.se/en/lunchmenyer-johanneberg/"},
-      {"title":"Boka Grupprum","url":"https://cloud.timeedit.net/chalmers/web/b1"},
-      {"title":"Schema TKAUT-1","url":"https://cloud.timeedit.net/chalmers/web/public/ri1Y93ygZ05ZZQQ1X65v7Y015Q42x4956g580YQQ697.html"},
-      {"title":"Schema TKAUT-2","url":"https://cloud.timeedit.net/chalmers/web/public/ri1Y93ygZ05ZZQQ1X65v7Y085Q42x4956g580YQQ677.html"},
-      {"title":"Schema TKAUT-3","url":"https://cloud.timeedit.net/chalmers/web/public/ri1Y93ygZ05ZZQQ1X65v7Y075Q42x4956g580YQQ687.html"},
-      {"title":"Timeedit", "url":"https://cloud.timeedit.net/chalmers/web/?en=t"},
-      {"title":"Felanmäl Lokaler","url":"https://www.chalmers.se/utbildning/dina-studier/studie-och-arbetsmiljo/fysisk-arbetsmiljo/#felanmalan-i-lokalerna"},
-      {"title":"Trygg på chalmers","url":"https://www.chalmers.se/om-chalmers/organisation-och-styrning/trygg-pa-chalmers/"},
+      {title:"Lunchmeny", url:"https://chalmerskonferens.se/en/lunchmenyer-johanneberg/"},
+      {title:"Boka Grupprum",url:"https://cloud.timeedit.net/chalmers/web/b1"},
+      {title:"Schema TKAUT-1",url:"https://cloud.timeedit.net/chalmers/web/public/ri1Y93ygZ05ZZQQ1X65v7Y015Q42x4956g580YQQ697.html"},
+      {title:"Schema TKAUT-2",url:"https://cloud.timeedit.net/chalmers/web/public/ri1Y93ygZ05ZZQQ1X65v7Y085Q42x4956g580YQQ677.html"},
+      {title:"Schema TKAUT-3",url:"https://cloud.timeedit.net/chalmers/web/public/ri1Y93ygZ05ZZQQ1X65v7Y075Q42x4956g580YQQ687.html"},
+      {title:"Timeedit", url:"https://cloud.timeedit.net/chalmers/web/?en=t"},
+      {title:"Felanmäl Lokaler",url:"https://www.chalmers.se/utbildning/dina-studier/studie-och-arbetsmiljo/fysisk-arbetsmiljo/#felanmalan-i-lokalerna"},
+      {title:"Trygg på chalmers",url:"https://www.chalmers.se/om-chalmers/organisation-och-styrning/trygg-pa-chalmers/"},
     ]
   },
   {
     title: "Sektionen",
     links: [
-      {"title":"Boka Zaloonen","url":"https://forms.gle/yCvBenvr4RzhJv13A"},
-      {"title":"Activity@Z", "url":"https://www.facebook.com/groups/activityatz"},
-      {"title":"Kårappen iOS","url":"https://apps.apple.com/se/app/chalmers-studentk%C3%A5r/id1633440660"},
-      {"title":"Kårappen Android","url":"https://play.google.com/store/apps/details?id=com.helo.karappen"},
+      {title:"Boka Zaloonen",url:"https://forms.gle/yCvBenvr4RzhJv13A"},
+      {title:"Activity@Z", url:"https://www.facebook.com/groups/activityatz"},
+      {title:"Kårappen iOS",url:"https://apps.apple.com/se/app/chalmers-studentk%C3%A5r/id1633440660"},
+      {title:"Kårappen Android",url:"https://play.google.com/store/apps/details?id=com.helo.karappen"},
     ]
   },
 ]
@@ -86,7 +86,7 @@ const ParagraphWelcome = () => {
             <div className="row-start-5 md:row-span-2 md:col-start-1 md:row-start-3 relative w-full max-w-[120rem]">
               <div className="grid grid-cols-2 grid-flow-row auto-rows-max gap-8 mr-16">
                 {
-                  Sponsors.map((key, value) =>
+                  sponsors.map((key, value) =>
                     <a href={key.href} target="_blank" rel="noopener noreferrer">
                       <img src={key.img}  className={`object-scale-down drop-shadow-md`}/>
                     </a>
@@ -102,7 +102,7 @@ const ParagraphWelcome = () => {
             <div className='row-start-4 md:col-start-2 md:row-start-4 flex items-start mt-4'>
                 <div className='flex gap-4 justify-end w-full'>
                   {
-                    SelectLinks.map((key, value) =>
+                    selectLinks.map((key, value) =>
                       <a href={key.url} target='_blank' rel="noopener noreferrer" className='text-xl font-bold border-zBlack transition-all duration-200 align-middle py-2 px-5 hover:rounded-tl-lg hover:rounded-br-lg rounded-tr-lg rounded-bl-lg border-2'>
                         {key.title}
                       </a>
@@ -126,7 +126,7 @@ const ParagraphLinks = () => {
       <div className="bg-[url('http://localhost:5000/wallpaper_automation.jpg')] backdrop-blur-2xl w-full min-h-screen flex items-center justify-center object-cover drop-shadow-xl xl:[clip-path:polygon(0%_15%,100%_0%,100%_100%,0%_100%)] md:[clip-path:polygon(0%_10%,100%_0%,100%_100%,0%_100%)] [clip-path:polygon(0%_5%,100%_0%,100%_100%,0%_100%)] bg-cover bg-center ">     
         <div className='m-auto max-w-[85rem] px-4 sm:px-6 lg:px-8 h-full flex flex-col gap-10 justify-center'>
           {
-            Links.map((key, value) =>
+            links.map((key, value) =>
               <div key={key.title} className='flex flex-col gap-2'>
                 <div className='text-2xl font-bold text-white drop-shadow-xl'>
                   {key.title}
@@ -176,7 +176,7 @@ const Carousel = () => {
       <div ref={sliderRef}
         className="keen-slider max-w-[80vw] mx-auto w-full aspect-video rounded-xl flex-1 drop-shadow-md">
         {
-          CarouselImg.map((key, value) => 
+          carouselImg.map((key, value) => 
             <div className="keen-slider__slide">
               <img className='w-full h-full object-cover' src={key}/>
             </div>
