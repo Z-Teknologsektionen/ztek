@@ -14,10 +14,15 @@ const CarouselImg = [
 
 // First page sponsor images and URLs
 const Sponsors = [
-  {company: "Cpac", img: "./cpac.png", rel_height: "h-[12vh]", href: "https://cpacsystems.se/" },
+  {company: "Cpac", img: "./cpac.png", href: "https://cpacsystems.se/" },
 ]
 
 // Useful quick-links
+const SelectLinks = [
+  {"title":"Canvas", "url":"https://canla.portal.chalmers.se/canvaslogin/discovery.html?v=1"},
+  {"title":"Ladok","url":"https://www.student.ladok.se/student/app/studentwebb/"},
+  {"title":"Activity@Z", "url":"https://www.facebook.com/groups/activityatz"},
+]
 const Links = [
   {
     title: "Studier",
@@ -45,9 +50,8 @@ const Links = [
   {
     title: "Sektionen",
     links: [
-      {"title":"Festanmälan","url":"https://www.chalmers.se/utbildning/studera-hos-oss/studentliv/arrangemang-i-sektionslokaler/"},
       {"title":"Boka Zaloonen","url":"https://forms.gle/yCvBenvr4RzhJv13A"},
-      {"title":"Facebookgruppen", "url":"https://www.facebook.com/groups/activityatz"},
+      {"title":"Activity@Z", "url":"https://www.facebook.com/groups/activityatz"},
       {"title":"Kårappen iOS","url":"https://apps.apple.com/se/app/chalmers-studentk%C3%A5r/id1633440660"},
       {"title":"Kårappen Android","url":"https://play.google.com/store/apps/details?id=com.helo.karappen"},
     ]
@@ -67,40 +71,51 @@ const HomePage: NextPage = () => {
 const ParagraphWelcome = () => {
   return ( 
     <>
-    <div>
-      <div className='mx-auto max-w-[85rem] px-4 pb-10 sm:px-6 lg:px-8'>
-        <div className="relative w-full flex justify-between md:flex-row flex-col mx-auto max-w-[120rem] z-10">
-          <div className="md:w-1/2">
-            
-            <div className='flex flex-col gap-4'>
-              <div className="xl:text-4xl md:text-2xl text-base font-bold">
-                Välkommen till Automation och Mekatronik på Chalmers tekniska högskola!
+      <div>
+        <div className='mx-auto max-w-[85rem] px-4 pb-10 sm:px-6 lg:px-8'>
+          <div className="grid md:grid-cols-2 md:grid-rows-4 grid-cols-1 grid-rows-5 relative w-full mx-auto max-w-[120rem] z-10">
+            <div className='md:row-span-2 '>
+              <div className="xl:text-4xl md:text-2xl align-text-bottom text-base font-bold">
+                  Välkommen till Automation och Mekatronik på Chalmers tekniska högskola!
               </div>
-              <div className="xl:text-xl md:text-base text-sm text-balance">
+              <div className="md:col-start-1 md:row-start-2 col-start-1 row-start-5 xl:text-xl md:text-base text-sm text-balance">
                 Z-teknologsektionen, eller Z som programmet kallas, är civilingengörsprogrammet på Chalmers som beskrivs som länken mellan maskin-, elektro och datateknik.
               </div>
             </div>
             
-            <div className="relative w-full max-w-[120rem] mt-10 h-10">
-              <div className="absolute flex md:mx-0 md:flex-col flex-row gap-5">
-
+            <div className="row-start-5 md:row-span-2 md:col-start-1 md:row-start-3 relative w-full max-w-[120rem]">
+              <div className="grid grid-cols-2 grid-flow-row auto-rows-max gap-8 mr-16">
                 {
                   Sponsors.map((key, value) =>
                     <a href={key.href} target="_blank" rel="noopener noreferrer">
-                      <img src={key.img}  className={`mx-auto ` + key.rel_height + ` drop-shadow-md`}/>
+                      <img src={key.img}  className={`object-scale-down drop-shadow-md`}/>
                     </a>
                   )
                 }
-                
               </div>
             </div>
+            
+            <div className='row-span-2  md:row-span-3 md:col-start-2 md:row-start-1'>
+              <Carousel/>
+            </div>
+
+            <div className='row-start-4 md:col-start-2 md:row-start-4 flex items-start mt-4'>
+                <div className='flex gap-4 justify-end w-full'>
+                  {
+                    SelectLinks.map((key, value) =>
+                      <a href={key.url} target='_blank' rel="noopener noreferrer" className='text-xl font-bold border-zBlack transition-all duration-200 align-middle py-2 px-5 hover:rounded-tl-lg hover:rounded-br-lg rounded-tr-lg rounded-bl-lg border-2'>
+                        {key.title}
+                      </a>
+                    )
+                  }
+                </div>
+
+            </div>
+            
+            <img src="./lucky_horizontal.png" className={`z-20 left-1/2 transform -translate-x-1/2 absolute xl:-bottom-[calc(7.5vh+40px)] md:-bottom-[calc(5vh+40px)] -bottom-[calc(2.5vh+40px)] max-w-lg md:w-[24vw] w-[30vw] h-auto -rotate-[4.5deg] drop-shadow-md`} height={120}  width={360} />
           </div>
-          <Carousel/>
-          
-          <img src="./lucky_horizontal.png" className={`z-20 left-1/2 transform -translate-x-1/2 absolute xl:-bottom-[calc(7.5vh+40px)] md:-bottom-[calc(5vh+40px)] -bottom-[calc(2.5vh+40px)] xl:h-[15vh] md:h-[10vh] h-[5vh] w-auto -rotate-[4.5deg] drop-shadow-md`} height={120}  width={360} />
         </div>
       </div>
-    </div>
     </>
   );
 }
@@ -108,29 +123,28 @@ const ParagraphWelcome = () => {
 const ParagraphLinks = () => {
   return (
     <>
-        <div className="w-full min-h-screen flex items-center justify-center object-cover drop-shadow-xl xl:[clip-path:polygon(0%_15%,100%_0%,100%_100%,0%_100%)] md:[clip-path:polygon(0%_10%,100%_0%,100%_100%,0%_100%)] [clip-path:polygon(0%_5%,100%_0%,100%_100%,0%_100%)] bg-cover bg-center bg-[url('https://media.istockphoto.com/id/1290656529/photo/robotic-pneumatic-piston-sucker-unit-on-industrial-machine.jpg?s=612x612&w=0&k=20&c=KfRjZlT6CEX8KpOXylDu_3ggvOftlQF3yh5JVT2KFUw=')]">
-        
-          <div className='m-auto max-w-[85rem] px-4 sm:px-6 lg:px-8 h-full flex flex-col gap-10 justify-center'>
-
-            {
-              Links.map((key, value) =>
-                <div key={key.title} className='flex flex-col gap-2'>
-                  <div className='flex flex-wrap gap-4'>
-                    {
-                      key.links.map((key, value) =>
-                        <a href={key.url} target='_blank' rel="noopener noreferrer" className='text-xl font-bold text-white hover:bg-gray-400 hover:bg-opacity-50 transition-color duration-200 bg-opacity-50 align-middle py-2 px-5 backdrop-blur-md backdrop-brightness-[0.8] rounded-full border-2'>
-                          {key.title}
-                        </a>
-                      )
-                    }
-                  </div>
+      <div className="bg-[url('http://localhost:5000/wallpaper_automation.jpg')] backdrop-blur-2xl w-full min-h-screen flex items-center justify-center object-cover drop-shadow-xl xl:[clip-path:polygon(0%_15%,100%_0%,100%_100%,0%_100%)] md:[clip-path:polygon(0%_10%,100%_0%,100%_100%,0%_100%)] [clip-path:polygon(0%_5%,100%_0%,100%_100%,0%_100%)] bg-cover bg-center ">     
+        <div className='m-auto max-w-[85rem] px-4 sm:px-6 lg:px-8 h-full flex flex-col gap-10 justify-center'>
+          {
+            Links.map((key, value) =>
+              <div key={key.title} className='flex flex-col gap-2'>
+                <div className='text-2xl font-bold text-white drop-shadow-xl'>
+                  {key.title}
                 </div>
-              )
-            }
-
-          </div>
-
+                <div className='flex flex-wrap gap-4 '>
+                  {
+                    key.links.map((key, value) =>
+                      <a href={key.url} target='_blank' rel="noopener noreferrer" className='text-xl font-bold text-white transition-all duration-200  bg-zBlack bg-opacity-60 align-middle py-2 px-5 hover:rounded-tl-lg hover:rounded-br-lg rounded-tr-lg rounded-bl-lg  border-2'>
+                        {key.title}
+                      </a>
+                    )
+                  }
+                </div>
+              </div>
+            )
+          }
         </div>
+      </div>
     </>
   );
 }
