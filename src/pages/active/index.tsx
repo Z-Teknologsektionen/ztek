@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { FC } from "react";
 import { MdArrowForward } from "react-icons/md";
 import HeadLayout from "~/components/layout/HeadLayout";
+import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { buttonVariants } from "~/components/ui/button";
@@ -28,16 +29,17 @@ const AdminHomePage: NextPage = () => {
 
   return (
     <>
-      <HeadLayout title="Aktiv panel"></HeadLayout>
+      <HeadLayout title="Sektionsaktiv"></HeadLayout>
 
       <SectionWrapper>
         <SectionTitle>Välkommen {user.name}!</SectionTitle>
+        <p>
+          Här kan du som sektionsaktiv administrera olika delar av hemsidan
+          beroende på din roll. Om du inte har tillgång till en sida som du tror
+          att du borde ha tillgång till, kontakta då någon i Webbgruppen eller
+          Informationsansvarig i Ztyret.
+        </p>
         <div className="flex flex-col gap-4 ">
-          {user.admin &&
-            adminRoutes.map((route) => (
-              <InfoCard {...route} key={route.route} />
-            ))}
-
           {activeRoutes.map((route) => {
             if (
               route.requiredRole !== undefined &&
@@ -48,6 +50,11 @@ const AdminHomePage: NextPage = () => {
 
             return <InfoCard {...route} key={route.route} />;
           })}
+          {user.admin && <SecondaryTitle center>Administratör</SecondaryTitle>}
+          {user.admin &&
+            adminRoutes.map((route) => (
+              <InfoCard {...route} key={route.route} />
+            ))}
         </div>
       </SectionWrapper>
     </>
