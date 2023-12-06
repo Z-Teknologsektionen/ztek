@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
@@ -19,14 +20,24 @@ const quickLinks = [
     href: "https://cloud.timeedit.net/chalmers/web/b1/",
     blank: true,
   },
-  {
-    text: "Logga in",
-    href: "/active",
-    blank: false,
-  },
 ];
 
 const Footer: FC = () => {
+  const { data: session } = useSession();
+  if (session?.user) {
+    quickLinks.push({
+      text: "Logga in",
+      href: "/active",
+      blank: false,
+    });
+  } else {
+    quickLinks.push({
+      text: "Logga ut",
+      href: "/active",
+      blank: false,
+    });
+  }
+
   return (
     <footer className="bg-zBlack pb-2 pt-8 text-zWhite">
       <div className="container mx-auto px-4">
