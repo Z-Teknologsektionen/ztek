@@ -23,6 +23,7 @@ const selectLinks = [
   {title:"Ladok",url:"https://www.student.ladok.se/student/app/studentwebb/"},
   {title:"Activity@Z", url:"https://www.facebook.com/groups/activityatz"},
 ]
+
 const links = [
   {
     title: "Studier",
@@ -63,7 +64,13 @@ const HomePage: NextPage = () => {
     <>
       <HeadLayout title="Z"/>
       <ParagraphWelcome/>
-      <ParagraphLinks/>
+      <div className='relative'>
+        <div className='w-full xl:h-[15vh] md:h-[10vh] h-[5vh] absolute'>
+          <img src="./lucky_horizontal.png" className='-rotate-[4deg] absolute z-20 transform  xl:bottom-[7.5vh] md:bottom-[5vh] bottom-[2.5vh]  -translate-x-1/2 left-1/2  md:w-[24vw] w-[30vw] drop-shadow-md' height={120}  width={360} />
+        
+        </div>
+        <ParagraphLinks/>
+      </div>
     </>
   );
 };
@@ -73,46 +80,47 @@ const ParagraphWelcome = () => {
     <>
       <div>
         <div className='mx-auto max-w-[85rem] px-4 pb-10 sm:px-6 lg:px-8'>
-          <div className="grid md:grid-cols-2 md:grid-rows-4 grid-cols-1 grid-rows-5 relative w-full mx-auto max-w-[120rem] z-10">
-            <div className='md:row-span-2 '>
-              <div className="xl:text-4xl md:text-2xl align-text-bottom text-base font-bold">
+          <div className='flex flex-col gap-4'>
+            <div className="flex md:flex-row flex-col w-full gap-4 justify-between">
+              <div className=''>
+                <div className="xl:text-4xl md:text-2xl text-base align-text-bottom font-bold text-balance">
                   Välkommen till Automation och Mekatronik på Chalmers tekniska högskola!
+                </div>
+                <div className="xl:text-xl md:text-base text-sm md:col-start-1 md:row-start-2 col-start-1 row-start-5 text-balance">
+                  Z-teknologsektionen, eller Z som programmet kallas, är civilingengörsprogrammet på Chalmers som beskrivs som länken mellan maskin-, elektro och datateknik.
+                </div>
               </div>
-              <div className="md:col-start-1 md:row-start-2 col-start-1 row-start-5 xl:text-xl md:text-base text-sm text-balance">
-                Z-teknologsektionen, eller Z som programmet kallas, är civilingengörsprogrammet på Chalmers som beskrivs som länken mellan maskin-, elektro och datateknik.
-              </div>
-            </div>
-            
-            <div className="row-start-5 md:row-span-2 md:col-start-1 md:row-start-3 relative w-full max-w-[120rem]">
-              <div className="grid grid-cols-2 grid-flow-row auto-rows-max gap-8 mr-16">
-                {
-                  sponsors.map((key, value) =>
-                    <a href={key.href} target="_blank" rel="noopener noreferrer">
-                      <img src={key.img}  className={`object-scale-down drop-shadow-md`}/>
-                    </a>
-                  )
-                }
+              
+              <div className='md:w-1/2 w-full'>
+                <Carousel/>
               </div>
             </div>
             
-            <div className='row-span-2  md:row-span-3 md:col-start-2 md:row-start-1'>
-              <Carousel/>
-            </div>
-
-            <div className='row-start-4 md:col-start-2 md:row-start-4 flex items-start mt-4'>
-                <div className='flex gap-4 justify-end w-full'>
+            <div className='flex md:flex-row flex-col-reverse w-full gap-4 justify-between'>
+              <div className="md:row-span-2 md:col-start-1 relative w-full max-w-[120rem]">
+                <div className="grid grid-cols-2 grid-flow-row auto-rows-max gap-8">
                   {
-                    selectLinks.map((key, value) =>
-                      <a href={key.url} target='_blank' rel="noopener noreferrer" className='text-xl font-bold border-zBlack transition-all duration-200 align-middle py-2 px-5 hover:rounded-tl-lg hover:rounded-br-lg rounded-tr-lg rounded-bl-lg border-2'>
-                        {key.title}
+                    sponsors.map((key, value) =>
+                      <a href={key.href} target="_blank" rel="noopener noreferrer">
+                        <img src={key.img}  className={`object-scale-down drop-shadow-md`}/>
                       </a>
                     )
                   }
                 </div>
-
+              </div>
+              
+              <div className='md:col-start-2 md:row-start-3 flex items-start'>
+                  <div className='flex md:justify-end md:gap-4 gap-2 w-full'>
+                    {
+                      selectLinks.map((key, value) =>
+                        <a href={key.url} target='_blank' rel="noopener noreferrer" className='py-1 px-1 xl:px-5 md:px-3 md:w-auto w-full text-center xl:text-xl md:text-lg text-base font-bold border-zBlack transition-all duration-200 align-middle hover:rounded-tl-lg hover:rounded-br-lg rounded-tr-lg rounded-bl-lg border-2'>
+                          {key.title}
+                        </a>
+                      )
+                    }
+                  </div>
+              </div>
             </div>
-            
-            <img src="./lucky_horizontal.png" className={`z-20 left-1/2 transform -translate-x-1/2 absolute xl:-bottom-[calc(7.5vh+40px)] md:-bottom-[calc(5vh+40px)] -bottom-[calc(2.5vh+40px)] max-w-lg md:w-[24vw] w-[30vw] h-auto -rotate-[4.5deg] drop-shadow-md`} height={120}  width={360} />
           </div>
         </div>
       </div>
@@ -123,7 +131,7 @@ const ParagraphWelcome = () => {
 const ParagraphLinks = () => {
   return (
     <>
-      <div className="bg-[url('http://localhost:5000/wallpaper_automation.jpg')] backdrop-blur-2xl w-full min-h-screen flex items-center justify-center object-cover drop-shadow-xl xl:[clip-path:polygon(0%_15%,100%_0%,100%_100%,0%_100%)] md:[clip-path:polygon(0%_10%,100%_0%,100%_100%,0%_100%)] [clip-path:polygon(0%_5%,100%_0%,100%_100%,0%_100%)] bg-cover bg-center ">     
+      <div className="h-screen bg-[url('http://localhost:5000/wallpaper_automation.jpg')] relative backdrop-blur-2xl w-full py-32 flex items-center justify-center object-cover drop-shadow-xl xl:[clip-path:polygon(0%_15%,100%_0%,100%_100%,0%_100%)] md:[clip-path:polygon(0%_10%,100%_0%,100%_100%,0%_100%)] [clip-path:polygon(0%_5%,100%_0%,100%_100%,0%_100%)] bg-cover bg-center ">     
         <div className='m-auto max-w-[85rem] px-4 sm:px-6 lg:px-8 h-full flex flex-col gap-10 justify-center'>
           {
             links.map((key, value) =>
@@ -134,7 +142,7 @@ const ParagraphLinks = () => {
                 <div className='flex flex-wrap gap-4 '>
                   {
                     key.links.map((key, value) =>
-                      <a href={key.url} target='_blank' rel="noopener noreferrer" className='text-xl font-bold text-white transition-all duration-200  bg-zBlack bg-opacity-60 align-middle py-2 px-5 hover:rounded-tl-lg hover:rounded-br-lg rounded-tr-lg rounded-bl-lg  border-2'>
+                      <a href={key.url} target='_blank' rel="noopener noreferrer" className='py-1 xl:px-5 md:px-3 px-2 md:w-auto text-center xl:text-xl md:text-lg text-base font-bold text-white transition-all duration-200 bg-zBlack bg-opacity-60 align-middle hover:rounded-tl-lg hover:rounded-br-lg rounded-tr-lg rounded-bl-lg  border-2'>
                         {key.title}
                       </a>
                     )
@@ -174,7 +182,7 @@ const Carousel = () => {
   return (
     <>
       <div ref={sliderRef}
-        className="keen-slider max-w-[80vw] mx-auto w-full aspect-video rounded-xl flex-1 drop-shadow-md">
+        className="keen-slider md:max-w-[80vw] mx-auto w-full aspect-video rounded-xl flex-1 drop-shadow-md">
         {
           carouselImg.map((key, value) => 
             <div className="keen-slider__slide">
@@ -219,7 +227,7 @@ function Arrow(props: {
   return (
     <svg
       onClick={props.onClick}
-      className={`w-[30px] h-[30px] top-1/2 -translate-y-1/2 absolute hover:cursor-pointer fill-white ${
+      className={`md:w-[30px] md:h-[30px] md:visible invisible top-1/2 -translate-y-1/2 absolute hover:cursor-pointer fill-white ${
         props.left ? "left-1" : "right-1"
       } ${disabeld}`}
       xmlns="http://www.w3.org/2000/svg"
