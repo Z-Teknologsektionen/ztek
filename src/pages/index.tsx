@@ -4,7 +4,6 @@ import { type NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import HeadLayout from "~/components/layout/HeadLayout";
 
-
 // First page carousel images
 const carouselImg = [
   "https://zfoto.ztek.se/img/full/20230902-DH6_7840.jpg",
@@ -145,7 +144,7 @@ const ParagraphWelcome = () => {
 const ParagraphLinks = () => {
   return (
     <>
-      <div className="h-screen bg-[url('http://localhost:5000/wallpaper_automation.jpg')] relative backdrop-blur-2xl w-full py-32 flex items-center justify-center object-cover drop-shadow-xl xl:[clip-path:polygon(0%_15%,100%_0%,100%_100%,0%_100%)] md:[clip-path:polygon(0%_10%,100%_0%,100%_100%,0%_100%)] [clip-path:polygon(0%_5%,100%_0%,100%_100%,0%_100%)] bg-cover bg-center ">     
+      <div style={{backgroundImage: "url(./wallpaper_automation.jpg)"}} className="h-screen relative backdrop-blur-2xl w-full py-32 flex items-center justify-center object-cover drop-shadow-xl xl:[clip-path:polygon(0%_15%,100%_0%,100%_100%,0%_100%)] md:[clip-path:polygon(0%_10%,100%_0%,100%_100%,0%_100%)] [clip-path:polygon(0%_5%,100%_0%,100%_100%,0%_100%)] bg-cover bg-center ">     
         <div className='m-auto max-w-[85rem] px-4 sm:px-6 lg:px-8 h-full flex flex-col gap-10 justify-center'>
           {
             links.map((key, value) =>
