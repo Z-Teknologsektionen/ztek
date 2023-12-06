@@ -138,7 +138,7 @@ const StudentDivision: NextPage = () => {
                 .
               </p>
             </div>
-            <div className="col-span-3 m-auto mt-8 lg:col-span-1 lg:mt-0">
+            <div className="col-span-3 m-auto mt-8 md:col-span-1 lg:mt-0">
               <Image
                 alt="Sektionens uppbyggnad"
                 height={250}
@@ -260,7 +260,7 @@ const StudentDivision: NextPage = () => {
                 inval i dessa läsperioder:
               </p>
             </div>
-            <div className="col-span-3 m-auto mt-8 lg:col-span-1 lg:mt-0">
+            <div className="col-span-3 m-auto mt-8 md:col-span-1 lg:mt-0">
               <Image
                 alt="Lucky luke poster"
                 className="rotate-6"
