@@ -80,8 +80,8 @@ const ParagraphWelcome = () => {
     <>
       <div>
         <div className='mx-auto max-w-[85rem] px-4 pb-10 sm:px-6 lg:px-8'>
-          <div className='flex flex-col gap-4'>
-            <div className="flex md:flex-row flex-col w-full gap-4 justify-between">
+          <div className='flex md:flex-row flex-col md:gap-8 gap-4'>
+            <div className="flex flex-col w-full gap-8">
               <div className=''>
                 <div className="xl:text-4xl md:text-2xl text-base align-text-bottom font-bold text-balance">
                   Välkommen till Automation och Mekatronik på Chalmers tekniska högskola!
@@ -90,15 +90,9 @@ const ParagraphWelcome = () => {
                   Z-teknologsektionen, eller Z som programmet kallas, är civilingengörsprogrammet på Chalmers som beskrivs som länken mellan maskin-, elektro och datateknik.
                 </div>
               </div>
-              
-              <div className='md:w-1/2 w-full'>
-                <Carousel/>
-              </div>
-            </div>
-            
-            <div className='flex md:flex-row flex-col-reverse w-full gap-4 justify-between'>
-              <div className="md:row-span-2 md:col-start-1 relative w-full max-w-[120rem]">
-                <div className="grid grid-cols-2 grid-flow-row auto-rows-max gap-8">
+
+              <div className="md:row-span-2 md:block hidden md:col-start-1 relative w-full max-w-[120rem]">
+                <div className="grid grid-cols-2 grid-flow-row auto-rows-max md:gap-8 gap-4">
                   {
                     sponsors.map((key, value) =>
                       <a href={key.href} target="_blank" rel="noopener noreferrer">
@@ -107,6 +101,14 @@ const ParagraphWelcome = () => {
                     )
                   }
                 </div>
+              </div>
+              
+            </div>
+            
+            <div className='md:w-1/2 flex flex-col w-full gap-4 justify-between'>
+              
+              <div className='w-full'>
+                <Carousel/>
               </div>
               
               <div className='md:col-start-2 md:row-start-3 flex items-start'>
@@ -119,6 +121,18 @@ const ParagraphWelcome = () => {
                       )
                     }
                   </div>
+              </div>
+
+              <div className="md:row-span-2 md:hidden block md:col-start-1 relative w-full max-w-[120rem]">
+                <div className="grid grid-cols-2 grid-flow-row auto-rows-max gap-8">
+                  {
+                    sponsors.map((key, value) =>
+                      <a href={key.href} target="_blank" rel="noopener noreferrer">
+                        <img src={key.img}  className={`object-scale-down drop-shadow-md`}/>
+                      </a>
+                    )
+                  }
+                </div>
               </div>
             </div>
           </div>
