@@ -298,7 +298,7 @@ const StudentPage: NextPage = () => {
                     alt={person.name}
                     className="rounded-full"
                     height={200}
-                    src={"/logo.png"}
+                    src={person.image ? person.image : "/logo.png"}
                     width={200}
                   />
                   <p className="text-lg font-semibold">{person.name}</p>
