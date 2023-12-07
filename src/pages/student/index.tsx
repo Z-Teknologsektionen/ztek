@@ -30,43 +30,43 @@ import { cn } from "~/utils/utils";
 
 const quickLinks = [
   {
-    icon: <MdCalendarMonth />,
+    icon: <MdCalendarMonth size={"3em"} />,
     href: "https://cloud.timeedit.net/chalmers/web/public/",
     text: "Schema",
     tooltip: "TimeEdit",
   },
   {
-    icon: <MdMeetingRoom />,
+    icon: <MdMeetingRoom size={"3em"} />,
     href: "https://cloud.timeedit.net/chalmers/web/b1/",
     text: "Grupprum",
     tooltip: "Boka grupprum på Chalmers",
   },
   {
-    icon: <MdSchool />,
+    icon: <MdSchool size={"3em"} />,
     href: "https://www.chalmers.se/utbildning/dina-studier/",
     text: "Studentportalen",
     tooltip: "Här kan du läsa mer om dina studier",
   },
   {
-    icon: <MdAnalytics />,
+    icon: <MdAnalytics size={"3em"} />,
     href: "https://stats.ftek.se/",
     text: "Tentastatestik",
     tooltip: "Här kan du se tentastatestik för de flesta kurser på Chalmers.",
   },
   {
-    icon: <MdAccountBalance />,
+    icon: <MdAccountBalance size={"3em"} />,
     href: "https://www.student.ladok.se/student/app/studentwebb",
     text: "Ladok",
     tooltip: "Här kan du anmäla dig till tentor och se dina resultat.",
   },
   {
-    icon: <MdFacebook size={60} />,
+    icon: <MdFacebook size={"3em"} />,
     href: "https://www.facebook.com/groups/activityatz",
     text: "Activity@Z",
     tooltip: "Här kommer information om olika arrangemang på sektionen",
   },
   {
-    icon: <MdReport size={60} />,
+    icon: <MdReport size={"3em"} />,
     href: "https://www.chalmers.se/utbildning/dina-studier/studie-och-arbetsmiljo/fysisk-arbetsmiljo/#felanmalan-i-lokalerna",
     text: "Felanmäl lokal",
     tooltip:
@@ -94,7 +94,6 @@ const StudentPage: NextPage = () => {
                       <IconContext.Provider
                         value={{
                           color: "black",
-                          size: "60",
                         }}
                       >
                         {link.icon}
