@@ -1,15 +1,23 @@
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import HeadLayout from "~/components/layout/HeadLayout";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { Button } from "~/components/ui/button";
+import ssg from "~/server/api/helper/ssg";
+import { api } from "~/utils/api";
 
 const sixHp = <span className="font-bold"> [6HP]</span>;
 const sevenHp = <span className="font-bold"> [7.5HP]</span>;
 const nineHp = <span className="font-bold"> [9HP]</span>;
 
+const PROGRAMANSVARIG_KEY = "Programansvarig";
+
 const NewStudent: NextPage = () => {
+  const { data, isLoading, isError } = api.programBoard.getOneByRole.useQuery({
+    role: PROGRAMANSVARIG_KEY,
+  });
   return (
     <>
       <HeadLayout title="Ny Student" />
@@ -17,24 +25,34 @@ const NewStudent: NextPage = () => {
         <SectionWrapper>
           <div className="grid grid-cols-3">
             <div className="order-last col-span-3 m-auto lg:order-first lg:col-span-1">
-              <Image
-                alt="image"
-                className="rounded"
-                height={400}
-                src="/knut_akesson.jpg"
-                width={400}
-              />
-              <div className="mt-2 text-center">
-                <p>
-                  <strong>Knut Åkessons</strong> - programansvarig
-                </p>
-                <a
-                  className="hover:font-bold hover:text-zRed"
-                  href="mailto:knut@chalmers.se"
-                >
-                  knut@chalmers.se
-                </a>
-              </div>
+              {(data || isLoading) && (
+                <Image
+                  alt="image"
+                  className="rounded"
+                  height={400}
+                  src={data?.image ? data.image : "/logo.png"}
+                  width={400}
+                />
+              )}
+              {data && (
+                <div className="mt-2 text-center">
+                  <p>
+                    <strong>Knut Åkesson</strong> - programansvarig
+                  </p>
+                  <Link
+                    className="text-blue-600 hover:text-blue-800 hover:underline"
+                    href={"mailto:knut@chalmers.se"}
+                    target="_blank"
+                  >
+                    knut@chalmers.se
+                  </Link>
+                </div>
+              )}
+              {isError && (
+                <div className="mt-2 text-center">
+                  <p>Kunde inte hämta programansvarig... </p>
+                </div>
+              )}
             </div>
             <div className="order-first col-span-3 pl-4 lg:order-last lg:col-span-2">
               <SectionTitle className="mb-4">En bra kombination</SectionTitle>
@@ -477,3 +495,13 @@ const NewStudent: NextPage = () => {
 };
 
 export default NewStudent;
+
+export const getStaticProps: GetStaticProps = async () => {
+  await ssg.programBoard.getOneByRole.prefetch({ role: PROGRAMANSVARIG_KEY });
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+    revalidate: 1,
+  };
+};

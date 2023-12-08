@@ -145,7 +145,7 @@ const StudentPage: NextPage = () => {
                 variant={"outline"}
                 asChild
               >
-                <Link href="newStudent">Mer information</Link>
+                <Link href="/student/newStudent">Mer information</Link>
               </Button>
             </div>
             <div className="col-span-1 my-4 flex flex-col rounded-md">
@@ -302,7 +302,7 @@ const StudentPage: NextPage = () => {
                     width={200}
                   />
                   <p className="text-lg font-semibold">{person.name}</p>
-                  <ul className="mt-2">
+                  <ul className="ml-3 mt-2">
                     <li className="mb-2 flex items-center justify-center md:justify-start">
                       <MdEmail />
                       <Link
