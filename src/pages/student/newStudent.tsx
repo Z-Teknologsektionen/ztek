@@ -1,15 +1,23 @@
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import HeadLayout from "~/components/layout/HeadLayout";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { Button } from "~/components/ui/button";
+import ssg from "~/server/api/helper/ssg";
+import { api } from "~/utils/api";
 
 const sixHp = <span className="font-bold"> [6HP]</span>;
 const sevenHp = <span className="font-bold"> [7.5HP]</span>;
 const nineHp = <span className="font-bold"> [9HP]</span>;
 
+const PROGRAMANSVARIG_KEY = "Programansvarig";
+
 const NewStudent: NextPage = () => {
+  const { data, isLoading, isError } = api.programBoard.getOneByRole.useQuery({
+    role: PROGRAMANSVARIG_KEY,
+  });
   return (
     <>
       <HeadLayout title="Ny Student" />
@@ -17,24 +25,34 @@ const NewStudent: NextPage = () => {
         <SectionWrapper>
           <div className="grid grid-cols-3">
             <div className="order-last col-span-3 m-auto lg:order-first lg:col-span-1">
-              <Image
-                alt="image"
-                className="rounded"
-                height={400}
-                src="/knut_akesson.jpg"
-                width={400}
-              />
-              <div className="mt-2 text-center">
-                <p>
-                  <strong>Knut Åkessons</strong> - programansvarig
-                </p>
-                <a
-                  className="hover:font-bold hover:text-zRed"
-                  href="mailto:knut@chalmers.se"
-                >
-                  knut@chalmers.se
-                </a>
-              </div>
+              {(data || isLoading) && (
+                <Image
+                  alt="image"
+                  className="rounded"
+                  height={400}
+                  src={data?.image ? data.image : "/logo.png"}
+                  width={400}
+                />
+              )}
+              {data && (
+                <div className="mt-2 text-center">
+                  <p>
+                    <strong>Knut Åkesson</strong> - programansvarig
+                  </p>
+                  <Link
+                    className="text-blue-600 hover:text-blue-800 hover:underline"
+                    href={"mailto:knut@chalmers.se"}
+                    target="_blank"
+                  >
+                    knut@chalmers.se
+                  </Link>
+                </div>
+              )}
+              {isError && (
+                <div className="mt-2 text-center">
+                  <p>Kunde inte hämta programansvarig... </p>
+                </div>
+              )}
             </div>
             <div className="order-first col-span-3 pl-4 lg:order-last lg:col-span-2">
               <SectionTitle className="mb-4">En bra kombination</SectionTitle>
@@ -110,17 +128,15 @@ const NewStudent: NextPage = () => {
               <p>
                 Mottagningen syftar till att underlätta din integration både
                 socialt och akademiskt. Detta åstadkoms genom fyra intensiva
-                veckor av engagerande aktiviteter, som spänner från tekniska
-                utmaningar till sociala sammankomster. Genom varierande
-                aktiviteter får du möjlighet att lära känna dina medstudenter på
-                sektionen. Det viktigaste är att du närmar dig denna period med
-                en positiv inställning och är redo att njuta av varje stund! Det
-                är normalt att känna nervositet inför introduktionen, men kom
-                ihåg att du inte är ensam. Mottagningskommiten och deras
-                phaddrar kommer göra sitt bästa för att se till att din
-                introduktion blir fantastisk, men det är du som formar din egen
-                upplevelse. Så kom med ett öppet sinne och var redo att ha
-                roligt!
+                veckor av engagerande aktiviteter. Genom varierande aktiviteter
+                får du möjlighet att lära känna dina medstudenter på sektionen.
+                Det viktigaste är att du närmar dig denna period med en positiv
+                inställning och är redo att njuta av varje stund! Det är normalt
+                att känna nervositet inför mottagningen, men kom ihåg att du
+                inte är ensam. Mottagningskommiten och deras phaddrar kommer
+                göra sitt bästa för att se till att din mottagning blir
+                fantastisk, men det är du som formar din egen upplevelse. Så kom
+                med ett öppet sinne och var redo att ha roligt!
               </p>
               <div className="mt-8 grid grid-cols-2 gap-8 md:grid-cols-2 lg:grid-cols-2">
                 <div className="border-gradient rounded-lg">
@@ -131,7 +147,7 @@ const NewStudent: NextPage = () => {
                     Första dagen, 15 augusti 2023, är det samling på
                     Götaplatsen. Efter en festlig välkomstceremoni tågar alla
                     tillsammans upp till Chalmers campus. Därefter börjar
-                    mottagningen
+                    mottagningen.
                   </p>
                 </div>
                 <div className="border-gradient rounded-lg">
@@ -477,3 +493,13 @@ const NewStudent: NextPage = () => {
 };
 
 export default NewStudent;
+
+export const getStaticProps: GetStaticProps = async () => {
+  await ssg.programBoard.getOneByRole.prefetch({ role: PROGRAMANSVARIG_KEY });
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+    revalidate: 1,
+  };
+};

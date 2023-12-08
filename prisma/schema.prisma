@@ -73,11 +73,11 @@ model Account {
     @@unique([provider, providerAccountId])
 }
 
-model programBoardMember {
+model ProgramBoardMember {
     id        String   @id @default(auto()) @map("_id") @db.ObjectId
     name      String
     role      String
-    phone     String
+    phone     String?
     email     String
     url       String
     image     String   @default("")
