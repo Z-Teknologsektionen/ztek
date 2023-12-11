@@ -175,7 +175,15 @@ export const UpsertMemberForm: FC<IUpsertMemberForm> = ({
               <FormItem>
                 <FormLabel>Ordning</FormLabel>
                 <FormControl>
-                  <Input type="number" {...field} />
+                  <Input
+                    type="number"
+                    {...field}
+                    max={99}
+                    min={0}
+                    onChange={(event) =>
+                      field.onChange(Number(event.target.value))
+                    }
+                  />
                 </FormControl>
                 <FormDescription>
                   Används för att bestämma vilken ordning organets medlemmar ska
