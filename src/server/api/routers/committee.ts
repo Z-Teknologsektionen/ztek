@@ -6,6 +6,7 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 import { objectId } from "../helpers/customZodTypes";
+import { createOrganSchema, updateOrganSchema } from "../helpers/zodScheams";
 
 export const committeeRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
@@ -177,44 +178,30 @@ export const committeeRouter = createTRPCRouter({
       });
     }),
   createCommittee: adminProcedure
-    .input(
-      z.object({
-        name: z.string().min(1),
-        slug: z.string().min(1),
-        description: z.string().min(1),
-        role: z.string().min(1),
-        email: z.string().email().min(1),
-        order: z.number().min(0).max(99),
-      }),
-    )
+    .input(createOrganSchema)
     .mutation(
-      ({ ctx, input: { description, email, name, order, role, slug } }) => {
+      ({
+        ctx,
+        input: { description, email, name, order, role, slug, image },
+      }) => {
         return ctx.prisma.committee.create({
           data: {
             description,
             email,
-            image: "",
+            image,
             name,
             order,
             role,
             slug,
           },
+          select: {
+            name: true,
+          },
         });
       },
     ),
   updateCommittee: adminProcedure
-    .input(
-      z.object({
-        id: objectId,
-        name: z.string().min(1).optional(),
-        slug: z.string().min(1).optional(),
-        description: z.string().min(1).optional(),
-        role: z.string().min(1).optional(),
-        email: z.string().email().min(1).optional(),
-        order: z.number().min(0).max(99).optional(),
-        image: z.string().min(1).optional(),
-      }),
-    )
+    .input(updateOrganSchema)
     .mutation(
       ({
         ctx,
