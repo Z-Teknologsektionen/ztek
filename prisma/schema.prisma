@@ -18,7 +18,7 @@ model Committee {
     role        String
     email       String            @unique
     members     CommitteeMember[]
-    image       String
+    image       String            @default("")
     order       Int
     updatedAt   DateTime          @updatedAt
 }
