@@ -29,6 +29,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "dayjs": "^1.11.10",
+    "js-base64": "^3.7.5",
     "lucide-react": "^0.289.0",
     "mongoose": "^7.6.3",
     "next": "^13.5.6",
