@@ -37,14 +37,14 @@ const NewStudent: NextPage = () => {
               {data && (
                 <div className="mt-2 text-center">
                   <p>
-                    <strong>Knut Åkesson</strong> - programansvarig
+                    <strong>{data.name}</strong> - programansvarig
                   </p>
                   <Link
                     className="text-blue-600 hover:text-blue-800 hover:underline"
-                    href={"mailto:knut@chalmers.se"}
+                    href={`mailto:${data.email}`}
                     target="_blank"
                   >
-                    knut@chalmers.se
+                    {data.email}
                   </Link>
                 </div>
               )}
