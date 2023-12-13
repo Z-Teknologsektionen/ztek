@@ -5,7 +5,6 @@ export interface AdminRouteProps {
   name: string;
   route: string;
 }
-
 export interface ActiveRouteProps extends AdminRouteProps {
   requiredRole: AccountRoles | undefined;
 }
@@ -23,7 +22,7 @@ export const adminRoutes: AdminRouteProps[] = [
   },
   {
     name: "Administrera programledningen",
-    desc: "Lägg till eller ta någon i programledningen.",
+    desc: "Lägg till, ta bort eller uppdatera någon i programledningen.",
     route: "/admin/programBoard",
   },
 ];

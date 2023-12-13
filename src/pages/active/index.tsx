@@ -37,7 +37,7 @@ const AdminHomePage: NextPage = () => {
           att du borde ha tillgång till, kontakta då någon i Webbgruppen eller
           Informationsansvarig i Ztyret.
         </p>
-        <div className="flex flex-col gap-4 ">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {activeRoutes.map((route) => {
             if (
               route.requiredRole !== undefined &&
@@ -48,7 +48,9 @@ const AdminHomePage: NextPage = () => {
 
             return <InfoCard {...route} key={route.route} />;
           })}
-          {user.admin && <SecondaryTitle center>Administratör</SecondaryTitle>}
+        </div>
+        {user.admin && <SecondaryTitle center>Administratör</SecondaryTitle>}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {user.admin &&
             adminRoutes.map((route) => (
               <InfoCard {...route} key={route.route} />
@@ -60,17 +62,18 @@ const AdminHomePage: NextPage = () => {
 };
 
 const InfoCard: FC<InfoCardProps> = ({ desc, name, route }) => (
-  <Card className="bg-zWhite">
-    <CardHeader>
+  //Controls height for the cards, change h-XX to accomodate more text
+  <Card className="col-span-1 h-60 bg-zWhite">
+    <CardHeader className="h-[30%]">
       <CardTitle>{name}</CardTitle>
     </CardHeader>
-    <CardContent>{desc}</CardContent>
-    <CardFooter className="justify-center sm:justify-end">
+    <CardContent className="h-[50%]">{desc}</CardContent>
+    <CardFooter className="h-[20%] justify-center sm:justify-center">
       <Link
         className={buttonVariants({
           variant: "outline",
           size: "lg",
-          className: "w-full sm:w-auto",
+          className: "w-[25%]",
         })}
         href={route}
       >
