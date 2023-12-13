@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import type { FC } from "react";
 import { MdArrowForward } from "react-icons/md";
-import HeadLayout from "~/components/layout/HeadLayout";
+import RoleWrapper from "~/components/layout/RoleWrapper";
 import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
@@ -28,9 +28,7 @@ const AdminHomePage: NextPage = () => {
   const { user } = session;
 
   return (
-    <>
-      <HeadLayout title="Sektionsaktiv"></HeadLayout>
-
+    <RoleWrapper accountRole={undefined}>
       <SectionWrapper>
         <SectionTitle>Välkommen {user.name}!</SectionTitle>
         <p>
@@ -57,7 +55,7 @@ const AdminHomePage: NextPage = () => {
             ))}
         </div>
       </SectionWrapper>
-    </>
+    </RoleWrapper>
   );
 };
 
