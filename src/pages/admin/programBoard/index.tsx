@@ -1,14 +1,15 @@
 import { type NextPage } from "next";
 import ProgramBoardTable from "~/components/data-table/programBoard/programBoard-table";
+import AdminWrapper from "~/components/layout/AdminWrapper";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 
 const AdminProgramBoardPage: NextPage = () => {
   return (
-    <>
+    <AdminWrapper>
       <SectionWrapper>
-        <ProgramBoardTable></ProgramBoardTable>
+        <ProgramBoardTable />
       </SectionWrapper>
-    </>
+    </AdminWrapper>
   );
 };
 
