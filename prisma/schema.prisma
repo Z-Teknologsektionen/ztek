@@ -25,17 +25,18 @@ model Committee {
 }
 
 model CommitteeMember {
-    id          String    @id @default(auto()) @map("_id") @db.ObjectId
-    committee   Committee @relation(fields: [committeeId], references: [id], onDelete: Restrict)
-    name        String    @default("")
-    nickName    String    @default("")
-    email       String
-    phone       String    @default("")
-    role        String
-    image       String    @default("")
-    order       Int       @default(0)
-    updatedAt   DateTime  @updatedAt
-    committeeId String    @db.ObjectId
+    id              String            @id @default(auto()) @map("_id") @db.ObjectId
+    committee       Committee         @relation(fields: [committeeId], references: [id], onDelete: Restrict)
+    name            String            @default("")
+    nickName        String            @default("")
+    email           String
+    phone           String            @default("")
+    role            String
+    image           String            @default("")
+    order           Int               @default(0)
+    updatedAt       DateTime          @updatedAt
+    committeeId     String            @db.ObjectId
+    ZaloonenBooking ZaloonenBooking[]
 }
 
 model Document {
@@ -111,6 +112,34 @@ enum AccountRoles {
     CREATE_POST
     MODIFY_ROLES
     MODIFY_DOCUMENTS
+}
+
+model ZaloonenBooking {
+    id                 String                @id @default(auto()) @map("_id") @db.ObjectId
+    eventName          String
+    eventDescription   String
+    organizerEmail     String
+    organizerName      String
+    organizerPhone     String
+    inChargeName       String
+    inChargeEmail      String
+    inChargePhone      String
+    primaryStartDate   DateTime
+    primaryEndDate     DateTime
+    secondaryStartDate DateTime
+    secondaryEndDate   DateTime
+    hasServingPermit   Boolean
+    status             ZaloonenBookingStatus @default(NEW)
+    updatedAt          DateTime              @updatedAt
+    updatedById        String?               @db.ObjectId
+    updatedBy          CommitteeMember?      @relation(fields: [updatedById], references: [id], onDelete: SetNull)
+    createdAt          DateTime              @default(now())
+}
+
+enum ZaloonenBookingStatus {
+    NEW
+    APPROVED
+    REJECTED
 }
 
 model VerificationToken {
