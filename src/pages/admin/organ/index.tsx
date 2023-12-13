@@ -4,6 +4,7 @@ import { CreateNewOrganWizard } from "~/components/admin/organ/CreateNewOrganWiz
 import { DeleteOraganWizard } from "~/components/admin/organ/DeleteOraganWizard";
 import { UpdateOrganWizard } from "~/components/admin/organ/UpdateOrganWizard";
 import OrganTable from "~/components/data-table/organ/organ-table";
+import AdminWrapper from "~/components/layout/AdminWrapper";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { useRouterHelpers } from "~/utils/router";
 
@@ -13,7 +14,7 @@ const AdminOrganPage: NextPage = () => {
   const { newCommittee, editCommittee, delCommittee } = router.query;
 
   return (
-    <>
+    <AdminWrapper>
       <SectionWrapper>
         <OrganTable />
       </SectionWrapper>
@@ -35,7 +36,7 @@ const AdminOrganPage: NextPage = () => {
           onClose={() => void clearQuery()}
         />
       )}
-    </>
+    </AdminWrapper>
   );
 };
 

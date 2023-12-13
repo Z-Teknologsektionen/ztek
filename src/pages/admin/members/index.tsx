@@ -4,6 +4,7 @@ import { CreateNewMemberWizard } from "~/components/admin/medlemmar/CreateNewMem
 import { DeleteMemberWizard } from "~/components/admin/medlemmar/DeleteMemberWizard";
 import { UpdateMemberWizard } from "~/components/admin/medlemmar/UpdateMemberWizard";
 import MemberTable from "~/components/data-table/members/member-table";
+import AdminWrapper from "~/components/layout/AdminWrapper";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { useRouterHelpers } from "~/utils/router";
 
@@ -14,7 +15,7 @@ const AdminMemberPage: NextPage = () => {
   const { delMember, editMember, newMember } = router.query;
 
   return (
-    <>
+    <AdminWrapper>
       <SectionWrapper>
         <MemberTable />
       </SectionWrapper>
@@ -36,7 +37,7 @@ const AdminMemberPage: NextPage = () => {
           isOpen={Boolean(delMember)}
         />
       )}
-    </>
+    </AdminWrapper>
   );
 };
 
