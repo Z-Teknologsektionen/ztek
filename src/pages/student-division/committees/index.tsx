@@ -26,7 +26,7 @@ const Home: NextPage = () => {
           </SectionTitle>
           <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
             {committees?.map(({ name, slug, image, role }) => (
-              <Link key={slug} href={`/studentDivision/committees/${slug}`}>
+              <Link key={slug} href={`/student-division/committees/${slug}`}>
                 <Card className="group shadow">
                   <CardContent className="flex flex-col items-center justify-center gap-2 pt-2">
                     <CommitteeImage alt={`${name}s logotyp`} filename={image} />

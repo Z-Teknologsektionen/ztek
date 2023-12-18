@@ -113,6 +113,7 @@ const StudentHealthPage: NextPage = () => {
               </ul>
             </div>
             <div className="col-span-1">
+              {/* //TODO Hämta ankén dynamiskt istället */}
               <SecondaryTitle>Studievägledare Anders Ankén</SecondaryTitle>
               <ul className="mt-6">
                 <li className="mb-2 flex items-center justify-center md:justify-start">
