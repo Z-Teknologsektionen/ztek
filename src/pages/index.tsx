@@ -88,7 +88,7 @@ const linkGroup = [
   {
     title: "Sektionen",
     links: [
-      { title: "Boka Zaloonen", url: "https://forms.gle/yCvBenvr4RzhJv13A" },
+      { title: "Zaloonen", url: "/student-division/zaloonen" },
       {
         title: "Activity@Z",
         url: "https://www.facebook.com/groups/activityatz",

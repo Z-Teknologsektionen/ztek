@@ -127,7 +127,7 @@ const StudentPage: NextPage = () => {
                 variant={"outline"}
                 asChild
               >
-                <Link href="/student/studentHealth">
+                <Link href="/student/student-health">
                   Mer om studiesocialt stöd
                 </Link>
               </Button>
@@ -145,7 +145,7 @@ const StudentPage: NextPage = () => {
                 variant={"outline"}
                 asChild
               >
-                <Link href="/student/newStudent">Mer information</Link>
+                <Link href="/student/new-student">Mer information</Link>
               </Button>
             </div>
             <div className="col-span-1 my-4 flex flex-col rounded-md">

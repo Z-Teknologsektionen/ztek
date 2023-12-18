@@ -18,14 +18,14 @@ const Navbar: FC = () => {
     { name: "Student", href: "/student", target: "_self" },
     {
       name: "Zaloonen",
-      href: "/studentDivision/zaloonen",
+      href: "/student-division/zaloonen",
       target: "_self",
     },
     { name: "Dokument", href: "/documents", target: "_self" },
-    { name: "Sektionen", href: "/studentDivision", target: "_self" },
+    { name: "Sektionen", href: "/student-division", target: "_self" },
     {
       name: "Sektionsorgan",
-      href: "/studentDivision/committees",
+      href: "/student-division/committees",
       target: "_self",
     },
     { name: "För Företag", href: "/business", target: "_self" },
