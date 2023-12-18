@@ -1,32 +1,42 @@
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
 
 import { MdBusiness, MdEmail, MdOutlineHouse } from "react-icons/md";
 
-const quickLinks = [
-  {
-    text: "Canvas",
-    href: "https://chalmers.instructure.com/",
-  },
-  {
-    text: "TimeEdit",
-    href: "https://cloud.timeedit.net/chalmers/web/public/",
-    blank: true,
-  },
-  {
-    text: "Boka Grupprum",
-    href: "https://cloud.timeedit.net/chalmers/web/b1/",
-    blank: true,
-  },
-  {
-    text: "Logga in",
-    href: "/active",
-    blank: false,
-  },
-];
-
 const Footer: FC = () => {
+  const { data: session } = useSession();
+  const quickLinks = [
+    {
+      text: "Canvas",
+      href: "https://chalmers.instructure.com/",
+    },
+    {
+      text: "TimeEdit",
+      href: "https://cloud.timeedit.net/chalmers/web/public/",
+      blank: true,
+    },
+    {
+      text: "Boka Grupprum",
+      href: "https://cloud.timeedit.net/chalmers/web/b1/",
+      blank: true,
+    },
+  ];
+  if (session?.user) {
+    quickLinks.push({
+      text: "Logga ut",
+      href: "/",
+      blank: false,
+    });
+  } else {
+    quickLinks.push({
+      text: "Logga in",
+      href: "/active",
+      blank: false,
+    });
+  }
+
   return (
     <footer className="bg-zBlack pb-2 pt-8 text-zWhite">
       <div className="container mx-auto px-4">
@@ -82,6 +92,11 @@ const Footer: FC = () => {
                   <Link
                     className="hover:underline"
                     href={link.href}
+                    onClick={
+                      link.text === "Logga ut"
+                        ? () => signOut({ callbackUrl: "/", redirect: true })
+                        : undefined
+                    }
                     target={link.blank ? "_blank" : "_self"}
                   >
                     {link.text}

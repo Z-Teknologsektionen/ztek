@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { IconContext } from "react-icons";
@@ -24,109 +24,57 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import ssg from "~/server/api/helper/ssg";
+import { api } from "~/utils/api";
 import { cn } from "~/utils/utils";
 
 const quickLinks = [
   {
-    icon: <MdCalendarMonth />,
+    icon: <MdCalendarMonth size={"3em"} />,
     href: "https://cloud.timeedit.net/chalmers/web/public/",
     text: "Schema",
     tooltip: "TimeEdit",
   },
   {
-    icon: <MdMeetingRoom />,
+    icon: <MdMeetingRoom size={"3em"} />,
     href: "https://cloud.timeedit.net/chalmers/web/b1/",
     text: "Grupprum",
     tooltip: "Boka grupprum på Chalmers",
   },
   {
-    icon: <MdSchool />,
+    icon: <MdSchool size={"3em"} />,
     href: "https://www.chalmers.se/utbildning/dina-studier/",
     text: "Studentportalen",
     tooltip: "Här kan du läsa mer om dina studier",
   },
   {
-    icon: <MdAnalytics />,
+    icon: <MdAnalytics size={"3em"} />,
     href: "https://stats.ftek.se/",
     text: "Tentastatestik",
     tooltip: "Här kan du se tentastatestik för de flesta kurser på Chalmers.",
   },
   {
-    icon: <MdAccountBalance />,
+    icon: <MdAccountBalance size={"3em"} />,
     href: "https://www.student.ladok.se/student/app/studentwebb",
     text: "Ladok",
     tooltip: "Här kan du anmäla dig till tentor och se dina resultat.",
   },
   {
-    icon: <MdFacebook size={60} />,
+    icon: <MdFacebook size={"3em"} />,
     href: "https://www.facebook.com/groups/activityatz",
     text: "Activity@Z",
     tooltip: "Här kommer information om olika arrangemang på sektionen",
   },
   {
-    icon: <MdReport size={60} />,
+    icon: <MdReport size={"3em"} />,
     href: "https://www.chalmers.se/utbildning/dina-studier/studie-och-arbetsmiljo/fysisk-arbetsmiljo/#felanmalan-i-lokalerna",
     text: "Felanmäl lokal",
     tooltip:
       "Här kan du rapportera olika fel eller skador som du hittar på någon av Chalmers lokaler",
   },
 ];
-
-const programLedning = [
-  {
-    title: "Programansvarig",
-    fullName: "Knut Åkesson",
-    imgSrc: "/knut_akesson.jpg",
-    links: [
-      {
-        icon: <MdEmail />,
-        href: "mailto:knut@chalmers.se",
-        text: "knut@chalmers.se",
-      },
-      {
-        icon: <MdInfo />,
-        href: "https://www.chalmers.se/personer/knut/",
-        text: "Mer information",
-      },
-    ],
-  },
-  {
-    title: "Studievägledare",
-    fullName: "Anders Ankén",
-    imgSrc: "/anken.jpg",
-    links: [
-      {
-        icon: <MdEmail />,
-        href: "mailto:anken@chalmers.se",
-        text: "anken@chalmers.se",
-      },
-      {
-        icon: <MdInfo />,
-        href: "https://www.chalmers.se/personer/anken/",
-        text: "Mer information",
-      },
-    ],
-  },
-  {
-    title: "Utbildningssekreterare",
-    fullName: "Björn Friberg",
-    imgSrc: "/logo.png",
-    links: [
-      {
-        icon: <MdEmail />,
-        href: "mailto:bjorn.friberg@chalmers.se",
-        text: "bjorn.friberg@chalmers.se",
-      },
-      {
-        icon: <MdInfo />,
-        href: "https://www.chalmers.se/personer/mi2frbj/",
-        text: "Mer information",
-      },
-    ],
-  },
-];
-
 const StudentPage: NextPage = () => {
+  const { data, isLoading, isError } = api.programBoard.getAll.useQuery();
   return (
     <>
       <HeadLayout title="Student" />
@@ -146,7 +94,6 @@ const StudentPage: NextPage = () => {
                       <IconContext.Provider
                         value={{
                           color: "black",
-                          size: "60",
                         }}
                       >
                         {link.icon}
@@ -198,7 +145,7 @@ const StudentPage: NextPage = () => {
                 variant={"outline"}
                 asChild
               >
-                <Link href="/student/studentHealth">Mer information</Link>
+                <Link href="/student/newStudent">Mer information</Link>
               </Button>
             </div>
             <div className="col-span-1 my-4 flex flex-col rounded-md">
@@ -235,11 +182,26 @@ const StudentPage: NextPage = () => {
             <div className="col-span-3 md:col-span-2 md:pr-20">
               <SectionTitle className="mb-4">Student</SectionTitle>
               <p>
-                Som student på Z-sektionen så finns det massa Lorem ipsum dolor
-                sit amet consectetur adipisicing elit. Ratione sapiente natus
-                illo neque omnis similique earum placeat possimus corrupti odio
-                sequi iste pariatur harum modi iure nam architecto, quia
-                delectus.
+                Som student på Chalmers och Z-programmet finns det många olika
+                möjligheter att få hjälp och möjlighet att påverka dina studier.
+                Här nedanför finns lite information om vad som finns
+                tillgängligt för dig som student och information om programmet.
+                Programmets studieplan hittar du på{" "}
+                <Link
+                  className="text-blue-600 hover:text-blue-800 hover:underline"
+                  href={
+                    "https://www.chalmers.se/utbildning/hitta-program/automation-och-mekatronik-civilingenjor/"
+                  }
+                  target="_blank"
+                >
+                  Chalmers hemsida
+                </Link>{" "}
+                där du också kan läsa mer om de olika kurserna som du läser
+                varje år. Som student på Z-programmet har man stor möjlighet att
+                välja olika mastrar beroende på intresseområde då över 20 olika
+                masterprogram är valbara för Z-studenter. Alla masterprogram och
+                dess specifika förkunskapskrav hittar du på samma sida som
+                programplanen.
               </p>
             </div>
             <div className="col-span-3 mx-auto mt-4 md:col-span-1 md:my-auto">
@@ -316,45 +278,54 @@ const StudentPage: NextPage = () => {
             Z-programmet har en programledning som består av programansvarig,
             studievägledare och utbildningssekreterare. Programledningen jobbar
             med att säkra framtida kompetens inom Z-programmet och övervaka den
-            nuvarande studieplanen. Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit. Nisi iste quo nihil quidem provident dolor
-            consectetur voluptatum, inventore ullam. Soluta molestiae magnam
-            adipisci non cumque ducimus nostrum excepturi natus modi?
+            nuvarande studieplanen. De arbetar också med att utveckla och
+            förbättra programmet genom att ta emot och behandla feedback från de
+            studenter som går på programmet.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-            {programLedning.map((person) => (
-              <div
-                key={person.title}
-                className="mx-auto mt-2 block w-fit grid-cols-1 text-center"
-              >
-                <SecondaryTitle className="mb-4">{person.title}</SecondaryTitle>
-                <Image
-                  alt={person.fullName}
-                  className="rounded-full"
-                  height={200}
-                  src={person.imgSrc}
-                  width={200}
-                />
-                <p className="text-lg font-semibold">{person.fullName}</p>
-                <ul className="mt-2">
-                  {person.links.map((link) => (
-                    <li
-                      key={`${person.title}${link.text}`}
-                      className="mb-2 flex items-center justify-center md:justify-start"
-                    >
-                      {link.icon}
+            {isLoading && <p>Försöker hämta programledningens medlemmar...</p>}
+            {isError && <p>Kunde inte hämta programledningens medlemmar</p>}
+            {data &&
+              data.map((person) => (
+                <div
+                  key={person.role}
+                  className="mx-auto mt-2 block w-fit grid-cols-1 text-center"
+                >
+                  <SecondaryTitle className="mb-4">
+                    {person.role}
+                  </SecondaryTitle>
+                  <Image
+                    alt={person.name}
+                    className="rounded-full"
+                    height={200}
+                    src={person.image ? person.image : "/logo.png"}
+                    width={200}
+                  />
+                  <p className="text-lg font-semibold">{person.name}</p>
+                  <ul className="ml-3 mt-2">
+                    <li className="mb-2 flex items-center justify-center md:justify-start">
+                      <MdEmail />
                       <Link
                         className="ml-1 hover:underline"
-                        href={link.href}
+                        href={`mailto:${person.email}`}
                         target="_blank"
                       >
-                        {link.text}
+                        {person.email}
                       </Link>
                     </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+                    <li className="mb-2 flex items-center justify-center md:justify-start">
+                      <MdInfo />
+                      <Link
+                        className="ml-1 hover:underline"
+                        href={person.url}
+                        target="_blank"
+                      >
+                        Mer information
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              ))}
           </div>
         </SectionWrapper>
       </div>
@@ -363,3 +334,12 @@ const StudentPage: NextPage = () => {
 };
 
 export default StudentPage;
+export const getStaticProps: GetStaticProps = async () => {
+  await ssg.programBoard.getAll.prefetch();
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+    revalidate: 1,
+  };
+};

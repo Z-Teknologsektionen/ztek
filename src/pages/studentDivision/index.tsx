@@ -102,18 +102,26 @@ const StudentDivision: NextPage = () => {
                 Studentkår är en ideell förening som har till uppgift att verka
                 för sammanhållning mellan sina medlemmar och skall tillvarata
                 deras gemensamma intressen i främst utbildningsfrågor och
-                studiesociala frågor. Sektionen leds av Sektionsstyrelsen,
-                Ztyret, som består av 6 förtroendevalda. De förtroendevalda är
-                invalda postspecifikt och sitter i ett år. De sex posterna är:
-                Ordförande, Vice ordförande, Ekonomiansvarig,
-                Informationsansvarig, Nöjeslivsansvarig och SAMO.
-                Sektionsstyrelsen lyder under sektionsmötet som sammanträder
-                minst fyra gånger per år. Sektionsföreningar och -utskott ligger
-                under sektionen och är till för gemene teknolog. De kan antingen
-                finnas för att främja ett specifikt intresse, exempelvis idrott
-                eller en sittning, eller för att utföra ett uppdrag, till
-                exempel anordna mottagning eller trycka en tidning. Sektionen
-                kan också tillsätta arbetsgrupper för specifika ändamål.
+                studiesociala frågor.
+                <br />
+                <br />
+                Som Z-student på Chalmers är du automatiskt medlem i Chalmers
+                studentkår och därmed också i Z-Teknologsektionen. Sektionen
+                erbjuder många möjligheter att få ut mer av din studietid. Du
+                kan engagera dig i sektionens verksamhet, delta i olika
+                arrangemang och aktiviteter, eller bara hänga med dina vänner i
+                sektionslokalen.
+                <br />
+                <br />
+                Sektionen leds av Sektionsstyrelsen, Ztyret, som består av 6
+                förtroendevalda. Sektionsstyrelsen lyder under sektionsmötet som
+                sammanträder minst fyra gånger per år. Sektionsföreningar och
+                -utskott ligger under sektionen och är till för gemene teknolog.
+                De kan antingen finnas för att främja ett specifikt intresse,
+                exempelvis idrott eller en sittning, eller för att utföra ett
+                uppdrag, till exempel anordna mottagning eller trycka en
+                tidning. Sektionen kan också tillsätta arbetsgrupper för
+                specifika ändamål.
                 <br />
                 <br />
                 Sektionen regleras stadgan, reglementet och andra styrdokument.
@@ -123,14 +131,14 @@ const StudentDivision: NextPage = () => {
                 följd. Sektionens olika styrdokument hittar du{" "}
                 <Link
                   className="text-blue-600 hover:text-blue-800 hover:underline"
-                  href="documents"
+                  href="/documents"
                 >
                   här
                 </Link>
                 .
               </p>
             </div>
-            <div className="col-span-3 m-auto mt-8 lg:col-span-1 lg:mt-0">
+            <div className="col-span-3 m-auto mt-8 md:col-span-1 lg:mt-0">
               <Image
                 alt="Sektionens uppbyggnad"
                 height={250}
@@ -217,7 +225,7 @@ const StudentDivision: NextPage = () => {
                 dess medlemmar hittar du{" "}
                 <Link
                   className="text-blue-600 hover:text-blue-800 hover:underline"
-                  href="/organ"
+                  href="/studentDivision/committees"
                 >
                   här
                 </Link>
@@ -252,7 +260,7 @@ const StudentDivision: NextPage = () => {
                 inval i dessa läsperioder:
               </p>
             </div>
-            <div className="col-span-3 m-auto mt-8 lg:col-span-1 lg:mt-0">
+            <div className="col-span-3 m-auto mt-8 md:col-span-1 lg:mt-0">
               <Image
                 alt="Lucky luke poster"
                 className="rotate-6"
