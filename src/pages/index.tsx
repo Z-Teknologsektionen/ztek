@@ -280,6 +280,7 @@ const Carousel: FC = () => {
               alt="asv"
               className="h-full w-full object-cover"
               height={1080}
+              onLoad={() => instanceRef?.current?.update()}
               src={slide}
               width={1920}
             />
