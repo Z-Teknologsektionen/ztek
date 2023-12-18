@@ -114,7 +114,7 @@ const HomePage: NextPage = () => {
         <div className="absolute h-[5vh] w-full md:h-[10vh] xl:h-[15vh]">
           <Image
             alt="Lucky luke"
-            className="absolute bottom-[2.5vh] left-1/2 z-20  w-[30vw] -translate-x-1/2 -rotate-[4deg]  transform drop-shadow-md  md:bottom-[5vh] md:w-[24vw] xl:bottom-[7.5vh]"
+            className="absolute max-w-[35rem] bottom-[2.5vh] left-1/2 z-20  w-[30vw] -translate-x-1/2 -rotate-[4deg]  transform drop-shadow-md  md:bottom-[5vh] md:w-[24vw] xl:bottom-[7.5vh]"
             height={1080}
             src="/lucky_horizontal.png"
             width={1920}
