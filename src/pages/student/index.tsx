@@ -50,7 +50,7 @@ const quickLinks = [
   {
     icon: <MdAnalytics size={"3em"} />,
     href: "https://stats.ftek.se/",
-    text: "Tentastatestik",
+    text: "Tentastatistik",
     tooltip: "Här kan du se tentastatestik för de flesta kurser på Chalmers.",
   },
   {
@@ -261,7 +261,7 @@ const StudentPage: NextPage = () => {
               <div className="mx-auto mt-2 block w-fit">
                 <Link
                   className={cn(
-                    buttonVariants({ variant: "outline", size: "lg" }),
+                    buttonVariants({ variant: "outline", size: "lg" })
                   )}
                   href={"https://snz.se"}
                   target="_blank"
