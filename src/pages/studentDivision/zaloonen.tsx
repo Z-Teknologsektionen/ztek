@@ -9,7 +9,7 @@ import { buttonVariants } from "~/components/ui/button";
 import ssg from "~/server/api/helper/ssg";
 import { api } from "~/utils/api";
 
-const DOCUMENTGROUP_KEY = "Zaloonen dokument";
+const DOCUMENTGROUP_KEY = "Dokument för Zaloonen";
 
 const ZaloonenPage: NextPage = () => {
   const { data, isLoading, isError } = api.document.getOneGroupByName.useQuery({
@@ -24,26 +24,34 @@ const ZaloonenPage: NextPage = () => {
         <p className="max-w-3xl">
           Zaloonen är Z-sektionens sektionslokal och är belägen på bottenplan i
           HB. Som Z-teknolog finns det möjlighet att hålla arrangemang i
-          Zaloonen. <br />
+          Zaloonen.
+          <br />
           <br />
           Inför arrangemang i Zaloonen kommer ZÅG ta ut en städdeposition som
-          återfås vid godkänd avsyning. <br />
+          återfås vid godkänd avsyning.
+          <br />
           <br />
           När man arrangerar i Zaloonen är det viktigt att tänka på att lokalen
-          tillhör alla Z-teknologer mellan 08:00 och 17:00. <br />
+          tillhör alla Z-teknologer mellan 08:00 och 17:00.
+          <br />
           <br />
           Under tentaveckorna är vi väldigt restriktiva med arrangemang i
-          Zaloonen då den behövs som studielokal. <br />
+          Zaloonen då den behövs som studielokal.
+          <br />
           <br />
           Då det ofta är högt söktryck på Zaloonen har vi i stort sett ingen
           möjlighet att tillåta arrangemang som inte har med Z-sektionen att
           göra. Vi rekomenderar er som studerar på annan sektion att i första
           hand söka lokal inom egen sektion eller någon av chalmers icke
           sektionsbunda lokaler.
+          <br />
+          <br />
+          Avsyning sker alltid kl 07:30 på vardagar och 11:30 på helger om ni
+          inte har någon annan överenskommelse med ZÅG.
         </p>
       </SectionWrapper>
       <SectionWrapper>
-        {(isError || isLoading) && <SectionTitle>Dokuemnt</SectionTitle>}
+        {(isError || isLoading) && <SectionTitle>Dokument</SectionTitle>}
         {isError && (
           <p>
             Du kan hitta Zaloonens dokument{" "}

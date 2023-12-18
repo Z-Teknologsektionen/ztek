@@ -1,24 +1,23 @@
 import { signIn, useSession } from "next-auth/react";
-import { type FC, type PropsWithChildren } from "react";
+import { useRouter } from "next/router";
+import type { FC, PropsWithChildren } from "react";
 import HeadLayout from "./HeadLayout";
-import Unauthorized from "./Unauthorized";
 
 const AdminWrapper: FC<PropsWithChildren> = ({ children }) => {
-  const { data: session, status } = useSession({
+  const { push } = useRouter();
+  const { data, status } = useSession({
     required: true,
     onUnauthenticated: () => void signIn("google"),
   });
 
   if (status === "loading") return null;
 
-  if (!session.user.admin) {
-    return <Unauthorized />;
-  }
+  if (!data.user.admin) return push("/denied");
 
   return (
     <>
       <HeadLayout title="Admin" />
-      <main>{children}</main>
+      {children}
     </>
   );
 };

@@ -27,7 +27,7 @@ const DocuemntTable: FC = () => {
         </div>
       </div>
 
-      {isLoading && "Hämtar tabel..."}
+      {isLoading && "Hämtar dokument..."}
       {isError && "Okänt fel"}
       {data && <BasicDataTable columns={columns} data={data} />}
     </>

@@ -11,16 +11,17 @@ datasource db {
 }
 
 model Committee {
-    id          String            @id @default(auto()) @map("_id") @db.ObjectId
-    name        String
-    slug        String            @unique
-    description String
-    role        String
-    email       String            @unique
-    members     CommitteeMember[]
-    image       String
-    order       Int
-    updatedAt   DateTime          @updatedAt
+    id             String            @id @default(auto()) @map("_id") @db.ObjectId
+    name           String
+    slug           String            @unique
+    description    String
+    role           String
+    email          String            @unique
+    members        CommitteeMember[]
+    image          String            @default("")
+    order          Int
+    electionPeriod Int               @default(1)
+    updatedAt      DateTime          @updatedAt
 }
 
 model CommitteeMember {
@@ -72,6 +73,19 @@ model Account {
     @@unique([provider, providerAccountId])
 }
 
+model ProgramBoardMember {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    name      String
+    role      String
+    phone     String?
+    email     String
+    url       String
+    image     String   @default("")
+    order     Int      @default(0)
+    updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+}
+
 model Session {
     id           String   @id @default(auto()) @map("_id") @db.ObjectId
     sessionToken String   @unique
@@ -81,14 +95,22 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(auto()) @map("_id") @db.ObjectId
+    id            String         @id @default(auto()) @map("_id") @db.ObjectId
     name          String?
-    email         String?   @unique
+    email         String?        @unique
     emailVerified DateTime?
-    image         String?
-    admin         Boolean   @default(false)
+    image         String         @default("")
+    admin         Boolean        @default(false)
+    roles         AccountRoles[]
     accounts      Account[]
     sessions      Session[]
+}
+
+enum AccountRoles {
+    ZALOONEN
+    CREATE_POST
+    MODIFY_ROLES
+    MODIFY_DOCUMENTS
 }
 
 model VerificationToken {

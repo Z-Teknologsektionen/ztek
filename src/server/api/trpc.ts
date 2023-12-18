@@ -29,6 +29,7 @@ import { prisma } from "~/server/db";
  * ZodErrors so that you get typesafety on the frontend if your procedure fails due to validation
  * errors on the backend.
  */
+import type { AccountRoles } from "@prisma/client";
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
@@ -142,3 +143,24 @@ const enforceUserIsAdmin = t.middleware(({ ctx, next }) => {
 });
 
 export const adminProcedure = t.procedure.use(enforceUserIsAdmin);
+
+const enforceUserHasRoleOrAdmin = (role: AccountRoles) =>
+  t.middleware(({ ctx, next }) => {
+    // is signed in
+    if (!ctx.session || !ctx.session.user) {
+      throw new TRPCError({ code: "FORBIDDEN" });
+    }
+    // has role or is admin
+    if (!ctx.session.user.roles.includes(role) && !ctx.session.user.admin) {
+      throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+    return next({
+      ctx: {
+        session: { ...ctx.session, user: ctx.session.user },
+      },
+    });
+  });
+
+export const zaloonenProcedure = t.procedure.use(
+  enforceUserHasRoleOrAdmin("MODIFY_DOCUMENTS"),
+);

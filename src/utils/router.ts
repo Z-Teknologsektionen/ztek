@@ -6,7 +6,7 @@ export const useRouterHelpers = () => {
 
   const replaceQuery = async (
     key: string,
-    value: string[] | string | undefined
+    value: string[] | string | undefined,
   ): Promise<void> => {
     await router.replace({ query: { ...router.query, [key]: value } });
     return;

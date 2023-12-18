@@ -1,3 +1,4 @@
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
@@ -5,6 +6,37 @@ import type { FC } from "react";
 import { MdBusiness, MdEmail, MdOutlineHouse } from "react-icons/md";
 
 const Footer: FC = () => {
+  const { data: session } = useSession();
+  const quickLinks = [
+    {
+      text: "Canvas",
+      href: "https://chalmers.instructure.com/",
+    },
+    {
+      text: "TimeEdit",
+      href: "https://cloud.timeedit.net/chalmers/web/public/",
+      blank: true,
+    },
+    {
+      text: "Boka Grupprum",
+      href: "https://cloud.timeedit.net/chalmers/web/b1/",
+      blank: true,
+    },
+  ];
+  if (session?.user) {
+    quickLinks.push({
+      text: "Logga ut",
+      href: "/",
+      blank: false,
+    });
+  } else {
+    quickLinks.push({
+      text: "Logga in",
+      href: "/active",
+      blank: false,
+    });
+  }
+
   return (
     <footer className="bg-zBlack pb-2 pt-8 text-zWhite">
       <div className="container mx-auto px-4">
@@ -37,7 +69,7 @@ const Footer: FC = () => {
           <div className="flex w-full flex-col items-center md:w-1/3">
             <h3 className="text-center text-lg font-semibold">En del av</h3>
             <a
-              className="transition-all hover:scale-110"
+              className="transition-all hover:opacity-75"
               href="https://chalmersstudentkar.se/"
               target="_blank"
             >
@@ -54,56 +86,31 @@ const Footer: FC = () => {
             <h3 className="align-text-top text-lg font-semibold underline">
               Snabba länkar
             </h3>
-            <ul className="content-center">
-              <li className="mb-2">
-                <a
-                  className="hover:underline"
-                  href="https://chalmers.instructure.com/"
-                  target="_blank"
-                >
-                  Canvas
-                </a>
-              </li>
-              <li className="mb-2">
-                <a
-                  className="hover:underline"
-                  href="https://cloud.timeedit.net/chalmers/web/public/"
-                  target="_blank"
-                >
-                  TimeEdit
-                </a>
-              </li>
-              <li className="mb-2">
-                <a
-                  className="hover:underline"
-                  href="https://cloud.timeedit.net/chalmers/web/b1/"
-                  target="_blank"
-                >
-                  Boka grupprum
-                </a>
-              </li>
-              <li className="mb-2">
-                <a
-                  className="hover:underline"
-                  href="https://www.chalmers.se/utbildning/hitta-program/automation-och-mekatronik-civilingenjor/"
-                  target="_blank"
-                >
-                  Information om programmet
-                </a>
-              </li>
-              <li className="mb-2">
-                <Link className="hover:underline" href="/admin">
-                  Logga in
-                </Link>
-              </li>
+            <ul className="mt-2 content-center">
+              {quickLinks.map((link) => (
+                <li key={link.text} className="mb-2">
+                  <Link
+                    className="hover:underline"
+                    href={link.href}
+                    onClick={
+                      link.text === "Logga ut"
+                        ? () => signOut({ callbackUrl: "/", redirect: true })
+                        : undefined
+                    }
+                    target={link.blank ? "_blank" : "_self"}
+                  >
+                    {link.text}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
-        <div className="mt-4 text-center text-xs">
+        <div className="text-center text-xs">
           <p>
             Hemsidan är utvecklad av Webbgruppen, sektionens viktigaste organ.
           </p>
-          <a className="hover:underline" href="mailto:webbgruppen@ztek.se">
+          <a className="m-0 hover:underline" href="mailto:webbgruppen@ztek.se">
             webbgruppen@ztek.se
           </a>
         </div>

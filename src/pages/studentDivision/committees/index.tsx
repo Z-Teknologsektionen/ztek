@@ -4,6 +4,12 @@ import HeadLayout from "~/components/layout/HeadLayout";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import CommitteeImage from "~/components/organ/CommitteeImage";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from "~/components/ui/card";
 import ssg from "~/server/api/helper/ssg";
 import { api } from "~/utils/api";
 
@@ -14,27 +20,24 @@ const Home: NextPage = () => {
     <>
       <HeadLayout title="Organ"></HeadLayout>
       <main>
-        <SectionWrapper className="">
+        <SectionWrapper>
           <SectionTitle className="mb-8" center>
             Sektionsorgan
           </SectionTitle>
           <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
-            {committees &&
-              committees.map(({ name, slug, image, role }) => (
-                <Link
-                  key={slug}
-                  className="flex flex-col items-center justify-center gap-4 rounded px-2 py-4 text-center shadow"
-                  href={`/organ/${slug}`}
-                >
-                  <CommitteeImage alt={`${name}s logotyp`} filename={image} />
-                  <div className="space-y-1">
-                    <h2 className="text-center text-xl font-semibold underline decoration-black/75 underline-offset-4">
+            {committees?.map(({ name, slug, image, role }) => (
+              <Link key={slug} href={`/studentDivision/committees/${slug}`}>
+                <Card className="group shadow">
+                  <CardContent className="flex flex-col items-center justify-center gap-2 pt-2">
+                    <CommitteeImage alt={`${name}s logotyp`} filename={image} />
+                    <CardTitle className="decoration-zBlack underline-offset-2 group-hover:underline">
                       {name}
-                    </h2>
-                    <p className="font-light">{role}</p>
-                  </div>
-                </Link>
-              ))}
+                    </CardTitle>
+                    <CardDescription>{role}</CardDescription>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
           </div>
         </SectionWrapper>
       </main>

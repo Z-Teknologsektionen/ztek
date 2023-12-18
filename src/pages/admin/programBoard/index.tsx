@@ -1,17 +1,16 @@
 import { type NextPage } from "next";
+import ProgramBoardTable from "~/components/data-table/programBoard/programBoard-table";
 import AdminWrapper from "~/components/layout/AdminWrapper";
-import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 
-const AdminHomePage: NextPage = () => {
+const AdminProgramBoardPage: NextPage = () => {
   return (
     <AdminWrapper>
       <SectionWrapper>
-        <SectionTitle>Admin Panel</SectionTitle>
-        <div></div>
+        <ProgramBoardTable />
       </SectionWrapper>
     </AdminWrapper>
   );
 };
 
-export default AdminHomePage;
+export default AdminProgramBoardPage;

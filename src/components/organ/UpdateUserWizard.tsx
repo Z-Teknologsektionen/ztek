@@ -41,7 +41,7 @@ export const UpdateUserWizard: FC<IUpdateUserWizard> = ({
         order: order,
       });
     },
-    [updatedMemberInfo, member.id, mutateMember]
+    [updatedMemberInfo, member.id, mutateMember],
   );
 
   const handleFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -59,13 +59,14 @@ export const UpdateUserWizard: FC<IUpdateUserWizard> = ({
         setUpdatedMemberInfo((prev) => {
           return {
             ...prev,
+            // eslint-disable-next-line @typescript-eslint/no-base-to-string
             image: uri.toString(),
           };
         });
       },
       "base64",
       300,
-      300
+      300,
     );
 
     setTimeout(() => (e.target.value = ""), 2500);
