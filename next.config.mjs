@@ -25,5 +25,13 @@ const config = {
     ignoreDuringBuilds: true,
   },
   swcMinify: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'zfoto.ztek.se',
+      },
+    ],
+  },
 };
 export default config;
