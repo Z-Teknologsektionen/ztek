@@ -14,7 +14,7 @@ const MyApp: AppType<{
   return (
     <SessionProvider session={pageProps.session}>
       <Toaster position="top-center" reverseOrder={false} />
-      <HeadLayout description="bla bla"></HeadLayout>
+      <HeadLayout description="Z-teknologsektionens hemsida"></HeadLayout>
       <div className="zWhite flex min-h-screen flex-col">
         <Navbar />
         <main className="flex-grow">
