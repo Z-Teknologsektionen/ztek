@@ -50,7 +50,7 @@ const quickLinks = [
   {
     icon: <MdAnalytics size={"3em"} />,
     href: "https://stats.ftek.se/",
-    text: "Tentastatestik",
+    text: "Tentastatistik",
     tooltip: "Här kan du se tentastatestik för de flesta kurser på Chalmers.",
   },
   {
