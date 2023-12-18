@@ -25,6 +25,7 @@
     "@trpc/server": "^10.42.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "keen-slider": "^6.8.6",
     "dayjs": "^1.11.10",
     "lucide-react": "^0.289.0",
     "mongoose": "^7.6.3",
