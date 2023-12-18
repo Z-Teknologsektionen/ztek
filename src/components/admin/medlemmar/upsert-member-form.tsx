@@ -22,7 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { createNewMemberSchema } from "~/server/api/helpers/zodScheams";
+import { createMemberSchema } from "~/server/api/helpers/zodScheams";
 import { api } from "~/utils/api";
 import { cn } from "~/utils/utils";
 
@@ -36,7 +36,7 @@ interface IUpsertMemberForm {
     phone?: string;
     role?: string;
   };
-  onSubmit: (props: z.infer<typeof createNewMemberSchema>) => void;
+  onSubmit: (props: z.infer<typeof createMemberSchema>) => void;
 }
 
 export const UpsertMemberForm: FC<IUpsertMemberForm> = ({
@@ -61,8 +61,8 @@ export const UpsertMemberForm: FC<IUpsertMemberForm> = ({
     phone,
   };
 
-  const form = useForm<z.infer<typeof createNewMemberSchema>>({
-    resolver: zodResolver(createNewMemberSchema),
+  const form = useForm<z.infer<typeof createMemberSchema>>({
+    resolver: zodResolver(createMemberSchema),
     defaultValues: defaultValues,
   });
 
