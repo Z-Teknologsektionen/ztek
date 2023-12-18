@@ -42,7 +42,7 @@ export const DeleteDocumentWizard: FC<IDeleteDocumentWizard> = ({
         );
       }
     },
-    onSuccess: () => toast.success("Documentet har raderats"),
+    onSuccess: () => toast.success("Dokumentet har raderats"),
   });
 
   return (
@@ -54,7 +54,7 @@ export const DeleteDocumentWizard: FC<IDeleteDocumentWizard> = ({
       title="Radera dokument"
     >
       <div className="mx-auto w-fit max-w-prose">
-        <p>Är du säker på att du vill radera organet?</p>
+        <p>Är du säker på att du vill radera dokumentet?</p>
         <p>Denna ändring går inte att ångra!</p>
       </div>
     </Modal>

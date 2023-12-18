@@ -8,6 +8,12 @@ import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import CommitteeImage from "~/components/organ/CommitteeImage";
 import { Button } from "~/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
 import ssg from "~/server/api/helper/ssg";
 import { api } from "~/utils/api";
 
@@ -159,7 +165,8 @@ const StudentDivision: NextPage = () => {
                   documentData.Document.map((doc) => (
                     <div
                       key={doc.title}
-                      className="col-span-1 mx-2 mb-2 text-center"
+                      className="col-span-1 mx-2 mb-2 overflow-hidden text-center"
+                      style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
                     >
                       <Image
                         alt="Sektionens uppbyggnad"
@@ -167,12 +174,21 @@ const StudentDivision: NextPage = () => {
                         src="/document_stack.svg"
                         width={100}
                       />
-                      <Link
-                        className="text-sm hover:text-blue-800 hover:underline"
-                        href={doc.url}
-                      >
-                        {doc.title}
-                      </Link>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Link
+                              className="text-sm hover:text-blue-800 hover:underline"
+                              href={doc.url}
+                            >
+                              {doc.title}
+                            </Link>
+                          </TooltipTrigger>
+                          <TooltipContent className="bg-zWhite">
+                            <p>{doc.title}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </div>
                   ))}
               </div>
@@ -289,7 +305,9 @@ const StudentDivision: NextPage = () => {
                             className="mr-2 h-8 w-8"
                             filename={committee.image}
                           />
-                          <p className="hover:underline">{committee.name}</p>
+                          <p className="text-sm hover:underline md:text-base">
+                            {committee.name}
+                          </p>
                         </Link>
                       ))}
                   </div>
