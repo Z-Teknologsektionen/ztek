@@ -1,14 +1,21 @@
 import isMobilePhone from "validator/lib/isMobilePhone";
 import { z } from "zod";
 import {
-  base64ImageString,
+  base64WebPImageString,
   emailString,
   nonEmptyString,
   objectId,
   orderNumber,
 } from "./customZodTypes";
 
-export const createNewMemberSchema = z.object({
+export const updateMemberAsActiveSchema = z.object({
+  name: nonEmptyString.optional(),
+  nickName: nonEmptyString.optional(),
+  image: base64WebPImageString.optional(),
+  order: orderNumber,
+});
+
+export const createMemberSchema = z.object({
   committeeId: objectId,
   name: nonEmptyString.optional(),
   nickName: nonEmptyString.optional(),
@@ -21,7 +28,7 @@ export const createNewMemberSchema = z.object({
   order: orderNumber,
 });
 
-export const updateMemberSchema = createNewMemberSchema
+export const updateMemberSchema = createMemberSchema
   .partial()
   .extend({ id: objectId });
 
@@ -31,10 +38,15 @@ export const createOrganSchema = z.object({
   description: nonEmptyString,
   role: nonEmptyString,
   email: emailString,
-  image: base64ImageString.optional(),
+  image: base64WebPImageString.optional(),
   order: orderNumber,
 });
 
-export const updateOrganSchema = createOrganSchema
+export const updateOrganAsActiveSchema = createOrganSchema
   .partial()
   .extend({ id: objectId });
+
+export const updateCommitteeAsUserSchema = z.object({
+  image: base64WebPImageString.optional(),
+  description: nonEmptyString.optional(),
+});

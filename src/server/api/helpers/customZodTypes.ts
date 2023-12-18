@@ -1,6 +1,8 @@
-import { Base64 } from "js-base64";
 import mongoose from "mongoose";
 import { z } from "zod";
+
+const base64Regex =
+  /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
 
 export const objectId = z.string().refine((val) => {
   return mongoose.Types.ObjectId.isValid(val);
@@ -25,4 +27,12 @@ export const nonEmptyString = z
   .string()
   .min(1, { message: "Får inte vara en tom sträng" });
 
-export const base64ImageString = z.string().refine(Base64.isValid);
+export const base64WebPImageString = z
+  .string()
+  .startsWith("data:image/webp;base64,", {
+    message: "Måste vara en base64 sträng med typ webp",
+  })
+  .refine((val) => {
+    const formatedVal = val.replace("data:image/webp;base64,", "");
+    return base64Regex.test(formatedVal);
+  }, "Medelande");

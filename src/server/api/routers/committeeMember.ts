@@ -7,7 +7,8 @@ import {
 } from "~/server/api/trpc";
 import { objectId } from "../helpers/customZodTypes";
 import {
-  createNewMemberSchema,
+  createMemberSchema,
+  updateMemberAsActiveSchema,
   updateMemberSchema,
 } from "../helpers/zodScheams";
 
@@ -47,15 +48,7 @@ export const committeeMemberRouter = createTRPCRouter({
       });
     }),
   updateMemberAsActive: protectedProcedure
-    .input(
-      z.object({
-        id: objectId,
-        name: z.string().optional(),
-        nickName: z.string().optional(),
-        image: z.string().optional(),
-        order: z.number().min(0).max(99),
-      }),
-    )
+    .input(updateMemberAsActiveSchema.extend({ id: objectId }))
     .mutation(({ ctx, input: { id, name, nickName, image, order } }) => {
       const member = ctx.prisma.committeeMember.update({
         where: {
@@ -84,7 +77,7 @@ export const committeeMemberRouter = createTRPCRouter({
       });
     }),
   createMemberAsAdmin: adminProcedure
-    .input(createNewMemberSchema)
+    .input(createMemberSchema)
     .mutation(
       ({
         ctx,
