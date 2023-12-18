@@ -1,11 +1,9 @@
 import "keen-slider/keen-slider.min.css";
-import { useKeenSlider } from "keen-slider/react"; // import from 'keen-slider/react.es' for to get an ES module
+import { useKeenSlider } from "keen-slider/react";
 import { type NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import type React from "react";
-import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FC } from "react";
 import HeadLayout from "~/components/layout/HeadLayout";
 
 // First page carousel images
@@ -202,9 +200,9 @@ const ParagraphWelcome: FC = () => {
                       <Image
                         alt={sponsor.company}
                         className={`object-scale-down drop-shadow-md`}
-                        height={1080}
+                        height={600}
                         src={sponsor.img}
-                        width={1920}
+                        width={600}
                       />
                     </Link>
                   ))}
@@ -222,7 +220,7 @@ const ParagraphLinks: FC = () => {
   return (
     <>
       <div
-        className="relative flex h-screen w-full items-center justify-center bg-cover bg-center object-cover py-32 drop-shadow-xl backdrop-blur-2xl [clip-path:polygon(0%_5%,100%_0%,100%_100%,0%_100%)] md:[clip-path:polygon(0%_10%,100%_0%,100%_100%,0%_100%)] xl:[clip-path:polygon(0%_15%,100%_0%,100%_100%,0%_100%)] "
+        className="relative flex h-screen w-full items-center justify-center bg-cover bg-center object-cover py-32 drop-shadow-xl [clip-path:polygon(0%_5%,100%_0%,100%_100%,0%_100%)] md:[clip-path:polygon(0%_10%,100%_0%,100%_100%,0%_100%)] xl:[clip-path:polygon(0%_15%,100%_0%,100%_100%,0%_100%)] "
         style={{ backgroundImage: "url(./wallpaper_automation.jpg)" }}
       >
         <div className="m-auto flex h-full max-w-[85rem] flex-col justify-center gap-10 px-4 sm:px-6 lg:px-8">
@@ -281,9 +279,10 @@ const Carousel: FC = () => {
             <Image
               alt="asv"
               className="h-full w-full object-cover"
-              height={300}
+              height={1080}
+              onLoad={() => instanceRef?.current?.update()}
               src={slide}
-              width={300}
+              width={1920}
             />
           </div>
         ))}
