@@ -42,7 +42,7 @@ const StudentDivision: NextPage = () => {
                 variant={"outline"}
                 asChild
               >
-                <Link href="/studentDivision/zaloonen">
+                <Link href="/student-division/zaloonen">
                   Ta mig till Zaloonen!
                 </Link>
               </Button>
@@ -225,7 +225,7 @@ const StudentDivision: NextPage = () => {
                 dess medlemmar hittar du{" "}
                 <Link
                   className="text-blue-600 hover:text-blue-800 hover:underline"
-                  href="/studentDivision/committees"
+                  href="/student-division/committees"
                 >
                   här
                 </Link>
@@ -282,7 +282,7 @@ const StudentDivision: NextPage = () => {
                         <Link
                           key={`${num}${committee.name}`}
                           className="mb-2 flex items-center justify-start "
-                          href={`studentDivision/committees/${committee.slug}`}
+                          href={`student-division/committees/${committee.slug}`}
                         >
                           <CommitteeImage
                             alt={`${committee.name}s logotyp`}

@@ -18,12 +18,12 @@ export const adminRoutes: AdminRouteProps[] = [
   {
     name: "Administrera organ",
     desc: "Lägg till eller ta bort organ.",
-    route: "/admin/organ",
+    route: "/admin/committees",
   },
   {
     name: "Administrera programledningen",
     desc: "Lägg till, ta bort eller uppdatera någon i programledningen.",
-    route: "/admin/programBoard",
+    route: "/admin/program-board",
   },
 ];
 
@@ -37,7 +37,7 @@ export const activeRoutes: ActiveRouteProps[] = [
   {
     name: "Administera Organet",
     desc: "Har du precis gått på och vill byta namn på sittande och byta logga? Klicka här då :)",
-    route: "/active/organ/edit",
+    route: "/active/committees/edit",
     requiredRole: undefined,
   },
   {
