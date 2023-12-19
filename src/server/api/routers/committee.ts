@@ -5,7 +5,12 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { objectId } from "../helper/customZodTypes";
+import { objectId } from "../helpers/customZodTypes";
+import {
+  createOrganSchema,
+  updateCommitteeAsUserSchema,
+  updateOrganAsActiveSchema,
+} from "../helpers/zodScheams";
 
 export const committeeRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
@@ -130,7 +135,11 @@ export const committeeRouter = createTRPCRouter({
           image: true,
           id: true,
           electionPeriod: true,
+          updatedAt: true,
           members: {
+            orderBy: {
+              order: "desc",
+            },
             select: {
               id: true,
               name: true,
@@ -163,13 +172,7 @@ export const committeeRouter = createTRPCRouter({
     });
   }),
   updateCommitteeAsUser: protectedProcedure
-    .input(
-      z.object({
-        id: objectId,
-        image: z.string().optional(),
-        description: z.string().min(1).optional(),
-      }),
-    )
+    .input(updateCommitteeAsUserSchema.extend({ id: objectId }))
     .mutation(({ ctx, input: { id, description, image } }) => {
       return ctx.prisma.committee.update({
         where: {
@@ -182,50 +185,40 @@ export const committeeRouter = createTRPCRouter({
       });
     }),
   createCommittee: adminProcedure
-    .input(
-      z.object({
-        name: z.string().min(1),
-        slug: z.string().min(1),
-        description: z.string().min(1),
-        role: z.string().min(1),
-        email: z.string().email().min(1),
-        order: z.number().min(0).max(99),
-        electionPeriod: z.number().min(1).max(4),
-      }),
-    )
+    .input(createOrganSchema)
     .mutation(
       ({
         ctx,
-        input: { description, email, name, order, role, slug, electionPeriod },
+        input: {
+          description,
+          email,
+          name,
+          order,
+          role,
+          slug,
+          image,
+          electionPeriod,
+        },
       }) => {
         return ctx.prisma.committee.create({
           data: {
             description,
             email,
-            image: "",
+            image,
             name,
             order,
             role,
             slug,
             electionPeriod,
           },
+          select: {
+            name: true,
+          },
         });
       },
     ),
   updateCommittee: adminProcedure
-    .input(
-      z.object({
-        id: objectId,
-        name: z.string().min(1).optional(),
-        slug: z.string().min(1).optional(),
-        description: z.string().min(1).optional(),
-        role: z.string().min(1).optional(),
-        email: z.string().email().min(1).optional(),
-        order: z.number().min(0).max(99).optional(),
-        image: z.string().min(1).optional(),
-        electionPeriod: z.number().min(1).max(4).optional(),
-      }),
-    )
+    .input(updateOrganAsActiveSchema)
     .mutation(
       ({
         ctx,

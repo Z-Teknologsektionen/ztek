@@ -6,7 +6,7 @@ import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { Accordion } from "~/components/ui/accordion";
 import { buttonVariants } from "~/components/ui/button";
-import ssg from "~/server/api/helper/ssg";
+import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 
 const DOCUMENTGROUP_KEY = "Dokument för Zaloonen";

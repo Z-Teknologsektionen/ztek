@@ -10,7 +10,7 @@ import {
   CardDescription,
   CardTitle,
 } from "~/components/ui/card";
-import ssg from "~/server/api/helper/ssg";
+import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {

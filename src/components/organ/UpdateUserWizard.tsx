@@ -1,14 +1,28 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
-import {
-  useCallback,
-  useState,
-  type ChangeEvent,
-  type FC,
-  type FormEvent,
-} from "react";
-import Resizer from "react-image-file-resizer";
-import CommitteeImage from "~/components/organ/CommitteeImage";
+import relativeTime from "dayjs/plugin/relativeTime";
+import { useState, type FC } from "react";
+import { useForm } from "react-hook-form";
+import type { z } from "zod";
+import { updateMemberAsActiveSchema } from "~/server/api/helpers/zodScheams";
 import { api, type RouterOutputs } from "~/utils/api";
+import localeObject from "~/utils/dayjs";
+import { getBase64WebPStringFromFileInput } from "~/utils/utils";
+import { Button } from "../ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
+import { Input } from "../ui/input";
+import CommitteeImage from "./CommitteeImage";
+
+dayjs.extend(relativeTime);
+dayjs.locale(localeObject);
 
 interface IUpdateUserWizard {
   member: RouterOutputs["committee"]["getOneByEmail"]["members"][0];
@@ -18,156 +32,150 @@ export const UpdateUserWizard: FC<IUpdateUserWizard> = ({
   member,
   refetch,
 }) => {
-  const { mutate: mutateMember } = api.member.updateOne.useMutation({
+  const { mutate: mutateMember } = api.member.updateMemberAsActive.useMutation({
     onSettled: () => refetch(),
   });
 
-  const [updatedMemberInfo, setUpdatedMemberInfo] = useState({
-    name: member.name,
-    nickName: member.nickName,
-    image: member.image,
-    order: member.order,
+  const form = useForm<z.infer<typeof updateMemberAsActiveSchema>>({
+    resolver: zodResolver(updateMemberAsActiveSchema),
+    defaultValues: member,
   });
 
-  const updateMember = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const { name, image, nickName, order } = updatedMemberInfo;
-      mutateMember({
-        id: member.id,
-        image: image,
-        name: name,
-        nickName: nickName,
-        order: order,
-      });
-    },
-    [updatedMemberInfo, member.id, mutateMember],
-  );
+  const [newImage, setNewImage] = useState<string | undefined>(member.image);
 
-  const handleFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target?.files?.[0];
-    if (!file) return;
-
-    Resizer.imageFileResizer(
-      file,
-      300,
-      300,
-      "WEBP",
-      95,
-      0,
-      (uri) => {
-        setUpdatedMemberInfo((prev) => {
-          return {
-            ...prev,
-            // eslint-disable-next-line @typescript-eslint/no-base-to-string
-            image: uri.toString(),
-          };
-        });
-      },
-      "base64",
-      300,
-      300,
-    );
-
-    setTimeout(() => (e.target.value = ""), 2500);
-  }, []);
+  const onSubmit = (values: z.infer<typeof updateMemberAsActiveSchema>): void =>
+    void mutateMember({
+      id: member.id,
+      ...values,
+    });
 
   return (
-    <form
-      className="flex flex-col items-center space-y-2 rounded-lg p-4 text-sm shadow"
-      onSubmit={updateMember}
-    >
-      <CommitteeImage
-        alt={`Profilbild på ${member.role}`}
-        filename={updatedMemberInfo.image}
-      />
-      <fieldset className="w-full space-y-1">
-        <label className="block text-xs" htmlFor="name">
-          Namn
-        </label>
-        <input
-          className="w-full rounded border-2 p-0.5"
-          id="name"
-          name="name"
-          onChange={(e) => {
-            setUpdatedMemberInfo((prev) => {
-              return { ...prev, name: e.target.value };
-            });
-          }}
-          type="text"
-          value={updatedMemberInfo.name ?? ""}
+    <Form {...form}>
+      <form
+        className="space-y-4 rounded border p-2 shadow"
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <CommitteeImage
+          alt={`Profilbild på ${member.role}`}
+          filename={newImage}
         />
-      </fieldset>
-      <fieldset className="w-full space-y-1">
-        <label className="block text-xs" htmlFor="nickName">
-          Kommitenamn
-        </label>
-        <input
-          className="w-full rounded border-2 p-0.5"
-          id="nickName"
-          name="nickName"
-          onChange={(e) => {
-            setUpdatedMemberInfo((prev) => {
-              return { ...prev, nickName: e.target.value };
-            });
-          }}
-          type="text"
-          value={updatedMemberInfo.nickName ?? ""}
-        />
-      </fieldset>
-      <fieldset className="w-full space-y-1">
-        <label className="block text-xs" htmlFor="order">
-          Ordning
-        </label>
-        <input
-          className="w-full rounded border-2 p-0.5"
-          id="order"
-          max={99}
-          min={0}
-          name="order"
-          onChange={(e) => {
-            setUpdatedMemberInfo((prev) => {
-              return { ...prev, order: e.target.valueAsNumber };
-            });
-          }}
-          type="number"
-          value={updatedMemberInfo.order ?? 0}
-        />
-      </fieldset>
-      <fieldset className="w-full space-y-1">
-        <label className="block text-xs" htmlFor="file">
-          Välj profilbild
-        </label>
-        <input
-          className="block w-48 text-sm"
-          id="file"
-          name="file"
-          onChange={handleFileChange}
-          type="file"
-        />
-        <input
-          className="rounded border-2 bg-zLightGray p-0.5 text-sm"
-          onClick={() => {
-            setUpdatedMemberInfo((prev) => {
-              return { ...prev, image: "" };
-            });
-          }}
-          type="button"
-          value="Radera profilbild"
-        />
-      </fieldset>
-      <input
-        className="w-full rounded border-2 p-1"
-        type="submit"
-        value="Spara"
-      />
-      <div className="w-full">
-        <p className="text-xs">
-          Senast updaterad: {dayjs(member.updatedAt).fromNow()}
-        </p>
-        <p className="text-xs">Roll: {member.role}</p>
-        <p className="text-xs">Email: {member.email}</p>
-      </div>
-    </form>
+        <div className="space-y-2 p-1">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Namn</FormLabel>
+                <FormControl>
+                  <Input placeholder="Namn" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="nickName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Smeknamn</FormLabel>
+                <FormControl>
+                  <Input placeholder="Smeknamn" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="image"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Bild</FormLabel>
+                <FormControl>
+                  <div className="flex gap-2">
+                    <Input
+                      {...field}
+                      accept="image/png, image/jpeg"
+                      className="text-transparent"
+                      onChange={(event) => {
+                        getBase64WebPStringFromFileInput(event)
+                          .then((val) => {
+                            field.value = val;
+                            setNewImage(field.value);
+                            form.setValue("image", val);
+                          })
+                          .catch(() => {
+                            field.value = undefined;
+                            setNewImage(field.value);
+                          });
+                      }}
+                      type="file"
+                      value={""}
+                    />
+                    <Button
+                      className="w-44"
+                      onClick={() => setNewImage(undefined)}
+                      type="button"
+                      variant="ghost"
+                    >
+                      Rensa bild
+                    </Button>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="order"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Ordning</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    {...field}
+                    max={99}
+                    min={0}
+                    onChange={(event) =>
+                      form.setValue("order", event.target.valueAsNumber)
+                    }
+                  />
+                </FormControl>
+                <FormDescription className="text-xs">
+                  Används för att bestämma vilken ordning organets medlemmar ska
+                  visas i
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div>
+          <p className="text-sm">
+            Senast updaterad: {dayjs(member.updatedAt).fromNow()}
+          </p>
+          <p className="text-xs">Roll: {member.role}</p>
+          <p className="text-xs">Email: {member.email}</p>
+        </div>
+        <div className="flex justify-end gap-2">
+          <Button
+            onClick={() => {
+              form.reset();
+              setNewImage(member.image);
+            }}
+            type="button"
+            variant="outline"
+          >
+            Återställ
+          </Button>
+          <Button type="submit">Uppdatera</Button>
+        </div>
+      </form>
+    </Form>
   );
 };

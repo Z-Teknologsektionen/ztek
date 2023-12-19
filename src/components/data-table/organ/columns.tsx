@@ -1,6 +1,8 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import type { FC } from "react";
+import toast from "react-hot-toast";
+import DeleteDialog from "~/components/admin/delete-dialog";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -8,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import type { RouterOutputs } from "~/utils/api";
+import { api, type RouterOutputs } from "~/utils/api";
 import { useRouterHelpers } from "~/utils/router";
 
 type Committee = RouterOutputs["committee"]["getAllAsAdmin"][0];
@@ -50,7 +52,28 @@ const CommitteeTableActions: FC<{ id: string; slug: string }> = ({
   id,
   slug,
 }) => {
+  const ctx = api.useUtils();
   const { replaceQuery } = useRouterHelpers();
+
+  const { mutate: deleteCommittee } = api.committee.deleteCommittee.useMutation(
+    {
+      onMutate: () => toast.loading("Raderar organ..."),
+      onSettled: (_c, _d, _e, toastId) => {
+        toast.remove(toastId);
+        void ctx.member.invalidate();
+        void ctx.committee.invalidate();
+      },
+      onSuccess: () => toast.success("Organ har raderats!"),
+      onError: (error) => {
+        if (error.message) {
+          toast.error(error.message);
+        } else {
+          toast.error("Något gick fel. Försök igen senare");
+        }
+      },
+    },
+  );
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -65,9 +88,14 @@ const CommitteeTableActions: FC<{ id: string; slug: string }> = ({
         >
           Redigera
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => void replaceQuery("delCommittee", id)}>
-          Radera
-        </DropdownMenuItem>
+        <DeleteDialog
+          onSubmit={() => deleteCommittee({ id })}
+          trigger={
+            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+              Radera
+            </DropdownMenuItem>
+          }
+        />
       </DropdownMenuContent>
     </DropdownMenu>
   );
