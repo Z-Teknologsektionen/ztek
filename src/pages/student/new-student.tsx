@@ -5,7 +5,7 @@ import HeadLayout from "~/components/layout/HeadLayout";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { Button } from "~/components/ui/button";
-import ssg from "~/server/api/helper/ssg";
+import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 
 const sixHp = <span className="font-bold"> [6HP]</span>;
