@@ -1,6 +1,7 @@
 import { type NextPage } from "next";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import HeadLayout from "~/components/layout/HeadLayout";
+import RoleWrapper from "~/components/layout/RoleWrapper";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { UpdateUserWizard } from "~/components/organ/UpdateUserWizard";
 import { api } from "~/utils/api";
@@ -8,7 +9,10 @@ import { EditCommitteeInformationSection } from "../../../components/organ/EditC
 import { UpdateCommitteeWizard } from "../../../components/organ/UpdateCommitteeWizard";
 
 const EditOrganPage: NextPage = () => {
-  const { data: session } = useSession();
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated: () => void signIn("google"),
+  });
   const userEmail = session?.user.email;
   const { data: committee, refetch: refetchCommittee } =
     api.committee.getOneByEmail.useQuery({
@@ -16,7 +20,7 @@ const EditOrganPage: NextPage = () => {
     });
 
   return (
-    <>
+    <RoleWrapper accountRole={undefined}>
       <HeadLayout title="Redigera medlemmar"></HeadLayout>
       <main>
         {session && <EditCommitteeInformationSection />}
@@ -40,33 +44,8 @@ const EditOrganPage: NextPage = () => {
             />
           </SectionWrapper>
         )}
-        <SectionWrapper className="flex items-center justify-center py-8">
-          {session ? (
-            <button
-              className="rounded border-2 px-4 py-2 shadow hover:bg-slate-50"
-              onClick={() => {
-                void signOut();
-              }}
-              type="button"
-            >
-              Logga ut
-            </button>
-          ) : (
-            <div className="h-96">
-              <button
-                className="rounded border-2 px-4 py-2 shadow hover:bg-slate-50"
-                onClick={() => {
-                  void signIn("google");
-                }}
-                type="button"
-              >
-                Logga in
-              </button>
-            </div>
-          )}
-        </SectionWrapper>
       </main>
-    </>
+    </RoleWrapper>
   );
 };
 

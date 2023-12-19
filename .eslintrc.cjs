@@ -92,7 +92,6 @@ const config = {
     "jsx-a11y/label-has-associated-control": "off",
     "no-console": ["error", { allow: ["info", "error"] }],
     "no-constant-binary-expression": "error",
-    "no-implicit-coercion": "error",
     "no-new-wrappers": "error",
     "no-restricted-syntax": [
       "error",

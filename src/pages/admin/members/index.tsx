@@ -1,17 +1,18 @@
 import type { GetServerSideProps, NextPage } from "next";
 import MemberTable from "~/components/data-table/members/member-table";
+import AdminWrapper from "~/components/layout/AdminWrapper";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import ssg from "~/server/api/helpers/ssg";
 
 const AdminMemberPage: NextPage = () => {
   return (
-    <>
+    <AdminWrapper>
       <SectionWrapper>
         <SectionTitle center>Medlemmar</SectionTitle>
         <MemberTable />
       </SectionWrapper>
-    </>
+    </AdminWrapper>
   );
 };
 

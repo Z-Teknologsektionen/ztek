@@ -9,7 +9,7 @@ import { buttonVariants } from "~/components/ui/button";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 
-const DOCUMENTGROUP_KEY = "Zaloonen dokument";
+const DOCUMENTGROUP_KEY = "Dokument för Zaloonen";
 
 const ZaloonenPage: NextPage = () => {
   const { data, isLoading, isError } = api.document.getOneGroupByName.useQuery({
@@ -51,7 +51,7 @@ const ZaloonenPage: NextPage = () => {
         </p>
       </SectionWrapper>
       <SectionWrapper>
-        {(isError || isLoading) && <SectionTitle>Dokuemnt</SectionTitle>}
+        {(isError || isLoading) && <SectionTitle>Dokument</SectionTitle>}
         {isError && (
           <p>
             Du kan hitta Zaloonens dokument{" "}

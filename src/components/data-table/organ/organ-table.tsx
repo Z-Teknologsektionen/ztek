@@ -34,7 +34,7 @@ const OrganTable: FC = () => {
   return (
     <>
       <div>
-        <SectionTitle center>Organ</SectionTitle>
+        <SectionTitle center>Sektionsorgan</SectionTitle>
         <div className="flex justify-end">
           <UpsertOrganDialog
             form={
@@ -51,7 +51,7 @@ const OrganTable: FC = () => {
                 type="button"
                 variant="outline"
               >
-                Ny medlem
+                Skapa nytt organ
               </Button>
             }
           />

@@ -21,6 +21,7 @@ export const committeeRouter = createTRPCRouter({
         role: true,
         slug: true,
         image: true,
+        electionPeriod: true,
       },
     });
   }),
@@ -40,6 +41,7 @@ export const committeeRouter = createTRPCRouter({
           description: true,
           email: true,
           image: true,
+          electionPeriod: true,
           members: {
             where: {
               OR: [
@@ -89,6 +91,7 @@ export const committeeRouter = createTRPCRouter({
           slug: true,
           updatedAt: true,
           order: true,
+          electionPeriod: true,
           _count: {
             select: {
               members: true,
@@ -131,6 +134,7 @@ export const committeeRouter = createTRPCRouter({
           email: true,
           image: true,
           id: true,
+          electionPeriod: true,
           updatedAt: true,
           members: {
             orderBy: {
@@ -157,6 +161,7 @@ export const committeeRouter = createTRPCRouter({
         name: true,
         order: true,
         slug: true,
+        electionPeriod: true,
         _count: {
           select: {
             members: true,
@@ -184,7 +189,16 @@ export const committeeRouter = createTRPCRouter({
     .mutation(
       ({
         ctx,
-        input: { description, email, name, order, role, slug, image },
+        input: {
+          description,
+          email,
+          name,
+          order,
+          role,
+          slug,
+          image,
+          electionPeriod,
+        },
       }) => {
         return ctx.prisma.committee.create({
           data: {
@@ -195,6 +209,7 @@ export const committeeRouter = createTRPCRouter({
             order,
             role,
             slug,
+            electionPeriod,
           },
           select: {
             name: true,
@@ -207,7 +222,17 @@ export const committeeRouter = createTRPCRouter({
     .mutation(
       ({
         ctx,
-        input: { id, description, email, name, order, role, slug, image },
+        input: {
+          id,
+          description,
+          email,
+          name,
+          order,
+          role,
+          slug,
+          image,
+          electionPeriod,
+        },
       }) => {
         return ctx.prisma.committee.update({
           where: {
@@ -221,6 +246,7 @@ export const committeeRouter = createTRPCRouter({
             order,
             role,
             slug,
+            electionPeriod,
           },
         });
       },

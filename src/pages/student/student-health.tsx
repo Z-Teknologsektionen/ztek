@@ -11,7 +11,7 @@ import { api } from "~/utils/api";
 
 const SAMO_EMAIL_KEY = "samo.ztyret@ztek.se";
 
-const SamoPage: NextPage = () => {
+const StudentHealthPage: NextPage = () => {
   const { data } = api.member.getOneByEmail.useQuery({
     email: SAMO_EMAIL_KEY,
   });
@@ -47,7 +47,7 @@ const SamoPage: NextPage = () => {
               >
                 <Image
                   alt="image"
-                  className="hover:opacity-75 hover:transition-all"
+                  className="rounded transition-all hover:opacity-75"
                   height={500}
                   src="/feeling_safe_student_union.png"
                   width={500}
@@ -113,6 +113,7 @@ const SamoPage: NextPage = () => {
               </ul>
             </div>
             <div className="col-span-1">
+              {/* //TODO Hämta ankén dynamiskt istället */}
               <SecondaryTitle>Studievägledare Anders Ankén</SecondaryTitle>
               <ul className="mt-6">
                 <li className="mb-2 flex items-center justify-center md:justify-start">
@@ -238,7 +239,7 @@ const SamoPage: NextPage = () => {
   );
 };
 
-export default SamoPage;
+export default StudentHealthPage;
 
 export const getStaticProps: GetStaticProps = async () => {
   await ssg.member.getOneByEmail.prefetch({ email: SAMO_EMAIL_KEY });

@@ -25,6 +25,10 @@ export const columns: ColumnDef<Committee>[] = [
     header: "Slug",
   },
   {
+    accessorKey: "electionPeriod",
+    header: "Har inval i LP",
+  },
+  {
     accessorKey: "_count.members",
     header: "Antal medlemmar",
     cell: ({ row }) => row.original._count.members,

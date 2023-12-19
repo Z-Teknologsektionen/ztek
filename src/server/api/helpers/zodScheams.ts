@@ -40,6 +40,7 @@ export const createOrganSchema = z.object({
   email: emailString,
   image: base64WebPImageString.optional(),
   order: orderNumber,
+  electionPeriod: z.number().min(1).max(4).optional().default(1),
 });
 
 export const updateOrganAsActiveSchema = createOrganSchema

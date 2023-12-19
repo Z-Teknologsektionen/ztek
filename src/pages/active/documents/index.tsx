@@ -8,6 +8,7 @@ import { UpdateDocumentGroupWizard } from "~/components/admin/document/UpdateDoc
 import { UpdateDocumentWizard } from "~/components/admin/document/UpdateDocumentWizard";
 import DocuemntGroupTable from "~/components/data-table/document-group/document-group-table";
 import DocuemntTable from "~/components/data-table/document/document-table";
+import RoleWrapper from "~/components/layout/RoleWrapper";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { useRouterHelpers } from "~/utils/router";
 
@@ -19,7 +20,7 @@ const AdminDocumentPage: NextPage = () => {
     router.query;
 
   return (
-    <>
+    <RoleWrapper accountRole="MODIFY_DOCUMENTS">
       <SectionWrapper>
         <DocuemntTable />
       </SectionWrapper>
@@ -63,7 +64,7 @@ const AdminDocumentPage: NextPage = () => {
           onClose={() => void clearQuery()}
         />
       )}
-    </>
+    </RoleWrapper>
   );
 };
 
