@@ -8,12 +8,12 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 
-interface ICreateNewOrganWizard {
+interface ICreateNewCommitteeWizard {
   form: ReactNode;
   trigger: ReactNode;
 }
 
-export const UpsertOrganDialog: FC<ICreateNewOrganWizard> = ({
+export const UpsertCommitteeDialog: FC<ICreateNewCommitteeWizard> = ({
   form,
   trigger,
 }) => {

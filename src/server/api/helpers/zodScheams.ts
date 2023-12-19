@@ -32,7 +32,7 @@ export const updateMemberSchema = createMemberSchema
   .partial()
   .extend({ id: objectId });
 
-export const createOrganSchema = z.object({
+export const createCommitteeSchema = z.object({
   name: nonEmptyString,
   slug: nonEmptyString,
   description: nonEmptyString,
@@ -43,7 +43,7 @@ export const createOrganSchema = z.object({
   electionPeriod: z.number().min(1).max(4).optional().default(1),
 });
 
-export const updateOrganAsActiveSchema = createOrganSchema
+export const updateCommitteeAsActiveSchema = createCommitteeSchema
   .partial()
   .extend({ id: objectId });
 
@@ -51,3 +51,20 @@ export const updateCommitteeAsUserSchema = z.object({
   image: base64WebPImageString.optional(),
   description: nonEmptyString.optional(),
 });
+
+export const createProgramBoardMemberSchema = z.object({
+  name: nonEmptyString,
+  role: nonEmptyString,
+  phone: z
+    .string()
+    .refine((val) => isMobilePhone(val, "sv-SE"))
+    .optional(),
+  email: emailString,
+  url: z.string().url(),
+  image: base64WebPImageString.optional(),
+  order: orderNumber,
+});
+
+export const updateProgramBoardMemberSchema = createProgramBoardMemberSchema
+  .partial()
+  .extend({ id: objectId });
