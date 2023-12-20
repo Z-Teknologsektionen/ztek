@@ -286,23 +286,24 @@ const StudentDivision: NextPage = () => {
               />
             </div>
             <div className="col-span-3">
-              <div className="grid grid-cols-4">
+              <div className="grid grid-cols-4 gap-2">
                 {[1, 2, 3, 4].map((num) => (
-                  <div key={num} className="col-span-2 md:col-span-1">
-                    <SecondaryTitle className="mb-2">
-                      Läsperiod {num}
-                    </SecondaryTitle>
+                  <div
+                    key={num}
+                    className="col-span-2 flex flex-col gap-2 md:col-span-1"
+                  >
+                    <SecondaryTitle>Läsperiod {num}</SecondaryTitle>
                     {committeeData
                       ?.filter((c) => c.electionPeriod === num)
                       .map((committee) => (
                         <Link
                           key={`${num}${committee.name}`}
-                          className="mb-2 flex items-center justify-start "
+                          className="flex items-center justify-start gap-2"
                           href={`student-division/committees/${committee.slug}`}
                         >
                           <CommitteeImage
                             alt={`${committee.name}s logotyp`}
-                            className="mr-2 h-8 w-8"
+                            className="mx-0 h-8 w-8"
                             filename={committee.image}
                           />
                           <p className="text-sm hover:underline md:text-base">
