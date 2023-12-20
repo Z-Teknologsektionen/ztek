@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import toast from "react-hot-toast";
-import { UpsertOrganDialog } from "~/components/admin/organ/upsert-organ-dialog";
 import UpsertOrganForm from "~/components/admin/organ/upsert-organ-form";
+import { UpsertDialog } from "~/components/admin/upsert-dialog";
 import SectionTitle from "~/components/layout/SectionTitle";
 import { Button } from "~/components/ui/button";
 import { BasicDataTable } from "~/components/ui/data-table";
@@ -36,7 +36,9 @@ const OrganTable: FC = () => {
       <div>
         <SectionTitle center>Sektionsorgan</SectionTitle>
         <div className="flex justify-end">
-          <UpsertOrganDialog
+          <UpsertDialog
+            description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa,
+            voluptatum?"
             form={
               <UpsertOrganForm
                 key={"new"}
@@ -44,6 +46,7 @@ const OrganTable: FC = () => {
                 onSubmit={(values) => createNewCommittee(values)}
               />
             }
+            title="Skapa nytt organ"
             trigger={
               <Button
                 disabled={creatingNewCommittee}

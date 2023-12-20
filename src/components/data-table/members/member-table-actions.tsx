@@ -2,8 +2,8 @@ import { MoreHorizontal } from "lucide-react";
 import type { FC } from "react";
 import toast from "react-hot-toast";
 import DeleteDialog from "~/components/admin/delete-dialog";
-import { UpsertMemberDialog } from "~/components/admin/medlemmar/upsert-member-dialog";
 import { UpsertMemberForm } from "~/components/admin/medlemmar/upsert-member-form";
+import { UpsertDialog } from "~/components/admin/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -69,7 +69,9 @@ export const CommitteeMemberTableActions: FC<{
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <UpsertMemberDialog
+        <UpsertDialog
+          description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa,
+            voluptatum?"
           form={
             <UpsertMemberForm
               key={id}
@@ -85,6 +87,7 @@ export const CommitteeMemberTableActions: FC<{
               }
             />
           }
+          title="Uppdatera aktiv"
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               Redigera
