@@ -50,9 +50,9 @@ const ProgramBoardTable: FC = () => {
                     ...rest,
                   })
                 }
+                type="create"
               />
             }
-            title="Skapa ny programmedlem"
             trigger={
               <Button
                 disabled={creatingNewProgramBoardMember}
@@ -63,6 +63,7 @@ const ProgramBoardTable: FC = () => {
                 Skapa ny medlem
               </Button>
             }
+            type="create"
           />
         </div>
       </div>

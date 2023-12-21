@@ -9,20 +9,22 @@ import {
 
 interface ICreateNewProgramBoardMemberWizard {
   form: ReactNode;
-  title: string;
   trigger: ReactNode;
+  type: "create" | "update";
 }
 
 export const UpsertProgramBoardMemberDialog: FC<
   ICreateNewProgramBoardMemberWizard
-> = ({ form, trigger, title }) => {
+> = ({ form, trigger, type }) => {
   const [open, setOpen] = useState(false);
   return (
     <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger>{trigger}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
+          <DialogTitle>
+            {type === "create" ? "Skapa" : "Uppdatera"} programmedlem
+          </DialogTitle>
         </DialogHeader>
         {form}
       </DialogContent>

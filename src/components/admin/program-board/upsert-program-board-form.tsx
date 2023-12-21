@@ -29,10 +29,12 @@ interface IUpsertProgramBoardMemberForm {
     slug?: string;
   };
   onSubmit: (props: z.infer<typeof createProgramBoardMemberSchema>) => void;
+  type: "create" | "update";
 }
 
 const UpsertProgramBoardMemberForm: FC<IUpsertProgramBoardMemberForm> = ({
   defaultValues,
+  type,
   onSubmit,
 }) => {
   const [newImage, setNewImage] = useState<string | undefined>(
@@ -201,7 +203,7 @@ const UpsertProgramBoardMemberForm: FC<IUpsertProgramBoardMemberForm> = ({
           </Button>
 
           <Button type="submit" variant={"default"}>
-            Skapa
+            {type === "create" ? "Skapa" : "Uppdatera"}
           </Button>
         </DialogFooter>
       </form>

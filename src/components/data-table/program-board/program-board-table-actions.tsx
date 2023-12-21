@@ -19,7 +19,7 @@ export const ProgramBoardMemberTableActions: FC<{
   image: string | undefined;
   name: string;
   order: number;
-  phone?: string | undefined;
+  phone: string | undefined;
   role: string;
   url: string;
 }> = ({ id, ...values }) => {
@@ -81,6 +81,7 @@ export const ProgramBoardMemberTableActions: FC<{
                   ...rest,
                 })
               }
+              type="update"
             />
           }
           title={"Uppdatera programmedlem"}

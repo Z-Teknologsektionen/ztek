@@ -44,7 +44,12 @@ export const columns: ColumnDef<programBoard>[] = [
     id: "actions",
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     cell: ({ row }) => {
-      const programBoardMember = row.original;
+      const programBoardMember = {
+        ...row.original,
+        phone: row.original.phone || undefined,
+        image: row.original.image || undefined,
+      };
+
       return (
         <ProgramBoardMemberTableActions
           key={programBoardMember.id}
