@@ -84,12 +84,12 @@ export const ProgramBoardMemberTableActions: FC<{
               type="update"
             />
           }
-          title={"Uppdatera programmedlem"}
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               Redigera
             </DropdownMenuItem>
           }
+          type="update"
         />
         <DeleteDialog
           onSubmit={() => deleteProgramBoardMember({ id })}
