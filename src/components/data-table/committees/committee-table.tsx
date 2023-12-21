@@ -1,14 +1,14 @@
 import type { FC } from "react";
 import toast from "react-hot-toast";
-import UpsertOrganForm from "~/components/admin/organ/upsert-organ-form";
-import { UpsertDialog } from "~/components/admin/upsert-dialog";
+import { UpsertCommitteeDialog } from "~/components/admin/committees/upsert-committee-dialog";
+import UpsertCommitteeForm from "~/components/admin/committees/upsert-committee-form";
 import SectionTitle from "~/components/layout/SectionTitle";
 import { Button } from "~/components/ui/button";
 import { BasicDataTable } from "~/components/ui/data-table";
 import { api } from "~/utils/api";
 import { columns } from "./columns";
 
-const OrganTable: FC = () => {
+const CommitteeTable: FC = () => {
   const ctx = api.useUtils();
 
   const { data, isLoading, isError } = api.committee.getAllAsAdmin.useQuery();
@@ -36,17 +36,14 @@ const OrganTable: FC = () => {
       <div>
         <SectionTitle center>Sektionsorgan</SectionTitle>
         <div className="flex justify-end">
-          <UpsertDialog
-            description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa,
-            voluptatum?"
+          <UpsertCommitteeDialog
             form={
-              <UpsertOrganForm
+              <UpsertCommitteeForm
                 key={"new"}
                 defaultValues={{}}
                 onSubmit={(values) => createNewCommittee(values)}
               />
             }
-            title="Skapa nytt organ"
             trigger={
               <Button
                 disabled={creatingNewCommittee}
@@ -68,4 +65,4 @@ const OrganTable: FC = () => {
   );
 };
 
-export default OrganTable;
+export default CommitteeTable;

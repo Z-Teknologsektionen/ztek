@@ -1,9 +1,9 @@
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
-import { CreateNewOrganWizard } from "~/components/admin/organ/CreateNewOrganWizard";
-import { DeleteOraganWizard } from "~/components/admin/organ/DeleteOraganWizard";
-import { UpdateOrganWizard } from "~/components/admin/organ/UpdateOrganWizard";
-import OrganTable from "~/components/data-table/organ/organ-table";
+import { CreateNewOrganWizard } from "~/components/admin/committees/CreateNewOrganWizard";
+import { DeleteOraganWizard } from "~/components/admin/committees/DeleteOraganWizard";
+import { UpdateOrganWizard } from "~/components/admin/committees/UpdateOrganWizard";
+import OrganTable from "~/components/data-table/committees/committee-table";
 import AdminWrapper from "~/components/layout/AdminWrapper";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { useRouterHelpers } from "~/utils/router";

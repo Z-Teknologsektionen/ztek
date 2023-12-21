@@ -15,7 +15,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
-import { createOrganSchema } from "~/server/api/helpers/zodScheams";
+import { createCommitteeSchema } from "~/server/api/helpers/zodScheams";
 
 interface IUpsertOrganForm {
   defaultValues: {
@@ -27,12 +27,15 @@ interface IUpsertOrganForm {
     role?: string;
     slug?: string;
   };
-  onSubmit: (props: z.infer<typeof createOrganSchema>) => void;
+  onSubmit: (props: z.infer<typeof createCommitteeSchema>) => void;
 }
 
-const UpsertOrganForm: FC<IUpsertOrganForm> = ({ defaultValues, onSubmit }) => {
-  const form = useForm<z.infer<typeof createOrganSchema>>({
-    resolver: zodResolver(createOrganSchema),
+const UpsertCommitteeForm: FC<IUpsertOrganForm> = ({
+  defaultValues,
+  onSubmit,
+}) => {
+  const form = useForm<z.infer<typeof createCommitteeSchema>>({
+    resolver: zodResolver(createCommitteeSchema),
     defaultValues: defaultValues,
   });
 
@@ -164,4 +167,4 @@ const UpsertOrganForm: FC<IUpsertOrganForm> = ({ defaultValues, onSubmit }) => {
   );
 };
 
-export default UpsertOrganForm;
+export default UpsertCommitteeForm;

@@ -7,9 +7,9 @@ import {
 } from "~/server/api/trpc";
 import { objectId } from "../helpers/customZodTypes";
 import {
-  createOrganSchema,
+  createCommitteeSchema,
+  updateCommitteeAsActiveSchema,
   updateCommitteeAsUserSchema,
-  updateOrganAsActiveSchema,
 } from "../helpers/zodScheams";
 
 export const committeeRouter = createTRPCRouter({
@@ -185,7 +185,7 @@ export const committeeRouter = createTRPCRouter({
       });
     }),
   createCommittee: adminProcedure
-    .input(createOrganSchema)
+    .input(createCommitteeSchema)
     .mutation(
       ({
         ctx,
@@ -218,7 +218,7 @@ export const committeeRouter = createTRPCRouter({
       },
     ),
   updateCommittee: adminProcedure
-    .input(updateOrganAsActiveSchema)
+    .input(updateCommitteeAsActiveSchema)
     .mutation(
       ({
         ctx,
