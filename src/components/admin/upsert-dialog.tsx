@@ -8,25 +8,26 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 
-interface ICreateNewOrganWizard {
+interface IUpsertDialog {
+  description?: string;
   form: ReactNode;
+  title: string;
   trigger: ReactNode;
 }
 
-export const UpsertMemberDialog: FC<ICreateNewOrganWizard> = ({
+export const UpsertDialog: FC<IUpsertDialog> = ({
   form,
   trigger,
+  title,
+  description = "",
 }) => {
   return (
     <Dialog>
-      <DialogTrigger>{trigger}</DialogTrigger>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Skapa ny aktiv</DialogTitle>
-          <DialogDescription>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa,
-            voluptatum?
-          </DialogDescription>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         {form}
       </DialogContent>

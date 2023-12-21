@@ -1,8 +1,8 @@
 import type { FC } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { UpsertMemberDialog } from "~/components/admin/medlemmar/upsert-member-dialog";
 import { UpsertMemberForm } from "~/components/admin/medlemmar/upsert-member-form";
+import { UpsertDialog } from "~/components/admin/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { BasicDataTable } from "~/components/ui/data-table";
 import { api } from "~/utils/api";
@@ -68,7 +68,9 @@ const MemberTable: FC = () => {
           </select>
         </div>
         <div className="flex flex-col justify-center">
-          <UpsertMemberDialog
+          <UpsertDialog
+            description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa,
+            voluptatum?"
             form={
               <UpsertMemberForm
                 key={"new"}
@@ -83,6 +85,7 @@ const MemberTable: FC = () => {
                 }
               />
             }
+            title="Skapa ny aktiv"
             trigger={
               <Button
                 disabled={creatingNewUser}
