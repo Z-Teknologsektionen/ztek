@@ -8,7 +8,7 @@ import { TextInput } from "~/components/forms/TextInput";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
-import { createDocumentSchema } from "~/server/api/helpers/zodScheams";
+import { createDocumentSchema } from "~/server/api/helpers/schemas/documents";
 
 import { api } from "~/utils/api";
 
