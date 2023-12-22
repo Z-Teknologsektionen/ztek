@@ -14,7 +14,7 @@ import {
 import { Input } from "../ui/input";
 
 interface IImageInput {
-  defaultImage: string | undefined;
+  defaultImage?: string;
   description?: string;
   label: string;
   name: string;

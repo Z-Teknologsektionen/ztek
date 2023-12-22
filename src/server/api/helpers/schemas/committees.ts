@@ -1,14 +1,15 @@
 import { z } from "zod";
 import {
-  base64WebPImageString,
+  base64WebPImageOrEmptyString,
   emailString,
   nonEmptyString,
   objectId,
   orderNumber,
+  slugString,
 } from "../customZodTypes";
 
 export const upsertCommitteeBaseSchema = z.object({
-  image: base64WebPImageString.optional(),
+  image: base64WebPImageOrEmptyString,
   description: z.string().min(1).max(100_000), // TODO: Lägg till en mer rimlig text bergränsing
 });
 
@@ -18,7 +19,7 @@ export const updateCommitteeAsActiveSchema = upsertCommitteeBaseSchema
 
 export const createCommitteeSchema = upsertCommitteeBaseSchema.extend({
   name: nonEmptyString,
-  slug: nonEmptyString,
+  slug: slugString,
   role: nonEmptyString,
   email: emailString,
   order: orderNumber,

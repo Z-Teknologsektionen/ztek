@@ -74,11 +74,10 @@ export const CommitteeTableActions: FC<{
             <UpsertCommitteeForm
               key={id}
               defaultValues={values}
-              onSubmit={({ image, ...rest }) =>
+              onSubmit={(updatedValues) =>
                 updateCommittee({
                   id: id,
-                  image: image !== "" ? image : undefined,
-                  ...rest,
+                  ...updatedValues,
                 })
               }
               type="update"

@@ -32,7 +32,10 @@ const UpsertCommitteeForm: FC<IUpsertCommitteeForm> = ({
 }) => {
   const form = useForm<z.infer<typeof createCommitteeSchema>>({
     resolver: zodResolver(createCommitteeSchema),
-    defaultValues: defaultValues,
+    defaultValues: {
+      image: "",
+      ...defaultValues,
+    },
   });
 
   return (
