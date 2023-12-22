@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import isMobilePhone from "validator/lib/isMobilePhone";
 import { z } from "zod";
 
 const base64Regex =
@@ -36,3 +37,8 @@ export const base64WebPImageString = z
     const formatedVal = val.replace("data:image/webp;base64,", "");
     return base64Regex.test(formatedVal);
   }, "Medelande");
+
+export const phoneNumberString = z
+  .string()
+  .refine((val) => isMobilePhone(val, "sv-SE"))
+  .optional();

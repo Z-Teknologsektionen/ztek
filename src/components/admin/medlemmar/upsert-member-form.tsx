@@ -9,8 +9,7 @@ import { TextInput } from "~/components/forms/TextInput";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
-
-import { createMemberSchema } from "~/server/api/helpers/zodScheams";
+import { upsertMemberBaseSchema } from "~/server/api/helpers/schemas/members";
 import { api } from "~/utils/api";
 
 interface IUpsertMemberForm {
@@ -24,7 +23,7 @@ interface IUpsertMemberForm {
     phone?: string;
     role?: string;
   };
-  onSubmit: (props: z.infer<typeof createMemberSchema>) => void;
+  onSubmit: (props: z.infer<typeof upsertMemberBaseSchema>) => void;
   type: "create" | "update";
 }
 
@@ -53,8 +52,8 @@ export const UpsertMemberForm: FC<IUpsertMemberForm> = ({
     image,
   };
 
-  const form = useForm<z.infer<typeof createMemberSchema>>({
-    resolver: zodResolver(createMemberSchema),
+  const form = useForm<z.infer<typeof upsertMemberBaseSchema>>({
+    resolver: zodResolver(upsertMemberBaseSchema),
     defaultValues: defaultValues,
   });
 

@@ -4,7 +4,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { useState, type FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { updateMemberAsActiveSchema } from "~/server/api/helpers/zodScheams";
+import { upsertMemberBaseSchema } from "~/server/api/helpers/schemas/members";
 import { api, type RouterOutputs } from "~/utils/api";
 import localeObject from "~/utils/dayjs";
 import { getBase64WebPStringFromFileInput } from "~/utils/utils";
@@ -36,14 +36,14 @@ export const UpdateUserWizard: FC<IUpdateUserWizard> = ({
     onSettled: () => refetch(),
   });
 
-  const form = useForm<z.infer<typeof updateMemberAsActiveSchema>>({
-    resolver: zodResolver(updateMemberAsActiveSchema),
+  const form = useForm<z.infer<typeof upsertMemberBaseSchema>>({
+    resolver: zodResolver(upsertMemberBaseSchema),
     defaultValues: member,
   });
 
   const [newImage, setNewImage] = useState<string | undefined>(member.image);
 
-  const onSubmit = (values: z.infer<typeof updateMemberAsActiveSchema>): void =>
+  const onSubmit = (values: z.infer<typeof upsertMemberBaseSchema>): void =>
     void mutateMember({
       id: member.id,
       ...values,
