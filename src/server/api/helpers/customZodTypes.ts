@@ -36,9 +36,15 @@ export const base64WebPImageString = z
   .refine((val) => {
     const formatedVal = val.replace("data:image/webp;base64,", "");
     return base64Regex.test(formatedVal);
-  }, "Medelande");
+  }, "Inte giltig base64 sträng");
 
-export const phoneNumberString = z
-  .string()
-  .refine((val) => isMobilePhone(val, "sv-SE"))
-  .optional();
+export const base64WebPImageOrEmptyString = z.string().refine((str) => {
+  if (str === "") return true;
+
+  return base64WebPImageString.safeParse(str).success;
+}, "Ogiltig base64 sträng av webp typ");
+
+export const phoneNumberOrEmptyString = z.string().refine((val) => {
+  if (val === "") return true;
+  return isMobilePhone(val, "sv-SE");
+}, "Ogiltigt telefonnummer");

@@ -24,9 +24,9 @@ export const ImageInput: FC<IImageInput> = ({
   label,
   name,
   description,
-  defaultImage,
+  defaultImage = "",
 }) => {
-  const [newImage, setNewImage] = useState<string | undefined>(defaultImage);
+  const [newImage, setNewImage] = useState<string>(defaultImage);
   const form = useFormContext();
 
   return (
@@ -52,7 +52,7 @@ export const ImageInput: FC<IImageInput> = ({
                       form.setValue("image", val);
                     })
                     .catch(() => {
-                      field.value = undefined;
+                      field.value = "";
                       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                       setNewImage(field.value);
                     });
@@ -63,8 +63,8 @@ export const ImageInput: FC<IImageInput> = ({
               <Button
                 className="w-[25%]"
                 onClick={() => {
-                  setNewImage(undefined);
-                  form.setValue("image", undefined);
+                  setNewImage("");
+                  form.setValue("image", "");
                 }}
                 type="button"
                 variant="ghost"

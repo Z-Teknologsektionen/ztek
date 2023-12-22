@@ -1,19 +1,19 @@
 import { z } from "zod";
 import {
-  base64WebPImageString,
+  base64WebPImageOrEmptyString,
   emailString,
   nonEmptyString,
   objectId,
   orderNumber,
-  phoneNumberString,
+  phoneNumberOrEmptyString,
 } from "../customZodTypes";
 
 export const upsertMemberBaseSchema = z.object({
   name: z.string().optional(),
   nickName: z.string().optional(),
-  image: base64WebPImageString.optional(),
+  image: base64WebPImageOrEmptyString,
   order: orderNumber,
-  phone: phoneNumberString,
+  phone: phoneNumberOrEmptyString.optional(),
 });
 
 export const updateMemberAsActiveSchema = upsertMemberBaseSchema
