@@ -73,7 +73,7 @@ const InfoCard: FC<InfoCardProps> = ({ desc, name, route }) => (
         className={buttonVariants({
           variant: "outline",
           size: "lg",
-          className: "w-[25%]",
+          className: "w-full",
         })}
         href={route}
       >

@@ -1,12 +1,12 @@
 import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import { MdEmail, MdInfo, MdPhone, MdReport } from "react-icons/md";
+import CommitteeImage from "~/components/committees/CommitteeImage";
 import HeadLayout from "~/components/layout/HeadLayout";
 import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
-import CommitteeImage from "~/components/organ/CommitteeImage";
-import ssg from "~/server/api/helper/ssg";
+import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 
 const SAMO_EMAIL_KEY = "samo.ztyret@ztek.se";

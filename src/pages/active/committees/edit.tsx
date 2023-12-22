@@ -1,20 +1,15 @@
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import { type NextPage } from "next";
 import { signIn, useSession } from "next-auth/react";
+import { EditCommitteeInformationSection } from "~/components/committees/EditCommitteeInformationSection";
+import { UpdateCommitteeWizard } from "~/components/committees/UpdateCommitteeWizard";
+import { UpdateUserWizard } from "~/components/committees/UpdateUserWizard";
+
 import HeadLayout from "~/components/layout/HeadLayout";
 import RoleWrapper from "~/components/layout/RoleWrapper";
 import SectionWrapper from "~/components/layout/SectionWrapper";
-import { UpdateUserWizard } from "~/components/organ/UpdateUserWizard";
 import { api } from "~/utils/api";
-import localeObject from "~/utils/dayjs";
-import { EditCommitteeInformationSection } from "../../../components/organ/EditCommitteeInformationSection";
-import { UpdateCommitteeWizard } from "../../../components/organ/UpdateCommitteeWizard";
 
-dayjs.extend(relativeTime);
-dayjs.locale(localeObject);
-
-const EditOrganPage: NextPage = () => {
+const EditCommitteePage: NextPage = () => {
   const { data: session } = useSession({
     required: true,
     onUnauthenticated: () => void signIn("google"),
@@ -22,7 +17,7 @@ const EditOrganPage: NextPage = () => {
   const userEmail = session?.user.email;
   const { data: committee, refetch: refetchCommittee } =
     api.committee.getOneByEmail.useQuery({
-      email: userEmail ?? "",
+      email: userEmail || "",
     });
 
   return (
@@ -55,4 +50,4 @@ const EditOrganPage: NextPage = () => {
   );
 };
 
-export default EditOrganPage;
+export default EditCommitteePage;

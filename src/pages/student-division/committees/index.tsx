@@ -1,16 +1,16 @@
 import { type GetStaticProps, type NextPage } from "next";
 import Link from "next/link";
+import CommitteeImage from "~/components/committees/CommitteeImage";
 import HeadLayout from "~/components/layout/HeadLayout";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
-import CommitteeImage from "~/components/organ/CommitteeImage";
 import {
   Card,
   CardContent,
   CardDescription,
   CardTitle,
 } from "~/components/ui/card";
-import ssg from "~/server/api/helper/ssg";
+import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {

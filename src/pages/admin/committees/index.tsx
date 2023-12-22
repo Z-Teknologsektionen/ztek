@@ -1,43 +1,29 @@
-import { type NextPage } from "next";
-import { useRouter } from "next/router";
-import { CreateNewOrganWizard } from "~/components/admin/organ/CreateNewOrganWizard";
-import { DeleteOraganWizard } from "~/components/admin/organ/DeleteOraganWizard";
-import { UpdateOrganWizard } from "~/components/admin/organ/UpdateOrganWizard";
-import OrganTable from "~/components/data-table/organ/organ-table";
+import type { GetServerSideProps, NextPage } from "next";
+import CommitteeTable from "~/components/data-table/committees/committee-table";
 import AdminWrapper from "~/components/layout/AdminWrapper";
+import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
-import { useRouterHelpers } from "~/utils/router";
+import ssg from "~/server/api/helpers/ssg";
 
-const AdminOrganPage: NextPage = () => {
-  const router = useRouter();
-  const { clearQuery } = useRouterHelpers();
-  const { newCommittee, editCommittee, delCommittee } = router.query;
-
+const AdminCommitteePage: NextPage = () => {
   return (
     <AdminWrapper>
       <SectionWrapper>
-        <OrganTable />
+        <SectionTitle center>Sektionsorgan</SectionTitle>
+        <CommitteeTable />
       </SectionWrapper>
-      <CreateNewOrganWizard
-        isOpen={Boolean(newCommittee)}
-        onClose={() => void clearQuery()}
-      />
-      {typeof editCommittee === "string" && (
-        <UpdateOrganWizard
-          isOpen={Boolean(editCommittee)}
-          onClose={() => void clearQuery()}
-          slug={editCommittee}
-        />
-      )}
-      {typeof delCommittee === "string" && (
-        <DeleteOraganWizard
-          id={delCommittee}
-          isOpen={Boolean(delCommittee)}
-          onClose={() => void clearQuery()}
-        />
-      )}
     </AdminWrapper>
   );
 };
 
-export default AdminOrganPage;
+export default AdminCommitteePage;
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  await ssg.committee.getAllAsAdmin.prefetch();
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+  };
+};

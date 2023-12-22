@@ -24,7 +24,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import ssg from "~/server/api/helper/ssg";
+import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 import { cn } from "~/utils/utils";
 

@@ -4,7 +4,7 @@ import {
   createTRPCRouter,
   publicProcedure,
 } from "~/server/api/trpc";
-import { objectId } from "../helper/customZodTypes";
+import { objectId } from "../helpers/customZodTypes";
 
 export const documentRouter = createTRPCRouter({
   getAllSortedByGroup: publicProcedure.query(({ ctx }) => {
@@ -50,6 +50,7 @@ export const documentRouter = createTRPCRouter({
             name: true,
           },
         },
+        groupId: true,
         id: true,
         isPDF: true,
         title: true,

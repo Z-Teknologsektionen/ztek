@@ -1,15 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
-import type { FC } from "react";
-import { Button } from "~/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
+
 import type { RouterOutputs } from "~/utils/api";
-import { useRouterHelpers } from "~/utils/router";
+import { ProgramBoardMemberTableActions } from "./program-board-table-actions";
 
 type programBoard = RouterOutputs["programBoard"]["getAllAsAdmin"][0];
 
@@ -52,38 +44,18 @@ export const columns: ColumnDef<programBoard>[] = [
     id: "actions",
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     cell: ({ row }) => {
-      const programBoardMember = row.original;
+      const programBoardMember = {
+        ...row.original,
+        phone: row.original.phone || undefined,
+        image: row.original.image || undefined,
+      };
+
       return (
-        <ProgramBoardTableActions
+        <ProgramBoardMemberTableActions
           key={programBoardMember.id}
-          id={programBoardMember.id}
+          {...programBoardMember}
         />
       );
     },
   },
 ];
-const ProgramBoardTableActions: FC<{ id: string }> = ({ id }) => {
-  const { replaceQuery } = useRouterHelpers();
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button className="h-8 w-8 p-0" variant="ghost">
-          <span className="sr-only">Öppna meny</span>
-          <MoreHorizontal className="h-4 w-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem
-          onClick={() => void replaceQuery("editProgramBoardMember", id)}
-        >
-          Redigera
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => void replaceQuery("delProgramBoardMember", id)}
-        >
-          Radera
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-};

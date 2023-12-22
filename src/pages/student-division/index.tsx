@@ -2,11 +2,11 @@ import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import CommitteeImage from "~/components/committees/CommitteeImage";
 import HeadLayout from "~/components/layout/HeadLayout";
 import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
-import CommitteeImage from "~/components/organ/CommitteeImage";
 import { Button } from "~/components/ui/button";
 import {
   Tooltip,
@@ -14,7 +14,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import ssg from "~/server/api/helper/ssg";
+import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 
 const DOCUMENTGROUP_KEY = "Mallar för sektionsmötet";
@@ -157,15 +157,15 @@ const StudentDivision: NextPage = () => {
         </SectionWrapper>
         <SectionWrapper id="sektionsmote">
           <div className="grid grid-cols-3">
-            <div className="order-last col-span-3 mx-auto mt-2 lg:order-first lg:col-span-1">
-              <div className="grid grid-cols-3 md:grid-cols-4">
+            <div className="order-last col-span-3 mt-2 lg:order-first lg:col-span-1">
+              <div className="mr-2 grid grid-cols-4">
                 {documentIsLoading && <p>Läser in dokument...</p>}
                 {documentIsError && <p>Dokument kunde inte hämtas.</p>}
                 {documentData &&
                   documentData.Document.map((doc) => (
                     <div
                       key={doc.title}
-                      className="col-span-1 mx-2 mb-2 overflow-hidden text-center"
+                      className="col-span-1 mx-2 mb-2 overflow-hidden"
                       style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
                     >
                       <Image
@@ -180,6 +180,7 @@ const StudentDivision: NextPage = () => {
                             <Link
                               className="text-sm hover:text-blue-800 hover:underline"
                               href={doc.url}
+                              target="_blank"
                             >
                               {doc.title}
                             </Link>
@@ -193,7 +194,7 @@ const StudentDivision: NextPage = () => {
                   ))}
               </div>
             </div>
-            <div className="order-first col-span-3 pl-4 lg:order-last lg:col-span-2">
+            <div className="order-first col-span-3 lg:order-last lg:col-span-2">
               <SectionTitle className="mb-4">
                 Sektionsmötet bestämmer
               </SectionTitle>
@@ -286,26 +287,33 @@ const StudentDivision: NextPage = () => {
               />
             </div>
             <div className="col-span-3">
-              <div className="grid grid-cols-4">
+              <div className="grid grid-cols-4 gap-2">
                 {[1, 2, 3, 4].map((num) => (
-                  <div key={num} className="col-span-2 md:col-span-1">
-                    <SecondaryTitle className="mb-2">
-                      Läsperiod {num}
-                    </SecondaryTitle>
+                  <div
+                    key={num}
+                    className="col-span-2 flex flex-col gap-2 md:col-span-1"
+                  >
+                    <SecondaryTitle>Läsperiod {num}</SecondaryTitle>
                     {committeeData
                       ?.filter((c) => c.electionPeriod === num)
                       .map((committee) => (
                         <Link
                           key={`${num}${committee.name}`}
-                          className="mb-2 flex items-center justify-start "
+                          className="flex items-center justify-start gap-2"
                           href={`student-division/committees/${committee.slug}`}
                         >
                           <CommitteeImage
                             alt={`${committee.name}s logotyp`}
-                            className="mr-2 h-8 w-8"
+                            className="mx-0 h-8 w-8"
                             filename={committee.image}
                           />
-                          <p className="text-sm hover:underline md:text-base">
+                          <p
+                            className="overflow-hidden text-sm hover:underline md:text-base"
+                            style={{
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
                             {committee.name}
                           </p>
                         </Link>
