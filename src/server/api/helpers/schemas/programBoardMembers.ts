@@ -1,20 +1,20 @@
 import { z } from "zod";
 import {
-  base64WebPImageString,
+  base64WebPImageOrEmptyString,
   emailString,
   nonEmptyString,
   objectId,
   orderNumber,
-  phoneNumberString,
+  phoneNumberOrEmptyString,
 } from "../customZodTypes";
 
 export const createProgramBoardMemberSchema = z.object({
   name: nonEmptyString,
   role: nonEmptyString,
-  phone: phoneNumberString,
+  phone: phoneNumberOrEmptyString.optional(),
   email: emailString,
   url: z.string().url(),
-  image: base64WebPImageString.optional(),
+  image: base64WebPImageOrEmptyString.optional(),
   order: orderNumber,
 });
 
