@@ -91,9 +91,7 @@ const ZaloonenPage: NextPage = () => {
               size: "lg",
               variant: "outline",
             })}
-            href="https://docs.google.com/forms/d/e/1FAIpQLSehZ_u-t8Gu067sr_DmY5edTgdmTQSORCEqYI5EdRLLpJ3NJw/viewform"
-            rel="noopener noreferrer"
-            target="_blank"
+            href="/studentDivision/zaloonen/newBooking"
           >
             Boka Zaloonen!
           </Link>
