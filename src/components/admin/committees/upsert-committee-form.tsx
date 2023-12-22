@@ -2,37 +2,33 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
+import { ImageInput } from "~/components/forms/ImageInput";
+import { NumberInput } from "~/components/forms/NumberInput";
+import { TextAreaInput } from "~/components/forms/TextAreaInput";
+import { TextInput } from "~/components/forms/TextInput";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
-import { Textarea } from "~/components/ui/textarea";
+import { Form } from "~/components/ui/form";
 import { createCommitteeSchema } from "~/server/api/helpers/zodScheams";
 
-interface IUpsertOrganForm {
+interface IUpsertCommitteeForm {
   defaultValues: {
     description?: string;
+    electionPeriod?: number;
     email?: string;
     image?: string;
-    name?: string;
     order?: number;
     role?: string;
     slug?: string;
   };
   onSubmit: (props: z.infer<typeof createCommitteeSchema>) => void;
+  type: "create" | "update";
 }
 
-const UpsertCommitteeForm: FC<IUpsertOrganForm> = ({
+const UpsertCommitteeForm: FC<IUpsertCommitteeForm> = ({
   defaultValues,
   onSubmit,
+  type,
 }) => {
   const form = useForm<z.infer<typeof createCommitteeSchema>>({
     resolver: zodResolver(createCommitteeSchema),
@@ -44,108 +40,37 @@ const UpsertCommitteeForm: FC<IUpsertOrganForm> = ({
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Namn</FormLabel>
-                <FormControl>
-                  <Input placeholder="Namn" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="slug"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Slug</FormLabel>
-                <FormControl>
-                  <Input placeholder="Slug" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Beskrivning</FormLabel>
-                <FormControl>
-                  <Textarea placeholder="Beskrivning" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
+          <TextInput label="Namn" name="name" />
+          <TextInput label="Slug" name="slug" />
+          <TextAreaInput label="Beskrivning" name="description" />
+          <TextInput
+            description="Organets roll på sektionen, t.ex. Studienämnd"
+            label="Roll"
             name="role"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Roll</FormLabel>
-                <FormControl>
-                  <Input placeholder="Roll" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
           />
-          <FormField
-            control={form.control}
+          <TextInput
+            label="Epost"
             name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Epost</FormLabel>
-                <FormControl>
-                  <Input placeholder="Epost" type="email" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="lucky@ztek.se"
+            type="email"
           />
-          <FormField
-            control={form.control}
-            name="role"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Roll</FormLabel>
-                <FormControl>
-                  <Input placeholder="Roll" type="string" {...field} />
-                </FormControl>
-                <FormDescription>Organets roll på sektionen</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
+          <NumberInput
+            label="Invalsperiod"
+            max={4}
+            min={1}
+            name="electionPeriod"
           />
-          <FormField
-            control={form.control}
+          <NumberInput
+            description="Används för att bestämma vilken ordning organet ska visas i"
+            label="Ordning"
+            max={99}
+            min={1}
             name="order"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Ordning</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    {...field}
-                    max={99}
-                    min={0}
-                    onChange={(event) =>
-                      field.onChange(Number(event.target.value))
-                    }
-                  />
-                </FormControl>
-                <FormDescription>
-                  Används för att bestämma vilken ordning organet ska visas i
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
+          />
+          <ImageInput
+            defaultImage={defaultValues.image}
+            label="Bild"
+            name="image"
           />
         </div>
         <DialogFooter>
@@ -159,7 +84,7 @@ const UpsertCommitteeForm: FC<IUpsertOrganForm> = ({
             Rensa
           </Button>
           <Button type="submit" variant={"default"}>
-            Skapa
+            {type === "create" ? "Skapa" : "Uppdatera"}
           </Button>
         </DialogFooter>
       </form>

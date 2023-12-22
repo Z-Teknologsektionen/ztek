@@ -2,7 +2,7 @@ import { MoreHorizontal } from "lucide-react";
 import type { FC } from "react";
 import toast from "react-hot-toast";
 import DeleteDialog from "~/components/admin/delete-dialog";
-import UpsertProgramBoardMemberForm from "~/components/admin/program-board/upsert-program-board-form";
+import { UpsertDocumentGroupForm } from "~/components/admin/document-group/upsert-document-group-form";
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import {
@@ -13,25 +13,20 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { api } from "~/utils/api";
 
-export const ProgramBoardMemberTableActions: FC<{
-  email: string;
+export const DocumentGroupTableActions: FC<{
+  extraText: string;
   id: string;
-  image: string | undefined;
   name: string;
-  order: number;
-  phone: string | undefined;
-  role: string;
-  url: string;
 }> = ({ id, ...values }) => {
   const ctx = api.useUtils();
 
-  const { mutate: updateProgramBoardMember } =
-    api.programBoard.updateOne.useMutation({
-      onMutate: () => toast.loading("Uppdaterar medlem..."),
+  const { mutate: updateDocumentGroup } =
+    api.document.updateOneGroup.useMutation({
+      onMutate: () => toast.loading("Uppdaterar dokumentgrupp..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-      onSuccess: () => {
-        toast.success(`Medlemen har uppdaterats!`);
-        void ctx.programBoard.invalidate();
+      onSuccess: (res) => {
+        toast.success(JSON.stringify(res, null, 2));
+        void ctx.committee.invalidate();
       },
       onError: (error) => {
         if (error.message) {
@@ -42,14 +37,14 @@ export const ProgramBoardMemberTableActions: FC<{
       },
     });
 
-  const { mutate: deleteProgramBoardMember } =
-    api.programBoard.deleteOne.useMutation({
-      onMutate: () => toast.loading("Raderar medlem..."),
+  const { mutate: deleteDocumentGroup } =
+    api.document.deleteOneGroup.useMutation({
+      onMutate: () => toast.loading("Raderar dokumentgrupp..."),
       onSettled: (_c, _d, _e, toastId) => {
         toast.remove(toastId);
-        void ctx.programBoard.invalidate();
+        void ctx.document.invalidate();
       },
-      onSuccess: () => toast.success("Medlem har raderats!"),
+      onSuccess: () => toast.success("Dokumentgruppen har raderats!"),
       onError: (error) => {
         if (error.message) {
           toast.error(error.message);
@@ -70,21 +65,19 @@ export const ProgramBoardMemberTableActions: FC<{
       <DropdownMenuContent align="end">
         <UpsertDialog
           form={
-            <UpsertProgramBoardMemberForm
+            <UpsertDocumentGroupForm
               key={id}
               defaultValues={values}
-              onSubmit={({ phone, image, ...rest }) =>
-                updateProgramBoardMember({
+              onSubmit={({ ...rest }) =>
+                updateDocumentGroup({
                   id: id,
-                  image: image !== "" ? image : undefined,
-                  phone: phone !== "" ? phone : undefined,
                   ...rest,
                 })
               }
               type="update"
             />
           }
-          title="Uppdatera programmedlem"
+          title="Uppdatera dokument"
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               Redigera
@@ -92,7 +85,7 @@ export const ProgramBoardMemberTableActions: FC<{
           }
         />
         <DeleteDialog
-          onSubmit={() => deleteProgramBoardMember({ id })}
+          onSubmit={() => deleteDocumentGroup({ id })}
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               Radera

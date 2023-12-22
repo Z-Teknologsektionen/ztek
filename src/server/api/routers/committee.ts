@@ -162,11 +162,11 @@ export const committeeRouter = createTRPCRouter({
         order: true,
         slug: true,
         electionPeriod: true,
-        _count: {
-          select: {
-            members: true,
-          },
-        },
+        image: true,
+        email: true,
+        description: true,
+        members: true,
+        role: true,
       },
       orderBy: [{ order: "desc" }],
     });

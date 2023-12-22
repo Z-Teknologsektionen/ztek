@@ -4,7 +4,7 @@ import type { FC } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import CommitteeImage from "~/components/organ/CommitteeImage";
+import CommitteeImage from "~/components/committees/CommitteeImage";
 import { updateCommitteeAsUserSchema } from "~/server/api/helpers/zodScheams";
 import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";

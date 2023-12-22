@@ -4,11 +4,11 @@ import {
   type InferGetStaticPropsType,
   type NextPage,
 } from "next";
+import CommitteeMemberCard from "~/components/committees/CommitteeMemberCard";
 import HeadLayout from "~/components/layout/HeadLayout";
 import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
-import CommitteeMemberCard from "~/components/organ/CommitteeMemberCard";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 

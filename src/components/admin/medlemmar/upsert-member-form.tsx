@@ -1,35 +1,23 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { Button, buttonVariants } from "~/components/ui/button";
+import { DropdownInput } from "~/components/forms/DropdownInput";
+import { ImageInput } from "~/components/forms/ImageInput";
+import { NumberInput } from "~/components/forms/NumberInput";
+import { TextInput } from "~/components/forms/TextInput";
+import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
+import { Form } from "~/components/ui/form";
+
 import { createMemberSchema } from "~/server/api/helpers/zodScheams";
 import { api } from "~/utils/api";
-import { cn } from "~/utils/utils";
 
 interface IUpsertMemberForm {
   defaultValues: {
     committeeId?: string;
     email?: string;
+    image?: string | undefined;
     name?: string;
     nickName?: string;
     order?: number;
@@ -37,6 +25,7 @@ interface IUpsertMemberForm {
     role?: string;
   };
   onSubmit: (props: z.infer<typeof createMemberSchema>) => void;
+  type: "create" | "update";
 }
 
 export const UpsertMemberForm: FC<IUpsertMemberForm> = ({
@@ -48,8 +37,10 @@ export const UpsertMemberForm: FC<IUpsertMemberForm> = ({
     nickName = undefined,
     phone = undefined,
     role = "",
+    image = undefined,
   },
   onSubmit,
+  type,
 }) => {
   const defaultValues = {
     order,
@@ -59,6 +50,7 @@ export const UpsertMemberForm: FC<IUpsertMemberForm> = ({
     nickName,
     role,
     phone,
+    image,
   };
 
   const form = useForm<z.infer<typeof createMemberSchema>>({
@@ -73,138 +65,46 @@ export const UpsertMemberForm: FC<IUpsertMemberForm> = ({
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form className=" space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Namn</FormLabel>
-                <FormControl>
-                  <Input placeholder="Namn" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="nickName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Smeknamn</FormLabel>
-                <FormControl>
-                  <Input placeholder="Smeknamn" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
+          <TextInput label="Namn" name="name" />
+          <TextInput label="Kommitténamn" name="nickName" />
+          <TextInput
+            label="Epost"
             name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Epost</FormLabel>
-                <FormControl>
-                  <Input placeholder="Epost" type="email" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="lucky@ztek.se"
+            type="email"
           />
-          <FormField
-            control={form.control}
+          <TextInput
+            description="Vilken post har personen?"
+            label="Post"
             name="role"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Roll</FormLabel>
-                <FormControl>
-                  <Input placeholder="Roll" type="string" {...field} />
-                </FormControl>
-                <FormDescription>Roll/post i organet</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="Ordförande"
           />
-          <FormField
-            control={form.control}
+
+          <DropdownInput
+            description="Hittar du inte rätt organ? Du kan lägga till fler organ som administratör."
+            label="Tillhör organ"
+            mappable={committees}
             name="committeeId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Organ</FormLabel>
-                <Select
-                  defaultValue={field.value}
-                  onValueChange={field.onChange}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Välj organ" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {committees?.map(({ id, name: committeeName }) => (
-                      <SelectItem key={id} value={id}>
-                        {committeeName}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormDescription>
-                  Saknar du ett organ? Du som admin han hantera alla{" "}
-                  <Link
-                    className={cn(
-                      buttonVariants({
-                        variant: "link",
-                        size: "sm",
-                      }),
-                      "p-0",
-                    )}
-                    href={"/admin/organ"}
-                  >
-                    organ
-                  </Link>
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="Välj organ"
           />
-          <FormField
-            control={form.control}
+          <NumberInput
+            description="Används för att bestämma vilken ordning organets medlemmar ska
+                  visas i"
+            label="Ordning"
+            max={99}
+            min={0}
             name="order"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Ordning</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    {...field}
-                    max={99}
-                    min={0}
-                    onChange={(event) =>
-                      field.onChange(Number(event.target.value))
-                    }
-                  />
-                </FormControl>
-                <FormDescription>
-                  Används för att bestämma vilken ordning organets medlemmar ska
-                  visas i
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
           />
-          <FormField
-            control={form.control}
+          <TextInput
+            description="Du behöver inte fylla i detta. Kommer visas publikt på organsidan."
+            label="Telefonnummer"
             name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Telefonnummer</FormLabel>
-                <FormControl>
-                  <Input placeholder="Telefonnummer" type="string" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            type="tel"
+          />
+          <ImageInput
+            defaultImage={defaultValues.image}
+            label="Bild"
+            name="image"
           />
         </div>
         <DialogFooter>
@@ -218,7 +118,7 @@ export const UpsertMemberForm: FC<IUpsertMemberForm> = ({
             Rensa
           </Button>
           <Button type="submit" variant={"default"}>
-            Skapa
+            {type === "create" ? "Skapa" : "Uppdatera"}
           </Button>
         </DialogFooter>
       </form>

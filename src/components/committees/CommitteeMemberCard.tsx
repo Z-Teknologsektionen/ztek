@@ -1,6 +1,6 @@
 import { type FC } from "react";
 import { AiOutlineMail, AiOutlinePhone } from "react-icons/ai";
-import CommitteeImage from "~/components/organ/CommitteeImage";
+import CommitteeImage from "~/components/committees/CommitteeImage";
 import { type RouterOutputs } from "~/utils/api";
 
 const CommitteeMemberCard: FC<

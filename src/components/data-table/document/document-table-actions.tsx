@@ -2,7 +2,7 @@ import { MoreHorizontal } from "lucide-react";
 import type { FC } from "react";
 import toast from "react-hot-toast";
 import DeleteDialog from "~/components/admin/delete-dialog";
-import { UpsertMemberForm } from "~/components/admin/medlemmar/upsert-member-form";
+import { UpsertDocumentForm } from "~/components/admin/document/upsert-document-form";
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import {
@@ -13,26 +13,22 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { api } from "~/utils/api";
 
-export const CommitteeMemberTableActions: FC<{
-  committeeId: string;
-  email: string;
+export const DocumentTableActions: FC<{
+  group: {
+    name: string;
+  };
   id: string;
-  image: string;
-  name: string;
-  nickName: string;
-  order: number;
-  phone: string;
-  role: string;
+  isPDF: boolean;
+  url: string;
 }> = ({ id, ...values }) => {
   const ctx = api.useUtils();
 
-  const { mutate: updateMember } = api.member.updateMemberAsAdmin.useMutation({
-    onMutate: () => toast.loading("Uppdaterar medlem..."),
+  const { mutate: updateDocument } = api.document.updateOne.useMutation({
+    onMutate: () => toast.loading("Uppdaterar dokument..."),
     onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
     onSuccess: () => {
-      toast.success(`Medlem har uppdaterats!`);
-      void ctx.committee.invalidate();
-      void ctx.member.invalidate();
+      toast.success("Dokumentet har uppdaterats!");
+      void ctx.document.invalidate();
     },
     onError: (error) => {
       if (error.message) {
@@ -43,14 +39,13 @@ export const CommitteeMemberTableActions: FC<{
     },
   });
 
-  const { mutate: deleteMember } = api.member.deleteMemberAsAdmin.useMutation({
-    onMutate: () => toast.loading("Raderar medlem..."),
+  const { mutate: deleteDocument } = api.document.deleteOne.useMutation({
+    onMutate: () => toast.loading("Raderar dokument..."),
     onSettled: (_c, _d, _e, toastId) => {
       toast.remove(toastId);
-      void ctx.member.invalidate();
-      void ctx.committee.invalidate();
+      void ctx.document.invalidate();
     },
-    onSuccess: () => toast.success("Medlem har raderats!"),
+    onSuccess: () => toast.success("Dokumentet har raderats!"),
     onError: (error) => {
       if (error.message) {
         toast.error(error.message);
@@ -71,23 +66,19 @@ export const CommitteeMemberTableActions: FC<{
       <DropdownMenuContent align="end">
         <UpsertDialog
           form={
-            <UpsertMemberForm
+            <UpsertDocumentForm
               key={id}
               defaultValues={values}
-              onSubmit={({ name, nickName, phone, image, ...rest }) =>
-                updateMember({
+              onSubmit={({ ...rest }) =>
+                updateDocument({
                   id: id,
-                  name: name !== "" ? name : undefined,
-                  nickName: nickName !== "" ? nickName : undefined,
-                  phone: phone !== "" ? phone : undefined,
-                  image: image !== "" ? image : undefined,
                   ...rest,
                 })
               }
               type="update"
             />
           }
-          title="Uppdatera aktiv"
+          title="Uppdatera dokument"
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               Redigera
@@ -95,7 +86,7 @@ export const CommitteeMemberTableActions: FC<{
           }
         />
         <DeleteDialog
-          onSubmit={() => deleteMember({ id })}
+          onSubmit={() => deleteDocument({ id })}
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               Radera

@@ -1,8 +1,8 @@
 import { MoreHorizontal } from "lucide-react";
 import type { FC } from "react";
 import toast from "react-hot-toast";
+import UpsertCommitteeForm from "~/components/admin/committees/upsert-committee-form";
 import DeleteDialog from "~/components/admin/delete-dialog";
-import UpsertProgramBoardMemberForm from "~/components/admin/program-board/upsert-program-board-form";
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import {
@@ -13,25 +13,25 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { api } from "~/utils/api";
 
-export const ProgramBoardMemberTableActions: FC<{
+export const CommitteeTableActions: FC<{
+  description: string;
+  electionPeriod: number;
   email: string;
   id: string;
-  image: string | undefined;
-  name: string;
+  image: string;
   order: number;
-  phone: string | undefined;
   role: string;
-  url: string;
+  slug: string;
 }> = ({ id, ...values }) => {
   const ctx = api.useUtils();
 
-  const { mutate: updateProgramBoardMember } =
-    api.programBoard.updateOne.useMutation({
+  const { mutate: updateCommittee } = api.committee.updateCommittee.useMutation(
+    {
       onMutate: () => toast.loading("Uppdaterar medlem..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: () => {
-        toast.success(`Medlemen har uppdaterats!`);
-        void ctx.programBoard.invalidate();
+        toast.success(`Organet har uppdaterats!`);
+        void ctx.committee.invalidate();
       },
       onError: (error) => {
         if (error.message) {
@@ -40,24 +40,25 @@ export const ProgramBoardMemberTableActions: FC<{
           toast.error("Något gick fel. Försök igen senare");
         }
       },
-    });
+    },
+  );
 
-  const { mutate: deleteProgramBoardMember } =
-    api.programBoard.deleteOne.useMutation({
-      onMutate: () => toast.loading("Raderar medlem..."),
-      onSettled: (_c, _d, _e, toastId) => {
-        toast.remove(toastId);
-        void ctx.programBoard.invalidate();
-      },
-      onSuccess: () => toast.success("Medlem har raderats!"),
-      onError: (error) => {
-        if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("Något gick fel. Försök igen senare");
-        }
-      },
-    });
+  const { mutate: deleteMember } = api.committee.deleteCommittee.useMutation({
+    onMutate: () => toast.loading("Raderar medlem..."),
+    onSettled: (_c, _d, _e, toastId) => {
+      toast.remove(toastId);
+      void ctx.member.invalidate();
+      void ctx.committee.invalidate();
+    },
+    onSuccess: () => toast.success("Medlem har raderats!"),
+    onError: (error) => {
+      if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error("Något gick fel. Försök igen senare");
+      }
+    },
+  });
 
   return (
     <DropdownMenu>
@@ -70,21 +71,20 @@ export const ProgramBoardMemberTableActions: FC<{
       <DropdownMenuContent align="end">
         <UpsertDialog
           form={
-            <UpsertProgramBoardMemberForm
+            <UpsertCommitteeForm
               key={id}
               defaultValues={values}
-              onSubmit={({ phone, image, ...rest }) =>
-                updateProgramBoardMember({
+              onSubmit={({ image, ...rest }) =>
+                updateCommittee({
                   id: id,
                   image: image !== "" ? image : undefined,
-                  phone: phone !== "" ? phone : undefined,
                   ...rest,
                 })
               }
               type="update"
             />
           }
-          title="Uppdatera programmedlem"
+          title="Uppdatera organ"
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               Redigera
@@ -92,7 +92,7 @@ export const ProgramBoardMemberTableActions: FC<{
           }
         />
         <DeleteDialog
-          onSubmit={() => deleteProgramBoardMember({ id })}
+          onSubmit={() => deleteMember({ id })}
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               Radera

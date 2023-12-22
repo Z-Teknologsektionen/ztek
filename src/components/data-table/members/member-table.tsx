@@ -83,6 +83,7 @@ const MemberTable: FC = () => {
                     ...rest,
                   })
                 }
+                type="create"
               />
             }
             title="Skapa ny aktiv"

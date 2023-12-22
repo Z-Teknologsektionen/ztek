@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import toast from "react-hot-toast";
-import { UpsertProgramBoardMemberDialog } from "~/components/admin/program-board/upsert-program-board-dialog";
 import UpsertProgramBoardMemberForm from "~/components/admin/program-board/upsert-program-board-form";
+import { UpsertDialog } from "~/components/admin/upsert-dialog";
 import SectionTitle from "~/components/layout/SectionTitle";
 import { Button } from "~/components/ui/button";
 import { BasicDataTable } from "~/components/ui/data-table";
@@ -38,7 +38,7 @@ const ProgramBoardTable: FC = () => {
       <div>
         <SectionTitle center>Programledningen</SectionTitle>
         <div className="flex justify-end">
-          <UpsertProgramBoardMemberDialog
+          <UpsertDialog
             form={
               <UpsertProgramBoardMemberForm
                 key={"new"}
@@ -53,6 +53,7 @@ const ProgramBoardTable: FC = () => {
                 type="create"
               />
             }
+            title="Skapa ny programmedlem"
             trigger={
               <Button
                 disabled={creatingNewProgramBoardMember}
@@ -63,7 +64,6 @@ const ProgramBoardTable: FC = () => {
                 Skapa ny medlem
               </Button>
             }
-            type="create"
           />
         </div>
       </div>

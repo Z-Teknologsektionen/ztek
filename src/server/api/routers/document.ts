@@ -50,6 +50,7 @@ export const documentRouter = createTRPCRouter({
             name: true,
           },
         },
+        groupId: true,
         id: true,
         isPDF: true,
         title: true,
