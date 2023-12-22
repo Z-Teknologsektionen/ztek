@@ -180,6 +180,7 @@ const StudentDivision: NextPage = () => {
                             <Link
                               className="text-sm hover:text-blue-800 hover:underline"
                               href={doc.url}
+                              target="_blank"
                             >
                               {doc.title}
                             </Link>
@@ -306,7 +307,13 @@ const StudentDivision: NextPage = () => {
                             className="mx-0 h-8 w-8"
                             filename={committee.image}
                           />
-                          <p className="text-sm hover:underline md:text-base">
+                          <p
+                            className="overflow-hidden text-sm hover:underline md:text-base"
+                            style={{
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
                             {committee.name}
                           </p>
                         </Link>
