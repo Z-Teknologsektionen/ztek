@@ -1,8 +1,7 @@
 import type { FC } from "react";
 import toast from "react-hot-toast";
-import { UpsertCommitteeDialog } from "~/components/admin/committees/upsert-committee-dialog";
 import UpsertCommitteeForm from "~/components/admin/committees/upsert-committee-form";
-import SectionTitle from "~/components/layout/SectionTitle";
+import { UpsertDialog } from "~/components/admin/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { BasicDataTable } from "~/components/ui/data-table";
 import { api } from "~/utils/api";
@@ -34,16 +33,17 @@ const CommitteeTable: FC = () => {
   return (
     <>
       <div>
-        <SectionTitle center>Sektionsorgan</SectionTitle>
         <div className="flex justify-end">
-          <UpsertCommitteeDialog
+          <UpsertDialog
             form={
               <UpsertCommitteeForm
                 key={"new"}
                 defaultValues={{}}
                 onSubmit={(values) => createNewCommittee(values)}
+                type="create"
               />
             }
+            title="Skapa nytt organ"
             trigger={
               <Button
                 disabled={creatingNewCommittee}

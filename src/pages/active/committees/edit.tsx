@@ -1,14 +1,15 @@
 import { type NextPage } from "next";
 import { signIn, useSession } from "next-auth/react";
+import { EditCommitteeInformationSection } from "~/components/committees/EditCommitteeInformationSection";
+import { UpdateCommitteeWizard } from "~/components/committees/UpdateCommitteeWizard";
+import { UpdateUserWizard } from "~/components/committees/UpdateUserWizard";
+
 import HeadLayout from "~/components/layout/HeadLayout";
 import RoleWrapper from "~/components/layout/RoleWrapper";
 import SectionWrapper from "~/components/layout/SectionWrapper";
-import { UpdateUserWizard } from "~/components/organ/UpdateUserWizard";
 import { api } from "~/utils/api";
-import { EditCommitteeInformationSection } from "../../../components/organ/EditCommitteeInformationSection";
-import { UpdateCommitteeWizard } from "../../../components/organ/UpdateCommitteeWizard";
 
-const EditOrganPage: NextPage = () => {
+const EditCommitteePage: NextPage = () => {
   const { data: session } = useSession({
     required: true,
     onUnauthenticated: () => void signIn("google"),
@@ -49,4 +50,4 @@ const EditOrganPage: NextPage = () => {
   );
 };
 
-export default EditOrganPage;
+export default EditCommitteePage;

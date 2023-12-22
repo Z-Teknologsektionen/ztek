@@ -1,22 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, type FC } from "react";
+import { type FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import CommitteeImage from "~/components/organ/CommitteeImage";
+import { ImageInput } from "~/components/forms/ImageInput";
+import { NumberInput } from "~/components/forms/NumberInput";
+import { TextInput } from "~/components/forms/TextInput";
+// import { TextInput } from "~/components/forms/textInput";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
+import { Form } from "~/components/ui/form";
 import { createProgramBoardMemberSchema } from "~/server/api/helpers/zodScheams";
-import { getBase64WebPStringFromFileInput } from "~/utils/utils";
 
 interface IUpsertProgramBoardMemberForm {
   defaultValues: {
@@ -37,9 +30,6 @@ const UpsertProgramBoardMemberForm: FC<IUpsertProgramBoardMemberForm> = ({
   type,
   onSubmit,
 }) => {
-  const [newImage, setNewImage] = useState<string | undefined>(
-    defaultValues.image,
-  );
   const form = useForm<z.infer<typeof createProgramBoardMemberSchema>>({
     resolver: zodResolver(createProgramBoardMemberSchema),
     defaultValues: defaultValues,
@@ -50,145 +40,42 @@ const UpsertProgramBoardMemberForm: FC<IUpsertProgramBoardMemberForm> = ({
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Namn</FormLabel>
-                <FormControl>
-                  <Input placeholder="Namn" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
+          <TextInput label="Namn" name="name" />
+          <TextInput
+            label="Titel"
             name="role"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Roll</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Programansvarig/Studievägledare"
-                    {...field}
-                  />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="Programansvarig/Studievägledare/..."
           />
-          <FormField
-            control={form.control}
+          <TextInput
+            description="Måste inte vara med"
+            label="Telefonnummer"
             name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Telefonnummer</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormDescription>Måste inte vara med</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
           />
-          <FormField
-            control={form.control}
+          <TextInput
+            label="Epost"
             name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Epost</FormLabel>
-                <FormControl>
-                  <Input placeholder="lucky@ztek.se" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="lucky@ztek.se"
+            type="email"
           />
-          <FormField
-            control={form.control}
+          <TextInput
+            description="Används för att länka till personens sida på Chalmers hemsida"
+            label="Url"
             name="url"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Url</FormLabel>
-                <FormControl>
-                  <Input placeholder="www.chalmers.se" type="url" {...field} />
-                </FormControl>
-                <FormDescription>
-                  Används för att länka till personens sida på Chalmers hemsida
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="https://chalmers.se/lucky"
+            type="url"
           />
-          <FormField
-            control={form.control}
+          <NumberInput
+            description="Används för att bestämma vilken ordning personen ska visas i.
+                  Lägre värde visas till vänster."
+            label="Ordning"
+            max={99}
+            min={0}
             name="order"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Ordning</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    {...field}
-                    max={99}
-                    min={0}
-                    onChange={(event) =>
-                      field.onChange(Number(event.target.value))
-                    }
-                  />
-                </FormControl>
-                <FormDescription>
-                  Används för att bestämma vilken ordning personen ska visas i.
-                  Lägre värde visas till vänster.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
           />
-          <FormField
-            control={form.control}
+          <ImageInput
+            defaultImage={defaultValues.image}
+            label="Bild"
             name="image"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Bild</FormLabel>
-                <CommitteeImage alt="" filename={newImage} />
-                <FormControl>
-                  <div className="flex w-auto gap-2">
-                    <Input
-                      {...field}
-                      accept="image/png, image/jpeg"
-                      className="text-transparent"
-                      onChange={(event) => {
-                        getBase64WebPStringFromFileInput(event)
-                          .then((val) => {
-                            field.value = val;
-                            setNewImage(field.value);
-                            form.setValue("image", val);
-                          })
-                          .catch(() => {
-                            field.value = undefined;
-                            setNewImage(field.value);
-                          });
-                      }}
-                      type="file"
-                      value={""}
-                    />
-                    <Button
-                      className="w-[25%]"
-                      onClick={() => setNewImage(undefined)}
-                      type="button"
-                      variant="ghost"
-                    >
-                      Rensa bild
-                    </Button>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
           />
         </div>
         <DialogFooter>
@@ -212,3 +99,36 @@ const UpsertProgramBoardMemberForm: FC<IUpsertProgramBoardMemberForm> = ({
 };
 
 export default UpsertProgramBoardMemberForm;
+// interface ITextInput {
+//   description?: string;
+//   label: string;
+//   name: string;
+//   placeholder?: string;
+// }
+
+// export const TextInput: FC<ITextInput> = ({
+//   label,
+//   name,
+//   description,
+//   placeholder,
+// }) => {
+//   const { control } = useFormContext();
+//   return (
+//     <>
+//       <FormField
+//         control={control}
+//         name={name}
+//         render={({ field }) => (
+//           <FormItem>
+//             <FormLabel>{label}</FormLabel>
+//             <FormControl>
+//               <Input placeholder={placeholder} {...field} />
+//             </FormControl>
+//             <FormDescription>{description}</FormDescription>
+//             <FormMessage />
+//           </FormItem>
+//         )}
+//       />
+//     </>
+//   );
+// };

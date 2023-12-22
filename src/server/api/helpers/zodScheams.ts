@@ -25,6 +25,7 @@ export const createMemberSchema = z.object({
     .refine((val) => isMobilePhone(val, "sv-SE"))
     .optional(),
   role: nonEmptyString,
+  image: base64WebPImageString.optional(),
   order: orderNumber,
 });
 
@@ -66,5 +67,24 @@ export const createProgramBoardMemberSchema = z.object({
 });
 
 export const updateProgramBoardMemberSchema = createProgramBoardMemberSchema
+  .partial()
+  .extend({ id: objectId });
+
+export const createDocumentSchema = z.object({
+  title: nonEmptyString,
+  url: z.string().url(),
+  isPDF: z.boolean(),
+  groupId: objectId,
+});
+
+export const updateDocumentSchema = createDocumentSchema
+  .partial()
+  .extend({ id: objectId });
+
+export const createDocumentGroupSchema = z.object({
+  name: nonEmptyString,
+  extraTest: nonEmptyString.optional(),
+});
+export const updateDocumentGroupSchema = createDocumentGroupSchema
   .partial()
   .extend({ id: objectId });

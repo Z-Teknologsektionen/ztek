@@ -108,7 +108,17 @@ export const committeeMemberRouter = createTRPCRouter({
     .mutation(
       ({
         ctx,
-        input: { id, nickName, phone, email, name, order, role, committeeId },
+        input: {
+          id,
+          nickName,
+          phone,
+          email,
+          name,
+          order,
+          role,
+          committeeId,
+          image,
+        },
       }) => {
         return ctx.prisma.committeeMember.update({
           where: {
@@ -116,6 +126,7 @@ export const committeeMemberRouter = createTRPCRouter({
           },
           data: {
             email,
+            image,
             role,
             committeeId,
             name,

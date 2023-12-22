@@ -2,11 +2,11 @@ import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import CommitteeImage from "~/components/committees/CommitteeImage";
 import HeadLayout from "~/components/layout/HeadLayout";
 import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
-import CommitteeImage from "~/components/organ/CommitteeImage";
 import { Button } from "~/components/ui/button";
 import {
   Tooltip,
