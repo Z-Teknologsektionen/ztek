@@ -9,7 +9,7 @@ import { TextInput } from "~/components/forms/TextInput";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
-import { createProgramBoardMemberSchema } from "~/server/api/helpers/zodScheams";
+import { createProgramBoardMemberSchema } from "~/server/api/helpers/schemas/programBoardMembers";
 
 interface IUpsertProgramBoardMemberForm {
   defaultValues: {
