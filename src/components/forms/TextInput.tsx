@@ -6,6 +6,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
 
@@ -36,6 +37,7 @@ export const TextInput: FC<ITextInput> = ({
             <Input placeholder={placeholder} type={type} {...field} />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
+          <FormMessage />
         </FormItem>
       )}
     />
