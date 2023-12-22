@@ -64,7 +64,7 @@ const UpsertCommitteeForm: FC<IUpsertCommitteeForm> = ({
             description="Används för att bestämma vilken ordning organet ska visas i"
             label="Ordning"
             max={99}
-            min={1}
+            min={0}
             name="order"
           />
           <ImageInput
