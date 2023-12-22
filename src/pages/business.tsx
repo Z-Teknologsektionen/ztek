@@ -54,7 +54,7 @@ const BusinessPage: NextPage = () => {
               />
               <div className="mt-2 text-center">
                 <p>
-                  <strong>Dennis Holmström/Casper Efternamn</strong> /zFoto
+                  <strong>Casper Lundberg</strong> /zFoto
                 </p>
               </div>
             </div>

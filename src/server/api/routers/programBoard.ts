@@ -1,4 +1,8 @@
 import { z } from "zod";
+import {
+  createProgramBoardMemberSchema,
+  updateProgramBoardMemberSchema,
+} from "../helpers/zodScheams";
 import { adminProcedure, createTRPCRouter, publicProcedure } from "../trpc";
 
 export const programBoardRouter = createTRPCRouter({
@@ -41,17 +45,7 @@ export const programBoardRouter = createTRPCRouter({
       });
     }),
   createOne: adminProcedure
-    .input(
-      z.object({
-        name: z.string().min(1),
-        role: z.string().min(1),
-        phone: z.string().min(1),
-        email: z.string().email().min(1),
-        url: z.string().url().min(1),
-        image: z.string().min(1),
-        order: z.number().min(1),
-      }),
-    )
+    .input(createProgramBoardMemberSchema)
     .mutation(
       ({ ctx, input: { name, role, phone, email, url, image, order } }) => {
         return ctx.prisma.programBoardMember.create({
@@ -68,18 +62,7 @@ export const programBoardRouter = createTRPCRouter({
       },
     ),
   updateOne: adminProcedure
-    .input(
-      z.object({
-        id: z.string().min(1),
-        name: z.string().min(1),
-        role: z.string().min(1),
-        phone: z.string().min(1),
-        email: z.string().email().min(1),
-        url: z.string().url().min(1),
-        image: z.string().min(1),
-        order: z.number(),
-      }),
-    )
+    .input(updateProgramBoardMemberSchema)
     .mutation(
       ({ ctx, input: { id, name, role, phone, email, url, image, order } }) => {
         return ctx.prisma.programBoardMember.update({

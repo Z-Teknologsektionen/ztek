@@ -24,7 +24,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import ssg from "~/server/api/helper/ssg";
+import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 import { cn } from "~/utils/utils";
 
@@ -50,7 +50,7 @@ const quickLinks = [
   {
     icon: <MdAnalytics size={"3em"} />,
     href: "https://stats.ftek.se/",
-    text: "Tentastatestik",
+    text: "Tentastatistik",
     tooltip: "Här kan du se tentastatestik för de flesta kurser på Chalmers.",
   },
   {
@@ -127,7 +127,7 @@ const StudentPage: NextPage = () => {
                 variant={"outline"}
                 asChild
               >
-                <Link href="/student/studentHealth">
+                <Link href="/student/student-health">
                   Mer om studiesocialt stöd
                 </Link>
               </Button>
@@ -145,7 +145,7 @@ const StudentPage: NextPage = () => {
                 variant={"outline"}
                 asChild
               >
-                <Link href="/student/newStudent">Mer information</Link>
+                <Link href="/student/new-student">Mer information</Link>
               </Button>
             </div>
             <div className="col-span-1 my-4 flex flex-col rounded-md">
