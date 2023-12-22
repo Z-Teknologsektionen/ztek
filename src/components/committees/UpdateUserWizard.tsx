@@ -3,16 +3,18 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useState, type FC } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import type { z } from "zod";
-import { updateMemberAsActiveSchema } from "~/server/api/helpers/zodScheams";
+import { upsertMemberBaseSchema } from "~/server/api/helpers/schemas/members";
 import { api, type RouterOutputs } from "~/utils/api";
 import localeObject from "~/utils/dayjs";
 import { getBase64WebPStringFromFileInput } from "~/utils/utils";
+import { NumberInput } from "../forms/NumberInput";
+import { TextInput } from "../forms/TextInput";
 import { Button } from "../ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -32,18 +34,32 @@ export const UpdateUserWizard: FC<IUpdateUserWizard> = ({
   member,
   refetch,
 }) => {
+  const [newImage, setNewImage] = useState<string>(member.image);
+
   const { mutate: mutateMember } = api.member.updateMemberAsActive.useMutation({
-    onSettled: () => refetch(),
+    onMutate: () => toast.loading("Uppdaterar medlem..."),
+    onSettled: (_, __, ___, toastId) => {
+      toast.dismiss(toastId);
+      refetch();
+    },
+    onSuccess: ({ role }) => {
+      toast.success(`Medlem med roll "${role}" har uppdaterats!`);
+    },
+    onError: (error) => {
+      if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error("Något gick fel. Försök igen senare");
+      }
+    },
   });
 
-  const form = useForm<z.infer<typeof updateMemberAsActiveSchema>>({
-    resolver: zodResolver(updateMemberAsActiveSchema),
+  const form = useForm<z.infer<typeof upsertMemberBaseSchema>>({
+    resolver: zodResolver(upsertMemberBaseSchema),
     defaultValues: member,
   });
 
-  const [newImage, setNewImage] = useState<string | undefined>(member.image);
-
-  const onSubmit = (values: z.infer<typeof updateMemberAsActiveSchema>): void =>
+  const onSubmit = (values: z.infer<typeof upsertMemberBaseSchema>): void =>
     void mutateMember({
       id: member.id,
       ...values,
@@ -61,33 +77,22 @@ export const UpdateUserWizard: FC<IUpdateUserWizard> = ({
           filename={newImage}
         />
         <div className="space-y-2 p-1">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Namn</FormLabel>
-                <FormControl>
-                  <Input placeholder="Namn" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+          <TextInput label="Namn" name="name" />
+          <TextInput label="Kommitténamn" name="nickName" />
+          <TextInput
+            description="Du behöver inte fylla i detta. Kommer visas publikt på organsidan."
+            label="Telefonnummer"
+            name="phone"
+            type="tel"
           />
-          <FormField
-            control={form.control}
-            name="nickName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Smeknamn</FormLabel>
-                <FormControl>
-                  <Input placeholder="Smeknamn" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+          <NumberInput
+            description="Används för att bestämma vilken ordning organets medlemmar ska
+                  visas i"
+            label="Ordning"
+            max={99}
+            min={0}
+            name="order"
           />
-
           <FormField
             control={form.control}
             name="image"
@@ -103,13 +108,12 @@ export const UpdateUserWizard: FC<IUpdateUserWizard> = ({
                       onChange={(event) => {
                         getBase64WebPStringFromFileInput(event)
                           .then((val) => {
-                            field.value = val;
-                            setNewImage(field.value);
+                            setNewImage(val);
                             form.setValue("image", val);
                           })
                           .catch(() => {
-                            field.value = undefined;
-                            setNewImage(field.value);
+                            setNewImage("");
+                            form.setValue("image", "");
                           });
                       }}
                       type="file"
@@ -117,7 +121,10 @@ export const UpdateUserWizard: FC<IUpdateUserWizard> = ({
                     />
                     <Button
                       className="w-44"
-                      onClick={() => setNewImage(undefined)}
+                      onClick={() => {
+                        setNewImage("");
+                        form.setValue("image", "");
+                      }}
                       type="button"
                       variant="ghost"
                     >
@@ -125,31 +132,6 @@ export const UpdateUserWizard: FC<IUpdateUserWizard> = ({
                     </Button>
                   </div>
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="order"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Ordning</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    {...field}
-                    max={99}
-                    min={0}
-                    onChange={(event) =>
-                      form.setValue("order", event.target.valueAsNumber)
-                    }
-                  />
-                </FormControl>
-                <FormDescription className="text-xs">
-                  Används för att bestämma vilken ordning organets medlemmar ska
-                  visas i
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

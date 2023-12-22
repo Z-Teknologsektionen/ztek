@@ -2,7 +2,7 @@ import { z } from "zod";
 import {
   createProgramBoardMemberSchema,
   updateProgramBoardMemberSchema,
-} from "../helpers/zodScheams";
+} from "../helpers/schemas/programBoardMembers";
 import { adminProcedure, createTRPCRouter, publicProcedure } from "../trpc";
 
 export const programBoardRouter = createTRPCRouter({

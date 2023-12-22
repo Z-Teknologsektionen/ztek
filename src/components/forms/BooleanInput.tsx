@@ -7,6 +7,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "../ui/form";
 
 interface IBooleanInput {
@@ -40,6 +41,7 @@ export const BooleanInput: FC<IBooleanInput> = ({
               {description && <FormDescription>{description}</FormDescription>}
             </div>
           </div>
+          <FormMessage />
         </FormItem>
       )}
     />

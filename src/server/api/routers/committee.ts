@@ -9,8 +9,8 @@ import { objectId } from "../helpers/customZodTypes";
 import {
   createCommitteeSchema,
   updateCommitteeAsActiveSchema,
-  updateCommitteeAsUserSchema,
-} from "../helpers/zodScheams";
+  updateCommitteeSchema,
+} from "../helpers/schemas/committees";
 
 export const committeeRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
@@ -113,7 +113,7 @@ export const committeeRouter = createTRPCRouter({
         },
       });
     }),
-  getOneByEmail: publicProcedure
+  getOneByEmail: protectedProcedure
     .input(
       z.object({
         email: z.string(),
@@ -172,7 +172,7 @@ export const committeeRouter = createTRPCRouter({
     });
   }),
   updateCommitteeAsUser: protectedProcedure
-    .input(updateCommitteeAsUserSchema.extend({ id: objectId }))
+    .input(updateCommitteeAsActiveSchema)
     .mutation(({ ctx, input: { id, description, image } }) => {
       return ctx.prisma.committee.update({
         where: {
@@ -218,7 +218,7 @@ export const committeeRouter = createTRPCRouter({
       },
     ),
   updateCommittee: adminProcedure
-    .input(updateCommitteeAsActiveSchema)
+    .input(updateCommitteeSchema)
     .mutation(
       ({
         ctx,

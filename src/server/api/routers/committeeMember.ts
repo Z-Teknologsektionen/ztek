@@ -10,7 +10,7 @@ import {
   createMemberSchema,
   updateMemberAsActiveSchema,
   updateMemberSchema,
-} from "../helpers/zodScheams";
+} from "../helpers/schemas/members";
 
 export const committeeMemberRouter = createTRPCRouter({
   getOneById: adminProcedure
@@ -48,7 +48,7 @@ export const committeeMemberRouter = createTRPCRouter({
       });
     }),
   updateMemberAsActive: protectedProcedure
-    .input(updateMemberAsActiveSchema.extend({ id: objectId }))
+    .input(updateMemberAsActiveSchema)
     .mutation(({ ctx, input: { id, name, nickName, image, order } }) => {
       const member = ctx.prisma.committeeMember.update({
         where: {

@@ -9,7 +9,7 @@ import { TextInput } from "~/components/forms/TextInput";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
-import { createCommitteeSchema } from "~/server/api/helpers/zodScheams";
+import { createCommitteeSchema } from "~/server/api/helpers/schemas/committees";
 
 interface IUpsertCommitteeForm {
   defaultValues: {
@@ -32,7 +32,10 @@ const UpsertCommitteeForm: FC<IUpsertCommitteeForm> = ({
 }) => {
   const form = useForm<z.infer<typeof createCommitteeSchema>>({
     resolver: zodResolver(createCommitteeSchema),
-    defaultValues: defaultValues,
+    defaultValues: {
+      image: "",
+      ...defaultValues,
+    },
   });
 
   return (
@@ -64,7 +67,7 @@ const UpsertCommitteeForm: FC<IUpsertCommitteeForm> = ({
             description="Används för att bestämma vilken ordning organet ska visas i"
             label="Ordning"
             max={99}
-            min={1}
+            min={0}
             name="order"
           />
           <ImageInput

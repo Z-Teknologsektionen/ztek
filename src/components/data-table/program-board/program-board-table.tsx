@@ -43,13 +43,7 @@ const ProgramBoardTable: FC = () => {
               <UpsertProgramBoardMemberForm
                 key={"new"}
                 defaultValues={{}}
-                onSubmit={({ image, phone, ...rest }) =>
-                  createNewProgramBoardMember({
-                    image: image !== "" ? image : undefined,
-                    phone: phone !== "" ? phone : undefined,
-                    ...rest,
-                  })
-                }
+                onSubmit={(values) => createNewProgramBoardMember(values)}
                 type="create"
               />
             }
@@ -68,7 +62,7 @@ const ProgramBoardTable: FC = () => {
         </div>
       </div>
 
-      {isLoading && "Hämtar organ..."}
+      {isLoading && "Hämtar programledningen..."}
       {isError && "Okänt fel"}
       {data && <BasicDataTable columns={columns} data={data} />}
     </>
