@@ -9,8 +9,7 @@ import { TextInput } from "~/components/forms/TextInput";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
-
-import { createMemberSchema } from "~/server/api/helpers/zodScheams";
+import { createMemberSchema } from "~/server/api/helpers/schemas/members";
 import { api } from "~/utils/api";
 
 interface IUpsertMemberForm {
@@ -35,9 +34,9 @@ export const UpsertMemberForm: FC<IUpsertMemberForm> = ({
     email = "",
     name = undefined,
     nickName = undefined,
-    phone = undefined,
+    phone = "",
     role = "",
-    image = undefined,
+    image = "",
   },
   onSubmit,
   type,

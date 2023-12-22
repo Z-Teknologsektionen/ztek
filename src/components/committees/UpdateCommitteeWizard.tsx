@@ -3,9 +3,10 @@ import dayjs from "dayjs";
 import type { FC } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import type { z } from "zod";
 import CommitteeImage from "~/components/committees/CommitteeImage";
-import { updateCommitteeAsUserSchema } from "~/server/api/helpers/zodScheams";
+import { upsertCommitteeBaseSchema } from "~/server/api/helpers/schemas/committees";
 import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
 import { getBase64WebPStringFromFileInput } from "~/utils/utils";
@@ -33,17 +34,28 @@ export const UpdateCommitteeWizard: FC<IUpdateCommitteeWizard> = ({
 
   const { mutate: updateCommittee } =
     api.committee.updateCommitteeAsUser.useMutation({
-      onSettled: () => refetchCommittee(),
+      onMutate: () => toast.loading("Uppdaterar organet..."),
+
+      onSettled: (_, __, ___, toastId) => {
+        toast.dismiss(toastId);
+        refetchCommittee();
+      },
+      onSuccess: () => toast.success("Organet har uppdaterats"),
+      onError: (error) => {
+        if (error.message) {
+          toast.error(error.message);
+        } else {
+          toast.error("Något gick fel. Försök igen senare");
+        }
+      },
     });
 
-  const form = useForm<z.infer<typeof updateCommitteeAsUserSchema>>({
-    resolver: zodResolver(updateCommitteeAsUserSchema),
+  const form = useForm<z.infer<typeof upsertCommitteeBaseSchema>>({
+    resolver: zodResolver(upsertCommitteeBaseSchema),
     defaultValues: committee,
   });
 
-  const onSubmit = (
-    values: z.infer<typeof updateCommitteeAsUserSchema>,
-  ): void =>
+  const onSubmit = (values: z.infer<typeof upsertCommitteeBaseSchema>): void =>
     void updateCommittee({
       id: committee.id,
       ...values,
@@ -79,7 +91,7 @@ export const UpdateCommitteeWizard: FC<IUpdateCommitteeWizard> = ({
                                 form.setValue("image", val);
                               })
                               .catch(() => {
-                                field.value = undefined;
+                                field.value = "";
                                 setNewImage(field.value);
                               });
                           }}
@@ -88,7 +100,7 @@ export const UpdateCommitteeWizard: FC<IUpdateCommitteeWizard> = ({
                         />
                         <Button
                           className="w-44"
-                          onClick={() => setNewImage(undefined)}
+                          onClick={() => setNewImage("")}
                           type="button"
                           variant="ghost"
                         >

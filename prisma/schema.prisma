@@ -78,7 +78,7 @@ model ProgramBoardMember {
     id        String   @id @default(auto()) @map("_id") @db.ObjectId
     name      String
     role      String
-    phone     String?
+    phone     String   @default("")
     email     String
     url       String
     image     String   @default("")

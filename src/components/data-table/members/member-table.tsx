@@ -75,14 +75,7 @@ const MemberTable: FC = () => {
               <UpsertMemberForm
                 key={"new"}
                 defaultValues={{}}
-                onSubmit={({ name, nickName, phone, ...rest }) =>
-                  createNewUser({
-                    name: name !== "" ? name : undefined,
-                    nickName: nickName !== "" ? nickName : undefined,
-                    phone: phone !== "" ? phone : undefined,
-                    ...rest,
-                  })
-                }
+                onSubmit={(values) => createNewUser(values)}
                 type="create"
               />
             }

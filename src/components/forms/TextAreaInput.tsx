@@ -6,6 +6,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "../ui/form";
 import { Textarea } from "../ui/textarea";
 
@@ -35,6 +36,7 @@ export const TextAreaInput: FC<ITextAreaInput> = ({
             <Textarea placeholder={placeholder} {...field} />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
+          <FormMessage />
         </FormItem>
       )}
     />
