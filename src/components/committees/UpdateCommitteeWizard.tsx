@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import CommitteeImage from "~/components/committees/CommitteeImage";
-import { updateCommitteeAsUserSchema } from "~/server/api/helpers/zodScheams";
+import { upsertCommitteeBaseSchema } from "~/server/api/helpers/schemas/committees";
 import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
 import { getBase64WebPStringFromFileInput } from "~/utils/utils";
@@ -36,14 +36,12 @@ export const UpdateCommitteeWizard: FC<IUpdateCommitteeWizard> = ({
       onSettled: () => refetchCommittee(),
     });
 
-  const form = useForm<z.infer<typeof updateCommitteeAsUserSchema>>({
-    resolver: zodResolver(updateCommitteeAsUserSchema),
+  const form = useForm<z.infer<typeof upsertCommitteeBaseSchema>>({
+    resolver: zodResolver(upsertCommitteeBaseSchema),
     defaultValues: committee,
   });
 
-  const onSubmit = (
-    values: z.infer<typeof updateCommitteeAsUserSchema>,
-  ): void =>
+  const onSubmit = (values: z.infer<typeof upsertCommitteeBaseSchema>): void =>
     void updateCommittee({
       id: committee.id,
       ...values,
