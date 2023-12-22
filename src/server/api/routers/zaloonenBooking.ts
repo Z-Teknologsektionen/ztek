@@ -4,7 +4,7 @@ import {
   createTRPCRouter,
   publicProcedure,
 } from "~/server/api/trpc";
-import { objectId } from "../helper/customZodTypes";
+import { objectId } from "../helpers/customZodTypes";
 
 export const zaloonenBookingRouter = createTRPCRouter({
   getAll: adminProcedure.query(({ ctx }) => {

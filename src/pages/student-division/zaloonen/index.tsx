@@ -6,7 +6,7 @@ import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { Accordion } from "~/components/ui/accordion";
 import { buttonVariants } from "~/components/ui/button";
-import ssg from "~/server/api/helper/ssg";
+import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 
 const DOCUMENTGROUP_KEY = "Dokument för Zaloonen";
@@ -91,14 +91,14 @@ const ZaloonenPage: NextPage = () => {
               size: "lg",
               variant: "outline",
             })}
-            href="/studentDivision/zaloonen/newBooking"
+            href="/student-division/zaloonen/new-booking"
           >
             Boka Zaloonen!
           </Link>
         </div>
       </SectionWrapper>
       <iframe
-        className="mx-auto -mt-8 mb-8 aspect-video h-[75vh] w-full max-w-3xl"
+        className="mx-auto mb-8 mt-8 aspect-video h-[75vh] w-full max-w-3xl"
         seamless={true}
         src="https://embed.styledcalendar.com/#KwrikxxDh0q9078hGAzF"
         style={{ overflow: "hidden" }}

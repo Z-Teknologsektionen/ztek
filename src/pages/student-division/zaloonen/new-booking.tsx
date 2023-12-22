@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { ZaloonenBookingForm } from "~/components/forms/zaloonenBookingForm";
+import { ZaloonenBookingForm } from "~/components/forms/zaloonen-booking-form";
 import HeadLayout from "~/components/layout/HeadLayout";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
