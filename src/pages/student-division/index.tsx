@@ -157,15 +157,15 @@ const StudentDivision: NextPage = () => {
         </SectionWrapper>
         <SectionWrapper id="sektionsmote">
           <div className="grid grid-cols-3">
-            <div className="order-last col-span-3 mx-auto mt-2 lg:order-first lg:col-span-1">
-              <div className="grid grid-cols-3 md:grid-cols-4">
+            <div className="order-last col-span-3 mt-2 lg:order-first lg:col-span-1">
+              <div className="mr-2 grid grid-cols-4">
                 {documentIsLoading && <p>Läser in dokument...</p>}
                 {documentIsError && <p>Dokument kunde inte hämtas.</p>}
                 {documentData &&
                   documentData.Document.map((doc) => (
                     <div
                       key={doc.title}
-                      className="col-span-1 mx-2 mb-2 overflow-hidden text-center"
+                      className="col-span-1 mx-2 mb-2 overflow-hidden"
                       style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
                     >
                       <Image
@@ -194,7 +194,7 @@ const StudentDivision: NextPage = () => {
                   ))}
               </div>
             </div>
-            <div className="order-first col-span-3 pl-4 lg:order-last lg:col-span-2">
+            <div className="order-first col-span-3 lg:order-last lg:col-span-2">
               <SectionTitle className="mb-4">
                 Sektionsmötet bestämmer
               </SectionTitle>
