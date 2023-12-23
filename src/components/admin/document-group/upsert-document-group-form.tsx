@@ -37,8 +37,12 @@ export const UpsertDocumentGroupForm: FC<IUpsertDocumentGroupForm> = ({
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form className=" space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
-          <TextInput label="Namn" name="name" />
-          <TextInput label="Extra text" name="extraText" />
+          <TextInput control={form.control} label="Namn" name="name" />
+          <TextInput
+            control={form.control}
+            label="Extra text"
+            name="extraText"
+          />
         </div>
         <DialogFooter>
           <Button

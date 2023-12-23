@@ -77,17 +77,23 @@ export const UpdateUserWizard: FC<IUpdateUserWizard> = ({
           filename={newImage}
         />
         <div className="space-y-2 p-1">
-          <TextInput label="Namn" name="name" />
-          <TextInput label="Kommitténamn" name="nickName" />
+          <TextInput control={form.control} label="Namn" name="name" />
           <TextInput
+            control={form.control}
+            label="Kommitténamn"
+            name="nickName"
+          />
+          <TextInput
+            control={form.control}
             description="Du behöver inte fylla i detta. Kommer visas publikt på organsidan."
             label="Telefonnummer"
             name="phone"
             type="tel"
           />
           <NumberInput
-            description="Används för att bestämma vilken ordning organets medlemmar ska
-                  visas i"
+            control={form.control}
+            defaultValue={0}
+            description="Används för att bestämma vilken ordning organets medlemmar ska visas i"
             label="Ordning"
             max={99}
             min={0}

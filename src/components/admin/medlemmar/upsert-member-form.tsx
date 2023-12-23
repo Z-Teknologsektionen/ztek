@@ -64,15 +64,21 @@ export const UpsertMemberForm: FC<IUpsertMemberForm> = ({
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form className=" space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
-          <TextInput label="Namn" name="name" />
-          <TextInput label="Kommitténamn" name="nickName" />
+          <TextInput control={form.control} label="Namn" name="name" />
           <TextInput
+            control={form.control}
+            label="Kommitténamn"
+            name="nickName"
+          />
+          <TextInput
+            control={form.control}
             label="Epost"
             name="email"
             placeholder="lucky@ztek.se"
             type="email"
           />
           <TextInput
+            control={form.control}
             description="Vilken post har personen?"
             label="Post"
             name="role"
@@ -80,27 +86,30 @@ export const UpsertMemberForm: FC<IUpsertMemberForm> = ({
           />
 
           <DropdownInput
+            control={form.control}
             description="Hittar du inte rätt organ? Du kan lägga till fler organ som administratör."
             label="Tillhör organ"
-            mappable={committees}
+            mappable={committees || []}
             name="committeeId"
             placeholder="Välj organ"
           />
           <NumberInput
-            description="Används för att bestämma vilken ordning organets medlemmar ska
-                  visas i"
+            control={form.control}
+            description="Används för att bestämma vilken ordning organets medlemmar ska visas i"
             label="Ordning"
             max={99}
             min={0}
             name="order"
           />
           <TextInput
+            control={form.control}
             description="Du behöver inte fylla i detta. Kommer visas publikt på organsidan."
             label="Telefonnummer"
             name="phone"
             type="tel"
           />
           <ImageInput
+            control={form.control}
             defaultImage={defaultValues.image}
             label="Bild"
             name="image"

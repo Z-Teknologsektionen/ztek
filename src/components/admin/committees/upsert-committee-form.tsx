@@ -43,27 +43,37 @@ const UpsertCommitteeForm: FC<IUpsertCommitteeForm> = ({
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
-          <TextInput label="Namn" name="name" />
-          <TextInput label="Slug" name="slug" />
-          <TextAreaInput label="Beskrivning" name="description" />
+          <TextInput control={form.control} label="Namn" name="name" />
+          <TextInput control={form.control} label="Slug" name="slug" />
+          <TextAreaInput
+            control={form.control}
+            label="Beskrivning"
+            name="description"
+          />
           <TextInput
+            control={form.control}
             description="Organets roll på sektionen, t.ex. Studienämnd"
             label="Roll"
             name="role"
           />
           <TextInput
+            control={form.control}
             label="Epost"
             name="email"
             placeholder="lucky@ztek.se"
             type="email"
           />
           <NumberInput
+            control={form.control}
+            defaultValue={1}
             label="Invalsperiod"
             max={4}
             min={1}
             name="electionPeriod"
           />
           <NumberInput
+            control={form.control}
+            defaultValue={0}
             description="Används för att bestämma vilken ordning organet ska visas i"
             label="Ordning"
             max={99}
@@ -71,6 +81,7 @@ const UpsertCommitteeForm: FC<IUpsertCommitteeForm> = ({
             name="order"
           />
           <ImageInput
+            control={form.control}
             defaultImage={defaultValues.image}
             label="Bild"
             name="image"

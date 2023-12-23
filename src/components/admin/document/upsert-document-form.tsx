@@ -52,8 +52,8 @@ export const UpsertDocumentForm: FC<IUpsertDocumentForm> = ({
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form className=" space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
-          <TextInput label="Titel" name="title" />
-          <TextInput label="Url" name="url" type="url" />
+          <TextInput control={form.control} label="Titel" name="title" />
+          <TextInput control={form.control} label="Url" name="url" type="url" />
           <BooleanInput
             control={form.control}
             description="Är dokumentet i pdf-format?"
@@ -61,9 +61,10 @@ export const UpsertDocumentForm: FC<IUpsertDocumentForm> = ({
             name="isPDF"
           />
           <DropdownInput
+            control={form.control}
             description="Ett dokument måste tillhöra en grupp. Om du inte hittar en grupp som passar kan du skapa en ny under fliken 'Dokumentgrupper'."
             label="Dokumentgrupp"
-            mappable={documentsGroups}
+            mappable={documentsGroups || []}
             name="groupId"
             placeholder="Välj grupp"
           />
