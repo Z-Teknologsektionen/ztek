@@ -2,9 +2,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
+import { BasicInput } from "~/components/forms/BasicInput";
 import { BooleanInput } from "~/components/forms/BooleanInput";
 import { DropdownInput } from "~/components/forms/DropdownInput";
-import { TextInput } from "~/components/forms/TextInput";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
@@ -52,8 +52,13 @@ export const UpsertDocumentForm: FC<IUpsertDocumentForm> = ({
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form className=" space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
-          <TextInput control={form.control} label="Titel" name="title" />
-          <TextInput control={form.control} label="Url" name="url" type="url" />
+          <BasicInput control={form.control} label="Titel" name="title" />
+          <BasicInput
+            control={form.control}
+            label="Url"
+            name="url"
+            type="url"
+          />
           <BooleanInput
             control={form.control}
             description="Är dokumentet i pdf-format?"

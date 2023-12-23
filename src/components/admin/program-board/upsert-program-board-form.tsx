@@ -2,9 +2,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { type FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
+import { BasicInput } from "~/components/forms/BasicInput";
 import { ImageInput } from "~/components/forms/ImageInput";
 import { NumberInput } from "~/components/forms/NumberInput";
-import { TextInput } from "~/components/forms/TextInput";
 // import { TextInput } from "~/components/forms/textInput";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
@@ -40,27 +40,27 @@ const UpsertProgramBoardMemberForm: FC<IUpsertProgramBoardMemberForm> = ({
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
-          <TextInput control={form.control} label="Namn" name="name" />
-          <TextInput
+          <BasicInput control={form.control} label="Namn" name="name" />
+          <BasicInput
             control={form.control}
             label="Titel"
             name="role"
             placeholder="Programansvarig/Studievägledare/..."
           />
-          <TextInput
+          <BasicInput
             control={form.control}
             description="Måste inte vara med"
             label="Telefonnummer"
             name="phone"
           />
-          <TextInput
+          <BasicInput
             control={form.control}
             label="Epost"
             name="email"
             placeholder="lucky@ztek.se"
             type="email"
           />
-          <TextInput
+          <BasicInput
             control={form.control}
             description="Används för att länka till personens sida på Chalmers hemsida"
             label="Url"

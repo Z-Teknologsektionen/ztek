@@ -9,8 +9,8 @@ import { upsertMemberBaseSchema } from "~/server/api/helpers/schemas/members";
 import { api, type RouterOutputs } from "~/utils/api";
 import localeObject from "~/utils/dayjs";
 import { getBase64WebPStringFromFileInput } from "~/utils/utils";
+import { BasicInput } from "../forms/BasicInput";
 import { NumberInput } from "../forms/NumberInput";
-import { TextInput } from "../forms/TextInput";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -77,13 +77,13 @@ export const UpdateUserWizard: FC<IUpdateUserWizard> = ({
           filename={newImage}
         />
         <div className="space-y-2 p-1">
-          <TextInput control={form.control} label="Namn" name="name" />
-          <TextInput
+          <BasicInput control={form.control} label="Namn" name="name" />
+          <BasicInput
             control={form.control}
             label="Kommitténamn"
             name="nickName"
           />
-          <TextInput
+          <BasicInput
             control={form.control}
             description="Du behöver inte fylla i detta. Kommer visas publikt på organsidan."
             label="Telefonnummer"

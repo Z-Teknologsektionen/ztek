@@ -10,7 +10,7 @@ import {
 import { Input } from "../ui/input";
 import type { ITextInput } from "./types";
 
-export const TextInput = <
+export const BasicInput = <
   TFieldValues extends FieldValues,
   TName extends Path<TFieldValues>,
 >({
@@ -22,6 +22,7 @@ export const TextInput = <
   rules,
   shouldUnregister,
   control,
+  type = "text",
   ...rest
 }: ITextInput<TFieldValues, TName>): JSX.Element => {
   return (
@@ -34,7 +35,7 @@ export const TextInput = <
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input {...field} {...rest} />
+            <Input {...field} {...rest} type={type} />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />
