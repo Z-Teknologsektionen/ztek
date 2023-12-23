@@ -5,17 +5,25 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 import { objectId } from "../helpers/customZodTypes";
+import {
+  createZaloonenBookingSchema,
+  updateZaloonenBookingSchema,
+} from "../helpers/schemas/zaloonenBooking";
 
 export const zaloonenBookingRouter = createTRPCRouter({
-  getAll: adminProcedure.query(({ ctx }) => {
+  getAllAsAdmin: adminProcedure.query(({ ctx }) => {
     return ctx.prisma.zaloonenBooking.findMany({
-      orderBy: [{ createdAt: "desc" }],
+      orderBy: [{ primaryStartDate: "desc" }],
       select: {
         id: true,
         eventName: true,
         eventDescription: true,
         organizerEmail: true,
+        organizerName: true,
         organizerPhone: true,
+        inChargeName: true,
+        inChargeEmail: true,
+        inChargePhone: true,
         primaryStartDate: true,
         primaryEndDate: true,
         secondaryStartDate: true,
@@ -28,24 +36,17 @@ export const zaloonenBookingRouter = createTRPCRouter({
       },
     });
   }),
+  getOneByEventName: publicProcedure
+    .input(z.object({ eventName: z.string().min(1) }))
+    .query(({ ctx, input: { eventName } }) => {
+      return ctx.prisma.zaloonenBooking.findFirstOrThrow({
+        where: {
+          eventName,
+        },
+      });
+    }),
   createZaloonenBooking: publicProcedure
-    .input(
-      z.object({
-        eventName: z.string().min(1),
-        eventDescription: z.string().min(1),
-        organizerName: z.string().min(1),
-        organizerPhone: z.string().min(1),
-        organizerEmail: z.string().email().min(1),
-        inChargeName: z.string().min(1),
-        inChargePhone: z.string().min(1),
-        inChargeEmail: z.string().email().min(1),
-        primaryStartDate: z.date().min(new Date()),
-        primaryEndDate: z.date().min(new Date()),
-        secondaryStartDate: z.date().min(new Date()),
-        secondaryEndDate: z.date().min(new Date()),
-        hasServingPermit: z.boolean(),
-      }),
-    )
+    .input(createZaloonenBookingSchema)
     .mutation(
       ({
         ctx,
@@ -66,6 +67,48 @@ export const zaloonenBookingRouter = createTRPCRouter({
         },
       }) => {
         return ctx.prisma.zaloonenBooking.create({
+          data: {
+            eventName,
+            eventDescription,
+            organizerName,
+            organizerPhone,
+            organizerEmail,
+            inChargeName,
+            inChargeEmail,
+            inChargePhone,
+            primaryStartDate,
+            primaryEndDate,
+            secondaryStartDate,
+            secondaryEndDate,
+            hasServingPermit,
+          },
+        });
+      },
+    ),
+  updateOneAsAdmin: adminProcedure
+    .input(updateZaloonenBookingSchema)
+    .mutation(
+      ({
+        ctx,
+        input: {
+          id,
+          eventName,
+          eventDescription,
+          organizerName,
+          organizerPhone,
+          organizerEmail,
+          inChargeName,
+          inChargeEmail,
+          inChargePhone,
+          primaryStartDate,
+          primaryEndDate,
+          secondaryStartDate,
+          secondaryEndDate,
+          hasServingPermit,
+        },
+      }) => {
+        return ctx.prisma.zaloonenBooking.update({
+          where: { id },
           data: {
             eventName,
             eventDescription,

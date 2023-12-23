@@ -1,21 +1,43 @@
 import type { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
+import toast from "react-hot-toast";
+import { UpsertDialog } from "~/components/admin/upsert-dialog";
 import DocumentsAccordionItem from "~/components/documents/DocumentsAccordionItem";
+import UpsertZaloonenBookingForm from "~/components/forms/zaloonen-booking-form";
 import HeadLayout from "~/components/layout/HeadLayout";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { Accordion } from "~/components/ui/accordion";
-import { buttonVariants } from "~/components/ui/button";
+import { Button, buttonVariants } from "~/components/ui/button";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 
 const DOCUMENTGROUP_KEY = "Dokument för Zaloonen";
 
 const ZaloonenPage: NextPage = () => {
+  const ctx = api.useUtils();
   const { data, isLoading, isError } = api.document.getOneGroupByName.useQuery({
     name: DOCUMENTGROUP_KEY,
   });
 
+  const {
+    mutate: createNewZaloonenBooking,
+    isLoading: creatingNewZaloonenBooking,
+  } = api.zaloonenBooking.createZaloonenBooking.useMutation({
+    onMutate: () => toast.loading("Skapar ny bokning..."),
+    onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
+    onSuccess: ({ eventName }) => {
+      toast.success(`${eventName} har skapats!`);
+      void ctx.zaloonenBooking.invalidate();
+    },
+    onError: (error) => {
+      if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error("Något gick fel. Försök igen senare");
+      }
+    },
+  });
   return (
     <>
       <HeadLayout title="Zaloonen" />
@@ -85,16 +107,27 @@ const ZaloonenPage: NextPage = () => {
               är en intresseanmälan.
             </p>
           </div>
-          <Link
-            className={buttonVariants({
-              className: "w-full uppercase sm:w-auto",
-              size: "lg",
-              variant: "outline",
-            })}
-            href="/student-division/zaloonen/new-booking"
-          >
-            Boka Zaloonen!
-          </Link>
+          <UpsertDialog
+            form={
+              <UpsertZaloonenBookingForm
+                key={"new"}
+                defaultValues={{}}
+                onSubmit={(values) => createNewZaloonenBooking(values)}
+                type="create"
+              />
+            }
+            title="Ny bokning"
+            trigger={
+              <Button
+                disabled={creatingNewZaloonenBooking}
+                size="lg"
+                type="button"
+                variant="outline"
+              >
+                Boka Zaloonen
+              </Button>
+            }
+          />
         </div>
       </SectionWrapper>
       <iframe
