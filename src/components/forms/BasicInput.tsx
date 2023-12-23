@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useFormContext } from "react-hook-form";
+import type { FieldValues, Path } from "react-hook-form";
 import {
   FormControl,
   FormDescription,
@@ -9,37 +8,41 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import type { ITextInput } from "./types";
 
-interface ITextInput {
-  description?: string;
-  label: string;
-  name: string;
-  placeholder?: string;
-  type?: string;
-}
-
-export const TextInput: FC<ITextInput> = ({
+export const BasicInput = <
+  TFieldValues extends FieldValues,
+  TName extends Path<TFieldValues>,
+>({
   label,
   name,
   description,
-  placeholder,
-  type,
-}) => {
-  const { control } = useFormContext();
+  defaultValue,
+  disabled,
+  rules,
+  shouldUnregister,
+  control,
+  type = "text",
+  ...rest
+}: ITextInput<TFieldValues, TName>): JSX.Element => {
   return (
     <FormField
       control={control}
+      defaultValue={defaultValue}
+      disabled={disabled}
       name={name}
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input placeholder={placeholder} type={type} {...field} />
+            <Input {...field} {...rest} type={type} />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />
         </FormItem>
       )}
+      rules={rules}
+      shouldUnregister={shouldUnregister}
     />
   );
 };

@@ -2,10 +2,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
+import { BasicInput } from "~/components/forms/BasicInput";
 import { DropdownInput } from "~/components/forms/DropdownInput";
 import { ImageInput } from "~/components/forms/ImageInput";
 import { NumberInput } from "~/components/forms/NumberInput";
-import { TextInput } from "~/components/forms/TextInput";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
@@ -64,15 +64,21 @@ export const UpsertMemberForm: FC<IUpsertMemberForm> = ({
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form className=" space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
-          <TextInput label="Namn" name="name" />
-          <TextInput label="Kommitténamn" name="nickName" />
-          <TextInput
+          <BasicInput control={form.control} label="Namn" name="name" />
+          <BasicInput
+            control={form.control}
+            label="Kommitténamn"
+            name="nickName"
+          />
+          <BasicInput
+            control={form.control}
             label="Epost"
             name="email"
             placeholder="lucky@ztek.se"
             type="email"
           />
-          <TextInput
+          <BasicInput
+            control={form.control}
             description="Vilken post har personen?"
             label="Post"
             name="role"
@@ -80,27 +86,30 @@ export const UpsertMemberForm: FC<IUpsertMemberForm> = ({
           />
 
           <DropdownInput
+            control={form.control}
             description="Hittar du inte rätt organ? Du kan lägga till fler organ som administratör."
             label="Tillhör organ"
-            mappable={committees}
+            mappable={committees || []}
             name="committeeId"
             placeholder="Välj organ"
           />
           <NumberInput
-            description="Används för att bestämma vilken ordning organets medlemmar ska
-                  visas i"
+            control={form.control}
+            description="Används för att bestämma vilken ordning organets medlemmar ska visas i"
             label="Ordning"
             max={99}
             min={0}
             name="order"
           />
-          <TextInput
+          <BasicInput
+            control={form.control}
             description="Du behöver inte fylla i detta. Kommer visas publikt på organsidan."
             label="Telefonnummer"
             name="phone"
             type="tel"
           />
           <ImageInput
+            control={form.control}
             defaultImage={defaultValues.image}
             label="Bild"
             name="image"
