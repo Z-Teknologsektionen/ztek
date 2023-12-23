@@ -42,6 +42,7 @@ export const DropdownInput = <
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <Select
+            {...field}
             {...rest}
             defaultValue={field.value}
             onValueChange={field.onChange}

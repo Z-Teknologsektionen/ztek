@@ -23,7 +23,7 @@ export interface IBooleanInput<
 > extends IBasicFormField<TFieldValues, TName>,
     Omit<
       React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>,
-      "checked" | "onCheckedChange" | "defaultValue" | "name"
+      "defaultValue" | "name" | "checked" | "onCheckedChange"
     > {}
 
 export interface IDropdownInput<
@@ -32,7 +32,7 @@ export interface IDropdownInput<
 > extends IBasicFormField<TFieldValues, TName>,
     Omit<
       SelectPrimitive.SelectProps,
-      "onValueChange" | "defaultValue" | "name"
+      "defaultValue" | "name" | "onValueChange"
     > {
   mappable: { id: string; name: string }[];
   placeholder: string;
@@ -44,7 +44,7 @@ export interface IImageInput<
 > extends IBasicFormField<TFieldValues, TName>,
     Omit<
       InputHTMLAttributes<HTMLInputElement>,
-      "defaultValue" | "name" | "file" | "value" | "onChange" | "type"
+      "defaultValue" | "name" | "type" | "value" | "onChange"
     > {
   defaultImage?: string;
 }
