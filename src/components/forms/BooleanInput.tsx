@@ -18,14 +18,11 @@ export const BooleanInput = <
   description,
   name,
   control,
-  checkboxProps,
-  formControlProps,
-  formItemProps,
-  formLabelProps,
   defaultValue,
   disabled,
   shouldUnregister,
   rules,
+  ...rest
 }: IBooleanInput<TFieldValues, TName>): JSX.Element => {
   return (
     <FormField
@@ -34,14 +31,14 @@ export const BooleanInput = <
       disabled={disabled}
       name={name}
       render={({ field }) => (
-        <FormItem {...formItemProps}>
-          <FormLabel {...formLabelProps}>{label}</FormLabel>
+        <FormItem>
+          <FormLabel>{label}</FormLabel>
           <div className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-            <FormControl {...formControlProps}>
+            <FormControl>
               <Checkbox
+                {...rest}
                 checked={field.value}
                 onCheckedChange={field.onChange}
-                {...checkboxProps}
               />
             </FormControl>
             <div className="space-y-1 leading-none">

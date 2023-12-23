@@ -1,6 +1,7 @@
-import { useState, type FC } from "react";
+import { useState } from "react";
+import type { FieldValues, Path } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
-import { getBase64WebPStringFromFileInput } from "~/utils/utils";
+import { cn, getBase64WebPStringFromFileInput } from "~/utils/utils";
 import CommitteeImage from "../committees/CommitteeImage";
 import { Button } from "../ui/button";
 import {
@@ -12,26 +13,33 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import type { IImageInput } from "./types";
 
-interface IImageInput {
-  defaultImage?: string;
-  description?: string;
-  label: string;
-  name: string;
-}
-
-export const ImageInput: FC<IImageInput> = ({
+export const ImageInput = <
+  TFieldValues extends FieldValues,
+  TName extends Path<TFieldValues>,
+>({
   label,
-  name,
   description,
+  name,
+  control,
+  defaultValue,
+  disabled,
+  shouldUnregister,
+  rules,
+  className,
+  accept = "image/png, image/jpeg",
   defaultImage = "",
-}) => {
+  ...rest
+}: IImageInput<TFieldValues, TName>): JSX.Element => {
   const [newImage, setNewImage] = useState<string>(defaultImage);
   const form = useFormContext();
 
   return (
     <FormField
-      control={form.control}
+      control={control}
+      defaultValue={defaultValue}
+      disabled={disabled}
       name={name}
       render={({ field }) => (
         <FormItem>
@@ -41,20 +49,21 @@ export const ImageInput: FC<IImageInput> = ({
             <div className="flex w-auto gap-2">
               <Input
                 {...field}
-                accept="image/png, image/jpeg"
-                className="text-transparent hover:cursor-pointer"
+                {...rest}
+                accept={accept}
+                className={cn(
+                  "text-transparent hover:cursor-pointer",
+                  className,
+                )}
                 onChange={(event) => {
                   getBase64WebPStringFromFileInput(event)
                     .then((val) => {
-                      field.value = val;
-                      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                      setNewImage(field.value);
+                      setNewImage(val);
                       form.setValue("image", val);
                     })
                     .catch(() => {
-                      field.value = "";
-                      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                      setNewImage(field.value);
+                      setNewImage("");
+                      form.setValue("image", "");
                     });
                 }}
                 type="file"
@@ -77,6 +86,8 @@ export const ImageInput: FC<IImageInput> = ({
           <FormMessage />
         </FormItem>
       )}
+      rules={rules}
+      shouldUnregister={shouldUnregister}
     />
   );
 };

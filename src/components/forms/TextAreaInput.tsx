@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useFormContext } from "react-hook-form";
+import type { FieldValues, Path } from "react-hook-form";
 import {
   FormControl,
   FormDescription,
@@ -9,36 +8,40 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Textarea } from "../ui/textarea";
+import type { ITextAreaInput } from "./types";
 
-interface ITextAreaInput {
-  description?: string;
-  label: string;
-  name: string;
-  placeholder?: string;
-  type?: string;
-}
-
-export const TextAreaInput: FC<ITextAreaInput> = ({
+export const TextAreaInput = <
+  TFieldValues extends FieldValues,
+  TName extends Path<TFieldValues>,
+>({
   label,
   name,
   description,
-  placeholder,
-}) => {
-  const { control } = useFormContext();
+  defaultValue,
+  disabled,
+  rules,
+  shouldUnregister,
+  control,
+  ...rest
+}: ITextAreaInput<TFieldValues, TName>): JSX.Element => {
   return (
     <FormField
       control={control}
+      defaultValue={defaultValue}
+      disabled={disabled}
       name={name}
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Textarea placeholder={placeholder} {...field} />
+            <Textarea {...field} {...rest} />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />
         </FormItem>
       )}
+      rules={rules}
+      shouldUnregister={shouldUnregister}
     />
   );
 };
