@@ -55,6 +55,7 @@ export const UpsertDocumentForm: FC<IUpsertDocumentForm> = ({
           <TextInput label="Titel" name="title" />
           <TextInput label="Url" name="url" type="url" />
           <BooleanInput
+            control={form.control}
             description="Är dokumentet i pdf-format?"
             label="Typ av dokument"
             name="isPDF"

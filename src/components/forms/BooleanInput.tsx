@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useFormContext } from "react-hook-form";
+import type { FieldValues, Path } from "react-hook-form";
 import { Checkbox } from "../ui/checkbox";
 import {
   FormControl,
@@ -9,32 +8,40 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
+import type { IBooleanInput } from "./types";
 
-interface IBooleanInput {
-  description?: string;
-  label: string;
-  name: string;
-}
-
-export const BooleanInput: FC<IBooleanInput> = ({
+export const BooleanInput = <
+  TFieldValues extends FieldValues,
+  TName extends Path<TFieldValues>,
+>({
   label,
-  name,
   description,
-}) => {
-  const { control } = useFormContext();
+  name,
+  control,
+  checkboxProps,
+  formControlProps,
+  formItemProps,
+  formLabelProps,
+  defaultValue,
+  disabled,
+  shouldUnregister,
+  rules,
+}: IBooleanInput<TFieldValues, TName>): JSX.Element => {
   return (
     <FormField
       control={control}
+      defaultValue={defaultValue}
+      disabled={disabled}
       name={name}
       render={({ field }) => (
-        <FormItem>
-          <FormLabel>{label}</FormLabel>
+        <FormItem {...formItemProps}>
+          <FormLabel {...formLabelProps}>{label}</FormLabel>
           <div className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-            <FormControl>
+            <FormControl {...formControlProps}>
               <Checkbox
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 checked={field.value}
                 onCheckedChange={field.onChange}
+                {...checkboxProps}
               />
             </FormControl>
             <div className="space-y-1 leading-none">
@@ -44,6 +51,8 @@ export const BooleanInput: FC<IBooleanInput> = ({
           <FormMessage />
         </FormItem>
       )}
+      rules={rules}
+      shouldUnregister={shouldUnregister}
     />
   );
 };
