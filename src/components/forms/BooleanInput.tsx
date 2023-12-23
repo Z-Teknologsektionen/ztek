@@ -29,7 +29,7 @@ export const BooleanInput: FC<IBooleanInput> = ({
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          <div className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+          <div className="flex flex-row items-center space-x-3 space-y-0 rounded-md border p-4">
             <FormControl>
               <Checkbox
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

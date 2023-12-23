@@ -61,20 +61,23 @@ export const DateAndTimeInput: FC<IDateAndTimeInput> = ({
             <PopoverContent align="start" className="w-auto p-0">
               <Calendar
                 disabled={(date) => date < today}
+                formatters={{
+                  // Add `W` prefix to week number
+                  formatWeekNumber: (weekNumber) => `V.${weekNumber}`,
+                }}
                 locale={sv}
                 mode="single"
                 onSelect={field.onChange}
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 selected={field.value}
                 initialFocus
+                showWeekNumber
               />
             </PopoverContent>
           </Popover>
-          {/* <div className=""> */}
           {field.value && (
             <div>
               <Input
-                className=""
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                 defaultValue={format(field.value, "HH:mm")}
                 max={"23:59"}
@@ -91,7 +94,6 @@ export const DateAndTimeInput: FC<IDateAndTimeInput> = ({
                   } else {
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
                     field.value.setHours(0, 0);
-                    // field.value = undefined;
                   }
                 }}
                 type={"time"}
