@@ -130,7 +130,7 @@ const ParagraphWelcome: FC = () => {
   return (
     <>
       <div>
-        <div className="mx-auto max-w-[85rem] px-4 pb-10 sm:px-6 lg:px-8">
+        <div className="mx-auto mt-8 max-w-[85rem] px-4 pb-10 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 md:flex-row md:gap-8">
             <div className="flex w-full flex-col gap-8">
               <div className="">

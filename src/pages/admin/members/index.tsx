@@ -1,11 +1,12 @@
-import type { GetServerSideProps, NextPage } from "next";
+import type { GetServerSideProps } from "next";
+import type { FC } from "react";
 import MemberTable from "~/components/data-table/members/member-table";
 import AdminWrapper from "~/components/layout/AdminWrapper";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import ssg from "~/server/api/helpers/ssg";
 
-const AdminMemberPage: NextPage = () => {
+const AdminMemberPage: FC = () => {
   return (
     <AdminWrapper>
       <SectionWrapper>

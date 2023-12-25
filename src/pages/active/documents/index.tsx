@@ -1,10 +1,10 @@
-import type { NextPage } from "next";
+import type { FC } from "react";
 import DocuemntGroupTable from "~/components/data-table/document-group/document-group-table";
 import DocumentTable from "~/components/data-table/document/document-table";
 import RoleWrapper from "~/components/layout/RoleWrapper";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 
-const EditDocumentsPage: NextPage = () => {
+const EditDocumentsPage: FC = () => {
   return (
     <RoleWrapper accountRole="MODIFY_DOCUMENTS">
       <SectionWrapper>
