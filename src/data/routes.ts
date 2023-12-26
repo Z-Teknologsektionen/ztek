@@ -46,6 +46,12 @@ export const activeRoutes: ActiveRouteProps[] = [
     route: "/active/documents",
     requiredRole: AccountRoles.MODIFY_DOCUMENTS,
   },
+  {
+    name: "Administera ZENITH Dokument",
+    desc: "Här kan du ta bort eller lägga till ZENITHs dokument som tidningar osv.",
+    route: "/active/zenith-documents",
+    requiredRole: AccountRoles.MODIFY_ZENITH_DOCUMENTS,
+  },
   // {
   //   name: "Administera Zaloonen",
   //   desc: "Här kan du som sittande i ZÅG administrera och se bokningar i Zaloonen.",
