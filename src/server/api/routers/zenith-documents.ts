@@ -6,7 +6,7 @@ import {
 } from "../helpers/schemas/zenith-documents";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
-export const committeeRouter = createTRPCRouter({
+export const zenithDocuemntRouter = createTRPCRouter({
   getAllByYear: publicProcedure.query(async ({ ctx }) => {
     const rawDocuments = await ctx.prisma.zenithDocument.findMany({
       orderBy: { year: "desc" },
@@ -16,6 +16,7 @@ export const committeeRouter = createTRPCRouter({
         year: true,
         url: true,
         isPDF: true,
+        image: true,
       },
     });
 
@@ -23,40 +24,47 @@ export const committeeRouter = createTRPCRouter({
 
     const formatedData = years.map((year) => {
       return {
-        docuemnts: rawDocuments.filter((document) => document.year === year),
+        documents: rawDocuments.filter((document) => document.year === year),
         year: year,
       };
     });
 
     return formatedData;
   }),
+  getAllAsAdmin: protectedProcedure.query(async ({ ctx }) => {
+    return ctx.prisma.zenithDocument.findMany();
+  }),
   createOne: protectedProcedure
     .input(createZenithDocumentSchema)
-    .mutation(async ({ ctx, input: { isPDF, title, url, year } }) => {
+    .mutation(async ({ ctx, input: { isPDF, title, url, year, image } }) => {
       return ctx.prisma.zenithDocument.create({
         data: {
           title: title,
           isPDF: isPDF,
           url: url,
           year: year,
+          image: image,
         },
       });
     }),
   updateOne: protectedProcedure
     .input(updateZenithDocumentSchema)
-    .mutation(async ({ ctx, input: { id, isPDF, title, url, year } }) => {
-      return ctx.prisma.zenithDocument.update({
-        where: {
-          id: id,
-        },
-        data: {
-          isPDF: isPDF,
-          title: title,
-          url: url,
-          year: year,
-        },
-      });
-    }),
+    .mutation(
+      async ({ ctx, input: { id, isPDF, title, url, year, image } }) => {
+        return ctx.prisma.zenithDocument.update({
+          where: {
+            id: id,
+          },
+          data: {
+            isPDF: isPDF,
+            title: title,
+            url: url,
+            year: year,
+            image: image,
+          },
+        });
+      },
+    ),
   deleteOne: protectedProcedure
     .input(z.object({ id: objectId }))
     .mutation(async ({ ctx, input: { id } }) => {

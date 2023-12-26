@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { nonEmptyString, objectId } from "../customZodTypes";
+import {
+  base64WebPImageString,
+  nonEmptyString,
+  objectId,
+} from "../customZodTypes";
 
 export const createZenithDocumentSchema = z.object({
   title: nonEmptyString,
@@ -16,6 +20,7 @@ export const createZenithDocumentSchema = z.object({
       (val) => val <= new Date().getFullYear(),
       "Årtalet får inte vara ett framtida årtal",
     ),
+  image: base64WebPImageString,
 });
 
 export const updateZenithDocumentSchema = createZenithDocumentSchema
