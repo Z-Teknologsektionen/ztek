@@ -12,17 +12,17 @@ const MemberTable: FC = () => {
   const [committeeFilter, setCommitteeFilter] = useState<string | undefined>(
     undefined,
   );
-
   const ctx = api.useUtils();
 
   const { mutate: createNewUser, isLoading: creatingNewUser } =
     api.member.createMemberAsAdmin.useMutation({
       onMutate: () => toast.loading("Skapar ny medlem..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-      onSuccess: ({ committee: { name: committeeName } }) => {
-        toast.success(`En ny medlem i organet: ${committeeName} har skapats!`);
+      onSuccess: ({ name: userName, committee: { name: committeeName } }) => {
+        toast.success(`${userName} i ${committeeName} har skapats!`);
         void ctx.committee.invalidate();
         void ctx.member.invalidate();
+        void ctx.user.invalidate();
       },
       onError: (error) => {
         if (error.message) {
@@ -43,6 +43,17 @@ const MemberTable: FC = () => {
     api.member.getCommitteeMembersAsAdmin.useQuery({
       committeeId: committeeFilter,
     });
+
+  const { data: userAsAdmin } = api.user.getAllUserRolesAsAdmin.useQuery();
+
+  const usersAndMembersCombined = membersAsAdmin?.map((member) => {
+    const user = userAsAdmin?.find((u) => u.email === member.email);
+    return {
+      ...member,
+      roles: user?.roles,
+      userId: user?.id,
+    };
+  });
 
   return (
     <>
@@ -69,8 +80,6 @@ const MemberTable: FC = () => {
         </div>
         <div className="flex flex-col justify-center">
           <UpsertDialog
-            description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa,
-            voluptatum?"
             form={
               <UpsertMemberForm
                 key={"new"}
@@ -94,10 +103,10 @@ const MemberTable: FC = () => {
         </div>
       </div>
 
-      {membersAsAdmin && (
+      {usersAndMembersCombined && (
         <BasicDataTable
           columns={columns}
-          data={membersAsAdmin}
+          data={usersAndMembersCombined}
           error={isError}
           loading={isLoading}
         />
