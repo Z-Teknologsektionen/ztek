@@ -3,8 +3,8 @@ import toast from "react-hot-toast";
 import { UpsertDocumentGroupForm } from "~/components/admin/document-group/upsert-document-group-form";
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
 import { Button } from "~/components/ui/button";
-import { BasicDataTable } from "~/components/ui/data-table";
 import { api } from "~/utils/api";
+import { AdvancedDataTable } from "../advanced-data-table";
 import { columns } from "./columns";
 
 const DocumentGroupTable: FC = () => {
@@ -60,14 +60,13 @@ const DocumentGroupTable: FC = () => {
         </div>
       </div>
 
-      {data && (
-        <BasicDataTable
-          columns={columns}
-          data={data}
-          error={isError}
-          loading={isLoading}
-        />
-      )}
+      <AdvancedDataTable
+        columns={columns}
+        data={data || []}
+        error={isError}
+        loading={isLoading}
+        usePagination={false}
+      />
     </>
   );
 };

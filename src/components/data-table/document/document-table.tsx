@@ -3,8 +3,8 @@ import toast from "react-hot-toast";
 import { UpsertDocumentForm } from "~/components/admin/document/upsert-document-form";
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
 import { Button } from "~/components/ui/button";
-import { BasicDataTable } from "~/components/ui/data-table";
 import { api } from "~/utils/api";
+import { AdvancedDataTable } from "../advanced-data-table";
 import { columns } from "./columns";
 
 const DocumentTable: FC = () => {
@@ -57,14 +57,13 @@ const DocumentTable: FC = () => {
         </div>
       </div>
 
-      {data && (
-        <BasicDataTable
-          columns={columns}
-          data={data}
-          error={isError}
-          loading={isLoading}
-        />
-      )}
+      <AdvancedDataTable
+        columns={columns}
+        data={data || []}
+        error={isError}
+        loading={isLoading}
+        usePagination={true}
+      />
     </>
   );
 };
