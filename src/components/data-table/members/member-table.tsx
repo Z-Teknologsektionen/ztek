@@ -13,7 +13,6 @@ const MemberTable: FC = () => {
     undefined,
   );
   const ctx = api.useUtils();
-  const mappingDone = false;
 
   const { mutate: createNewUser, isLoading: creatingNewUser } =
     api.member.createMemberAsAdmin.useMutation({
