@@ -2,6 +2,8 @@ import { AccountRoles } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "~/components/ui/badge";
 import { type RouterOutputs } from "~/utils/api";
+import { DataTableColumnHeader } from "../data-table-column-header";
+import { DataTableViewOptions } from "../data-table-view-options";
 import { MemberRolesActions } from "./member-roles-actions";
 import { CommitteeMemberTableActions } from "./member-table-actions";
 
@@ -16,23 +18,63 @@ type CommitteeMemberUser = CommitteeMember & {
 export const columns: ColumnDef<CommitteeMemberUser>[] = [
   {
     accessorKey: "name",
-    header: "Namn",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Namn" />
+    ),
+    enableSorting: true,
+    enableHiding: true,
+    filterFn: (row, id, value) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      return value.includes(row.getValue(id));
+    },
   },
   {
     accessorKey: "email",
-    header: "Email",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Email" />
+    ),
+    enableSorting: true,
+    enableHiding: true,
+    filterFn: (row, id, value) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      return value.includes(row.getValue(id));
+    },
   },
   {
     accessorKey: "nickName",
-    header: "Kommitténamn",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Kommitténamn" />
+    ),
+    enableSorting: true,
+    enableHiding: true,
+    filterFn: (row, id, value) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      return value.includes(row.getValue(id));
+    },
   },
   {
     accessorKey: "role",
-    header: "Roll",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Post" />
+    ),
+    enableSorting: true,
+    enableHiding: true,
+    filterFn: (row, id, value) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      return value.includes(row.getValue(id));
+    },
   },
   {
     accessorKey: "roles",
-    header: "Behörigheter",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Behörigheter" />
+    ),
+    enableSorting: true,
+    enableHiding: true,
+    filterFn: (row, id, value) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      return value.includes(row.getValue(id));
+    },
     cell: ({ row }) => {
       if (row.original.userId === undefined) {
         return <Badge variant="outline">Inget kopplat konto</Badge>;
@@ -57,18 +99,35 @@ export const columns: ColumnDef<CommitteeMemberUser>[] = [
   },
   {
     accessorKey: "phone",
-    header: "Telefon",
+    enableSorting: true,
+    enableHiding: true,
+    filterFn: (row, id, value) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      return value.includes(row.getValue(id));
+    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Telefon" />
+    ),
     cell: ({ row }) => row.original.phone || "Finns ej",
   },
   {
     id: "actions",
+    enableSorting: false,
+    enableHiding: false,
+    header: ({ table }) => (
+      <div className="flex justify-end">
+        <DataTableViewOptions table={table} />
+      </div>
+    ),
     cell: ({ row }) => {
       const committeeMember = row.original;
       return (
-        <CommitteeMemberTableActions
-          key={committeeMember.id}
-          {...committeeMember}
-        />
+        <div className="flex justify-end pr-4">
+          <CommitteeMemberTableActions
+            key={committeeMember.id}
+            {...committeeMember}
+          />
+        </div>
       );
     },
   },

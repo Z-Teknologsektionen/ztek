@@ -3,8 +3,8 @@ import toast from "react-hot-toast";
 import UpsertCommitteeForm from "~/components/admin/committees/upsert-committee-form";
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
 import { Button } from "~/components/ui/button";
-import { BasicDataTable } from "~/components/ui/data-table";
 import { api } from "~/utils/api";
+import { AdvancedDataTable } from "../advanced-data-table";
 import { columns } from "./columns";
 
 const CommitteeTable: FC = () => {
@@ -58,9 +58,13 @@ const CommitteeTable: FC = () => {
         </div>
       </div>
 
-      {isLoading && "Hämtar organ..."}
-      {isError && "Okänt fel"}
-      {data && <BasicDataTable columns={columns} data={data} />}
+      <AdvancedDataTable
+        columns={columns}
+        data={data || []}
+        error={isError}
+        loading={isLoading}
+        usePagination={true}
+      />
     </>
   );
 };

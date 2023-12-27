@@ -4,8 +4,8 @@ import toast from "react-hot-toast";
 import { UpsertMemberForm } from "~/components/admin/members/upsert-member-form";
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
 import { Button } from "~/components/ui/button";
-import { BasicDataTable } from "~/components/ui/data-table";
 import { api } from "~/utils/api";
+import { AdvancedDataTable } from "../advanced-data-table";
 import { columns } from "./columns";
 
 const MemberTable: FC = () => {
@@ -13,6 +13,7 @@ const MemberTable: FC = () => {
     undefined,
   );
   const ctx = api.useUtils();
+  const mappingDone = false;
 
   const { mutate: createNewUser, isLoading: creatingNewUser } =
     api.member.createMemberAsAdmin.useMutation({
@@ -35,16 +36,23 @@ const MemberTable: FC = () => {
 
   const {
     data: committees,
-    isLoading,
-    isError,
+    isLoading: isLoadingCommittees,
+    isError: isErrorCommittees,
   } = api.committee.getAllAsAdmin.useQuery();
 
-  const { data: membersAsAdmin } =
-    api.member.getCommitteeMembersAsAdmin.useQuery({
-      committeeId: committeeFilter,
-    });
+  const {
+    data: membersAsAdmin,
+    isLoading: isLoadingMembers,
+    isError: isErrorMembers,
+  } = api.member.getCommitteeMembersAsAdmin.useQuery({
+    committeeId: committeeFilter,
+  });
 
-  const { data: userAsAdmin } = api.user.getAllUserRolesAsAdmin.useQuery();
+  const {
+    data: userAsAdmin,
+    isLoading: isLoadingUser,
+    isError: isErrorUser,
+  } = api.user.getAllUserRolesAsAdmin.useQuery();
 
   const usersAndMembersCombined = membersAsAdmin?.map((member) => {
     const user = userAsAdmin?.find((u) => u.email === member.email);
@@ -103,14 +111,12 @@ const MemberTable: FC = () => {
         </div>
       </div>
 
-      {usersAndMembersCombined && (
-        <BasicDataTable
-          columns={columns}
-          data={usersAndMembersCombined}
-          error={isError}
-          loading={isLoading}
-        />
-      )}
+      <AdvancedDataTable
+        columns={columns}
+        data={usersAndMembersCombined || []}
+        error={isErrorCommittees || isErrorMembers || isErrorUser}
+        loading={isLoadingCommittees || isLoadingMembers || isLoadingUser}
+      />
     </>
   );
 };
