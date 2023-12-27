@@ -94,6 +94,7 @@ export const committeeMemberRouter = createTRPCRouter({
             phone,
           },
           select: {
+            name: true,
             committee: {
               select: {
                 name: true,

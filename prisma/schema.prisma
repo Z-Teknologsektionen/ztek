@@ -111,6 +111,7 @@ enum AccountRoles {
     CREATE_POST
     MODIFY_ROLES
     MODIFY_DOCUMENTS
+    ADMIN
 }
 
 model VerificationToken {
