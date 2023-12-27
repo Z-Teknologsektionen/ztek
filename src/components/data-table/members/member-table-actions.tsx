@@ -2,7 +2,7 @@ import { MoreHorizontal } from "lucide-react";
 import type { FC } from "react";
 import toast from "react-hot-toast";
 import DeleteDialog from "~/components/admin/delete-dialog";
-import { UpsertMemberForm } from "~/components/admin/medlemmar/upsert-member-form";
+import { UpsertMemberForm } from "~/components/admin/members/upsert-member-form";
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import {

@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { UpsertMemberForm } from "~/components/admin/medlemmar/upsert-member-form";
+import { UpsertMemberForm } from "~/components/admin/members/upsert-member-form";
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { BasicDataTable } from "~/components/ui/data-table";
