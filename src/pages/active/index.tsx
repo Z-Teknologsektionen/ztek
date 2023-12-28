@@ -3,6 +3,7 @@ import { TabsContent } from "@radix-ui/react-tabs";
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import RoleWrapper from "~/components/layout/RoleWrapper";
+import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { Separator } from "~/components/ui/separator";
 
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
@@ -36,22 +37,32 @@ const AdminHomePage: NextPage = () => {
       </div>
       <Tabs defaultValue={initialRoute?.name}>
         {/* TODO: Add scrollbar if to many values */}
-        <div className="w-full overflow-x-scroll ">
-          <TabsList className="z-30 h-12 rounded-none bg-zBlack px-4 text-white md:px-6 xl:px-4">
-            {availableRoutes.map((route) => {
-              return (
-                <TabsTrigger
-                  key={route.name}
-                  className="flex min-w-fit overflow-hidden"
-                  style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
-                  value={route.name}
-                >
-                  {route.name}
-                </TabsTrigger>
-              );
-            })}
-          </TabsList>
-        </div>
+        <ScrollArea className="w-full">
+          <div className="flex justify-center space-x-2">
+            <TabsList className="z-30 min-w-max rounded-none bg-zBlack px-4 text-white md:px-6 lg:rounded-b-2xl xl:px-4">
+              {availableRoutes.map((route) => {
+                return (
+                  <TabsTrigger
+                    key={route.name}
+                    className="flex min-w-fit overflow-hidden"
+                    style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+                    value={route.name}
+                  >
+                    {route.name}
+                  </TabsTrigger>
+                );
+              })}
+            </TabsList>
+          </div>
+          <div className="bg-zDark h-2" />
+          <ScrollBar
+            className="h-2 bg-zBlack"
+            color="white"
+            forceMount={true}
+            orientation="horizontal"
+          />
+          {/* <br /> */}
+        </ScrollArea>
         {availableRoutes.map((route) => {
           return (
             <TabsContent key={route.name} value={route.name}>
