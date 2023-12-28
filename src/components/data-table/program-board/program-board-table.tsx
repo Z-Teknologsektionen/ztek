@@ -4,8 +4,8 @@ import UpsertProgramBoardMemberForm from "~/components/admin/program-board/upser
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
 import SectionTitle from "~/components/layout/SectionTitle";
 import { Button } from "~/components/ui/button";
-import { BasicDataTable } from "~/components/ui/data-table";
 import { api } from "~/utils/api";
+import { AdvancedDataTable } from "../advanced-data-table";
 import { columns } from "./columns";
 
 const ProgramBoardTable: FC = () => {
@@ -61,10 +61,12 @@ const ProgramBoardTable: FC = () => {
           />
         </div>
       </div>
-
-      {isLoading && "Hämtar programledningen..."}
-      {isError && "Okänt fel"}
-      {data && <BasicDataTable columns={columns} data={data} />}
+      <AdvancedDataTable
+        columns={columns}
+        data={data || []}
+        error={isError}
+        loading={isLoading}
+      />
     </>
   );
 };

@@ -1,28 +1,28 @@
 import type { FC } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { UpsertMemberForm } from "~/components/admin/medlemmar/upsert-member-form";
+import { UpsertMemberForm } from "~/components/admin/members/upsert-member-form";
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
 import { Button } from "~/components/ui/button";
-import { BasicDataTable } from "~/components/ui/data-table";
 import { api } from "~/utils/api";
+import { AdvancedDataTable } from "../advanced-data-table";
 import { columns } from "./columns";
 
 const MemberTable: FC = () => {
   const [committeeFilter, setCommitteeFilter] = useState<string | undefined>(
     undefined,
   );
-
   const ctx = api.useUtils();
 
   const { mutate: createNewUser, isLoading: creatingNewUser } =
     api.member.createMemberAsAdmin.useMutation({
       onMutate: () => toast.loading("Skapar ny medlem..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-      onSuccess: ({ committee: { name: committeeName } }) => {
-        toast.success(`En ny medlem i organet: ${committeeName} har skapats!`);
+      onSuccess: ({ name: userName, committee: { name: committeeName } }) => {
+        toast.success(`${userName} i ${committeeName} har skapats!`);
         void ctx.committee.invalidate();
         void ctx.member.invalidate();
+        void ctx.user.invalidate();
       },
       onError: (error) => {
         if (error.message) {
@@ -35,14 +35,32 @@ const MemberTable: FC = () => {
 
   const {
     data: committees,
-    isLoading,
-    isError,
+    isLoading: isLoadingCommittees,
+    isError: isErrorCommittees,
   } = api.committee.getAllAsAdmin.useQuery();
 
-  const { data: membersAsAdmin } =
-    api.member.getCommitteeMembersAsAdmin.useQuery({
-      committeeId: committeeFilter,
-    });
+  const {
+    data: membersAsAdmin,
+    isLoading: isLoadingMembers,
+    isError: isErrorMembers,
+  } = api.member.getCommitteeMembersAsAdmin.useQuery({
+    committeeId: committeeFilter,
+  });
+
+  const {
+    data: userAsAdmin,
+    isLoading: isLoadingUser,
+    isError: isErrorUser,
+  } = api.user.getAllUserRolesAsAdmin.useQuery();
+
+  const usersAndMembersCombined = membersAsAdmin?.map((member) => {
+    const user = userAsAdmin?.find((u) => u.email === member.email);
+    return {
+      ...member,
+      roles: user?.roles,
+      userId: user?.id,
+    };
+  });
 
   return (
     <>
@@ -69,8 +87,6 @@ const MemberTable: FC = () => {
         </div>
         <div className="flex flex-col justify-center">
           <UpsertDialog
-            description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa,
-            voluptatum?"
             form={
               <UpsertMemberForm
                 key={"new"}
@@ -94,14 +110,12 @@ const MemberTable: FC = () => {
         </div>
       </div>
 
-      {membersAsAdmin && (
-        <BasicDataTable
-          columns={columns}
-          data={membersAsAdmin}
-          error={isError}
-          loading={isLoading}
-        />
-      )}
+      <AdvancedDataTable
+        columns={columns}
+        data={usersAndMembersCombined || []}
+        error={isErrorCommittees || isErrorMembers || isErrorUser}
+        loading={isLoadingCommittees || isLoadingMembers || isLoadingUser}
+      />
     </>
   );
 };
