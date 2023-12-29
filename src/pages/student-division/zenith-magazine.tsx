@@ -6,6 +6,7 @@ import HeadLayout from "~/components/layout/HeadLayout";
 import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
+import { Skeleton } from "~/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
@@ -71,8 +72,21 @@ const ZenithMagazine: NextPage = () => {
           </p>
         </div>
 
-        {isLoading && <p>Hämtar dokument</p>}
-        {isError && (
+        {isLoading &&
+          Array.from({ length: 4 }).map((_, groupIdx) => (
+            <div key={`zenith-skeleton-${groupIdx}`} className="space-y-4">
+              <Skeleton className="h-7" />
+              <div className="flex flex-row flex-wrap gap-4">
+                {Array.from({ length: 4 }).map((__, cardIdx) => (
+                  <Skeleton
+                    key={`zenith-skeleton-card-${cardIdx}`}
+                    className="h-[187.5px] w-[125px]"
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        {(isError || data?.length === 0) && (
           <p>
             Ett okänt fel har inträffat, försök igen senare eller kontakta
             webbgruppen!
