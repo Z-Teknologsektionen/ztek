@@ -1,5 +1,5 @@
-import { type NextPage } from "next";
 import { signIn, useSession } from "next-auth/react";
+import type { FC } from "react";
 import { EditCommitteeInformationSection } from "~/components/committees/EditCommitteeInformationSection";
 import { UpdateCommitteeWizard } from "~/components/committees/UpdateCommitteeWizard";
 import { UpdateUserWizard } from "~/components/committees/UpdateUserWizard";
@@ -9,7 +9,7 @@ import RoleWrapper from "~/components/layout/RoleWrapper";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { api } from "~/utils/api";
 
-const EditCommitteePage: NextPage = () => {
+const EditCommitteePage: FC = () => {
   const { data: session } = useSession({
     required: true,
     onUnauthenticated: () => void signIn("google"),
@@ -33,7 +33,7 @@ const EditCommitteePage: NextPage = () => {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
               {committee.members.map((member) => (
                 <UpdateUserWizard
-                  key={member.role}
+                  key={member.id}
                   member={member}
                   refetch={() => void refetchCommittee()}
                 />

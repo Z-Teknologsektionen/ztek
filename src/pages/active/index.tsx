@@ -1,86 +1,91 @@
+import { TabsContent } from "@radix-ui/react-tabs";
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
-import type { FC } from "react";
-import { MdArrowForward } from "react-icons/md";
+import { useEffect, useState } from "react";
 import RoleWrapper from "~/components/layout/RoleWrapper";
-import SecondaryTitle from "~/components/layout/SecondaryTitle";
-import SectionTitle from "~/components/layout/SectionTitle";
-import SectionWrapper from "~/components/layout/SectionWrapper";
-import { buttonVariants } from "~/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
-import type { AdminRouteProps } from "~/data/routes";
+import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
+import { Separator } from "~/components/ui/separator";
+
+import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { activeRoutes, adminRoutes } from "~/data/routes";
 
-type InfoCardProps = AdminRouteProps;
-
 const AdminHomePage: NextPage = () => {
+  const [selectedTab, setSelectedTab] = useState<string | undefined>(() => {
+    // Get the selected tab from localStorage when the component mounts
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("selectedTab") || undefined;
+    }
+  });
+
+  useEffect(() => {
+    if (selectedTab) {
+      localStorage.setItem("selectedTab", selectedTab);
+    }
+  }, [selectedTab]);
+
   const { data: session } = useSession({ required: true });
 
   if (!session) return null;
 
   const { user } = session;
 
+  const availableRoutes = activeRoutes.filter(
+    (route) =>
+      route.requiredRole === undefined ||
+      user.roles.includes(route.requiredRole) ||
+      user.admin,
+  );
+
+  if (user.admin) availableRoutes.push(...adminRoutes);
+  const initialTab = availableRoutes.find((route) => route.initialPage);
+
   return (
     <RoleWrapper accountRole={undefined}>
-      <SectionWrapper>
-        <SectionTitle>Välkommen {user.name}!</SectionTitle>
-        <p>
-          Här kan du som sektionsaktiv administrera olika delar av hemsidan
-          beroende på din roll. Om du inte har tillgång till en sida som du tror
-          att du borde ha tillgång till, kontakta då någon i Webbgruppen eller
-          Informationsansvarig i Ztyret.
-        </p>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {activeRoutes.map((route) => {
-            if (
-              route.requiredRole !== undefined &&
-              !user.roles.includes(route.requiredRole) &&
-              !user.admin
-            )
-              return null;
-
-            return <InfoCard {...route} key={route.route} />;
-          })}
+      <Tabs
+        defaultValue={selectedTab || initialTab?.name}
+        onValueChange={setSelectedTab}
+      >
+        <div className="w-full bg-zBlack">
+          <Separator
+            className="mx-auto my-0 h-1 w-[10%] rounded-md bg-zDarkGray "
+            color="white"
+          />
         </div>
-        {user.admin && <SecondaryTitle center>Administratör</SecondaryTitle>}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {user.admin &&
-            adminRoutes.map((route) => (
-              <InfoCard {...route} key={route.route} />
-            ))}
-        </div>
-      </SectionWrapper>
+        <ScrollArea className="w-full">
+          <div className="flex justify-center space-x-2">
+            <TabsList className="min-w-max rounded-none bg-zBlack px-4 text-white md:px-6 lg:rounded-b-2xl xl:px-4">
+              {availableRoutes.map((route) => {
+                return (
+                  <TabsTrigger
+                    key={route.name}
+                    className="z-10 flex min-w-fit overflow-hidden"
+                    style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+                    value={route.name}
+                  >
+                    {route.name}
+                  </TabsTrigger>
+                );
+              })}
+            </TabsList>
+          </div>
+          <div className="bg-zDark h-2" />
+          <ScrollBar
+            className="h-2 bg-zBlack"
+            color="white"
+            forceMount={true}
+            orientation="horizontal"
+          />
+        </ScrollArea>
+        {availableRoutes.map((route) => {
+          return (
+            <TabsContent key={route.name} value={route.name}>
+              <route.component />
+            </TabsContent>
+          );
+        })}
+      </Tabs>
     </RoleWrapper>
   );
 };
-
-const InfoCard: FC<InfoCardProps> = ({ desc, name, route }) => (
-  //Controls height for the cards, change h-XX to accomodate more text
-  <Card className="col-span-1 h-60 bg-zWhite">
-    <CardHeader className="h-[30%]">
-      <CardTitle>{name}</CardTitle>
-    </CardHeader>
-    <CardContent className="h-[50%]">{desc}</CardContent>
-    <CardFooter className="h-[20%] justify-center sm:justify-center">
-      <Link
-        className={buttonVariants({
-          variant: "outline",
-          size: "lg",
-          className: "w-full",
-        })}
-        href={route}
-      >
-        <MdArrowForward />
-      </Link>
-    </CardFooter>
-  </Card>
-);
 
 export default AdminHomePage;

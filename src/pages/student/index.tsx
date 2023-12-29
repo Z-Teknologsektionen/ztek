@@ -79,7 +79,7 @@ const StudentPage: NextPage = () => {
     <>
       <HeadLayout title="Student" />
 
-      <div className="container mx-auto divide-y-4 divide-zDarkGray divide-opacity-20">
+      <div className="container mx-auto mt-8 divide-y-4 divide-zDarkGray divide-opacity-20">
         <SectionWrapper className="pt-2">
           <div className="grid grid-cols-3 gap-3 md:grid-cols-5 lg:grid-cols-7">
             {quickLinks.map((link) => (

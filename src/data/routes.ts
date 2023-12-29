@@ -1,33 +1,46 @@
 import { AccountRoles } from "@prisma/client";
+import type { FC, PropsWithChildren } from "react";
+import AdminCommitteePage from "~/components/active/committees";
+import EditDocumentsPage from "~/components/active/documents";
+import EditCommitteePage from "~/components/active/edit-committee";
+import ActiveHomePage from "~/components/active/home";
+import AdminMemberPage from "~/components/active/members";
+import AdminProgramBoardPage from "~/components/active/program-board";
 
-export interface AdminRouteProps {
+export interface RouteProps {
+  component: FC<PropsWithChildren>;
   desc: string;
+  initialPage: boolean;
   name: string;
-  route: string;
-}
-export interface ActiveRouteProps extends AdminRouteProps {
   requiredRole: AccountRoles | undefined;
 }
+// export interface ActiveRouteProps extends AdminRouteProps {}
 
-export const adminRoutes: AdminRouteProps[] = [
+export const adminRoutes: RouteProps[] = [
   {
     name: "Administrera medlemmar",
     desc: "Lägg till eller ta bort medlemmar i olika organ.",
-    route: "/admin/members",
+    component: AdminMemberPage,
+    requiredRole: "ADMIN",
+    initialPage: false,
   },
   {
     name: "Administrera organ",
     desc: "Lägg till eller ta bort organ.",
-    route: "/admin/committees",
+    component: AdminCommitteePage,
+    requiredRole: "ADMIN",
+    initialPage: false,
   },
   {
     name: "Administrera programledningen",
     desc: "Lägg till, ta bort eller uppdatera någon i programledningen.",
-    route: "/admin/program-board",
+    component: AdminProgramBoardPage,
+    requiredRole: "ADMIN",
+    initialPage: false,
   },
 ];
 
-export const activeRoutes: ActiveRouteProps[] = [
+export const activeRoutes: RouteProps[] = [
   // {
   //   name: "Skapa event",
   //   desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci rerum magnam soluta facilis repellat dolorum est! Maxime adipisci dolore rerum nihil aliquid architecto exercitationem perspiciatis sed! Dolorem facere fugiat placeat.",
@@ -35,16 +48,25 @@ export const activeRoutes: ActiveRouteProps[] = [
   //   requiredRole: AccountRoles.CREATE_POST,
   // },
   {
-    name: "Administera Organet",
-    desc: "Har du precis gått på och vill byta namn på sittande och byta logga? Klicka här då :)",
-    route: "/active/committees/edit",
+    name: "Start",
+    desc: "",
+    component: ActiveHomePage,
     requiredRole: undefined,
+    initialPage: true,
   },
   {
-    name: "Administera Dokument",
+    name: "Administera organet",
+    desc: "Har du precis gått på och vill byta namn på sittande och byta logga? Klicka här då :)",
+    component: EditCommitteePage,
+    requiredRole: undefined,
+    initialPage: false,
+  },
+  {
+    name: "Administera dokument",
     desc: "Här kan du ta bort eller lägga till olika dokument.",
-    route: "/active/documents",
+    component: EditDocumentsPage,
     requiredRole: AccountRoles.MODIFY_DOCUMENTS,
+    initialPage: false,
   },
   // {
   //   name: "Administera Zaloonen",

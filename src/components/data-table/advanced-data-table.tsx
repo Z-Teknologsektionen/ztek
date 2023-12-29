@@ -1,5 +1,3 @@
-"use client";
-
 import type {
   ColumnDef,
   ColumnFiltersState,
@@ -34,6 +32,8 @@ interface AdvancedDataTableProps<TData, TValue> {
   error?: boolean;
   loading?: boolean;
   pageSize?: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  toolbar?: React.ComponentType<{ table: any }>;
   usePagination?: boolean;
 }
 
@@ -42,6 +42,7 @@ export const AdvancedDataTable = <TData, TValue>({
   data,
   loading,
   error,
+  toolbar: Toolbar,
   usePagination = true,
   pageSize = 20,
 }: AdvancedDataTableProps<TData, TValue>): React.ReactNode => {
@@ -51,6 +52,7 @@ export const AdvancedDataTable = <TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   );
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
@@ -82,6 +84,7 @@ export const AdvancedDataTable = <TData, TValue>({
 
   return (
     <div className="space-y-4">
+      {Toolbar && <Toolbar table={table} />}
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -130,7 +133,7 @@ export const AdvancedDataTable = <TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} width={cell.column.getSize()}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),
@@ -152,9 +155,7 @@ export const AdvancedDataTable = <TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {usePagination && pageSize < table.getRowModel().rows?.length && (
-        <DataTablePagination table={table} />
-      )}
+      {usePagination && <DataTablePagination table={table} />}
     </div>
   );
 };

@@ -14,10 +14,7 @@ export const columns: ColumnDef<Document>[] = [
     ),
     enableSorting: true,
     enableHiding: true,
-    filterFn: (row, id, value) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      return value.includes(row.getValue(id));
-    },
+    filterFn: "includesString",
   },
   {
     accessorKey: "group",
@@ -26,10 +23,7 @@ export const columns: ColumnDef<Document>[] = [
     ),
     enableSorting: true,
     enableHiding: true,
-    filterFn: (row, id, value) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      return value.includes(row.getValue(id));
-    },
+    filterFn: "includesString",
     cell: ({ row }) => row.original.group.name,
   },
   {
@@ -39,10 +33,7 @@ export const columns: ColumnDef<Document>[] = [
     ),
     enableSorting: true,
     enableHiding: true,
-    filterFn: (row, id, value) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      return value.includes(row.getValue(id));
-    },
+    filterFn: "includesString",
   },
   {
     accessorKey: "isPDF",
@@ -53,7 +44,7 @@ export const columns: ColumnDef<Document>[] = [
     enableHiding: true,
     filterFn: (row, id, value) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      return value.includes(row.getValue(id));
+      return value && row.getValue(id);
     },
     cell: ({ row }) => (row.original.isPDF ? "Ja" : "Nej"),
   },
@@ -62,14 +53,14 @@ export const columns: ColumnDef<Document>[] = [
     enableSorting: false,
     enableHiding: false,
     header: ({ table }) => (
-      <div className="flex justify-end">
+      <div className="flex justify-center">
         <DataTableViewOptions table={table} />
       </div>
     ),
     cell: ({ row }) => {
       const document = row.original;
       return (
-        <div className="flex justify-end pr-4">
+        <div className="flex justify-center">
           <DocumentTableActions key={document.id} {...document} />
         </div>
       );
