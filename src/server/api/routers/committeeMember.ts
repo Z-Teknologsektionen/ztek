@@ -74,6 +74,13 @@ export const committeeMemberRouter = createTRPCRouter({
         where: {
           committeeId: input.committeeId,
         },
+        include: {
+          committee: {
+            select: {
+              name: true,
+            },
+          },
+        },
       });
     }),
   createMemberAsAdmin: adminProcedure

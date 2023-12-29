@@ -171,6 +171,14 @@ export const committeeRouter = createTRPCRouter({
       orderBy: [{ order: "desc" }],
     });
   }),
+  getAllCommitteeNamesAsAdmin: adminProcedure.query(({ ctx }) => {
+    return ctx.prisma.committee.findMany({
+      select: {
+        name: true,
+      },
+      orderBy: [{ order: "desc" }],
+    });
+  }),
   updateCommitteeAsUser: protectedProcedure
     .input(updateCommitteeAsActiveSchema)
     .mutation(({ ctx, input: { id, description, image } }) => {

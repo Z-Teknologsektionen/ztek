@@ -23,10 +23,8 @@ export const columns: ColumnDef<CommitteeMemberUser>[] = [
     ),
     enableSorting: true,
     enableHiding: true,
-    filterFn: (row, id, value) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      return value.includes(row.getValue(id));
-    },
+    enableResizing: true,
+    filterFn: "includesString",
   },
   {
     accessorKey: "email",
@@ -35,10 +33,8 @@ export const columns: ColumnDef<CommitteeMemberUser>[] = [
     ),
     enableSorting: true,
     enableHiding: true,
-    filterFn: (row, id, value) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      return value.includes(row.getValue(id));
-    },
+    enableResizing: true,
+    filterFn: "includesString",
   },
   {
     accessorKey: "nickName",
@@ -47,9 +43,23 @@ export const columns: ColumnDef<CommitteeMemberUser>[] = [
     ),
     enableSorting: true,
     enableHiding: true,
+    enableResizing: true,
+    filterFn: "includesString",
+  },
+  {
+    accessorKey: "committee.name",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Kommitté" />
+    ),
+    enableSorting: true,
+    enableHiding: true,
+    enableResizing: true,
     filterFn: (row, id, value) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       return value.includes(row.getValue(id));
+    },
+    cell: ({ row }) => {
+      return row.original.committee.name;
     },
   },
   {
@@ -59,10 +69,8 @@ export const columns: ColumnDef<CommitteeMemberUser>[] = [
     ),
     enableSorting: true,
     enableHiding: true,
-    filterFn: (row, id, value) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      return value.includes(row.getValue(id));
-    },
+    enableResizing: true,
+    filterFn: "includesString",
   },
   {
     accessorKey: "roles",
@@ -71,13 +79,15 @@ export const columns: ColumnDef<CommitteeMemberUser>[] = [
     ),
     enableSorting: true,
     enableHiding: true,
-    filterFn: (row, id, value) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      return value.includes(row.getValue(id));
-    },
+    enableResizing: true,
+    filterFn: "arrIncludesSome",
     cell: ({ row }) => {
       if (row.original.userId === undefined) {
-        return <Badge variant="outline">Inget kopplat konto</Badge>;
+        return (
+          <Badge className="text-center" variant="outline">
+            Inget konto
+          </Badge>
+        );
       }
       return (
         <div className="space-x-1 space-y-1">
@@ -85,44 +95,56 @@ export const columns: ColumnDef<CommitteeMemberUser>[] = [
             currentRoles={row.original.roles}
             userId={row.original.userId}
           />
-          {row.original.roles?.map((role) => (
+          {(row.original.roles?.length ?? 0) < 3 ? (
+            row.original.roles?.map((role) => (
+              <Badge
+                key={role}
+                variant={
+                  role === AccountRoles.ADMIN ? "destructive" : "outline"
+                }
+              >
+                {role}
+              </Badge>
+            ))
+          ) : (
             <Badge
-              key={role}
-              variant={role === AccountRoles.ADMIN ? "destructive" : "outline"}
+              variant={
+                row.original.roles?.includes(AccountRoles.ADMIN)
+                  ? "destructive"
+                  : "outline"
+              }
             >
-              {role}
+              {row.original.roles?.length} roller
             </Badge>
-          ))}
+          )}
         </div>
       );
     },
   },
   {
     accessorKey: "phone",
-    enableSorting: true,
-    enableHiding: true,
-    filterFn: (row, id, value) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      return value.includes(row.getValue(id));
-    },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Telefon" />
+      <DataTableColumnHeader column={column} title="Telefonnummer" />
     ),
-    cell: ({ row }) => row.original.phone || "Finns ej",
+    enableSorting: false,
+    enableHiding: true,
+    enableResizing: true,
+    filterFn: "includesString",
   },
   {
     id: "actions",
     enableSorting: false,
     enableHiding: false,
+    enableResizing: false,
     header: ({ table }) => (
-      <div className="flex justify-end">
+      <div className="mr-0 flex justify-end">
         <DataTableViewOptions table={table} />
       </div>
     ),
     cell: ({ row }) => {
       const committeeMember = row.original;
       return (
-        <div className="flex justify-end pr-4">
+        <div className="flex justify-center">
           <CommitteeMemberTableActions
             key={committeeMember.id}
             {...committeeMember}

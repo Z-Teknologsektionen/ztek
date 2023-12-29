@@ -33,7 +33,7 @@ const EditCommitteePage: FC = () => {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
               {committee.members.map((member) => (
                 <UpdateUserWizard
-                  key={member.role}
+                  key={member.id}
                   member={member}
                   refetch={() => void refetchCommittee()}
                 />

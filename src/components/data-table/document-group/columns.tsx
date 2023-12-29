@@ -49,14 +49,14 @@ export const columns: ColumnDef<DocumentGroup>[] = [
     enableSorting: false,
     enableHiding: false,
     header: ({ table }) => (
-      <div className="flex justify-end">
+      <div className="mr-0 flex justify-end">
         <DataTableViewOptions table={table} />
       </div>
     ),
     cell: ({ row }) => {
       const documentGroup = row.original;
       return (
-        <div className="flex justify-end pr-4">
+        <div className="flex justify-center">
           <DocumentGroupTableActions
             key={documentGroup.id}
             {...documentGroup}

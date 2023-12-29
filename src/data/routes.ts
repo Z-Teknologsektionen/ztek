@@ -1,11 +1,11 @@
 import { AccountRoles } from "@prisma/client";
 import type { FC, PropsWithChildren } from "react";
-import EditCommitteePage from "~/pages/active/committees/edit";
-import EditDocumentsPage from "~/pages/active/documents";
-import ActiveHomePage from "~/pages/active/index_old";
-import AdminCommitteePage from "~/pages/admin/committees";
-import AdminMemberPage from "~/pages/admin/members";
-import AdminProgramBoardPage from "~/pages/admin/program-board";
+import AdminCommitteePage from "~/components/active/committees";
+import EditDocumentsPage from "~/components/active/documents";
+import EditCommitteePage from "~/components/active/edit-committee";
+import ActiveHomePage from "~/components/active/home";
+import AdminMemberPage from "~/components/active/members";
+import AdminProgramBoardPage from "~/components/active/program-board";
 
 export interface RouteProps {
   component: FC<PropsWithChildren>;
