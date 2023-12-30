@@ -3,10 +3,14 @@ import {
   createProgramBoardMemberSchema,
   updateProgramBoardMemberSchema,
 } from "../helpers/schemas/programBoardMembers";
-import { adminProcedure, createTRPCRouter, publicProcedure } from "../trpc";
+import {
+  createTRPCRouter,
+  programBoardProcedure,
+  publicProcedure,
+} from "../trpc";
 
 export const programBoardRouter = createTRPCRouter({
-  getAllAsAdmin: adminProcedure.query(({ ctx }) => {
+  getAllAsAdmin: programBoardProcedure.query(({ ctx }) => {
     return ctx.prisma.programBoardMember.findMany({
       select: {
         id: true,
@@ -44,7 +48,7 @@ export const programBoardRouter = createTRPCRouter({
         },
       });
     }),
-  createOne: adminProcedure
+  createOne: programBoardProcedure
     .input(createProgramBoardMemberSchema)
     .mutation(
       ({ ctx, input: { name, role, phone, email, url, image, order } }) => {
@@ -61,7 +65,7 @@ export const programBoardRouter = createTRPCRouter({
         });
       },
     ),
-  updateOne: adminProcedure
+  updateOne: programBoardProcedure
     .input(updateProgramBoardMemberSchema)
     .mutation(
       ({ ctx, input: { id, name, role, phone, email, url, image, order } }) => {
@@ -79,7 +83,7 @@ export const programBoardRouter = createTRPCRouter({
         });
       },
     ),
-  deleteOne: adminProcedure
+  deleteOne: programBoardProcedure
     .input(
       z.object({
         id: z.string().min(1),

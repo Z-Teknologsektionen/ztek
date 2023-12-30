@@ -1,7 +1,7 @@
 import { z } from "zod";
 import {
-  adminProcedure,
   createTRPCRouter,
+  documentProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
 import { objectId } from "../helpers/customZodTypes";
@@ -31,7 +31,7 @@ export const documentRouter = createTRPCRouter({
       },
     });
   }),
-  getAllGroupsAsAdmin: adminProcedure.query(({ ctx }) => {
+  getAllGroupsAsAdmin: documentProcedure.query(({ ctx }) => {
     return ctx.prisma.documentGroup.findMany({
       select: {
         id: true,
@@ -42,7 +42,7 @@ export const documentRouter = createTRPCRouter({
       },
     });
   }),
-  getAllAsAdmin: adminProcedure.query(({ ctx }) => {
+  getAllAsAdmin: documentProcedure.query(({ ctx }) => {
     return ctx.prisma.document.findMany({
       select: {
         group: {
@@ -58,7 +58,7 @@ export const documentRouter = createTRPCRouter({
       },
     });
   }),
-  getOne: adminProcedure
+  getOne: documentProcedure
     .input(
       z.object({
         id: objectId,
@@ -67,7 +67,7 @@ export const documentRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       return ctx.prisma.document.findUniqueOrThrow({ where: { id: input.id } });
     }),
-  createOne: adminProcedure
+  createOne: documentProcedure
     .input(
       z.object({
         title: z.string().min(1),
@@ -86,7 +86,7 @@ export const documentRouter = createTRPCRouter({
         },
       });
     }),
-  updateOne: adminProcedure
+  updateOne: documentProcedure
     .input(
       z.object({
         id: objectId,
@@ -107,7 +107,7 @@ export const documentRouter = createTRPCRouter({
         },
       });
     }),
-  deleteOne: adminProcedure
+  deleteOne: documentProcedure
     .input(
       z.object({
         id: objectId,
@@ -120,7 +120,7 @@ export const documentRouter = createTRPCRouter({
         },
       });
     }),
-  getOneGroup: adminProcedure
+  getOneGroup: documentProcedure
     .input(
       z.object({
         id: objectId,
@@ -151,7 +151,7 @@ export const documentRouter = createTRPCRouter({
         },
       });
     }),
-  createOneGroup: adminProcedure
+  createOneGroup: documentProcedure
     .input(
       z.object({
         name: z.string().min(1),
@@ -166,7 +166,7 @@ export const documentRouter = createTRPCRouter({
         },
       });
     }),
-  updateOneGroup: adminProcedure
+  updateOneGroup: documentProcedure
     .input(
       z.object({
         id: objectId,
@@ -183,7 +183,7 @@ export const documentRouter = createTRPCRouter({
         },
       });
     }),
-  deleteOneGroup: adminProcedure
+  deleteOneGroup: documentProcedure
     .input(
       z.object({
         id: objectId,
