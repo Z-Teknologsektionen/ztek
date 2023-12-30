@@ -1,3 +1,4 @@
+import { AccountRoles } from "@prisma/client";
 import { TabsContent } from "@radix-ui/react-tabs";
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
@@ -7,7 +8,7 @@ import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { Separator } from "~/components/ui/separator";
 
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { activeRoutes, adminRoutes } from "~/data/routes";
+import { activeRoutes } from "~/data/routes";
 
 const AdminHomePage: NextPage = () => {
   const [selectedTab, setSelectedTab] = useState<string | undefined>(() => {
@@ -33,10 +34,8 @@ const AdminHomePage: NextPage = () => {
     (route) =>
       route.requiredRole === undefined ||
       user.roles.includes(route.requiredRole) ||
-      user.admin,
+      user.roles.includes(AccountRoles.ADMIN),
   );
-
-  if (user.admin) availableRoutes.push(...adminRoutes);
   const initialTab = availableRoutes.find((route) => route.initialPage);
 
   return (
