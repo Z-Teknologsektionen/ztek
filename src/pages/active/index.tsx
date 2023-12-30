@@ -32,10 +32,24 @@ const AdminHomePage: NextPage = () => {
 
   const initialTab = activeRoutes.find((route) => route.initialPage);
 
+  const userHasPermission = (tab: string): boolean => {
+    const route = activeRoutes.find((r) => r.name === tab);
+    const hasPermission =
+      route &&
+      (route.requiredRole === undefined ||
+        user.roles.includes(route.requiredRole) ||
+        user.roles.includes(AccountRoles.ADMIN));
+    return hasPermission || false;
+  };
+
   return (
     <RoleWrapper accountRole={undefined}>
       <Tabs
-        defaultValue={selectedTab || initialTab?.name || activeRoutes[0]?.name}
+        defaultValue={
+          selectedTab && userHasPermission(selectedTab)
+            ? selectedTab
+            : initialTab?.name
+        }
         onValueChange={setSelectedTab}
       >
         <div className="w-full bg-zBlack">
