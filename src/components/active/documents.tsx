@@ -1,3 +1,4 @@
+import { AccountRoles } from "@prisma/client";
 import type { FC } from "react";
 import DocuemntGroupTable from "~/components/data-table/document-group/document-group-table";
 import DocumentTable from "~/components/data-table/document/document-table";
@@ -6,7 +7,7 @@ import SectionWrapper from "~/components/layout/SectionWrapper";
 
 const EditDocumentsPage: FC = () => {
   return (
-    <RoleWrapper accountRole="MODIFY_DOCUMENTS">
+    <RoleWrapper accountRole={AccountRoles.MODIFY_DOCUMENTS}>
       <SectionWrapper>
         <DocumentTable />
       </SectionWrapper>

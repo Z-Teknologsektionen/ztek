@@ -100,7 +100,6 @@ model User {
     email         String?        @unique
     emailVerified DateTime?
     image         String         @default("")
-    admin         Boolean        @default(false)
     roles         AccountRoles[]
     accounts      Account[]
     sessions      Session[]
@@ -112,6 +111,7 @@ enum AccountRoles {
     MODIFY_ROLES
     MODIFY_DOCUMENTS
     ADMIN
+    MODIFY_PROGRAM_BOARD
 }
 
 model VerificationToken {
