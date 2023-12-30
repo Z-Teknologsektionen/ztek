@@ -30,18 +30,12 @@ const AdminHomePage: NextPage = () => {
 
   const { user } = session;
 
-  const availableRoutes = activeRoutes.filter(
-    (route) =>
-      route.requiredRole === undefined ||
-      user.roles.includes(route.requiredRole) ||
-      user.roles.includes(AccountRoles.ADMIN),
-  );
-  const initialTab = availableRoutes.find((route) => route.initialPage);
+  const initialTab = activeRoutes.find((route) => route.initialPage);
 
   return (
     <RoleWrapper accountRole={undefined}>
       <Tabs
-        defaultValue={selectedTab || initialTab?.name}
+        defaultValue={selectedTab || initialTab?.name || activeRoutes[0]?.name}
         onValueChange={setSelectedTab}
       >
         <div className="w-full bg-zBlack">
@@ -53,11 +47,18 @@ const AdminHomePage: NextPage = () => {
         <ScrollArea className="w-full">
           <div className="flex justify-center space-x-2">
             <TabsList className="min-w-max rounded-none bg-zBlack px-4 text-white md:px-6 lg:rounded-b-2xl xl:px-4">
-              {availableRoutes.map((route) => {
+              {activeRoutes.map((route) => {
                 return (
                   <TabsTrigger
                     key={route.name}
                     className="z-10 flex min-w-fit overflow-hidden"
+                    disabled={
+                      !(
+                        route.requiredRole === undefined ||
+                        user.roles.includes(route.requiredRole) ||
+                        user.roles.includes(AccountRoles.ADMIN)
+                      )
+                    }
                     style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
                     value={route.name}
                   >
@@ -75,7 +76,7 @@ const AdminHomePage: NextPage = () => {
             orientation="horizontal"
           />
         </ScrollArea>
-        {availableRoutes.map((route) => {
+        {activeRoutes.map((route) => {
           return (
             <TabsContent key={route.name} value={route.name}>
               <route.component />
