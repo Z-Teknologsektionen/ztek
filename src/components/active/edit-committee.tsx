@@ -1,9 +1,7 @@
 import { signIn, useSession } from "next-auth/react";
 import type { FC } from "react";
-import { EditCommitteeInformationSection } from "~/components/committees/EditCommitteeInformationSection";
 import { UpdateCommitteeWizard } from "~/components/committees/UpdateCommitteeWizard";
 import { UpdateUserWizard } from "~/components/committees/UpdateUserWizard";
-
 import HeadLayout from "~/components/layout/HeadLayout";
 import RoleWrapper from "~/components/layout/RoleWrapper";
 import SectionWrapper from "~/components/layout/SectionWrapper";
@@ -37,7 +35,6 @@ const EditCommitteePage: FC = () => {
         )}
         {session && committee && (
           <div>
-            <EditCommitteeInformationSection />
             <SectionWrapper className="flex flex-col items-center justify-center space-y-8 py-16">
               <h1 className="text-center text-3xl font-semibold">
                 {committee.name}
