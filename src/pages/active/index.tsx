@@ -6,9 +6,8 @@ import { useEffect, useState } from "react";
 import RoleWrapper from "~/components/layout/RoleWrapper";
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { Separator } from "~/components/ui/separator";
-
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { activeRoutes } from "~/data/routes";
+import { activeTabs } from "~/data/activeTabs";
 
 const AdminHomePage: NextPage = () => {
   const [selectedTab, setSelectedTab] = useState<string | undefined>(() => {
@@ -30,14 +29,14 @@ const AdminHomePage: NextPage = () => {
 
   const { user } = session;
 
-  const initialTab = activeRoutes.find((route) => route.initialPage);
+  const initialTab = activeTabs.find((tab) => tab.initialTab);
 
-  const userHasPermission = (tab: string): boolean => {
-    const route = activeRoutes.find((r) => r.name === tab);
+  const userHasPermission = (tabName: string): boolean => {
+    const tab = activeTabs.find((r) => r.name === tabName);
     const hasPermission =
-      route &&
-      (route.requiredRole === undefined ||
-        user.roles.includes(route.requiredRole) ||
+      tab &&
+      (tab.requiredRole === undefined ||
+        user.roles.includes(tab.requiredRole) ||
         user.roles.includes(AccountRoles.ADMIN));
     return hasPermission || false;
   };
@@ -61,22 +60,22 @@ const AdminHomePage: NextPage = () => {
         <ScrollArea className="w-full">
           <div className="flex justify-center space-x-2">
             <TabsList className="min-w-max rounded-none bg-zBlack px-4 text-white md:px-6 lg:rounded-b-2xl xl:px-4">
-              {activeRoutes.map((route) => {
+              {activeTabs.map((tab) => {
                 return (
                   <TabsTrigger
-                    key={route.name}
+                    key={tab.name}
                     className="z-10 flex min-w-fit overflow-hidden"
                     disabled={
                       !(
-                        route.requiredRole === undefined ||
-                        user.roles.includes(route.requiredRole) ||
+                        tab.requiredRole === undefined ||
+                        user.roles.includes(tab.requiredRole) ||
                         user.roles.includes(AccountRoles.ADMIN)
                       )
                     }
                     style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
-                    value={route.name}
+                    value={tab.name}
                   >
-                    {route.name}
+                    {tab.name}
                   </TabsTrigger>
                 );
               })}
@@ -90,10 +89,10 @@ const AdminHomePage: NextPage = () => {
             orientation="horizontal"
           />
         </ScrollArea>
-        {activeRoutes.map((route) => {
+        {activeTabs.map((tab) => {
           return (
-            <TabsContent key={route.name} value={route.name}>
-              <route.component />
+            <TabsContent key={tab.name} value={tab.name}>
+              <tab.component />
             </TabsContent>
           );
         })}

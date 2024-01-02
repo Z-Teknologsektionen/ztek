@@ -7,28 +7,26 @@ import ActiveHomePage from "~/components/active/home";
 import AdminMemberPage from "~/components/active/members";
 import AdminProgramBoardPage from "~/components/active/program-board";
 
-export interface RouteProps {
+export interface ActiveTabsProps {
   component: FC<PropsWithChildren>;
   desc: string;
-  initialPage?: boolean;
+  initialTab?: boolean;
   name: string;
-  requiredRole: AccountRoles | undefined;
+  requiredRole?: AccountRoles;
 }
-// export interface ActiveRouteProps extends AdminRouteProps {}
 
-export const activeRoutes: RouteProps[] = [
+const rawActiveTabs: ActiveTabsProps[] = [
   {
     name: "Start",
     desc: "",
     component: ActiveHomePage,
     requiredRole: undefined,
-    initialPage: true,
+    initialTab: true,
   },
   {
     name: "Administera organet",
     desc: "Har du precis gått på och vill byta namn på sittande och byta logga? Klicka här då :)",
     component: EditCommitteePage,
-    requiredRole: undefined,
   },
   {
     name: "Administera dokument",
@@ -54,10 +52,6 @@ export const activeRoutes: RouteProps[] = [
     component: AdminProgramBoardPage,
     requiredRole: AccountRoles.ADMIN,
   },
-  // {
-  //   name: "Administera Zaloonen",
-  //   desc: "Här kan du som sittande i ZÅG administrera och se bokningar i Zaloonen.",
-  //   route: "/active/zaloonen",
-  //   requiredRole: AccountRoles.ZALOONEN,
-  // },
 ];
+
+export const activeTabs = [...rawActiveTabs] as const;
