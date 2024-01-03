@@ -154,6 +154,7 @@ const NewStudent: NextPage = () => {
                   <h3 className="mb-4 text-xl font-semibold">Redan antagen?</h3>
                   <p>
                     Tryck på denna knapp om du är antagen för mer information
+                    från vår mottagningskommite
                   </p>
                   <Button
                     className="mx-auto block"
@@ -257,20 +258,36 @@ const NewStudent: NextPage = () => {
                   <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
                     <li>Matematisk analys i en variabel{sixHp}</li>
                     <li>Elektriska kretsar{sixHp}</li>
-                    <li>Introduktion till automation och mekatronik{sixHp}</li>
+                    <li>
+                      Introduktion till automation och mekatronik -{" "}
+                      <em className="font-bold">Fortsättning</em>
+                      {sixHp}
+                    </li>
                   </ul>
                 </div>
                 <div className="border-t-2 border-gray-400">
                   <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
                     <li>Datastruktuer och algoritmer{sixHp}</li>
                     <li>Mätteknik{sixHp}</li>
-                    <li>Intelligent automation{sixHp}</li>
+                    <li>
+                      Intelligent automation -{" "}
+                      <em className="font-bold">Fortsättning</em>
+                      {sixHp}
+                    </li>
                   </ul>
                 </div>
                 <div className="border-t-2 border-gray-400">
                   <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Introduktion till maskininlärning{sixHp}</li>
-                    <li>Systemkonstruktion{nineHp}</li>
+                    <li>
+                      Introduktion till maskininlärning -{" "}
+                      <em className="font-bold">Fortsättning</em>
+                      {sixHp}
+                    </li>
+                    <li>
+                      Systemkonstruktion -{" "}
+                      <em className="font-bold">Fortsättning</em>
+                      {nineHp}
+                    </li>
                     <li>Valbar kurs{sevenHp}</li>
                   </ul>
                 </div>
@@ -319,7 +336,11 @@ const NewStudent: NextPage = () => {
                   <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
                     <li>Matematisk analys i flera variabler{sixHp}</li>
                     <li>Maskinorienterad programmering{sixHp}</li>
-                    <li>Grundläggande datorteknik{sixHp}</li>
+                    <li>
+                      Grundläggande datorteknik -{" "}
+                      <em className="font-bold">Fortsättning</em>
+                      {sixHp}
+                    </li>
                   </ul>
                 </div>
                 <div className="border-t-2 border-gray-400">
@@ -327,7 +348,8 @@ const NewStudent: NextPage = () => {
                     <li>Ekonomi och organisation{sixHp}</li>
                     <li>Reglerteknik{sixHp}</li>
                     <li>
-                      Simulering och optimering av hållbara produktionssystem
+                      Simulering och optimering av hållbara produktionssystem -{" "}
+                      <em className="font-bold">Fortsättning</em>
                       {sixHp}
                     </li>
                   </ul>
@@ -335,7 +357,11 @@ const NewStudent: NextPage = () => {
                 <div className="border-t-2 border-gray-400">
                   <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
                     <li>Valbar kurs{sevenHp}</li>
-                    <li>Kandidatarbete{sevenHp}</li>
+                    <li>
+                      Kandidatarbete -{" "}
+                      <em className="font-bold">Fortsättning</em>
+                      {sevenHp}
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -365,7 +391,11 @@ const NewStudent: NextPage = () => {
                   <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
                     <li>Matematisk analys i en variabel{sixHp}</li>
                     <li>Elektriska kretsar{sixHp}</li>
-                    <li>Introduktion till automation och mekatronik{sixHp}</li>
+                    <li>
+                      Introduktion till automation och mekatronik -{" "}
+                      <em className="font-bold">Fortsättning</em>
+                      {sixHp}
+                    </li>
                   </ul>
                 </div>
 
@@ -386,10 +416,14 @@ const NewStudent: NextPage = () => {
                   <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
                     <li>Matematisk analys i flera variabler{sixHp}</li>
                     <li>Maskinorienterad programmering{sixHp}</li>
-                    <li>Grundläggande datorteknik{sixHp}</li>
+                    <li>
+                      Grundläggande datorteknik -{" "}
+                      <em className="font-bold">Fortsättning</em>
+                      {sixHp}
+                    </li>
                   </ul>
                 </div>
-                <div className="text-center font-semibold dark:text-gray-400 md:text-lg">
+                <div className="mt-5 text-center font-semibold dark:text-gray-400 md:text-lg">
                   Årskurs 2
                 </div>
                 <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
@@ -410,7 +444,11 @@ const NewStudent: NextPage = () => {
                   <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
                     <li>Datastruktuer och algoritmer{sixHp}</li>
                     <li>Mätteknik{sixHp}</li>
-                    <li>Intelligent automation{sixHp}</li>
+                    <li>
+                      Intelligent automation -{" "}
+                      <em className="font-bold">Fortsättning</em>
+                      {sixHp}
+                    </li>
                   </ul>
                 </div>
 
@@ -435,12 +473,13 @@ const NewStudent: NextPage = () => {
                     <li>Ekonomi och organisation{sixHp}</li>
                     <li>Reglerteknik{sixHp}</li>
                     <li>
-                      Simulering och optimering av hållbara produktionssystem
+                      Simulering och optimering av hållbara produktionssystem -{" "}
+                      <em className="font-bold">Fortsättning</em>
                       {sixHp}
                     </li>
                   </ul>
                 </div>
-                <div className="text-center font-semibold dark:text-gray-400 md:text-lg">
+                <div className="mt-5 text-center font-semibold dark:text-gray-400 md:text-lg">
                   Årskurs 3
                 </div>
                 <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
@@ -459,8 +498,16 @@ const NewStudent: NextPage = () => {
                 </div>
                 <div className="border-t  border-gray-400">
                   <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Introduktion till maskininlärning{sixHp}</li>
-                    <li>Systemkonstruktion{nineHp}</li>
+                    <li>
+                      Introduktion till maskininlärning -{" "}
+                      <em className="font-bold">Fortsättning</em>
+                      {sixHp}
+                    </li>
+                    <li>
+                      Systemkonstruktion -{" "}
+                      <em className="font-bold">Fortsättning</em>
+                      {nineHp}
+                    </li>
                     <li>Valbar kurs{sevenHp}</li>
                   </ul>
                 </div>
@@ -480,7 +527,11 @@ const NewStudent: NextPage = () => {
                 <div className="border-t  border-gray-400">
                   <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
                     <li>Valbar kurs{sevenHp}</li>
-                    <li>Kandidatarbete{sevenHp}</li>
+                    <li>
+                      Kandidatarbete -{" "}
+                      <em className="font-bold">Fortsättning</em>
+                      {sevenHp}
+                    </li>
                   </ul>
                 </div>
               </div>
