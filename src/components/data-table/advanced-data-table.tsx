@@ -2,6 +2,7 @@ import type {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
+  Table as TableType,
   VisibilityState,
 } from "@tanstack/react-table";
 import {
@@ -14,7 +15,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import * as React from "react";
+import type { ComponentType, ReactNode } from "react";
+import { useState } from "react";
 import { Skeleton } from "../ui/skeleton";
 import {
   Table,
@@ -32,8 +34,7 @@ interface AdvancedDataTableProps<TData, TValue> {
   error?: boolean;
   loading?: boolean;
   pageSize?: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  toolbar?: React.ComponentType<{ table: any }>;
+  toolbar?: ComponentType<{ table: TableType<TData> }>;
   usePagination?: boolean;
 }
 
@@ -45,15 +46,11 @@ export const AdvancedDataTable = <TData, TValue>({
   toolbar: Toolbar,
   usePagination = true,
   pageSize = 20,
-}: AdvancedDataTableProps<TData, TValue>): React.ReactNode => {
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
-
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+}: AdvancedDataTableProps<TData, TValue>): ReactNode => {
+  const [rowSelection, setRowSelection] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
     data,
