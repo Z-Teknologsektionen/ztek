@@ -92,7 +92,7 @@ export const columns: ColumnDef<CommitteeMemberUserType>[] = [
         );
       }
       return (
-        <div className="space-x-1 space-y-1">
+        <div className="flex gap-1">
           <MemberRolesActions
             currentRoles={row.original.roles}
             userId={row.original.userId}
