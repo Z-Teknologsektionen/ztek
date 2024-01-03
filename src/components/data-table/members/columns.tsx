@@ -7,15 +7,17 @@ import { DataTableViewOptions } from "../data-table-view-options";
 import { MemberRolesActions } from "./member-roles-actions";
 import { CommitteeMemberTableActions } from "./member-table-actions";
 
-type CommitteeMember = RouterOutputs["member"]["getCommitteeMembersAsAdmin"][0];
+type CommitteeMemberType =
+  RouterOutputs["member"]["getCommitteeMembersAsAdmin"][0];
 
-type User = RouterOutputs["user"]["getAllUserRolesAsAdmin"][0];
-type CommitteeMemberUser = CommitteeMember & {
-  roles: User["roles"] | undefined;
-  userId: User["id"] | undefined;
+type UserType = RouterOutputs["user"]["getAllUserRolesAsAdmin"][0];
+
+type CommitteeMemberUserType = CommitteeMemberType & {
+  roles?: UserType["roles"];
+  userId?: UserType["id"];
 };
 
-export const columns: ColumnDef<CommitteeMemberUser>[] = [
+export const columns: ColumnDef<CommitteeMemberUserType>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (

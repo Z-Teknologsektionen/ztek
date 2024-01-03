@@ -4,9 +4,9 @@ import { DataTableColumnHeader } from "../data-table-column-header";
 import { DataTableViewOptions } from "../data-table-view-options";
 import { CommitteeTableActions } from "./committee-table-actions";
 
-type Committee = RouterOutputs["committee"]["getAllAsAdmin"][0];
+type CommitteeType = RouterOutputs["committee"]["getAllAsAdmin"][0];
 
-export const columns: ColumnDef<Committee>[] = [
+export const columns: ColumnDef<CommitteeType>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (

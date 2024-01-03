@@ -4,9 +4,9 @@ import { DataTableColumnHeader } from "../data-table-column-header";
 import { DataTableViewOptions } from "../data-table-view-options";
 import { DocumentGroupTableActions } from "./document-group-table-actions";
 
-type DocumentGroup = RouterOutputs["document"]["getAllGroupsAsAdmin"][0];
+type DocumentGroupType = RouterOutputs["document"]["getAllGroupsAsAdmin"][0];
 
-export const columns: ColumnDef<DocumentGroup>[] = [
+export const columns: ColumnDef<DocumentGroupType>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (
