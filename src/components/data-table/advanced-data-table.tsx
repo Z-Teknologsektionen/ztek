@@ -113,7 +113,7 @@ export const AdvancedDataTable = <TData, TValue>({
                   ))}
                 </TableRow>
               ))}
-            {error && (
+            {error && !loading && (
               <TableRow>
                 <TableCell
                   className="h-24 text-center"
@@ -123,32 +123,34 @@ export const AdvancedDataTable = <TData, TValue>({
                 </TableCell>
               </TableRow>
             )}
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} width={cell.column.getSize()}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
+            {!loading &&
+              !error &&
+              (table.getRowModel().rows?.length !== 0 ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id} width={cell.column.getSize()}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    className="h-24 text-center"
+                    colSpan={columns.length}
+                  >
+                    Inga resultat.
+                  </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  className="h-24 text-center"
-                  colSpan={columns.length}
-                >
-                  Inga resultat.
-                </TableCell>
-              </TableRow>
-            )}
+              ))}
           </TableBody>
         </Table>
       </div>
