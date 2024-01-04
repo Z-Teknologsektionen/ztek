@@ -1,6 +1,8 @@
 import { AccountRoles } from "@prisma/client";
 import { CheckIcon } from "@radix-ui/react-icons";
-import { useState } from "react";
+import { PlusIcon } from "lucide-react";
+import type { ReactNode } from "react";
+import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import {
   Command,
@@ -22,16 +24,25 @@ import { Badge } from "../../ui/badge";
 import { Button } from "../../ui/button";
 
 interface MemberRolesActionsProps {
-  currentRoles: AccountRoles[] | undefined;
+  currentRoles?: AccountRoles[];
   userId: string;
 }
 
 export const MemberRolesActions = ({
   userId,
-  currentRoles,
-}: MemberRolesActionsProps): JSX.Element => {
-  const initalValues = new Set(currentRoles);
-  const [selectedValues, setSelectedValues] = useState(new Set(currentRoles));
+  currentRoles = [],
+}: MemberRolesActionsProps): ReactNode => {
+  const [selectedValues, setSelectedValues] =
+    useState<AccountRoles[]>(currentRoles);
+
+  const valuesHasChanged = useMemo(
+    () =>
+      currentRoles.length !== selectedValues.length ||
+      selectedValues
+        .map((value) => currentRoles.includes(value))
+        .includes(false),
+    [currentRoles, selectedValues],
+  );
 
   const ctx = api.useUtils();
 
@@ -55,12 +66,11 @@ export const MemberRolesActions = ({
   return (
     <Popover>
       <PopoverTrigger>
-        {/* <PlusCircledIcon className="mr-2 h-4 w-4" /> */}
         <Badge
-          className="hover:cursor-pointer hover:bg-blue-50"
+          className="grid place-items-center p-1 hover:cursor-pointer hover:bg-blue-50"
           variant="outline"
         >
-          +
+          <PlusIcon className="h-3 w-3" />
         </Badge>
       </PopoverTrigger>
       <PopoverContent align="start" className="w-[200px] p-0">
@@ -70,7 +80,7 @@ export const MemberRolesActions = ({
             <CommandEmpty>Inga resultat hittades.</CommandEmpty>
             <CommandGroup>
               {Object.values(AccountRoles).map((option) => {
-                const isSelected = selectedValues.has(option);
+                const isSelected = selectedValues.includes(option);
                 return (
                   <CommandItem
                     key={option}
@@ -79,13 +89,11 @@ export const MemberRolesActions = ({
                     )}
                     disabled={updatingUser}
                     onSelect={() => {
-                      const newSelectedValues = new Set(selectedValues);
-                      if (newSelectedValues.has(option)) {
-                        newSelectedValues.delete(option);
-                      } else {
-                        newSelectedValues.add(option);
-                      }
-                      setSelectedValues(newSelectedValues);
+                      setSelectedValues((prev) =>
+                        prev.includes(option)
+                          ? prev.filter((role) => role !== option)
+                          : [...prev, option],
+                      );
                     }}
                   >
                     <div
@@ -102,27 +110,25 @@ export const MemberRolesActions = ({
                   </CommandItem>
                 );
               })}
-              {initalValues.size !== selectedValues.size && [
-                  initalValues.forEach((v) => !selectedValues.has(v)),
-                ] && (
-                  <div>
-                    <Separator className="mx-2 my-2" orientation="horizontal" />
-                    <div className="mx-auto my-2 flex items-center justify-center hover:bg-inherit">
-                      <Button
-                        className="h-6"
-                        onClick={() => {
-                          updateUser({
-                            id: userId,
-                            roles: Array.from(selectedValues),
-                          });
-                        }}
-                        variant={"outline"}
-                      >
-                        Uppdatera
-                      </Button>
-                    </div>
+              {valuesHasChanged && (
+                <div>
+                  <Separator className="mx-2 my-2" orientation="horizontal" />
+                  <div className="mx-auto my-2 flex items-center justify-center hover:bg-inherit">
+                    <Button
+                      className="h-6"
+                      onClick={() => {
+                        updateUser({
+                          id: userId,
+                          roles: selectedValues,
+                        });
+                      }}
+                      variant={"outline"}
+                    >
+                      Uppdatera
+                    </Button>
                   </div>
-                )}
+                </div>
+              )}
             </CommandGroup>
           </CommandList>
         </Command>

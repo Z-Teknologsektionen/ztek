@@ -2,6 +2,7 @@ import type {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
+  Table as TableType,
   VisibilityState,
 } from "@tanstack/react-table";
 import {
@@ -14,7 +15,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import * as React from "react";
+import type { ComponentType, ReactNode } from "react";
+import { useState } from "react";
 import { Skeleton } from "../ui/skeleton";
 import {
   Table,
@@ -32,8 +34,7 @@ interface AdvancedDataTableProps<TData, TValue> {
   error?: boolean;
   loading?: boolean;
   pageSize?: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  toolbar?: React.ComponentType<{ table: any }>;
+  toolbar?: ComponentType<{ table: TableType<TData> }>;
   usePagination?: boolean;
 }
 
@@ -45,15 +46,11 @@ export const AdvancedDataTable = <TData, TValue>({
   toolbar: Toolbar,
   usePagination = true,
   pageSize = 20,
-}: AdvancedDataTableProps<TData, TValue>): React.ReactNode => {
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
-
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+}: AdvancedDataTableProps<TData, TValue>): ReactNode => {
+  const [rowSelection, setRowSelection] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
     data,
@@ -116,7 +113,7 @@ export const AdvancedDataTable = <TData, TValue>({
                   ))}
                 </TableRow>
               ))}
-            {error && (
+            {error && !loading && (
               <TableRow>
                 <TableCell
                   className="h-24 text-center"
@@ -126,32 +123,34 @@ export const AdvancedDataTable = <TData, TValue>({
                 </TableCell>
               </TableRow>
             )}
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} width={cell.column.getSize()}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
+            {!loading &&
+              !error &&
+              (table.getRowModel().rows?.length !== 0 ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id} width={cell.column.getSize()}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    className="h-24 text-center"
+                    colSpan={columns.length}
+                  >
+                    Inga resultat.
+                  </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  className="h-24 text-center"
-                  colSpan={columns.length}
-                >
-                  Inga resultat.
-                </TableCell>
-              </TableRow>
-            )}
+              ))}
           </TableBody>
         </Table>
       </div>
