@@ -25,17 +25,23 @@ model Committee {
 }
 
 model CommitteeMember {
-    id          String    @id @default(auto()) @map("_id") @db.ObjectId
-    committee   Committee @relation(fields: [committeeId], references: [id], onDelete: Restrict)
-    name        String    @default("")
-    nickName    String    @default("")
-    email       String
-    phone       String    @default("")
-    role        String
-    image       String    @default("")
-    order       Int       @default(0)
-    updatedAt   DateTime  @updatedAt
-    committeeId String    @db.ObjectId
+    id          String  @id @default(auto()) @map("_id") @db.ObjectId
+    committeeId String  @db.ObjectId
+    userId      String? @db.ObjectId
+
+    name     String @default("")
+    nickName String @default("")
+    phone    String @default("")
+    image    String @default("")
+    order    Int    @default(0)
+
+    role  String
+    email String
+
+    committee Committee @relation(fields: [committeeId], references: [id], onDelete: Restrict)
+    user      User?     @relation(fields: [userId], references: [id])
+
+    updatedAt DateTime @updatedAt
 }
 
 model Document {
@@ -103,6 +109,8 @@ model User {
     roles         AccountRoles[]
     accounts      Account[]
     sessions      Session[]
+
+    committeeMembers CommitteeMember[]
 }
 
 enum AccountRoles {
