@@ -19,8 +19,27 @@ export const MemberTableToolbar = <TData,>({
   table,
 }: MemberTableToolbarProps<TData>): JSX.Element => {
   const isFiltered = table.getState().columnFilters.length > 0;
-  const { data } = api.committee.getAllCommitteeNamesAsAdmin.useQuery();
+  const { data: committees } =
+    api.committee.getAllCommitteeNamesAsAdmin.useQuery();
   const ctx = api.useUtils();
+
+  const { mutate: syncMembersAndUsers, isLoading: syncingMembersAndUsers } =
+    api.member.syncMembersAndUsers.useMutation({
+      onMutate: () => toast.loading("Synkar användare och medlemmar"),
+      onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
+      onSuccess: () => {
+        toast.success("Användare och medlemmar är nu synkade!");
+        void ctx.committee.invalidate();
+        void ctx.member.invalidate();
+      },
+      onError: (error) => {
+        if (error.message) {
+          toast.error(error.message);
+        } else {
+          toast.error("Något gick fel. Försök igen senare");
+        }
+      },
+    });
 
   const { mutate: createNewUser, isLoading: creatingNewUser } =
     api.member.createMemberAsAdmin.useMutation({
@@ -53,18 +72,19 @@ export const MemberTableToolbar = <TData,>({
             placeholder="Filtrera på namn..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           />
-          {table.getColumn("committee_name") && (
+          {table.getColumn("committeeName") && (
             <DataTableFacetedFilter
-              column={table.getColumn("committee_name")}
+              column={table.getColumn("committeeName")}
               options={
-                data?.map(({ name }) => ({ label: name, value: name })) ?? []
+                committees?.map(({ name }) => ({ label: name, value: name })) ??
+                []
               }
               title="Filtrera på kommitté"
             />
           )}
-          {table.getColumn("roles") && (
+          {table.getColumn("userRoles") && (
             <DataTableFacetedFilter
-              column={table.getColumn("roles")}
+              column={table.getColumn("userRoles")}
               options={Object.values(AccountRoles).map((role) => ({
                 label: role,
                 value: role,
@@ -84,6 +104,16 @@ export const MemberTableToolbar = <TData,>({
           )}
         </div>
         <div className="flex justify-end">
+          <Button
+            className="ml-2 h-8 px-2 lg:px-3"
+            disabled={syncingMembersAndUsers}
+            onClick={() => syncMembersAndUsers()}
+            size="lg"
+            type="button"
+            variant="outline"
+          >
+            Synka användare och medlemmar
+          </Button>
           <UpsertDialog
             form={
               <UpsertMemberForm
