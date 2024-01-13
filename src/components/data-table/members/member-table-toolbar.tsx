@@ -23,24 +23,6 @@ export const MemberTableToolbar = <TData,>({
     api.committee.getAllCommitteeNamesAsAdmin.useQuery();
   const ctx = api.useUtils();
 
-  const { mutate: syncMembersAndUsers, isLoading: syncingMembersAndUsers } =
-    api.member.syncMembersAndUsers.useMutation({
-      onMutate: () => toast.loading("Synkar användare och medlemmar"),
-      onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-      onSuccess: () => {
-        toast.success("Användare och medlemmar är nu synkade!");
-        void ctx.committee.invalidate();
-        void ctx.member.invalidate();
-      },
-      onError: (error) => {
-        if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("Något gick fel. Försök igen senare");
-        }
-      },
-    });
-
   const { mutate: createNewUser, isLoading: creatingNewUser } =
     api.member.createMemberAsAdmin.useMutation({
       onMutate: () => toast.loading("Skapar ny medlem..."),
@@ -104,16 +86,6 @@ export const MemberTableToolbar = <TData,>({
           )}
         </div>
         <div className="flex justify-end">
-          <Button
-            className="ml-2 h-8 px-2 lg:px-3"
-            disabled={syncingMembersAndUsers}
-            onClick={() => syncMembersAndUsers()}
-            size="lg"
-            type="button"
-            variant="outline"
-          >
-            Synka användare och medlemmar
-          </Button>
           <UpsertDialog
             form={
               <UpsertMemberForm

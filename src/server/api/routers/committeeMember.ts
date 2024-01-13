@@ -13,26 +13,6 @@ import {
 } from "../helpers/schemas/members";
 
 export const committeeMemberRouter = createTRPCRouter({
-  syncMembersAndUsers: adminProcedure.mutation(async ({ ctx }) => {
-    const allUsers = await ctx.prisma.user.findMany({
-      select: {
-        email: true,
-        id: true,
-      },
-    });
-
-    allUsers.map(async (user) => {
-      if (user.email === null) return;
-      await ctx.prisma.committeeMember.updateMany({
-        where: {
-          email: user.email,
-        },
-        data: {
-          userId: user.id,
-        },
-      });
-    });
-  }),
   getOneById: adminProcedure
     .input(
       z.object({
