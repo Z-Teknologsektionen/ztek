@@ -13,27 +13,12 @@ const MemberTable: FC = () => {
     committeeId: undefined,
   });
 
-  const {
-    data: userAsAdmin,
-    isLoading: isLoadingUser,
-    isError: isErrorUser,
-  } = api.user.getAllUserRolesAsAdmin.useQuery();
-
-  const usersAndMembersCombined = membersAsAdmin?.map((member) => {
-    const user = userAsAdmin?.find((u) => u.email === member.email);
-    return {
-      ...member,
-      roles: user?.roles,
-      userId: user?.id,
-    };
-  });
-
   return (
     <AdvancedDataTable
       columns={columns}
-      data={usersAndMembersCombined || []}
-      error={isErrorMembers || isErrorUser}
-      loading={isLoadingMembers || isLoadingUser}
+      data={membersAsAdmin || []}
+      error={isErrorMembers}
+      loading={isLoadingMembers}
       toolbar={MemberTableToolbar}
     />
   );

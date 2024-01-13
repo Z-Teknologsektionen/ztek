@@ -4,7 +4,7 @@ import ProgramBoardTable from "~/components/data-table/program-board/program-boa
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import RoleWrapper from "../layout/RoleWrapper";
 
-const AdminProgramBoardPage: FC = () => {
+const ProgramBoardPage: FC = () => {
   return (
     <RoleWrapper accountRole={AccountRoles.MODIFY_PROGRAM_BOARD}>
       <SectionWrapper>
@@ -14,4 +14,4 @@ const AdminProgramBoardPage: FC = () => {
   );
 };
 
-export default AdminProgramBoardPage;
+export default ProgramBoardPage;

@@ -5,7 +5,7 @@ import EditDocumentsPage from "~/components/active/documents";
 import EditCommitteePage from "~/components/active/edit-committee";
 import ActiveHomePage from "~/components/active/home";
 import AdminMemberPage from "~/components/active/members";
-import AdminProgramBoardPage from "~/components/active/program-board";
+import ProgramBoardPage from "~/components/active/program-board";
 
 export interface ActiveTabsProps {
   component: FC<PropsWithChildren>;
@@ -49,8 +49,8 @@ const rawActiveTabs: ActiveTabsProps[] = [
   {
     name: "Administrera programledningen",
     desc: "Lägg till, ta bort eller uppdatera någon i programledningen.",
-    component: AdminProgramBoardPage,
-    requiredRole: AccountRoles.ADMIN,
+    component: ProgramBoardPage,
+    requiredRole: AccountRoles.MODIFY_PROGRAM_BOARD,
   },
 ];
 

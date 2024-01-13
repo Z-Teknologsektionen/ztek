@@ -19,7 +19,8 @@ export const MemberTableToolbar = <TData,>({
   table,
 }: MemberTableToolbarProps<TData>): JSX.Element => {
   const isFiltered = table.getState().columnFilters.length > 0;
-  const { data } = api.committee.getAllCommitteeNamesAsAdmin.useQuery();
+  const { data: committees } =
+    api.committee.getAllCommitteeNamesAsAdmin.useQuery();
   const ctx = api.useUtils();
 
   const { mutate: createNewUser, isLoading: creatingNewUser } =
@@ -53,18 +54,19 @@ export const MemberTableToolbar = <TData,>({
             placeholder="Filtrera på namn..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           />
-          {table.getColumn("committee_name") && (
+          {table.getColumn("committeeName") && (
             <DataTableFacetedFilter
-              column={table.getColumn("committee_name")}
+              column={table.getColumn("committeeName")}
               options={
-                data?.map(({ name }) => ({ label: name, value: name })) ?? []
+                committees?.map(({ name }) => ({ label: name, value: name })) ??
+                []
               }
               title="Filtrera på kommitté"
             />
           )}
-          {table.getColumn("roles") && (
+          {table.getColumn("userRoles") && (
             <DataTableFacetedFilter
-              column={table.getColumn("roles")}
+              column={table.getColumn("userRoles")}
               options={Object.values(AccountRoles).map((role) => ({
                 label: role,
                 value: role,
