@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { TextInput } from "~/components/forms/TextInput";
+import { BasicInput } from "~/components/forms/BasicInput";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
@@ -37,8 +37,12 @@ export const UpsertDocumentGroupForm: FC<IUpsertDocumentGroupForm> = ({
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form className=" space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
-          <TextInput label="Namn" name="name" />
-          <TextInput label="Extra text" name="extraText" />
+          <BasicInput control={form.control} label="Namn" name="name" />
+          <BasicInput
+            control={form.control}
+            label="Extra text"
+            name="extraText"
+          />
         </div>
         <DialogFooter>
           <Button

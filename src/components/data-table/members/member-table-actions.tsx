@@ -2,7 +2,7 @@ import { MoreHorizontal } from "lucide-react";
 import type { FC } from "react";
 import toast from "react-hot-toast";
 import DeleteDialog from "~/components/admin/delete-dialog";
-import { UpsertMemberForm } from "~/components/admin/medlemmar/upsert-member-form";
+import { UpsertMemberForm } from "~/components/admin/members/upsert-member-form";
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import {
@@ -63,7 +63,7 @@ export const CommitteeMemberTableActions: FC<{
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="h-8 w-8 p-0" variant="ghost">
+        <Button className="h-8 w-8  p-0" variant="ghost">
           <span className="sr-only">Öppna meny</span>
           <MoreHorizontal className="h-4 w-4" />
         </Button>

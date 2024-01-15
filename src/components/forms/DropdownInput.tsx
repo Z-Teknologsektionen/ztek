@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useFormContext } from "react-hook-form";
+import type { FieldValues, Path } from "react-hook-form";
 import {
   FormControl,
   FormDescription,
@@ -15,32 +14,36 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import type { IDropdownInput } from "./types";
 
-interface IDropdownInput {
-  description?: string;
-  label: string;
-  mappable?: Array<{ id: string; name: string }>;
-  name: string;
-  placeholder?: string;
-}
-
-export const DropdownInput: FC<IDropdownInput> = ({
+export const DropdownInput = <
+  TFieldValues extends FieldValues,
+  TName extends Path<TFieldValues>,
+>({
   label,
   name,
   description,
   placeholder,
   mappable,
-}) => {
-  const { control } = useFormContext();
+  control,
+  defaultValue,
+  disabled,
+  rules,
+  shouldUnregister,
+  ...rest
+}: IDropdownInput<TFieldValues, TName>): JSX.Element => {
   return (
     <FormField
       control={control}
+      defaultValue={defaultValue}
+      disabled={disabled}
       name={name}
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <Select
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            {...field}
+            {...rest}
             defaultValue={field.value}
             onValueChange={field.onChange}
           >
@@ -61,6 +64,8 @@ export const DropdownInput: FC<IDropdownInput> = ({
           <FormMessage />
         </FormItem>
       )}
+      rules={rules}
+      shouldUnregister={shouldUnregister}
     />
   );
 };
