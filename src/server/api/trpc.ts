@@ -29,7 +29,7 @@ import { prisma } from "~/server/db";
  * ZodErrors so that you get typesafety on the frontend if your procedure fails due to validation
  * errors on the backend.
  */
-import type { AccountRoles } from "@prisma/client";
+import { AccountRoles } from "@prisma/client";
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
@@ -131,7 +131,11 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
 
 const enforceUserIsAdmin = t.middleware(({ ctx, next }) => {
-  if (!ctx.session || !ctx.session.user || !ctx.session.user.admin) {
+  if (
+    !ctx.session ||
+    !ctx.session.user ||
+    !ctx.session.user.roles.includes(AccountRoles.ADMIN)
+  ) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
   return next({
@@ -142,8 +146,6 @@ const enforceUserIsAdmin = t.middleware(({ ctx, next }) => {
   });
 });
 
-export const adminProcedure = t.procedure.use(enforceUserIsAdmin);
-
 const enforceUserHasRoleOrAdmin = (role: AccountRoles) =>
   t.middleware(({ ctx, next }) => {
     // is signed in
@@ -151,7 +153,10 @@ const enforceUserHasRoleOrAdmin = (role: AccountRoles) =>
       throw new TRPCError({ code: "FORBIDDEN" });
     }
     // has role or is admin
-    if (!ctx.session.user.roles.includes(role) && !ctx.session.user.admin) {
+    if (
+      !ctx.session.user.roles.includes(role) &&
+      !ctx.session.user.roles.includes(AccountRoles.ADMIN)
+    ) {
       throw new TRPCError({ code: "UNAUTHORIZED" });
     }
     return next({
@@ -161,6 +166,14 @@ const enforceUserHasRoleOrAdmin = (role: AccountRoles) =>
     });
   });
 
+export const adminProcedure = t.procedure.use(enforceUserIsAdmin);
+export const programBoardProcedure = t.procedure.use(
+  enforceUserHasRoleOrAdmin(AccountRoles.MODIFY_PROGRAM_BOARD),
+);
+
+export const documentProcedure = t.procedure.use(
+  enforceUserHasRoleOrAdmin(AccountRoles.MODIFY_DOCUMENTS),
+);
 export const zaloonenProcedure = t.procedure.use(
   enforceUserHasRoleOrAdmin("MODIFY_DOCUMENTS"),
 );

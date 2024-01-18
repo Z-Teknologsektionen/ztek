@@ -69,20 +69,46 @@ export const committeeMemberRouter = createTRPCRouter({
         committeeId: objectId.optional(),
       }),
     )
-    .query(({ ctx, input }) => {
-      return ctx.prisma.committeeMember.findMany({
+    .query(async ({ ctx, input }) => {
+      const members = await ctx.prisma.committeeMember.findMany({
         where: {
           committeeId: input.committeeId,
         },
+        include: {
+          committee: {
+            select: {
+              name: true,
+            },
+          },
+          user: {
+            select: {
+              roles: true,
+            },
+          },
+        },
       });
+      return members.map(({ committee, user, ...member }) => ({
+        ...member,
+        userRoles: user?.roles,
+        committeeName: committee.name,
+      }));
     }),
   createMemberAsAdmin: adminProcedure
     .input(createMemberSchema)
     .mutation(
-      ({
+      async ({
         ctx,
         input: { committeeId, nickName, phone, email, name, order, role },
       }) => {
+        const user = await ctx.prisma.user.findUnique({
+          where: {
+            email: email,
+          },
+          select: {
+            id: true,
+          },
+        });
+
         return ctx.prisma.committeeMember.create({
           data: {
             email,
@@ -92,8 +118,10 @@ export const committeeMemberRouter = createTRPCRouter({
             nickName,
             order,
             phone,
+            userId: user?.id,
           },
           select: {
+            name: true,
             committee: {
               select: {
                 name: true,
@@ -106,7 +134,7 @@ export const committeeMemberRouter = createTRPCRouter({
   updateMemberAsAdmin: adminProcedure
     .input(updateMemberSchema)
     .mutation(
-      ({
+      async ({
         ctx,
         input: {
           id,
@@ -120,6 +148,15 @@ export const committeeMemberRouter = createTRPCRouter({
           image,
         },
       }) => {
+        const user = await ctx.prisma.user.findUnique({
+          where: {
+            email: email,
+          },
+          select: {
+            id: true,
+          },
+        });
+
         return ctx.prisma.committeeMember.update({
           where: {
             id,
@@ -133,6 +170,7 @@ export const committeeMemberRouter = createTRPCRouter({
             nickName,
             order,
             phone,
+            userId: user?.id,
           },
         });
       },

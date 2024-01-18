@@ -11,61 +11,61 @@ datasource db {
 }
 
 model Committee {
-    id             String            @id @default(auto()) @map("_id") @db.ObjectId
-    name           String
-    slug           String            @unique
-    description    String
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    name        String
+    description String
+    image       String @default("")
+
+    slug           String @unique
     role           String
-    email          String            @unique
-    members        CommitteeMember[]
-    image          String            @default("")
+    email          String @unique
     order          Int
-    electionPeriod Int               @default(1)
-    updatedAt      DateTime          @updatedAt
+    electionPeriod Int    @default(1)
+
+    members CommitteeMember[]
+
+    updatedAt DateTime @updatedAt
 }
 
 model CommitteeMember {
-    id          String    @id @default(auto()) @map("_id") @db.ObjectId
-    committee   Committee @relation(fields: [committeeId], references: [id], onDelete: Restrict)
-    name        String    @default("")
-    nickName    String    @default("")
-    email       String
-    phone       String    @default("")
-    role        String
-    image       String    @default("")
-    order       Int       @default(0)
-    updatedAt   DateTime  @updatedAt
-    committeeId String    @db.ObjectId
+    id          String  @id @default(auto()) @map("_id") @db.ObjectId
+    committeeId String  @db.ObjectId
+    userId      String? @db.ObjectId
+
+    name     String @default("")
+    nickName String @default("")
+    phone    String @default("")
+    image    String @default("")
+    order    Int    @default(0)
+
+    role  String
+    email String
+
+    committee Committee @relation(fields: [committeeId], references: [id], onDelete: Restrict)
+    user      User?     @relation(fields: [userId], references: [id])
+
+    updatedAt DateTime @updatedAt
 }
 
 model Document {
-    id      String        @id @default(auto()) @map("_id") @db.ObjectId
-    title   String        @unique
-    url     String
-    isPDF   Boolean       @default(false)
-    group   DocumentGroup @relation(fields: [groupId], references: [id], onDelete: Restrict)
-    groupId String        @db.ObjectId
+    id      String @id @default(auto()) @map("_id") @db.ObjectId
+    groupId String @db.ObjectId
+
+    title String  @unique
+    url   String
+    isPDF Boolean @default(false)
+
+    group DocumentGroup @relation(fields: [groupId], references: [id], onDelete: Restrict)
 }
 
 model DocumentGroup {
-    id        String     @id @default(auto()) @map("_id") @db.ObjectId
-    name      String     @unique
-    extraText String     @default("")
-    Document  Document[]
-}
+    id String @id @default(auto()) @map("_id") @db.ObjectId
 
-model ZenithDocument {
-    id    String  @id @default(auto()) @map("_id") @db.ObjectId
-    title String
-    year  Int
-    url   String  @unique
-    isPDF Boolean
-    image String
+    name      String @unique
+    extraText String @default("")
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@index([id, year])
+    Document Document[]
 }
 
 // Next Auth models
@@ -87,19 +87,6 @@ model Account {
     @@unique([provider, providerAccountId])
 }
 
-model ProgramBoardMember {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    name      String
-    role      String
-    phone     String   @default("")
-    email     String
-    url       String
-    image     String   @default("")
-    order     Int      @default(0)
-    updatedAt DateTime @updatedAt
-    createdAt DateTime @default(now())
-}
-
 model Session {
     id           String   @id @default(auto()) @map("_id") @db.ObjectId
     sessionToken String   @unique
@@ -109,15 +96,16 @@ model Session {
 }
 
 model User {
-    id            String         @id @default(auto()) @map("_id") @db.ObjectId
+    id            String    @id @default(auto()) @map("_id") @db.ObjectId
     name          String?
-    email         String?        @unique
+    email         String?   @unique
     emailVerified DateTime?
-    image         String         @default("")
-    admin         Boolean        @default(false)
-    roles         AccountRoles[]
+    image         String    @default("")
     accounts      Account[]
     sessions      Session[]
+
+    roles            AccountRoles[]
+    committeeMembers CommitteeMember[]
 }
 
 enum AccountRoles {
@@ -125,7 +113,9 @@ enum AccountRoles {
     CREATE_POST
     MODIFY_ROLES
     MODIFY_DOCUMENTS
+    MODIFY_PROGRAM_BOARD
     MODIFY_ZENITH_DOCUMENTS
+    ADMIN
 }
 
 model VerificationToken {

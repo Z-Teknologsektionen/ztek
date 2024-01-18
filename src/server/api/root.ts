@@ -3,6 +3,7 @@ import { committeeRouter } from "./routers/committee";
 import { committeeMemberRouter } from "./routers/committeeMember";
 import { documentRouter } from "./routers/document";
 import { programBoardRouter } from "./routers/programBoard";
+import { userRouter } from "./routers/user";
 import { zenithDocuemntRouter } from "./routers/zenith-documents";
 
 /**
@@ -15,6 +16,7 @@ export const appRouter = createTRPCRouter({
   member: committeeMemberRouter,
   document: documentRouter,
   programBoard: programBoardRouter,
+  user: userRouter,
   zenithDocuments: zenithDocuemntRouter,
 });
 

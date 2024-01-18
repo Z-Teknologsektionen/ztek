@@ -1,4 +1,5 @@
 import type { GetStaticProps, NextPage } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import DocumentsAccordionItem from "~/components/documents/DocumentsAccordionItem";
 import HeadLayout from "~/components/layout/HeadLayout";
@@ -20,37 +21,47 @@ const ZaloonenPage: NextPage = () => {
     <>
       <HeadLayout title="Zaloonen" />
       <SectionWrapper>
-        <SectionTitle className="w-full">Om Zaloonen</SectionTitle>
-        <p className="max-w-3xl">
-          Zaloonen är Z-sektionens sektionslokal och är belägen på bottenplan i
-          HB. Som Z-teknolog finns det möjlighet att hålla arrangemang i
-          Zaloonen.
-          <br />
-          <br />
-          Inför arrangemang i Zaloonen kommer ZÅG ta ut en städdeposition som
-          återfås vid godkänd avsyning.
-          <br />
-          <br />
-          När man arrangerar i Zaloonen är det viktigt att tänka på att lokalen
-          tillhör alla Z-teknologer mellan 08:00 och 17:00.
-          <br />
-          <br />
-          Under tentaveckorna är vi väldigt restriktiva med arrangemang i
-          Zaloonen då den behövs som studielokal.
-          <br />
-          <br />
-          Då det ofta är högt söktryck på Zaloonen har vi i stort sett ingen
-          möjlighet att tillåta arrangemang som inte har med Z-sektionen att
-          göra. Vi rekomenderar er som studerar på annan sektion att i första
-          hand söka lokal inom egen sektion eller någon av chalmers icke
-          sektionsbunda lokaler.
-          <br />
-          <br />
-          Avsyning sker alltid kl 07:30 på vardagar och 11:30 på helger om ni
-          inte har någon annan överenskommelse med ZÅG.
-        </p>
+        <SectionTitle className="mb-4">Om Zaloonen</SectionTitle>
+        <div className="grid grid-cols-5 gap-x-20">
+          <div className="col-span-full lg:col-span-3">
+            <p className="max-w-3xl">
+              Zaloonen är Z-sektionens sektionslokal och är belägen på
+              bottenplan i HB. Som Z-teknolog finns det möjlighet att hålla
+              arrangemang i Zaloonen. Inför arrangemang i Zaloonen kommer ZÅG ta
+              ut en städdeposition som återfås vid godkänd avsyning. Avsyning
+              sker alltid kl 07:30 på vardagar och 11:30 på helger, om ni inte
+              har någon annan överenskommelse med ZÅG.
+              <br />
+              <br />
+              När man arrangerar i Zaloonen är det viktigt att tänka på att
+              lokalen tillhör alla Z-teknologer mellan 08:00 och 17:00. Då det
+              ofta är högt söktryck på Zaloonen har vi i stort sett ingen
+              möjlighet att tillåta arrangemang som inte har med Z-sektionen att
+              göra.
+              <br />
+              <br />
+              Vi rekommenderar er som studerar på annan sektion att i första
+              hand söka lokal inom egen sektion eller någon av Chalmers icke
+              sektionsbundna lokaler och under tentaveckorna är vi väldigt
+              restriktiva med arrangemang i Zaloonen då den behövs som
+              studielokal.
+              <br />
+              <br />
+            </p>
+          </div>
+          <div className="col-span-full mx-auto mt-4 max-w-md lg:col-span-2">
+            <Image
+              alt="Zaloonen Image"
+              className="rounded"
+              height={1000}
+              src="/zaloonen.jpg"
+              width={1000}
+            />
+            <p className="mt-2 text-center">Foto: Dennis Holmström/zFoto</p>
+          </div>
+        </div>
       </SectionWrapper>
-      <SectionWrapper>
+      <SectionWrapper className="py-4">
         {(isError || isLoading) && <SectionTitle>Dokument</SectionTitle>}
         {isError && (
           <p>
@@ -87,7 +98,7 @@ const ZaloonenPage: NextPage = () => {
           </div>
           <Link
             className={buttonVariants({
-              className: "w-full uppercase sm:w-auto",
+              className: "w-full bg-gray-200 uppercase sm:w-auto",
               size: "lg",
               variant: "outline",
             })}

@@ -18,7 +18,6 @@ declare module "next-auth" {
   // eslint-disable-next-line @typescript-eslint/no-shadow, no-shadow
   interface Session extends DefaultSession {
     user: DefaultSession["user"] & {
-      admin: boolean;
       email: string;
       id: string;
       name: string;
@@ -28,7 +27,6 @@ declare module "next-auth" {
   }
 
   interface User {
-    admin: boolean;
     email: string;
     roles: AccountRoles[];
   }
@@ -36,7 +34,6 @@ declare module "next-auth" {
 
 declare module "next-auth/jwt" {
   interface JWT extends DefaultJWT {
-    admin: boolean;
     email: string;
     roles: AccountRoles[];
   }
@@ -60,7 +57,6 @@ const authOptions: NextAuthOptions = {
         return {
           ...token,
           roles: user.roles,
-          admin: user.admin,
           email: user.email,
         };
       }
@@ -71,12 +67,22 @@ const authOptions: NextAuthOptions = {
         ...session,
         user: {
           ...session.user,
-          admin: token.admin,
           roles: token.roles,
           email: token.email,
         },
       };
-      return session;
+    },
+  },
+  events: {
+    createUser: async ({ user }) => {
+      await prisma.committeeMember.updateMany({
+        where: {
+          email: user.email,
+        },
+        data: {
+          userId: user.id,
+        },
+      });
     },
   },
   secret: env.NEXTAUTH_SECRET,
