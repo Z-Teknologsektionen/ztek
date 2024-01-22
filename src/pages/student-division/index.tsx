@@ -159,6 +159,7 @@ const StudentDivision: NextPage = () => {
           <div className="grid grid-cols-3">
             <div className="order-last col-span-3 mt-2 lg:order-first lg:col-span-1">
               <div className="mr-2 grid grid-cols-4">
+                <TooltipProvider>
                 {documentIsLoading && <p>Läser in dokument...</p>}
                 {documentIsError && <p>Dokument kunde inte hämtas.</p>}
                 {documentData &&
@@ -168,7 +169,6 @@ const StudentDivision: NextPage = () => {
                       className="col-span-1 mx-2 mb-2 overflow-hidden"
                       style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
                     >
-                      <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Link
@@ -189,9 +189,9 @@ const StudentDivision: NextPage = () => {
                             <p>{doc.title}</p>
                           </TooltipContent>
                         </Tooltip>
-                      </TooltipProvider>
                     </div>
                   ))}
+                  </TooltipProvider>
               </div>
             </div>
             <div className="order-first col-span-3 lg:order-last lg:col-span-2">
