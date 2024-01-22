@@ -21,10 +21,10 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
   const ctx = api.useUtils();
 
   const { mutate: updateZenithMedia } = api.zenithMedia.updateOne.useMutation({
-    onMutate: () => toast.loading("Uppdaterar dokument..."),
+    onMutate: () => toast.loading("Uppdaterar media..."),
     onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
     onSuccess: () => {
-      toast.success("Dokumentet har uppdaterats!");
+      toast.success("Median har uppdaterats!");
       void ctx.zenithMedia.invalidate();
     },
     onError: (error) => {
@@ -75,7 +75,7 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
               }
             />
           }
-          title="Uppdatera dokument"
+          title="Uppdatera media"
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               Redigera
