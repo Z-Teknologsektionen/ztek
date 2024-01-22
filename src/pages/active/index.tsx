@@ -61,23 +61,29 @@ const AdminHomePage: NextPage = () => {
           <div className="flex justify-center space-x-2">
             <TabsList className="min-w-max rounded-none bg-zBlack px-4 text-white md:px-6 lg:rounded-b-2xl xl:px-4">
               {activeTabs.map((tab) => {
-                return (
-                  <TabsTrigger
-                    key={tab.name}
-                    className="z-10 flex min-w-fit overflow-hidden"
-                    disabled={
-                      !(
-                        tab.requiredRole === undefined ||
-                        user.roles.includes(tab.requiredRole) ||
-                        user.roles.includes(AccountRoles.ADMIN)
-                      )
-                    }
-                    style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
-                    value={tab.name}
-                  >
-                    {tab.name}
-                  </TabsTrigger>
-                );
+                if (
+                  tab.requiredRole === undefined ||
+                  user.roles.includes(tab.requiredRole) ||
+                  user.roles.includes(AccountRoles.ADMIN)
+                ) {
+                  return (
+                    <TabsTrigger
+                      key={tab.name}
+                      className="z-10 flex min-w-fit overflow-hidden"
+                      disabled={
+                        !(
+                          tab.requiredRole === undefined ||
+                          user.roles.includes(tab.requiredRole) ||
+                          user.roles.includes(AccountRoles.ADMIN)
+                        )
+                      }
+                      style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+                      value={tab.name}
+                    >
+                      {tab.name}
+                    </TabsTrigger>
+                  );
+                }
               })}
             </TabsList>
           </div>
