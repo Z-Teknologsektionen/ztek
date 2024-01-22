@@ -167,7 +167,10 @@ const StudentDivision: NextPage = () => {
                       <div
                         key={doc.title}
                         className="col-span-1 mx-2 mb-2 overflow-hidden"
-                        style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+                        style={{
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
                       >
                         <Tooltip>
                           <TooltipTrigger asChild>
@@ -191,7 +194,7 @@ const StudentDivision: NextPage = () => {
                         </Tooltip>
                       </div>
                     ))}
-                  </TooltipProvider>
+                </TooltipProvider>
               </div>
             </div>
             <div className="order-first col-span-3 lg:order-last lg:col-span-2">
