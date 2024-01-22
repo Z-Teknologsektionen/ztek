@@ -169,26 +169,26 @@ const StudentDivision: NextPage = () => {
                       className="col-span-1 mx-2 mb-2 overflow-hidden"
                       style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
                     >
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Link
-                              className="text-sm hover:text-blue-800 hover:underline"
-                              href={doc.url}
-                              target="_blank"
-                            >
-                              <Image
-                                alt="Sektionens uppbyggnad"
-                                height={100}
-                                src="/document_stack.svg"
-                                width={100}
-                              />
-                              {doc.title}
-                            </Link>
-                          </TooltipTrigger>
-                          <TooltipContent className="bg-zWhite">
-                            <p>{doc.title}</p>
-                          </TooltipContent>
-                        </Tooltip>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Link
+                            className="text-sm hover:text-blue-800 hover:underline"
+                            href={doc.url}
+                            target="_blank"
+                          >
+                            <Image
+                              alt="Sektionens uppbyggnad"
+                              height={100}
+                              src="/document_stack.svg"
+                              width={100}
+                            />
+                            {doc.title}
+                          </Link>
+                        </TooltipTrigger>
+                        <TooltipContent className="bg-zWhite">
+                          <p>{doc.title}</p>
+                        </TooltipContent>
+                      </Tooltip>
                     </div>
                   ))}
                   </TooltipProvider>
