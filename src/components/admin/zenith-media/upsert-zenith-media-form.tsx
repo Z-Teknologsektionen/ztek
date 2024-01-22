@@ -22,7 +22,8 @@ export const UpsertZenithMediaForm: FC<
 
   return (
     <Form {...form}>
-      <form className=" space-y-8" onSubmit={void form.handleSubmit(onSubmit)}>
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+      <form className=" space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
           <BasicInput control={form.control} label="Titel" name="title" />
           <BasicInput
