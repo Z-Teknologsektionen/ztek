@@ -38,7 +38,7 @@ export const ZenithDocumentCard: FC<IZenithDocumentCard> = ({
         >
           <Image
             alt={`Omslagsbild till ${title}`}
-            className="object-contain object-center"
+            className="object-cover object-center"
             src={image}
             unselectable="on"
             fill

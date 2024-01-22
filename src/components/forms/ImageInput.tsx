@@ -54,7 +54,7 @@ export const ImageInput = <
           <Image
             alt="Image preview"
             className={cn(
-              "mx-auto object-contain object-center",
+              "mx-auto object-cover object-center",
               "text-transparent",
               "after:relative after:-top-6 after:z-10 after:grid after:h-full after:max-h-64 after:min-h-[8rem] after:w-full after:place-content-center after:truncate after:text-center after:text-xl after:text-black after:content-['Ladda_upp_bild']",
             )}
