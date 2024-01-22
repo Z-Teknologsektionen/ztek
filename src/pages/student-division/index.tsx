@@ -160,37 +160,37 @@ const StudentDivision: NextPage = () => {
             <div className="order-last col-span-3 mt-2 lg:order-first lg:col-span-1">
               <div className="mr-2 grid grid-cols-4">
                 <TooltipProvider>
-                {documentIsLoading && <p>Läser in dokument...</p>}
-                {documentIsError && <p>Dokument kunde inte hämtas.</p>}
-                {documentData &&
-                  documentData.Document.map((doc) => (
-                    <div
-                      key={doc.title}
-                      className="col-span-1 mx-2 mb-2 overflow-hidden"
-                      style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
-                    >
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Link
-                            className="text-sm hover:text-blue-800 hover:underline"
-                            href={doc.url}
-                            target="_blank"
-                          >
-                            <Image
-                              alt="Sektionens uppbyggnad"
-                              height={100}
-                              src="/document_stack.svg"
-                              width={100}
-                            />
-                            {doc.title}
-                          </Link>
-                        </TooltipTrigger>
-                        <TooltipContent className="bg-zWhite">
-                          <p>{doc.title}</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </div>
-                  ))}
+                  {documentIsLoading && <p>Läser in dokument...</p>}
+                  {documentIsError && <p>Dokument kunde inte hämtas.</p>}
+                  {documentData &&
+                    documentData.Document.map((doc) => (
+                      <div
+                        key={doc.title}
+                        className="col-span-1 mx-2 mb-2 overflow-hidden"
+                        style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+                      >
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Link
+                              className="text-sm hover:text-blue-800 hover:underline"
+                              href={doc.url}
+                              target="_blank"
+                            >
+                              <Image
+                                alt="Sektionens uppbyggnad"
+                                height={100}
+                                src="/document_stack.svg"
+                                width={100}
+                              />
+                              {doc.title}
+                            </Link>
+                          </TooltipTrigger>
+                          <TooltipContent className="bg-zWhite">
+                            <p>{doc.title}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
+                    ))}
                   </TooltipProvider>
               </div>
             </div>
