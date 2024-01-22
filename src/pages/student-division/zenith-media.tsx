@@ -55,20 +55,18 @@ export const ZenithDocumentCard: FC<IZenithDocumentCard> = ({
   );
 };
 
-const ZenithMagazine: NextPage = () => {
+const ZenithMediaPage: NextPage = () => {
   const { data, isLoading, isError } =
     api.zenithDocuments.getAllByYear.useQuery(undefined, {});
 
   return (
     <>
-      <HeadLayout title="Zenith dokument" />
+      <HeadLayout title="Zenith media" />
       <SectionWrapper>
         <div>
-          <SectionTitle>Zenith Magazine</SectionTitle>
+          <SectionTitle>Zenith Media</SectionTitle>
           <p className="max-w-3xl">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis
-            vel reprehenderit repudiandae repellat sint soluta aspernatur
-            laborum fugiat! Distinctio, vero!
+            Nedan finner du media som Zenith producerat!
           </p>
         </div>
 
@@ -112,7 +110,7 @@ const ZenithMagazine: NextPage = () => {
   );
 };
 
-export default ZenithMagazine;
+export default ZenithMediaPage;
 
 export const getStaticProps: GetStaticProps = async () => {
   await ssg.zenithDocuments.getAllByYear.prefetch();
