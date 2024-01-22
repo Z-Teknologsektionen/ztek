@@ -168,7 +168,6 @@ const StudentDivision: NextPage = () => {
                       className="col-span-1 mx-2 mb-2 overflow-hidden"
                       style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
                     >
-                      
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
@@ -176,7 +175,7 @@ const StudentDivision: NextPage = () => {
                               className="text-sm hover:text-blue-800 hover:underline"
                               href={doc.url}
                               target="_blank"
-                            > 
+                            >
                               <Image
                                 alt="Sektionens uppbyggnad"
                                 height={100}
