@@ -1,9 +1,9 @@
-import type { NextPage } from "next";
-import ZenithDocumentTable from "~/components/data-table/zenith-documents/document-table";
+import type { FC } from "react";
+import ZenithDocumentTable from "~/components/data-table/zenith-documents/zenith-document-table";
 import RoleWrapper from "~/components/layout/RoleWrapper";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 
-const ZenithDocumentsPage: NextPage = () => {
+const ZenithDocumentsTab: FC = () => {
   return (
     <RoleWrapper accountRole="MODIFY_ZENITH_DOCUMENTS">
       <SectionWrapper>
@@ -13,4 +13,4 @@ const ZenithDocumentsPage: NextPage = () => {
   );
 };
 
-export default ZenithDocumentsPage;
+export default ZenithDocumentsTab;

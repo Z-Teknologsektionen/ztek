@@ -4,7 +4,11 @@ import {
   createZenithDocumentSchema,
   updateZenithDocumentSchema,
 } from "../helpers/schemas/zenith-documents";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import {
+  createTRPCRouter,
+  publicProcedure,
+  zenithDocuemntProcedure,
+} from "../trpc";
 
 export const zenithDocuemntRouter = createTRPCRouter({
   getAllByYear: publicProcedure.query(async ({ ctx }) => {
@@ -31,10 +35,12 @@ export const zenithDocuemntRouter = createTRPCRouter({
 
     return formatedData;
   }),
-  getAllAsAdmin: protectedProcedure.query(async ({ ctx }) => {
-    return ctx.prisma.zenithDocument.findMany();
+  getAllAsAuthorized: zenithDocuemntProcedure.query(async ({ ctx }) => {
+    return ctx.prisma.zenithDocument.findMany({
+      orderBy: { createdAt: "desc" },
+    });
   }),
-  createOne: protectedProcedure
+  createOne: zenithDocuemntProcedure
     .input(createZenithDocumentSchema)
     .mutation(async ({ ctx, input: { isPDF, title, url, year, image } }) => {
       return ctx.prisma.zenithDocument.create({
@@ -47,7 +53,7 @@ export const zenithDocuemntRouter = createTRPCRouter({
         },
       });
     }),
-  updateOne: protectedProcedure
+  updateOne: zenithDocuemntProcedure
     .input(updateZenithDocumentSchema)
     .mutation(
       async ({ ctx, input: { id, isPDF, title, url, year, image } }) => {
@@ -65,7 +71,7 @@ export const zenithDocuemntRouter = createTRPCRouter({
         });
       },
     ),
-  deleteOne: protectedProcedure
+  deleteOne: zenithDocuemntProcedure
     .input(z.object({ id: objectId }))
     .mutation(async ({ ctx, input: { id } }) => {
       return ctx.prisma.zenithDocument.delete({

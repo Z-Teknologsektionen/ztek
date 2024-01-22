@@ -12,9 +12,12 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { api } from "~/utils/api";
-import type { ZenithDocument } from "./columns";
+import type { ZenithDocumentType } from "./columns";
 
-export const DocumentTableActions: FC<ZenithDocument> = ({ id, ...values }) => {
+export const DocumentTableActions: FC<ZenithDocumentType> = ({
+  id,
+  ...values
+}) => {
   const ctx = api.useUtils();
 
   const { mutate: updateDocument } = api.zenithDocuments.updateOne.useMutation({

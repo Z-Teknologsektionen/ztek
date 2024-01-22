@@ -6,6 +6,7 @@ import EditCommitteePage from "~/components/active/edit-committee";
 import ActiveHomePage from "~/components/active/home";
 import AdminMemberPage from "~/components/active/members";
 import ProgramBoardPage from "~/components/active/program-board";
+import ZenithDocumentsTab from "~/components/active/zenith-documents";
 
 export interface ActiveTabsProps {
   component: FC<PropsWithChildren>;
@@ -51,6 +52,12 @@ const rawActiveTabs: ActiveTabsProps[] = [
     desc: "Lägg till, ta bort eller uppdatera någon i programledningen.",
     component: ProgramBoardPage,
     requiredRole: AccountRoles.MODIFY_PROGRAM_BOARD,
+  },
+  {
+    name: "Administera ZENITH Dokument",
+    desc: "Här kan du ta bort eller lägga till ZENITHs dokument som tidningar osv.",
+    component: ZenithDocumentsTab,
+    requiredRole: AccountRoles.MODIFY_ZENITH_DOCUMENTS,
   },
 ];
 
