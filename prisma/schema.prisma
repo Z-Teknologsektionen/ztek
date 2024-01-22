@@ -48,7 +48,7 @@ model CommitteeMember {
     updatedAt DateTime @updatedAt
 }
 
-model ZenithDocument {
+model ZenithMedia {
     id String @id @default(auto()) @map("_id") @db.ObjectId
 
     title String
@@ -142,7 +142,7 @@ enum AccountRoles {
     MODIFY_ROLES
     MODIFY_DOCUMENTS
     MODIFY_PROGRAM_BOARD
-    MODIFY_ZENITH_DOCUMENTS
+    MODIFY_ZENITH_MEDIA
     ADMIN
 }
 

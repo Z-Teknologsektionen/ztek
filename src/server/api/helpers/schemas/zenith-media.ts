@@ -5,7 +5,7 @@ import {
   objectId,
 } from "../customZodTypes";
 
-export const createZenithDocumentSchema = z.object({
+export const createZenithMediaSchema = z.object({
   title: nonEmptyString,
   url: z.string().url(),
   isPDF: z.boolean(),
@@ -23,6 +23,6 @@ export const createZenithDocumentSchema = z.object({
   image: base64WebPImageString,
 });
 
-export const updateZenithDocumentSchema = createZenithDocumentSchema
+export const updateZenithMediaSchema = createZenithMediaSchema
   .partial()
   .extend({ id: objectId });

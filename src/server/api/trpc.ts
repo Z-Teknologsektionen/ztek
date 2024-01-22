@@ -176,6 +176,6 @@ export const documentProcedure = t.procedure.use(
   enforceUserHasRoleOrAdmin(AccountRoles.MODIFY_DOCUMENTS),
 );
 
-export const zenithDocuemntProcedure = t.procedure.use(
-  enforceUserHasRoleOrAdmin(AccountRoles.MODIFY_ZENITH_DOCUMENTS),
+export const zenithMediaProcedure = t.procedure.use(
+  enforceUserHasRoleOrAdmin(AccountRoles.MODIFY_ZENITH_MEDIA),
 );

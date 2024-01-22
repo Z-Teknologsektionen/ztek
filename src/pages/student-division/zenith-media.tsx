@@ -17,10 +17,10 @@ import ssg from "~/server/api/helpers/ssg";
 import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
 
-type IZenithDocumentCard =
-  RouterOutputs["zenithDocuments"]["getAllByYear"][0]["documents"][0];
+type IZenithMediaCard =
+  RouterOutputs["zenithMedia"]["getAllByYear"][0]["mediaArray"][0];
 
-export const ZenithDocumentCard: FC<IZenithDocumentCard> = ({
+export const ZenithMediaCard: FC<IZenithMediaCard> = ({
   image,
   isPDF,
   title,
@@ -55,20 +55,20 @@ export const ZenithDocumentCard: FC<IZenithDocumentCard> = ({
   );
 };
 
-const ZenithMagazine: NextPage = () => {
-  const { data, isLoading, isError } =
-    api.zenithDocuments.getAllByYear.useQuery(undefined, {});
+const ZenithMediaPage: NextPage = () => {
+  const { data, isLoading, isError } = api.zenithMedia.getAllByYear.useQuery(
+    undefined,
+    {},
+  );
 
   return (
     <>
-      <HeadLayout title="Zenith dokument" />
+      <HeadLayout title="Zenith media" />
       <SectionWrapper>
         <div>
-          <SectionTitle>Zenith Magazine</SectionTitle>
+          <SectionTitle>Zenith Media</SectionTitle>
           <p className="max-w-3xl">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis
-            vel reprehenderit repudiandae repellat sint soluta aspernatur
-            laborum fugiat! Distinctio, vero!
+            Nedan finner du media som Zenith producerat!
           </p>
         </div>
 
@@ -95,13 +95,13 @@ const ZenithMagazine: NextPage = () => {
         <TooltipProvider>
           {data &&
             data.length > 0 &&
-            data.map(({ year, documents }) => (
+            data.map(({ year, mediaArray }) => (
               <div key={year} className="space-y-4">
                 <SecondaryTitle>{year}</SecondaryTitle>
                 <div className="flex flex-row flex-wrap gap-4">
-                  {documents.length > 0 &&
-                    documents.map((document) => (
-                      <ZenithDocumentCard key={document.id} {...document} />
+                  {mediaArray.length > 0 &&
+                    mediaArray.map((media) => (
+                      <ZenithMediaCard key={media.id} {...media} />
                     ))}
                 </div>
               </div>
@@ -112,10 +112,10 @@ const ZenithMagazine: NextPage = () => {
   );
 };
 
-export default ZenithMagazine;
+export default ZenithMediaPage;
 
 export const getStaticProps: GetStaticProps = async () => {
-  await ssg.zenithDocuments.getAllByYear.prefetch();
+  await ssg.zenithMedia.getAllByYear.prefetch();
   return {
     props: {
       trpcState: ssg.dehydrate(),

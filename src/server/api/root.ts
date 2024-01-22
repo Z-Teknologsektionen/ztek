@@ -4,7 +4,7 @@ import { committeeMemberRouter } from "./routers/committeeMember";
 import { documentRouter } from "./routers/document";
 import { programBoardRouter } from "./routers/programBoard";
 import { userRouter } from "./routers/user";
-import { zenithDocuemntRouter } from "./routers/zenith-documents";
+import { zenithMediaRouter } from "./routers/zenith-media";
 
 /**
  * This is the primary router for your server.
@@ -17,7 +17,7 @@ export const appRouter = createTRPCRouter({
   document: documentRouter,
   programBoard: programBoardRouter,
   user: userRouter,
-  zenithDocuments: zenithDocuemntRouter,
+  zenithMedia: zenithMediaRouter,
 });
 
 // export type definition of API

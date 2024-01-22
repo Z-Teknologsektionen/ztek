@@ -2,12 +2,12 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { type RouterOutputs } from "~/utils/api";
 import { DataTableColumnHeader } from "../data-table-column-header";
 import { DataTableViewOptions } from "../data-table-view-options";
-import { DocumentTableActions } from "./zenith-document-table-actions";
+import { ZenithMediaTableActions } from "./zenith-media-table-actions";
 
-export type ZenithDocumentType =
-  RouterOutputs["zenithDocuments"]["getAllAsAuthorized"][0];
+export type ZenithMediaType =
+  RouterOutputs["zenithMedia"]["getAllAsAuthorized"][0];
 
-export const columns: ColumnDef<ZenithDocumentType>[] = [
+export const columns: ColumnDef<ZenithMediaType>[] = [
   {
     accessorKey: "title",
     header: ({ column }) => (
@@ -57,8 +57,8 @@ export const columns: ColumnDef<ZenithDocumentType>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      const document = row.original;
-      return <DocumentTableActions key={document.id} {...document} />;
+      const zenithMedia = row.original;
+      return <ZenithMediaTableActions key={zenithMedia.id} {...zenithMedia} />;
     },
     enableSorting: false,
     enableHiding: false,

@@ -1,18 +1,18 @@
 import { z } from "zod";
 import { objectId } from "../helpers/customZodTypes";
 import {
-  createZenithDocumentSchema,
-  updateZenithDocumentSchema,
-} from "../helpers/schemas/zenith-documents";
+  createZenithMediaSchema,
+  updateZenithMediaSchema,
+} from "../helpers/schemas/zenith-media";
 import {
   createTRPCRouter,
   publicProcedure,
-  zenithDocuemntProcedure,
+  zenithMediaProcedure,
 } from "../trpc";
 
-export const zenithDocuemntRouter = createTRPCRouter({
+export const zenithMediaRouter = createTRPCRouter({
   getAllByYear: publicProcedure.query(async ({ ctx }) => {
-    const rawDocuments = await ctx.prisma.zenithDocument.findMany({
+    const rawMedia = await ctx.prisma.zenithMedia.findMany({
       orderBy: { year: "desc" },
       select: {
         id: true,
@@ -24,26 +24,26 @@ export const zenithDocuemntRouter = createTRPCRouter({
       },
     });
 
-    const years = [...new Set(rawDocuments.map((document) => document.year))];
+    const years = [...new Set(rawMedia.map((media) => media.year))];
 
     const formatedData = years.map((year) => {
       return {
-        documents: rawDocuments.filter((document) => document.year === year),
+        mediaArray: rawMedia.filter((media) => media.year === year),
         year: year,
       };
     });
 
     return formatedData;
   }),
-  getAllAsAuthorized: zenithDocuemntProcedure.query(async ({ ctx }) => {
-    return ctx.prisma.zenithDocument.findMany({
+  getAllAsAuthorized: zenithMediaProcedure.query(async ({ ctx }) => {
+    return ctx.prisma.zenithMedia.findMany({
       orderBy: { createdAt: "desc" },
     });
   }),
-  createOne: zenithDocuemntProcedure
-    .input(createZenithDocumentSchema)
+  createOne: zenithMediaProcedure
+    .input(createZenithMediaSchema)
     .mutation(async ({ ctx, input: { isPDF, title, url, year, image } }) => {
-      return ctx.prisma.zenithDocument.create({
+      return ctx.prisma.zenithMedia.create({
         data: {
           title: title,
           isPDF: isPDF,
@@ -53,11 +53,11 @@ export const zenithDocuemntRouter = createTRPCRouter({
         },
       });
     }),
-  updateOne: zenithDocuemntProcedure
-    .input(updateZenithDocumentSchema)
+  updateOne: zenithMediaProcedure
+    .input(updateZenithMediaSchema)
     .mutation(
       async ({ ctx, input: { id, isPDF, title, url, year, image } }) => {
-        return ctx.prisma.zenithDocument.update({
+        return ctx.prisma.zenithMedia.update({
           where: {
             id: id,
           },
@@ -71,10 +71,10 @@ export const zenithDocuemntRouter = createTRPCRouter({
         });
       },
     ),
-  deleteOne: zenithDocuemntProcedure
+  deleteOne: zenithMediaProcedure
     .input(z.object({ id: objectId }))
     .mutation(async ({ ctx, input: { id } }) => {
-      return ctx.prisma.zenithDocument.delete({
+      return ctx.prisma.zenithMedia.delete({
         where: {
           id: id,
         },

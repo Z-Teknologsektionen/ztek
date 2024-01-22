@@ -2,11 +2,11 @@ import type { FC } from "react";
 import { api } from "~/utils/api";
 import { AdvancedDataTable } from "../advanced-data-table";
 import { columns } from "./columns";
-import { ZenithDocumentTableToolbar } from "./zenith-document-table-toolbar";
+import { ZenithMediaTableToolbar } from "./zenith-media-table-toolbar";
 
-const ZenithDocumentTable: FC = () => {
+const ZenithMediaTable: FC = () => {
   const { data, isLoading, isError } =
-    api.zenithDocuments.getAllAsAuthorized.useQuery();
+    api.zenithMedia.getAllAsAuthorized.useQuery();
 
   return (
     <>
@@ -15,10 +15,10 @@ const ZenithDocumentTable: FC = () => {
         data={data ?? []}
         error={isError}
         loading={isLoading}
-        toolbar={ZenithDocumentTableToolbar}
+        toolbar={ZenithMediaTableToolbar}
       />
     </>
   );
 };
 
-export default ZenithDocumentTable;
+export default ZenithMediaTable;

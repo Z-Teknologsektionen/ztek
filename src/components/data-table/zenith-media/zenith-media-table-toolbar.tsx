@@ -2,7 +2,7 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
 import toast from "react-hot-toast";
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
-import { UpsertZenithDocumentForm } from "~/components/admin/zenith-documents/upsert-zenith-document-form";
+import { UpsertZenithMediaForm } from "~/components/admin/zenith-media/upsert-zenith-media-form";
 import { api } from "~/utils/api";
 import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
@@ -11,19 +11,19 @@ interface MemberTableToolbarProps<TData> {
   table: Table<TData>;
 }
 
-export const ZenithDocumentTableToolbar = <TData,>({
+export const ZenithMediaTableToolbar = <TData,>({
   table,
 }: MemberTableToolbarProps<TData>): JSX.Element => {
   const isFiltered = table.getState().columnFilters.length > 0;
   const ctx = api.useUtils();
 
-  const { mutate: createNewZenithDocument, isLoading: creatingNewDocument } =
-    api.zenithDocuments.createOne.useMutation({
-      onMutate: () => toast.loading("Skapar nytt dokument..."),
+  const { mutate: createNewZenithMedia, isLoading: creatingNewZenithMedia } =
+    api.zenithMedia.createOne.useMutation({
+      onMutate: () => toast.loading("Skapar ny media..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: () => {
-        toast.success("En nytt dokument har skapats.");
-        void ctx.zenithDocuments.invalidate();
+        toast.success("En ny media har skapats.");
+        void ctx.zenithMedia.invalidate();
       },
       onError: (error) => {
         if (error.message) {
@@ -62,7 +62,7 @@ export const ZenithDocumentTableToolbar = <TData,>({
         <div className="flex justify-end">
           <UpsertDialog
             form={
-              <UpsertZenithDocumentForm
+              <UpsertZenithMediaForm
                 key={"new"}
                 defaultValues={{
                   year: new Date().getFullYear(),
@@ -72,18 +72,18 @@ export const ZenithDocumentTableToolbar = <TData,>({
                   image: "",
                 }}
                 formType="create"
-                onSubmit={(values) => createNewZenithDocument(values)}
+                onSubmit={(values) => createNewZenithMedia(values)}
               />
             }
-            title="Skapa nytt dokument"
+            title="Skapa ny media"
             trigger={
               <Button
-                disabled={creatingNewDocument}
+                disabled={creatingNewZenithMedia}
                 size="lg"
                 type="button"
                 variant="outline"
               >
-                Nytt dokument
+                Ny media
               </Button>
             }
           />

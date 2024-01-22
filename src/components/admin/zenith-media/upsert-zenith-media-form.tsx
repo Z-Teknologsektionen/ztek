@@ -9,21 +9,20 @@ import { NumberInput } from "~/components/forms/NumberInput";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
-import { createZenithDocumentSchema } from "~/server/api/helpers/schemas/zenith-documents";
+import { createZenithMediaSchema } from "~/server/api/helpers/schemas/zenith-media";
 import type { IUpsertForm } from "../types";
 
-export const UpsertZenithDocumentForm: FC<
-  IUpsertForm<typeof createZenithDocumentSchema>
+export const UpsertZenithMediaForm: FC<
+  IUpsertForm<typeof createZenithMediaSchema>
 > = ({ defaultValues, onSubmit, formType }) => {
-  const form = useForm<z.infer<typeof createZenithDocumentSchema>>({
-    resolver: zodResolver(createZenithDocumentSchema),
+  const form = useForm<z.infer<typeof createZenithMediaSchema>>({
+    resolver: zodResolver(createZenithMediaSchema),
     defaultValues: defaultValues,
   });
 
   return (
     <Form {...form}>
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <form className=" space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+      <form className=" space-y-8" onSubmit={void form.handleSubmit(onSubmit)}>
         <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
           <BasicInput control={form.control} label="Titel" name="title" />
           <BasicInput
@@ -35,14 +34,14 @@ export const UpsertZenithDocumentForm: FC<
           <NumberInput control={form.control} label="År" name="year" />
           <BooleanInput
             control={form.control}
-            description="Är dokumentet i pdf-format?"
-            label="Typ av dokument"
+            description="Går länken till en PDF?"
+            label="Typ av media"
             name="isPDF"
           />
           <ImageInput
             accept="image/*, application/pdf,"
             control={form.control}
-            description="Omslagsbilden till dokumentet"
+            description="Omslagsbilden till median"
             label="Omslag"
             maxHeight={600}
             maxWidth={400}

@@ -3,7 +3,7 @@ import type { FC } from "react";
 import toast from "react-hot-toast";
 import DeleteDialog from "~/components/admin/delete-dialog";
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
-import { UpsertZenithDocumentForm } from "~/components/admin/zenith-documents/upsert-zenith-document-form";
+import { UpsertZenithMediaForm } from "~/components/admin/zenith-media/upsert-zenith-media-form";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -12,20 +12,20 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { api } from "~/utils/api";
-import type { ZenithDocumentType } from "./columns";
+import type { ZenithMediaType } from "./columns";
 
-export const DocumentTableActions: FC<ZenithDocumentType> = ({
+export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
   id,
   ...values
 }) => {
   const ctx = api.useUtils();
 
-  const { mutate: updateDocument } = api.zenithDocuments.updateOne.useMutation({
+  const { mutate: updateZenithMedia } = api.zenithMedia.updateOne.useMutation({
     onMutate: () => toast.loading("Uppdaterar dokument..."),
     onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
     onSuccess: () => {
       toast.success("Dokumentet har uppdaterats!");
-      void ctx.zenithDocuments.invalidate();
+      void ctx.zenithMedia.invalidate();
     },
     onError: (error) => {
       if (error.message) {
@@ -36,13 +36,13 @@ export const DocumentTableActions: FC<ZenithDocumentType> = ({
     },
   });
 
-  const { mutate: deleteDocument } = api.zenithDocuments.deleteOne.useMutation({
-    onMutate: () => toast.loading("Raderar dokument..."),
+  const { mutate: deleteZenithMedia } = api.zenithMedia.deleteOne.useMutation({
+    onMutate: () => toast.loading("Raderar media..."),
     onSettled: (_c, _d, _e, toastId) => {
       toast.remove(toastId);
-      void ctx.zenithDocuments.invalidate();
+      void ctx.zenithMedia.invalidate();
     },
-    onSuccess: () => toast.success("Dokumentet har raderats!"),
+    onSuccess: () => toast.success("Median har raderats!"),
     onError: (error) => {
       if (error.message) {
         toast.error(error.message);
@@ -63,12 +63,12 @@ export const DocumentTableActions: FC<ZenithDocumentType> = ({
       <DropdownMenuContent align="end">
         <UpsertDialog
           form={
-            <UpsertZenithDocumentForm
+            <UpsertZenithMediaForm
               key={id}
               defaultValues={values}
               formType="update"
               onSubmit={({ ...rest }) =>
-                updateDocument({
+                updateZenithMedia({
                   id: id,
                   ...rest,
                 })
@@ -83,7 +83,7 @@ export const DocumentTableActions: FC<ZenithDocumentType> = ({
           }
         />
         <DeleteDialog
-          onSubmit={() => deleteDocument({ id })}
+          onSubmit={() => deleteZenithMedia({ id })}
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               Radera
