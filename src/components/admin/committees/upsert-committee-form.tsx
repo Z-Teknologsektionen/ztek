@@ -80,12 +80,7 @@ const UpsertCommitteeForm: FC<IUpsertCommitteeForm> = ({
             min={0}
             name="order"
           />
-          <ImageInput
-            control={form.control}
-            defaultImage={defaultValues.image}
-            label="Bild"
-            name="image"
-          />
+          <ImageInput control={form.control} label="Bild" name="image" />
         </div>
         <DialogFooter>
           <Button

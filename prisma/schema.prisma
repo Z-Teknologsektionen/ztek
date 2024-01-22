@@ -48,6 +48,19 @@ model CommitteeMember {
     updatedAt DateTime @updatedAt
 }
 
+model ZenithMedia {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    title String
+    year  Int
+    url   String  @unique
+    isPDF Boolean
+    image String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
 model Document {
     id      String @id @default(auto()) @map("_id") @db.ObjectId
     groupId String @db.ObjectId
@@ -128,8 +141,9 @@ enum AccountRoles {
     CREATE_POST
     MODIFY_ROLES
     MODIFY_DOCUMENTS
-    ADMIN
     MODIFY_PROGRAM_BOARD
+    MODIFY_ZENITH_MEDIA
+    ADMIN
 }
 
 model VerificationToken {
