@@ -125,7 +125,7 @@ const NewStudent: NextPage = () => {
           <div className="grid grid-cols-3">
             <div className="order-first col-span-3 pl-4 lg:order-last lg:col-span-2">
               <SectionTitle className="mb-4">Mottagningen</SectionTitle>
-              <p>
+              <p className="mr-0 md:mr-12">
                 Mottagningen syftar till att underlätta din integration både
                 socialt och akademiskt. Detta åstadkoms genom fyra intensiva
                 veckor av engagerande aktiviteter. Genom varierande aktiviteter
