@@ -65,14 +65,16 @@ export const committeeMemberRouter = createTRPCRouter({
     }),
   getCommitteeMembersAsAdmin: adminProcedure
     .input(
-      z.object({
-        committeeId: objectId.optional(),
-      }),
+      z
+        .object({
+          committeeId: objectId.optional(),
+        })
+        .optional(),
     )
     .query(async ({ ctx, input }) => {
       const members = await ctx.prisma.committeeMember.findMany({
         where: {
-          committeeId: input.committeeId,
+          committeeId: input?.committeeId,
         },
         include: {
           committee: {

@@ -8,7 +8,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import type { ITextInput } from "./types";
+import type { ITextInput } from "./form-types";
 
 export const BasicInput = <
   TFieldValues extends FieldValues,

@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import type { IImageInput } from "./types";
+import type { IImageInput } from "./form-types";
 
 export const ImageInput = <
   TFieldValues extends FieldValues,

@@ -8,7 +8,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import type { INumberInput } from "./types";
+import type { INumberInput } from "./form-types";
 
 export const NumberInput = <
   TFieldValues extends FieldValues,
