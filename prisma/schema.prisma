@@ -22,6 +22,8 @@ model Committee {
     email          String @unique
     order          Int
     electionPeriod Int    @default(1)
+    link           String @default("")
+    linkText       String @default("")
 
     members CommitteeMember[]
 
