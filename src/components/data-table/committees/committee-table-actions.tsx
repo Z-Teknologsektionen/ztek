@@ -74,13 +74,13 @@ export const CommitteeTableActions: FC<{
             <UpsertCommitteeForm
               key={id}
               defaultValues={values}
+              formType="update"
               onSubmit={(updatedValues) =>
                 updateCommittee({
                   id: id,
                   ...updatedValues,
                 })
               }
-              type="update"
             />
           }
           title="Uppdatera organ"
