@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { CommitteeType } from "@prisma/client";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
@@ -15,6 +16,7 @@ import { api } from "~/utils/api";
 interface IUpsertMemberForm {
   defaultValues: {
     committeeId?: string;
+    committeeType?: CommitteeType;
     email?: string;
     image?: string | undefined;
     name?: string;
@@ -50,6 +52,7 @@ export const UpsertMemberForm: FC<IUpsertMemberForm> = ({
     role,
     phone,
     image,
+    committeeType,
   };
 
   const form = useForm<z.infer<typeof createMemberSchema>>({

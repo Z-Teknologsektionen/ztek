@@ -11,23 +11,27 @@ datasource db {
 }
 
 model Committee {
-    id String @id @default(auto()) @map("_id") @db.ObjectId
-
-    name        String
-    description String
-    image       String @default("")
-
-    slug           String @unique
+    id             String            @id @default(auto()) @map("_id") @db.ObjectId
+    name           String
+    description    String
+    image          String            @default("")
+    slug           String            @unique
     role           String
-    email          String @unique
+    email          String            @unique
     order          Int
-    electionPeriod Int    @default(1)
-    link           String @default("")
-    linkText       String @default("")
+    electionPeriod Int               @default(1)
+    committeeType  CommitteeType     @default(COMMITTEE)
+    link           String            @default("")
+    linkText       String            @default("")
+    members        CommitteeMember[]
+    updatedAt      DateTime          @updatedAt
+}
 
-    members CommitteeMember[]
-
-    updatedAt DateTime @updatedAt
+enum CommitteeType {
+    COMMITTEE
+    SUB_COMMITTEE
+    WORKING_GROUP
+    OTHER
 }
 
 model CommitteeMember {
