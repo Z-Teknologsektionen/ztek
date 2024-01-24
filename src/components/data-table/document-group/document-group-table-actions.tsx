@@ -1,5 +1,5 @@
 import { MoreHorizontal } from "lucide-react";
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import toast from "react-hot-toast";
 import DeleteDialog from "~/components/admin/delete-dialog";
 import { UpsertDocumentGroupForm } from "~/components/admin/document-group/upsert-document-group-form";
@@ -19,16 +19,19 @@ export const DocumentGroupTableActions: FC<{
   name: string;
 }> = ({ id, ...values }) => {
   const ctx = api.useUtils();
+  const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: updateDocumentGroup } =
     api.document.updateOneGroup.useMutation({
       onMutate: () => toast.loading("Uppdaterar dokumentgrupp..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: (res) => {
+        setIsOpen(false);
         toast.success(JSON.stringify(res, null, 2));
         void ctx.committee.invalidate();
       },
       onError: (error) => {
+        setIsOpen(true);
         if (error.message) {
           toast.error(error.message);
         } else {
@@ -77,6 +80,8 @@ export const DocumentGroupTableActions: FC<{
               type="update"
             />
           }
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
           title="Uppdatera dokument"
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>

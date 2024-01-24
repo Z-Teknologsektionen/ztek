@@ -1,6 +1,7 @@
 "use client";
 
 import type { Table } from "@tanstack/react-table";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { UpsertDocumentForm } from "~/components/admin/document/upsert-document-form";
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
@@ -17,16 +18,18 @@ export const DocumentTableToolbar = <TData,>({
   table,
 }: DocumentTableToolbarProps<TData>): JSX.Element => {
   const ctx = api.useUtils();
-
+  const [isOpen, setIsOpen] = useState(false);
   const { mutate: createNewDocument, isLoading: creatingNewDocument } =
     api.document.createOne.useMutation({
       onMutate: () => toast.loading("Skapar nytt dokument..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: () => {
         toast.success("En nytt dokument har skapats.");
+        setIsOpen(false);
         void ctx.document.invalidate();
       },
       onError: (error) => {
+        setIsOpen(true);
         if (error.message) {
           toast.error(error.message);
         } else {
@@ -58,6 +61,8 @@ export const DocumentTableToolbar = <TData,>({
                 type="create"
               />
             }
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
             title="Nytt dokument"
             trigger={
               <Button

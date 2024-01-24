@@ -1,5 +1,5 @@
 import { MoreHorizontal } from "lucide-react";
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import toast from "react-hot-toast";
 import DeleteDialog from "~/components/admin/delete-dialog";
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
@@ -19,15 +19,18 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
   ...values
 }) => {
   const ctx = api.useUtils();
+  const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: updateZenithMedia } = api.zenithMedia.updateOne.useMutation({
     onMutate: () => toast.loading("Uppdaterar media..."),
     onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
     onSuccess: () => {
+      setIsOpen(false);
       toast.success("Median har uppdaterats!");
       void ctx.zenithMedia.invalidate();
     },
     onError: (error) => {
+      setIsOpen(true);
       if (error.message) {
         toast.error(error.message);
       } else {
@@ -75,6 +78,8 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
               }
             />
           }
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
           title="Uppdatera media"
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>

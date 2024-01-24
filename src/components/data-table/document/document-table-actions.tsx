@@ -1,5 +1,5 @@
 import { MoreHorizontal } from "lucide-react";
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import toast from "react-hot-toast";
 import DeleteDialog from "~/components/admin/delete-dialog";
 import { UpsertDocumentForm } from "~/components/admin/document/upsert-document-form";
@@ -22,15 +22,18 @@ export const DocumentTableActions: FC<{
   url: string;
 }> = ({ id, ...values }) => {
   const ctx = api.useUtils();
+  const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: updateDocument } = api.document.updateOne.useMutation({
     onMutate: () => toast.loading("Uppdaterar dokument..."),
     onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
     onSuccess: () => {
+      setIsOpen(false);
       toast.success("Dokumentet har uppdaterats!");
       void ctx.document.invalidate();
     },
     onError: (error) => {
+      setIsOpen(true);
       if (error.message) {
         toast.error(error.message);
       } else {
@@ -78,6 +81,8 @@ export const DocumentTableActions: FC<{
               type="update"
             />
           }
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
           title="Uppdatera dokument"
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>

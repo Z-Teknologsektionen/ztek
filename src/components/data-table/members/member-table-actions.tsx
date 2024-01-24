@@ -1,5 +1,5 @@
 import { MoreHorizontal } from "lucide-react";
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import toast from "react-hot-toast";
 import DeleteDialog from "~/components/admin/delete-dialog";
 import { UpsertMemberForm } from "~/components/admin/members/upsert-member-form";
@@ -25,16 +25,19 @@ export const CommitteeMemberTableActions: FC<{
   role: string;
 }> = ({ id, ...values }) => {
   const ctx = api.useUtils();
+  const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: updateMember } = api.member.updateMemberAsAdmin.useMutation({
     onMutate: () => toast.loading("Uppdaterar medlem..."),
     onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
     onSuccess: () => {
+      setIsOpen(false);
       toast.success(`Medlem har uppdaterats!`);
       void ctx.committee.invalidate();
       void ctx.member.invalidate();
     },
     onError: (error) => {
+      setIsOpen(true);
       if (error.message) {
         toast.error(error.message);
       } else {
@@ -83,6 +86,8 @@ export const CommitteeMemberTableActions: FC<{
               type="update"
             />
           }
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
           title="Uppdatera aktiv"
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>

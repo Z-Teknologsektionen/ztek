@@ -1,6 +1,7 @@
 "use client";
 
 import type { Table } from "@tanstack/react-table";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import UpsertProgramBoardMemberForm from "~/components/admin/program-board/upsert-program-board-form";
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
@@ -16,6 +17,7 @@ export const ProgramBoardTableToolbar = <TData,>({
   table,
 }: ProgramBoardTableToolbarProps<TData>): JSX.Element => {
   const ctx = api.useUtils();
+  const [isOpen, setIsOpen] = useState(false);
 
   const {
     mutate: createNewProgramBoardMember,
@@ -24,10 +26,12 @@ export const ProgramBoardTableToolbar = <TData,>({
     onMutate: () => toast.loading("Skapar nytt organ..."),
     onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
     onSuccess: () => {
+      setIsOpen(false);
       toast.success(`En ny programmedlem har skapats!`);
       void ctx.programBoard.invalidate();
     },
     onError: (error) => {
+      setIsOpen(true);
       if (error.message) {
         toast.error(error.message);
       } else {
@@ -51,6 +55,8 @@ export const ProgramBoardTableToolbar = <TData,>({
                 type="create"
               />
             }
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
             title="Skapa ny programmedlem"
             trigger={
               <Button

@@ -1,5 +1,6 @@
 import { Cross2Icon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
 import { UpsertZenithMediaForm } from "~/components/admin/zenith-media/upsert-zenith-media-form";
@@ -16,16 +17,19 @@ export const ZenithMediaTableToolbar = <TData,>({
 }: MemberTableToolbarProps<TData>): JSX.Element => {
   const isFiltered = table.getState().columnFilters.length > 0;
   const ctx = api.useUtils();
+  const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: createNewZenithMedia, isLoading: creatingNewZenithMedia } =
     api.zenithMedia.createOne.useMutation({
       onMutate: () => toast.loading("Skapar ny media..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: () => {
+        setIsOpen(false);
         toast.success("En ny media har skapats.");
         void ctx.zenithMedia.invalidate();
       },
       onError: (error) => {
+        setIsOpen(false);
         if (error.message) {
           toast.error(error.message);
         } else {
@@ -75,6 +79,8 @@ export const ZenithMediaTableToolbar = <TData,>({
                 onSubmit={(values) => createNewZenithMedia(values)}
               />
             }
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
             title="Skapa ny media"
             trigger={
               <Button

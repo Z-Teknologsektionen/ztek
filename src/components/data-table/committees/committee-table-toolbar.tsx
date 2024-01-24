@@ -1,6 +1,7 @@
 "use client";
 
 import type { Table } from "@tanstack/react-table";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import UpsertCommitteeForm from "~/components/admin/committees/upsert-committee-form";
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
@@ -16,6 +17,7 @@ export const CommitteeTableToolbar = <TData,>({
   table,
 }: CommitteeTableToolbarProps<TData>): JSX.Element => {
   const ctx = api.useUtils();
+  const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: createNewCommittee, isLoading: creatingNewCommittee } =
     api.committee.createCommittee.useMutation({
@@ -23,10 +25,12 @@ export const CommitteeTableToolbar = <TData,>({
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: ({ name }) => {
         toast.success(`Ett nytt organ med namnet: ${name} har skapats!`);
+        setIsOpen(false);
         void ctx.committee.invalidate();
         void ctx.member.invalidate();
       },
       onError: (error) => {
+        setIsOpen(true);
         if (error.message) {
           toast.error(error.message);
         } else {
@@ -49,6 +53,8 @@ export const CommitteeTableToolbar = <TData,>({
                 onSubmit={(values) => createNewCommittee(values)}
               />
             }
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
             title="Skapa ny medlem"
             trigger={
               <Button
