@@ -42,6 +42,8 @@ export const committeeRouter = createTRPCRouter({
           email: true,
           image: true,
           electionPeriod: true,
+          link: true,
+          linkText: true,
           members: {
             where: {
               OR: [
@@ -192,39 +194,40 @@ export const committeeRouter = createTRPCRouter({
         },
       });
     }),
-  createCommittee: adminProcedure
-    .input(createCommitteeSchema)
-    .mutation(
-      ({
-        ctx,
-        input: {
+  createCommittee: adminProcedure.input(createCommitteeSchema).mutation(
+    ({
+      ctx,
+      input: {
+        description,
+        email,
+        name,
+        order,
+        role,
+        slug,
+        image,
+        electionPeriod,
+        linkObject: { link, linkText },
+      },
+    }) => {
+      return ctx.prisma.committee.create({
+        data: {
           description,
           email,
+          image,
           name,
           order,
           role,
           slug,
-          image,
           electionPeriod,
+          link,
+          linkText,
         },
-      }) => {
-        return ctx.prisma.committee.create({
-          data: {
-            description,
-            email,
-            image,
-            name,
-            order,
-            role,
-            slug,
-            electionPeriod,
-          },
-          select: {
-            name: true,
-          },
-        });
-      },
-    ),
+        select: {
+          name: true,
+        },
+      });
+    },
+  ),
   updateCommittee: adminProcedure
     .input(updateCommitteeSchema)
     .mutation(
@@ -240,6 +243,7 @@ export const committeeRouter = createTRPCRouter({
           slug,
           image,
           electionPeriod,
+          linkObject: { link, linkText } = {},
         },
       }) => {
         return ctx.prisma.committee.update({
@@ -255,6 +259,8 @@ export const committeeRouter = createTRPCRouter({
             role,
             slug,
             electionPeriod,
+            link,
+            linkText,
           },
         });
       },
