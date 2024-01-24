@@ -1,5 +1,6 @@
 import { AccountRoles } from "@prisma/client";
 import { CheckIcon } from "@radix-ui/react-icons";
+import { PopoverClose } from "@radix-ui/react-popover";
 import { PlusIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
@@ -53,6 +54,7 @@ export const MemberRolesActions = ({
       onSuccess: ({ roles }) => {
         toast.success(`Följade behörigheter har satts: ${roles.join(", ")}`);
         void ctx.user.invalidate();
+        void ctx.member.invalidate();
       },
       onError: (error) => {
         if (error.message) {
@@ -73,7 +75,7 @@ export const MemberRolesActions = ({
           <PlusIcon className="h-3 w-3" />
         </Badge>
       </PopoverTrigger>
-      <PopoverContent align="start" className="w-[200px] p-0">
+      <PopoverContent align="start" className="w-auto p-0">
         <Command>
           <CommandInput placeholder={"Sök..."} />
           <CommandList>
@@ -114,18 +116,20 @@ export const MemberRolesActions = ({
                 <div>
                   <Separator className="mx-2 my-2" orientation="horizontal" />
                   <div className="mx-auto my-2 flex items-center justify-center hover:bg-inherit">
-                    <Button
-                      className="h-6"
-                      onClick={() => {
-                        updateUser({
-                          id: userId,
-                          roles: selectedValues,
-                        });
-                      }}
-                      variant={"outline"}
-                    >
-                      Uppdatera
-                    </Button>
+                    <PopoverClose>
+                      <Button
+                        className="h-6"
+                        onClick={() => {
+                          updateUser({
+                            id: userId,
+                            roles: selectedValues,
+                          });
+                        }}
+                        variant={"outline"}
+                      >
+                        Uppdatera
+                      </Button>
+                    </PopoverClose>
                   </div>
                 </div>
               )}
