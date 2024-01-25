@@ -4,9 +4,9 @@ import type { Table } from "@tanstack/react-table";
 import toast from "react-hot-toast";
 import { UpsertDocumentForm } from "~/components/active/documents/upsert-document-form";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
+import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { api } from "~/utils/api";
-import { Button } from "../../ui/button";
 
 interface DocumentTableToolbarProps<TData> {
   table: Table<TData>;

@@ -4,8 +4,8 @@ import type { Table } from "@tanstack/react-table";
 import toast from "react-hot-toast";
 import UpsertCommitteeForm from "~/components/active/committees/upsert-committee-form";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
+import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
-import { Button } from "../../ui/button";
 
 interface CommitteeTableToolbarProps<TData> {
   table: Table<TData>;

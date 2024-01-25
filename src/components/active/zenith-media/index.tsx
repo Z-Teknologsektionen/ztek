@@ -1,8 +1,8 @@
 import type { FC } from "react";
+import { AdvancedDataTable } from "~/components/data-table/advanced-data-table";
 import RoleWrapper from "~/components/layout/RoleWrapper";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { api } from "~/utils/api";
-import { AdvancedDataTable } from "../../data-table/advanced-data-table";
 import { zenithMediaColumns } from "./zenith-media-columns";
 import { ZenithMediaTableToolbar } from "./zenith-media-table-toolbar";
 

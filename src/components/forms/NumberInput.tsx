@@ -6,8 +6,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
 import type { INumberInput } from "./form-types";
 
 export const NumberInput = <

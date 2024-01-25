@@ -3,9 +3,9 @@ import type { Table } from "@tanstack/react-table";
 import toast from "react-hot-toast";
 import { UpsertZenithMediaForm } from "~/components/active/zenith-media/upsert-zenith-media-form";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
 import { api } from "~/utils/api";
-import { Button } from "../../ui/button";
-import { Input } from "../../ui/input";
 
 interface MemberTableToolbarProps<TData> {
   table: Table<TData>;

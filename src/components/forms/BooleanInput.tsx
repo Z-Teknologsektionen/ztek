@@ -1,5 +1,5 @@
 import type { FieldValues, Path } from "react-hook-form";
-import { Checkbox } from "../ui/checkbox";
+import { Checkbox } from "~/components/ui/checkbox";
 import {
   FormControl,
   FormDescription,
@@ -7,7 +7,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
+} from "~/components/ui/form";
 import type { IBooleanInput } from "./form-types";
 
 export const BooleanInput = <

@@ -5,6 +5,8 @@ import { PlusIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
+import { Badge } from "~/components/ui/badge";
+import { Button } from "~/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -21,8 +23,6 @@ import {
 import { Separator } from "~/components/ui/separator";
 import { api } from "~/utils/api";
 import { cn } from "~/utils/utils";
-import { Badge } from "../../ui/badge";
-import { Button } from "../../ui/button";
 
 interface MemberRolesActionsProps {
   currentRoles?: AccountRoles[];

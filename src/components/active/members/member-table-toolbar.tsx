@@ -5,11 +5,11 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
 import toast from "react-hot-toast";
 import { UpsertMemberForm } from "~/components/active/members/upsert-member-form";
+import { DataTableFacetedFilter } from "~/components/data-table/data-table-faceted-filter";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
 import { api } from "~/utils/api";
-import { DataTableFacetedFilter } from "../../data-table/data-table-faceted-filter";
-import { Button } from "../../ui/button";
-import { Input } from "../../ui/input";
 
 interface MemberTableToolbarProps<TData> {
   table: Table<TData>;

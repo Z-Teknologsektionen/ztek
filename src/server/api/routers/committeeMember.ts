@@ -1,16 +1,16 @@
 import { z } from "zod";
+import { objectId } from "~/server/api/helpers/customZodTypes";
+import {
+  createMemberSchema,
+  updateMemberAsActiveSchema,
+  updateMemberSchema,
+} from "~/server/api/helpers/schemas/members";
 import {
   adminProcedure,
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { objectId } from "../helpers/customZodTypes";
-import {
-  createMemberSchema,
-  updateMemberAsActiveSchema,
-  updateMemberSchema,
-} from "../helpers/schemas/members";
 
 export const committeeMemberRouter = createTRPCRouter({
   getOneById: adminProcedure

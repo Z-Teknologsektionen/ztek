@@ -4,8 +4,8 @@ import type { Table } from "@tanstack/react-table";
 import toast from "react-hot-toast";
 import UpsertProgramBoardMemberForm from "~/components/active/program-board/upsert-program-board-form";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
+import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
-import { Button } from "../../ui/button";
 
 interface ProgramBoardTableToolbarProps<TData> {
   table: Table<TData>;
