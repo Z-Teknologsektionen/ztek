@@ -47,8 +47,8 @@ export const ProgramBoardTableToolbar = <TData,>({
               <UpsertProgramBoardMemberForm
                 key={"new"}
                 defaultValues={{}}
+                formType="create"
                 onSubmit={(values) => createNewProgramBoardMember(values)}
-                type="create"
               />
             }
             title="Skapa ny programmedlem"

@@ -69,13 +69,13 @@ export const DocumentTableActions: FC<{
             <UpsertDocumentForm
               key={id}
               defaultValues={values}
+              formType="update"
               onSubmit={({ ...rest }) =>
                 updateDocument({
                   id: id,
                   ...rest,
                 })
               }
-              type="update"
             />
           }
           title="Uppdatera dokument"

@@ -68,13 +68,13 @@ export const DocumentGroupTableActions: FC<{
             <UpsertDocumentGroupForm
               key={id}
               defaultValues={values}
+              formType="update"
               onSubmit={({ ...rest }) =>
                 updateDocumentGroup({
                   id: id,
                   ...rest,
                 })
               }
-              type="update"
             />
           }
           title="Uppdatera dokument"

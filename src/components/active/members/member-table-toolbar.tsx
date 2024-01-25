@@ -91,8 +91,8 @@ export const MemberTableToolbar = <TData,>({
               <UpsertMemberForm
                 key={"new"}
                 defaultValues={{}}
+                formType="create"
                 onSubmit={(values) => createNewUser(values)}
-                type="create"
               />
             }
             title="Skapa ny aktiv"

@@ -73,13 +73,13 @@ export const ProgramBoardMemberTableActions: FC<{
             <UpsertProgramBoardMemberForm
               key={id}
               defaultValues={values}
+              formType="update"
               onSubmit={(updatesValues) =>
                 updateProgramBoardMember({
                   id: id,
                   ...updatesValues,
                 })
               }
-              type="update"
             />
           }
           title="Uppdatera programmedlem"

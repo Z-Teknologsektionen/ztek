@@ -47,8 +47,8 @@ export const DocumentGroupTableToolbar = <TData,>({
               <UpsertDocumentGroupForm
                 key={"new"}
                 defaultValues={{}}
+                formType="create"
                 onSubmit={(values) => createNewDocumentGroup(values)}
-                type="create"
               />
             }
             title="Ny dokumentgrupp"
