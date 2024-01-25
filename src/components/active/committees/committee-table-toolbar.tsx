@@ -12,8 +12,7 @@ interface CommitteeTableToolbarProps<TData> {
 }
 
 export const CommitteeTableToolbar = <TData,>({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
-  table,
+  table: _table,
 }: CommitteeTableToolbarProps<TData>): JSX.Element => {
   const ctx = api.useUtils();
 
@@ -45,9 +44,8 @@ export const CommitteeTableToolbar = <TData,>({
             form={
               <UpsertCommitteeForm
                 key={"new"}
-                defaultValues={{}}
+                formType="create"
                 onSubmit={(values) => createNewCommittee(values)}
-                type="create"
               />
             }
             title="Skapa ny medlem"

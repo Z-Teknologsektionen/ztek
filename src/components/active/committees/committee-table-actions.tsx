@@ -27,7 +27,7 @@ export const CommitteeTableActions: FC<{
 
   const { mutate: updateCommittee } = api.committee.updateCommittee.useMutation(
     {
-      onMutate: () => toast.loading("Uppdaterar medlem..."),
+      onMutate: () => toast.loading("Uppdaterar organet..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: () => {
         toast.success(`Organet har uppdaterats!`);
@@ -74,13 +74,13 @@ export const CommitteeTableActions: FC<{
             <UpsertCommitteeForm
               key={id}
               defaultValues={values}
+              formType="update"
               onSubmit={(updatedValues) =>
                 updateCommittee({
                   id: id,
                   ...updatedValues,
                 })
               }
-              type="update"
             />
           }
           title="Uppdatera organ"

@@ -6,36 +6,31 @@ import { BasicInput } from "~/components/forms/BasicInput";
 import { ImageInput } from "~/components/forms/ImageInput";
 import { NumberInput } from "~/components/forms/NumberInput";
 import { TextAreaInput } from "~/components/forms/TextAreaInput";
+import type { IUpsertForm } from "~/components/forms/form-types";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
 import { createCommitteeSchema } from "~/server/api/helpers/schemas/committees";
 
-interface IUpsertCommitteeForm {
-  defaultValues: {
-    description?: string;
-    electionPeriod?: number;
-    email?: string;
-    image?: string;
-    order?: number;
-    role?: string;
-    slug?: string;
-  };
-  onSubmit: (props: z.infer<typeof createCommitteeSchema>) => void;
-  type: "create" | "update";
-}
+type UpsertCommitteeFormProps = IUpsertForm<typeof createCommitteeSchema>;
 
-const UpsertCommitteeForm: FC<IUpsertCommitteeForm> = ({
-  defaultValues,
+const DEFAULT_VALUES: UpsertCommitteeFormProps["defaultValues"] = {
+  electionPeriod: 1,
+  order: 0,
+  linkObject: {
+    link: "",
+    linkText: "",
+  },
+};
+
+const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
+  defaultValues = DEFAULT_VALUES,
   onSubmit,
-  type,
+  formType,
 }) => {
   const form = useForm<z.infer<typeof createCommitteeSchema>>({
     resolver: zodResolver(createCommitteeSchema),
-    defaultValues: {
-      image: "",
-      ...defaultValues,
-    },
+    defaultValues: defaultValues,
   });
 
   return (
@@ -80,7 +75,23 @@ const UpsertCommitteeForm: FC<IUpsertCommitteeForm> = ({
             min={0}
             name="order"
           />
-          <ImageInput control={form.control} label="Bild" name="image" />
+          <BasicInput
+            control={form.control}
+            description="Länk till ex organets hemsida"
+            label="Länk (valfri)"
+            name="linkObject.link"
+          />
+          <BasicInput
+            control={form.control}
+            description="Länktext till ovanstående länk"
+            label="Länktext (valfri)"
+            name="linkObject.linkText"
+          />
+          <ImageInput
+            control={form.control}
+            label="Bild (valfri)"
+            name="image"
+          />
         </div>
         <DialogFooter>
           <Button
@@ -93,7 +104,7 @@ const UpsertCommitteeForm: FC<IUpsertCommitteeForm> = ({
             Rensa
           </Button>
           <Button type="submit" variant={"default"}>
-            {type === "create" ? "Skapa" : "Uppdatera"}
+            {formType === "create" ? "Skapa" : "Uppdatera"}
           </Button>
         </DialogFooter>
       </form>
