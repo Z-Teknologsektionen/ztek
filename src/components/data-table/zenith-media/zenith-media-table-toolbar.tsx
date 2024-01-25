@@ -34,7 +34,7 @@ export const ZenithMediaTableToolbar = <TData,>({
       },
     });
 
-  const titleColumn = table.getColumn("title");
+  const titleColumn = table.getColumn("Titel");
 
   return (
     <div className="overflow-x-auto">

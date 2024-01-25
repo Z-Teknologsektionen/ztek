@@ -31,16 +31,20 @@ export const documentRouter = createTRPCRouter({
       },
     });
   }),
-  getAllGroupsAsAdmin: documentProcedure.query(({ ctx }) => {
-    return ctx.prisma.documentGroup.findMany({
+  getAllGroupsAsAdmin: documentProcedure.query(async ({ ctx }) => {
+    const groups = await ctx.prisma.documentGroup.findMany({
       select: {
         id: true,
         name: true,
         extraText: true,
-        _count: true,
+        _count: { select: { Document: true } },
         Document: true,
       },
     });
+    return groups.map(({ _count: { Document: documentCount }, ...rest }) => ({
+      documentCount,
+      ...rest,
+    }));
   }),
   getAllAsAdmin: documentProcedure.query(({ ctx }) => {
     return ctx.prisma.document.findMany({

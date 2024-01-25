@@ -8,41 +8,38 @@ type CommitteeType = RouterOutputs["committee"]["getAllAsAdmin"][0];
 
 export const columns: ColumnDef<CommitteeType>[] = [
   {
+    id: "Namn",
     accessorKey: "name",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Namn" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     filterFn: "includesString",
   },
   {
+    id: "Slug",
     accessorKey: "slug",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Slug" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     filterFn: "includesString",
   },
   {
+    id: "Har inval i LP",
     accessorKey: "electionPeriod",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Har inval i LP" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     filterFn: "inNumberRange",
   },
   {
-    accessorKey: "_count.members",
+    id: "Antal medlemmar",
+    accessorKey: "membersCount",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Antal medlemmar" />
     ),
     enableSorting: true,
     enableHiding: true,
     filterFn: "inNumberRange",
-    cell: ({ row }) => row.original.members.length,
   },
   {
     id: "actions",

@@ -156,8 +156,8 @@ export const committeeRouter = createTRPCRouter({
         },
       });
     }),
-  getAllAsAdmin: adminProcedure.query(({ ctx }) => {
-    return ctx.prisma.committee.findMany({
+  getAllAsAdmin: adminProcedure.query(async ({ ctx }) => {
+    const committees = await ctx.prisma.committee.findMany({
       select: {
         id: true,
         name: true,
@@ -167,11 +167,19 @@ export const committeeRouter = createTRPCRouter({
         image: true,
         email: true,
         description: true,
-        members: true,
         role: true,
+        _count: {
+          select: {
+            members: true,
+          },
+        },
       },
       orderBy: [{ order: "desc" }],
     });
+    return committees.map(({ _count: { members: membersCount }, ...rest }) => ({
+      membersCount,
+      ...rest,
+    }));
   }),
   getAllCommitteeNamesAsAdmin: adminProcedure.query(({ ctx }) => {
     return ctx.prisma.committee.findMany({
