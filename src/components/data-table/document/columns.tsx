@@ -8,38 +8,34 @@ type DocumentType = RouterOutputs["document"]["getAllAsAdmin"][0];
 
 export const columns: ColumnDef<DocumentType>[] = [
   {
+    id: "Titel",
     accessorKey: "title",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Titel" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     filterFn: "includesString",
   },
   {
+    id: "Grupp",
     accessorKey: "group",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Grupp" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     filterFn: "includesString",
     cell: ({ row }) => row.original.group.name,
   },
   {
+    id: "Url",
     accessorKey: "url",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Url" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     filterFn: "includesString",
   },
   {
+    id: "PDF?",
     accessorKey: "isPDF",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="PDF?" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     filterFn: (row, id, value) => {

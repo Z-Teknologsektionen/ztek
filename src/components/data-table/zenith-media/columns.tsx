@@ -9,40 +9,36 @@ export type ZenithMediaType =
 
 export const columns: ColumnDef<ZenithMediaType>[] = [
   {
+    id: "Titel",
     accessorKey: "title",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Titel" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: false,
     enableResizing: true,
     filterFn: "includesString",
   },
   {
+    id: "Url",
     accessorKey: "url",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="URL" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: false,
     enableHiding: true,
     enableResizing: true,
     filterFn: "includesString",
   },
   {
+    id: "År",
     accessorKey: "year",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="År" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
     filterFn: "inNumberRange",
   },
   {
+    id: "PDF?",
     accessorKey: "isPDF",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="PDF?" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     cell: ({ row }) => (row.original.isPDF ? "Ja" : "Nej"),
     enableSorting: true,
     enableHiding: true,
