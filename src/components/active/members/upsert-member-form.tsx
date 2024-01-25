@@ -6,55 +6,31 @@ import { BasicInput } from "~/components/forms/BasicInput";
 import { DropdownInput } from "~/components/forms/DropdownInput";
 import { ImageInput } from "~/components/forms/ImageInput";
 import { NumberInput } from "~/components/forms/NumberInput";
+import type { IUpsertForm } from "~/components/forms/form-types";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
 import { createMemberSchema } from "~/server/api/helpers/schemas/members";
 import { api } from "~/utils/api";
 
-interface IUpsertMemberForm {
-  defaultValues: {
-    committeeId?: string;
-    email?: string;
-    image?: string | undefined;
-    name?: string;
-    nickName?: string;
-    order?: number;
-    phone?: string;
-    role?: string;
-  };
-  onSubmit: (props: z.infer<typeof createMemberSchema>) => void;
-  type: "create" | "update";
-}
+type UpsertMemberFormProps = IUpsertForm<typeof createMemberSchema>;
 
-export const UpsertMemberForm: FC<IUpsertMemberForm> = ({
-  defaultValues: {
-    order = 0,
-    committeeId = undefined,
-    email = "",
-    name = undefined,
-    nickName = undefined,
-    phone = "",
-    role = "",
-    image = "",
-  },
+const DEFAULT_VALUES: UpsertMemberFormProps["defaultValues"] = {
+  order: 0,
+  email: "",
+  phone: "",
+  role: "",
+  image: "",
+};
+
+export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
+  defaultValues = DEFAULT_VALUES,
   onSubmit,
-  type,
+  formType,
 }) => {
-  const defaultValues = {
-    order,
-    committeeId,
-    email,
-    name,
-    nickName,
-    role,
-    phone,
-    image,
-  };
-
   const form = useForm<z.infer<typeof createMemberSchema>>({
     resolver: zodResolver(createMemberSchema),
-    defaultValues: defaultValues,
+    defaultValues,
   });
 
   const { data: committees } = api.committee.getAllAsAdmin.useQuery();
@@ -121,7 +97,7 @@ export const UpsertMemberForm: FC<IUpsertMemberForm> = ({
             Rensa
           </Button>
           <Button type="submit" variant={"default"}>
-            {type === "create" ? "Skapa" : "Uppdatera"}
+            {formType === "create" ? "Skapa" : "Uppdatera"}
           </Button>
         </DialogFooter>
       </form>

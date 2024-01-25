@@ -12,9 +12,15 @@ import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
 import { createZenithMediaSchema } from "~/server/api/helpers/schemas/zenith-media";
 
-export const UpsertZenithMediaForm: FC<
-  IUpsertForm<typeof createZenithMediaSchema>
-> = ({ defaultValues, onSubmit, formType }) => {
+type UpsertZenithMediaFormProps = IUpsertForm<typeof createZenithMediaSchema>;
+
+const DEFAULT_VALUES: UpsertZenithMediaFormProps["defaultValues"] = {};
+
+export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
+  defaultValues = DEFAULT_VALUES,
+  onSubmit,
+  formType,
+}) => {
   const form = useForm<z.infer<typeof createZenithMediaSchema>>({
     resolver: zodResolver(createZenithMediaSchema),
     defaultValues: defaultValues,

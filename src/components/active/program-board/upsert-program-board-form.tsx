@@ -5,34 +5,27 @@ import type { z } from "zod";
 import { BasicInput } from "~/components/forms/BasicInput";
 import { ImageInput } from "~/components/forms/ImageInput";
 import { NumberInput } from "~/components/forms/NumberInput";
+import type { IUpsertForm } from "~/components/forms/form-types";
 // import { TextInput } from "~/components/forms/textInput";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
 import { createProgramBoardMemberSchema } from "~/server/api/helpers/schemas/programBoardMembers";
 
-interface IUpsertProgramBoardMemberForm {
-  defaultValues: {
-    description?: string;
-    email?: string;
-    image?: string;
-    name?: string;
-    order?: number;
-    role?: string;
-    slug?: string;
-  };
-  onSubmit: (props: z.infer<typeof createProgramBoardMemberSchema>) => void;
-  type: "create" | "update";
-}
+type UpsertProgramBoardMemberFormProps = IUpsertForm<
+  typeof createProgramBoardMemberSchema
+>;
 
-const UpsertProgramBoardMemberForm: FC<IUpsertProgramBoardMemberForm> = ({
-  defaultValues,
-  type,
+const DEFAULT_VALUES: UpsertProgramBoardMemberFormProps["defaultValues"] = {};
+
+const UpsertProgramBoardMemberForm: FC<UpsertProgramBoardMemberFormProps> = ({
+  defaultValues = DEFAULT_VALUES,
+  formType,
   onSubmit,
 }) => {
   const form = useForm<z.infer<typeof createProgramBoardMemberSchema>>({
     resolver: zodResolver(createProgramBoardMemberSchema),
-    defaultValues: defaultValues,
+    defaultValues,
   });
 
   return (
@@ -91,7 +84,7 @@ const UpsertProgramBoardMemberForm: FC<IUpsertProgramBoardMemberForm> = ({
           </Button>
 
           <Button type="submit" variant={"default"}>
-            {type === "create" ? "Skapa" : "Uppdatera"}
+            {formType === "create" ? "Skapa" : "Uppdatera"}
           </Button>
         </DialogFooter>
       </form>

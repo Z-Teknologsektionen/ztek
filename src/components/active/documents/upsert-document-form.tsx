@@ -5,44 +5,27 @@ import type { z } from "zod";
 import { BasicInput } from "~/components/forms/BasicInput";
 import { BooleanInput } from "~/components/forms/BooleanInput";
 import { DropdownInput } from "~/components/forms/DropdownInput";
+import type { IUpsertForm } from "~/components/forms/form-types";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
 import { createDocumentSchema } from "~/server/api/helpers/schemas/documents";
-
 import { api } from "~/utils/api";
 
-interface IUpsertDocumentForm {
-  defaultValues: {
-    groupId?: string;
-    isPDF?: boolean;
-    title?: string;
-    url?: string;
-  };
-  onSubmit: (props: z.infer<typeof createDocumentSchema>) => void;
-  type: "create" | "update";
-}
+type UpsertDocumentFormProps = IUpsertForm<typeof createDocumentSchema>;
 
-export const UpsertDocumentForm: FC<IUpsertDocumentForm> = ({
-  defaultValues: {
-    groupId = undefined,
-    isPDF = true,
-    title = undefined,
-    url = undefined,
-  },
+const DEFAULT_VALUES: UpsertDocumentFormProps["defaultValues"] = {
+  isPDF: true,
+};
+
+export const UpsertDocumentForm: FC<UpsertDocumentFormProps> = ({
+  defaultValues = DEFAULT_VALUES,
   onSubmit,
-  type,
+  formType,
 }) => {
-  const defaultValues = {
-    groupId,
-    isPDF,
-    title,
-    url,
-  };
-
   const form = useForm<z.infer<typeof createDocumentSchema>>({
     resolver: zodResolver(createDocumentSchema),
-    defaultValues: defaultValues,
+    defaultValues,
   });
 
   const { data: documentsGroups } = api.document.getAllGroupsAsAdmin.useQuery();
@@ -85,7 +68,7 @@ export const UpsertDocumentForm: FC<IUpsertDocumentForm> = ({
             Rensa
           </Button>
           <Button type="submit" variant={"default"}>
-            {type === "create" ? "Skapa" : "Uppdatera"}
+            {formType === "create" ? "Skapa" : "Uppdatera"}
           </Button>
         </DialogFooter>
       </form>

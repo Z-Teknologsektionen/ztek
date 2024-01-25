@@ -3,33 +3,29 @@ import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { BasicInput } from "~/components/forms/BasicInput";
+import type { IUpsertForm } from "~/components/forms/form-types";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
 import { createDocumentGroupSchema } from "~/server/api/helpers/schemas/documents";
 
-interface IUpsertDocumentGroupForm {
-  defaultValues: {
-    extraText?: string;
-    name?: string;
-  };
-  onSubmit: (props: z.infer<typeof createDocumentGroupSchema>) => void;
-  type: "create" | "update";
-}
+type UpsertDocumentGroupFormProps = IUpsertForm<
+  typeof createDocumentGroupSchema
+>;
 
-export const UpsertDocumentGroupForm: FC<IUpsertDocumentGroupForm> = ({
-  defaultValues: { extraText = undefined, name = undefined },
+const DEFAULT_VALUES: UpsertDocumentGroupFormProps["defaultValues"] = {
+  extraText: undefined,
+  name: undefined,
+};
+
+export const UpsertDocumentGroupForm: FC<UpsertDocumentGroupFormProps> = ({
+  defaultValues = DEFAULT_VALUES,
   onSubmit,
-  type,
+  formType,
 }) => {
-  const defaultValues = {
-    extraText,
-    name,
-  };
-
   const form = useForm<z.infer<typeof createDocumentGroupSchema>>({
     resolver: zodResolver(createDocumentGroupSchema),
-    defaultValues: defaultValues,
+    defaultValues,
   });
 
   return (
@@ -55,7 +51,7 @@ export const UpsertDocumentGroupForm: FC<IUpsertDocumentGroupForm> = ({
             Rensa
           </Button>
           <Button type="submit" variant={"default"}>
-            {type === "create" ? "Skapa" : "Uppdatera"}
+            {formType === "create" ? "Skapa" : "Uppdatera"}
           </Button>
         </DialogFooter>
       </form>
