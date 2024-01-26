@@ -4,7 +4,7 @@ import { DataTableColumnHeader } from "../data-table-column-header";
 import { DataTableViewOptions } from "../data-table-view-options";
 import { DocumentTableActions } from "./document-table-actions";
 
-type DocumentType = RouterOutputs["document"]["getAllAsAdmin"][0];
+export type DocumentType = RouterOutputs["document"]["getAllAsAdmin"][0];
 
 export const columns: ColumnDef<DocumentType>[] = [
   {
@@ -17,12 +17,11 @@ export const columns: ColumnDef<DocumentType>[] = [
   },
   {
     id: "Grupp",
-    accessorKey: "group",
+    accessorKey: "groupName",
     header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     filterFn: "includesString",
-    cell: ({ row }) => row.original.group.name,
   },
   {
     id: "Url",

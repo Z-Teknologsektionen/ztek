@@ -46,9 +46,6 @@ export const columns: ColumnDef<CommitteeMemberType>[] = [
     enableHiding: true,
     enableResizing: true,
     filterFn: "includesStringSensitive",
-    cell: ({ row }) => {
-      return row.original.committeeName;
-    },
   },
   {
     id: "Post",

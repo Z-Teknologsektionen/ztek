@@ -46,22 +46,27 @@ export const documentRouter = createTRPCRouter({
       ...rest,
     }));
   }),
-  getAllAsAdmin: documentProcedure.query(({ ctx }) => {
-    return ctx.prisma.document.findMany({
+  getAllAsAdmin: documentProcedure.query(async ({ ctx }) => {
+    const documents = ctx.prisma.document.findMany({
       select: {
         group: {
           select: {
             name: true,
           },
         },
-        groupId: true,
         id: true,
         isPDF: true,
         title: true,
         url: true,
+        groupId: true,
       },
     });
+    return (await documents).map(({ group: { name: groupName }, ...rest }) => ({
+      groupName,
+      ...rest,
+    }));
   }),
+
   getOne: documentProcedure
     .input(
       z.object({
