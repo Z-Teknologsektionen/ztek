@@ -61,20 +61,20 @@ const courseData = {
     "Läsperiod 1": [
       ["Introduktion till maskininlärning", 6, false],
       ["Systemkonstruktion", 9, false],
-      ["Valbar kurs", 7, false],
+      ["Valbar kurs", 7.5, false],
     ],
     "Läsperiod 2": [
       ["Introduktion till maskininlärning", 6, true],
       ["Systemkonstruktion", 9, true],
-      ["Valbar kurs", 7, false],
+      ["Valbar kurs", 7.5, false],
     ],
     "Läsperiod 3": [
-      ["Valbar kurs", 7, false],
-      ["Kandidatarbete", 7, false],
+      ["Valbar kurs", 7.5, false],
+      ["Kandidatarbete", 7.5, false],
     ],
     "Läsperiod 4": [
-      ["Valbar kurs", 7, false],
-      ["Kandidatarbete", 7, true],
+      ["Valbar kurs", 7.5, false],
+      ["Kandidatarbete", 7.5, true],
     ],
   },
 };
@@ -269,7 +269,7 @@ const NewStudent: NextPage = () => {
             en stark teknisk grund för framtida studier och en karriär inom
             automations- och mekatroniksektorn.
           </p>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {Object.entries(courseData).map(([year, periods], yearIndex) => (
               <div key={yearIndex} className="rounded border p-4 shadow">
                 <h2 className="mb-2 text-center text-xl font-bold ">{year}</h2>
