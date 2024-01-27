@@ -53,9 +53,7 @@ const BusinessPage: NextPage = () => {
                 width={4000}
               />
               <div className="mt-2 text-center">
-                <p>
-                  <strong>Casper Lundberg</strong> /zFoto
-                </p>
+                <p>Foto: Casper Lundberg/zFoto</p>
               </div>
             </div>
           </div>
