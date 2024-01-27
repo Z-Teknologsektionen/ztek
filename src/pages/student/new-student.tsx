@@ -12,6 +12,73 @@ const sixHp = <span className="font-bold"> [6HP]</span>;
 const sevenHp = <span className="font-bold"> [7.5HP]</span>;
 const nineHp = <span className="font-bold"> [9HP]</span>;
 
+const courseData = {
+  "Årskurs 1": {
+    "Läsperiod 1": [
+      ["Inledande matematik", 6, false],
+      ["Inledande programmering", 6, false],
+      ["Introduktion till automation och mekatronik", 6, false],
+    ],
+    "Läsperiod 2": [
+      ["Matematisk analys i en variabel", 6, false],
+      ["Elektriska kretsar", 6, false],
+      ["Introduktion till automation och mekatronik", 6, true],
+    ],
+    "Läsperiod 3": [
+      ["Linjär algebra", 6, false],
+      ["Mekanik 1", 6, false],
+      ["Grundläggande datorteknik", 6, false],
+    ],
+    "Läsperiod 4": [
+      ["Matematisk analys i flera variabler", 6, false],
+      ["Maskinorienterad programmering", 6, false],
+      ["Grundläggande datorteknik", 6, true],
+    ],
+  },
+  "Årskurs 2": {
+    "Läsperiod 1": [
+      ["Matematisk statistik", 6, false],
+      ["Mekanik 2", 6, false],
+      ["Intelligent automation", 6, false],
+    ],
+    "Läsperiod 2": [
+      ["Datastruktuer och algoritmer", 6, false],
+      ["Mätteknik", 6, false],
+      ["Intelligent automation", 6, true],
+    ],
+    "Läsperiod 3": [
+      ["Elektriska drivsystem och fält", 6, false],
+      ["Signaler och system", 6, false],
+      ["Simulering och optimering av hållbara produktionssystem", 6, false],
+    ],
+    "Läsperiod 4": [
+      ["Ekonomi och organisation", 6, false],
+      ["Reglerteknik", 6, false],
+      ["Simulering och optimering av hållbara produktionssystem", 6, true],
+    ],
+  },
+  "Årskurs 3": {
+    "Läsperiod 1": [
+      ["Introduktion till maskininlärning", 6, false],
+      ["Systemkonstruktion", 9, false],
+      ["Valbar kurs", 7, false],
+    ],
+    "Läsperiod 2": [
+      ["Introduktion till maskininlärning", 6, true],
+      ["Systemkonstruktion", 9, true],
+      ["Valbar kurs", 7, false],
+    ],
+    "Läsperiod 3": [
+      ["Valbar kurs", 7, false],
+      ["Kandidatarbete", 7, false],
+    ],
+    "Läsperiod 4": [
+      ["Valbar kurs", 7, false],
+      ["Kandidatarbete", 7, true],
+    ],
+  },
+};
+
 const PROGRAMANSVARIG_KEY = "Programansvarig";
 
 const NewStudent: NextPage = () => {
@@ -202,6 +269,42 @@ const NewStudent: NextPage = () => {
             en stark teknisk grund för framtida studier och en karriär inom
             automations- och mekatroniksektorn.
           </p>
+          <div className="grid grid-cols-3 gap-4">
+            {Object.entries(courseData).map(([year, periods], yearIndex) => (
+              <div key={yearIndex} className="rounded border p-4 shadow">
+                <h2 className="mb-2 text-center text-xl font-bold ">{year}</h2>
+                {Object.entries(periods).map(
+                  ([period, courses], periodIndex) => (
+                    <div key={periodIndex} className="mb-4">
+                      <h3 className="mb-1 border-b border-gray-400 text-lg font-semibold">
+                        {period}
+                      </h3>
+                      {courses.map(
+                        ([courseName, points, followUp], courseIndex) => (
+                          <div
+                            key={courseIndex}
+                            className="mb-1 flex items-center justify-between"
+                          >
+                            <p className="font-medium">{courseName}</p>
+                            <div className="flex items-center">
+                              <p className="mr-2 text-sm text-gray-600">
+                                {points} HP
+                              </p>
+                              {followUp && (
+                                <em className="text-xs text-red-500">
+                                  Fortsättning
+                                </em>
+                              )}
+                            </div>
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  ),
+                )}
+              </div>
+            ))}
+          </div>
           <div className="hidden lg:block">
             <div className="flex items-center justify-center">
               <div className="margin-100 grid grid-cols-3 gap-1 gap-x-10 p-10 shadow-md">
