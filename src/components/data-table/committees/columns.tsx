@@ -45,6 +45,24 @@ export const columns: ColumnDef<CommitteeType>[] = [
     cell: ({ row }) => row.original.members.length,
   },
   {
+    accessorKey: "link",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Länk" />
+    ),
+    enableSorting: true,
+    enableHiding: true,
+    filterFn: "includesString",
+  },
+  {
+    accessorKey: "linkText",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Länktext" />
+    ),
+    enableSorting: true,
+    enableHiding: true,
+    filterFn: "includesString",
+  },
+  {
     id: "actions",
     enableSorting: false,
     enableHiding: false,
