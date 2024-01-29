@@ -1,18 +1,14 @@
-import { signIn, useSession } from "next-auth/react";
 import type { FC } from "react";
 import { UpdateCommitteeWizard } from "~/components/committees/UpdateCommitteeWizard";
 import { UpdateUserWizard } from "~/components/committees/UpdateUserWizard";
-import HeadLayout from "~/components/layout/HeadLayout";
 import RoleWrapper from "~/components/layout/RoleWrapper";
 import SectionWrapper from "~/components/layout/SectionWrapper";
+import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
 import SectionTitle from "../layout/SectionTitle";
 
 const EditCommitteePage: FC = () => {
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated: () => void signIn("google"),
-  });
+  const { data: session } = useRequireAuth();
   const userEmail = session?.user.email;
   const { data: committee, refetch: refetchCommittee } =
     api.committee.getOneByEmail.useQuery({
@@ -21,7 +17,6 @@ const EditCommitteePage: FC = () => {
 
   return (
     <RoleWrapper accountRole={undefined}>
-      <HeadLayout title="Redigera medlemmar"></HeadLayout>
       <main>
         {session && !committee && (
           <SectionWrapper>
@@ -29,7 +24,7 @@ const EditCommitteePage: FC = () => {
             Webbgruppen har inte lagt till dig som medlem i någon kommitté än.
             Kontakta dem för att få tillgång till denna sida.
             <br />
-            Se till att vara inloggad med din postspecifika mail on inte hela
+            Se till att vara inloggad med din postspecifika mail och inte hela
             organets mail.
           </SectionWrapper>
         )}
