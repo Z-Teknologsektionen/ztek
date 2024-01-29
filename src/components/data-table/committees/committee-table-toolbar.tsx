@@ -45,9 +45,8 @@ export const CommitteeTableToolbar = <TData,>({
             form={
               <UpsertCommitteeForm
                 key={"new"}
-                defaultValues={{}}
+                formType="create"
                 onSubmit={(values) => createNewCommittee(values)}
-                type="create"
               />
             }
             title="Skapa ny medlem"

@@ -1,9 +1,9 @@
 import { MoreHorizontal } from "lucide-react";
 import type { FC } from "react";
 import toast from "react-hot-toast";
-import UpsertCommitteeForm from "~/components/admin/committees/upsert-committee-form";
 import DeleteDialog from "~/components/admin/delete-dialog";
 import { UpsertDialog } from "~/components/admin/upsert-dialog";
+import { UpsertZenithMediaForm } from "~/components/admin/zenith-media/upsert-zenith-media-form";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -12,37 +12,37 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { api } from "~/utils/api";
-import type { CommitteeType } from "./columns";
+import type { ZenithMediaType } from "./columns";
 
-export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
+export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
+  id,
+  ...values
+}) => {
   const ctx = api.useUtils();
 
-  const { mutate: updateCommittee } = api.committee.updateCommittee.useMutation(
-    {
-      onMutate: () => toast.loading("Uppdaterar organet..."),
-      onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-      onSuccess: () => {
-        toast.success(`Organet har uppdaterats!`);
-        void ctx.committee.invalidate();
-      },
-      onError: (error) => {
-        if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("Något gick fel. Försök igen senare");
-        }
-      },
+  const { mutate: updateZenithMedia } = api.zenithMedia.updateOne.useMutation({
+    onMutate: () => toast.loading("Uppdaterar media..."),
+    onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
+    onSuccess: () => {
+      toast.success("Median har uppdaterats!");
+      void ctx.zenithMedia.invalidate();
     },
-  );
+    onError: (error) => {
+      if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error("Något gick fel. Försök igen senare");
+      }
+    },
+  });
 
-  const { mutate: deleteMember } = api.committee.deleteCommittee.useMutation({
-    onMutate: () => toast.loading("Raderar medlem..."),
+  const { mutate: deleteZenithMedia } = api.zenithMedia.deleteOne.useMutation({
+    onMutate: () => toast.loading("Raderar media..."),
     onSettled: (_c, _d, _e, toastId) => {
       toast.remove(toastId);
-      void ctx.member.invalidate();
-      void ctx.committee.invalidate();
+      void ctx.zenithMedia.invalidate();
     },
-    onSuccess: () => toast.success("Medlem har raderats!"),
+    onSuccess: () => toast.success("Median har raderats!"),
     onError: (error) => {
       if (error.message) {
         toast.error(error.message);
@@ -63,25 +63,19 @@ export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
       <DropdownMenuContent align="end">
         <UpsertDialog
           form={
-            <UpsertCommitteeForm
+            <UpsertZenithMediaForm
               key={id}
-              defaultValues={{
-                ...values,
-                linkObject: {
-                  link: values.link,
-                  linkText: values.linkText,
-                },
-              }}
+              defaultValues={values}
               formType="update"
-              onSubmit={(updatedValues) =>
-                updateCommittee({
+              onSubmit={({ ...rest }) =>
+                updateZenithMedia({
                   id: id,
-                  ...updatedValues,
+                  ...rest,
                 })
               }
             />
           }
-          title="Uppdatera organ"
+          title="Uppdatera media"
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               Redigera
@@ -89,7 +83,7 @@ export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
           }
         />
         <DeleteDialog
-          onSubmit={() => deleteMember({ id })}
+          onSubmit={() => deleteZenithMedia({ id })}
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               Radera

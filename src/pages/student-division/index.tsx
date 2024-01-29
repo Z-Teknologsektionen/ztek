@@ -159,22 +159,19 @@ const StudentDivision: NextPage = () => {
           <div className="grid grid-cols-3">
             <div className="order-last col-span-3 mt-2 lg:order-first lg:col-span-1">
               <div className="mr-2 grid grid-cols-4">
-                {documentIsLoading && <p>Läser in dokument...</p>}
-                {documentIsError && <p>Dokument kunde inte hämtas.</p>}
-                {documentData &&
-                  documentData.Document.map((doc) => (
-                    <div
-                      key={doc.title}
-                      className="col-span-1 mx-2 mb-2 overflow-hidden"
-                      style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
-                    >
-                      <Image
-                        alt="Sektionens uppbyggnad"
-                        height={100}
-                        src="/document_stack.svg"
-                        width={100}
-                      />
-                      <TooltipProvider>
+                <TooltipProvider>
+                  {documentIsLoading && <p>Läser in dokument...</p>}
+                  {documentIsError && <p>Dokument kunde inte hämtas.</p>}
+                  {documentData &&
+                    documentData.Document.map((doc) => (
+                      <div
+                        key={doc.title}
+                        className="col-span-1 mx-2 mb-2 overflow-hidden"
+                        style={{
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Link
@@ -182,6 +179,12 @@ const StudentDivision: NextPage = () => {
                               href={doc.url}
                               target="_blank"
                             >
+                              <Image
+                                alt="Sektionens uppbyggnad"
+                                height={100}
+                                src="/document_stack.svg"
+                                width={100}
+                              />
                               {doc.title}
                             </Link>
                           </TooltipTrigger>
@@ -189,9 +192,9 @@ const StudentDivision: NextPage = () => {
                             <p>{doc.title}</p>
                           </TooltipContent>
                         </Tooltip>
-                      </TooltipProvider>
-                    </div>
-                  ))}
+                      </div>
+                    ))}
+                </TooltipProvider>
               </div>
             </div>
             <div className="order-first col-span-3 lg:order-last lg:col-span-2">

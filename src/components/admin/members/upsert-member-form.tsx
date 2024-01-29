@@ -108,12 +108,7 @@ export const UpsertMemberForm: FC<IUpsertMemberForm> = ({
             name="phone"
             type="tel"
           />
-          <ImageInput
-            control={form.control}
-            defaultImage={defaultValues.image}
-            label="Bild"
-            name="image"
-          />
+          <ImageInput control={form.control} label="Bild" name="image" />
         </div>
         <DialogFooter>
           <Button

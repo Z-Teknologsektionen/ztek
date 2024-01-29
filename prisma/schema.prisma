@@ -22,6 +22,8 @@ model Committee {
     email          String @unique
     order          Int
     electionPeriod Int    @default(1)
+    link           String @default("")
+    linkText       String @default("")
 
     members CommitteeMember[]
 
@@ -45,6 +47,19 @@ model CommitteeMember {
     committee Committee @relation(fields: [committeeId], references: [id], onDelete: Restrict)
     user      User?     @relation(fields: [userId], references: [id])
 
+    updatedAt DateTime @updatedAt
+}
+
+model ZenithMedia {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    title String
+    year  Int
+    url   String  @unique
+    isPDF Boolean
+    image String
+
+    createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
@@ -128,8 +143,9 @@ enum AccountRoles {
     CREATE_POST
     MODIFY_ROLES
     MODIFY_DOCUMENTS
-    ADMIN
     MODIFY_PROGRAM_BOARD
+    MODIFY_ZENITH_MEDIA
+    ADMIN
 }
 
 model VerificationToken {
