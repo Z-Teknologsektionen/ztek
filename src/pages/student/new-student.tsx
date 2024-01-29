@@ -14,10 +14,6 @@ import {
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 
-const sixHp = <span className="font-bold"> [6HP]</span>;
-const sevenHp = <span className="font-bold"> [7.5HP]</span>;
-const nineHp = <span className="font-bold"> [9HP]</span>;
-
 const courseData = {
   "Årskurs 1": {
     "Läsperiod 1": [
