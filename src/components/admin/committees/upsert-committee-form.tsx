@@ -21,6 +21,7 @@ const DEFAULT_VALUES: UpsertCommitteeFormProps["defaultValues"] = {
     link: "",
     linkText: "",
   },
+  image: "",
 };
 
 const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
