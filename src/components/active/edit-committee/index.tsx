@@ -1,4 +1,3 @@
-import { signIn, useSession } from "next-auth/react";
 import type { FC } from "react";
 import { UpdateCommitteeWizard } from "~/components/committees/UpdateCommitteeWizard";
 import { UpdateUserWizard } from "~/components/committees/UpdateUserWizard";
@@ -6,13 +5,11 @@ import HeadLayout from "~/components/layout/HeadLayout";
 import RoleWrapper from "~/components/layout/RoleWrapper";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
+import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
 
 const EditCommitteePage: FC = () => {
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated: () => void signIn("google"),
-  });
+  const { data: session } = useRequireAuth();
   const userEmail = session?.user.email;
   const { data: committee, refetch: refetchCommittee } =
     api.committee.getOneByEmail.useQuery({
