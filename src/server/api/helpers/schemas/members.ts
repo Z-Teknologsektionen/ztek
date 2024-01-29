@@ -6,7 +6,7 @@ import {
   objectId,
   orderNumber,
   phoneNumberOrEmptyString,
-} from "../customZodTypes";
+} from "~/server/api/helpers/customZodTypes";
 
 export const upsertMemberBaseSchema = z.object({
   name: z.string().optional(),

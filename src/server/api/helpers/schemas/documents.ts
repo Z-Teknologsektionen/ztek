@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { nonEmptyString, objectId } from "../customZodTypes";
+import { nonEmptyString, objectId } from "~/server/api/helpers/customZodTypes";
 
 export const createDocumentSchema = z.object({
   title: nonEmptyString,
