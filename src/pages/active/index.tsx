@@ -1,13 +1,14 @@
 import { AccountRoles } from "@prisma/client";
 import { TabsContent } from "@radix-ui/react-tabs";
 import type { NextPage } from "next";
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import TabInformationSection from "~/components/active/tab-information-section";
 import RoleWrapper from "~/components/layout/RoleWrapper";
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { activeTabs } from "~/data/activeTabs";
+import { useRequireAuth } from "~/hooks/useRequireAuth";
 
 const AdminHomePage: NextPage = () => {
   const [selectedTab, setSelectedTab] = useState<string | undefined>(() => {
@@ -23,7 +24,8 @@ const AdminHomePage: NextPage = () => {
     }
   }, [selectedTab]);
 
-  const { data: session } = useSession({ required: true });
+  const { data: session } = useRequireAuth();
+
   if (!session) return null;
   const { user } = session;
 
@@ -84,6 +86,13 @@ const AdminHomePage: NextPage = () => {
         {activeTabs.map((tab) => {
           return (
             <TabsContent key={tab.name} value={tab.name}>
+              {tab.name !== "Start" && (
+                <TabInformationSection
+                  description={tab.desc}
+                  instructions={tab.instructions}
+                  title={tab.name}
+                />
+              )}
               <tab.component />
             </TabsContent>
           );
