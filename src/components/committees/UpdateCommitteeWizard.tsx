@@ -78,7 +78,7 @@ export const UpdateCommitteeWizard: FC<IUpdateCommitteeWizard> = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <div className="flex w-72 gap-2">
+                      <div className="mt-4 flex w-72 gap-2">
                         <Input
                           {...field}
                           accept="image/png, image/jpeg"
