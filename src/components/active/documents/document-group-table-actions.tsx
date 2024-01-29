@@ -31,7 +31,6 @@ export const DocumentGroupTableActions: FC<{
         void ctx.committee.invalidate();
       },
       onError: (error) => {
-        setIsOpen(true);
         if (error.message) {
           toast.error(error.message);
         } else {

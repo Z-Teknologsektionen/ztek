@@ -30,7 +30,6 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
       void ctx.zenithMedia.invalidate();
     },
     onError: (error) => {
-      setIsOpen(true);
       if (error.message) {
         toast.error(error.message);
       } else {

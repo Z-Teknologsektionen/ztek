@@ -36,7 +36,6 @@ export const ProgramBoardMemberTableActions: FC<{
         void ctx.programBoard.invalidate();
       },
       onError: (error) => {
-        setIsOpen(true);
         if (error.message) {
           toast.error(error.message);
         } else {

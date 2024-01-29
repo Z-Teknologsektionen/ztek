@@ -29,7 +29,6 @@ export const CommitteeTableToolbar = <TData,>({
         void ctx.member.invalidate();
       },
       onError: (error) => {
-        setIsOpen(true);
         if (error.message) {
           toast.error(error.message);
         } else {

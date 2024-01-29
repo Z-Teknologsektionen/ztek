@@ -31,7 +31,6 @@ export const DocumentGroupTableToolbar = <TData,>({
       void ctx.document.invalidate();
     },
     onError: (error) => {
-      setIsOpen(true);
       if (error.message) {
         toast.error(error.message);
       } else {

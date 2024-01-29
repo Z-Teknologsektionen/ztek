@@ -29,7 +29,6 @@ export const ZenithMediaTableToolbar = <TData,>({
         void ctx.zenithMedia.invalidate();
       },
       onError: (error) => {
-        setIsOpen(false);
         if (error.message) {
           toast.error(error.message);
         } else {

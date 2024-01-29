@@ -31,13 +31,12 @@ export const MemberTableToolbar = <TData,>({
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: ({ name: userName, committee: { name: committeeName } }) => {
         toast.success(`${userName} i ${committeeName} har skapats!`);
-        setIsOpen(true);
+        setIsOpen(false);
         void ctx.committee.invalidate();
         void ctx.member.invalidate();
         void ctx.user.invalidate();
       },
       onError: (error) => {
-        setIsOpen(true);
         if (error.message) {
           toast.error(error.message);
         } else {

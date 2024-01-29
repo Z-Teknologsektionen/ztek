@@ -28,7 +28,6 @@ export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
         void ctx.committee.invalidate();
       },
       onError: (error) => {
-        setIsOpen(true);
         if (error.message) {
           toast.error(error.message);
         } else {
