@@ -223,7 +223,7 @@ const StudentPage: NextPage = () => {
                 alt="image"
                 className="rounded"
                 height={250}
-                src="/SNZArm-07.png"
+                src="/SNZ.png"
                 width={250}
               />
               <div className="mt-0 text-center">

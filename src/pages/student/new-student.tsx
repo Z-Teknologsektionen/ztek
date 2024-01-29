@@ -177,9 +177,7 @@ const NewStudent: NextPage = () => {
                 width={400}
               />
               <div className="mt-2 text-center">
-                <p>
-                  <strong>Dennis Holmström</strong> /zFoto
-                </p>
+                <p>Foto: Dennis Holmström/zFoto</p>
               </div>
             </div>
           </div>
