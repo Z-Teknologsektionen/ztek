@@ -7,15 +7,10 @@ import { DataTableViewOptions } from "../data-table-view-options";
 import { MemberRolesActions } from "./member-roles-actions";
 import { CommitteeMemberTableActions } from "./member-table-actions";
 
-type CommitteeMember = RouterOutputs["member"]["getCommitteeMembersAsAdmin"][0];
+type CommitteeMemberType =
+  RouterOutputs["member"]["getCommitteeMembersAsAdmin"][0];
 
-type User = RouterOutputs["user"]["getAllUserRolesAsAdmin"][0];
-type CommitteeMemberUser = CommitteeMember & {
-  roles: User["roles"] | undefined;
-  userId: User["id"] | undefined;
-};
-
-export const columns: ColumnDef<CommitteeMemberUser>[] = [
+export const columns: ColumnDef<CommitteeMemberType>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -47,19 +42,16 @@ export const columns: ColumnDef<CommitteeMemberUser>[] = [
     filterFn: "includesString",
   },
   {
-    accessorKey: "committee.name",
+    accessorKey: "committeeName",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Kommitté" />
     ),
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
-    filterFn: (row, id, value) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      return value.includes(row.getValue(id));
-    },
+    filterFn: "includesStringSensitive",
     cell: ({ row }) => {
-      return row.original.committee.name;
+      return row.original.committeeName;
     },
   },
   {
@@ -73,7 +65,7 @@ export const columns: ColumnDef<CommitteeMemberUser>[] = [
     filterFn: "includesString",
   },
   {
-    accessorKey: "roles",
+    accessorKey: "userRoles",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Behörigheter" />
     ),
@@ -82,7 +74,8 @@ export const columns: ColumnDef<CommitteeMemberUser>[] = [
     enableResizing: true,
     filterFn: "arrIncludesSome",
     cell: ({ row }) => {
-      if (row.original.userId === undefined) {
+      const member = row.original;
+      if (member.userId === null || member.userRoles === undefined) {
         return (
           <Badge className="text-center" variant="outline">
             Inget konto
@@ -90,13 +83,13 @@ export const columns: ColumnDef<CommitteeMemberUser>[] = [
         );
       }
       return (
-        <div className="space-x-1 space-y-1">
+        <div className="flex gap-1">
           <MemberRolesActions
-            currentRoles={row.original.roles}
-            userId={row.original.userId}
+            currentRoles={member.userRoles}
+            userId={member.userId}
           />
-          {(row.original.roles?.length ?? 0) < 3 ? (
-            row.original.roles?.map((role) => (
+          {member.userRoles.length < 3 ? (
+            member.userRoles.map((role) => (
               <Badge
                 key={role}
                 variant={
@@ -109,12 +102,12 @@ export const columns: ColumnDef<CommitteeMemberUser>[] = [
           ) : (
             <Badge
               variant={
-                row.original.roles?.includes(AccountRoles.ADMIN)
+                member.userRoles.includes(AccountRoles.ADMIN)
                   ? "destructive"
                   : "outline"
               }
             >
-              {row.original.roles?.length} roller
+              {member.userRoles.length} roller
             </Badge>
           )}
         </div>

@@ -12,22 +12,14 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { api } from "~/utils/api";
+import type { CommitteeType } from "./columns";
 
-export const CommitteeTableActions: FC<{
-  description: string;
-  electionPeriod: number;
-  email: string;
-  id: string;
-  image: string;
-  order: number;
-  role: string;
-  slug: string;
-}> = ({ id, ...values }) => {
+export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
   const ctx = api.useUtils();
 
   const { mutate: updateCommittee } = api.committee.updateCommittee.useMutation(
     {
-      onMutate: () => toast.loading("Uppdaterar medlem..."),
+      onMutate: () => toast.loading("Uppdaterar organet..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: () => {
         toast.success(`Organet har uppdaterats!`);
@@ -73,14 +65,20 @@ export const CommitteeTableActions: FC<{
           form={
             <UpsertCommitteeForm
               key={id}
-              defaultValues={values}
+              defaultValues={{
+                ...values,
+                linkObject: {
+                  link: values.link,
+                  linkText: values.linkText,
+                },
+              }}
+              formType="update"
               onSubmit={(updatedValues) =>
                 updateCommittee({
                   id: id,
                   ...updatedValues,
                 })
               }
-              type="update"
             />
           }
           title="Uppdatera organ"

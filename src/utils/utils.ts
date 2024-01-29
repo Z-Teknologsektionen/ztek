@@ -9,6 +9,9 @@ export function cn(...inputs: ClassValue[]): string {
 
 export const getBase64WebPStringFromFileInput = async (
   e: ChangeEvent<HTMLInputElement>,
+  maxHeight: number = 300,
+  maxWeight: number = 300,
+  quality: number = 95,
 ): Promise<string> => {
   const file = e.target?.files?.[0];
   if (!file) return "";
@@ -16,18 +19,16 @@ export const getBase64WebPStringFromFileInput = async (
   const image: string = await new Promise((resolve) => {
     FileResizer.imageFileResizer(
       file,
-      300,
-      300,
+      maxHeight,
+      maxWeight,
       "WEBP",
-      100,
+      quality,
       0,
       (uri) => {
         // eslint-disable-next-line @typescript-eslint/no-base-to-string
         resolve(uri.toString());
       },
       "base64",
-      300,
-      300,
     );
   });
 

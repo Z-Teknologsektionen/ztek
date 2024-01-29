@@ -71,7 +71,18 @@ const authOptions: NextAuthOptions = {
           email: token.email,
         },
       };
-      return session;
+    },
+  },
+  events: {
+    createUser: async ({ user }) => {
+      await prisma.committeeMember.updateMany({
+        where: {
+          email: user.email,
+        },
+        data: {
+          userId: user.id,
+        },
+      });
     },
   },
   secret: env.NEXTAUTH_SECRET,

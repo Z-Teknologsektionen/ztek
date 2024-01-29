@@ -5,9 +5,9 @@ import { DataTableColumnHeader } from "../data-table-column-header";
 import { DataTableViewOptions } from "../data-table-view-options";
 import { ProgramBoardMemberTableActions } from "./program-board-table-actions";
 
-type programBoard = RouterOutputs["programBoard"]["getAllAsAdmin"][0];
+type ProgramBoardType = RouterOutputs["programBoard"]["getAllAsAdmin"][0];
 
-export const columns: ColumnDef<programBoard>[] = [
+export const columns: ColumnDef<ProgramBoardType>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (

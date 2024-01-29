@@ -167,6 +167,7 @@ const enforceUserHasRoleOrAdmin = (role: AccountRoles) =>
   });
 
 export const adminProcedure = t.procedure.use(enforceUserIsAdmin);
+
 export const programBoardProcedure = t.procedure.use(
   enforceUserHasRoleOrAdmin(AccountRoles.MODIFY_PROGRAM_BOARD),
 );
@@ -174,6 +175,7 @@ export const programBoardProcedure = t.procedure.use(
 export const documentProcedure = t.procedure.use(
   enforceUserHasRoleOrAdmin(AccountRoles.MODIFY_DOCUMENTS),
 );
-export const zaloonenProcedure = t.procedure.use(
-  enforceUserHasRoleOrAdmin("MODIFY_DOCUMENTS"),
+
+export const zenithMediaProcedure = t.procedure.use(
+  enforceUserHasRoleOrAdmin(AccountRoles.MODIFY_ZENITH_MEDIA),
 );

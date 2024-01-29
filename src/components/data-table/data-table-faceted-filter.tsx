@@ -1,5 +1,6 @@
 import { CheckIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import type { Column } from "@tanstack/react-table";
+import type { ComponentType } from "react";
 import { cn } from "~/utils/utils";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -18,7 +19,7 @@ import { Separator } from "../ui/separator";
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
   options: {
-    icon?: React.ComponentType<{ className?: string }>;
+    icon?: ComponentType<{ className?: string }>;
     iconColor?: string;
     label: string;
     value: string;
@@ -76,7 +77,7 @@ export const DataTableFacetedFilter = <TData, TValue>({
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="start" className="w-[200px] p-0">
+      <PopoverContent align="start" className="w-auto p-0">
         <Command>
           <CommandInput placeholder={title} />
           <CommandList>
