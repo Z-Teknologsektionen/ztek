@@ -54,3 +54,5 @@ export const phoneNumberOrEmptyString = z.string().refine((val) => {
 export const slugString = z.string().refine((val) => {
   return slugRegex.test(val);
 }, `Otillåten slug, får bara innehålla småbokstäver och - men inte sluta på -. Använder följande regexp "${slugRegex}"`);
+
+export const emptyString = z.literal("");

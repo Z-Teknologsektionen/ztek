@@ -1,16 +1,16 @@
 import { z } from "zod";
+import { objectId } from "~/server/api/helpers/customZodTypes";
+import {
+  createCommitteeSchema,
+  updateCommitteeAsActiveSchema,
+  updateCommitteeSchema,
+} from "~/server/api/helpers/schemas/committees";
 import {
   adminProcedure,
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { objectId } from "../helpers/customZodTypes";
-import {
-  createCommitteeSchema,
-  updateCommitteeAsActiveSchema,
-  updateCommitteeSchema,
-} from "../helpers/schemas/committees";
 
 export const committeeRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
@@ -42,6 +42,8 @@ export const committeeRouter = createTRPCRouter({
           email: true,
           image: true,
           electionPeriod: true,
+          link: true,
+          linkText: true,
           members: {
             where: {
               OR: [
@@ -167,6 +169,8 @@ export const committeeRouter = createTRPCRouter({
         description: true,
         members: true,
         role: true,
+        link: true,
+        linkText: true,
       },
       orderBy: [{ order: "desc" }],
     });
@@ -192,39 +196,40 @@ export const committeeRouter = createTRPCRouter({
         },
       });
     }),
-  createCommittee: adminProcedure
-    .input(createCommitteeSchema)
-    .mutation(
-      ({
-        ctx,
-        input: {
+  createCommittee: adminProcedure.input(createCommitteeSchema).mutation(
+    ({
+      ctx,
+      input: {
+        description,
+        email,
+        name,
+        order,
+        role,
+        slug,
+        image,
+        electionPeriod,
+        linkObject: { link, linkText },
+      },
+    }) => {
+      return ctx.prisma.committee.create({
+        data: {
           description,
           email,
+          image,
           name,
           order,
           role,
           slug,
-          image,
           electionPeriod,
+          link,
+          linkText,
         },
-      }) => {
-        return ctx.prisma.committee.create({
-          data: {
-            description,
-            email,
-            image,
-            name,
-            order,
-            role,
-            slug,
-            electionPeriod,
-          },
-          select: {
-            name: true,
-          },
-        });
-      },
-    ),
+        select: {
+          name: true,
+        },
+      });
+    },
+  ),
   updateCommittee: adminProcedure
     .input(updateCommitteeSchema)
     .mutation(
@@ -240,6 +245,7 @@ export const committeeRouter = createTRPCRouter({
           slug,
           image,
           electionPeriod,
+          linkObject: { link, linkText } = {},
         },
       }) => {
         return ctx.prisma.committee.update({
@@ -255,6 +261,8 @@ export const committeeRouter = createTRPCRouter({
             role,
             slug,
             electionPeriod,
+            link,
+            linkText,
           },
         });
       },

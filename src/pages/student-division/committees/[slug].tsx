@@ -4,6 +4,8 @@ import {
   type InferGetStaticPropsType,
   type NextPage,
 } from "next";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import CommitteeMemberCard from "~/components/committees/CommitteeMemberCard";
 import HeadLayout from "~/components/layout/HeadLayout";
 import SecondaryTitle from "~/components/layout/SecondaryTitle";
@@ -15,13 +17,15 @@ import { api } from "~/utils/api";
 const CommitteePage: NextPage<
   InferGetStaticPropsType<typeof getStaticProps>
 > = ({ slug }) => {
+  const router = useRouter();
   const { data: committee } = api.committee.getOneBySlug.useQuery({
     slug,
   });
 
-  if (!committee) {
-    return null;
-  }
+  if (committee === undefined) return router.push("/404");
+
+  const hasLinkAndLinkText = committee.link !== "" && committee.linkText !== "";
+  const isExternalLink = committee.link.startsWith("http");
 
   return (
     <>
@@ -33,7 +37,20 @@ const CommitteePage: NextPage<
           <div className="mx-auto max-w-3xl space-y-2 border-b-2 border-t-2 p-4 text-center">
             <SectionTitle>{committee.name}</SectionTitle>
             <p>{committee.description}</p>
-            <p>
+            {hasLinkAndLinkText && (
+              <p className="text-sm">
+                - Se mer från {committee.name}:{" "}
+                <Link
+                  className="underline decoration-zDarkGray/50 underline-offset-2 hover:opacity-75"
+                  href={committee.link}
+                  rel={isExternalLink ? "noopener noreferrer" : undefined}
+                  target={isExternalLink ? "_blank" : "_self"}
+                >
+                  {committee.linkText}
+                </Link>
+              </p>
+            )}
+            <p className="text-sm">
               - Kontakt:{" "}
               <a
                 className="underline decoration-zDarkGray/50 underline-offset-2 hover:opacity-75"
