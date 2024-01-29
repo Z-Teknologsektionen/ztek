@@ -6,11 +6,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import type { z } from "zod";
 import CommitteeImage from "~/components/committees/CommitteeImage";
-import { upsertCommitteeBaseSchema } from "~/server/api/helpers/schemas/committees";
-import type { RouterOutputs } from "~/utils/api";
-import { api } from "~/utils/api";
-import { getBase64WebPStringFromFileInput } from "~/utils/utils";
-import { Button } from "../ui/button";
+import { Button } from "~/components/ui/button";
 import {
   Form,
   FormControl,
@@ -18,9 +14,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
+import { Textarea } from "~/components/ui/textarea";
+import { upsertCommitteeBaseSchema } from "~/server/api/helpers/schemas/committees";
+import type { RouterOutputs } from "~/utils/api";
+import { api } from "~/utils/api";
+import { getBase64WebPStringFromFileInput } from "~/utils/utils";
 
 interface IUpdateCommitteeWizard {
   committee: RouterOutputs["committee"]["getOneByEmail"];

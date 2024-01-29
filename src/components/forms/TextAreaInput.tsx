@@ -6,9 +6,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Textarea } from "../ui/textarea";
-import type { ITextAreaInput } from "./types";
+} from "~/components/ui/form";
+import { Textarea } from "~/components/ui/textarea";
+import type { ITextAreaInput } from "./form-types";
 
 export const TextAreaInput = <
   TFieldValues extends FieldValues,

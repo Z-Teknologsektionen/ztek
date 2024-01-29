@@ -1,7 +1,7 @@
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import superjson from "superjson";
+import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
-import { appRouter } from "../root";
 
 const ssg = createServerSideHelpers({
   router: appRouter,

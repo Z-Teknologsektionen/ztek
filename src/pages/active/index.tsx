@@ -24,22 +24,23 @@ const AdminHomePage: NextPage = () => {
   }, [selectedTab]);
 
   const { data: session } = useSession({ required: true });
-
   if (!session) return null;
-
   const { user } = session;
 
-  const initialTab = activeTabs.find((tab) => tab.initialTab);
+  const hasPermission = (role?: AccountRoles): boolean =>
+    role === undefined ||
+    user.roles.includes(role) ||
+    user.roles.includes(AccountRoles.ADMIN);
 
   const userHasPermission = (tabName: string): boolean => {
     const tab = activeTabs.find((r) => r.name === tabName);
-    const hasPermission =
-      tab &&
-      (tab.requiredRole === undefined ||
-        user.roles.includes(tab.requiredRole) ||
-        user.roles.includes(AccountRoles.ADMIN));
-    return hasPermission || false;
+    return (tab && hasPermission(tab.requiredRole)) || false;
   };
+
+  const availableTabs = activeTabs.filter(({ requiredRole }) =>
+    hasPermission(requiredRole),
+  );
+  const initialTab = activeTabs.find((tab) => tab.initialTab);
 
   return (
     <RoleWrapper accountRole={undefined}>
@@ -60,31 +61,16 @@ const AdminHomePage: NextPage = () => {
         <ScrollArea className="w-full">
           <div className="flex justify-center space-x-2">
             <TabsList className="min-w-max rounded-none bg-zBlack px-4 text-white md:px-6 lg:rounded-b-2xl xl:px-4">
-              {activeTabs.map((tab) => {
-                if (
-                  tab.requiredRole === undefined ||
-                  user.roles.includes(tab.requiredRole) ||
-                  user.roles.includes(AccountRoles.ADMIN)
-                ) {
-                  return (
-                    <TabsTrigger
-                      key={tab.name}
-                      className="z-10 flex min-w-fit overflow-hidden"
-                      disabled={
-                        !(
-                          tab.requiredRole === undefined ||
-                          user.roles.includes(tab.requiredRole) ||
-                          user.roles.includes(AccountRoles.ADMIN)
-                        )
-                      }
-                      style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
-                      value={tab.name}
-                    >
-                      {tab.name}
-                    </TabsTrigger>
-                  );
-                }
-              })}
+              {availableTabs.map((tab) => (
+                <TabsTrigger
+                  key={tab.name}
+                  className="z-10 flex min-w-fit overflow-hidden"
+                  style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+                  value={tab.name}
+                >
+                  {tab.name}
+                </TabsTrigger>
+              ))}
             </TabsList>
           </div>
           <div className="bg-zDark h-2" />

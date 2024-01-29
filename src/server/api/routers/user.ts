@@ -1,5 +1,5 @@
+import { updateUserRolesSchema } from "~/server/api/helpers/schemas/user";
 import { adminProcedure, createTRPCRouter } from "~/server/api/trpc";
-import { updateUserRolesSchema } from "../helpers/schemas/user";
 
 export const userRouter = createTRPCRouter({
   getAllUserRolesAsAdmin: adminProcedure.query(({ ctx }) => {
