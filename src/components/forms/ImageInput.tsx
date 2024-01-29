@@ -2,8 +2,7 @@ import Image from "next/image";
 import { useState } from "react";
 import type { FieldValues, Path } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
-import { cn, getBase64WebPStringFromFileInput } from "~/utils/utils";
-import { Button } from "../ui/button";
+import { Button } from "~/components/ui/button";
 import {
   FormControl,
   FormDescription,
@@ -11,9 +10,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import type { IImageInput } from "./types";
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
+import { cn, getBase64WebPStringFromFileInput } from "~/utils/utils";
+import type { IImageInput } from "./form-types";
 
 export const ImageInput = <
   TFieldValues extends FieldValues,
