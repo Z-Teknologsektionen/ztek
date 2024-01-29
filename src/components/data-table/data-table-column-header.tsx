@@ -19,12 +19,12 @@ import { cn } from "~/utils/utils";
 interface DataTableColumnHeaderProps<TData, TValue>
   extends HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>;
-  title: string;
+  title?: string;
 }
 
 export const DataTableColumnHeader = <TData, TValue>({
   column,
-  title,
+  title = column.id,
   className,
 }: DataTableColumnHeaderProps<TData, TValue>): JSX.Element => {
   if (!column.getCanSort()) {

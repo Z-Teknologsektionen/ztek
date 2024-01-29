@@ -36,6 +36,9 @@ export const DocumentTableToolbar = <TData,>({
         }
       },
     });
+
+  const titleColumn = table.getColumn("Titel");
+
   return (
     <div className="overflow-x-auto">
       <div className="flex items-center justify-between">
@@ -44,10 +47,10 @@ export const DocumentTableToolbar = <TData,>({
             className="h-8 w-[150px] lg:w-[250px]"
             onChange={(event) =>
               // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-              table.getColumn("title")?.setFilterValue(event.target.value)
+              titleColumn?.setFilterValue(event.target.value)
             }
             placeholder="Sök efter dokument..."
-            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+            value={(titleColumn?.getFilterValue() as string) ?? ""}
           />
         </div>
         <div className="flex justify-end">

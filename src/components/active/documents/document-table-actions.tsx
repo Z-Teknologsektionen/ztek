@@ -12,15 +12,9 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { api } from "~/utils/api";
+import type { DocumentType } from "./document-columns";
 
-export const DocumentTableActions: FC<{
-  group: {
-    name: string;
-  };
-  id: string;
-  isPDF: boolean;
-  url: string;
-}> = ({ id, ...values }) => {
+export const DocumentTableActions: FC<DocumentType> = ({ id, ...values }) => {
   const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
 

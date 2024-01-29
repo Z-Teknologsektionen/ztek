@@ -12,63 +12,54 @@ type CommitteeMemberType =
 
 export const memberColumns: ColumnDef<CommitteeMemberType>[] = [
   {
+    id: "Namn",
     accessorKey: "name",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Namn" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
     filterFn: "includesString",
   },
   {
+    id: "Email",
     accessorKey: "email",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Email" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
     filterFn: "includesString",
   },
   {
+    id: "Kommitténamn",
     accessorKey: "nickName",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Kommitténamn" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
     filterFn: "includesString",
   },
   {
+    id: "Kommitté",
     accessorKey: "committeeName",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Kommitté" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
     filterFn: "includesStringSensitive",
-    cell: ({ row }) => {
-      return row.original.committeeName;
-    },
   },
   {
+    id: "Post",
     accessorKey: "role",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Post" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
     filterFn: "includesString",
   },
   {
+    id: "Behörigheter",
     accessorKey: "userRoles",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Behörigheter" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
@@ -115,10 +106,9 @@ export const memberColumns: ColumnDef<CommitteeMemberType>[] = [
     },
   },
   {
+    id: "Telefonnummer",
     accessorKey: "phone",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Telefonnummer" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: false,
     enableHiding: true,
     enableResizing: true,

@@ -8,56 +8,49 @@ export type CommitteeType = RouterOutputs["committee"]["getAllAsAdmin"][0];
 
 export const committeeColumns: ColumnDef<CommitteeType>[] = [
   {
+    id: "Namn",
     accessorKey: "name",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Namn" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     filterFn: "includesString",
   },
   {
+    id: "Slug",
     accessorKey: "slug",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Slug" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     filterFn: "includesString",
   },
   {
+    id: "Har inval i LP",
     accessorKey: "electionPeriod",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Har inval i LP" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     filterFn: "inNumberRange",
   },
   {
-    accessorKey: "_count.members",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Antal medlemmar" />
-    ),
+    id: "Antal medlemmar",
+    accessorKey: "membersCount",
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     filterFn: "inNumberRange",
-    cell: ({ row }) => row.original.members.length,
   },
   {
+    id: "Länk",
     accessorKey: "link",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Länk" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     filterFn: "includesString",
   },
   {
+    id: "Länktext",
     accessorKey: "linkText",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Länktext" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     filterFn: "includesString",

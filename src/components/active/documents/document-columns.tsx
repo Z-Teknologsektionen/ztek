@@ -4,42 +4,37 @@ import { DataTableViewOptions } from "~/components/data-table/data-table-view-op
 import { type RouterOutputs } from "~/utils/api";
 import { DocumentTableActions } from "./document-table-actions";
 
-type DocumentType = RouterOutputs["document"]["getAllAsAdmin"][0];
+export type DocumentType = RouterOutputs["document"]["getAllAsAdmin"][0];
 
 export const documentColumns: ColumnDef<DocumentType>[] = [
   {
+    id: "Titel",
     accessorKey: "title",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Titel" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     filterFn: "includesString",
   },
   {
-    accessorKey: "group",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Grupp" />
-    ),
+    id: "Grupp",
+    accessorKey: "groupName",
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     filterFn: "includesString",
-    cell: ({ row }) => row.original.group.name,
   },
   {
+    id: "Url",
     accessorKey: "url",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Url" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     filterFn: "includesString",
   },
   {
+    id: "PDF?",
     accessorKey: "isPDF",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="PDF?" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     filterFn: (row, id, value) => {
