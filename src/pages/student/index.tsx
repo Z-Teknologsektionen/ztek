@@ -296,7 +296,7 @@ const StudentPage: NextPage = () => {
                   </SecondaryTitle>
                   <Image
                     alt={person.name}
-                    className="rounded-full"
+                    className="mx-auto rounded-full"
                     height={200}
                     src={person.image ? person.image : "/logo.png"}
                     width={200}
