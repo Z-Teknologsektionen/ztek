@@ -168,6 +168,8 @@ export const committeeRouter = createTRPCRouter({
         email: true,
         description: true,
         role: true,
+        link: true,
+        linkText: true,
         _count: {
           select: {
             members: true,

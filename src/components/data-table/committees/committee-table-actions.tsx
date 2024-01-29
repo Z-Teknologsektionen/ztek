@@ -12,17 +12,9 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { api } from "~/utils/api";
+import type { CommitteeType } from "./columns";
 
-export const CommitteeTableActions: FC<{
-  description: string;
-  electionPeriod: number;
-  email: string;
-  id: string;
-  image: string;
-  order: number;
-  role: string;
-  slug: string;
-}> = ({ id, ...values }) => {
+export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
   const ctx = api.useUtils();
 
   const { mutate: updateCommittee } = api.committee.updateCommittee.useMutation(
@@ -73,7 +65,13 @@ export const CommitteeTableActions: FC<{
           form={
             <UpsertCommitteeForm
               key={id}
-              defaultValues={values}
+              defaultValues={{
+                ...values,
+                linkObject: {
+                  link: values.link,
+                  linkText: values.linkText,
+                },
+              }}
               formType="update"
               onSubmit={(updatedValues) =>
                 updateCommittee({

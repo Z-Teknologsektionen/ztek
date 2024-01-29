@@ -4,7 +4,7 @@ import { DataTableColumnHeader } from "../data-table-column-header";
 import { DataTableViewOptions } from "../data-table-view-options";
 import { CommitteeTableActions } from "./committee-table-actions";
 
-type CommitteeType = RouterOutputs["committee"]["getAllAsAdmin"][0];
+export type CommitteeType = RouterOutputs["committee"]["getAllAsAdmin"][0];
 
 export const columns: ColumnDef<CommitteeType>[] = [
   {
@@ -34,12 +34,26 @@ export const columns: ColumnDef<CommitteeType>[] = [
   {
     id: "Antal medlemmar",
     accessorKey: "membersCount",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Antal medlemmar" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     filterFn: "inNumberRange",
+  },
+  {
+    id: "Länk",
+    accessorKey: "link",
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    enableSorting: true,
+    enableHiding: true,
+    filterFn: "includesString",
+  },
+  {
+    id: "Länktext",
+    accessorKey: "linkText",
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    enableSorting: true,
+    enableHiding: true,
+    filterFn: "includesString",
   },
   {
     id: "actions",
