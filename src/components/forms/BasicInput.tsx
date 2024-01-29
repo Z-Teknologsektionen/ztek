@@ -6,9 +6,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import type { ITextInput } from "./types";
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
+import type { ITextInput } from "./form-types";
 
 export const BasicInput = <
   TFieldValues extends FieldValues,

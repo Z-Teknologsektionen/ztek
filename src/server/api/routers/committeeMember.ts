@@ -1,16 +1,16 @@
 import { z } from "zod";
+import { objectId } from "~/server/api/helpers/customZodTypes";
+import {
+  createMemberSchema,
+  updateMemberAsActiveSchema,
+  updateMemberSchema,
+} from "~/server/api/helpers/schemas/members";
 import {
   adminProcedure,
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { objectId } from "../helpers/customZodTypes";
-import {
-  createMemberSchema,
-  updateMemberAsActiveSchema,
-  updateMemberSchema,
-} from "../helpers/schemas/members";
 
 export const committeeMemberRouter = createTRPCRouter({
   getOneById: adminProcedure
@@ -65,14 +65,16 @@ export const committeeMemberRouter = createTRPCRouter({
     }),
   getCommitteeMembersAsAdmin: adminProcedure
     .input(
-      z.object({
-        committeeId: objectId.optional(),
-      }),
+      z
+        .object({
+          committeeId: objectId.optional(),
+        })
+        .optional(),
     )
     .query(async ({ ctx, input }) => {
       const members = await ctx.prisma.committeeMember.findMany({
         where: {
-          committeeId: input.committeeId,
+          committeeId: input?.committeeId,
         },
         include: {
           committee: {

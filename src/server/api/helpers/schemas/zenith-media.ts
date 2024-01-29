@@ -3,7 +3,7 @@ import {
   base64WebPImageString,
   nonEmptyString,
   objectId,
-} from "../customZodTypes";
+} from "~/server/api/helpers/customZodTypes";
 
 export const createZenithMediaSchema = z.object({
   title: nonEmptyString,

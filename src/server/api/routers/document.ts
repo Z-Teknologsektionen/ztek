@@ -1,10 +1,10 @@
 import { z } from "zod";
+import { objectId } from "~/server/api/helpers/customZodTypes";
 import {
   createTRPCRouter,
   documentProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { objectId } from "../helpers/customZodTypes";
 
 export const documentRouter = createTRPCRouter({
   getAllSortedByGroup: publicProcedure.query(({ ctx }) => {

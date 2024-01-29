@@ -1,16 +1,16 @@
 import { z } from "zod";
+import { objectId } from "~/server/api/helpers/customZodTypes";
+import {
+  createCommitteeSchema,
+  updateCommitteeAsActiveSchema,
+  updateCommitteeSchema,
+} from "~/server/api/helpers/schemas/committees";
 import {
   adminProcedure,
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { objectId } from "../helpers/customZodTypes";
-import {
-  createCommitteeSchema,
-  updateCommitteeAsActiveSchema,
-  updateCommitteeSchema,
-} from "../helpers/schemas/committees";
 
 export const committeeRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
@@ -169,6 +169,8 @@ export const committeeRouter = createTRPCRouter({
         description: true,
         members: true,
         role: true,
+        link: true,
+        linkText: true,
       },
       orderBy: [{ order: "desc" }],
     });
