@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { api } from "~/utils/api";
-import type { CommitteeType } from "./columns";
+import type { CommitteeType } from "./committee-columns";
 
 export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
   const ctx = api.useUtils();
