@@ -169,6 +169,8 @@ export const committeeRouter = createTRPCRouter({
         description: true,
         members: true,
         role: true,
+        link: true,
+        linkText: true,
       },
       orderBy: [{ order: "desc" }],
     });
