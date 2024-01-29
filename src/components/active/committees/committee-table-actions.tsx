@@ -1,5 +1,5 @@
 import { MoreHorizontal } from "lucide-react";
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import toast from "react-hot-toast";
 import UpsertCommitteeForm from "~/components/active/committees/upsert-committee-form";
 import DeleteDialog from "~/components/dialogs/delete-dialog";
@@ -16,6 +16,7 @@ import type { CommitteeType } from "./committee-columns";
 
 export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
   const ctx = api.useUtils();
+  const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: updateCommittee } = api.committee.updateCommittee.useMutation(
     {
@@ -23,6 +24,7 @@ export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: () => {
         toast.success(`Organet har uppdaterats!`);
+        setIsOpen(false);
         void ctx.committee.invalidate();
       },
       onError: (error) => {
@@ -81,6 +83,8 @@ export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
               }
             />
           }
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
           title="Uppdatera organ"
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>

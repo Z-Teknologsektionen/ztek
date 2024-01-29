@@ -11,6 +11,8 @@ import {
 interface IUpsertDialog {
   description?: string;
   form: ReactNode;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
   title: string;
   trigger: ReactNode;
 }
@@ -20,9 +22,11 @@ export const UpsertDialog: FC<IUpsertDialog> = ({
   trigger,
   title,
   description = "",
+  isOpen,
+  setIsOpen,
 }) => {
   return (
-    <Dialog>
+    <Dialog onOpenChange={setIsOpen} open={isOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
