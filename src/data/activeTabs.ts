@@ -10,7 +10,7 @@ import ZenithMediaTab from "~/components/active/zenith-media";
 
 export interface ActiveTabsProps {
   component: FC;
-  desc: string;
+  desc?: string;
   initialTab?: boolean;
   instructions?: string[];
   name: string;
@@ -24,7 +24,6 @@ export interface ActiveTabsProps {
 const rawActiveTabs: ActiveTabsProps[] = [
   {
     name: "Start",
-    desc: "",
     component: ActiveHomePage,
     requiredRole: undefined,
     initialTab: true,
