@@ -2,12 +2,12 @@ import { z } from "zod";
 import {
   createProgramBoardMemberSchema,
   updateProgramBoardMemberSchema,
-} from "../helpers/schemas/programBoardMembers";
+} from "~/server/api/helpers/schemas/programBoardMembers";
 import {
   createTRPCRouter,
   programBoardProcedure,
   publicProcedure,
-} from "../trpc";
+} from "~/server/api/trpc";
 
 export const programBoardRouter = createTRPCRouter({
   getAllAsAdmin: programBoardProcedure.query(({ ctx }) => {

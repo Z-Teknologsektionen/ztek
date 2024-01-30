@@ -1,0 +1,60 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { FC } from "react";
+import { useForm } from "react-hook-form";
+import type { z } from "zod";
+import { BasicInput } from "~/components/forms/BasicInput";
+import type { IUpsertForm } from "~/components/forms/form-types";
+import { Button } from "~/components/ui/button";
+import { DialogFooter } from "~/components/ui/dialog";
+import { Form } from "~/components/ui/form";
+import { createDocumentGroupSchema } from "~/server/api/helpers/schemas/documents";
+
+type UpsertDocumentGroupFormProps = IUpsertForm<
+  typeof createDocumentGroupSchema
+>;
+
+const DEFAULT_VALUES: UpsertDocumentGroupFormProps["defaultValues"] = {
+  extraText: undefined,
+  name: undefined,
+};
+
+export const UpsertDocumentGroupForm: FC<UpsertDocumentGroupFormProps> = ({
+  defaultValues = DEFAULT_VALUES,
+  onSubmit,
+  formType,
+}) => {
+  const form = useForm<z.infer<typeof createDocumentGroupSchema>>({
+    resolver: zodResolver(createDocumentGroupSchema),
+    defaultValues,
+  });
+
+  return (
+    <Form {...form}>
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+      <form className=" space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
+          <BasicInput control={form.control} label="Namn" name="name" />
+          <BasicInput
+            control={form.control}
+            label="Extra text"
+            name="extraText"
+          />
+        </div>
+        <DialogFooter>
+          <Button
+            onClick={() => {
+              form.reset(defaultValues);
+            }}
+            type="button"
+            variant={"outline"}
+          >
+            Rensa
+          </Button>
+          <Button type="submit" variant={"default"}>
+            {formType === "create" ? "Skapa" : "Uppdatera"}
+          </Button>
+        </DialogFooter>
+      </form>
+    </Form>
+  );
+};

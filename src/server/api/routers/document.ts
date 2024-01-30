@@ -1,10 +1,10 @@
 import { z } from "zod";
+import { objectId } from "~/server/api/helpers/customZodTypes";
 import {
   createTRPCRouter,
   documentProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { objectId } from "../helpers/customZodTypes";
 
 export const documentRouter = createTRPCRouter({
   getAllSortedByGroup: publicProcedure.query(({ ctx }) => {
@@ -31,33 +31,42 @@ export const documentRouter = createTRPCRouter({
       },
     });
   }),
-  getAllGroupsAsAdmin: documentProcedure.query(({ ctx }) => {
-    return ctx.prisma.documentGroup.findMany({
+  getAllGroupsAsAdmin: documentProcedure.query(async ({ ctx }) => {
+    const groups = await ctx.prisma.documentGroup.findMany({
       select: {
         id: true,
         name: true,
         extraText: true,
-        _count: true,
+        _count: { select: { Document: true } },
         Document: true,
       },
     });
+    return groups.map(({ _count: { Document: documentCount }, ...rest }) => ({
+      documentCount,
+      ...rest,
+    }));
   }),
-  getAllAsAdmin: documentProcedure.query(({ ctx }) => {
-    return ctx.prisma.document.findMany({
+  getAllAsAdmin: documentProcedure.query(async ({ ctx }) => {
+    const documents = ctx.prisma.document.findMany({
       select: {
         group: {
           select: {
             name: true,
           },
         },
-        groupId: true,
         id: true,
         isPDF: true,
         title: true,
         url: true,
+        groupId: true,
       },
     });
+    return (await documents).map(({ group: { name: groupName }, ...rest }) => ({
+      groupName,
+      ...rest,
+    }));
   }),
+
   getOne: documentProcedure
     .input(
       z.object({

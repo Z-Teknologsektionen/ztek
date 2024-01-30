@@ -1,17 +1,14 @@
 import { AccountRoles } from "@prisma/client";
-import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import type { FC, PropsWithChildren } from "react";
+import { useRequireAuth } from "~/hooks/useRequireAuth";
 import HeadLayout from "./HeadLayout";
 
 const RoleWrapper: FC<
   PropsWithChildren<{ accountRole: AccountRoles | undefined }>
 > = ({ children, accountRole }) => {
   const { push } = useRouter();
-  const { data, status } = useSession({
-    required: true,
-    onUnauthenticated: () => void signIn("google"),
-  });
+  const { data, status } = useRequireAuth();
 
   if (status === "loading") return null;
 

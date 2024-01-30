@@ -6,15 +6,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
+} from "~/components/ui/form";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import type { IDropdownInput } from "./types";
+} from "~/components/ui/select";
+import type { IDropdownInput } from "./form-types";
 
 export const DropdownInput = <
   TFieldValues extends FieldValues,

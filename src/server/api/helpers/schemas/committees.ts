@@ -8,7 +8,7 @@ import {
   objectId,
   orderNumber,
   slugString,
-} from "../customZodTypes";
+} from "~/server/api/helpers/customZodTypes";
 
 export const upsertCommitteeBaseSchema = z.object({
   image: base64WebPImageOrEmptyString,
