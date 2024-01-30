@@ -70,7 +70,7 @@ export const UpdateCommitteeWizard: FC<IUpdateCommitteeWizard> = ({
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <div className="flex flex-row">
-            <div className="flex w-fit flex-col justify-between">
+            <div className="flex w-fit flex-col justify-between gap-4">
               <CommitteeImage alt="" filename={newImage} />
               <FormField
                 control={form.control}

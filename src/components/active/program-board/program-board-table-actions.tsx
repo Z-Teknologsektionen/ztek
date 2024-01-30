@@ -1,5 +1,5 @@
 import { MoreHorizontal } from "lucide-react";
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import toast from "react-hot-toast";
 import UpsertProgramBoardMemberForm from "~/components/active/program-board/upsert-program-board-form";
 import DeleteDialog from "~/components/dialogs/delete-dialog";
@@ -24,12 +24,14 @@ export const ProgramBoardMemberTableActions: FC<{
   url: string;
 }> = ({ id, ...values }) => {
   const ctx = api.useUtils();
+  const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: updateProgramBoardMember } =
     api.programBoard.updateOne.useMutation({
       onMutate: () => toast.loading("Uppdaterar medlem..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: () => {
+        setIsOpen(false);
         toast.success(`Medlemen har uppdaterats!`);
         void ctx.programBoard.invalidate();
       },
@@ -82,6 +84,8 @@ export const ProgramBoardMemberTableActions: FC<{
               }
             />
           }
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
           title="Uppdatera programmedlem"
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>

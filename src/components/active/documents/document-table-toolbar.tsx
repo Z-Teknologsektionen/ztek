@@ -1,6 +1,7 @@
 "use client";
 
 import type { Table } from "@tanstack/react-table";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { UpsertDocumentForm } from "~/components/active/documents/upsert-document-form";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
@@ -17,13 +18,14 @@ export const DocumentTableToolbar = <TData,>({
   table,
 }: DocumentTableToolbarProps<TData>): JSX.Element => {
   const ctx = api.useUtils();
-
+  const [isOpen, setIsOpen] = useState(false);
   const { mutate: createNewDocument, isLoading: creatingNewDocument } =
     api.document.createOne.useMutation({
       onMutate: () => toast.loading("Skapar nytt dokument..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: () => {
         toast.success("En nytt dokument har skapats.");
+        setIsOpen(false);
         void ctx.document.invalidate();
       },
       onError: (error) => {
@@ -34,6 +36,9 @@ export const DocumentTableToolbar = <TData,>({
         }
       },
     });
+
+  const titleColumn = table.getColumn("Titel");
+
   return (
     <div className="overflow-x-auto">
       <div className="flex items-center justify-between">
@@ -42,10 +47,10 @@ export const DocumentTableToolbar = <TData,>({
             className="h-8 w-[150px] lg:w-[250px]"
             onChange={(event) =>
               // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-              table.getColumn("title")?.setFilterValue(event.target.value)
+              titleColumn?.setFilterValue(event.target.value)
             }
             placeholder="Sök efter dokument..."
-            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+            value={(titleColumn?.getFilterValue() as string) ?? ""}
           />
         </div>
         <div className="flex justify-end">
@@ -58,6 +63,8 @@ export const DocumentTableToolbar = <TData,>({
                 onSubmit={(values) => createNewDocument(values)}
               />
             }
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
             title="Nytt dokument"
             trigger={
               <Button

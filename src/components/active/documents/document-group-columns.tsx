@@ -8,41 +8,28 @@ type DocumentGroupType = RouterOutputs["document"]["getAllGroupsAsAdmin"][0];
 
 export const documentGroupColumns: ColumnDef<DocumentGroupType>[] = [
   {
+    id: "Namn",
     accessorKey: "name",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Namn" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
-    filterFn: (row, id, value) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      return value.includes(row.getValue(id));
-    },
+    filterFn: "includesString",
   },
   {
-    accessorKey: "_count",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Antal dokument" />
-    ),
+    id: "Antal dokument",
+    accessorKey: "documentCount",
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
-    filterFn: (row, id, value) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      return value.includes(row.getValue(id));
-    },
-    cell: ({ row }) => row.original._count.Document,
+    filterFn: "inNumberRange",
   },
   {
+    id: "Extra text",
     accessorKey: "extraText",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Extra text" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
-    filterFn: (row, id, value) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      return value.includes(row.getValue(id));
-    },
+    filterFn: "includesString",
   },
   {
     id: "actions",

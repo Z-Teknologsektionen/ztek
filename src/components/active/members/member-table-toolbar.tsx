@@ -3,6 +3,7 @@
 import { AccountRoles } from "@prisma/client";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { UpsertMemberForm } from "~/components/active/members/upsert-member-form";
 import { DataTableFacetedFilter } from "~/components/data-table/data-table-faceted-filter";
@@ -22,6 +23,7 @@ export const MemberTableToolbar = <TData,>({
   const { data: committees } =
     api.committee.getAllCommitteeNamesAsAdmin.useQuery();
   const ctx = api.useUtils();
+  const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: createNewUser, isLoading: creatingNewUser } =
     api.member.createMemberAsAdmin.useMutation({
@@ -29,6 +31,7 @@ export const MemberTableToolbar = <TData,>({
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: ({ name: userName, committee: { name: committeeName } }) => {
         toast.success(`${userName} i ${committeeName} har skapats!`);
+        setIsOpen(false);
         void ctx.committee.invalidate();
         void ctx.member.invalidate();
         void ctx.user.invalidate();
@@ -41,6 +44,11 @@ export const MemberTableToolbar = <TData,>({
         }
       },
     });
+
+  const nameColumn = table.getColumn("Namn");
+  const committeeNameColumn = table.getColumn("Kommitté");
+  const userRolesColumn = table.getColumn("Behörigheter");
+
   return (
     <div className="overflow-x-auto">
       <div className="flex items-center justify-between">
@@ -49,14 +57,14 @@ export const MemberTableToolbar = <TData,>({
             className="h-8 w-[150px] lg:w-[250px]"
             onChange={(event) =>
               // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-              table.getColumn("name")?.setFilterValue(event.target.value)
+              nameColumn?.setFilterValue(event.target.value)
             }
             placeholder="Filtrera på namn..."
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            value={(nameColumn?.getFilterValue() as string) ?? ""}
           />
-          {table.getColumn("committeeName") && (
+          {committeeNameColumn && (
             <DataTableFacetedFilter
-              column={table.getColumn("committeeName")}
+              column={committeeNameColumn}
               options={
                 committees?.map(({ name }) => ({ label: name, value: name })) ??
                 []
@@ -64,9 +72,9 @@ export const MemberTableToolbar = <TData,>({
               title="Filtrera på kommitté"
             />
           )}
-          {table.getColumn("userRoles") && (
+          {userRolesColumn && (
             <DataTableFacetedFilter
-              column={table.getColumn("userRoles")}
+              column={userRolesColumn}
               options={Object.values(AccountRoles).map((role) => ({
                 label: role,
                 value: role,
@@ -95,6 +103,8 @@ export const MemberTableToolbar = <TData,>({
                 onSubmit={(values) => createNewUser(values)}
               />
             }
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
             title="Skapa ny aktiv"
             trigger={
               <Button

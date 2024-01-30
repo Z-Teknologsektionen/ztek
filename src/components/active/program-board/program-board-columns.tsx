@@ -8,46 +8,43 @@ type ProgramBoardType = RouterOutputs["programBoard"]["getAllAsAdmin"][0];
 
 export const programBoardColumns: ColumnDef<ProgramBoardType>[] = [
   {
+    id: "Namn",
     accessorKey: "name",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Namn" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
     filterFn: "includesString",
   },
   {
+    id: "Roll",
     accessorKey: "role",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Roll" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
     filterFn: "includesString",
   },
   {
+    id: "Telefonnummer",
     accessorKey: "phone",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Telefonnummer" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: false,
     enableHiding: true,
     enableResizing: true,
     filterFn: "includesString",
   },
   {
+    id: "Epost",
     accessorKey: "email",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Email" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
     filterFn: "includesString",
   },
   {
+    id: "Ordning",
     accessorKey: "order",
     header: ({ column }) => (
       <DataTableColumnHeader
@@ -61,10 +58,9 @@ export const programBoardColumns: ColumnDef<ProgramBoardType>[] = [
     filterFn: "includesString",
   },
   {
+    id: "Senast uppdaterad",
     accessorKey: "updatedAt",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Senast uppdaterad" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
@@ -89,7 +85,6 @@ export const programBoardColumns: ColumnDef<ProgramBoardType>[] = [
         <DataTableViewOptions table={table} />
       </div>
     ),
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     cell: ({ row }) => {
       const programBoardMember = {
         ...row.original,
