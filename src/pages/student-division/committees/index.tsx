@@ -29,30 +29,31 @@ const Home: NextPage = () => {
             utreda specifika frågor. För att läsa mer om de olika organen kan du
             klicka på dem nedan.
           </div>
-          <SecondaryTitle center>Kommittéer</SecondaryTitle>
-          <CommitteeLayout
-            committees={committees?.filter((committee) => {
-              return committee.committeeType === CommitteeType.COMMITTEE;
-            })}
-          />
-          <SecondaryTitle center>Utskott</SecondaryTitle>
-          <CommitteeLayout
-            committees={committees?.filter((committee) => {
-              return committee.committeeType === CommitteeType.SUB_COMMITTEE;
-            })}
-          />
-          <SecondaryTitle center>Övrigt</SecondaryTitle>
-          <CommitteeLayout
-            committees={committees?.filter((committee) => {
-              return committee.committeeType === CommitteeType.OTHER;
-            })}
-          />
-          <SecondaryTitle center>Arbetsgrupper</SecondaryTitle>
-          <CommitteeLayout
-            committees={committees?.filter((committee) => {
-              return committee.committeeType === CommitteeType.WORKING_GROUP;
-            })}
-          />
+
+          {Object.values(CommitteeType).map((committeeType) => {
+            const current_type = committees?.filter((committee) => {
+              return committee.committeeType === committeeType;
+            });
+            if (current_type?.length === 0) return null;
+            return (
+              <div key={committeeType}>
+                <SecondaryTitle className="mb-4" center>
+                  {committeeType === CommitteeType.COMMITTEE
+                    ? "Kommittéer"
+                    : committeeType === CommitteeType.SUB_COMMITTEE
+                    ? "Utskott"
+                    : committeeType === CommitteeType.OTHER
+                    ? "Övrigt"
+                    : "Arbetsgrupper"}
+                </SecondaryTitle>
+                <CommitteeLayout
+                  committees={committees?.filter((committee) => {
+                    return committee.committeeType === committeeType;
+                  })}
+                />
+              </div>
+            );
+          })}
         </SectionWrapper>
       </main>
     </>
