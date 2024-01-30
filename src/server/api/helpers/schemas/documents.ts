@@ -1,10 +1,15 @@
 import { z } from "zod";
-import { nonEmptyString, objectId } from "~/server/api/helpers/customZodTypes";
+import {
+  nonEmptyString,
+  objectId,
+  standardBoolean,
+  standardString,
+} from "~/server/api/helpers/customZodTypes";
 
 export const createDocumentSchema = z.object({
   title: nonEmptyString,
-  url: z.string().url(),
-  isPDF: z.boolean(),
+  url: standardString.url(),
+  isPDF: standardBoolean,
   groupId: objectId,
 });
 
@@ -14,7 +19,7 @@ export const updateDocumentSchema = createDocumentSchema
 
 export const createDocumentGroupSchema = z.object({
   name: nonEmptyString,
-  extraText: nonEmptyString.optional(),
+  extraText: standardString,
 });
 export const updateDocumentGroupSchema = createDocumentGroupSchema
   .partial()
