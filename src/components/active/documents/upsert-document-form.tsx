@@ -15,17 +15,17 @@ import { api } from "~/utils/api";
 type UpsertDocumentFormProps = IUpsertForm<typeof createDocumentSchema>;
 
 const DEFAULT_VALUES: UpsertDocumentFormProps["defaultValues"] = {
-  isPDF: true,
+  isPDF: false,
 };
 
 export const UpsertDocumentForm: FC<UpsertDocumentFormProps> = ({
-  defaultValues = DEFAULT_VALUES,
+  defaultValues,
   onSubmit,
   formType,
 }) => {
   const form = useForm<z.infer<typeof createDocumentSchema>>({
     resolver: zodResolver(createDocumentSchema),
-    defaultValues,
+    defaultValues: { ...defaultValues, ...DEFAULT_VALUES },
   });
 
   const { data: documentsGroups } = api.document.getAllGroupsAsAdmin.useQuery();
@@ -50,7 +50,7 @@ export const UpsertDocumentForm: FC<UpsertDocumentFormProps> = ({
           />
           <DropdownInput
             control={form.control}
-            description="Ett dokument måste tillhöra en grupp. Om du inte hittar en grupp som passar kan du skapa en ny under fliken 'Dokumentgrupper'."
+            description={`Ett dokument måste tillhöra en grupp. Om du inte hittar en grupp som passar kan du skapa en ny fliken "Administera dokument".`}
             label="Dokumentgrupp"
             mappable={documentsGroups || []}
             name="groupId"

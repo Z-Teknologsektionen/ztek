@@ -1,5 +1,6 @@
 import { z } from "zod";
 import {
+  httpsUrlString,
   nonEmptyString,
   objectId,
   standardBoolean,
@@ -8,7 +9,7 @@ import {
 
 export const createDocumentSchema = z.object({
   title: nonEmptyString,
-  url: standardString.url(),
+  url: httpsUrlString,
   isPDF: standardBoolean,
   groupId: objectId,
 });
