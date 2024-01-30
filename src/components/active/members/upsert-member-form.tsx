@@ -17,20 +17,20 @@ type UpsertMemberFormProps = IUpsertForm<typeof createMemberSchema>;
 
 const DEFAULT_VALUES: UpsertMemberFormProps["defaultValues"] = {
   order: 0,
-  email: "",
   phone: "",
-  role: "",
   image: "",
+  name: "",
+  nickName: "",
 };
 
 export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
-  defaultValues = DEFAULT_VALUES,
+  defaultValues,
   onSubmit,
   formType,
 }) => {
   const form = useForm<z.infer<typeof createMemberSchema>>({
     resolver: zodResolver(createMemberSchema),
-    defaultValues,
+    defaultValues: { ...defaultValues, ...DEFAULT_VALUES },
   });
 
   const { data: committees } = api.committee.getAllAsAdmin.useQuery();
@@ -40,10 +40,14 @@ export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form className=" space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
-          <BasicInput control={form.control} label="Namn" name="name" />
           <BasicInput
             control={form.control}
-            label="Kommitténamn"
+            label="Namn (valfri)"
+            name="name"
+          />
+          <BasicInput
+            control={form.control}
+            label="Kommitténamn (valfri)"
             name="nickName"
           />
           <BasicInput
@@ -80,21 +84,25 @@ export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
           <BasicInput
             control={form.control}
             description="Du behöver inte fylla i detta. Kommer visas publikt på organsidan."
-            label="Telefonnummer"
+            label="Telefonnummer (valfri)"
             name="phone"
             type="tel"
           />
-          <ImageInput control={form.control} label="Bild" name="image" />
+          <ImageInput
+            control={form.control}
+            label="Bild (valfri)"
+            name="image"
+          />
         </div>
         <DialogFooter>
           <Button
             onClick={() => {
-              form.reset(defaultValues);
+              form.reset();
             }}
             type="button"
             variant={"outline"}
           >
-            Rensa
+            Återställ
           </Button>
           <Button type="submit" variant={"default"}>
             {formType === "create" ? "Skapa" : "Uppdatera"}
