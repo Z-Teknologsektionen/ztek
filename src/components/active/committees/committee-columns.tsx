@@ -24,6 +24,14 @@ export const committeeColumns: ColumnDef<CommitteeType>[] = [
     filterFn: "includesString",
   },
   {
+    id: "Typ",
+    accessorKey: "committeeType",
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    enableSorting: true,
+    enableHiding: true,
+    filterFn: "includesString",
+  },
+  {
     id: "Har inval i LP",
     accessorKey: "electionPeriod",
     header: ({ column }) => <DataTableColumnHeader column={column} />,
