@@ -25,13 +25,13 @@ const DEFAULT_VALUES: UpsertCommitteeFormProps["defaultValues"] = {
 };
 
 const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
-  defaultValues = DEFAULT_VALUES,
+  defaultValues,
   onSubmit,
   formType,
 }) => {
   const form = useForm<z.infer<typeof createCommitteeSchema>>({
     resolver: zodResolver(createCommitteeSchema),
-    defaultValues: defaultValues,
+    defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
 
   return (

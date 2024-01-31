@@ -3,6 +3,7 @@ import {
   base64WebPImageString,
   emailString,
   emptyString,
+  httpsUrlString,
   nonEmptyString,
   objectId,
   orderNumber,
@@ -14,7 +15,7 @@ export const createProgramBoardMemberSchema = z.object({
   role: nonEmptyString,
   phone: phoneNumberString.or(emptyString),
   email: emailString,
-  url: z.string().url(),
+  url: httpsUrlString,
   image: base64WebPImageString.or(emptyString),
   order: orderNumber,
 });

@@ -30,7 +30,7 @@ export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
 }) => {
   const form = useForm<z.infer<typeof createMemberSchema>>({
     resolver: zodResolver(createMemberSchema),
-    defaultValues: { ...defaultValues, ...DEFAULT_VALUES },
+    defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
 
   const { data: committees } = api.committee.getAllAsAdmin.useQuery();

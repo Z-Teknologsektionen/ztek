@@ -25,7 +25,7 @@ export const UpsertDocumentForm: FC<UpsertDocumentFormProps> = ({
 }) => {
   const form = useForm<z.infer<typeof createDocumentSchema>>({
     resolver: zodResolver(createDocumentSchema),
-    defaultValues: { ...defaultValues, ...DEFAULT_VALUES },
+    defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
 
   const { data: documentsGroups } = api.document.getAllGroupsAsAdmin.useQuery();

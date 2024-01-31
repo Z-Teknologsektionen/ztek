@@ -15,7 +15,6 @@ type UpsertDocumentGroupFormProps = IUpsertForm<
 
 const DEFAULT_VALUES: UpsertDocumentGroupFormProps["defaultValues"] = {
   extraText: "",
-  name: undefined,
 };
 
 export const UpsertDocumentGroupForm: FC<UpsertDocumentGroupFormProps> = ({
@@ -25,7 +24,7 @@ export const UpsertDocumentGroupForm: FC<UpsertDocumentGroupFormProps> = ({
 }) => {
   const form = useForm<z.infer<typeof createDocumentGroupSchema>>({
     resolver: zodResolver(createDocumentGroupSchema),
-    defaultValues: { ...defaultValues, ...DEFAULT_VALUES },
+    defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
 
   return (

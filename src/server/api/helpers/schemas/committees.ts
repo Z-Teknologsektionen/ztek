@@ -9,12 +9,15 @@ import {
   orderNumber,
   relativePathString,
   slugString,
+  standardNumber,
   standardString,
 } from "~/server/api/helpers/customZodTypes";
 
 export const upsertCommitteeBaseSchema = z.object({
   image: base64WebPImageString.or(emptyString),
-  description: z.string().min(1).max(100_000), // TODO: Lägg till en mer rimlig text bergränsing
+  description: standardString
+    .min(1, "Måste vara minst 1 tecken")
+    .max(1_000, "Får inte vara mer än 1 000 tecken"),
 });
 
 export const updateCommitteeAsActiveSchema = upsertCommitteeBaseSchema
@@ -27,7 +30,9 @@ export const createCommitteeSchema = upsertCommitteeBaseSchema.extend({
   role: nonEmptyString,
   email: emailString,
   order: orderNumber,
-  electionPeriod: z.number().min(1).max(4).optional().default(1),
+  electionPeriod: standardNumber
+    .min(1, "Måste vara ett nummer mellan 1 och 4")
+    .max(4, "Måste vara ett nummer mellan 1 och 4"),
   linkObject: z
     .object({
       link: relativePathString.or(httpsUrlString).or(emptyString),

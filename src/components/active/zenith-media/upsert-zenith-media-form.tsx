@@ -14,16 +14,19 @@ import { createZenithMediaSchema } from "~/server/api/helpers/schemas/zenith-med
 
 type UpsertZenithMediaFormProps = IUpsertForm<typeof createZenithMediaSchema>;
 
-const DEFAULT_VALUES: UpsertZenithMediaFormProps["defaultValues"] = {};
+const DEFAULT_VALUES: UpsertZenithMediaFormProps["defaultValues"] = {
+  isPDF: false,
+  year: new Date().getFullYear(),
+};
 
 export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
-  defaultValues = DEFAULT_VALUES,
+  defaultValues,
   onSubmit,
   formType,
 }) => {
   const form = useForm<z.infer<typeof createZenithMediaSchema>>({
     resolver: zodResolver(createZenithMediaSchema),
-    defaultValues: defaultValues,
+    defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
 
   return (
