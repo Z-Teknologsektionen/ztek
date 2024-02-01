@@ -15,7 +15,7 @@ export const createZenithMediaSchema = z.object({
   year: standardNumber
     .min(
       2000,
-      "Årtalet behöver vara före 2000, om det behöver läggas in från ett tidigare år behöver du kontakta webbgruppen",
+      "Årtalet behöver vara 2000 eller senare, om det behöver läggas in från ett tidigare år behöver du kontakta webbgruppen",
     )
     .max(9999, "Årtalet måste vara ett 4 siffrigt tal")
     .refine(
