@@ -5,16 +5,16 @@ import HeadLayout from "~/components/layout/HeadLayout";
 import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
-
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
+import { getCommitteeTypeStringFromEnum } from "~/utils/getCommitteeTypeStringFromEnum";
 
 const Home: NextPage = () => {
   const { data: committees } = api.committee.getAll.useQuery();
 
   return (
     <>
-      <HeadLayout title="Organ"></HeadLayout>
+      <HeadLayout title="Organ" />
       <main>
         <SectionWrapper>
           <SectionTitle className="mb-8" center>
@@ -31,26 +31,16 @@ const Home: NextPage = () => {
           </div>
 
           {Object.values(CommitteeType).map((committeeType) => {
-            const current_type = committees?.filter((committee) => {
+            const filterdCommitteesByType = committees?.filter((committee) => {
               return committee.committeeType === committeeType;
             });
-            if (current_type?.length === 0) return null;
+            if (filterdCommitteesByType?.length === 0) return null;
             return (
               <div key={committeeType}>
                 <SecondaryTitle className="mb-4" center>
-                  {committeeType === CommitteeType.COMMITTEE
-                    ? "Kommittéer"
-                    : committeeType === CommitteeType.SUB_COMMITTEE
-                    ? "Utskott"
-                    : committeeType === CommitteeType.OTHER
-                    ? "Övrigt"
-                    : "Arbetsgrupper"}
+                  {getCommitteeTypeStringFromEnum(committeeType, true)}
                 </SecondaryTitle>
-                <CommitteeLayout
-                  committees={committees?.filter((committee) => {
-                    return committee.committeeType === committeeType;
-                  })}
-                />
+                <CommitteeLayout committees={filterdCommitteesByType} />
               </div>
             );
           })}

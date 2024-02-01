@@ -15,7 +15,7 @@ interface ICommitteeLayout {
 
 const CommitteeLayout: FC<ICommitteeLayout> = ({ committees }) => {
   return (
-    <div className=" mx-4 grid grid-cols-12 gap-4">
+    <div className="mx-4 grid grid-cols-12 gap-4">
       {committees?.map(({ name, slug, image, role }) => (
         <Link
           key={slug}
@@ -23,7 +23,7 @@ const CommitteeLayout: FC<ICommitteeLayout> = ({ committees }) => {
           href={`/student-division/committees/${slug}`}
         >
           <Card className="group shadow">
-            <CardContent className="flex flex-col items-center justify-center gap-2 pt-2">
+            <CardContent className="flex flex-col items-center justify-center gap-2 px-4 pt-2">
               <CommitteeImage alt={`${name}s logotyp`} filename={image} />
               <CardTitle className="decoration-zBlack underline-offset-2 group-hover:underline">
                 {name}
