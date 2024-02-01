@@ -43,7 +43,6 @@ export const committeeRouter = createTRPCRouter({
           email: true,
           image: true,
           electionPeriod: true,
-          committeeType: true,
           link: true,
           linkText: true,
           members: {
@@ -91,7 +90,6 @@ export const committeeRouter = createTRPCRouter({
           email: true,
           image: true,
           id: true,
-          committeeType: true,
           role: true,
           slug: true,
           updatedAt: true,
@@ -139,7 +137,6 @@ export const committeeRouter = createTRPCRouter({
           email: true,
           image: true,
           id: true,
-          committeeType: true,
           electionPeriod: true,
           updatedAt: true,
           members: {
