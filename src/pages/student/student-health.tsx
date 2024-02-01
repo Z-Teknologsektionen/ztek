@@ -16,7 +16,7 @@ const StudentHealthPage: NextPage = () => {
   const { data: samo } = api.member.getOneByEmail.useQuery({
     email: SAMO_EMAIL_KEY,
   });
-  const { data: student_counselor } = api.programBoard.getOneByRole.useQuery({
+  const { data: studentCounselor } = api.programBoard.getOneByRole.useQuery({
     role: STUDENT_COUNSELOR_ROLE,
   });
 
@@ -118,16 +118,16 @@ const StudentHealthPage: NextPage = () => {
             </div>
             <div className="col-span-1">
               <SecondaryTitle>
-                Studievägledare {student_counselor?.name}
+                Studievägledare {studentCounselor?.name}
               </SecondaryTitle>
               <ul className="mt-6">
                 <li className="mb-2 flex items-center justify-center md:justify-start">
                   <MdEmail className="mr-2" />
                   <a
                     className="hover:underline"
-                    href={`mailto:${student_counselor?.email}`}
+                    href={`mailto:${studentCounselor?.email}`}
                   >
-                    {student_counselor?.email}
+                    {studentCounselor?.email}
                   </a>
                 </li>
                 <li className="mb-2 flex items-center justify-center md:justify-start">
