@@ -1,8 +1,7 @@
 import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-
-import CommitteeImage from "~/components/committees/CommitteeImage";
+import CommitteeImage from "~/components/committees/committee-image";
 import HeadLayout from "~/components/layout/HeadLayout";
 import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import SectionTitle from "~/components/layout/SectionTitle";

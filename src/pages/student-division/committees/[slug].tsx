@@ -6,7 +6,7 @@ import {
 } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import CommitteeMemberCard from "~/components/committees/CommitteeMemberCard";
+import CommitteeMemberCard from "~/components/committees/committee-member-card";
 import HeadLayout from "~/components/layout/HeadLayout";
 import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import SectionTitle from "~/components/layout/SectionTitle";
