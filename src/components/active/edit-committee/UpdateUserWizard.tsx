@@ -5,6 +5,7 @@ import { useState, type FC } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import type { z } from "zod";
+import CommitteeImage from "~/components/committees/committee-image";
 import { BasicInput } from "~/components/forms/BasicInput";
 import { NumberInput } from "~/components/forms/NumberInput";
 import { Button } from "~/components/ui/button";
@@ -21,7 +22,6 @@ import { upsertMemberBaseSchema } from "~/server/api/helpers/schemas/members";
 import { api, type RouterOutputs } from "~/utils/api";
 import localeObject from "~/utils/dayjs";
 import { getBase64WebPStringFromFileInput } from "~/utils/utils";
-import CommitteeImage from "./CommitteeImage";
 
 dayjs.extend(relativeTime);
 dayjs.locale(localeObject);

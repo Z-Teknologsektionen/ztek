@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import type { z } from "zod";
-import CommitteeImage from "~/components/committees/CommitteeImage";
+import CommitteeImage from "~/components/committees/committee-image";
 import { Button } from "~/components/ui/button";
 import {
   Form,
