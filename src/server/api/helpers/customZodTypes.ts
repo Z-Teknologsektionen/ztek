@@ -31,7 +31,7 @@ export const objectId = standardString.refine((val) => {
 export const datetimeString = standardString.datetime({
   precision: 3,
   offset: false,
-  message: "Otilllåtet datum/tids format",
+  message: "Otilllåtet datum/tidsformat",
 });
 
 export const orderNumber = standardNumber

@@ -13,10 +13,8 @@ export const createZenithMediaSchema = z.object({
   url: httpsUrlString,
   isPDF: standardBoolean,
   year: standardNumber
-    .min(
-      2000,
-      "Årtalet behöver vara 2000 eller senare, om det behöver läggas in från ett tidigare år behöver du kontakta webbgruppen",
-    )
+    .int("Måste vara ett heltal")
+    .min(1000, "Årtalet måste vara ett 4 siffrigt tal")
     .max(9999, "Årtalet måste vara ett 4 siffrigt tal")
     .refine(
       (val) => val <= new Date().getFullYear(),
