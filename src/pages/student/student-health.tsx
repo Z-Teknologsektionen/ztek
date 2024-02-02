@@ -10,10 +10,14 @@ import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 
 const SAMO_EMAIL_KEY = "samo.ztyret@ztek.se";
+const STUDENT_COUNSELOR_ROLE = "Studievägledare";
 
 const StudentHealthPage: NextPage = () => {
-  const { data } = api.member.getOneByEmail.useQuery({
+  const { data: samo } = api.member.getOneByEmail.useQuery({
     email: SAMO_EMAIL_KEY,
+  });
+  const { data: studentCounselor } = api.programBoard.getOneByRole.useQuery({
+    role: STUDENT_COUNSELOR_ROLE,
   });
 
   return (
@@ -113,16 +117,17 @@ const StudentHealthPage: NextPage = () => {
               </ul>
             </div>
             <div className="col-span-1">
-              {/* //TODO Hämta ankén dynamiskt istället */}
-              <SecondaryTitle>Studievägledare Anders Ankén</SecondaryTitle>
+              <SecondaryTitle>
+                Studievägledare {studentCounselor?.name}
+              </SecondaryTitle>
               <ul className="mt-6">
                 <li className="mb-2 flex items-center justify-center md:justify-start">
                   <MdEmail className="mr-2" />
                   <a
                     className="hover:underline"
-                    href="mailto:anders.anken@chalmers.se"
+                    href={`mailto:${studentCounselor?.email}`}
                   >
-                    anders.anken@chalmers.se
+                    {studentCounselor?.email}
                   </a>
                 </li>
                 <li className="mb-2 flex items-center justify-center md:justify-start">
@@ -143,11 +148,11 @@ const StudentHealthPage: NextPage = () => {
           <div className="grid grid-cols-3 py-8">
             <div className="order-last col-span-3 m-auto lg:order-first lg:col-span-1">
               <CommitteeImage
-                alt={`Profilbild på ${data ? data.name : "SAMO"}`}
-                filename={data ? data.image : ""}
+                alt={`Profilbild på ${samo ? samo.name : "SAMO"}`}
+                filename={samo ? samo.image : ""}
               />
-              {data && data.image !== "" ? (
-                <p className="text-center">{data.name}, SAMO på sektionen.</p>
+              {samo && samo.image !== "" ? (
+                <p className="text-center">{samo.name}, SAMO på sektionen.</p>
               ) : (
                 <p className="text-center">Profilbild saknas</p>
               )}
@@ -157,7 +162,7 @@ const StudentHealthPage: NextPage = () => {
                 Studerande ArbetsMiljöOmbud (SAMO)
               </SectionTitle>
               <p>
-                Mitt namn är {data ? data.name : "(namn saknas)"} och jag sitter
+                Mitt namn är {samo ? samo.name : "(namn saknas)"} och jag sitter
                 som SAMO i styrelsen för Automation & Mekatronik. Det är min
                 uppgift att jobba mot att förbättra studiemiljön i de lokaler du
                 som Z-student har tillgång till. Det är även min uppgift att
@@ -172,16 +177,16 @@ const StudentHealthPage: NextPage = () => {
                   <MdEmail className="mr-2" />
                   <a
                     className="hover:underline"
-                    href={`mailto:${data ? data.email : "samo@ztek.se"}`}
+                    href={`mailto:${samo ? samo.email : "samo@ztek.se"}`}
                   >
-                    {data ? data.email : "samo@ztek.se"}
+                    {samo ? samo.email : "samo@ztek.se"}
                   </a>
                 </li>
                 <li className="mb-2 flex items-center justify-center md:justify-start">
                   <MdPhone className="mr-2" />
 
-                  <a href={`tel:${data ? data.phone : ""}`}>
-                    {data ? data.phone : "Inget telefonnummer finns"}
+                  <a href={`tel:${samo ? samo.phone : ""}`}>
+                    {samo ? samo.phone : "Inget telefonnummer finns"}
                   </a>
                 </li>
               </ul>
@@ -243,6 +248,9 @@ export default StudentHealthPage;
 
 export const getStaticProps: GetStaticProps = async () => {
   await ssg.member.getOneByEmail.prefetch({ email: SAMO_EMAIL_KEY });
+  await ssg.programBoard.getOneByRole.prefetch({
+    role: STUDENT_COUNSELOR_ROLE,
+  });
   return {
     props: {
       trpcState: ssg.dehydrate(),
