@@ -26,8 +26,10 @@ import { getBase64WebPStringFromFileInput } from "~/utils/utils";
 dayjs.extend(relativeTime);
 dayjs.locale(localeObject);
 
+type MemberType = RouterOutputs["committee"]["getOneByEmail"]["members"][0];
+
 interface IUpdateUserWizard {
-  member: RouterOutputs["committee"]["getOneByEmail"]["members"][0];
+  member: MemberType;
   refetch: () => void;
 }
 export const UpdateUserWizard: FC<IUpdateUserWizard> = ({
