@@ -5,6 +5,7 @@ import EditDocumentsTab from "~/components/active/documents";
 import EditCommitteeTab from "~/components/active/edit-committee";
 import ActiveStartTab from "~/components/active/home";
 import AdminMembersTab from "~/components/active/members";
+import OldMembersTab from "~/components/active/old-committees";
 import ProgramBoardTab from "~/components/active/program-board";
 import ZenithMediaTab from "~/components/active/zenith-media";
 
@@ -39,6 +40,12 @@ const rawActiveTabs: ActiveTabsProps[] = [
       `Om kommitenamn finns så kommer det prioriteras och visas större`,
       `Om du vill redigera något av de fält som är statiska så kan enbart webbgruppen göra detta, kontakta dem via slack eller mail.`,
     ],
+  },
+  {
+    name: "Pateter",
+    desc: "",
+    component: OldMembersTab,
+    requiredRole: undefined,
   },
   {
     name: "Administera dokument",
