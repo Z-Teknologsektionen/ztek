@@ -8,8 +8,8 @@ import {
 export const createOldCommitteeSchema = z.object({
   name: nonEmptyString,
   year: z.number(),
-  image: base64WebPImageOrEmptyString,
-  logo: base64WebPImageOrEmptyString,
+  image: base64WebPImageOrEmptyString.optional(),
+  logo: base64WebPImageOrEmptyString.optional(),
   members: z.array(
     z.object({
       name: nonEmptyString,

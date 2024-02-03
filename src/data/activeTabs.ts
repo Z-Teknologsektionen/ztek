@@ -5,7 +5,7 @@ import EditDocumentsTab from "~/components/active/documents";
 import EditCommitteeTab from "~/components/active/edit-committee";
 import ActiveStartTab from "~/components/active/home";
 import AdminMembersTab from "~/components/active/members";
-import OldMembersTab from "~/components/active/old-committees";
+import OldCommitteesTab from "~/components/active/old-committees";
 import ProgramBoardTab from "~/components/active/program-board";
 import ZenithMediaTab from "~/components/active/zenith-media";
 
@@ -44,7 +44,7 @@ const rawActiveTabs: ActiveTabsProps[] = [
   {
     name: "Pateter",
     desc: "",
-    component: OldMembersTab,
+    component: OldCommitteesTab,
     requiredRole: undefined,
   },
   {

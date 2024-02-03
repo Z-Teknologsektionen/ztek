@@ -1,21 +1,22 @@
-import { useSession } from "next-auth/react";
 import type { FC } from "react";
 import { AdvancedDataTable } from "~/components/data-table/advanced-data-table";
 import RoleWrapper from "~/components/layout/RoleWrapper";
 import SectionWrapper from "~/components/layout/SectionWrapper";
+import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
 import { oldCommitteeColumns } from "./old-committee-columns";
 import { OldCommitteeTableToolbar } from "./old-committee-table-toolbar";
 
-const OldMembersTab: FC = () => {
-  const session = useSession();
-
+const OldCommitteesTab: FC = () => {
+  const { data: session } = useRequireAuth();
+  const userEmail = session?.user.email;
   const {
-    data: committeeMember,
-    isLoading: isLoadingCommitteeMember,
-    isError: isErrorCommitteeMember,
-  } = api.member.getOneByUserId.useQuery({
-    userId: session.data?.user.id || "",
+    data: committee,
+    // refetch: refetchCommittee,
+    isLoading: isLoadingCommittee,
+    isError: isErrorCommittee,
+  } = api.committee.getOneByEmail.useQuery({
+    email: userEmail || "",
   });
 
   const {
@@ -23,16 +24,17 @@ const OldMembersTab: FC = () => {
     isError: isErrorOldCommittees,
     isLoading: isLoadingOldCommittees,
   } = api.oldCommittee.getManyByCommitteeId.useQuery({
-    belongsToCommitteeId: committeeMember?.committeeId || "",
+    belongsToCommitteeId: committee?.id || "",
   });
+
   return (
     <RoleWrapper accountRole={undefined}>
       <SectionWrapper>
         <AdvancedDataTable
           columns={oldCommitteeColumns}
           data={oldCommittees || []}
-          error={isErrorCommitteeMember || isErrorOldCommittees}
-          loading={isLoadingCommitteeMember || isLoadingOldCommittees}
+          error={isErrorCommittee || isErrorOldCommittees}
+          loading={isLoadingOldCommittees || isLoadingCommittee}
           toolbar={OldCommitteeTableToolbar}
         />
       </SectionWrapper>
@@ -40,4 +42,4 @@ const OldMembersTab: FC = () => {
   );
 };
 
-export default OldMembersTab;
+export default OldCommitteesTab;
