@@ -1,3 +1,4 @@
+import { CommitteeType } from "@prisma/client";
 import { z } from "zod";
 import {
   base64WebPImageString,
@@ -26,6 +27,7 @@ export const updateCommitteeAsActiveSchema = upsertCommitteeBaseSchema
 
 export const createCommitteeSchema = upsertCommitteeBaseSchema.extend({
   name: nonEmptyString,
+  committeeType: z.nativeEnum(CommitteeType),
   slug: slugString,
   role: nonEmptyString,
   email: emailString,

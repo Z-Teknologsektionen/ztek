@@ -67,10 +67,10 @@ const CommitteePage: NextPage<
               ))
             ) : (
               <div>
-                <SecondaryTitle center>Saknar information</SecondaryTitle>
+                <SecondaryTitle center>Information saknas</SecondaryTitle>
                 <p className="block text-center">
-                  Sittande har inte lagt in någon information. Se länk nedan för
-                  att kunna redigera
+                  Sittande har inte lagt in någon information. Är detta ditt
+                  organ kan du logga in och lägga till information.
                 </p>
               </div>
             )}
