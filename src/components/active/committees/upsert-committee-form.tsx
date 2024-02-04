@@ -13,6 +13,7 @@ import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
 import { createCommitteeSchema } from "~/server/api/helpers/schemas/committees";
+import { getCommitteeTypeStringFromEnum } from "~/utils/getCommitteeTypeStringFromEnum";
 
 type UpsertCommitteeFormProps = IUpsertForm<typeof createCommitteeSchema>;
 
@@ -23,6 +24,7 @@ const DEFAULT_VALUES: UpsertCommitteeFormProps["defaultValues"] = {
     link: "",
     linkText: "",
   },
+  committeeType: CommitteeType.COMMITTEE,
   image: "",
 };
 
@@ -49,7 +51,7 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
             label="Typ av organ"
             mappable={Object.values(CommitteeType).map((cType) => ({
               id: cType,
-              name: cType,
+              name: getCommitteeTypeStringFromEnum(cType),
             }))}
             name="committeeType"
             placeholder="Välj typ"
