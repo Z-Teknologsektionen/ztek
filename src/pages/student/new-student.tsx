@@ -5,6 +5,7 @@ import HeadLayout from "~/components/layout/HeadLayout";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { Button } from "~/components/ui/button";
+import { Skeleton } from "~/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
@@ -18,7 +19,11 @@ import { api } from "~/utils/api";
 const PROGRAMANSVARIG_KEY = "Programansvarig";
 
 const NewStudent: NextPage = () => {
-  const { data, isLoading, isError } = api.programBoard.getOneByRole.useQuery({
+  const {
+    data: programManager,
+    isLoading,
+    isError,
+  } = api.programBoard.getOneByRole.useQuery({
     role: PROGRAMANSVARIG_KEY,
   });
   return (
@@ -28,28 +33,39 @@ const NewStudent: NextPage = () => {
         <SectionWrapper>
           <div className="grid grid-cols-3">
             <div className="order-last col-span-3 m-auto lg:order-first lg:col-span-1">
-              {(data || isLoading) && (
-                <Image
-                  alt="image"
-                  className="rounded"
-                  height={400}
-                  src={data?.image ? data.image : "/logo.png"}
-                  width={400}
-                />
+              {isLoading && (
+                <>
+                  <Skeleton className="h-96 w-96 rounded-full" />
+                  <div className="mt-2 text-center">
+                    <Skeleton className="h-4" />
+                    <Skeleton className="mt-1 h-4" />
+                  </div>
+                </>
               )}
-              {data && (
-                <div className="mt-2 text-center">
-                  <p>
-                    <strong>{data.name}</strong> - programansvarig
-                  </p>
-                  <Link
-                    className="text-blue-600 hover:text-blue-800 hover:underline"
-                    href={`mailto:${data.email}`}
-                    target="_blank"
-                  >
-                    {data.email}
-                  </Link>
-                </div>
+              {programManager && (
+                <>
+                  <Image
+                    alt="image"
+                    className="rounded"
+                    height={400}
+                    src={
+                      programManager?.image ? programManager.image : "/logo.png"
+                    }
+                    width={400}
+                  />
+                  <div className="mt-2 text-center">
+                    <p>
+                      <strong>{programManager.name}</strong> - programansvarig
+                    </p>
+                    <Link
+                      className="text-blue-600 hover:text-blue-800 hover:underline"
+                      href={`mailto:${programManager.email}`}
+                      target="_blank"
+                    >
+                      {programManager.email}
+                    </Link>
+                  </div>
+                </>
               )}
               {isError && (
                 <div className="mt-2 text-center">
@@ -128,7 +144,7 @@ const NewStudent: NextPage = () => {
           <div className="grid grid-cols-3">
             <div className="order-first col-span-3 pl-4 lg:order-last lg:col-span-2">
               <SectionTitle className="mb-4">Mottagningen</SectionTitle>
-              <p>
+              <p className="mr-0 md:mr-12">
                 Mottagningen syftar till att underlätta din integration både
                 socialt och akademiskt. Detta åstadkoms genom fyra intensiva
                 veckor av engagerande aktiviteter. Genom varierande aktiviteter
@@ -141,8 +157,8 @@ const NewStudent: NextPage = () => {
                 fantastisk, men det är du som formar din egen upplevelse. Så kom
                 med ett öppet sinne och var redo att ha roligt!
               </p>
-              <div className="mt-8 grid grid-cols-2 gap-8 md:grid-cols-2 lg:grid-cols-2">
-                <div className="border-gradient rounded-lg">
+              <div className="mr-0 mt-8 grid grid-cols-2 gap-8 md:mr-2">
+                <div className="border-gradient col-span-2 rounded-lg md:col-span-1">
                   <h3 className="mb-4 text-xl font-semibold">
                     Samling på Götaplatsen första dagen
                   </h3>
@@ -153,14 +169,14 @@ const NewStudent: NextPage = () => {
                     mottagningen.
                   </p>
                 </div>
-                <div className="border-gradient rounded-lg">
+                <div className="border-gradient col-span-2 rounded-lg md:col-span-1">
                   <h3 className="mb-4 text-xl font-semibold">Redan antagen?</h3>
                   <p>
                     Tryck på denna knapp om du är antagen för mer information
-                    från vår mottagningskommite
+                    från vår mottagningskommitté.
                   </p>
                   <Button
-                    className="mx-auto block"
+                    className="mx-auto mt-4 block"
                     onClick={() =>
                       window.open("https://www.znollk.se/", "_blank")
                     }
@@ -171,7 +187,7 @@ const NewStudent: NextPage = () => {
                 </div>
               </div>
             </div>
-            <div className="order-last col-span-3 m-auto lg:order-last lg:col-span-1">
+            <div className="order-last col-span-3 m-auto mt-4 lg:order-last lg:col-span-1 lg:mt-0">
               <Image
                 alt="image"
                 className="rounded"

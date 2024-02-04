@@ -43,12 +43,24 @@ const Navbar: FC = () => {
                 className="hidden text-xl font-bold text-zWhite lg:block"
                 href="/"
               >
-                <Image alt="Logo" height={100} src="/logo.png" width={100} />
+                <Image
+                  alt="Logo"
+                  className="z-50"
+                  height={100}
+                  src="/logo.png"
+                  width={100}
+                />
               </Link>
               {/* Display the logo on smaller screens */}
               <div className="lg:hidden">
                 <Link href="/">
-                  <Image alt="Logo" height={60} src="/logo.png" width={60} />
+                  <Image
+                    alt="Logo"
+                    className="z-50"
+                    height={60}
+                    src="/logo.png"
+                    width={60}
+                  />
                 </Link>
               </div>
             </div>

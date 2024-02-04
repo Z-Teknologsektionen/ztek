@@ -152,6 +152,7 @@ export const committeeRouter = createTRPCRouter({
               role: true,
               updatedAt: true,
               order: true,
+              phone: true,
             },
           },
         },
