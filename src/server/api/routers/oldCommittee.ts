@@ -20,6 +20,7 @@ export const oldCommitteeRouter = createTRPCRouter({
           name: true,
           year: true,
           image: true,
+          logo: true,
           members: {
             select: {
               name: true,

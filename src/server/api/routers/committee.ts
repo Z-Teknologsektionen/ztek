@@ -37,6 +37,7 @@ export const committeeRouter = createTRPCRouter({
           slug: slug,
         },
         select: {
+          id: true,
           name: true,
           description: true,
           email: true,

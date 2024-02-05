@@ -12,7 +12,6 @@ const OldCommitteesTab: FC = () => {
   const userEmail = session?.user.email;
   const {
     data: committee,
-    // refetch: refetchCommittee,
     isLoading: isLoadingCommittee,
     isError: isErrorCommittee,
   } = api.committee.getOneByEmail.useQuery({

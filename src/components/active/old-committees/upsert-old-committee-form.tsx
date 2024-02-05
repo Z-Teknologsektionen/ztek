@@ -13,7 +13,6 @@ import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
 import { createOldCommitteeSchema } from "~/server/api/helpers/schemas/oldCommittee";
 import { api } from "~/utils/api";
 
@@ -93,6 +92,7 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
                 })
               }
               size={"sm"}
+              type="button"
               variant={"outline"}
             >
               <MdAdd className="h-8 w-4" />
@@ -101,37 +101,35 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
           {fields.map((field, index) => (
             <div key={field.id} className="">
               <div className="grid grid-cols-2 gap-2">
-                <Input
-                  {...form.register(`members.${index}.name`)}
-                  className=""
-                  defaultValue={field.name}
+                <BasicInput
+                  control={form.control}
+                  label="Namn"
+                  name={`members.${index}.name`}
                   placeholder="Namn"
-                  type="text"
                 />
-                <Input
-                  {...form.register(`members.${index}.nickName`)}
-                  className=""
-                  defaultValue={field.nickName}
+                <BasicInput
+                  control={form.control}
+                  label="Postnamn"
+                  name={`members.${index}.nickName`}
                   placeholder="Postnamn"
-                  type="text"
                 />
-                <Input
-                  {...form.register(`members.${index}.role`)}
-                  className=""
-                  defaultValue={field.role}
-                  placeholder="Roll"
-                  type="text"
+                <BasicInput
+                  control={form.control}
+                  label="Post"
+                  name={`members.${index}.role`}
+                  placeholder="Post"
                 />
-                <Input
-                  {...form.register(`members.${index}.order`)}
-                  className=""
-                  defaultValue={field.order}
+                <NumberInput
+                  control={form.control}
+                  label="Ordning"
+                  name={`members.${index}.order`}
                   placeholder="Ordning"
-                  type="text"
                 />
                 <Button
                   className="mr-auto"
-                  onClick={() => remove(index)}
+                  onClick={() => {
+                    remove(index);
+                  }}
                   size={"sm"}
                   type="button"
                   variant={"destructive"}
