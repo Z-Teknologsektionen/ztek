@@ -145,7 +145,33 @@ enum AccountRoles {
     MODIFY_DOCUMENTS
     MODIFY_PROGRAM_BOARD
     MODIFY_ZENITH_MEDIA
+    CREATE_MEETING_ELECTION
     ADMIN
+}
+
+model MeetingElection {
+    id           String                     @id @default(auto()) @map("_id") @db.ObjectId
+    title        String
+    slug         String                     @unique
+    year         Int
+    meeting      Int
+    candidates   MeetingElectionCandidate[]
+    votes        MeetingElectionVote[]
+    eligleVoters String[]
+}
+
+model MeetingElectionCandidate {
+    id                String          @id @default(auto()) @map("_id") @db.ObjectId
+    MeetingElection   MeetingElection @relation(fields: [meetingElectionId], references: [id])
+    meetingElectionId String          @db.ObjectId
+    name              String
+    role              String
+}
+
+model MeetingElectionVote {
+    id                String          @id @default(auto()) @map("_id") @db.ObjectId
+    MeetingElection   MeetingElection @relation(fields: [meetingElectionId], references: [id])
+    meetingElectionId String          @db.ObjectId
 }
 
 model VerificationToken {
