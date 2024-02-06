@@ -19,20 +19,15 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { upsertMemberBaseSchema } from "~/server/api/helpers/schemas/members";
-import { api, type RouterOutputs } from "~/utils/api";
+import { api } from "~/utils/api";
 import localeObject from "~/utils/dayjs";
 import { getBase64WebPStringFromFileInput } from "~/utils/utils";
+import type { UpdateUserWizardProps } from "./types";
 
 dayjs.extend(relativeTime);
 dayjs.locale(localeObject);
 
-type MemberType = RouterOutputs["committee"]["getOneByEmail"]["members"][0];
-
-interface IUpdateUserWizard {
-  member: MemberType;
-  refetch: () => void;
-}
-export const UpdateUserWizard: FC<IUpdateUserWizard> = ({
+export const UpdateUserWizard: FC<UpdateUserWizardProps> = ({
   member,
   refetch,
 }) => {

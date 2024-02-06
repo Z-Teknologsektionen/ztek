@@ -15,7 +15,8 @@ model Committee {
 
     name        String
     description String
-    image       String @default("")
+    image       String                @default("")
+    socialLinks CommitteeSocialLink[]
 
     slug           String @unique
     role           String
@@ -28,6 +29,29 @@ model Committee {
     members CommitteeMember[]
 
     updatedAt DateTime @updatedAt
+}
+
+type CommitteeSocialLink {
+    url         String
+    iconVariant IconEnum
+    order       Int      @default(100)
+}
+
+enum IconEnum {
+    FACEBOOK
+    MAIL
+    LINK
+    INSTAGRAM
+    LINKEDIN
+    SPOTIFY
+    TIKTOK
+    TWITCH
+    YOUTUBE
+    XTWITTER
+    THREADS
+    CAMERA
+    QUESTIONMARK
+    HOME
 }
 
 model CommitteeMember {

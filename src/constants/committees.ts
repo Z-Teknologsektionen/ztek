@@ -1,0 +1,1 @@
+export const MAX_NUMER_OF_SOCIAL_LINKS = 12;

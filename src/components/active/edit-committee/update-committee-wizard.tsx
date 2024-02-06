@@ -18,15 +18,11 @@ import {
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { upsertCommitteeBaseSchema } from "~/server/api/helpers/schemas/committees";
-import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
 import { getBase64WebPStringFromFileInput } from "~/utils/utils";
+import type { UpdateCommitteeWizardProps } from "./types";
 
-interface IUpdateCommitteeWizard {
-  committee: RouterOutputs["committee"]["getOneByEmail"];
-  refetchCommittee: () => void;
-}
-export const UpdateCommitteeWizard: FC<IUpdateCommitteeWizard> = ({
+export const UpdateCommitteeWizard: FC<UpdateCommitteeWizardProps> = ({
   committee,
   refetchCommittee,
 }) => {
