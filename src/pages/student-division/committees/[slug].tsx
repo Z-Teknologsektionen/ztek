@@ -85,7 +85,7 @@ const CommitteePage: NextPage<
             )}
           </div>
           {oldCommittees && oldCommittees.length !== 0 && (
-            <div>
+            <div className="">
               <div className="mx-auto max-w-3xl space-y-2 border-b-2 border-t-2 p-4 text-center">
                 <SectionTitle center>Pateter</SectionTitle>
               </div>
