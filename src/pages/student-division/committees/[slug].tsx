@@ -87,13 +87,19 @@ const CommitteePage: NextPage<
           {oldCommittees && oldCommittees.length !== 0 && (
             <div className="">
               <div className="mx-auto max-w-3xl space-y-2 border-b-2 border-t-2 p-4 text-center">
-                <SectionTitle center>Pateter</SectionTitle>
+                <SectionTitle center>Patethimmel</SectionTitle>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias
+                  perferendis, perspiciatis deserunt fugit vel voluptas eos
+                  repellendus est molestiae eius aspernatur tenetur rem
+                  laboriosam, assumenda in labore et nesciunt voluptates.
+                </p>
               </div>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {oldCommittees
                   .sort((a, b) => b.year - a.year)
                   .map((oldCommittee) => (
-                    <div key={oldCommittee.id} className="col-span-1">
+                    <div key={oldCommittee.id} className="col-span-1 m-2">
                       <OldCommitteeCard {...oldCommittee} />
                     </div>
                   ))}

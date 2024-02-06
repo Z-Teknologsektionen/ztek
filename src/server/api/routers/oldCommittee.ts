@@ -26,6 +26,7 @@ export const oldCommitteeRouter = createTRPCRouter({
               name: true,
               nickName: true,
               order: true,
+              role: true,
             },
           },
           updatedAt: true,
@@ -48,8 +49,8 @@ export const oldCommitteeRouter = createTRPCRouter({
             members: {
               set: members.map((member) => ({
                 name: member.name,
-                nickName: member.nickName,
-                role: member.role,
+                nickName: member.nickName || "",
+                role: member.role || "",
                 order: member.order,
               })),
             },

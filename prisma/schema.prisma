@@ -49,7 +49,7 @@ model OldCommittee {
 
 type OldMember {
     name     String
-    nickName String
+    nickName String?
     role     String?
     order    Int     @default(0)
 }

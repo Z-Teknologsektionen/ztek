@@ -1,6 +1,7 @@
 import { z } from "zod";
 import {
-  base64WebPImageOrEmptyString,
+  base64WebPImageString,
+  emptyString,
   nonEmptyString,
   objectId,
 } from "~/server/api/helpers/customZodTypes";
@@ -8,12 +9,12 @@ import {
 export const createOldCommitteeSchema = z.object({
   name: nonEmptyString,
   year: z.number(),
-  image: base64WebPImageOrEmptyString.optional(),
-  logo: base64WebPImageOrEmptyString.optional(),
+  image: base64WebPImageString.or(emptyString),
+  logo: base64WebPImageString.or(emptyString),
   members: z.array(
     z.object({
       name: nonEmptyString,
-      nickName: nonEmptyString,
+      nickName: nonEmptyString.optional(),
       order: z.number(),
       role: nonEmptyString.optional(),
     }),

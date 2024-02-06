@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AccountRoles } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import type { FC } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -13,6 +14,7 @@ import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
+import { Separator } from "~/components/ui/separator";
 import { createOldCommitteeSchema } from "~/server/api/helpers/schemas/oldCommittee";
 import { api } from "~/utils/api";
 
@@ -28,7 +30,7 @@ const DEFAULT_VALUES: UpsertOldCommitteeFormProps["defaultValues"] = {
 };
 
 const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
-  defaultValues = DEFAULT_VALUES,
+  defaultValues,
   onSubmit,
   formType,
 }) => {
@@ -37,9 +39,24 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
   const { data: committee } = api.committee.getOneByEmail.useQuery({
     email: userEmail || "",
   });
+  const dropDownMappable = [];
+
+  if (data?.user.roles.includes(AccountRoles.ADMIN)) {
+    api.committee.getAllAsAdmin.useQuery().data?.map((c) =>
+      dropDownMappable.push({
+        id: c.id,
+        name: c.name,
+      }),
+    );
+  } else {
+    dropDownMappable.push({
+      id: committee?.id || "",
+      name: committee?.name || "Okänt. Kontakta webbgruppen.",
+    });
+  }
   const form = useForm<z.infer<typeof createOldCommitteeSchema>>({
     resolver: zodResolver(createOldCommitteeSchema),
-    defaultValues: defaultValues,
+    defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
   const { fields, append, remove } = useFieldArray({
     control: form.control,
@@ -62,12 +79,7 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
             defaultValue={committee?.id}
             disabled={false}
             label="Huvudorgan"
-            mappable={[
-              {
-                id: committee?.id || "",
-                name: committee?.name || "Okänt. Kontakta webbgruppen.",
-              },
-            ]}
+            mappable={dropDownMappable}
             name="belongsToCommitteeId"
             placeholder="Välj huvudorgan"
           />
@@ -77,29 +89,25 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
             label="År"
             name="year"
           />
-          <ImageInput control={form.control} label="Omslagsbild" name="image" />
-          <ImageInput control={form.control} label="Logga" name="logo" />
-          <div className="flex justify-start">
-            <SecondaryTitle>Medlemmar</SecondaryTitle>
-            <Button
-              className="ml-2"
-              onClick={() =>
-                append({
-                  name: "",
-                  nickName: "",
-                  order: 0,
-                  role: "",
-                })
-              }
-              size={"sm"}
-              type="button"
-              variant={"outline"}
-            >
-              <MdAdd className="h-8 w-4" />
-            </Button>
-          </div>
+
+          <SecondaryTitle>Medlemmar</SecondaryTitle>
           {fields.map((field, index) => (
-            <div key={field.id} className="">
+            <div key={field.id}>
+              <Separator className="my-4" />
+              <div className="flex w-full items-center justify-between">
+                <h2 className="font-medium ">Medlem {index + 1}</h2>
+                <Button
+                  className="mr-4 h-6 content-center text-sm"
+                  onClick={() => {
+                    remove(index);
+                  }}
+                  size={"sm"}
+                  type="button"
+                  variant={"outline"}
+                >
+                  Ta bort
+                </Button>
+              </div>
               <div className="grid grid-cols-2 gap-2">
                 <BasicInput
                   control={form.control}
@@ -125,20 +133,37 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
                   name={`members.${index}.order`}
                   placeholder="Ordning"
                 />
-                <Button
-                  className="mr-auto"
-                  onClick={() => {
-                    remove(index);
-                  }}
-                  size={"sm"}
-                  type="button"
-                  variant={"destructive"}
-                >
-                  Ta bort
-                </Button>
               </div>
             </div>
           ))}
+          <Separator className="my-4" />
+          <Button
+            className="flex items-center"
+            onClick={() =>
+              append({
+                name: "",
+                nickName: "",
+                order: 0,
+                role: "",
+              })
+            }
+            size={"sm"}
+            type="button"
+            variant={"outline"}
+          >
+            <MdAdd className="mt-0.5" />
+            Ny medlem
+          </Button>
+          <ImageInput
+            control={form.control}
+            label="Omslagsbild (valfri)"
+            name="image"
+          />
+          <ImageInput
+            control={form.control}
+            label="Logga (valfri)"
+            name="logo"
+          />
         </div>
         <DialogFooter>
           <Button
