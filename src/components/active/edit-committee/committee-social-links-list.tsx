@@ -16,12 +16,12 @@ const CommitteeSocialLinksList: FC<CommitteeSocialLinksListProps> = ({
   initialSocialLinks,
   committeeId,
 }) => {
-  const { mutate: setSocialIcons } = useAddCommitteeSocialLinksAsUser();
+  const { mutate: updateSocialLinks } = useAddCommitteeSocialLinksAsUser();
 
   const form = useForm<UpsertCommitteeSocialLinksSchemaType>({
     resolver: zodResolver(upsertCommitteeSocialLinksBaseSchema),
     defaultValues: {
-      socialIcons: initialSocialLinks,
+      socialLinks: initialSocialLinks,
     },
   });
 
@@ -34,7 +34,7 @@ const CommitteeSocialLinksList: FC<CommitteeSocialLinksListProps> = ({
     replace: setSocialLinks,
   } = useFieldArray({
     control: form.control,
-    name: "socialIcons",
+    name: "socialLinks",
   });
 
   const hasUpdated = useMemo(
@@ -89,7 +89,7 @@ const CommitteeSocialLinksList: FC<CommitteeSocialLinksListProps> = ({
         <Button
           className={`${hasUpdated && "animate-pulse duration-1000"}`}
           onClick={() =>
-            setSocialIcons({ id: committeeId, socialIcons: socialLinks })
+            updateSocialLinks({ id: committeeId, socialLinks: socialLinks })
           }
         >
           Spara

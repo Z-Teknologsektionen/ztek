@@ -2,7 +2,7 @@ import { useState, type FC } from "react";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import type { CommitteeSocialLinksToolbarProps } from "./types";
-import { UpsertCommitteeSocailIconsForm } from "./upsert-committee-social-icon-form";
+import { UpsertCommitteeSocailIconsForm } from "./upsert-committee-social-link-form";
 
 const CommitteeSocialLinksToolbar: FC<CommitteeSocialLinksToolbarProps> = ({
   canCreateNewLink,

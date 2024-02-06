@@ -8,16 +8,16 @@ import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
 import { socialIconSchema } from "~/server/api/helpers/schemas/committees";
-import UpsertCommitteeSocialIconSelect from "./upsert-committee-social-icon-select";
+import SelectCommitteeSocialIcon from "./select-committee-social-icon";
 
-type UpsertCommitteeSocialIconsFormProps = IUpsertForm<typeof socialIconSchema>;
+type UpsertCommitteeSocialLinksFormProps = IUpsertForm<typeof socialIconSchema>;
 
-const DEFAULT_VALUES: UpsertCommitteeSocialIconsFormProps["defaultValues"] = {
+const DEFAULT_VALUES: UpsertCommitteeSocialLinksFormProps["defaultValues"] = {
   order: 99,
 };
 
 export const UpsertCommitteeSocailIconsForm: FC<
-  UpsertCommitteeSocialIconsFormProps
+  UpsertCommitteeSocialLinksFormProps
 > = ({ defaultValues, onSubmit, formType }) => {
   const form = useForm<z.infer<typeof socialIconSchema>>({
     resolver: zodResolver(socialIconSchema),
@@ -29,7 +29,7 @@ export const UpsertCommitteeSocailIconsForm: FC<
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="max-h-96 space-y-4 overflow-y-auto p-1">
-          <UpsertCommitteeSocialIconSelect
+          <SelectCommitteeSocialIcon
             control={form.control}
             label="Icon"
             name="iconAndUrl.iconVariant"

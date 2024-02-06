@@ -209,8 +209,8 @@ export const committeeRouter = createTRPCRouter({
     }),
   setCommitteeSocialLinksAsUser: protectedProcedure
     .input(upsertCommitteeSocialLinksBaseSchema.extend({ id: objectId }))
-    .mutation(({ ctx, input: { socialIcons, id } }) => {
-      const formatedSocialLinks = socialIcons.map((link) => ({
+    .mutation(({ ctx, input: { socialLinks, id } }) => {
+      const formatedSocialLinks = socialLinks.map((link) => ({
         order: link.order,
         iconVariant: link.iconAndUrl.iconVariant,
         url: link.iconAndUrl.url,
@@ -241,7 +241,7 @@ export const committeeRouter = createTRPCRouter({
           slug,
           image,
           electionPeriod,
-          socialIcons,
+          socialLinks,
         },
       }) => {
         return ctx.prisma.committee.create({
@@ -254,7 +254,7 @@ export const committeeRouter = createTRPCRouter({
             role,
             slug,
             electionPeriod,
-            socialLinks: socialIcons.map(
+            socialLinks: socialLinks.map(
               ({
                 iconAndUrl: { iconVariant, url },
                 order: socialLinkOrder,
@@ -286,7 +286,7 @@ export const committeeRouter = createTRPCRouter({
           slug,
           image,
           electionPeriod,
-          socialIcons,
+          socialLinks,
         },
       }) => {
         return ctx.prisma.committee.update({
@@ -302,7 +302,7 @@ export const committeeRouter = createTRPCRouter({
             role,
             slug,
             electionPeriod,
-            socialLinks: socialIcons?.map(
+            socialLinks: socialLinks?.map(
               ({
                 iconAndUrl: { iconVariant, url },
                 order: socialLinkOrder,

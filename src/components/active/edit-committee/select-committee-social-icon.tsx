@@ -24,7 +24,7 @@ import {
   getSocialNameFromEnum,
 } from "~/utils/getSocialFromEnum";
 
-const UpsertCommitteeSocialIconSelect = <
+const SelectCommitteeSocialIcon = <
   TFieldValues extends FieldValues,
   TName extends Path<TFieldValues>,
 >({
@@ -84,4 +84,4 @@ const UpsertCommitteeSocialIconSelect = <
   );
 };
 
-export default UpsertCommitteeSocialIconSelect;
+export default SelectCommitteeSocialIcon;

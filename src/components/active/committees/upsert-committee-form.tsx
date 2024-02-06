@@ -11,7 +11,7 @@ import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
 import { createCommitteeSchema } from "~/server/api/helpers/schemas/committees";
-import UpsertCommitteeSocialIconsFormSection from "./upsert-committee-social-icons-form-section";
+import UpsertCommitteeSocialLinksFormSection from "./upsert-committee-social-links-form-section";
 
 export type UpsertCommitteeFormProps = IUpsertForm<
   typeof createCommitteeSchema
@@ -21,7 +21,7 @@ export type UpsertCommitteeFormValues = z.infer<typeof createCommitteeSchema>;
 const DEFAULT_VALUES: UpsertCommitteeFormProps["defaultValues"] = {
   electionPeriod: 1,
   order: 0,
-  socialIcons: [],
+  socialLinks: [],
   image: "",
 };
 
@@ -77,7 +77,7 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
             min={0}
             name="order"
           />
-          <UpsertCommitteeSocialIconsFormSection control={form.control} />
+          <UpsertCommitteeSocialLinksFormSection control={form.control} />
           <ImageInput
             control={form.control}
             label="Bild (valfri)"

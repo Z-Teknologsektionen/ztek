@@ -5,23 +5,23 @@ import { BasicInput } from "~/components/forms/BasicInput";
 import { Button } from "~/components/ui/button";
 import { FormDescription } from "~/components/ui/form";
 import { Label } from "~/components/ui/label";
-import UpsertCommitteeSocialIconSelect from "../edit-committee/upsert-committee-social-icon-select";
+import SelectCommitteeSocialIcon from "../edit-committee/select-committee-social-icon";
 import type { UpsertCommitteeFormValues } from "./upsert-committee-form";
 
-type UpsertCommitteeSocialIconsFormSectionProps = {
+type UpsertCommitteeSocialLinksFormSectionProps = {
   control: Control<UpsertCommitteeFormValues>;
 };
 
-const UpsertCommitteeSocialIconsFormSection: FC<
-  UpsertCommitteeSocialIconsFormSectionProps
+const UpsertCommitteeSocialLinksFormSection: FC<
+  UpsertCommitteeSocialLinksFormSectionProps
 > = ({ control }) => {
   const {
-    fields: socialIcons,
+    fields: socialLinks,
     append: addSocialIcon,
-    swap: swapSocialIcons,
+    swap: swapSocialLinks,
     remove: removeSocialIcon,
   } = useFieldArray({
-    name: "socialIcons",
+    name: "socialLinks",
     control,
   });
 
@@ -47,34 +47,34 @@ const UpsertCommitteeSocialIconsFormSection: FC<
           <p className="sr-only">Lägg till ny social länk</p>
         </Button>
       </div>
-      {socialIcons.length === 0 ? (
+      {socialLinks.length === 0 ? (
         <FormDescription className="text-xs">
           Inga sociala länkar. Lägg till första genom att klicka på +
         </FormDescription>
       ) : (
         <div className="flex flex-col gap-2">
-          {socialIcons.map(({ iconAndUrl: { iconVariant, url }, id }, idx) => {
+          {socialLinks.map(({ iconAndUrl: { iconVariant, url }, id }, idx) => {
             return (
               <div
                 key={id}
                 className="space-y-4 rounded border px-2 py-4 shadow"
               >
-                <UpsertCommitteeSocialIconSelect
+                <SelectCommitteeSocialIcon
                   control={control}
                   defaultValue={iconVariant}
                   label="Ikon"
-                  name={`socialIcons.${idx}.iconAndUrl.iconVariant`}
+                  name={`socialLinks.${idx}.iconAndUrl.iconVariant`}
                 />
                 <BasicInput
                   control={control}
                   defaultValue={url}
                   label="Url"
-                  name={`socialIcons.${idx}.iconAndUrl.url`}
+                  name={`socialLinks.${idx}.iconAndUrl.url`}
                 />
                 <div className="flex flex-row justify-end gap-2">
                   <Button
                     disabled={idx === 0}
-                    onClick={() => swapSocialIcons(idx, idx - 1)}
+                    onClick={() => swapSocialLinks(idx, idx - 1)}
                     size="icon"
                     type="button"
                     variant="outline"
@@ -83,8 +83,8 @@ const UpsertCommitteeSocialIconsFormSection: FC<
                     <p className="sr-only">Flytta uppåt</p>
                   </Button>
                   <Button
-                    disabled={idx === socialIcons.length - 1}
-                    onClick={() => swapSocialIcons(idx, idx + 1)}
+                    disabled={idx === socialLinks.length - 1}
+                    onClick={() => swapSocialLinks(idx, idx + 1)}
                     size="icon"
                     type="button"
                     variant="outline"
@@ -111,4 +111,4 @@ const UpsertCommitteeSocialIconsFormSection: FC<
   );
 };
 
-export default UpsertCommitteeSocialIconsFormSection;
+export default UpsertCommitteeSocialLinksFormSection;

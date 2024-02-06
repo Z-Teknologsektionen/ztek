@@ -69,7 +69,7 @@ export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
               key={id}
               defaultValues={{
                 ...values,
-                socialIcons: values.socialLinks.map(
+                socialLinks: values.socialLinks.map(
                   ({ iconVariant, order, url }) => ({
                     iconAndUrl: {
                       iconVariant,

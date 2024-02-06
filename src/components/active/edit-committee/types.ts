@@ -32,21 +32,21 @@ export type CommitteeSocialLinksListItemProps = {
   swapSocialLinks: UseFieldArraySwap;
   updateSocialLink: UseFieldArrayUpdate<
     UpsertCommitteeSocialLinksSchemaType,
-    "socialIcons"
+    "socialLinks"
   >;
 };
 
 export type CommitteeSocialLinksToolbarProps = {
   appendSocialLink: UseFieldArrayAppend<
     UpsertCommitteeSocialLinksSchemaType,
-    "socialIcons"
+    "socialLinks"
   >;
   canCreateNewLink: boolean;
 };
 
 export type CommitteeSocialLinksListProps = {
   committeeId: string;
-  initialSocialLinks: UpsertCommitteeSocialLinksSchemaType["socialIcons"];
+  initialSocialLinks: UpsertCommitteeSocialLinksSchemaType["socialLinks"];
 };
 
 export type UpdateCommitteeWizardProps = {

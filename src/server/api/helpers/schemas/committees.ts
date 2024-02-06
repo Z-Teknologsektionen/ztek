@@ -66,7 +66,7 @@ export const socialIconSchema = z.object({
 });
 
 export const upsertCommitteeSocialLinksBaseSchema = z.object({
-  socialIcons: z.array(socialIconSchema).max(MAX_NUMER_OF_SOCIAL_LINKS),
+  socialLinks: z.array(socialIconSchema).max(MAX_NUMER_OF_SOCIAL_LINKS),
 });
 
 export const updateCommitteeAsActiveSchema = upsertCommitteeBaseSchema

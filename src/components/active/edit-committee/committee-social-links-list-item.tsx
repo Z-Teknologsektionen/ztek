@@ -8,7 +8,7 @@ import {
   getSocialNameFromEnum,
 } from "~/utils/getSocialFromEnum";
 import type { CommitteeSocialLinksListItemProps } from "./types";
-import { UpsertCommitteeSocailIconsForm } from "./upsert-committee-social-icon-form";
+import { UpsertCommitteeSocailIconsForm } from "./upsert-committee-social-link-form";
 
 const CommitteeSocialLinksListItem: FC<CommitteeSocialLinksListItemProps> = ({
   socialLink,
