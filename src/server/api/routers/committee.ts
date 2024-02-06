@@ -4,6 +4,7 @@ import {
   createCommitteeSchema,
   updateCommitteeAsActiveSchema,
   updateCommitteeSchema,
+  upsertCommitteeSocialLinksBaseSchema,
 } from "~/server/api/helpers/schemas/committees";
 import {
   adminProcedure,
@@ -44,6 +45,7 @@ export const committeeRouter = createTRPCRouter({
           electionPeriod: true,
           link: true,
           linkText: true,
+          socialLinks: true,
           members: {
             where: {
               OR: [
@@ -138,6 +140,7 @@ export const committeeRouter = createTRPCRouter({
           id: true,
           electionPeriod: true,
           updatedAt: true,
+          socialLinks: true,
           members: {
             orderBy: {
               order: "desc",
@@ -205,6 +208,26 @@ export const committeeRouter = createTRPCRouter({
         },
       });
     }),
+  setCommitteeSocialLinksAsUser: protectedProcedure
+    .input(upsertCommitteeSocialLinksBaseSchema.extend({ id: objectId }))
+    .mutation(({ ctx, input: { socialIcons, id } }) => {
+      const formatedSocialLinks = socialIcons.map((link) => ({
+        order: link.order,
+        iconVariant: link.iconAndUrl.iconVariant,
+        url: link.iconAndUrl.url,
+      }));
+      return ctx.prisma.committee.update({
+        where: {
+          id: id,
+        },
+        data: {
+          socialLinks: {
+            set: formatedSocialLinks,
+          },
+        },
+      });
+    }),
+
   createCommittee: adminProcedure.input(createCommitteeSchema).mutation(
     ({
       ctx,
