@@ -7,31 +7,44 @@ const base64Regex =
 
 const slugRegex = /^[a-z]+(?:-[a-z]+)*$/;
 
-export const objectId = z.string().refine((val) => {
-  return mongoose.Types.ObjectId.isValid(val);
-}, "");
+export const standardString = z
+  .string({
+    required_error: "Obligatoriskt fält",
+    invalid_type_error: "Måste vara en sträng",
+  })
+  .trim();
 
-export const datetimeString = z.string().datetime({
-  precision: 3,
-  offset: false,
-  message: "Otilllåtet datum/tids format",
+export const standardNumber = z.number({
+  required_error: "Obligatoriskt fält",
+  invalid_type_error: "Måste vara ett nummer",
 });
 
-export const orderNumber = z
-  .number()
+export const standardBoolean = z.boolean({
+  required_error: "Obligatoriskt fält",
+  invalid_type_error: "Måste vara en bool",
+});
+
+export const objectId = standardString.refine((val) => {
+  return mongoose.Types.ObjectId.isValid(val);
+}, "Ogiltigt objectId");
+
+export const datetimeString = standardString.datetime({
+  precision: 3,
+  offset: false,
+  message: "Otilllåtet datum/tidsformat",
+});
+
+export const orderNumber = standardNumber
   .min(0, { message: "Måste vara ett tal större än eller lika med 0" })
-  .max(99, { message: "Måste vara ett tal mindre än eller lika med 99" })
-  .optional()
-  .default(0);
+  .max(99, { message: "Måste vara ett tal mindre än eller lika med 99" });
 
-export const emailString = z.string().email({ message: "Ogiltig epost" });
+export const emailString = standardString.email({ message: "Ogiltig epost" });
 
-export const nonEmptyString = z
-  .string()
-  .min(1, { message: "Får inte vara en tom sträng" });
+export const nonEmptyString = standardString.min(1, {
+  message: "Får inte vara en tom sträng",
+});
 
-export const base64WebPImageString = z
-  .string()
+export const base64WebPImageString = standardString
   .startsWith("data:image/webp;base64,", {
     message: "Måste vara en base64 sträng med typ webp",
   })
@@ -40,19 +53,20 @@ export const base64WebPImageString = z
     return base64Regex.test(formatedVal);
   }, "Inte giltig base64 sträng");
 
-export const base64WebPImageOrEmptyString = z.string().refine((str) => {
-  if (str === "") return true;
+export const phoneNumberString = standardString.refine(
+  (val) => isMobilePhone(val, "sv-SE"),
+  "Ogiltigt telefonnummer",
+);
 
-  return base64WebPImageString.safeParse(str).success;
-}, "Ogiltig base64 sträng av webp typ");
-
-export const phoneNumberOrEmptyString = z.string().refine((val) => {
-  if (val === "") return true;
-  return isMobilePhone(val, "sv-SE");
-}, "Ogiltigt telefonnummer");
-
-export const slugString = z.string().refine((val) => {
-  return slugRegex.test(val);
-}, `Otillåten slug, får bara innehålla småbokstäver och - men inte sluta på -. Använder följande regexp "${slugRegex}"`);
+export const slugString = standardString.refine(
+  (val) => slugRegex.test(val),
+  `Otillåten sträng, får bara innehålla småbokstäver och - men inte sluta på -. Använder följande regexp "${slugRegex}"`,
+);
 
 export const emptyString = z.literal("");
+
+export const httpsUrlString = standardString
+  .url("Måste vara en URL")
+  .startsWith("https://", "Måste vara en säker https länk");
+
+export const relativePathString = z.string().trim().startsWith("/");

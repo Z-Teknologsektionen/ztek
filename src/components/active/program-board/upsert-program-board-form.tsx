@@ -16,7 +16,11 @@ type UpsertProgramBoardMemberFormProps = IUpsertForm<
   typeof createProgramBoardMemberSchema
 >;
 
-const DEFAULT_VALUES: UpsertProgramBoardMemberFormProps["defaultValues"] = {};
+const DEFAULT_VALUES: UpsertProgramBoardMemberFormProps["defaultValues"] = {
+  phone: "",
+  image: "",
+  order: 0,
+};
 
 const UpsertProgramBoardMemberForm: FC<UpsertProgramBoardMemberFormProps> = ({
   defaultValues = DEFAULT_VALUES,
@@ -25,7 +29,7 @@ const UpsertProgramBoardMemberForm: FC<UpsertProgramBoardMemberFormProps> = ({
 }) => {
   const form = useForm<z.infer<typeof createProgramBoardMemberSchema>>({
     resolver: zodResolver(createProgramBoardMemberSchema),
-    defaultValues,
+    defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
 
   return (
@@ -42,8 +46,7 @@ const UpsertProgramBoardMemberForm: FC<UpsertProgramBoardMemberFormProps> = ({
           />
           <BasicInput
             control={form.control}
-            description="Måste inte vara med"
-            label="Telefonnummer"
+            label="Telefonnummer (valfri)"
             name="phone"
           />
           <BasicInput
@@ -70,7 +73,11 @@ const UpsertProgramBoardMemberForm: FC<UpsertProgramBoardMemberFormProps> = ({
             min={0}
             name="order"
           />
-          <ImageInput control={form.control} label="Bild" name="image" />
+          <ImageInput
+            control={form.control}
+            label="Bild (valfri)"
+            name="image"
+          />
         </div>
         <DialogFooter>
           <Button

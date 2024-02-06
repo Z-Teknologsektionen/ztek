@@ -14,18 +14,17 @@ type UpsertDocumentGroupFormProps = IUpsertForm<
 >;
 
 const DEFAULT_VALUES: UpsertDocumentGroupFormProps["defaultValues"] = {
-  extraText: undefined,
-  name: undefined,
+  extraText: "",
 };
 
 export const UpsertDocumentGroupForm: FC<UpsertDocumentGroupFormProps> = ({
-  defaultValues = DEFAULT_VALUES,
+  defaultValues,
   onSubmit,
   formType,
 }) => {
   const form = useForm<z.infer<typeof createDocumentGroupSchema>>({
     resolver: zodResolver(createDocumentGroupSchema),
-    defaultValues,
+    defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
 
   return (
@@ -36,19 +35,19 @@ export const UpsertDocumentGroupForm: FC<UpsertDocumentGroupFormProps> = ({
           <BasicInput control={form.control} label="Namn" name="name" />
           <BasicInput
             control={form.control}
-            label="Extra text"
+            label="Extra text (valfri)"
             name="extraText"
           />
         </div>
         <DialogFooter>
           <Button
             onClick={() => {
-              form.reset(defaultValues);
+              form.reset();
             }}
             type="button"
             variant={"outline"}
           >
-            Rensa
+            Återställ
           </Button>
           <Button type="submit" variant={"default"}>
             {formType === "create" ? "Skapa" : "Uppdatera"}

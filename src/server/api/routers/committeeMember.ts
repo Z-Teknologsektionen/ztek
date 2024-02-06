@@ -101,6 +101,7 @@ export const committeeMemberRouter = createTRPCRouter({
           committee: {
             select: {
               name: true,
+              id: true,
             },
           },
           user: {
@@ -114,6 +115,7 @@ export const committeeMemberRouter = createTRPCRouter({
         ...member,
         userRoles: user?.roles,
         committeeName: committee.name,
+        committeeId: committee.id,
       }));
     }),
   createMemberAsAdmin: adminProcedure

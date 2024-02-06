@@ -20,11 +20,19 @@ model Committee {
     email          String            @unique
     order          Int
     electionPeriod Int               @default(1)
+    committeeType  CommitteeType     @default(COMMITTEE)
     link           String            @default("")
     linkText       String            @default("")
     members        CommitteeMember[]
-    updatedAt      DateTime          @updatedAt
     OldCommittee   OldCommittee[]
+    updatedAt      DateTime          @updatedAt
+}
+
+enum CommitteeType {
+    COMMITTEE
+    SUB_COMMITTEE
+    WORKING_GROUP
+    OTHER
 }
 
 model OldCommittee {

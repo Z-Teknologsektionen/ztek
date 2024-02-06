@@ -1,8 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CommitteeType } from "@prisma/client";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { BasicInput } from "~/components/forms/BasicInput";
+import { DropdownInput } from "~/components/forms/DropdownInput";
 import { ImageInput } from "~/components/forms/ImageInput";
 import { NumberInput } from "~/components/forms/NumberInput";
 import { TextAreaInput } from "~/components/forms/TextAreaInput";
@@ -11,6 +13,7 @@ import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
 import { createCommitteeSchema } from "~/server/api/helpers/schemas/committees";
+import { getCommitteeTypeStringFromEnum } from "~/utils/getCommitteeTypeStringFromEnum";
 
 type UpsertCommitteeFormProps = IUpsertForm<typeof createCommitteeSchema>;
 
@@ -21,17 +24,18 @@ const DEFAULT_VALUES: UpsertCommitteeFormProps["defaultValues"] = {
     link: "",
     linkText: "",
   },
+  committeeType: CommitteeType.COMMITTEE,
   image: "",
 };
 
 const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
-  defaultValues = DEFAULT_VALUES,
+  defaultValues,
   onSubmit,
   formType,
 }) => {
   const form = useForm<z.infer<typeof createCommitteeSchema>>({
     resolver: zodResolver(createCommitteeSchema),
-    defaultValues: defaultValues,
+    defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
 
   return (
@@ -41,6 +45,17 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
         <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
           <BasicInput control={form.control} label="Namn" name="name" />
           <BasicInput control={form.control} label="Slug" name="slug" />
+          <DropdownInput
+            control={form.control}
+            description="Vilken typ av organ är det?"
+            label="Typ av organ"
+            mappable={Object.values(CommitteeType).map((cType) => ({
+              id: cType,
+              name: getCommitteeTypeStringFromEnum(cType),
+            }))}
+            name="committeeType"
+            placeholder="Välj typ"
+          />
           <TextAreaInput
             control={form.control}
             label="Beskrivning"

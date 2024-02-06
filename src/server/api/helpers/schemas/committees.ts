@@ -1,17 +1,24 @@
+import { CommitteeType } from "@prisma/client";
 import { z } from "zod";
 import {
-  base64WebPImageOrEmptyString,
+  base64WebPImageString,
   emailString,
   emptyString,
+  httpsUrlString,
   nonEmptyString,
   objectId,
   orderNumber,
+  relativePathString,
   slugString,
+  standardNumber,
+  standardString,
 } from "~/server/api/helpers/customZodTypes";
 
 export const upsertCommitteeBaseSchema = z.object({
-  image: base64WebPImageOrEmptyString,
-  description: z.string().min(1).max(100_000), // TODO: Lägg till en mer rimlig text bergränsing
+  image: base64WebPImageString.or(emptyString),
+  description: standardString
+    .min(1, "Måste vara minst 1 tecken")
+    .max(1_000, "Får inte vara mer än 1 000 tecken"),
 });
 
 export const updateCommitteeAsActiveSchema = upsertCommitteeBaseSchema
@@ -20,28 +27,18 @@ export const updateCommitteeAsActiveSchema = upsertCommitteeBaseSchema
 
 export const createCommitteeSchema = upsertCommitteeBaseSchema.extend({
   name: nonEmptyString,
+  committeeType: z.nativeEnum(CommitteeType),
   slug: slugString,
   role: nonEmptyString,
   email: emailString,
   order: orderNumber,
-  electionPeriod: z.number().min(1).max(4).optional().default(1),
+  electionPeriod: standardNumber
+    .min(1, "Måste vara ett nummer mellan 1 och 4")
+    .max(4, "Måste vara ett nummer mellan 1 och 4"),
   linkObject: z
     .object({
-      link: z
-        .string()
-        .trim()
-        .startsWith("/")
-        .or(
-          z
-            .string()
-            .trim()
-            .url("Måste vara en URL")
-            .startsWith("https://", "Måste vara en säker https länk"),
-        )
-        .or(emptyString),
-      linkText: z
-        .string()
-        .trim()
+      link: relativePathString.or(httpsUrlString).or(emptyString),
+      linkText: standardString
         .min(3, "Länktexten måste vara minst 3 tecken lång")
         .or(emptyString),
     })
