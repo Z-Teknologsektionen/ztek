@@ -53,7 +53,7 @@ export const CommitteeTableToolbar = <TData,>({
             }
             isOpen={isOpen}
             setIsOpen={setIsOpen}
-            title="Skapa ny medlem"
+            title="Skapa nytt organ"
             trigger={
               <Button
                 className="ml-2 h-8 px-2 lg:px-3"

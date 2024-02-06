@@ -11,16 +11,17 @@ import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
 import { createCommitteeSchema } from "~/server/api/helpers/schemas/committees";
+import UpsertCommitteeSocialIconsFormSection from "./upsert-committee-social-icons-form-section";
 
-type UpsertCommitteeFormProps = IUpsertForm<typeof createCommitteeSchema>;
+export type UpsertCommitteeFormProps = IUpsertForm<
+  typeof createCommitteeSchema
+>;
+export type UpsertCommitteeFormValues = z.infer<typeof createCommitteeSchema>;
 
 const DEFAULT_VALUES: UpsertCommitteeFormProps["defaultValues"] = {
   electionPeriod: 1,
   order: 0,
-  linkObject: {
-    link: "",
-    linkText: "",
-  },
+  socialIcons: [],
   image: "",
 };
 
@@ -29,7 +30,7 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
   onSubmit,
   formType,
 }) => {
-  const form = useForm<z.infer<typeof createCommitteeSchema>>({
+  const form = useForm<UpsertCommitteeFormValues>({
     resolver: zodResolver(createCommitteeSchema),
     defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
@@ -76,18 +77,7 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
             min={0}
             name="order"
           />
-          <BasicInput
-            control={form.control}
-            description="Länk till ex organets hemsida"
-            label="Länk (valfri)"
-            name="linkObject.link"
-          />
-          <BasicInput
-            control={form.control}
-            description="Länktext till ovanstående länk"
-            label="Länktext (valfri)"
-            name="linkObject.linkText"
-          />
+          <UpsertCommitteeSocialIconsFormSection control={form.control} />
           <ImageInput
             control={form.control}
             label="Bild (valfri)"

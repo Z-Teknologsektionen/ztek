@@ -172,8 +172,7 @@ export const committeeRouter = createTRPCRouter({
         email: true,
         description: true,
         role: true,
-        link: true,
-        linkText: true,
+        socialLinks: true,
         _count: {
           select: {
             members: true,
@@ -228,40 +227,50 @@ export const committeeRouter = createTRPCRouter({
       });
     }),
 
-  createCommittee: adminProcedure.input(createCommitteeSchema).mutation(
-    ({
-      ctx,
-      input: {
-        description,
-        email,
-        name,
-        order,
-        role,
-        slug,
-        image,
-        electionPeriod,
-        linkObject: { link, linkText },
-      },
-    }) => {
-      return ctx.prisma.committee.create({
-        data: {
+  createCommittee: adminProcedure
+    .input(createCommitteeSchema)
+    .mutation(
+      ({
+        ctx,
+        input: {
           description,
           email,
-          image,
           name,
           order,
           role,
           slug,
+          image,
           electionPeriod,
-          link,
-          linkText,
+          socialIcons,
         },
-        select: {
-          name: true,
-        },
-      });
-    },
-  ),
+      }) => {
+        return ctx.prisma.committee.create({
+          data: {
+            description,
+            email,
+            image,
+            name,
+            order,
+            role,
+            slug,
+            electionPeriod,
+            socialLinks: socialIcons.map(
+              ({
+                iconAndUrl: { iconVariant, url },
+                order: socialLinkOrder,
+              }) => ({
+                iconVariant,
+                url,
+                order: socialLinkOrder,
+              }),
+            ),
+          },
+          select: {
+            name: true,
+          },
+        });
+      },
+    ),
   updateCommittee: adminProcedure
     .input(updateCommitteeSchema)
     .mutation(
@@ -277,7 +286,7 @@ export const committeeRouter = createTRPCRouter({
           slug,
           image,
           electionPeriod,
-          linkObject: { link, linkText } = {},
+          socialIcons,
         },
       }) => {
         return ctx.prisma.committee.update({
@@ -293,8 +302,16 @@ export const committeeRouter = createTRPCRouter({
             role,
             slug,
             electionPeriod,
-            link,
-            linkText,
+            socialLinks: socialIcons?.map(
+              ({
+                iconAndUrl: { iconVariant, url },
+                order: socialLinkOrder,
+              }) => ({
+                iconVariant,
+                url,
+                order: socialLinkOrder,
+              }),
+            ),
           },
         });
       },
