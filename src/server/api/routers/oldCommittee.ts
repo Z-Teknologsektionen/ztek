@@ -1,7 +1,10 @@
 import { z } from "zod";
 import { objectId } from "~/server/api/helpers/customZodTypes";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-import { createOldCommitteeSchema } from "../helpers/schemas/oldCommittee";
+import {
+  createOldCommitteeSchema,
+  updateOldCommitteeSchema,
+} from "../helpers/schemas/oldCommittee";
 
 export const oldCommitteeRouter = createTRPCRouter({
   getManyByCommitteeId: protectedProcedure
@@ -63,4 +66,46 @@ export const oldCommitteeRouter = createTRPCRouter({
         });
       },
     ),
+  updateOne: protectedProcedure
+    .input(updateOldCommitteeSchema)
+    .mutation(
+      ({
+        ctx,
+        input: { id, name, year, image, logo, belongsToCommitteeId, members },
+      }) => {
+        return ctx.prisma.oldCommittee.update({
+          where: {
+            id,
+          },
+          data: {
+            name,
+            year,
+            image,
+            logo,
+            belongsToCommitteeId,
+            members: {
+              set: members.map((member) => ({
+                name: member.name,
+                nickName: member.nickName || "",
+                role: member.role || "",
+                order: member.order,
+              })),
+            },
+          },
+        });
+      },
+    ),
+  deleteOne: protectedProcedure
+    .input(
+      z.object({
+        id: objectId,
+      }),
+    )
+    .mutation(({ ctx, input: { id } }) => {
+      return ctx.prisma.oldCommittee.delete({
+        where: {
+          id,
+        },
+      });
+    }),
 });
