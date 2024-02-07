@@ -43,8 +43,6 @@ export const committeeRouter = createTRPCRouter({
           email: true,
           image: true,
           electionPeriod: true,
-          link: true,
-          linkText: true,
           socialLinks: true,
           members: {
             where: {
