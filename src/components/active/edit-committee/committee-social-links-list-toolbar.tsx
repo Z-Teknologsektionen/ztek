@@ -1,8 +1,17 @@
 import { useState, type FC } from "react";
+import type { UseFieldArrayAppend } from "react-hook-form";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
-import type { CommitteeSocialLinksToolbarProps } from "./types";
+import type { UpsertCommitteeSocialLinksSchemaType } from "./committee-social-links-list";
 import { UpsertCommitteeSocailIconsForm } from "./upsert-committee-social-link-form";
+
+type CommitteeSocialLinksToolbarProps = {
+  appendSocialLink: UseFieldArrayAppend<
+    UpsertCommitteeSocialLinksSchemaType,
+    "socialLinks"
+  >;
+  canCreateNewLink: boolean;
+};
 
 const CommitteeSocialLinksToolbar: FC<CommitteeSocialLinksToolbarProps> = ({
   canCreateNewLink,

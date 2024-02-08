@@ -19,7 +19,6 @@ const EditCommitteePage: FC = () => {
     data: committee,
     isLoading: isLoadingCommittee,
     isError: isCommitteeError,
-    refetch: refetchCommittee,
   } = api.committee.getOneByEmail.useQuery({
     email: session.user.email,
   });
@@ -39,34 +38,24 @@ const EditCommitteePage: FC = () => {
           </h1>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
             {committee.members.map((member) => (
-              <UpdateUserWizard
-                key={member.id}
-                member={member}
-                refetch={() => void refetchCommittee()}
-              />
+              <UpdateUserWizard key={member.id} member={member} />
             ))}
           </div>
-          <UpdateCommitteeWizard
-            key={committee.id}
-            committee={committee}
-            refetchCommittee={() => void refetchCommittee()}
-          />
+          <UpdateCommitteeWizard key={committee.id} committee={committee} />
           <div className="w-full space-y-4">
             <SecondaryTitle center>Sociala länkar</SecondaryTitle>
-            {showStandardViews && (
-              <CommitteeSocialLinksList
-                committeeId={committee.id}
-                initialSocialLinks={committee.socialLinks.map(
-                  ({ iconVariant, order, url }) => ({
-                    iconAndUrl: {
-                      iconVariant,
-                      url,
-                    },
-                    order,
-                  }),
-                )}
-              />
-            )}
+            <CommitteeSocialLinksList
+              committeeId={committee.id}
+              initialSocialLinks={committee.socialLinks.map(
+                ({ iconVariant, order, url }) => ({
+                  iconAndUrl: {
+                    iconVariant,
+                    url,
+                  },
+                  order,
+                }),
+              )}
+            />
           </div>
         </SectionWrapper>
       )}

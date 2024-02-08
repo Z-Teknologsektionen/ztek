@@ -8,7 +8,7 @@ import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
 import { socialIconSchema } from "~/server/api/helpers/schemas/committees";
-import SelectCommitteeSocialIcon from "./select-committee-social-icon";
+import SelectCommitteeSocialIcon from "../../forms/select-committee-social-icon";
 
 type UpsertCommitteeSocialLinksFormProps = IUpsertForm<typeof socialIconSchema>;
 

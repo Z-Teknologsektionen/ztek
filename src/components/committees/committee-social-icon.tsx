@@ -1,6 +1,6 @@
+import type { IconEnum } from "@prisma/client";
 import Link from "next/link";
 import type { FC } from "react";
-import type { CommitteeSocialLinks } from "~/components/active/edit-committee/types";
 import {
   Tooltip,
   TooltipContent,
@@ -11,7 +11,10 @@ import {
   getSocialNameFromEnum,
 } from "~/utils/getSocialFromEnum";
 
-type CommitteeSocialIconProps = CommitteeSocialLinks[0];
+type CommitteeSocialIconProps = {
+  iconVariant: IconEnum;
+  url: string;
+};
 
 const CommitteeSocialIcon: FC<CommitteeSocialIconProps> = ({
   iconVariant,

@@ -1,66 +1,38 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useState, type FC } from "react";
-import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import type { z } from "zod";
 import CommitteeImage from "~/components/committees/committee-image";
 import { BasicInput } from "~/components/forms/BasicInput";
 import { NumberInput } from "~/components/forms/NumberInput";
 import { Button } from "~/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
+import { Form } from "~/components/ui/form";
+import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
+import { useUpdateMemberAsUser } from "~/hooks/useUpdateMemberAsUser";
 import { upsertMemberBaseSchema } from "~/server/api/helpers/schemas/members";
-import { api } from "~/utils/api";
+import type { RouterOutputs } from "~/utils/api";
 import localeObject from "~/utils/dayjs";
-import { getBase64WebPStringFromFileInput } from "~/utils/utils";
-import type { UpdateUserWizardProps } from "./types";
+import UpdateUserImageFormField from "./update-user-image-form-field";
 
 dayjs.extend(relativeTime);
 dayjs.locale(localeObject);
 
-export const UpdateUserWizard: FC<UpdateUserWizardProps> = ({
-  member,
-  refetch,
-}) => {
+type UpdateUserWizardProps = {
+  member: RouterOutputs["committee"]["getOneByEmail"]["members"][0];
+};
+
+export const UpdateUserWizard: FC<UpdateUserWizardProps> = ({ member }) => {
   const [newImage, setNewImage] = useState<string>(member.image);
 
-  const { mutate: mutateMember } = api.member.updateMemberAsActive.useMutation({
-    onMutate: () => toast.loading("Uppdaterar medlem..."),
-    onSettled: (_, __, ___, toastId) => {
-      toast.dismiss(toastId);
-      refetch();
-    },
-    onSuccess: ({ role }) => {
-      toast.success(`Medlem med roll "${role}" har uppdaterats!`);
-    },
-    onError: (error) => {
-      if (error.message) {
-        toast.error(error.message);
-      } else {
-        toast.error("Något gick fel. Försök igen senare");
-      }
-    },
-  });
+  const { mutate: mutateMember } = useUpdateMemberAsUser();
 
-  const form = useForm<z.infer<typeof upsertMemberBaseSchema>>({
-    resolver: zodResolver(upsertMemberBaseSchema),
+  const form = useFormWithZodSchema({
+    schema: upsertMemberBaseSchema,
     defaultValues: member,
   });
 
   const onSubmit = (values: z.infer<typeof upsertMemberBaseSchema>): void =>
-    void mutateMember({
-      id: member.id,
-      ...values,
-    });
+    mutateMember({ id: member.id, ...values });
 
   return (
     <Form {...form}>
@@ -96,48 +68,14 @@ export const UpdateUserWizard: FC<UpdateUserWizardProps> = ({
             min={0}
             name="order"
           />
-          <FormField
+          <UpdateUserImageFormField
             control={form.control}
+            label="Bild"
             name="image"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Bild</FormLabel>
-                <FormControl>
-                  <div className="flex gap-2">
-                    <Input
-                      {...field}
-                      accept="image/png, image/jpeg"
-                      className="text-transparent"
-                      onChange={(event) => {
-                        getBase64WebPStringFromFileInput(event)
-                          .then((val) => {
-                            setNewImage(val);
-                            form.setValue("image", val);
-                          })
-                          .catch(() => {
-                            setNewImage("");
-                            form.setValue("image", "");
-                          });
-                      }}
-                      type="file"
-                      value={""}
-                    />
-                    <Button
-                      className="w-44"
-                      onClick={() => {
-                        setNewImage("");
-                        form.setValue("image", "");
-                      }}
-                      type="button"
-                      variant="ghost"
-                    >
-                      Rensa bild
-                    </Button>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            setValue={(val) => {
+              setNewImage(val);
+              form.setValue("image", val);
+            }}
           />
         </div>
         <div>

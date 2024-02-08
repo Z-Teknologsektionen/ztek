@@ -52,16 +52,12 @@ export const committeeColumns: ColumnDef<CommitteeType>[] = [
       return (
         <div className="flex flex-row gap-1">
           {hasSocialLinks ? (
-            socialLinks.length <= 6 ? (
-              <>
-                {socialLinks.map(({ iconVariant, url }) => {
-                  const Icon = getSocialIconFromEnum(iconVariant);
-                  return <Icon key={url} className="h-4 w-4" />;
-                })}
-              </>
-            ) : (
-              <p>{socialLinks.length} sociala länkar</p>
-            )
+            <>
+              {socialLinks.map(({ iconVariant, url }) => {
+                const Icon = getSocialIconFromEnum(iconVariant);
+                return <Icon key={url} className="h-4 w-4" />;
+              })}
+            </>
           ) : (
             <p>Inga sociala länkar</p>
           )}

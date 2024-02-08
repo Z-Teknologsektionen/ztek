@@ -1,5 +1,10 @@
 import type { FC } from "react";
 import { useState } from "react";
+import type {
+  UseFieldArrayRemove,
+  UseFieldArraySwap,
+  UseFieldArrayUpdate,
+} from "react-hook-form";
 import { FaArrowDown, FaArrowUp, FaPen, FaTrash } from "react-icons/fa6";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
@@ -7,8 +12,21 @@ import {
   getSocialIconFromEnum,
   getSocialNameFromEnum,
 } from "~/utils/getSocialFromEnum";
-import type { CommitteeSocialLinksListItemProps } from "./types";
+import type { UpsertCommitteeSocialLinksSchemaType } from "./committee-social-links-list";
 import { UpsertCommitteeSocailIconsForm } from "./upsert-committee-social-link-form";
+
+type CommitteeSocialLinksListItemProps = {
+  index: number;
+  isFirstItem: boolean;
+  isLastItem: boolean;
+  removeSocialLink: UseFieldArrayRemove;
+  socialLink: UpsertCommitteeSocialLinksSchemaType["socialLinks"][0];
+  swapSocialLinks: UseFieldArraySwap;
+  updateSocialLink: UseFieldArrayUpdate<
+    UpsertCommitteeSocialLinksSchemaType,
+    "socialLinks"
+  >;
+};
 
 const CommitteeSocialLinksListItem: FC<CommitteeSocialLinksListItemProps> = ({
   socialLink,
@@ -41,6 +59,7 @@ const CommitteeSocialLinksListItem: FC<CommitteeSocialLinksListItemProps> = ({
           variant="outline"
         >
           <FaArrowUp className="h-3 w-3" />
+          <p className="sr-only">Flytta social länk uppåt</p>
         </Button>
         <Button
           className="border-slate-300 p-1"
@@ -52,6 +71,7 @@ const CommitteeSocialLinksListItem: FC<CommitteeSocialLinksListItemProps> = ({
           variant="outline"
         >
           <FaArrowDown className="h-3 w-3" />
+          <p className="sr-only">Flytta social länk nedåt</p>
         </Button>
         <UpsertDialog
           form={
@@ -70,6 +90,7 @@ const CommitteeSocialLinksListItem: FC<CommitteeSocialLinksListItemProps> = ({
           trigger={
             <Button className="">
               <FaPen />
+              <p className="sr-only">Updatera social länk</p>
             </Button>
           }
         />
@@ -81,6 +102,7 @@ const CommitteeSocialLinksListItem: FC<CommitteeSocialLinksListItemProps> = ({
           variant="destructive"
         >
           <FaTrash />
+          <p className="sr-only">Radera social länk</p>
         </Button>
       </div>
     </div>

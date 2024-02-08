@@ -2,10 +2,10 @@ import type { FC } from "react";
 import { useFieldArray, type Control } from "react-hook-form";
 import { FaArrowDown, FaArrowUp, FaPlus, FaTrash } from "react-icons/fa6";
 import { BasicInput } from "~/components/forms/BasicInput";
+import SelectCommitteeSocialIcon from "~/components/forms/select-committee-social-icon";
 import { Button } from "~/components/ui/button";
 import { FormDescription } from "~/components/ui/form";
 import { Label } from "~/components/ui/label";
-import SelectCommitteeSocialIcon from "../edit-committee/select-committee-social-icon";
 import type { UpsertCommitteeFormValues } from "./upsert-committee-form";
 
 type UpsertCommitteeSocialLinksFormSectionProps = {

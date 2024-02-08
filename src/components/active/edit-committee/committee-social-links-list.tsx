@@ -1,16 +1,22 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useMemo, type FC } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
-import { Button } from "~/components/ui/button";
+import { useFieldArray } from "react-hook-form";
+import type { z } from "zod";
 import { MAX_NUMER_OF_SOCIAL_LINKS } from "~/constants/committees";
+import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
 import { useAddCommitteeSocialLinksAsUser } from "~/hooks/useSetCommitteeSocialLinksAsUser";
 import { upsertCommitteeSocialLinksBaseSchema } from "~/server/api/helpers/schemas/committees";
+import CommitteeSocialLinksListActions from "./committee-social-links-list-actions";
 import CommitteeSocialLinksListItem from "./committee-social-links-list-item";
 import CommitteeSocialLinksToolbar from "./committee-social-links-list-toolbar";
-import type {
-  CommitteeSocialLinksListProps,
-  UpsertCommitteeSocialLinksSchemaType,
-} from "./types";
+
+export type UpsertCommitteeSocialLinksSchemaType = z.infer<
+  typeof upsertCommitteeSocialLinksBaseSchema
+>;
+
+type CommitteeSocialLinksListProps = {
+  committeeId: string;
+  initialSocialLinks: UpsertCommitteeSocialLinksSchemaType["socialLinks"];
+};
 
 const CommitteeSocialLinksList: FC<CommitteeSocialLinksListProps> = ({
   initialSocialLinks,
@@ -18,11 +24,9 @@ const CommitteeSocialLinksList: FC<CommitteeSocialLinksListProps> = ({
 }) => {
   const { mutate: updateSocialLinks } = useAddCommitteeSocialLinksAsUser();
 
-  const form = useForm<UpsertCommitteeSocialLinksSchemaType>({
-    resolver: zodResolver(upsertCommitteeSocialLinksBaseSchema),
-    defaultValues: {
-      socialLinks: initialSocialLinks,
-    },
+  const form = useFormWithZodSchema({
+    schema: upsertCommitteeSocialLinksBaseSchema,
+    defaultValues: { socialLinks: initialSocialLinks },
   });
 
   const {
@@ -36,19 +40,16 @@ const CommitteeSocialLinksList: FC<CommitteeSocialLinksListProps> = ({
     control: form.control,
     name: "socialLinks",
   });
-
-  const hasUpdated = useMemo(
+  // TODO: not working
+  const hasUpdatedSocialLinks = useMemo(
     () =>
       socialLinks.length !== initialSocialLinks.length ||
       initialSocialLinks
         .map((link, idx) => {
-          const otherLink = socialLinks.at(idx);
-          if (otherLink === undefined) return false;
-          return (
-            link.iconAndUrl.iconVariant === otherLink.iconAndUrl.iconVariant &&
-            link.order === otherLink.order &&
-            link.iconAndUrl.url === otherLink.iconAndUrl.url
-          );
+          const { id: _id, ...otherLink } = socialLinks.at(
+            idx,
+          ) as typeof link & { id: string };
+          return JSON.stringify(link) === JSON.stringify(otherLink);
         })
         .includes(false),
     [initialSocialLinks, socialLinks],
@@ -57,7 +58,6 @@ const CommitteeSocialLinksList: FC<CommitteeSocialLinksListProps> = ({
   return (
     <>
       <CommitteeSocialLinksToolbar
-        key={socialLinks.length}
         appendSocialLink={appendSocialLink}
         canCreateNewLink={socialLinks.length < MAX_NUMER_OF_SOCIAL_LINKS}
       />
@@ -79,22 +79,13 @@ const CommitteeSocialLinksList: FC<CommitteeSocialLinksListProps> = ({
           ))}
         </div>
       )}
-      <div className="flex flex-row justify-end gap-2">
-        <Button
-          onClick={() => setSocialLinks(initialSocialLinks)}
-          variant="outline"
-        >
-          Återställ
-        </Button>
-        <Button
-          className={`${hasUpdated && "animate-pulse duration-1000"}`}
-          onClick={() =>
-            updateSocialLinks({ id: committeeId, socialLinks: socialLinks })
-          }
-        >
-          Spara
-        </Button>
-      </div>
+      <CommitteeSocialLinksListActions
+        hasUpdatedSocialLinks={hasUpdatedSocialLinks}
+        resetSocialLinks={() => setSocialLinks(initialSocialLinks)}
+        saveSocialLinks={() =>
+          updateSocialLinks({ id: committeeId, socialLinks: socialLinks })
+        }
+      />
     </>
   );
 };
