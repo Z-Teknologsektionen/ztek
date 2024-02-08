@@ -20,6 +20,7 @@ export const committeeRouter = createTRPCRouter({
       select: {
         name: true,
         role: true,
+        committeeType: true,
         slug: true,
         image: true,
         electionPeriod: true,
@@ -165,6 +166,7 @@ export const committeeRouter = createTRPCRouter({
         name: true,
         order: true,
         slug: true,
+        committeeType: true,
         electionPeriod: true,
         image: true,
         email: true,
@@ -278,6 +280,7 @@ export const committeeRouter = createTRPCRouter({
           id,
           description,
           email,
+          committeeType,
           name,
           order,
           role,
@@ -299,6 +302,7 @@ export const committeeRouter = createTRPCRouter({
             order,
             role,
             slug,
+            committeeType,
             electionPeriod,
             socialLinks: socialLinks?.map(
               ({

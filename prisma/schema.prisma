@@ -18,15 +18,23 @@ model Committee {
     image       String                @default("")
     socialLinks CommitteeSocialLink[]
 
-    slug           String @unique
+    slug           String        @unique
     role           String
-    email          String @unique
+    email          String        @unique
     order          Int
-    electionPeriod Int    @default(1)
+    electionPeriod Int           @default(1)
+    committeeType  CommitteeType @default(COMMITTEE)
 
     members CommitteeMember[]
 
     updatedAt DateTime @updatedAt
+}
+
+enum CommitteeType {
+    COMMITTEE
+    SUB_COMMITTEE
+    WORKING_GROUP
+    OTHER
 }
 
 type CommitteeSocialLink {
