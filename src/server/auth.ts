@@ -1,5 +1,5 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import type { AccountRoles } from "@prisma/client";
+import type { AccountRoles, CommitteeMember } from "@prisma/client";
 import type { GetServerSidePropsContext } from "next";
 import type { DefaultSession, NextAuthOptions, Session } from "next-auth";
 import { getServerSession } from "next-auth";
@@ -18,6 +18,8 @@ declare module "next-auth" {
   // eslint-disable-next-line @typescript-eslint/no-shadow, no-shadow
   interface Session extends DefaultSession {
     user: DefaultSession["user"] & {
+      committeeMemberIdx: number;
+      committeeMembers: CommitteeMember[];
       email: string;
       id: string;
       name: string;
@@ -62,13 +64,22 @@ const authOptions: NextAuthOptions = {
       }
       return token;
     },
-    session({ session, token }) {
+    session: async ({ session, token }) => {
+      //Will be fucked if one user is mapped to multiple members
+      const committeeMembers = await prisma.committeeMember.findMany({
+        where: {
+          email: token.email,
+        },
+      });
+
       return {
         ...session,
         user: {
           ...session.user,
           roles: token.roles,
           email: token.email,
+          activeMemberIdx: 0,
+          committeeMembers: committeeMembers,
         },
       };
     },

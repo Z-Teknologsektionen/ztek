@@ -13,8 +13,7 @@ interface OldCommitteeTableToolbarProps<TData> {
 }
 
 export const OldCommitteeTableToolbar = <TData,>({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
-  table,
+  table: _table,
 }: OldCommitteeTableToolbarProps<TData>): JSX.Element => {
   const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);

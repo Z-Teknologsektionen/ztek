@@ -9,21 +9,15 @@ import { OldCommitteeTableToolbar } from "./old-committee-table-toolbar";
 
 const OldCommitteesTab: FC = () => {
   const { data: session } = useRequireAuth();
-  const userEmail = session?.user.email;
-  const {
-    data: committee,
-    isLoading: isLoadingCommittee,
-    isError: isErrorCommittee,
-  } = api.committee.getOneByEmail.useQuery({
-    email: userEmail || "",
-  });
+  const userCommittee =
+    session?.user.committeeMembers[session.user.committeeMemberIdx || 0];
 
   const {
     data: oldCommittees,
     isError: isErrorOldCommittees,
     isLoading: isLoadingOldCommittees,
   } = api.oldCommittee.getManyByCommitteeId.useQuery({
-    belongsToCommitteeId: committee?.id || "",
+    belongsToCommitteeId: userCommittee?.committeeId || "",
   });
 
   return (
@@ -32,8 +26,8 @@ const OldCommitteesTab: FC = () => {
         <AdvancedDataTable
           columns={oldCommitteeColumns}
           data={oldCommittees || []}
-          error={isErrorCommittee || isErrorOldCommittees}
-          loading={isLoadingOldCommittees || isLoadingCommittee}
+          error={isErrorOldCommittees}
+          loading={isLoadingOldCommittees}
           toolbar={OldCommitteeTableToolbar}
         />
       </SectionWrapper>

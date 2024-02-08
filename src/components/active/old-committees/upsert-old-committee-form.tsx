@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AccountRoles } from "@prisma/client";
-import { useSession } from "next-auth/react";
 import type { FC } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { MdAdd } from "react-icons/md";
@@ -15,6 +14,7 @@ import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
 import { Separator } from "~/components/ui/separator";
+import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { createOldCommitteeSchema } from "~/server/api/helpers/schemas/oldCommittee";
 import { api } from "~/utils/api";
 
@@ -34,26 +34,23 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
   onSubmit,
   formType,
 }) => {
-  const { data } = useSession();
-  const userEmail = data?.user.email;
-  const { data: committee } = api.committee.getOneByEmail.useQuery({
-    email: userEmail || "",
-  });
-  const dropDownMappable = [];
+  const { data: session } = useRequireAuth();
+  const userCommittee =
+    session?.user.committeeMembers[session.user.committeeMemberIdx] ||
+    undefined;
 
-  if (data?.user.roles.includes(AccountRoles.ADMIN)) {
-    api.committee.getAllAsAdmin.useQuery().data?.map((c) =>
-      dropDownMappable.push({
+  const dropDownMappable = session?.user.roles.includes(AccountRoles.ADMIN)
+    ? api.committee.getAllAsAdmin.useQuery().data?.map((c) => ({
         id: c.id,
         name: c.name,
-      }),
-    );
-  } else {
-    dropDownMappable.push({
-      id: committee?.id || "",
-      name: committee?.name || "Okänt. Kontakta webbgruppen.",
-    });
-  }
+      })) || []
+    : [
+        {
+          id: userCommittee?.committeeId || "unknown",
+          name: userCommittee?.name || "Okänt. Kontakta webbgruppen.",
+        },
+      ];
+
   const form = useForm<z.infer<typeof createOldCommitteeSchema>>({
     resolver: zodResolver(createOldCommitteeSchema),
     defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
@@ -76,7 +73,7 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
           />
           <DropdownInput
             control={form.control}
-            defaultValue={committee?.id}
+            defaultValue={userCommittee?.id}
             disabled={false}
             label="Huvudorgan"
             mappable={dropDownMappable}

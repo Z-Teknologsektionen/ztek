@@ -58,14 +58,7 @@ export const OldCommitteeTableActions: FC<OldCommitteeType> = ({
         form={
           <UpsertOldCommitteeForm
             key={id}
-            defaultValues={{
-              ...values,
-              members: values.members.map((member) => ({
-                ...member,
-                nickName: member.nickName || undefined,
-                role: member.role || undefined,
-              })),
-            }}
+            defaultValues={values}
             formType="update"
             onSubmit={(updatedValues) =>
               updateOldCommittee({
@@ -106,53 +99,5 @@ export const OldCommitteeTableActions: FC<OldCommitteeType> = ({
         }
       ></DeleteDialog>
     </div>
-    // <DropdownMenu>
-    //   <DropdownMenuTrigger className="ml-auto mr-2 flex" asChild>
-    //     <Button className="h-8 w-8 p-0" variant="ghost">
-    //       <span className="sr-only">Öppna meny</span>
-    //       <MoreHorizontal className="h-4 w-4" />
-    //     </Button>
-    //   </DropdownMenuTrigger>
-    //   <DropdownMenuContent align="end">
-    //     <UpsertDialog
-    //       form={
-    //         <UpsertOldCommitteeForm
-    //           key={id}
-    //           defaultValues={{
-    //             ...values,
-    //             members: values.members.map((member) => ({
-    //               ...member,
-    //               nickName: member.nickName || undefined,
-    //               role: member.role || undefined,
-    //             })),
-    //           }}
-    //           formType="update"
-    //           onSubmit={(updatedValues) =>
-    //             updateOldCommittee({
-    //               id: id,
-    //               ...updatedValues,
-    //             })
-    //           }
-    //         />
-    //       }
-    //       isOpen={isOpen}
-    //       setIsOpen={setIsOpen}
-    //       title="Uppdatera patetorgan"
-    //       trigger={
-    //         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-    //           Redigera
-    //         </DropdownMenuItem>
-    //       }
-    //     />
-    //     <DeleteDialog
-    //       onSubmit={() => deleteOldCommittee({ id })}
-    //       trigger={
-    //         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-    //           Radera
-    //         </DropdownMenuItem>
-    //       }
-    //     ></DeleteDialog>
-    //   </DropdownMenuContent>
-    // </DropdownMenu>
   );
 };

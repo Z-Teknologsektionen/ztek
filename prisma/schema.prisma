@@ -49,9 +49,9 @@ model OldCommittee {
 
 type OldMember {
     name     String
-    nickName String?
-    role     String?
-    order    Int     @default(0)
+    nickName String @default("")
+    role     String @default("")
+    order    Int    @default(0)
 }
 
 model CommitteeMember {

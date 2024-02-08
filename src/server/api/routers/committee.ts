@@ -63,6 +63,7 @@ export const committeeRouter = createTRPCRouter({
             },
             orderBy: [{ order: "desc" }],
             select: {
+              id: true,
               name: true,
               nickName: true,
               role: true,

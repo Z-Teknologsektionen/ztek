@@ -1,13 +1,17 @@
 import { z } from "zod";
 import { objectId } from "~/server/api/helpers/customZodTypes";
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 import {
   createOldCommitteeSchema,
   updateOldCommitteeSchema,
 } from "../helpers/schemas/oldCommittee";
 
 export const oldCommitteeRouter = createTRPCRouter({
-  getManyByCommitteeId: protectedProcedure
+  getManyByCommitteeId: publicProcedure
     .input(
       z.object({
         belongsToCommitteeId: objectId,

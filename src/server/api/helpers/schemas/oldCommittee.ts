@@ -4,13 +4,14 @@ import {
   emptyString,
   nonEmptyString,
   objectId,
+  standardString,
 } from "~/server/api/helpers/customZodTypes";
 
 const OldCommitteeMember = z.object({
   name: nonEmptyString,
-  nickName: nonEmptyString.optional(),
+  nickName: standardString.or(emptyString),
   order: z.number(),
-  role: nonEmptyString.optional(),
+  role: standardString.or(emptyString),
 });
 
 export const createOldCommitteeSchema = z.object({

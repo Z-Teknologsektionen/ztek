@@ -1,4 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
+import { MdCancel, MdCheck } from "react-icons/md";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
 import { Badge } from "~/components/ui/badge";
@@ -7,6 +8,8 @@ import { OldCommitteeTableActions } from "./old-committee-table-actions";
 
 export type OldCommitteeType =
   RouterOutputs["oldCommittee"]["getManyByCommitteeId"][0];
+
+const ICON_SIZE = 15;
 
 export const oldCommitteeColumns: ColumnDef<OldCommitteeType>[] = [
   {
@@ -35,6 +38,42 @@ export const oldCommitteeColumns: ColumnDef<OldCommitteeType>[] = [
       <Badge className="text-center" variant="outline">
         {row.original.members.length}
       </Badge>
+    ),
+    enableSorting: true,
+    enableHiding: true,
+    enableResizing: true,
+    filterFn: "includesString",
+  },
+  {
+    id: "Har bild",
+    accessorKey: "image",
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    cell: ({ row }) => (
+      <div className="ml-2">
+        {row.original.image ? (
+          <MdCheck color="green" size={ICON_SIZE} />
+        ) : (
+          <MdCancel color="red" size={ICON_SIZE} />
+        )}
+      </div>
+    ),
+    enableSorting: true,
+    enableHiding: true,
+    enableResizing: true,
+    filterFn: "includesString",
+  },
+  {
+    id: "Har logga",
+    accessorKey: "logo",
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    cell: ({ row }) => (
+      <div className="ml-2">
+        {row.original.logo ? (
+          <MdCheck color="green" size={ICON_SIZE} />
+        ) : (
+          <MdCancel color="red" size={ICON_SIZE} />
+        )}
+      </div>
     ),
     enableSorting: true,
     enableHiding: true,

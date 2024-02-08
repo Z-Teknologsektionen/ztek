@@ -69,10 +69,7 @@ const CommitteePage: NextPage<
           <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] place-items-center gap-4">
             {committee.members.length !== 0 ? (
               committee.members.map((member) => (
-                <CommitteeMemberCard
-                  key={`${member.name}${member.email}`}
-                  {...member}
-                />
+                <CommitteeMemberCard key={member.id} {...member} />
               ))
             ) : (
               <div>
@@ -89,10 +86,8 @@ const CommitteePage: NextPage<
               <div className="mx-auto max-w-3xl space-y-2 border-b-2 border-t-2 p-4 text-center">
                 <SectionTitle center>Patethimmel</SectionTitle>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias
-                  perferendis, perspiciatis deserunt fugit vel voluptas eos
-                  repellendus est molestiae eius aspernatur tenetur rem
-                  laboriosam, assumenda in labore et nesciunt voluptates.
+                  Här hittar du alla medlemmar som varit med i {committee.name}{" "}
+                  genom åren. Tryck på de olika åren för att få mer information.
                 </p>
               </div>
               <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
