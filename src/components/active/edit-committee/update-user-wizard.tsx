@@ -7,6 +7,7 @@ import { BasicInput } from "~/components/forms/BasicInput";
 import { NumberInput } from "~/components/forms/NumberInput";
 import { Button } from "~/components/ui/button";
 import { Form } from "~/components/ui/form";
+import { MAX_ORDER_NUMBER, MIN_ORDER_NUMBER } from "~/constants/committees";
 import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
 import { useUpdateMemberAsUser } from "~/hooks/useUpdateMemberAsUser";
 import { upsertMemberBaseSchema } from "~/server/api/helpers/schemas/members";
@@ -61,11 +62,11 @@ export const UpdateUserWizard: FC<UpdateUserWizardProps> = ({ member }) => {
           />
           <NumberInput
             control={form.control}
-            defaultValue={0}
+            defaultValue={MIN_ORDER_NUMBER}
             description="Används för att bestämma vilken ordning organets medlemmar ska visas i"
             label="Ordning"
-            max={99}
-            min={0}
+            max={MAX_ORDER_NUMBER}
+            min={MIN_ORDER_NUMBER}
             name="order"
           />
           <UpdateUserImageFormField

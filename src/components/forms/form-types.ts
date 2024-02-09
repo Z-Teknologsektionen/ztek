@@ -56,9 +56,9 @@ export interface IImageInput<
       InputHTMLAttributes<HTMLInputElement>,
       "defaultValue" | "name" | "type" | "value" | "onChange"
     > {
-  maxHeight?: number;
-  maxWidth?: number;
-  quality?: number;
+  maxHeight: number;
+  maxWidth: number;
+  quality: number;
 }
 
 export interface INumberInput<

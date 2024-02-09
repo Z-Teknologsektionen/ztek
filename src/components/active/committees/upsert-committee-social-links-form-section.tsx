@@ -6,6 +6,7 @@ import SelectCommitteeSocialIcon from "~/components/forms/select-committee-socia
 import { Button } from "~/components/ui/button";
 import { FormDescription } from "~/components/ui/form";
 import { Label } from "~/components/ui/label";
+import { MAX_ORDER_NUMBER } from "~/constants/committees";
 import type { UpsertCommitteeFormValues } from "./upsert-committee-form";
 
 type UpsertCommitteeSocialLinksFormSectionProps = {
@@ -36,7 +37,7 @@ const UpsertCommitteeSocialLinksFormSection: FC<
                 iconVariant: "QUESTIONMARK",
                 url: "",
               },
-              order: 99,
+              order: MAX_ORDER_NUMBER,
             })
           }
           size="icon"

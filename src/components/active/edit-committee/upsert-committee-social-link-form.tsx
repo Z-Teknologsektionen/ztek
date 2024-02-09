@@ -7,13 +7,14 @@ import type { IUpsertForm } from "~/components/forms/form-types";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
+import { MAX_ORDER_NUMBER } from "~/constants/committees";
 import { socialIconSchema } from "~/server/api/helpers/schemas/committees";
 import SelectCommitteeSocialIcon from "../../forms/select-committee-social-icon";
 
 type UpsertCommitteeSocialLinksFormProps = IUpsertForm<typeof socialIconSchema>;
 
 const DEFAULT_VALUES: UpsertCommitteeSocialLinksFormProps["defaultValues"] = {
-  order: 99,
+  order: MAX_ORDER_NUMBER,
 };
 
 export const UpsertCommitteeSocailIconsForm: FC<

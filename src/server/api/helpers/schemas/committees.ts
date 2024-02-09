@@ -1,6 +1,11 @@
 import { CommitteeType, IconEnum } from "@prisma/client";
 import { z } from "zod";
-import { MAX_NUMER_OF_SOCIAL_LINKS } from "~/constants/committees";
+import {
+  MAX_DESCRIPTION_TEXT_LENGTH,
+  MAX_ELECTION_PERIOD,
+  MAX_NUMER_OF_SOCIAL_LINKS,
+  MIN_ELECTION_PERIOD,
+} from "~/constants/committees";
 import {
   base64WebPImageString,
   emailString,
@@ -19,7 +24,10 @@ export const upsertCommitteeBaseSchema = z.object({
   image: base64WebPImageString.or(emptyString),
   description: standardString
     .min(1, "Måste vara minst 1 tecken")
-    .max(1_000, "Får inte vara mer än 1 000 tecken"),
+    .max(
+      MAX_DESCRIPTION_TEXT_LENGTH,
+      `Får inte vara mer än ${MAX_DESCRIPTION_TEXT_LENGTH.toString()} tecken`,
+    ),
 });
 
 export const socialIconSchema = z.object({
@@ -82,8 +90,14 @@ export const createCommitteeSchema = upsertCommitteeBaseSchema
     email: emailString,
     order: orderNumber,
     electionPeriod: standardNumber
-      .min(1, "Måste vara ett nummer mellan 1 och 4")
-      .max(4, "Måste vara ett nummer mellan 1 och 4"),
+      .min(
+        MIN_ELECTION_PERIOD,
+        `Måste vara ett nummer mellan ${MIN_ELECTION_PERIOD} och ${MAX_ELECTION_PERIOD}`,
+      )
+      .max(
+        MAX_ELECTION_PERIOD,
+        `Måste vara ett nummer mellan ${MIN_ELECTION_PERIOD} och ${MAX_ELECTION_PERIOD}`,
+      ),
   })
   .merge(upsertCommitteeSocialLinksBaseSchema);
 

@@ -12,6 +12,14 @@ import type { IUpsertForm } from "~/components/forms/form-types";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
+import {
+  COMMITTEE_IMAGE_QUALITY,
+  COMMITTEE_IMAGE_SIZE,
+  MAX_ELECTION_PERIOD,
+  MAX_ORDER_NUMBER,
+  MIN_ELECTION_PERIOD,
+  MIN_ORDER_NUMBER,
+} from "~/constants/committees";
 import { createCommitteeSchema } from "~/server/api/helpers/schemas/committees";
 import { getCommitteeTypeStringFromEnum } from "~/utils/getCommitteeTypeStringFromEnum";
 import UpsertCommitteeSocialLinksFormSection from "./upsert-committee-social-links-form-section";
@@ -22,8 +30,8 @@ export type UpsertCommitteeFormProps = IUpsertForm<
 export type UpsertCommitteeFormValues = z.infer<typeof createCommitteeSchema>;
 
 const DEFAULT_VALUES: UpsertCommitteeFormProps["defaultValues"] = {
-  electionPeriod: 1,
-  order: 0,
+  electionPeriod: MIN_ELECTION_PERIOD,
+  order: MIN_ORDER_NUMBER,
   socialLinks: [],
   committeeType: CommitteeType.COMMITTEE,
   image: "",
@@ -79,24 +87,27 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
             control={form.control}
             defaultValue={1}
             label="Invalsperiod"
-            max={4}
-            min={1}
+            max={MAX_ELECTION_PERIOD}
+            min={MIN_ELECTION_PERIOD}
             name="electionPeriod"
           />
           <NumberInput
             control={form.control}
-            defaultValue={0}
+            defaultValue={MIN_ORDER_NUMBER}
             description="Används för att bestämma vilken ordning organet ska visas i"
             label="Ordning"
-            max={99}
-            min={0}
+            max={MAX_ORDER_NUMBER}
+            min={MIN_ORDER_NUMBER}
             name="order"
           />
           <UpsertCommitteeSocialLinksFormSection control={form.control} />
           <ImageInput
             control={form.control}
             label="Bild (valfri)"
+            maxHeight={COMMITTEE_IMAGE_SIZE}
+            maxWidth={COMMITTEE_IMAGE_SIZE}
             name="image"
+            quality={COMMITTEE_IMAGE_QUALITY}
           />
         </div>
         <DialogFooter>

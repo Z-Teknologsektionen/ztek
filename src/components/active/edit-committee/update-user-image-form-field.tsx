@@ -9,7 +9,11 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { getBase64WebPStringFromFileInput } from "~/utils/utils";
+import {
+  COMMITTEE_IMAGE_QUALITY,
+  COMMITTEE_IMAGE_SIZE,
+} from "~/constants/committees";
+import { getBase64WebPStringFromFileInput } from "~/utils/getBase64WebPStringFromFileInput";
 
 interface IUpdateUserImageFormField<
   TFieldValues extends FieldValues = FieldValues,
@@ -41,7 +45,12 @@ const UpdateUserImageFormField = <
                 accept="image/png, image/jpeg"
                 className="text-transparent"
                 onChange={(event) => {
-                  getBase64WebPStringFromFileInput(event)
+                  getBase64WebPStringFromFileInput({
+                    event,
+                    maxHeight: COMMITTEE_IMAGE_SIZE,
+                    maxWidth: COMMITTEE_IMAGE_SIZE,
+                    quality: COMMITTEE_IMAGE_QUALITY,
+                  })
                     .then((val) => {
                       setValue(val);
                     })

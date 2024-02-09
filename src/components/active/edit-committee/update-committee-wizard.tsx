@@ -14,11 +14,15 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
+import {
+  COMMITTEE_IMAGE_QUALITY,
+  COMMITTEE_IMAGE_SIZE,
+} from "~/constants/committees";
 import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
 import { useUpdateCommitteeAsUser } from "~/hooks/useUpdateCommitteeAsUser";
 import { upsertCommitteeBaseSchema } from "~/server/api/helpers/schemas/committees";
 import type { RouterOutputs } from "~/utils/api";
-import { getBase64WebPStringFromFileInput } from "~/utils/utils";
+import { getBase64WebPStringFromFileInput } from "~/utils/getBase64WebPStringFromFileInput";
 
 type UpdateCommitteeWizardProps = {
   committee: RouterOutputs["committee"]["getOneByEmail"];
@@ -61,7 +65,12 @@ export const UpdateCommitteeWizard: FC<UpdateCommitteeWizardProps> = ({
                         accept="image/png, image/jpeg"
                         className="text-transparent"
                         onChange={(event) => {
-                          getBase64WebPStringFromFileInput(event)
+                          getBase64WebPStringFromFileInput({
+                            event,
+                            maxHeight: COMMITTEE_IMAGE_SIZE,
+                            maxWidth: COMMITTEE_IMAGE_SIZE,
+                            quality: COMMITTEE_IMAGE_QUALITY,
+                          })
                             .then((val) => {
                               field.value = val;
                               setNewImage(field.value);
