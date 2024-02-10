@@ -9,15 +9,13 @@ import { OldCommitteeTableToolbar } from "./old-committee-table-toolbar";
 
 const OldCommitteesTab: FC = () => {
   const { data: session } = useRequireAuth();
-  const userCommittee =
-    session?.user.committeeMembers[session.user.committeeMemberIdx || 0];
 
   const {
     data: oldCommittees,
     isError: isErrorOldCommittees,
     isLoading: isLoadingOldCommittees,
   } = api.oldCommittee.getManyByCommitteeId.useQuery({
-    belongsToCommitteeId: userCommittee?.committeeId || "",
+    belongsToCommitteeId: session?.user.committeeId || "",
   });
 
   return (

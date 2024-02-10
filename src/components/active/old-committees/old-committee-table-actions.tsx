@@ -73,11 +73,7 @@ export const OldCommitteeTableActions: FC<OldCommitteeType> = ({
         title="Uppdatera patetorgan"
         trigger={
           <Button className="mx-2 h-6" size={"sm"} variant="outline">
-            <MdEdit
-              color="orange"
-              onSelect={(e) => e.preventDefault()}
-              size={15}
-            >
+            <MdEdit color="orange" size={15}>
               Redigera
             </MdEdit>
           </Button>
@@ -87,12 +83,7 @@ export const OldCommitteeTableActions: FC<OldCommitteeType> = ({
         onSubmit={() => deleteOldCommittee({ id })}
         trigger={
           <Button className="h-6" size={"sm"} variant="outline">
-            <MdDelete
-              className="mx-1"
-              color="red"
-              onSelect={(e) => e.preventDefault()}
-              size={15}
-            >
+            <MdDelete className="mx-1" color="red" size={15}>
               Radera
             </MdDelete>
           </Button>

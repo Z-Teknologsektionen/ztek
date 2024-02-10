@@ -1,24 +1,26 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AccountRoles } from "@prisma/client";
 import type { FC } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
-import { MdAdd } from "react-icons/md";
+import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { BasicInput } from "~/components/forms/BasicInput";
 import { DropdownInput } from "~/components/forms/DropdownInput";
 import { ImageInput } from "~/components/forms/ImageInput";
 import { NumberInput } from "~/components/forms/NumberInput";
 import type { IUpsertForm } from "~/components/forms/form-types";
-import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
-import { Separator } from "~/components/ui/separator";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { createOldCommitteeSchema } from "~/server/api/helpers/schemas/oldCommittee";
 import { api } from "~/utils/api";
+import UpsertOldCommitteeMembersFormSection from "./upsert-old-committe-membes-section-form";
 
 type UpsertOldCommitteeFormProps = IUpsertForm<typeof createOldCommitteeSchema>;
+
+export type UpsertOldCommitteeFormValues = z.infer<
+  typeof createOldCommitteeSchema
+>;
 
 const DEFAULT_VALUES: UpsertOldCommitteeFormProps["defaultValues"] = {
   name: "",
@@ -35,9 +37,6 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
   formType,
 }) => {
   const { data: session } = useRequireAuth();
-  const userCommittee =
-    session?.user.committeeMembers[session.user.committeeMemberIdx] ||
-    undefined;
 
   const dropDownMappable = session?.user.roles.includes(AccountRoles.ADMIN)
     ? api.committee.getAllAsAdmin.useQuery().data?.map((c) => ({
@@ -46,18 +45,14 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
       })) || []
     : [
         {
-          id: userCommittee?.committeeId || "unknown",
-          name: userCommittee?.name || "Okänt. Kontakta webbgruppen.",
+          id: session?.user.committeeId || "unknown",
+          name: session?.user.committeeName || "Okänt. Kontakta webbgruppen.",
         },
       ];
 
   const form = useForm<z.infer<typeof createOldCommitteeSchema>>({
     resolver: zodResolver(createOldCommitteeSchema),
     defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
-  });
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: "members",
   });
 
   return (
@@ -73,7 +68,7 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
           />
           <DropdownInput
             control={form.control}
-            defaultValue={userCommittee?.id}
+            defaultValue={session?.user.committeeId || "uknown"}
             disabled={false}
             label="Huvudorgan"
             mappable={dropDownMappable}
@@ -86,71 +81,7 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
             label="År"
             name="year"
           />
-
-          <SecondaryTitle>Medlemmar</SecondaryTitle>
-          {fields.map((field, index) => (
-            <div key={field.id}>
-              <Separator className="my-4" />
-              <div className="flex w-full items-center justify-between">
-                <h2 className="font-medium ">Medlem {index + 1}</h2>
-                <Button
-                  className="mr-4 h-6 content-center text-sm"
-                  onClick={() => {
-                    remove(index);
-                  }}
-                  size={"sm"}
-                  type="button"
-                  variant={"outline"}
-                >
-                  Ta bort
-                </Button>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                <BasicInput
-                  control={form.control}
-                  label="Namn"
-                  name={`members.${index}.name`}
-                  placeholder="Namn"
-                />
-                <BasicInput
-                  control={form.control}
-                  label="Postnamn"
-                  name={`members.${index}.nickName`}
-                  placeholder="Postnamn"
-                />
-                <BasicInput
-                  control={form.control}
-                  label="Post"
-                  name={`members.${index}.role`}
-                  placeholder="Post"
-                />
-                <NumberInput
-                  control={form.control}
-                  label="Ordning"
-                  name={`members.${index}.order`}
-                  placeholder="Ordning"
-                />
-              </div>
-            </div>
-          ))}
-          <Separator className="my-4" />
-          <Button
-            className="flex items-center"
-            onClick={() =>
-              append({
-                name: "",
-                nickName: "",
-                order: 0,
-                role: "",
-              })
-            }
-            size={"sm"}
-            type="button"
-            variant={"outline"}
-          >
-            <MdAdd className="mt-0.5" />
-            Ny medlem
-          </Button>
+          <UpsertOldCommitteeMembersFormSection control={form.control} />
           <ImageInput
             control={form.control}
             label="Omslagsbild (valfri)"
