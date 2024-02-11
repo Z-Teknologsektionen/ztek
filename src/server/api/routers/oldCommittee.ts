@@ -1,14 +1,14 @@
 import { z } from "zod";
-import { objectId } from "~/server/api/helpers/customZodTypes";
+import { objectId, standardBoolean } from "~/server/api/helpers/customZodTypes";
+import {
+  createOldCommitteeSchema,
+  updateOldCommitteeSchema,
+} from "~/server/api/helpers/schemas/oldCommittee";
 import {
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import {
-  createOldCommitteeSchema,
-  updateOldCommitteeSchema,
-} from "../helpers/schemas/oldCommittee";
 
 export const oldCommitteeRouter = createTRPCRouter({
   getManyByCommitteeId: publicProcedure
@@ -20,7 +20,37 @@ export const oldCommitteeRouter = createTRPCRouter({
     .query(({ ctx, input: { belongsToCommitteeId } }) => {
       return ctx.prisma.oldCommittee.findMany({
         where: {
-          belongsToCommitteeId,
+          belongsToCommitteeId: belongsToCommitteeId,
+        },
+        select: {
+          id: true,
+          name: true,
+          year: true,
+          image: true,
+          logo: true,
+          members: {
+            select: {
+              name: true,
+              nickName: true,
+              order: true,
+              role: true,
+            },
+          },
+        },
+        orderBy: [{ year: "desc" }],
+      });
+    }),
+  getManyByCommitteeIdAsUser: protectedProcedure
+    .input(
+      z.object({
+        belongsToCommitteeId: objectId,
+        isAdmin: standardBoolean,
+      }),
+    )
+    .query(({ ctx, input: { belongsToCommitteeId, isAdmin } }) => {
+      return ctx.prisma.oldCommittee.findMany({
+        where: {
+          belongsToCommitteeId: isAdmin ? undefined : belongsToCommitteeId,
         },
         select: {
           id: true,
@@ -37,7 +67,14 @@ export const oldCommitteeRouter = createTRPCRouter({
             },
           },
           updatedAt: true,
+          belongsToCommittee: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
         },
+        orderBy: [{ year: "desc" }, { updatedAt: "desc" }],
       });
     }),
   createOldCommittee: protectedProcedure
@@ -87,14 +124,16 @@ export const oldCommitteeRouter = createTRPCRouter({
             image,
             logo,
             belongsToCommitteeId,
-            members: {
-              set: members.map((member) => ({
-                name: member.name,
-                nickName: member.nickName,
-                role: member.role,
-                order: member.order,
-              })),
-            },
+            members: members
+              ? {
+                  set: members.map((member) => ({
+                    name: member.name,
+                    nickName: member.nickName,
+                    role: member.role,
+                    order: member.order,
+                  })),
+                }
+              : undefined,
           },
         });
       },

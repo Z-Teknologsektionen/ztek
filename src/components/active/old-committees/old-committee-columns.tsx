@@ -1,13 +1,15 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { MdCancel, MdCheck } from "react-icons/md";
+import { z } from "zod";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
 import { Badge } from "~/components/ui/badge";
+import { objectId, validYear } from "~/server/api/helpers/customZodTypes";
 import { type RouterOutputs } from "~/utils/api";
 import { OldCommitteeTableActions } from "./old-committee-table-actions";
 
 export type OldCommitteeType =
-  RouterOutputs["oldCommittee"]["getManyByCommitteeId"][0];
+  RouterOutputs["oldCommittee"]["getManyByCommitteeIdAsUser"][0];
 
 const ICON_SIZE = 15;
 
@@ -28,7 +30,30 @@ export const oldCommitteeColumns: ColumnDef<OldCommitteeType>[] = [
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
-    filterFn: "includesString",
+    filterFn: (row, columnId, rawFilterValue) => {
+      const filterValue = z.array(validYear).safeParse(rawFilterValue);
+      if (!filterValue.success) return false;
+
+      const year = row.original.year;
+
+      return filterValue.data.includes(year);
+    },
+  },
+  {
+    id: "Organ",
+    accessorKey: "belongsToCommittee.name",
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    enableSorting: true,
+    enableHiding: true,
+    enableResizing: true,
+    filterFn: (row, columnId, rawFilterValue) => {
+      const filterValue = z.array(objectId).safeParse(rawFilterValue);
+      if (!filterValue.success) return false;
+
+      const committeeId = row.original.belongsToCommittee.id;
+
+      return filterValue.data.includes(committeeId);
+    },
   },
   {
     id: "Antal medlemmar",

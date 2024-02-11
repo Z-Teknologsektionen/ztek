@@ -18,11 +18,10 @@ declare module "next-auth" {
   // eslint-disable-next-line @typescript-eslint/no-shadow, no-shadow
   interface Session extends DefaultSession {
     user: DefaultSession["user"] & {
-      committeeId: string;
-      committeeName: string;
+      committeeId?: string;
       email: string;
       id: string;
-      memberId: number;
+      memberId?: string;
       name: string;
       picture: string;
       roles: AccountRoles[];
@@ -70,12 +69,9 @@ const authOptions: NextAuthOptions = {
         where: {
           email: token.email,
         },
-        include: {
-          committee: {
-            select: {
-              name: true,
-            },
-          },
+        select: {
+          id: true,
+          committeeId: true,
         },
       });
 
@@ -85,9 +81,8 @@ const authOptions: NextAuthOptions = {
           ...session.user,
           roles: token.roles,
           email: token.email,
-          memberId: committeeMember?.id ?? undefined,
-          committeeId: committeeMember?.committeeId ?? undefined,
-          commiteeName: committeeMember?.committee.name ?? undefined,
+          memberId: committeeMember?.id,
+          committeeId: committeeMember?.committeeId,
         },
       };
     },

@@ -23,12 +23,10 @@ export type UpsertOldCommitteeFormValues = z.infer<
 >;
 
 const DEFAULT_VALUES: UpsertOldCommitteeFormProps["defaultValues"] = {
-  name: "",
   year: new Date().getFullYear(),
   logo: "",
   image: "",
   members: [],
-  belongsToCommitteeId: "",
 };
 
 const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
@@ -37,22 +35,22 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
   formType,
 }) => {
   const { data: session } = useRequireAuth();
+  const isAdmin = session?.user.roles.includes(AccountRoles.ADMIN);
 
-  const dropDownMappable = session?.user.roles.includes(AccountRoles.ADMIN)
-    ? api.committee.getAllAsAdmin.useQuery().data?.map((c) => ({
-        id: c.id,
-        name: c.name,
+  const dropDownMappable = isAdmin
+    ? api.committee.getAllAsAdmin.useQuery().data?.map((committee) => ({
+        id: committee.id,
+        name: committee.name,
       })) || []
-    : [
-        {
-          id: session?.user.committeeId || "unknown",
-          name: session?.user.committeeName || "Okänt. Kontakta webbgruppen.",
-        },
-      ];
+    : [];
 
   const form = useForm<z.infer<typeof createOldCommitteeSchema>>({
     resolver: zodResolver(createOldCommitteeSchema),
-    defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
+    defaultValues: {
+      ...DEFAULT_VALUES,
+      belongsToCommitteeId: session?.user.committeeId || "unknown",
+      ...defaultValues,
+    },
   });
 
   return (
@@ -66,15 +64,16 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
             label="Namn"
             name="name"
           />
-          <DropdownInput
-            control={form.control}
-            defaultValue={session?.user.committeeId || "uknown"}
-            disabled={false}
-            label="Huvudorgan"
-            mappable={dropDownMappable}
-            name="belongsToCommitteeId"
-            placeholder="Välj huvudorgan"
-          />
+          {isAdmin && (
+            <DropdownInput
+              control={form.control}
+              disabled={false}
+              label="Huvudorgan"
+              mappable={dropDownMappable}
+              name="belongsToCommitteeId"
+              placeholder="Välj huvudorgan"
+            />
+          )}
           <NumberInput
             control={form.control}
             description="Används för att sortera de olika åren. Så om man satt 22/23, skriv 2022"

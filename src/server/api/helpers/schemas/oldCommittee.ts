@@ -29,6 +29,4 @@ export const updateOldCommitteeSchema = createOldCommitteeSchema
   .partial()
   .extend({
     id: objectId,
-    members: z.array(OldCommitteeMemberSchema),
-    belongsToCommitteeId: objectId,
   });
