@@ -43,5 +43,6 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  //https://github.com/sambauers/tailwindcss-3d
+  plugins: [require("tailwindcss-animate"), require("tailwindcss-3d")],
 } satisfies Config;

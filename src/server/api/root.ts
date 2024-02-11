@@ -2,6 +2,7 @@ import { createTRPCRouter } from "~/server/api/trpc";
 import { committeeRouter } from "./routers/committee";
 import { committeeMemberRouter } from "./routers/committeeMember";
 import { documentRouter } from "./routers/document";
+import { oldCommitteeRouter } from "./routers/oldCommittee";
 import { programBoardRouter } from "./routers/programBoard";
 import { userRouter } from "./routers/user";
 import { zenithMediaRouter } from "./routers/zenith-media";
@@ -13,6 +14,7 @@ import { zenithMediaRouter } from "./routers/zenith-media";
  */
 export const appRouter = createTRPCRouter({
   committee: committeeRouter,
+  oldCommittee: oldCommitteeRouter,
   member: committeeMemberRouter,
   document: documentRouter,
   programBoard: programBoardRouter,
