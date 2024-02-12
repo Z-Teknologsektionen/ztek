@@ -26,6 +26,11 @@ const DEFAULT_VALUES: UpsertCommitteeFormProps["defaultValues"] = {
   },
   committeeType: CommitteeType.COMMITTEE,
   image: "",
+  description: "",
+  role: "",
+  email: "",
+  slug: "",
+  name: "",
 };
 
 const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
@@ -117,7 +122,7 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
             type="button"
             variant={"outline"}
           >
-            Rensa
+            Återställ
           </Button>
           <Button type="submit" variant={"default"}>
             {formType === "create" ? "Skapa" : "Uppdatera"}

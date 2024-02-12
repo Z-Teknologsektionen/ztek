@@ -86,11 +86,7 @@ export const programBoardColumns: ColumnDef<ProgramBoardType>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      const programBoardMember = {
-        ...row.original,
-        phone: row.original.phone || undefined,
-        image: row.original.image || undefined,
-      };
+      const programBoardMember = row.original;
 
       return (
         <div className="flex justify-center">

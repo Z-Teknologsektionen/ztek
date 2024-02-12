@@ -16,6 +16,9 @@ type UpsertDocumentFormProps = IUpsertForm<typeof createDocumentSchema>;
 
 const DEFAULT_VALUES: UpsertDocumentFormProps["defaultValues"] = {
   isPDF: false,
+  title: "",
+  url: "",
+  groupId: "",
 };
 
 export const UpsertDocumentForm: FC<UpsertDocumentFormProps> = ({
@@ -66,7 +69,7 @@ export const UpsertDocumentForm: FC<UpsertDocumentFormProps> = ({
             type="button"
             variant={"outline"}
           >
-            Rensa
+            Återställ
           </Button>
           <Button type="submit" variant={"default"}>
             {formType === "create" ? "Skapa" : "Uppdatera"}

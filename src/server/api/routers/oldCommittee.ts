@@ -67,6 +67,7 @@ export const oldCommitteeRouter = createTRPCRouter({
             },
           },
           updatedAt: true,
+          belongsToCommitteeId: true,
           belongsToCommittee: {
             select: {
               id: true,

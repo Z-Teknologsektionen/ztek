@@ -17,6 +17,9 @@ type UpsertZenithMediaFormProps = IUpsertForm<typeof createZenithMediaSchema>;
 const DEFAULT_VALUES: UpsertZenithMediaFormProps["defaultValues"] = {
   isPDF: false,
   year: new Date().getFullYear(),
+  image: "",
+  title: "",
+  url: "",
 };
 
 export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
@@ -67,7 +70,7 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
             type="button"
             variant={"outline"}
           >
-            Rensa
+            Återställ
           </Button>
           <Button type="submit" variant={"default"}>
             {formType === "create" ? "Skapa" : "Uppdatera"}

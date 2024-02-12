@@ -27,6 +27,8 @@ const DEFAULT_VALUES: UpsertOldCommitteeFormProps["defaultValues"] = {
   logo: "",
   image: "",
   members: [],
+  name: "",
+  belongsToCommitteeId: "",
 };
 
 const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
@@ -101,7 +103,7 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
             type="button"
             variant={"outline"}
           >
-            Rensa
+            Återställ
           </Button>
           <Button type="submit" variant={"default"}>
             {formType === "create" ? "Skapa" : "Uppdatera"}
