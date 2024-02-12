@@ -66,7 +66,7 @@ export const committeeColumns: ColumnDef<CommitteeType>[] = [
             <>
               {socialLinks.map(({ iconVariant, url }) => {
                 const Icon = getSocialIconFromEnum(iconVariant);
-                return <Icon key={url} className="h-4 w-4" />;
+                return <Icon key={url} size={15} />;
               })}
             </>
           ) : (

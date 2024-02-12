@@ -34,7 +34,7 @@ const CommitteeSocialIcon: FC<CommitteeSocialIconProps> = ({
           rel={isExternalLink ? "noopener noreferrer" : undefined}
           target={isExternalLink ? "_blank" : "_self"}
         >
-          <Icon className="h-6 w-6" />
+          <Icon size={20} />
           <p className="sr-only">{iconName}</p>
         </Link>
       </TooltipTrigger>
