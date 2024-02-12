@@ -52,7 +52,7 @@ const SelectCommitteeSocialIcon = <
               onValueChange={field.onChange}
             >
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Välj en icon" />
+                <SelectValue placeholder="Välj en ikon" />
               </SelectTrigger>
               <SelectContent>
                 <ScrollArea className="h-48">

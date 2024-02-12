@@ -9,8 +9,8 @@ const MissingCommitteeSection: FC = () => {
       Webbgruppen har inte lagt till dig som medlem i någon kommitté än.
       Kontakta dem för att få tillgång till denna sida.
       <br />
-      Se till att vara inloggad med din postspecifika mail on inte hela organets
-      mail.
+      Se till att vara inloggad med din postspecifika mail och inte hela
+      organets mail.
     </SectionWrapper>
   );
 };

@@ -52,7 +52,7 @@ export const getSocialNameFromEnum = (type: IconEnum): string => {
     case "FACEBOOK":
       return "Facebook";
     case "XTWITTER":
-      return "X (twitter)";
+      return "X (Twitter)";
     case "INSTAGRAM":
       return "Instagram";
     case "TIKTOK":
