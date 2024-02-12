@@ -47,6 +47,27 @@ export const committeeMemberRouter = createTRPCRouter({
         },
       });
     }),
+  getOneByUserId: protectedProcedure
+    .input(z.object({ userId: objectId }))
+    .query(({ ctx, input: { userId } }) => {
+      return ctx.prisma.committeeMember.findFirstOrThrow({
+        where: {
+          userId: userId,
+        },
+        select: {
+          id: true,
+          committeeId: true,
+          name: true,
+          nickName: true,
+          phone: true,
+          image: true,
+          order: true,
+          role: true,
+          email: true,
+        },
+      });
+    }),
+
   updateMemberAsActive: protectedProcedure
     .input(updateMemberAsActiveSchema)
     .mutation(({ ctx, input: { id, name, nickName, image, order } }) => {

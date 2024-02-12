@@ -25,7 +25,8 @@ model Committee {
     electionPeriod Int           @default(1)
     committeeType  CommitteeType @default(COMMITTEE)
 
-    members CommitteeMember[]
+    members      CommitteeMember[]
+    oldCommittee OldCommittee[]
 
     updatedAt DateTime @updatedAt
 }
@@ -58,6 +59,28 @@ enum IconEnum {
     CAMERA
     QUESTIONMARK
     HOME
+}
+
+model OldCommittee {
+    id                   String @id @default(auto()) @map("_id") @db.ObjectId
+    belongsToCommitteeId String @db.ObjectId
+
+    name    String
+    year    Int
+    image   String      @default("")
+    logo    String      @default("")
+    members OldMember[]
+
+    belongsToCommittee Committee @relation(fields: [belongsToCommitteeId], references: [id], onDelete: Restrict)
+
+    updatedAt DateTime @updatedAt
+}
+
+type OldMember {
+    name     String
+    nickName String @default("")
+    role     String @default("")
+    order    Int    @default(0)
 }
 
 model CommitteeMember {

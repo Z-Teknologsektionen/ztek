@@ -39,6 +39,7 @@ export const committeeRouter = createTRPCRouter({
           slug: slug,
         },
         select: {
+          id: true,
           name: true,
           description: true,
           email: true,
@@ -62,6 +63,54 @@ export const committeeRouter = createTRPCRouter({
             },
             orderBy: [{ order: "desc" }],
             select: {
+              id: true,
+              name: true,
+              nickName: true,
+              role: true,
+              image: true,
+              email: true,
+              phone: true,
+            },
+          },
+        },
+      });
+    }),
+  getOneById: publicProcedure
+    .input(
+      z.object({
+        id: objectId,
+      }),
+    )
+    .query(({ ctx, input: { id } }) => {
+      return ctx.prisma.committee.findUniqueOrThrow({
+        where: {
+          id: id,
+        },
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          email: true,
+          image: true,
+          electionPeriod: true,
+          members: {
+            where: {
+              OR: [
+                {
+                  name: {
+                    not: "",
+                  },
+                },
+                {
+                  nickName: {
+                    not: "",
+                  },
+                },
+              ],
+            },
+            orderBy: [{ order: "desc" }],
+            select: {
+              id: true,
               name: true,
               nickName: true,
               role: true,

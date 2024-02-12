@@ -114,7 +114,7 @@ const HomePage: NextPage = () => {
         <div className="absolute h-[5vh] w-full md:h-[10vh] xl:h-[15vh]">
           <Image
             alt="Lucky luke"
-            className="absolute bottom-[2.5vh] left-1/2 z-20  w-[30vw] min-w-[150px] -translate-x-1/2 -rotate-[4deg]  transform drop-shadow-md  md:bottom-[5.5vh] md:w-[24vw] xl:bottom-[9vh]"
+            className="absolute bottom-[2.5vh] left-1/2 z-20  w-[30vw] min-w-[150px] drop-shadow-md -translate-x-1/2  -rotate-[4deg] transform  md:bottom-[5.5vh] md:w-[24vw] xl:bottom-[9vh]"
             height={1080}
             src="/lucky_horizontal.png"
             width={1920}
@@ -318,7 +318,7 @@ type arrowProps = {
 const Arrow: FC<arrowProps> = (props) => {
   return (
     <svg
-      className={`invisible absolute top-1/2 -translate-y-1/2 fill-white hover:cursor-pointer md:visible md:h-[30px] md:w-[30px] ${
+      className={`invisible absolute top-1/2 fill-white -translate-y-1/2 hover:cursor-pointer md:visible md:h-[30px] md:w-[30px] ${
         props.left ? "left-1" : "right-1"
       }`}
       onClick={props.onClick}
