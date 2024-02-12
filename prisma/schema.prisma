@@ -150,14 +150,14 @@ enum AccountRoles {
 }
 
 model MeetingElection {
-    id           String                     @id @default(auto()) @map("_id") @db.ObjectId
-    title        String
-    slug         String                     @unique
-    year         Int
-    meeting      Int
-    candidates   MeetingElectionCandidate[]
-    votes        MeetingElectionVote[]
-    eligleVoters String[]
+    id             String                     @id @default(auto()) @map("_id") @db.ObjectId
+    title          String
+    active         Boolean                    @default(true)
+    year           Int
+    meeting        Int
+    candidates     MeetingElectionCandidate[]
+    votes          MeetingElectionVote[]
+    eligableVoters String[]
 }
 
 model MeetingElectionCandidate {

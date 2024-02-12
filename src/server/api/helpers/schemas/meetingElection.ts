@@ -9,7 +9,6 @@ const MeetingElectionCandidateSchema = z.object({
 
 export const createMeetingElectionSchema = z.object({
   title: nonEmptyString,
-  slug: nonEmptyString,
   year: z
     .number()
     .min(
@@ -22,6 +21,7 @@ export const createMeetingElectionSchema = z.object({
       "Årtalet får inte vara ett framtida årtal",
     ),
   meeting: z.number().min(1).max(4).default(1),
+  active: z.boolean().default(true),
   eligibleVoters: z.array(z.string()).default([]),
   candidates: z.array(MeetingElectionCandidateSchema).default([]),
 });

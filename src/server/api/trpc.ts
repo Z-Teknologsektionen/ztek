@@ -179,3 +179,7 @@ export const documentProcedure = t.procedure.use(
 export const zenithMediaProcedure = t.procedure.use(
   enforceUserHasRoleOrAdmin(AccountRoles.MODIFY_ZENITH_MEDIA),
 );
+
+export const meetingElectionProcedure = t.procedure.use(
+  enforceUserHasRoleOrAdmin(AccountRoles.CREATE_MEETING_ELECTION),
+);
