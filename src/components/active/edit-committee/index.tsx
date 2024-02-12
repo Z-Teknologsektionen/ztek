@@ -8,7 +8,7 @@ import SectionWrapper from "~/components/layout/SectionWrapper";
 import LoadningSpinner from "~/components/layout/loadning-spinner";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
-import CommitteeSocialLinksList from "./committee-social-links-list";
+import CommitteeSocialLinksList from "./committee-social-links/committee-social-links-list";
 import MissingCommitteeSection from "./missing-committee-section";
 
 const EditCommitteePage: FC = () => {

@@ -1,3 +1,4 @@
+import { TooltipProvider } from "@radix-ui/react-tooltip";
 import type { FC } from "react";
 import { useState } from "react";
 import type {
@@ -7,7 +8,7 @@ import type {
 } from "react-hook-form";
 import { FaArrowDown, FaArrowUp, FaPen, FaTrash } from "react-icons/fa6";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
-import { Button } from "~/components/ui/button";
+import ButtonWithIconAndTooltip from "~/components/tooltips/button-with-icon-and-tooltip";
 import {
   getSocialIconFromEnum,
   getSocialNameFromEnum,
@@ -48,63 +49,57 @@ const CommitteeSocialLinksListItem: FC<CommitteeSocialLinksListItemProps> = ({
         <Icon className="block h-8 w-8" title={iconName} />
         <p>{socialLink.iconAndUrl.url}</p>
       </div>
-      <div className="flex flex-row gap-2">
-        <Button
-          className="border-slate-300 p-1"
-          disabled={isFirstItem}
-          onClick={() => {
-            swapSocialLinks(index, index - 1);
-          }}
-          size="sm"
-          variant="outline"
-        >
-          <FaArrowUp className="h-3 w-3" />
-          <p className="sr-only">Flytta social länk uppåt</p>
-        </Button>
-        <Button
-          className="border-slate-300 p-1"
-          disabled={isLastItem}
-          onClick={() => {
-            swapSocialLinks(index, index + 1);
-          }}
-          size="sm"
-          variant="outline"
-        >
-          <FaArrowDown className="h-3 w-3" />
-          <p className="sr-only">Flytta social länk nedåt</p>
-        </Button>
-        <UpsertDialog
-          form={
-            <UpsertCommitteeSocailIconsForm
-              defaultValues={socialLink}
-              formType="update"
-              onSubmit={(values) => {
-                updateSocialLink(index, values);
-                setUpdateModalOpen(false);
-              }}
-            />
-          }
-          isOpen={updateModalOpen}
-          setIsOpen={setUpdateModalOpen}
-          title="Updatera social länk"
-          trigger={
-            <Button className="">
-              <FaPen />
-              <p className="sr-only">Updatera social länk</p>
-            </Button>
-          }
-        />
-        <Button
-          className=""
-          onClick={() => {
-            removeSocialLink(index);
-          }}
-          variant="destructive"
-        >
-          <FaTrash />
-          <p className="sr-only">Radera social länk</p>
-        </Button>
-      </div>
+      <TooltipProvider>
+        <div className="flex flex-row gap-2">
+          <ButtonWithIconAndTooltip
+            disabled={isFirstItem}
+            icon={FaArrowUp}
+            onClick={() => {
+              swapSocialLinks(index, index - 1);
+            }}
+            tooltipText="Flytta social länk uppåt"
+          />
+          <ButtonWithIconAndTooltip
+            disabled={isLastItem}
+            icon={FaArrowDown}
+            onClick={() => {
+              swapSocialLinks(index, index + 1);
+            }}
+            tooltipText="Flytta social länk nedåt"
+          />
+          <UpsertDialog
+            form={
+              <UpsertCommitteeSocailIconsForm
+                defaultValues={socialLink}
+                formType="update"
+                onSubmit={(values) => {
+                  updateSocialLink(index, values);
+                  setUpdateModalOpen(false);
+                }}
+              />
+            }
+            isOpen={updateModalOpen}
+            setIsOpen={setUpdateModalOpen}
+            title="Updatera social länk"
+            trigger={
+              <ButtonWithIconAndTooltip
+                className="fill-waring"
+                icon={FaPen}
+                tooltipText="Updatera social länk"
+              />
+            }
+          />
+
+          <ButtonWithIconAndTooltip
+            className="fill-danger"
+            icon={FaTrash}
+            onClick={() => {
+              removeSocialLink(index);
+            }}
+            tooltipText="Radera social länk"
+          />
+        </div>
+      </TooltipProvider>
     </div>
   );
 };

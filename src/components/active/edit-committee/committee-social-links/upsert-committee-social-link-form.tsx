@@ -4,12 +4,12 @@ import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { BasicInput } from "~/components/forms/BasicInput";
 import type { IUpsertForm } from "~/components/forms/form-types";
+import SelectCommitteeSocialIcon from "~/components/forms/select-committee-social-icon";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
 import { MAX_ORDER_NUMBER } from "~/constants/committees";
 import { socialIconSchema } from "~/server/api/helpers/schemas/committees";
-import SelectCommitteeSocialIcon from "../../forms/select-committee-social-icon";
 
 type UpsertCommitteeSocialLinksFormProps = IUpsertForm<typeof socialIconSchema>;
 

@@ -42,13 +42,13 @@ const CommitteePage: NextPage<
             <SectionTitle>{committee.name}</SectionTitle>
             <p>{committee.description}</p>
             {committee.socialLinks.length !== 0 ? (
-              <div className="flex flex-row flex-wrap justify-center gap-2">
-                <TooltipProvider>
+              <TooltipProvider>
+                <div className="flex flex-row flex-wrap justify-center gap-2">
                   {committee.socialLinks.map((socialLink) => (
                     <CommitteeSocialIcon {...socialLink} key={socialLink.url} />
                   ))}
-                </TooltipProvider>
-              </div>
+                </div>
+              </TooltipProvider>
             ) : (
               <p className="text-sm">
                 - Kontakt:{" "}
