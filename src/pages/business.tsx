@@ -49,13 +49,11 @@ const BusinessPage: NextPage = () => {
                 alt="image"
                 className="rounded"
                 height={300}
-                src="/argz-1980x1320.jpg"
+                src="/argz.jpg"
                 width={4000}
               />
               <div className="mt-2 text-center">
-                <p>
-                  <strong>Casper Lundberg</strong> /zFoto
-                </p>
+                <p>Foto: Casper Lundberg/zFoto</p>
               </div>
             </div>
           </div>

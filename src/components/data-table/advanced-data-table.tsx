@@ -17,7 +17,7 @@ import {
 } from "@tanstack/react-table";
 import type { ComponentType, ReactNode } from "react";
 import { useState } from "react";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "~/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -25,7 +25,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/table";
+} from "~/components/ui/table";
 import { DataTablePagination } from "./data-table-pagination";
 
 interface AdvancedDataTableProps<TData, TValue> {

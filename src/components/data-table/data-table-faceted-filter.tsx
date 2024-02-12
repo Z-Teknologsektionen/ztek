@@ -1,9 +1,8 @@
 import { CheckIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import type { Column } from "@tanstack/react-table";
 import type { ComponentType } from "react";
-import { cn } from "~/utils/utils";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
+import { Badge } from "~/components/ui/badge";
+import { Button } from "~/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -12,9 +11,14 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "../ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Separator } from "../ui/separator";
+} from "~/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
+import { Separator } from "~/components/ui/separator";
+import { cn } from "~/utils/utils";
 
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
@@ -22,7 +26,7 @@ interface DataTableFacetedFilterProps<TData, TValue> {
     icon?: ComponentType<{ className?: string }>;
     iconColor?: string;
     label: string;
-    value: string;
+    value: string | number;
   }[];
   title?: string;
 }
@@ -33,7 +37,9 @@ export const DataTableFacetedFilter = <TData, TValue>({
   options,
 }: DataTableFacetedFilterProps<TData, TValue>): JSX.Element => {
   const facets = column?.getFacetedUniqueValues();
-  const selectedValues = new Set(column?.getFilterValue() as string[]);
+  const selectedValues = new Set(
+    column?.getFilterValue() as (string | number)[],
+  );
 
   return (
     <Popover>

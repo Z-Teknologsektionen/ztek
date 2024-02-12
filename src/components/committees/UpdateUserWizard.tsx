@@ -5,13 +5,9 @@ import { useState, type FC } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import type { z } from "zod";
-import { upsertMemberBaseSchema } from "~/server/api/helpers/schemas/members";
-import { api, type RouterOutputs } from "~/utils/api";
-import localeObject from "~/utils/dayjs";
-import { getBase64WebPStringFromFileInput } from "~/utils/utils";
-import { BasicInput } from "../forms/BasicInput";
-import { NumberInput } from "../forms/NumberInput";
-import { Button } from "../ui/button";
+import { BasicInput } from "~/components/forms/BasicInput";
+import { NumberInput } from "~/components/forms/NumberInput";
+import { Button } from "~/components/ui/button";
 import {
   Form,
   FormControl,
@@ -19,15 +15,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
+import { upsertMemberBaseSchema } from "~/server/api/helpers/schemas/members";
+import { api, type RouterOutputs } from "~/utils/api";
+import localeObject from "~/utils/dayjs";
+import { getBase64WebPStringFromFileInput } from "~/utils/utils";
 import CommitteeImage from "./CommitteeImage";
 
 dayjs.extend(relativeTime);
 dayjs.locale(localeObject);
 
+type MemberType = RouterOutputs["committee"]["getOneByEmail"]["members"][0];
+
 interface IUpdateUserWizard {
-  member: RouterOutputs["committee"]["getOneByEmail"]["members"][0];
+  member: MemberType;
   refetch: () => void;
 }
 export const UpdateUserWizard: FC<IUpdateUserWizard> = ({

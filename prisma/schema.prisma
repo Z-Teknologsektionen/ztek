@@ -11,43 +11,63 @@ datasource db {
 }
 
 model Committee {
-    id String @id @default(auto()) @map("_id") @db.ObjectId
-
-    name        String
-    description String
-    image       String @default("")
-
-    slug           String @unique
+    id             String            @id @default(auto()) @map("_id") @db.ObjectId
+    name           String
+    description    String
+    image          String            @default("")
+    slug           String            @unique
     role           String
-    email          String @unique
+    email          String            @unique
     order          Int
-    electionPeriod Int    @default(1)
-    link           String @default("")
-    linkText       String @default("")
+    electionPeriod Int               @default(1)
+    committeeType  CommitteeType     @default(COMMITTEE)
+    link           String            @default("")
+    linkText       String            @default("")
+    members        CommitteeMember[]
+    OldCommittee   OldCommittee[]
+    updatedAt      DateTime          @updatedAt
+}
 
-    members CommitteeMember[]
+enum CommitteeType {
+    COMMITTEE
+    SUB_COMMITTEE
+    WORKING_GROUP
+    OTHER
+}
 
-    updatedAt DateTime @updatedAt
+model OldCommittee {
+    id                   String      @id @default(auto()) @map("_id") @db.ObjectId
+    name                 String
+    year                 Int
+    image                String      @default("")
+    logo                 String      @default("")
+    members              OldMember[]
+    belongsToCommittee   Committee   @relation(fields: [belongsToCommitteeId], references: [id], onDelete: Restrict)
+    belongsToCommitteeId String      @db.ObjectId
+    updatedAt            DateTime    @updatedAt
+}
+
+type OldMember {
+    name     String
+    nickName String @default("")
+    role     String @default("")
+    order    Int    @default(0)
 }
 
 model CommitteeMember {
-    id          String  @id @default(auto()) @map("_id") @db.ObjectId
-    committeeId String  @db.ObjectId
-    userId      String? @db.ObjectId
-
-    name     String @default("")
-    nickName String @default("")
-    phone    String @default("")
-    image    String @default("")
-    order    Int    @default(0)
-
-    role  String
-    email String
-
-    committee Committee @relation(fields: [committeeId], references: [id], onDelete: Restrict)
-    user      User?     @relation(fields: [userId], references: [id])
-
-    updatedAt DateTime @updatedAt
+    id          String    @id @default(auto()) @map("_id") @db.ObjectId
+    committeeId String    @db.ObjectId
+    userId      String?   @db.ObjectId
+    name        String    @default("")
+    nickName    String    @default("")
+    phone       String    @default("")
+    image       String    @default("")
+    order       Int       @default(0)
+    role        String
+    email       String
+    committee   Committee @relation(fields: [committeeId], references: [id], onDelete: Restrict)
+    user        User?     @relation(fields: [userId], references: [id])
+    updatedAt   DateTime  @updatedAt
 }
 
 model ZenithMedia {

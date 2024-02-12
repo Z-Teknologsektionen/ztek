@@ -1,16 +1,16 @@
 import { z } from "zod";
+import { objectId } from "~/server/api/helpers/customZodTypes";
+import {
+  createMemberSchema,
+  updateMemberAsActiveSchema,
+  updateMemberSchema,
+} from "~/server/api/helpers/schemas/members";
 import {
   adminProcedure,
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { objectId } from "../helpers/customZodTypes";
-import {
-  createMemberSchema,
-  updateMemberAsActiveSchema,
-  updateMemberSchema,
-} from "../helpers/schemas/members";
 
 export const committeeMemberRouter = createTRPCRouter({
   getOneById: adminProcedure
@@ -47,6 +47,27 @@ export const committeeMemberRouter = createTRPCRouter({
         },
       });
     }),
+  getOneByUserId: protectedProcedure
+    .input(z.object({ userId: objectId }))
+    .query(({ ctx, input: { userId } }) => {
+      return ctx.prisma.committeeMember.findFirstOrThrow({
+        where: {
+          userId: userId,
+        },
+        select: {
+          id: true,
+          committeeId: true,
+          name: true,
+          nickName: true,
+          phone: true,
+          image: true,
+          order: true,
+          role: true,
+          email: true,
+        },
+      });
+    }),
+
   updateMemberAsActive: protectedProcedure
     .input(updateMemberAsActiveSchema)
     .mutation(({ ctx, input: { id, name, nickName, image, order } }) => {
@@ -65,19 +86,22 @@ export const committeeMemberRouter = createTRPCRouter({
     }),
   getCommitteeMembersAsAdmin: adminProcedure
     .input(
-      z.object({
-        committeeId: objectId.optional(),
-      }),
+      z
+        .object({
+          committeeId: objectId.optional(),
+        })
+        .optional(),
     )
     .query(async ({ ctx, input }) => {
       const members = await ctx.prisma.committeeMember.findMany({
         where: {
-          committeeId: input.committeeId,
+          committeeId: input?.committeeId,
         },
         include: {
           committee: {
             select: {
               name: true,
+              id: true,
             },
           },
           user: {
@@ -91,6 +115,7 @@ export const committeeMemberRouter = createTRPCRouter({
         ...member,
         userRoles: user?.roles,
         committeeName: committee.name,
+        committeeId: committee.id,
       }));
     }),
   createMemberAsAdmin: adminProcedure

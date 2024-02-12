@@ -1,16 +1,16 @@
 import { z } from "zod";
+import { objectId } from "~/server/api/helpers/customZodTypes";
+import {
+  createCommitteeSchema,
+  updateCommitteeAsActiveSchema,
+  updateCommitteeSchema,
+} from "~/server/api/helpers/schemas/committees";
 import {
   adminProcedure,
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { objectId } from "../helpers/customZodTypes";
-import {
-  createCommitteeSchema,
-  updateCommitteeAsActiveSchema,
-  updateCommitteeSchema,
-} from "../helpers/schemas/committees";
 
 export const committeeRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
@@ -19,6 +19,7 @@ export const committeeRouter = createTRPCRouter({
       select: {
         name: true,
         role: true,
+        committeeType: true,
         slug: true,
         image: true,
         electionPeriod: true,
@@ -37,6 +38,7 @@ export const committeeRouter = createTRPCRouter({
           slug: slug,
         },
         select: {
+          id: true,
           name: true,
           description: true,
           email: true,
@@ -61,6 +63,56 @@ export const committeeRouter = createTRPCRouter({
             },
             orderBy: [{ order: "desc" }],
             select: {
+              id: true,
+              name: true,
+              nickName: true,
+              role: true,
+              image: true,
+              email: true,
+              phone: true,
+            },
+          },
+        },
+      });
+    }),
+  getOneById: publicProcedure
+    .input(
+      z.object({
+        id: objectId,
+      }),
+    )
+    .query(({ ctx, input: { id } }) => {
+      return ctx.prisma.committee.findUniqueOrThrow({
+        where: {
+          id: id,
+        },
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          email: true,
+          image: true,
+          electionPeriod: true,
+          link: true,
+          linkText: true,
+          members: {
+            where: {
+              OR: [
+                {
+                  name: {
+                    not: "",
+                  },
+                },
+                {
+                  nickName: {
+                    not: "",
+                  },
+                },
+              ],
+            },
+            orderBy: [{ order: "desc" }],
+            select: {
+              id: true,
               name: true,
               nickName: true,
               role: true,
@@ -151,29 +203,39 @@ export const committeeRouter = createTRPCRouter({
               role: true,
               updatedAt: true,
               order: true,
+              phone: true,
             },
           },
         },
       });
     }),
-  getAllAsAdmin: adminProcedure.query(({ ctx }) => {
-    return ctx.prisma.committee.findMany({
+  getAllAsAdmin: adminProcedure.query(async ({ ctx }) => {
+    const committees = await ctx.prisma.committee.findMany({
       select: {
         id: true,
         name: true,
         order: true,
         slug: true,
+        committeeType: true,
         electionPeriod: true,
         image: true,
         email: true,
         description: true,
-        members: true,
         role: true,
         link: true,
         linkText: true,
+        _count: {
+          select: {
+            members: true,
+          },
+        },
       },
       orderBy: [{ order: "desc" }],
     });
+    return committees.map(({ _count: { members: membersCount }, ...rest }) => ({
+      membersCount,
+      ...rest,
+    }));
   }),
   getAllCommitteeNamesAsAdmin: adminProcedure.query(({ ctx }) => {
     return ctx.prisma.committee.findMany({
@@ -239,6 +301,7 @@ export const committeeRouter = createTRPCRouter({
           id,
           description,
           email,
+          committeeType,
           name,
           order,
           role,
@@ -260,6 +323,7 @@ export const committeeRouter = createTRPCRouter({
             order,
             role,
             slug,
+            committeeType,
             electionPeriod,
             link,
             linkText,

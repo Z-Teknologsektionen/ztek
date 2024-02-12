@@ -5,17 +5,25 @@ import HeadLayout from "~/components/layout/HeadLayout";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { Button } from "~/components/ui/button";
+import { Skeleton } from "~/components/ui/skeleton";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
+import { courseData } from "~/data/courseData";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
-
-const sixHp = <span className="font-bold"> [6HP]</span>;
-const sevenHp = <span className="font-bold"> [7.5HP]</span>;
-const nineHp = <span className="font-bold"> [9HP]</span>;
 
 const PROGRAMANSVARIG_KEY = "Programansvarig";
 
 const NewStudent: NextPage = () => {
-  const { data, isLoading, isError } = api.programBoard.getOneByRole.useQuery({
+  const {
+    data: programManager,
+    isLoading,
+    isError,
+  } = api.programBoard.getOneByRole.useQuery({
     role: PROGRAMANSVARIG_KEY,
   });
   return (
@@ -25,28 +33,39 @@ const NewStudent: NextPage = () => {
         <SectionWrapper>
           <div className="grid grid-cols-3">
             <div className="order-last col-span-3 m-auto lg:order-first lg:col-span-1">
-              {(data || isLoading) && (
-                <Image
-                  alt="image"
-                  className="rounded"
-                  height={400}
-                  src={data?.image ? data.image : "/logo.png"}
-                  width={400}
-                />
+              {isLoading && (
+                <>
+                  <Skeleton className="h-96 w-96 rounded-full" />
+                  <div className="mt-2 text-center">
+                    <Skeleton className="h-4" />
+                    <Skeleton className="mt-1 h-4" />
+                  </div>
+                </>
               )}
-              {data && (
-                <div className="mt-2 text-center">
-                  <p>
-                    <strong>{data.name}</strong> - programansvarig
-                  </p>
-                  <Link
-                    className="text-blue-600 hover:text-blue-800 hover:underline"
-                    href={`mailto:${data.email}`}
-                    target="_blank"
-                  >
-                    {data.email}
-                  </Link>
-                </div>
+              {programManager && (
+                <>
+                  <Image
+                    alt="image"
+                    className="rounded"
+                    height={400}
+                    src={
+                      programManager?.image ? programManager.image : "/logo.png"
+                    }
+                    width={400}
+                  />
+                  <div className="mt-2 text-center">
+                    <p>
+                      <strong>{programManager.name}</strong> - programansvarig
+                    </p>
+                    <Link
+                      className="text-blue-600 hover:text-blue-800 hover:underline"
+                      href={`mailto:${programManager.email}`}
+                      target="_blank"
+                    >
+                      {programManager.email}
+                    </Link>
+                  </div>
+                </>
               )}
               {isError && (
                 <div className="mt-2 text-center">
@@ -125,7 +144,7 @@ const NewStudent: NextPage = () => {
           <div className="grid grid-cols-3">
             <div className="order-first col-span-3 pl-4 lg:order-last lg:col-span-2">
               <SectionTitle className="mb-4">Mottagningen</SectionTitle>
-              <p>
+              <p className="mr-0 md:mr-12">
                 Mottagningen syftar till att underlätta din integration både
                 socialt och akademiskt. Detta åstadkoms genom fyra intensiva
                 veckor av engagerande aktiviteter. Genom varierande aktiviteter
@@ -138,8 +157,8 @@ const NewStudent: NextPage = () => {
                 fantastisk, men det är du som formar din egen upplevelse. Så kom
                 med ett öppet sinne och var redo att ha roligt!
               </p>
-              <div className="mt-8 grid grid-cols-2 gap-8 md:grid-cols-2 lg:grid-cols-2">
-                <div className="border-gradient rounded-lg">
+              <div className="mr-0 mt-8 grid grid-cols-2 gap-8 md:mr-2">
+                <div className="border-gradient col-span-2 rounded-lg md:col-span-1">
                   <h3 className="mb-4 text-xl font-semibold">
                     Samling på Götaplatsen första dagen
                   </h3>
@@ -150,14 +169,14 @@ const NewStudent: NextPage = () => {
                     mottagningen.
                   </p>
                 </div>
-                <div className="border-gradient rounded-lg">
+                <div className="border-gradient col-span-2 rounded-lg md:col-span-1">
                   <h3 className="mb-4 text-xl font-semibold">Redan antagen?</h3>
                   <p>
                     Tryck på denna knapp om du är antagen för mer information
-                    från vår mottagningskommite
+                    från vår mottagningskommitté.
                   </p>
                   <Button
-                    className="mx-auto block"
+                    className="mx-auto mt-4 block"
                     onClick={() =>
                       window.open("https://www.znollk.se/", "_blank")
                     }
@@ -168,7 +187,7 @@ const NewStudent: NextPage = () => {
                 </div>
               </div>
             </div>
-            <div className="order-last col-span-3 m-auto lg:order-last lg:col-span-1">
+            <div className="order-last col-span-3 m-auto mt-4 lg:order-last lg:col-span-1 lg:mt-0">
               <Image
                 alt="image"
                 className="rounded"
@@ -177,9 +196,7 @@ const NewStudent: NextPage = () => {
                 width={400}
               />
               <div className="mt-2 text-center">
-                <p>
-                  <strong>Dennis Holmström</strong> /zFoto
-                </p>
+                <p>Foto: Dennis Holmström/zFoto</p>
               </div>
             </div>
           </div>
@@ -187,7 +204,7 @@ const NewStudent: NextPage = () => {
         <SectionWrapper>
           <SectionTitle className="text-center">Kurser</SectionTitle>
           <p className="text-left">
-            På Chalmers inleds civilingenjörsprogrammenmed tre år av varierande
+            På Chalmers inleds civilingenjörsprogrammen med tre år av varierande
             studier som bygger upp en gedigen teknisk kompetens. Första året på
             Automation & Mekatronik fokuserar på grundläggande ämnen som
             matematik, programmering och fysik. Under det andra året
@@ -200,342 +217,72 @@ const NewStudent: NextPage = () => {
             fördjupning inom sitt valda område. Denna strukturerade progression
             ger studenterna möjlighet att successivt specialisera sig och skapar
             en stark teknisk grund för framtida studier och en karriär inom
-            automations- och mekatroniksektorn.
+            automations- och mekatroniksektorn. Nedan följer en översikt över de
+            kurser som ingår under de tre första åren, tryck på en kurs för att
+            läsa mer
           </p>
-          <div className="hidden lg:block">
-            <div className="flex items-center justify-center">
-              <div className="margin-100 grid grid-cols-3 gap-1 gap-x-10 p-10 shadow-md">
-                <div className="text-center font-semibold dark:text-gray-400 md:text-lg">
-                  Årskurs 1
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+            <TooltipProvider>
+              {Object.entries(courseData).map(([year, periods], yearIndex) => (
+                <div key={yearIndex} className="rounded border p-4 shadow">
+                  <h2 className="mb-2 text-center text-xl font-bold">{year}</h2>
+                  {Object.entries(periods).map(
+                    ([period, courses], periodIndex) => (
+                      <div key={periodIndex} className="mb-4">
+                        <h3 className="mb-1 border-b border-gray-400 text-lg font-semibold">
+                          {period}
+                        </h3>
+                        {courses.map(
+                          (
+                            { courseName, points, followUp, url },
+                            courseIndex,
+                          ) => (
+                            <div
+                              key={courseIndex}
+                              className="mb-1 flex flex-row justify-between text-slate-500"
+                            >
+                              <div className="shrink">
+                                <Tooltip>
+                                  <TooltipTrigger>
+                                    <a
+                                      className="line-clamp-1 text-left font-medium hover:text-blue-500"
+                                      href={url}
+                                      rel="noopener noreferrer"
+                                      target="_blank"
+                                    >
+                                      {courseName}
+                                    </a>
+                                  </TooltipTrigger>
+                                  <TooltipContent>{courseName}</TooltipContent>
+                                </Tooltip>
+                              </div>
+                              <div className="flex shrink-0 items-center">
+                                {followUp && (
+                                  <em className="mr-2 text-xs text-red-500">
+                                    Fortsättning
+                                  </em>
+                                )}
+                                <p className="mr-2 text-sm text-gray-600">
+                                  {points} HP
+                                </p>
+                              </div>
+                            </div>
+                          ),
+                        )}
+                        {courses.length < 3 &&
+                          Array.from({ length: 3 - courses.length }).map(
+                            (_, i) => (
+                              <div key={i} className="invisible">
+                                Invisible Course
+                              </div>
+                            ),
+                          )}
+                      </div>
+                    ),
+                  )}
                 </div>
-                <div className="text-center font-semibold dark:text-gray-400 md:text-lg">
-                  Årskurs 2
-                </div>
-                <div className="text-center font-semibold dark:text-gray-400 md:text-lg">
-                  Årskurs 3
-                </div>
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 1
-                </div>
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 1
-                </div>
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 1
-                </div>
-                <div className="border-t-2 border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Inledande matematik{sixHp}</li>
-                    <li>Inledande programmering{sixHp}</li>
-                    <li>Introduktion till automation och mekatronik{sixHp}</li>
-                  </ul>
-                </div>
-                <div className="border-t-2 border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Matematisk statistik{sixHp}</li>
-                    <li>Mekanik 2{sixHp}</li>
-                    <li>Intelligent automation{sixHp}</li>
-                  </ul>
-                </div>
-                <div className="border-t-2 border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Introduktion till maskininlärning{sixHp}</li>
-                    <li>Systemkonstruktion{nineHp}</li>
-                    <li>Valbar kurs{sevenHp}</li>
-                  </ul>
-                </div>
-
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 2
-                </div>
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 2
-                </div>
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 2
-                </div>
-                <div className="border-t-2 border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Matematisk analys i en variabel{sixHp}</li>
-                    <li>Elektriska kretsar{sixHp}</li>
-                    <li>
-                      Introduktion till automation och mekatronik -{" "}
-                      <em className="font-bold">Fortsättning</em>
-                      {sixHp}
-                    </li>
-                  </ul>
-                </div>
-                <div className="border-t-2 border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Datastruktuer och algoritmer{sixHp}</li>
-                    <li>Mätteknik{sixHp}</li>
-                    <li>
-                      Intelligent automation -{" "}
-                      <em className="font-bold">Fortsättning</em>
-                      {sixHp}
-                    </li>
-                  </ul>
-                </div>
-                <div className="border-t-2 border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>
-                      Introduktion till maskininlärning -{" "}
-                      <em className="font-bold">Fortsättning</em>
-                      {sixHp}
-                    </li>
-                    <li>
-                      Systemkonstruktion -{" "}
-                      <em className="font-bold">Fortsättning</em>
-                      {nineHp}
-                    </li>
-                    <li>Valbar kurs{sevenHp}</li>
-                  </ul>
-                </div>
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 3
-                </div>
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 3
-                </div>
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 3
-                </div>
-                <div className="border-t-2 border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Linjär algebra{sixHp}</li>
-                    <li>Mekanik 1{sixHp}</li>
-                    <li>Grundläggande datorteknik{sixHp}</li>
-                  </ul>
-                </div>
-                <div className="border-t-2 border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Elektriska drivsystem och fält{sixHp}</li>
-                    <li>Signaler och system{sixHp}</li>
-                    <li>
-                      Simulering och optimering av hållbara produktionssystem
-                      {sixHp}
-                    </li>
-                  </ul>
-                </div>
-                <div className="border-t-2 border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Valbar kurs{sevenHp}</li>
-                    <li>Kandidatarbete{sevenHp}</li>
-                  </ul>
-                </div>
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 4
-                </div>
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 4
-                </div>
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 4
-                </div>
-                <div className="border-t-2 border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Matematisk analys i flera variabler{sixHp}</li>
-                    <li>Maskinorienterad programmering{sixHp}</li>
-                    <li>
-                      Grundläggande datorteknik -{" "}
-                      <em className="font-bold">Fortsättning</em>
-                      {sixHp}
-                    </li>
-                  </ul>
-                </div>
-                <div className="border-t-2 border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Ekonomi och organisation{sixHp}</li>
-                    <li>Reglerteknik{sixHp}</li>
-                    <li>
-                      Simulering och optimering av hållbara produktionssystem -{" "}
-                      <em className="font-bold">Fortsättning</em>
-                      {sixHp}
-                    </li>
-                  </ul>
-                </div>
-                <div className="border-t-2 border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Valbar kurs{sevenHp}</li>
-                    <li>
-                      Kandidatarbete -{" "}
-                      <em className="font-bold">Fortsättning</em>
-                      {sevenHp}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="lg:hidden">
-            <div className="flex items-center justify-center">
-              <div className="margin-100 gap-1 gap-x-10 p-10 shadow-md md:grid md:grid-cols-1 lg:grid-cols-3">
-                <div className="text-center font-semibold dark:text-gray-400 md:text-lg">
-                  Årskurs 1
-                </div>
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 1
-                </div>
-                <div className="border-t border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Inledande matematik{sixHp}</li>
-                    <li>Inledande programmering{sixHp}</li>
-                    <li>Introduktion till automation och mekatronik{sixHp}</li>
-                  </ul>
-                </div>
-
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 2
-                </div>
-                <div className="border-t  border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Matematisk analys i en variabel{sixHp}</li>
-                    <li>Elektriska kretsar{sixHp}</li>
-                    <li>
-                      Introduktion till automation och mekatronik -{" "}
-                      <em className="font-bold">Fortsättning</em>
-                      {sixHp}
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 3
-                </div>
-                <div className="border-t  border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Linjär algebra{sixHp}</li>
-                    <li>Mekanik 1{sixHp}</li>
-                    <li>Grundläggande datorteknik{sixHp}</li>
-                  </ul>
-                </div>
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 4
-                </div>
-                <div className="border-t  border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Matematisk analys i flera variabler{sixHp}</li>
-                    <li>Maskinorienterad programmering{sixHp}</li>
-                    <li>
-                      Grundläggande datorteknik -{" "}
-                      <em className="font-bold">Fortsättning</em>
-                      {sixHp}
-                    </li>
-                  </ul>
-                </div>
-                <div className="mt-5 text-center font-semibold dark:text-gray-400 md:text-lg">
-                  Årskurs 2
-                </div>
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 1
-                </div>
-                <div className="border-t  border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Matematisk statistik{sixHp}</li>
-                    <li>Mekanik 2{sixHp}</li>
-                    <li>Intelligent automation{sixHp}</li>
-                  </ul>
-                </div>
-
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 2
-                </div>
-                <div className="border-t  border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Datastruktuer och algoritmer{sixHp}</li>
-                    <li>Mätteknik{sixHp}</li>
-                    <li>
-                      Intelligent automation -{" "}
-                      <em className="font-bold">Fortsättning</em>
-                      {sixHp}
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 3
-                </div>
-                <div className="border-t  border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Elektriska drivsystem och fält{sixHp}</li>
-                    <li>Signaler och system{sixHp}</li>
-                    <li>
-                      Simulering och optimering av hållbara produktionssystem
-                      {sixHp}
-                    </li>
-                  </ul>
-                </div>
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 4
-                </div>
-                <div className="border-t  border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Ekonomi och organisation{sixHp}</li>
-                    <li>Reglerteknik{sixHp}</li>
-                    <li>
-                      Simulering och optimering av hållbara produktionssystem -{" "}
-                      <em className="font-bold">Fortsättning</em>
-                      {sixHp}
-                    </li>
-                  </ul>
-                </div>
-                <div className="mt-5 text-center font-semibold dark:text-gray-400 md:text-lg">
-                  Årskurs 3
-                </div>
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 1
-                </div>
-                <div className="border-t  border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Introduktion till maskininlärning{sixHp}</li>
-                    <li>Systemkonstruktion{nineHp}</li>
-                    <li>Valbar kurs{sevenHp}</li>
-                  </ul>
-                </div>
-
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 2
-                </div>
-                <div className="border-t  border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>
-                      Introduktion till maskininlärning -{" "}
-                      <em className="font-bold">Fortsättning</em>
-                      {sixHp}
-                    </li>
-                    <li>
-                      Systemkonstruktion -{" "}
-                      <em className="font-bold">Fortsättning</em>
-                      {nineHp}
-                    </li>
-                    <li>Valbar kurs{sevenHp}</li>
-                  </ul>
-                </div>
-
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 3
-                </div>
-                <div className="border-t  border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Valbar kurs{sevenHp}</li>
-                    <li>Kandidatarbete{sevenHp}</li>
-                  </ul>
-                </div>
-                <div className="mb-1 text-gray-500 dark:text-gray-400 md:text-lg">
-                  Läsperiod 4
-                </div>
-                <div className="border-t  border-gray-400">
-                  <ul className="mt-2 list-inside list-disc space-y-1 pl-5 text-xs">
-                    <li>Valbar kurs{sevenHp}</li>
-                    <li>
-                      Kandidatarbete -{" "}
-                      <em className="font-bold">Fortsättning</em>
-                      {sevenHp}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+              ))}
+            </TooltipProvider>
           </div>
         </SectionWrapper>
       </div>
