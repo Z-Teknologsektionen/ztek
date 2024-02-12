@@ -182,7 +182,7 @@ const StudentHealthPage: NextPage = () => {
                 </li>
               </ul>
             </div>
-            <div className="order-last col-span-3 m-auto mt-4 lg:order-last lg:col-span-1 lg:mt-0">
+            <div className="order-last col-span-3 m-auto lg:order-first lg:col-span-1">
               <a
                 href="https://www.chalmers.se/utbildning/studentstod/pedagogiskt-stod-for-dig-med-funktionsnedsattning/"
                 rel="noopener noreferrer"
@@ -192,7 +192,7 @@ const StudentHealthPage: NextPage = () => {
                   alt="Funka"
                   className="rounded"
                   height={400}
-                  src="/funka-logo-pattern-8.png" // replace with your image path
+                  src="/funka-logo-pattern-8.png"
                   width={400}
                 />
               </a>
@@ -202,7 +202,7 @@ const StudentHealthPage: NextPage = () => {
         </SectionWrapper>
         <SectionWrapper>
           <div className="grid grid-cols-3 py-8">
-            <div className="order-last col-span-3 m-auto lg:order-first lg:col-span-1">
+            <div className="order-last col-span-3 m-auto mt-4 lg:order-last lg:col-span-1 lg:mt-0">
               <CommitteeImage
                 alt={`Profilbild på ${samo ? samo.name : "SAMO"}`}
                 filename={samo ? samo.image : ""}
