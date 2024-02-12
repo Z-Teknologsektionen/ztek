@@ -30,7 +30,7 @@ jobs:
           trello-list-id-pr-draft: 62deaa5fc7e9252bf64be57a
           trello-board-id: 62deaa5fc7e9252bf64be577
           trello-card-position: "bottom"
-          trello-organization-name: Webbgruppen
+          trello-organization-name: webbgruppen3
           trello-remove-unrelated-members: false
           github-users-to-trello-users: |-
             Globe999:ledamot5webbgruppen
