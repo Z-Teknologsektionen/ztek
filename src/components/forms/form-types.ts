@@ -54,9 +54,9 @@ export interface IImageInput<
       "defaultValue" | "name" | "type" | "value" | "onChange"
     > {
   containImage?: boolean;
-  maxHeight?: number;
-  maxWidth?: number;
-  quality?: number;
+  maxHeight: number;
+  maxWidth: number;
+  quality: number;
 }
 
 export interface INumberInput<

@@ -88,7 +88,7 @@ export const ImageInput = <
                     maxHeight,
                     maxWidth,
                     quality,
-                  )
+                  })
                     .then((val) => setValue(val))
                     .catch(() => setValue(""));
                 }}
