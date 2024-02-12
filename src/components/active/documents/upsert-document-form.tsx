@@ -18,6 +18,7 @@ const DEFAULT_VALUES: UpsertDocumentFormProps["defaultValues"] = {
   isPDF: false,
   title: "",
   url: "",
+  groupId: "",
 };
 
 export const UpsertDocumentForm: FC<UpsertDocumentFormProps> = ({

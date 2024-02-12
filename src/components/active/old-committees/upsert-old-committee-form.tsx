@@ -28,6 +28,7 @@ const DEFAULT_VALUES: UpsertOldCommitteeFormProps["defaultValues"] = {
   image: "",
   members: [],
   name: "",
+  belongsToCommitteeId: "",
 };
 
 const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({

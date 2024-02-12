@@ -8,6 +8,7 @@ import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
 import type { OldCommitteeType } from "./old-committee-columns";
 import UpsertOldCommitteeForm from "./upsert-old-committee-form";
+
 export const OldCommitteeTableActions: FC<OldCommitteeType> = ({
   id,
   ...values
