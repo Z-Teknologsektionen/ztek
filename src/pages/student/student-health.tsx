@@ -173,7 +173,7 @@ const StudentHealthPage: NextPage = () => {
                   <MdInfo className="mr-2" />
                   <a
                     className="hover:underline"
-                    href="https://www.chalmers.se/utbildning/studentstod/pedagogiskt-stod-for-dig-med-funktionsnedsattning/anteckningsstod/"
+                    href="https://www.chalmers.se/utbildning/studentstod/pedagogiskt-stod-for-dig-med-funktionsnedsattning/"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
