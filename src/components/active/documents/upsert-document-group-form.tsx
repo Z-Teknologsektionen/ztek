@@ -15,6 +15,7 @@ type UpsertDocumentGroupFormProps = IUpsertForm<
 
 const DEFAULT_VALUES: UpsertDocumentGroupFormProps["defaultValues"] = {
   extraText: "",
+  name: "",
 };
 
 export const UpsertDocumentGroupForm: FC<UpsertDocumentGroupFormProps> = ({

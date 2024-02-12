@@ -58,7 +58,6 @@ export const DocumentTableToolbar = <TData,>({
             form={
               <UpsertDocumentForm
                 key={"new"}
-                defaultValues={{}}
                 formType="create"
                 onSubmit={(values) => createNewDocument(values)}
               />

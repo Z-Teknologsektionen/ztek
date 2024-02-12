@@ -31,6 +31,8 @@ const DEFAULT_VALUES: UpsertOldCommitteeFormProps["defaultValues"] = {
   logo: "",
   image: "",
   members: [],
+  name: "",
+  belongsToCommitteeId: "",
 };
 
 const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
@@ -92,6 +94,7 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
             maxWidth={COMMITTEE_IMAGE_SIZE}
             name="image"
             quality={COMMITTEE_IMAGE_QUALITY}
+            containImage
           />
           <ImageInput
             control={form.control}
@@ -110,7 +113,7 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
             type="button"
             variant={"outline"}
           >
-            Rensa
+            Återställ
           </Button>
           <Button type="submit" variant={"default"}>
             {formType === "create" ? "Skapa" : "Uppdatera"}
