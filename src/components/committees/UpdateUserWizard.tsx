@@ -26,7 +26,8 @@ import CommitteeImage from "./CommitteeImage";
 dayjs.extend(relativeTime);
 dayjs.locale(localeObject);
 
-type MemberType = RouterOutputs["committee"]["getOneByEmail"]["members"][0];
+type MemberType =
+  RouterOutputs["committee"]["getOneByIdAsAuthed"]["members"][0];
 
 interface IUpdateUserWizard {
   member: MemberType;

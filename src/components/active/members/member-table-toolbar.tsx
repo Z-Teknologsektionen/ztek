@@ -20,13 +20,12 @@ export const MemberTableToolbar = <TData,>({
   table,
 }: MemberTableToolbarProps<TData>): JSX.Element => {
   const isFiltered = table.getState().columnFilters.length > 0;
-  const { data: committees } =
-    api.committee.getAllCommitteeNamesAsAdmin.useQuery();
+  const { data: committees } = api.committee.getAllCommitteeNames.useQuery();
   const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: createNewUser, isLoading: creatingNewUser } =
-    api.member.createMemberAsAdmin.useMutation({
+    api.member.createMemberAsAuthed.useMutation({
       onMutate: () => toast.loading("Skapar ny medlem..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: ({ name: userName, committee: { name: committeeName } }) => {

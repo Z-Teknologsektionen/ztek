@@ -10,10 +10,9 @@ import { api } from "~/utils/api";
 
 const EditCommitteePage: FC = () => {
   const { data: session } = useRequireAuth();
-  const userEmail = session?.user.email;
   const { data: committee, refetch: refetchCommittee } =
-    api.committee.getOneByEmail.useQuery({
-      email: userEmail || "",
+    api.committee.getOneByIdAsAuthed.useQuery({
+      id: session?.user.committeeId || "",
     });
 
   return (

@@ -77,7 +77,7 @@ export const oldCommitteeRouter = createTRPCRouter({
         orderBy: [{ year: "desc" }, { updatedAt: "desc" }],
       });
     }),
-  createOldCommittee: protectedProcedure
+  createOldCommitteeAsActive: protectedProcedure
     .input(createOldCommitteeSchema)
     .mutation(
       ({
@@ -107,7 +107,7 @@ export const oldCommitteeRouter = createTRPCRouter({
         });
       },
     ),
-  updateOne: protectedProcedure
+  updateOneAsActive: protectedProcedure
     .input(updateOldCommitteeSchema)
     .mutation(
       ({
@@ -138,7 +138,7 @@ export const oldCommitteeRouter = createTRPCRouter({
         });
       },
     ),
-  deleteOne: protectedProcedure
+  deleteOneAsActive: protectedProcedure
     .input(
       z.object({
         id: objectId,

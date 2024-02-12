@@ -20,7 +20,7 @@ export const DocumentTableToolbar = <TData,>({
   const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
   const { mutate: createNewDocument, isLoading: creatingNewDocument } =
-    api.document.createOne.useMutation({
+    api.document.createOneAsAuthed.useMutation({
       onMutate: () => toast.loading("Skapar nytt dokument..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: () => {

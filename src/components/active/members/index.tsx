@@ -2,7 +2,6 @@ import { AccountRoles } from "@prisma/client";
 import type { FC } from "react";
 import { AdvancedDataTable } from "~/components/data-table/advanced-data-table";
 import RoleWrapper from "~/components/layout/RoleWrapper";
-import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import { api } from "~/utils/api";
 import { memberColumns } from "./member-columns";
@@ -10,18 +9,16 @@ import { MemberTableToolbar } from "./member-table-toolbar";
 
 const AdminMembersTab: FC = () => {
   const {
-    data: membersAsAdmin,
+    data: membersAsAuthed,
     isLoading: isLoadingMembers,
     isError: isErrorMembers,
-  } = api.member.getCommitteeMembersAsAdmin.useQuery();
-
+  } = api.member.getCommitteeMembersAsAuthed.useQuery();
   return (
-    <RoleWrapper accountRole={AccountRoles.ADMIN}>
+    <RoleWrapper accountRole={AccountRoles.ORGANIZATION_MANAGEMENT}>
       <SectionWrapper>
-        <SectionTitle center>Medlemmar</SectionTitle>
         <AdvancedDataTable
           columns={memberColumns}
-          data={membersAsAdmin || []}
+          data={membersAsAuthed || []}
           error={isErrorMembers}
           loading={isLoadingMembers}
           toolbar={MemberTableToolbar}

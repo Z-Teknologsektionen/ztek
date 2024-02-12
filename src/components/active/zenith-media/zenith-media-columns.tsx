@@ -4,8 +4,7 @@ import { DataTableViewOptions } from "~/components/data-table/data-table-view-op
 import { type RouterOutputs } from "~/utils/api";
 import { ZenithMediaTableActions } from "./zenith-media-table-actions";
 
-export type ZenithMediaType =
-  RouterOutputs["zenithMedia"]["getAllAsAuthorized"][0];
+export type ZenithMediaType = RouterOutputs["zenithMedia"]["getAllAsAuthed"][0];
 
 export const zenithMediaColumns: ColumnDef<ZenithMediaType>[] = [
   {

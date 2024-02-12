@@ -4,7 +4,7 @@ import { DataTableViewOptions } from "~/components/data-table/data-table-view-op
 import type { RouterOutputs } from "~/utils/api";
 import { ProgramBoardMemberTableActions } from "./program-board-table-actions";
 
-type ProgramBoardType = RouterOutputs["programBoard"]["getAllAsAdmin"][0];
+type ProgramBoardType = RouterOutputs["programBoard"]["getAllAsAuthed"][0];
 
 export const programBoardColumns: ColumnDef<ProgramBoardType>[] = [
   {

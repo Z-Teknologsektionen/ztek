@@ -6,14 +6,14 @@ import {
   updateMemberSchema,
 } from "~/server/api/helpers/schemas/members";
 import {
-  adminProcedure,
   createTRPCRouter,
+  organizationManagementProcedure,
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
 
 export const committeeMemberRouter = createTRPCRouter({
-  getOneById: adminProcedure
+  getOneById: organizationManagementProcedure
     .input(
       z.object({
         id: objectId,
@@ -84,7 +84,7 @@ export const committeeMemberRouter = createTRPCRouter({
       });
       return member;
     }),
-  getCommitteeMembersAsAdmin: adminProcedure
+  getCommitteeMembersAsAuthed: organizationManagementProcedure
     .input(
       z
         .object({
@@ -118,7 +118,7 @@ export const committeeMemberRouter = createTRPCRouter({
         committeeId: committee.id,
       }));
     }),
-  createMemberAsAdmin: adminProcedure
+  createMemberAsAuthed: organizationManagementProcedure
     .input(createMemberSchema)
     .mutation(
       async ({
@@ -156,7 +156,7 @@ export const committeeMemberRouter = createTRPCRouter({
         });
       },
     ),
-  updateMemberAsAdmin: adminProcedure
+  updateMemberAsAuthed: organizationManagementProcedure
     .input(updateMemberSchema)
     .mutation(
       async ({
@@ -200,7 +200,7 @@ export const committeeMemberRouter = createTRPCRouter({
         });
       },
     ),
-  deleteMemberAsAdmin: adminProcedure
+  deleteMemberAsAuthed: organizationManagementProcedure
     .input(
       z.object({
         id: objectId,

@@ -18,38 +18,42 @@ export const DocumentTableActions: FC<DocumentType> = ({ id, ...values }) => {
   const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: updateDocument } = api.document.updateOne.useMutation({
-    onMutate: () => toast.loading("Uppdaterar dokument..."),
-    onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-    onSuccess: () => {
-      setIsOpen(false);
-      toast.success("Dokumentet har uppdaterats!");
-      void ctx.document.invalidate();
+  const { mutate: updateDocument } = api.document.updateOneAsAuthed.useMutation(
+    {
+      onMutate: () => toast.loading("Uppdaterar dokument..."),
+      onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
+      onSuccess: () => {
+        setIsOpen(false);
+        toast.success("Dokumentet har uppdaterats!");
+        void ctx.document.invalidate();
+      },
+      onError: (error) => {
+        if (error.message) {
+          toast.error(error.message);
+        } else {
+          toast.error("Något gick fel. Försök igen senare");
+        }
+      },
     },
-    onError: (error) => {
-      if (error.message) {
-        toast.error(error.message);
-      } else {
-        toast.error("Något gick fel. Försök igen senare");
-      }
-    },
-  });
+  );
 
-  const { mutate: deleteDocument } = api.document.deleteOne.useMutation({
-    onMutate: () => toast.loading("Raderar dokument..."),
-    onSettled: (_c, _d, _e, toastId) => {
-      toast.remove(toastId);
-      void ctx.document.invalidate();
+  const { mutate: deleteDocument } = api.document.deleteOneAsAuthed.useMutation(
+    {
+      onMutate: () => toast.loading("Raderar dokument..."),
+      onSettled: (_c, _d, _e, toastId) => {
+        toast.remove(toastId);
+        void ctx.document.invalidate();
+      },
+      onSuccess: () => toast.success("Dokumentet har raderats!"),
+      onError: (error) => {
+        if (error.message) {
+          toast.error(error.message);
+        } else {
+          toast.error("Något gick fel. Försök igen senare");
+        }
+      },
     },
-    onSuccess: () => toast.success("Dokumentet har raderats!"),
-    onError: (error) => {
-      if (error.message) {
-        toast.error(error.message);
-      } else {
-        toast.error("Något gick fel. Försök igen senare");
-      }
-    },
-  });
+  );
 
   return (
     <DropdownMenu>

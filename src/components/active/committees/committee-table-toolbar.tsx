@@ -19,7 +19,7 @@ export const CommitteeTableToolbar = <TData,>({
   const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: createNewCommittee, isLoading: creatingNewCommittee } =
-    api.committee.createCommittee.useMutation({
+    api.committee.createCommitteeAsAuthed.useMutation({
       onMutate: () => toast.loading("Skapar nytt organ..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: ({ name }) => {

@@ -22,7 +22,7 @@ export const DocumentGroupTableToolbar = <TData,>({
   const {
     mutate: createNewDocumentGroup,
     isLoading: creatingNewDocumentGroup,
-  } = api.document.createOneGroup.useMutation({
+  } = api.document.createOneGroupAsAuthed.useMutation({
     onMutate: () => toast.loading("Skapar ny dokumentgrupp..."),
     onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
     onSuccess: () => {

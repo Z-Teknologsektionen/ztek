@@ -27,7 +27,7 @@ export const ProgramBoardMemberTableActions: FC<{
   const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: updateProgramBoardMember } =
-    api.programBoard.updateOne.useMutation({
+    api.programBoard.updateOneAsAuthed.useMutation({
       onMutate: () => toast.loading("Uppdaterar medlem..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: () => {
@@ -45,7 +45,7 @@ export const ProgramBoardMemberTableActions: FC<{
     });
 
   const { mutate: deleteProgramBoardMember } =
-    api.programBoard.deleteOne.useMutation({
+    api.programBoard.deleteOneAsAuthed.useMutation({
       onMutate: () => toast.loading("Raderar medlem..."),
       onSettled: (_c, _d, _e, toastId) => {
         toast.remove(toastId);

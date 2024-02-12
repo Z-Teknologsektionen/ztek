@@ -33,7 +33,7 @@ export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
     defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
 
-  const { data: committees } = api.committee.getAllAsAdmin.useQuery();
+  const { data: committees } = api.committee.getAllAsAuthed.useQuery();
 
   return (
     <Form {...form}>

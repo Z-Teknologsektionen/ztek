@@ -10,7 +10,7 @@ import {
 } from "~/server/api/trpc";
 
 export const programBoardRouter = createTRPCRouter({
-  getAllAsAdmin: programBoardProcedure.query(({ ctx }) => {
+  getAllAsAuthed: programBoardProcedure.query(({ ctx }) => {
     return ctx.prisma.programBoardMember.findMany({
       select: {
         id: true,
@@ -48,7 +48,7 @@ export const programBoardRouter = createTRPCRouter({
         },
       });
     }),
-  createOne: programBoardProcedure
+  createOneAsAuthed: programBoardProcedure
     .input(createProgramBoardMemberSchema)
     .mutation(
       ({ ctx, input: { name, role, phone, email, url, image, order } }) => {
@@ -65,7 +65,7 @@ export const programBoardRouter = createTRPCRouter({
         });
       },
     ),
-  updateOne: programBoardProcedure
+  updateOneAsAuthed: programBoardProcedure
     .input(updateProgramBoardMemberSchema)
     .mutation(
       ({ ctx, input: { id, name, role, phone, email, url, image, order } }) => {
@@ -83,7 +83,7 @@ export const programBoardRouter = createTRPCRouter({
         });
       },
     ),
-  deleteOne: programBoardProcedure
+  deleteOneAsAuthed: programBoardProcedure
     .input(
       z.object({
         id: z.string().min(1),

@@ -27,7 +27,7 @@ export const CommitteeMemberTableActions: FC<{
   const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: updateMember } = api.member.updateMemberAsAdmin.useMutation({
+  const { mutate: updateMember } = api.member.updateMemberAsAuthed.useMutation({
     onMutate: () => toast.loading("Uppdaterar medlem..."),
     onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
     onSuccess: () => {
@@ -45,7 +45,7 @@ export const CommitteeMemberTableActions: FC<{
     },
   });
 
-  const { mutate: deleteMember } = api.member.deleteMemberAsAdmin.useMutation({
+  const { mutate: deleteMember } = api.member.deleteMemberAsAuthed.useMutation({
     onMutate: () => toast.loading("Raderar medlem..."),
     onSettled: (_c, _d, _e, toastId) => {
       toast.remove(toastId);

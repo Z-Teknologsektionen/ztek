@@ -33,7 +33,7 @@ export const OldCommitteeTableToolbar = <TData,>({
     });
 
   const { mutate: createNewOldCommittee, isLoading: creatingNewOldCommittee } =
-    api.oldCommittee.createOldCommittee.useMutation({
+    api.oldCommittee.createOldCommitteeAsActive.useMutation({
       onMutate: () => toast.loading("Skapar ny patetgrupp..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: ({ name: name }) => {

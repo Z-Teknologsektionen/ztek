@@ -6,8 +6,8 @@ import {
   updateCommitteeSchema,
 } from "~/server/api/helpers/schemas/committees";
 import {
-  adminProcedure,
   createTRPCRouter,
+  organizationManagementProcedure,
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
@@ -124,63 +124,16 @@ export const committeeRouter = createTRPCRouter({
         },
       });
     }),
-  getOneBySlugAsAdmin: adminProcedure
+  getOneByIdAsAuthed: protectedProcedure
     .input(
       z.object({
-        slug: z.string(),
+        id: objectId,
       }),
     )
-    .query(({ ctx, input: { slug } }) => {
-      return ctx.prisma.committee.findUniqueOrThrow({
-        where: {
-          slug: slug,
-        },
-        select: {
-          name: true,
-          description: true,
-          email: true,
-          image: true,
-          id: true,
-          role: true,
-          slug: true,
-          updatedAt: true,
-          order: true,
-          electionPeriod: true,
-          _count: {
-            select: {
-              members: true,
-            },
-          },
-          members: {
-            select: {
-              name: true,
-              nickName: true,
-              role: true,
-              image: true,
-              email: true,
-              phone: true,
-              id: true,
-              order: true,
-              updatedAt: true,
-            },
-          },
-        },
-      });
-    }),
-  getOneByEmail: protectedProcedure
-    .input(
-      z.object({
-        email: z.string(),
-      }),
-    )
-    .query(({ ctx, input: { email } }) => {
+    .query(({ ctx, input: { id } }) => {
       return ctx.prisma.committee.findFirstOrThrow({
         where: {
-          members: {
-            some: {
-              email: email,
-            },
-          },
+          id: id,
         },
         select: {
           name: true,
@@ -209,7 +162,7 @@ export const committeeRouter = createTRPCRouter({
         },
       });
     }),
-  getAllAsAdmin: adminProcedure.query(async ({ ctx }) => {
+  getAllAsAuthed: organizationManagementProcedure.query(async ({ ctx }) => {
     const committees = await ctx.prisma.committee.findMany({
       select: {
         id: true,
@@ -237,7 +190,7 @@ export const committeeRouter = createTRPCRouter({
       ...rest,
     }));
   }),
-  getAllCommitteeNamesAsAdmin: adminProcedure.query(({ ctx }) => {
+  getAllCommitteeNames: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.committee.findMany({
       select: {
         name: true,
@@ -258,41 +211,43 @@ export const committeeRouter = createTRPCRouter({
         },
       });
     }),
-  createCommittee: adminProcedure.input(createCommitteeSchema).mutation(
-    ({
-      ctx,
-      input: {
-        description,
-        email,
-        name,
-        order,
-        role,
-        slug,
-        image,
-        electionPeriod,
-        linkObject: { link, linkText },
-      },
-    }) => {
-      return ctx.prisma.committee.create({
-        data: {
+  createCommitteeAsAuthed: organizationManagementProcedure
+    .input(createCommitteeSchema)
+    .mutation(
+      ({
+        ctx,
+        input: {
           description,
           email,
-          image,
           name,
           order,
           role,
           slug,
+          image,
           electionPeriod,
-          link,
-          linkText,
+          linkObject: { link, linkText },
         },
-        select: {
-          name: true,
-        },
-      });
-    },
-  ),
-  updateCommittee: adminProcedure
+      }) => {
+        return ctx.prisma.committee.create({
+          data: {
+            description,
+            email,
+            image,
+            name,
+            order,
+            role,
+            slug,
+            electionPeriod,
+            link,
+            linkText,
+          },
+          select: {
+            name: true,
+          },
+        });
+      },
+    ),
+  updateCommitteeAsAuthed: organizationManagementProcedure
     .input(updateCommitteeSchema)
     .mutation(
       ({
@@ -331,7 +286,7 @@ export const committeeRouter = createTRPCRouter({
         });
       },
     ),
-  deleteCommittee: adminProcedure
+  deleteCommitteeAsAuthed: organizationManagementProcedure
     .input(
       z.object({
         id: objectId,

@@ -23,7 +23,7 @@ import { api } from "~/utils/api";
 import { getBase64WebPStringFromFileInput } from "~/utils/utils";
 
 interface IUpdateCommitteeWizard {
-  committee: RouterOutputs["committee"]["getOneByEmail"];
+  committee: RouterOutputs["committee"]["getOneByIdAsAuthed"];
   refetchCommittee: () => void;
 }
 export const UpdateCommitteeWizard: FC<IUpdateCommitteeWizard> = ({

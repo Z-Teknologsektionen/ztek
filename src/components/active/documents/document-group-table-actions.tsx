@@ -22,7 +22,7 @@ export const DocumentGroupTableActions: FC<{
   const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: updateDocumentGroup } =
-    api.document.updateOneGroup.useMutation({
+    api.document.updateOneGroupAsAuthed.useMutation({
       onMutate: () => toast.loading("Uppdaterar dokumentgrupp..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: (res) => {
@@ -40,7 +40,7 @@ export const DocumentGroupTableActions: FC<{
     });
 
   const { mutate: deleteDocumentGroup } =
-    api.document.deleteOneGroup.useMutation({
+    api.document.deleteOneGroupAsAuthed.useMutation({
       onMutate: () => toast.loading("Raderar dokumentgrupp..."),
       onSettled: (_c, _d, _e, toastId) => {
         toast.remove(toastId);

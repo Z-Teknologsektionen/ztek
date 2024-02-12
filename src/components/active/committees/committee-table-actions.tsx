@@ -18,8 +18,8 @@ export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
   const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: updateCommittee } = api.committee.updateCommittee.useMutation(
-    {
+  const { mutate: updateCommittee } =
+    api.committee.updateCommitteeAsAuthed.useMutation({
       onMutate: () => toast.loading("Uppdaterar organet..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: () => {
@@ -34,25 +34,25 @@ export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
           toast.error("Något gick fel. Försök igen senare");
         }
       },
-    },
-  );
+    });
 
-  const { mutate: deleteMember } = api.committee.deleteCommittee.useMutation({
-    onMutate: () => toast.loading("Raderar medlem..."),
-    onSettled: (_c, _d, _e, toastId) => {
-      toast.remove(toastId);
-      void ctx.member.invalidate();
-      void ctx.committee.invalidate();
-    },
-    onSuccess: () => toast.success("Medlem har raderats!"),
-    onError: (error) => {
-      if (error.message) {
-        toast.error(error.message);
-      } else {
-        toast.error("Något gick fel. Försök igen senare");
-      }
-    },
-  });
+  const { mutate: deleteMember } =
+    api.committee.deleteCommitteeAsAuthed.useMutation({
+      onMutate: () => toast.loading("Raderar organ..."),
+      onSettled: (_c, _d, _e, toastId) => {
+        toast.remove(toastId);
+        void ctx.member.invalidate();
+        void ctx.committee.invalidate();
+      },
+      onSuccess: () => toast.success("Organet har raderats!"),
+      onError: (error) => {
+        if (error.message) {
+          toast.error(error.message);
+        } else {
+          toast.error("Något gick fel. Försök igen senare");
+        }
+      },
+    });
 
   return (
     <DropdownMenu>

@@ -15,8 +15,8 @@ export const OldCommitteeTableActions: FC<OldCommitteeType> = ({
   const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: updateOldCommittee } = api.oldCommittee.updateOne.useMutation(
-    {
+  const { mutate: updateOldCommittee } =
+    api.oldCommittee.updateOneAsActive.useMutation({
       onMutate: () => toast.loading("Uppdaterar organet..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: () => {
@@ -31,11 +31,10 @@ export const OldCommitteeTableActions: FC<OldCommitteeType> = ({
           toast.error("Något gick fel. Försök igen senare");
         }
       },
-    },
-  );
+    });
 
-  const { mutate: deleteOldCommittee } = api.oldCommittee.deleteOne.useMutation(
-    {
+  const { mutate: deleteOldCommittee } =
+    api.oldCommittee.deleteOneAsActive.useMutation({
       onMutate: () => toast.loading("Raderar patetorgan..."),
       onSettled: (_c, _d, _e, toastId) => {
         toast.remove(toastId);
@@ -49,8 +48,7 @@ export const OldCommitteeTableActions: FC<OldCommitteeType> = ({
           toast.error("Något gick fel. Försök igen senare");
         }
       },
-    },
-  );
+    });
 
   return (
     <div className="flex justify-end">

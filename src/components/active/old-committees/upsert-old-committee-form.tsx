@@ -38,7 +38,7 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
   const isAdmin = session?.user.roles.includes(AccountRoles.ADMIN);
 
   const dropDownMappable = isAdmin
-    ? api.committee.getAllAsAdmin.useQuery().data?.map((committee) => ({
+    ? api.committee.getAllAsAuthed.useQuery().data?.map((committee) => ({
         id: committee.id,
         name: committee.name,
       })) || []

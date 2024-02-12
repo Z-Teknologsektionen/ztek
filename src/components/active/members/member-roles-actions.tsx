@@ -48,7 +48,7 @@ export const MemberRolesActions = ({
   const ctx = api.useUtils();
 
   const { mutate: updateUser, isLoading: updatingUser } =
-    api.user.updateUserRolesAsAdmin.useMutation({
+    api.user.updateUserRolesAsAuthed.useMutation({
       onMutate: () => toast.loading("Uppdaterar behörigheter..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: ({ roles }) => {
