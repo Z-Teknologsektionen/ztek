@@ -56,6 +56,7 @@ export interface IImageInput<
       InputHTMLAttributes<HTMLInputElement>,
       "defaultValue" | "name" | "type" | "value" | "onChange"
     > {
+  containImage?: boolean;
   maxHeight?: number;
   maxWidth?: number;
   quality?: number;

@@ -32,6 +32,7 @@ const OldCommitteeCard: FC<
             <AccordionContent>
               <CommitteeImage
                 alt={`Gruppbild på ${name}`}
+                className="object-contain"
                 filename={image ? image : logo ? logo : ""}
               />
             </AccordionContent>
