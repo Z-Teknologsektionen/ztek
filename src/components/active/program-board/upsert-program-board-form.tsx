@@ -20,6 +20,10 @@ const DEFAULT_VALUES: UpsertProgramBoardMemberFormProps["defaultValues"] = {
   phone: "",
   image: "",
   order: 0,
+  email: "",
+  name: "",
+  role: "",
+  url: "",
 };
 
 const UpsertProgramBoardMemberForm: FC<UpsertProgramBoardMemberFormProps> = ({
@@ -87,7 +91,7 @@ const UpsertProgramBoardMemberForm: FC<UpsertProgramBoardMemberFormProps> = ({
             type="button"
             variant={"outline"}
           >
-            Rensa
+            Återställ
           </Button>
 
           <Button type="submit" variant={"default"}>

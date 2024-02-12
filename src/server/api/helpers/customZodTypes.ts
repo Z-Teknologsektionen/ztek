@@ -41,7 +41,7 @@ export const orderNumber = standardNumber
 export const emailString = standardString.email({ message: "Ogiltig epost" });
 
 export const nonEmptyString = standardString.min(1, {
-  message: "Får inte vara en tom sträng",
+  message: "Obligatoriskt fält. Får inte vara tomt",
 });
 
 export const base64WebPImageString = standardString

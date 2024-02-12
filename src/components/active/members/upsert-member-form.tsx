@@ -21,6 +21,8 @@ const DEFAULT_VALUES: UpsertMemberFormProps["defaultValues"] = {
   image: "",
   name: "",
   nickName: "",
+  email: "",
+  role: "",
 };
 
 export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
