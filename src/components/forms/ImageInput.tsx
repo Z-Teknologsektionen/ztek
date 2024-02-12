@@ -42,6 +42,11 @@ export const ImageInput = <
   const scaledHeight = 300;
   const scaledWidth = (300 * maxWidth) / maxHeight;
 
+  const setValue = (value: string): void => {
+    setNewImage(value);
+    form.setValue(name as string, value);
+  };
+
   return (
     <FormField
       control={control}
@@ -81,24 +86,15 @@ export const ImageInput = <
                     maxWidth,
                     quality,
                   )
-                    .then((val) => {
-                      setNewImage(val);
-                      form.setValue("image", val);
-                    })
-                    .catch(() => {
-                      setNewImage("");
-                      form.setValue("image", "");
-                    });
+                    .then((val) => setValue(val))
+                    .catch(() => setValue(""));
                 }}
                 type="file"
                 value={""}
               />
               <Button
                 className="w-[25%]"
-                onClick={() => {
-                  setNewImage("");
-                  form.setValue("image", "");
-                }}
+                onClick={() => setValue("")}
                 type="button"
                 variant="ghost"
               >
