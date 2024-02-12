@@ -85,6 +85,7 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
             control={form.control}
             label="Omslagsbild (valfri)"
             name="image"
+            containImage
           />
           <ImageInput
             control={form.control}
