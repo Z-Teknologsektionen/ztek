@@ -1,3 +1,9 @@
+{
+  /*courseName: Kursnamn
+    points: Antal HP för kursen
+    followUp: Om det är en kurs som gått en tidigare LP. GRUDAT LP3 har followUp:false medan GRUDAT LP4 har followup:true
+    url: Urlen till kursens på chalmers hemsidas*/
+}
 export const courseData = {
   "Årskurs 1": {
     "Läsperiod 1": [

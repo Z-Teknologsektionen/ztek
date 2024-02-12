@@ -221,6 +221,7 @@ const NewStudent: NextPage = () => {
             kurser som ingår under de tre första åren, tryck på en kurs för att
             läsa mer
           </p>
+          {/* Getting courseData from src/data/courseData.*/}
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
             <TooltipProvider>
               {Object.entries(courseData).map(([year, periods], yearIndex) => (
