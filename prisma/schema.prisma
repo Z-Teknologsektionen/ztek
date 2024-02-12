@@ -176,3 +176,20 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model CarouselImages {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    title         String
+    description   String
+    photographer  String
+    url           String
+    imageurl      String
+    isTimeLimited Boolean
+    startDate     DateTime
+    endDate       DateTime
+    order         Int      @default(0)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}

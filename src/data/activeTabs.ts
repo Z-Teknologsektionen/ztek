@@ -4,6 +4,7 @@ import AdminCommitteesTab from "~/components/active/committees";
 import EditDocumentsTab from "~/components/active/documents";
 import EditCommitteeTab from "~/components/active/edit-committee";
 import ActiveStartTab from "~/components/active/home";
+import HomeMediaTab from "~/components/active/home-media";
 import AdminMembersTab from "~/components/active/members";
 import OldCommitteesTab from "~/components/active/old-committees";
 import ProgramBoardTab from "~/components/active/program-board";
@@ -76,6 +77,12 @@ const rawActiveTabs: ActiveTabsProps[] = [
     desc: "Här kan du ta bort eller lägga till Zeniths media som tidningar osv.",
     component: ZenithMediaTab,
     requiredRole: AccountRoles.MODIFY_ZENITH_MEDIA,
+  },
+  {
+    name: "Administera media",
+    desc: "Här kan du ta bort eller lägga till bilder på första sidan.",
+    component: HomeMediaTab,
+    requiredRole: AccountRoles.ADMIN,
   },
 ];
 

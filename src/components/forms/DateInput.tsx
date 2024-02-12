@@ -1,0 +1,47 @@
+import type { FieldValues, Path } from "react-hook-form";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
+import type { INumberInput } from "./form-types";
+
+export const DateInput = <
+  TFieldValues extends FieldValues,
+  TName extends Path<TFieldValues>,
+>({
+  label,
+  name,
+  description,
+  control,
+  defaultValue,
+  disabled,
+  rules,
+  shouldUnregister,
+  ...rest
+}: INumberInput<TFieldValues, TName>): JSX.Element => {
+  return (
+    <FormField
+      control={control}
+      defaultValue={defaultValue}
+      disabled={disabled}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>{label}</FormLabel>
+          <FormControl>
+            <Input {...field} {...rest} type="datetime-local" />
+          </FormControl>
+          {description && <FormDescription>{description}</FormDescription>}
+          <FormMessage />
+        </FormItem>
+      )}
+      rules={rules}
+      shouldUnregister={shouldUnregister}
+    />
+  );
+};
