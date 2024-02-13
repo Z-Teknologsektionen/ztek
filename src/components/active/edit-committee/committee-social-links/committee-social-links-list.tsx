@@ -40,7 +40,7 @@ const CommitteeSocialLinksList: FC<CommitteeSocialLinksListProps> = ({
     control: form.control,
     name: "socialLinks",
   });
-  // TODO: not working
+
   const hasUpdatedSocialLinks = useMemo(
     () =>
       socialLinks.length !== initialSocialLinks.length ||

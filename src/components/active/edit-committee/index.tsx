@@ -45,6 +45,7 @@ const EditCommitteePage: FC = () => {
           <div className="w-full space-y-4">
             <SecondaryTitle center>Sociala länkar</SecondaryTitle>
             <CommitteeSocialLinksList
+              key={committee.socialLinks.toString()}
               committeeId={committee.id}
               initialSocialLinks={committee.socialLinks.map(
                 ({ iconVariant, order, url }) => ({
