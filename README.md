@@ -61,7 +61,7 @@ GOOGLE_CLIENT_SECRET=''
 
 This is what the current `.env` file looks for this project. Reach out to other members to get the correct values.
 
-Now you should be able to run the project and connect to all relevant databases.
+Now you should be able to run the project and connect to all relevant databases. If the code still throws an error, try restarting the ESLint server by pressing `ctrl + shift + p` and typing `ESLint: Restart ESLint Server`.
 
 ### File Structure
 
@@ -109,15 +109,15 @@ The `student` route is used to display information only relevant to students and
 
 The `student-division` route is used to display the different student division committees and how to apply for them.
 
-The different routes may contain subroutes such as `student-division/zaloonen`. The page rendered when you visit `ztek.se/student-division` is rendered from the `index.tsx` file placed in the `student-division` folder. This enables the application to have a base route and subroutes. Within the folder, there is also a file named `zaloonen.tsx` which is displayed at the route `ztek.se/student-division/zaloonen`. So `index.tsx` in any folder corresponds to the folder name while another filename corresponds to the filename.
+The page rendered when you visit `ztek.se/student-division` is rendered from the `index.tsx` file placed in the `student-division` folder. This enables the application to have a base route and subroutes. Within the folder, there is also a file named `zaloonen.tsx` which is displayed at the route `ztek.se/student-division/zaloonen`. So `index.tsx` in any folder corresponds to the folder name while another filename corresponds to the filename.
 
 #### Dynamic routes
 
-Sometimes we don't know the route, as it might depend on a name defined in some database. In this project this happens for committees at `src/pages/student-division/committees/[slug]`. Here the brackets indicate that the route is dynamic and the slug of the committee is used to display a specific commitee. Each committee has the same layout, but the text and images are changed.
+Sometimes we don't know the route, as it might depend on a name defined in some database. In this project this happens for committees at `src/pages/student-division/committees/[slug]`. Here the brackets indicate that the route is dynamic and the slug of the committee is used to display a specific commitee. Each committee has the same layout, but the text and images are changed based on the api call which uses the slug to get data.
 
 #### Using different components
 
-The different routes are built mainly with different components such as the `<SectionWrapper>` component. This component is used to wrap the different sections of the website and is used to keep the same layout across the different routes. The `<SectionWrapper>` component is used to wrap the different sections of the website and is used to keep the same layout across the different routes. Looking at the component, we can see that it has different margins for different screensizes, making the website nice both for computers and phones. This component should be wrapped around every different page.
+The different routes are mainly built with different components such as the `<SectionWrapper>` component. This component is used to wrap the different sections of the website and is used to keep the same layout across the different routes. Looking at the component, we can see that it has different margins for different screensizes, making the website nice both for computers and phones. This component should be wrapped around every different page.
 
 ```tsx
 import {
