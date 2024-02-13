@@ -24,6 +24,7 @@ model Committee {
     link           String            @default("")
     linkText       String            @default("")
     members        CommitteeMember[]
+    OldCommittee   OldCommittee[]
     updatedAt      DateTime          @updatedAt
 }
 
@@ -34,24 +35,39 @@ enum CommitteeType {
     OTHER
 }
 
-model CommitteeMember {
-    id          String  @id @default(auto()) @map("_id") @db.ObjectId
-    committeeId String  @db.ObjectId
-    userId      String? @db.ObjectId
+model OldCommittee {
+    id                   String      @id @default(auto()) @map("_id") @db.ObjectId
+    name                 String
+    year                 Int
+    image                String      @default("")
+    logo                 String      @default("")
+    members              OldMember[]
+    belongsToCommittee   Committee   @relation(fields: [belongsToCommitteeId], references: [id], onDelete: Restrict)
+    belongsToCommitteeId String      @db.ObjectId
+    updatedAt            DateTime    @updatedAt
+}
 
-    name     String @default("")
+type OldMember {
+    name     String
     nickName String @default("")
-    phone    String @default("")
-    image    String @default("")
+    role     String @default("")
     order    Int    @default(0)
+}
 
-    role  String
-    email String
-
-    committee Committee @relation(fields: [committeeId], references: [id], onDelete: Restrict)
-    user      User?     @relation(fields: [userId], references: [id])
-
-    updatedAt DateTime @updatedAt
+model CommitteeMember {
+    id          String    @id @default(auto()) @map("_id") @db.ObjectId
+    committeeId String    @db.ObjectId
+    userId      String?   @db.ObjectId
+    name        String    @default("")
+    nickName    String    @default("")
+    phone       String    @default("")
+    image       String    @default("")
+    order       Int       @default(0)
+    role        String
+    email       String
+    committee   Committee @relation(fields: [committeeId], references: [id], onDelete: Restrict)
+    user        User?     @relation(fields: [userId], references: [id])
+    updatedAt   DateTime  @updatedAt
 }
 
 model ZenithMedia {

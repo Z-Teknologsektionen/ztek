@@ -26,7 +26,7 @@ interface DataTableFacetedFilterProps<TData, TValue> {
     icon?: ComponentType<{ className?: string }>;
     iconColor?: string;
     label: string;
-    value: string;
+    value: string | number;
   }[];
   title?: string;
 }
@@ -37,7 +37,9 @@ export const DataTableFacetedFilter = <TData, TValue>({
   options,
 }: DataTableFacetedFilterProps<TData, TValue>): JSX.Element => {
   const facets = column?.getFacetedUniqueValues();
-  const selectedValues = new Set(column?.getFilterValue() as string[]);
+  const selectedValues = new Set(
+    column?.getFilterValue() as (string | number)[],
+  );
 
   return (
     <Popover>

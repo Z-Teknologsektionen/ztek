@@ -14,17 +14,12 @@ import {
   useDeleteProgramBoardMember,
   useUpdateProgramBoardMember,
 } from "~/hooks/mutations/useMutateProgramBoardMember";
+import type { ProgramBoardType } from "./program-board-columns";
 
-export const ProgramBoardMemberTableActions: FC<{
-  email: string;
-  id: string;
-  image: string | undefined;
-  name: string;
-  order: number;
-  phone: string | undefined;
-  role: string;
-  url: string;
-}> = ({ id, ...values }) => {
+export const ProgramBoardMemberTableActions: FC<ProgramBoardType> = ({
+  id,
+  ...values
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: updateProgramBoardMember } = useUpdateProgramBoardMember({

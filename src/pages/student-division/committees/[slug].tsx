@@ -11,6 +11,7 @@ import HeadLayout from "~/components/layout/HeadLayout";
 import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
+import OldCommitteeCard from "~/components/old-committees/old-committee-card";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 
@@ -21,6 +22,11 @@ const CommitteePage: NextPage<
   const { data: committee } = api.committee.getOneBySlug.useQuery({
     slug,
   });
+
+  const { data: oldCommittees } =
+    api.oldCommittee.getManyByCommitteeId.useQuery({
+      belongsToCommitteeId: committee?.id || "",
+    });
 
   if (committee === undefined) return router.push("/404");
 
@@ -63,7 +69,7 @@ const CommitteePage: NextPage<
           <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] place-items-center gap-4">
             {committee.members.length !== 0 ? (
               committee.members.map((member) => (
-                <CommitteeMemberCard key={member.role} {...member} />
+                <CommitteeMemberCard key={member.id} {...member} />
               ))
             ) : (
               <div>
@@ -75,6 +81,26 @@ const CommitteePage: NextPage<
               </div>
             )}
           </div>
+          {oldCommittees && oldCommittees.length !== 0 && (
+            <div className="">
+              <div className="mx-auto max-w-3xl space-y-2 border-b-2 border-t-2 p-4 text-center">
+                <SectionTitle center>Patethimmel</SectionTitle>
+                <p>
+                  Här hittar du alla medlemmar som varit med i {committee.name}{" "}
+                  genom åren. Tryck på de olika åren för att få mer information.
+                </p>
+              </div>
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {oldCommittees
+                  .sort((a, b) => b.year - a.year)
+                  .map((oldCommittee) => (
+                    <div key={oldCommittee.id} className="col-span-1 m-2">
+                      <OldCommitteeCard {...oldCommittee} />
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
         </SectionWrapper>
       </main>
     </>

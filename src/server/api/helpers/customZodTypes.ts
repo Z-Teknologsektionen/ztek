@@ -41,7 +41,7 @@ export const orderNumber = standardNumber
 export const emailString = standardString.email({ message: "Ogiltig epost" });
 
 export const nonEmptyString = standardString.min(1, {
-  message: "Får inte vara en tom sträng",
+  message: "Obligatoriskt fält. Får inte vara tomt",
 });
 
 export const base64WebPImageString = standardString
@@ -68,5 +68,15 @@ export const emptyString = z.literal("");
 export const httpsUrlString = standardString
   .url("Måste vara en URL")
   .startsWith("https://", "Måste vara en säker https länk");
+
+export const validYear = standardNumber
+  .int("Måste vara ett heltal")
+  .min(1000, "Årtalet måste vara ett 4 siffrigt tal")
+  .max(9999, "Årtalet måste vara ett 4 siffrigt tal");
+
+export const validYearPastOrCurrent = validYear.refine(
+  (val) => val <= new Date().getFullYear(),
+  "Årtalet får inte vara ett framtida årtal",
+);
 
 export const relativePathString = z.string().trim().startsWith("/");

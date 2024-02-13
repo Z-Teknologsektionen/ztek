@@ -80,7 +80,6 @@ export const MemberTableToolbar = <TData,>({
             form={
               <UpsertMemberForm
                 key={"new"}
-                defaultValues={{}}
                 formType="create"
                 onSubmit={(values) => createNewUser(values)}
               />
