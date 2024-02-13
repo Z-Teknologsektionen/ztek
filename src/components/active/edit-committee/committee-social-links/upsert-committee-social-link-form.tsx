@@ -16,7 +16,7 @@ type UpsertCommitteeSocialLinksFormProps = IUpsertForm<typeof socialIconSchema>;
 const DEFAULT_VALUES: UpsertCommitteeSocialLinksFormProps["defaultValues"] = {
   order: MAX_ORDER_NUMBER,
   iconAndUrl: {
-    iconVariant: "HOME",
+    iconVariant: "QUESTIONMARK",
     url: "",
   },
 };

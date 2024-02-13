@@ -87,11 +87,13 @@ const CommitteeSocialLinksListItem: FC<CommitteeSocialLinksListItemProps> = ({
             setIsOpen={setUpdateModalOpen}
             title="Updatera social länk"
             trigger={
-              <ButtonWithIconAndTooltip
-                className="fill-waring"
-                icon={FaPen}
-                tooltipText="Updatera social länk"
-              />
+              <>
+                <ButtonWithIconAndTooltip
+                  className="fill-waring"
+                  icon={FaPen}
+                  tooltipText="Updatera social länk"
+                />
+              </>
             }
           />
 

@@ -42,7 +42,8 @@ const SelectCommitteeSocialIcon = <
       control={control}
       disabled={disabled}
       name={name}
-      render={({ field }) => (
+      // Här vet bara GUD varför ref inte ska skickas in till select ger galen error i consol om man skickar in och fungerar fin fint utan
+      render={({ field: { ref: _ref, ...field } }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>

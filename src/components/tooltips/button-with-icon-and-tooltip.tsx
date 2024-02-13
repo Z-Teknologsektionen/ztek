@@ -29,7 +29,7 @@ const ButtonWithIconAndTooltip: FC<ButtonWithIconAndTooltipProps> = ({
 }) => {
   return (
     <Tooltip>
-      <TooltipTrigger>
+      <TooltipTrigger asChild>
         <Button
           className="border-slate-300"
           disabled={disabled}
