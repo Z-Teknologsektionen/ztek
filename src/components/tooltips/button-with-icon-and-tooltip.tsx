@@ -29,7 +29,7 @@ const ButtonWithIconAndTooltip: FC<ButtonWithIconAndTooltipProps> = ({
 }) => {
   return (
     <Tooltip>
-      <TooltipTrigger asChild>
+      <TooltipTrigger>
         <Button
           className="border-slate-300"
           disabled={disabled}
@@ -38,7 +38,7 @@ const ButtonWithIconAndTooltip: FC<ButtonWithIconAndTooltipProps> = ({
           type={type}
           variant="outline"
         >
-          <Icon className={cn("fill-slate-600", className)} size={size} />
+          <Icon className={cn("fill-zBlack", className)} size={size} />
           <p className="sr-only">{tooltipText}</p>
         </Button>
       </TooltipTrigger>

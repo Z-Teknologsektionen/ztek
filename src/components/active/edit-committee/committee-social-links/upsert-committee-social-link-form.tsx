@@ -53,7 +53,7 @@ export const UpsertCommitteeSocailIconsForm: FC<
             type="button"
             variant={"outline"}
           >
-            Rensa
+            Återställ
           </Button>
           <Button type="submit" variant={"default"}>
             {formType === "create" ? "Skapa" : "Uppdatera"}

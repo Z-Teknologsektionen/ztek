@@ -9,6 +9,8 @@ import type {
 import { FaArrowDown, FaArrowUp, FaPen, FaTrash } from "react-icons/fa6";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import ButtonWithIconAndTooltip from "~/components/tooltips/button-with-icon-and-tooltip";
+import IconWithTooltip from "~/components/tooltips/icon-with-tooltip";
+import TruncatedStringWithTooltip from "~/components/tooltips/truncated-string-with-tooltip";
 import {
   getSocialIconFromEnum,
   getSocialNameFromEnum,
@@ -44,13 +46,16 @@ const CommitteeSocialLinksListItem: FC<CommitteeSocialLinksListItemProps> = ({
   const iconName = getSocialNameFromEnum(socialLink.iconAndUrl.iconVariant);
 
   return (
-    <div className="flex w-full flex-row items-center justify-between rounded border px-4 py-2 shadow">
-      <div className="flex flex-row items-center gap-2">
-        <Icon className="block h-8 w-8" title={iconName} />
-        <p>{socialLink.iconAndUrl.url}</p>
-      </div>
-      <TooltipProvider>
-        <div className="flex flex-row gap-2">
+    <TooltipProvider>
+      <div className="flex flex-row items-center justify-between rounded border px-4 py-1 shadow">
+        <div className="flex w-full flex-row items-center gap-2 overflow-hidden">
+          <IconWithTooltip icon={Icon} size={25} tooltipText={iconName} />
+          <TruncatedStringWithTooltip
+            className="text-sm"
+            text={socialLink.iconAndUrl.url}
+          />
+        </div>
+        <div className="flex flex-none flex-row gap-2">
           <ButtonWithIconAndTooltip
             disabled={isFirstItem}
             icon={FaArrowUp}
@@ -99,8 +104,8 @@ const CommitteeSocialLinksListItem: FC<CommitteeSocialLinksListItemProps> = ({
             tooltipText="Radera social länk"
           />
         </div>
-      </TooltipProvider>
-    </div>
+      </div>
+    </TooltipProvider>
   );
 };
 
