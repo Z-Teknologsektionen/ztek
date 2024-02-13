@@ -1,15 +1,13 @@
-"use client";
-
 import { AccountRoles } from "@prisma/client";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
 import { useState } from "react";
-import toast from "react-hot-toast";
 import { UpsertMemberForm } from "~/components/active/members/upsert-member-form";
 import { DataTableFacetedFilter } from "~/components/data-table/data-table-faceted-filter";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { useCreateMemberAsAdmin } from "~/hooks/mutations/useMutateMember";
 import { api } from "~/utils/api";
 
 interface MemberTableToolbarProps<TData> {
@@ -22,27 +20,11 @@ export const MemberTableToolbar = <TData,>({
   const isFiltered = table.getState().columnFilters.length > 0;
   const { data: committees } =
     api.committee.getAllCommitteeNamesAsAdmin.useQuery();
-  const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: createNewUser, isLoading: creatingNewUser } =
-    api.member.createMemberAsAdmin.useMutation({
-      onMutate: () => toast.loading("Skapar ny medlem..."),
-      onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-      onSuccess: ({ name: userName, committee: { name: committeeName } }) => {
-        toast.success(`${userName} i ${committeeName} har skapats!`);
-        setIsOpen(false);
-        void ctx.committee.invalidate();
-        void ctx.member.invalidate();
-        void ctx.user.invalidate();
-      },
-      onError: (error) => {
-        if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("Något gick fel. Försök igen senare");
-        }
-      },
+    useCreateMemberAsAdmin({
+      onSuccess: () => setIsOpen(false),
     });
 
   const nameColumn = table.getColumn("Namn");

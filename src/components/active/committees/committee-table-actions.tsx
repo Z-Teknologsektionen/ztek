@@ -1,6 +1,5 @@
 import { MoreHorizontal } from "lucide-react";
 import { useState, type FC } from "react";
-import toast from "react-hot-toast";
 import UpsertCommitteeForm from "~/components/active/committees/upsert-committee-form";
 import DeleteDialog from "~/components/dialogs/delete-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
@@ -11,48 +10,20 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { api } from "~/utils/api";
+import {
+  useDeleteCommitteeAsAdmin,
+  useUpdateCommitteeAsAdmin,
+} from "~/hooks/mutations/useMutateCommittee";
 import type { CommitteeType } from "./committee-columns";
 
 export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
-  const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: updateCommittee } = api.committee.updateCommittee.useMutation(
-    {
-      onMutate: () => toast.loading("Uppdaterar organet..."),
-      onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-      onSuccess: () => {
-        toast.success(`Organet har uppdaterats!`);
-        setIsOpen(false);
-        void ctx.committee.invalidate();
-      },
-      onError: (error) => {
-        if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("Något gick fel. Försök igen senare");
-        }
-      },
-    },
-  );
-
-  const { mutate: deleteMember } = api.committee.deleteCommittee.useMutation({
-    onMutate: () => toast.loading("Raderar medlem..."),
-    onSettled: (_c, _d, _e, toastId) => {
-      toast.remove(toastId);
-      void ctx.member.invalidate();
-      void ctx.committee.invalidate();
-    },
-    onSuccess: () => toast.success("Medlem har raderats!"),
-    onError: (error) => {
-      if (error.message) {
-        toast.error(error.message);
-      } else {
-        toast.error("Något gick fel. Försök igen senare");
-      }
-    },
+  const { mutate: updateCommittee } = useUpdateCommitteeAsAdmin({
+    onSuccess: () => setIsOpen(false),
   });
+
+  const { mutate: deleteMember } = useDeleteCommitteeAsAdmin({});
 
   return (
     <DropdownMenu>
