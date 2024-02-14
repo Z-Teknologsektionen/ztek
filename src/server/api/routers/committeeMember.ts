@@ -13,19 +13,6 @@ import {
 } from "~/server/api/trpc";
 
 export const committeeMemberRouter = createTRPCRouter({
-  getOneById: organizationManagementProcedure
-    .input(
-      z.object({
-        id: objectId,
-      }),
-    )
-    .query(({ ctx, input: { id } }) => {
-      return ctx.prisma.committeeMember.findUniqueOrThrow({
-        where: {
-          id,
-        },
-      });
-    }),
   getOneByEmail: publicProcedure
     .input(
       z.object({
@@ -47,27 +34,6 @@ export const committeeMemberRouter = createTRPCRouter({
         },
       });
     }),
-  getOneByUserId: protectedProcedure
-    .input(z.object({ userId: objectId }))
-    .query(({ ctx, input: { userId } }) => {
-      return ctx.prisma.committeeMember.findFirstOrThrow({
-        where: {
-          userId: userId,
-        },
-        select: {
-          id: true,
-          committeeId: true,
-          name: true,
-          nickName: true,
-          phone: true,
-          image: true,
-          order: true,
-          role: true,
-          email: true,
-        },
-      });
-    }),
-
   updateMemberAsActive: protectedProcedure
     .input(updateMemberAsActiveSchema)
     .mutation(({ ctx, input: { id, name, nickName, image, order } }) => {

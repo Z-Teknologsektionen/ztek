@@ -7,7 +7,7 @@ import { api } from "~/utils/api";
 import { memberColumns } from "./member-columns";
 import { MemberTableToolbar } from "./member-table-toolbar";
 
-const AdminMembersTab: FC = () => {
+const AdministerMembersTab: FC = () => {
   const {
     data: membersAsAuthed,
     isLoading: isLoadingMembers,
@@ -28,4 +28,4 @@ const AdminMembersTab: FC = () => {
   );
 };
 
-export default AdminMembersTab;
+export default AdministerMembersTab;

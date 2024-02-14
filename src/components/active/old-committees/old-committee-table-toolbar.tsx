@@ -27,7 +27,7 @@ export const OldCommitteeTableToolbar = <TData,>({
   const yearColumn = table.getColumn("År");
 
   const { data: oldCommittees } =
-    api.oldCommittee.getManyByCommitteeIdAsUser.useQuery({
+    api.oldCommittee.getManyByCommitteeIdAsActive.useQuery({
       belongsToCommitteeId: session?.user.committeeId || "",
       isAdmin: session?.user.roles.includes("ADMIN") || false,
     });

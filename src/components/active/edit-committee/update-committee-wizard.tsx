@@ -19,13 +19,13 @@ import {
   COMMITTEE_IMAGE_SIZE,
 } from "~/constants/committees";
 import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
-import { useUpdateCommitteeAsUser } from "~/hooks/useUpdateCommitteeAsUser";
+import { useUpdateCommitteeAsActive } from "~/hooks/useUpdateCommitteeAsActive";
 import { upsertCommitteeBaseSchema } from "~/server/api/helpers/schemas/committees";
 import type { RouterOutputs } from "~/utils/api";
 import { getBase64WebPStringFromFileInput } from "~/utils/getBase64WebPStringFromFileInput";
 
 type UpdateCommitteeWizardProps = {
-  committee: RouterOutputs["committee"]["getOneByEmail"];
+  committee: RouterOutputs["committee"]["getOneByIdAsActive"];
 };
 
 export const UpdateCommitteeWizard: FC<UpdateCommitteeWizardProps> = ({
@@ -33,7 +33,7 @@ export const UpdateCommitteeWizard: FC<UpdateCommitteeWizardProps> = ({
 }) => {
   const [newImage, setNewImage] = useState<string | undefined>(committee.image);
 
-  const { mutate: updateCommittee } = useUpdateCommitteeAsUser();
+  const { mutate: updateCommittee } = useUpdateCommitteeAsActive();
 
   const form = useFormWithZodSchema({
     schema: upsertCommitteeBaseSchema,

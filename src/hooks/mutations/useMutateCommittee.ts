@@ -3,14 +3,14 @@ import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 import type { UseMutationFunctionProps } from "./types";
 
-export const useCreateCommitteeAsAdmin = ({
+export const useCreateCommitteeAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
 }: UseMutationFunctionProps) => {
   const ctx = api.useUtils();
 
-  return api.committee.createCommittee.useMutation({
+  return api.committee.createCommitteeAsAuthed.useMutation({
     onMutate: () => toast.loading("Skapar nytt organ..."),
     onSettled: (_, __, ___, toastId) => {
       toast.dismiss(toastId);
@@ -33,14 +33,14 @@ export const useCreateCommitteeAsAdmin = ({
   });
 };
 
-export const useUpdateCommitteeAsAdmin = ({
+export const useUpdateCommitteeAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
 }: UseMutationFunctionProps) => {
   const ctx = api.useUtils();
 
-  return api.committee.updateCommittee.useMutation({
+  return api.committee.updateCommitteeAsAuthed.useMutation({
     onMutate: () => toast.loading("Uppdaterar organet..."),
     onSettled: (_, __, ___, toastId) => {
       toast.dismiss(toastId);
@@ -62,14 +62,14 @@ export const useUpdateCommitteeAsAdmin = ({
   });
 };
 
-export const useDeleteCommitteeAsAdmin = ({
+export const useDeleteCommitteeAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
 }: UseMutationFunctionProps) => {
   const ctx = api.useUtils();
 
-  return api.committee.deleteCommittee.useMutation({
+  return api.committee.deleteCommitteeAsAuthed.useMutation({
     onMutate: () => toast.loading("Raderar medlem..."),
     onSettled: (_c, _d, _e, toastId) => {
       toast.remove(toastId);

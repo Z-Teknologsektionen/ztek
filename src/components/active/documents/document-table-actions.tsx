@@ -11,19 +11,19 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import {
-  useDeleteDocument,
-  useUpdateDocument,
+  useDeleteDocumentAsAuthed,
+  useUpdateDocumentAsAuthed,
 } from "~/hooks/mutations/useMutateDocument";
 import type { DocumentType } from "./document-columns";
 
 export const DocumentTableActions: FC<DocumentType> = ({ id, ...values }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: updateDocument } = useUpdateDocument({
+  const { mutate: updateDocument } = useUpdateDocumentAsAuthed({
     onSuccess: () => setIsOpen(false),
   });
 
-  const { mutate: deleteDocument } = useDeleteDocument({});
+  const { mutate: deleteDocument } = useDeleteDocumentAsAuthed({});
 
   return (
     <DropdownMenu>

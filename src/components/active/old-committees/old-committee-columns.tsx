@@ -9,7 +9,7 @@ import { type RouterOutputs } from "~/utils/api";
 import { OldCommitteeTableActions } from "./old-committee-table-actions";
 
 export type OldCommitteeType =
-  RouterOutputs["oldCommittee"]["getManyByCommitteeIdAsUser"][0];
+  RouterOutputs["oldCommittee"]["getManyByCommitteeIdAsActive"][0];
 
 const ICON_SIZE = 15;
 

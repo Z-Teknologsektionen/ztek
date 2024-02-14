@@ -40,7 +40,7 @@ export const oldCommitteeRouter = createTRPCRouter({
         orderBy: [{ year: "desc" }],
       });
     }),
-  getManyByCommitteeIdAsUser: protectedProcedure
+  getManyByCommitteeIdAsActive: protectedProcedure
     .input(
       z.object({
         belongsToCommitteeId: objectId,

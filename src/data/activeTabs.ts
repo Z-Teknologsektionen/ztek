@@ -1,10 +1,10 @@
 import { AccountRoles } from "@prisma/client";
 import type { FC } from "react";
-import AdminCommitteesTab from "~/components/active/committees";
+import AdministerCommitteesTab from "~/components/active/committees";
 import EditDocumentsTab from "~/components/active/documents";
 import EditCommitteeTab from "~/components/active/edit-committee";
 import ActiveStartTab from "~/components/active/home";
-import AdminMembersTab from "~/components/active/members";
+import AdministerMembersTab from "~/components/active/members";
 import OldCommitteesTab from "~/components/active/old-committees";
 import ProgramBoardTab from "~/components/active/program-board";
 import ZenithMediaTab from "~/components/active/zenith-media";
@@ -56,13 +56,13 @@ const rawActiveTabs: ActiveTabsProps[] = [
   {
     name: "Administrera medlemmar",
     desc: "Här kan du lägga till, redigera eller ta bort medlemmar i olika organ.",
-    component: AdminMembersTab,
+    component: AdministerMembersTab,
     requiredRole: AccountRoles.ORGANIZATION_MANAGEMENT,
   },
   {
     name: "Administrera organ",
     desc: "Här kan du lägga till, redigera eller ta bort organ.",
-    component: AdminCommitteesTab,
+    component: AdministerCommitteesTab,
     requiredRole: AccountRoles.ORGANIZATION_MANAGEMENT,
   },
   {

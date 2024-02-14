@@ -5,15 +5,6 @@ import {
 } from "~/server/api/trpc";
 
 export const userRouter = createTRPCRouter({
-  getAllUserRolesAsAuthed: organizationManagementProcedure.query(({ ctx }) => {
-    return ctx.prisma.user.findMany({
-      select: {
-        email: true,
-        id: true,
-        roles: true,
-      },
-    });
-  }),
   updateUserRolesAsAuthed: organizationManagementProcedure
     .input(updateUserRolesSchema)
     .mutation(({ ctx, input: { id, roles } }) => {

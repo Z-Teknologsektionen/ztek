@@ -14,7 +14,7 @@ const OldCommitteesTab: FC = () => {
     data: oldCommittees,
     isError: isErrorOldCommittees,
     isLoading: isLoadingOldCommittees,
-  } = api.oldCommittee.getManyByCommitteeIdAsUser.useQuery({
+  } = api.oldCommittee.getManyByCommitteeIdAsActive.useQuery({
     belongsToCommitteeId: session?.user.committeeId || "",
     isAdmin: session?.user.roles.includes("ADMIN") || false,
   });

@@ -7,7 +7,7 @@ import { api } from "~/utils/api";
 import { committeeColumns } from "./committee-columns";
 import { CommitteeTableToolbar } from "./committee-table-toolbar";
 
-const AdminCommitteesTab: FC = () => {
+const AdministerCommitteesTab: FC = () => {
   const {
     data: committees,
     isLoading: isLoadingCommittees,
@@ -30,4 +30,4 @@ const AdminCommitteesTab: FC = () => {
   );
 };
 
-export default AdminCommitteesTab;
+export default AdministerCommitteesTab;

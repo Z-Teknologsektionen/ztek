@@ -20,7 +20,7 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import { Separator } from "~/components/ui/separator";
-import { useUpdateUserAsAdmin } from "~/hooks/mutations/useMutateUserAsAdmin";
+import { useUpdateUserAsAuthed } from "~/hooks/mutations/useMutateUserAsAuthed";
 import { cn } from "~/utils/utils";
 
 interface MemberRolesActionsProps {
@@ -44,7 +44,7 @@ export const MemberRolesActions = ({
     [currentRoles, selectedValues],
   );
 
-  const { mutate: updateUser, isLoading: updatingUser } = useUpdateUserAsAdmin(
+  const { mutate: updateUser, isLoading: updatingUser } = useUpdateUserAsAuthed(
     {},
   );
 

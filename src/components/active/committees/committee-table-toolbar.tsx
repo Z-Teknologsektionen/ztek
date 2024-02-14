@@ -3,7 +3,7 @@ import { useState } from "react";
 import UpsertCommitteeForm from "~/components/active/committees/upsert-committee-form";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
-import { useCreateCommitteeAsAdmin } from "~/hooks/mutations/useMutateCommittee";
+import { useCreateCommitteeAsAuthed } from "~/hooks/mutations/useMutateCommittee";
 
 interface CommitteeTableToolbarProps<TData> {
   table: Table<TData>;
@@ -15,7 +15,7 @@ export const CommitteeTableToolbar = <TData,>({
   const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: createNewCommittee, isLoading: creatingNewCommittee } =
-    useCreateCommitteeAsAdmin({
+    useCreateCommitteeAsAuthed({
       onSuccess: () => setIsOpen(false),
     });
 

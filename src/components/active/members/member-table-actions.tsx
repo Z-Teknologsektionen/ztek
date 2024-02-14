@@ -11,8 +11,8 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import {
-  useDeleteMemberAsAdmin,
-  useUpdateMemberAsAdmin,
+  useDeleteMemberAsAuthed,
+  useUpdateMemberAsAuthed,
 } from "~/hooks/mutations/useMutateMember";
 
 export const CommitteeMemberTableActions: FC<{
@@ -28,11 +28,11 @@ export const CommitteeMemberTableActions: FC<{
 }> = ({ id, ...values }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: updateMember } = useUpdateMemberAsAdmin({
+  const { mutate: updateMember } = useUpdateMemberAsAuthed({
     onSuccess: () => setIsOpen(false),
   });
 
-  const { mutate: deleteMember } = useDeleteMemberAsAdmin({});
+  const { mutate: deleteMember } = useDeleteMemberAsAuthed({});
 
   return (
     <DropdownMenu>

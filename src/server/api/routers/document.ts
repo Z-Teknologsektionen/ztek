@@ -67,15 +67,6 @@ export const documentRouter = createTRPCRouter({
     }));
   }),
 
-  getOneAsAuthed: documentProcedure
-    .input(
-      z.object({
-        id: objectId,
-      }),
-    )
-    .query(({ ctx, input }) => {
-      return ctx.prisma.document.findUniqueOrThrow({ where: { id: input.id } });
-    }),
   createOneAsAuthed: documentProcedure
     .input(
       z.object({
@@ -127,17 +118,6 @@ export const documentRouter = createTRPCRouter({
         where: {
           id: input.id,
         },
-      });
-    }),
-  getOneGroupAsAuthed: documentProcedure
-    .input(
-      z.object({
-        id: objectId,
-      }),
-    )
-    .query(({ ctx, input }) => {
-      return ctx.prisma.documentGroup.findUniqueOrThrow({
-        where: { id: input.id },
       });
     }),
   getOneGroupByName: publicProcedure

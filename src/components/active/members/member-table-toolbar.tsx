@@ -7,7 +7,7 @@ import { DataTableFacetedFilter } from "~/components/data-table/data-table-facet
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { useCreateMemberAsAdmin } from "~/hooks/mutations/useMutateMember";
+import { useCreateMemberAsAuthed } from "~/hooks/mutations/useMutateMember";
 import { api } from "~/utils/api";
 
 interface MemberTableToolbarProps<TData> {
@@ -19,11 +19,11 @@ export const MemberTableToolbar = <TData,>({
 }: MemberTableToolbarProps<TData>): JSX.Element => {
   const isFiltered = table.getState().columnFilters.length > 0;
   const { data: committees } =
-    api.committee.getAllCommitteeNamesAsAdmin.useQuery();
+    api.committee.getAllCommitteeNamesAsActive.useQuery();
   const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: createNewUser, isLoading: creatingNewUser } =
-    useCreateMemberAsAdmin({
+    useCreateMemberAsAuthed({
       onSuccess: () => setIsOpen(false),
     });
 

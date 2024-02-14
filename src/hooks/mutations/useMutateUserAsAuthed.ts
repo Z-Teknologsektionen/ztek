@@ -3,14 +3,14 @@ import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 import type { UseMutationFunctionProps } from "./types";
 
-export const useUpdateUserAsAdmin = ({
+export const useUpdateUserAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
 }: UseMutationFunctionProps) => {
   const ctx = api.useUtils();
 
-  return api.user.updateUserRolesAsAdmin.useMutation({
+  return api.user.updateUserRolesAsAuthed.useMutation({
     onMutate: () => toast.loading("Uppdaterar behörigheter..."),
     onSettled: (_, __, ___, toastId) => {
       toast.dismiss(toastId);

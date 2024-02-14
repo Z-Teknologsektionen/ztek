@@ -2,10 +2,10 @@ import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const useAddCommitteeSocialLinksAsUser = () => {
+export const useAddCommitteeSocialLinksAsActive = () => {
   const ctx = api.useUtils();
 
-  return api.committee.setCommitteeSocialLinksAsUser.useMutation({
+  return api.committee.setCommitteeSocialLinksAsActive.useMutation({
     onMutate: () => toast.loading("Uppdaterar länkar..."),
     onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
     onSuccess: async () => {
