@@ -111,7 +111,7 @@ const ZaloonenPage: NextPage = () => {
         </div>
       </SectionWrapper>
       <iframe
-        className="mx-auto -mt-8 mb-8 aspect-video h-[75vh] w-full max-w-3xl"
+        className="mx-auto -mt-8 mb-8 aspect-video h-[100vh] w-full max-w-3xl overscroll-auto"
         seamless={true}
         src="https://embed.styledcalendar.com/#KwrikxxDh0q9078hGAzF"
         style={{ overflow: "hidden" }}

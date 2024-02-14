@@ -1,6 +1,5 @@
 import { MoreHorizontal } from "lucide-react";
 import { useState, type FC } from "react";
-import toast from "react-hot-toast";
 import { UpsertDocumentGroupForm } from "~/components/active/documents/upsert-document-group-form";
 import DeleteDialog from "~/components/dialogs/delete-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
@@ -11,50 +10,23 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { api } from "~/utils/api";
+import {
+  useDeleteDocumentGroup,
+  useUpdateDocumentGroup,
+} from "~/hooks/mutations/useMutateDocumentGroup";
 
 export const DocumentGroupTableActions: FC<{
   extraText: string;
   id: string;
   name: string;
 }> = ({ id, ...values }) => {
-  const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: updateDocumentGroup } =
-    api.document.updateOneGroupAsAuthed.useMutation({
-      onMutate: () => toast.loading("Uppdaterar dokumentgrupp..."),
-      onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-      onSuccess: (res) => {
-        setIsOpen(false);
-        toast.success(JSON.stringify(res, null, 2));
-        void ctx.committee.invalidate();
-      },
-      onError: (error) => {
-        if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("Något gick fel. Försök igen senare");
-        }
-      },
-    });
+  const { mutate: updateDocumentGroup } = useUpdateDocumentGroup({
+    onSuccess: () => setIsOpen(false),
+  });
 
-  const { mutate: deleteDocumentGroup } =
-    api.document.deleteOneGroupAsAuthed.useMutation({
-      onMutate: () => toast.loading("Raderar dokumentgrupp..."),
-      onSettled: (_c, _d, _e, toastId) => {
-        toast.remove(toastId);
-        void ctx.document.invalidate();
-      },
-      onSuccess: () => toast.success("Dokumentgruppen har raderats!"),
-      onError: (error) => {
-        if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("Något gick fel. Försök igen senare");
-        }
-      },
-    });
+  const { mutate: deleteDocumentGroup } = useDeleteDocumentGroup({});
 
   return (
     <DropdownMenu>

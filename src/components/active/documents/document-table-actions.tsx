@@ -1,6 +1,5 @@
 import { MoreHorizontal } from "lucide-react";
 import { useState, type FC } from "react";
-import toast from "react-hot-toast";
 import { UpsertDocumentForm } from "~/components/active/documents/upsert-document-form";
 import DeleteDialog from "~/components/dialogs/delete-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
@@ -11,49 +10,20 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { api } from "~/utils/api";
+import {
+  useDeleteDocument,
+  useUpdateDocument,
+} from "~/hooks/mutations/useMutateDocument";
 import type { DocumentType } from "./document-columns";
 
 export const DocumentTableActions: FC<DocumentType> = ({ id, ...values }) => {
-  const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: updateDocument } = api.document.updateOneAsAuthed.useMutation(
-    {
-      onMutate: () => toast.loading("Uppdaterar dokument..."),
-      onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-      onSuccess: () => {
-        setIsOpen(false);
-        toast.success("Dokumentet har uppdaterats!");
-        void ctx.document.invalidate();
-      },
-      onError: (error) => {
-        if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("Något gick fel. Försök igen senare");
-        }
-      },
-    },
-  );
+  const { mutate: updateDocument } = useUpdateDocument({
+    onSuccess: () => setIsOpen(false),
+  });
 
-  const { mutate: deleteDocument } = api.document.deleteOneAsAuthed.useMutation(
-    {
-      onMutate: () => toast.loading("Raderar dokument..."),
-      onSettled: (_c, _d, _e, toastId) => {
-        toast.remove(toastId);
-        void ctx.document.invalidate();
-      },
-      onSuccess: () => toast.success("Dokumentet har raderats!"),
-      onError: (error) => {
-        if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("Något gick fel. Försök igen senare");
-        }
-      },
-    },
-  );
+  const { mutate: deleteDocument } = useDeleteDocument({});
 
   return (
     <DropdownMenu>

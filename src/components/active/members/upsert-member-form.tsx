@@ -10,6 +10,12 @@ import type { IUpsertForm } from "~/components/forms/form-types";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
+import {
+  COMMITTEE_IMAGE_QUALITY,
+  COMMITTEE_IMAGE_SIZE,
+  MAX_ORDER_NUMBER,
+  MIN_ORDER_NUMBER,
+} from "~/constants/committees";
 import { createMemberSchema } from "~/server/api/helpers/schemas/members";
 import { api } from "~/utils/api";
 
@@ -80,8 +86,8 @@ export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
             control={form.control}
             description="Används för att bestämma vilken ordning organets medlemmar ska visas i"
             label="Ordning"
-            max={99}
-            min={0}
+            max={MAX_ORDER_NUMBER}
+            min={MIN_ORDER_NUMBER}
             name="order"
           />
           <BasicInput
@@ -94,7 +100,10 @@ export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
           <ImageInput
             control={form.control}
             label="Bild (valfri)"
+            maxHeight={COMMITTEE_IMAGE_SIZE}
+            maxWidth={COMMITTEE_IMAGE_SIZE}
             name="image"
+            quality={COMMITTEE_IMAGE_QUALITY}
           />
         </div>
         <DialogFooter>

@@ -1,0 +1,40 @@
+name: Trello integration
+on:
+  pull_request:
+    types:
+      [
+        opened,
+        edited,
+        closed,
+        reopened,
+        synchronize,
+        ready_for_review,
+        converted_to_draft,
+      ]
+  issue_comment:
+    types: [created, edited]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: rematocorp/trello-integration-action@v8.2.2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          trello-api-key: ${{ secrets.TRELLO_API_KEY }}
+          trello-auth-token: ${{ secrets.TRELLO_AUTH_TOKEN }}
+          #Väntar på review
+          trello-list-id-pr-open: 65b787a3adcc208decb3dec5
+          #Ligger på dev
+          trello-list-id-pr-closed: 62deaa5fc7e9252bf64be57c
+          #Working on
+          trello-list-id-pr-draft: 62deaa5fc7e9252bf64be57a
+          trello-board-id: 62deaa5fc7e9252bf64be577
+          trello-card-position: "bottom"
+          trello-organization-name: webbgruppen3
+          trello-remove-unrelated-members: false
+          github-users-to-trello-users: |-
+            Globe999:ledamot5webbgruppen
+            DHolmstrom:ledamot1webbgruppen
+            dev3-ztek:dev3webbgruppen
+            Kiwimagic03:dev2ztek
+            Zeafax:dev4165

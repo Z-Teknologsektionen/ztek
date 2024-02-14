@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { FC } from "react";
-import CommitteeImage from "~/components/committees/CommitteeImage";
+import CommitteeImage from "~/components/committees/committee-image";
 import {
   Card,
   CardContent,

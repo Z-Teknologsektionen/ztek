@@ -10,6 +10,12 @@ import type { IUpsertForm } from "~/components/forms/form-types";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
+import {
+  COMMITTEE_IMAGE_QUALITY,
+  COMMITTEE_IMAGE_SIZE,
+  MAX_ORDER_NUMBER,
+  MIN_ORDER_NUMBER,
+} from "~/constants/committees";
 import { createProgramBoardMemberSchema } from "~/server/api/helpers/schemas/programBoardMembers";
 
 type UpsertProgramBoardMemberFormProps = IUpsertForm<
@@ -19,7 +25,7 @@ type UpsertProgramBoardMemberFormProps = IUpsertForm<
 const DEFAULT_VALUES: UpsertProgramBoardMemberFormProps["defaultValues"] = {
   phone: "",
   image: "",
-  order: 0,
+  order: MIN_ORDER_NUMBER,
   email: "",
   name: "",
   role: "",
@@ -70,17 +76,20 @@ const UpsertProgramBoardMemberForm: FC<UpsertProgramBoardMemberFormProps> = ({
           />
           <NumberInput
             control={form.control}
-            defaultValue={0}
+            defaultValue={MIN_ORDER_NUMBER}
             description="Används för att bestämma vilken ordning personen ska visas i. Lägre värde visas till vänster."
             label="Ordning"
-            max={99}
-            min={0}
+            max={MAX_ORDER_NUMBER}
+            min={MIN_ORDER_NUMBER}
             name="order"
           />
           <ImageInput
             control={form.control}
             label="Bild (valfri)"
+            maxHeight={COMMITTEE_IMAGE_SIZE}
+            maxWidth={COMMITTEE_IMAGE_SIZE}
             name="image"
+            quality={COMMITTEE_IMAGE_QUALITY}
           />
         </div>
         <DialogFooter>

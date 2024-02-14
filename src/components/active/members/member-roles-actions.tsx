@@ -4,7 +4,6 @@ import { PopoverClose } from "@radix-ui/react-popover";
 import { PlusIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
-import toast from "react-hot-toast";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import {
@@ -21,7 +20,7 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import { Separator } from "~/components/ui/separator";
-import { api } from "~/utils/api";
+import { useUpdateUserAsAdmin } from "~/hooks/mutations/useMutateUserAsAdmin";
 import { cn } from "~/utils/utils";
 
 interface MemberRolesActionsProps {
@@ -45,25 +44,9 @@ export const MemberRolesActions = ({
     [currentRoles, selectedValues],
   );
 
-  const ctx = api.useUtils();
-
-  const { mutate: updateUser, isLoading: updatingUser } =
-    api.user.updateUserRolesAsAuthed.useMutation({
-      onMutate: () => toast.loading("Uppdaterar behörigheter..."),
-      onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-      onSuccess: ({ roles }) => {
-        toast.success(`Följade behörigheter har satts: ${roles.join(", ")}`);
-        void ctx.user.invalidate();
-        void ctx.member.invalidate();
-      },
-      onError: (error) => {
-        if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("Något gick fel. Försök igen senare");
-        }
-      },
-    });
+  const { mutate: updateUser, isLoading: updatingUser } = useUpdateUserAsAdmin(
+    {},
+  );
 
   return (
     <Popover>

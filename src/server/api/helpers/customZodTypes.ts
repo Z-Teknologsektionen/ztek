@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import isMobilePhone from "validator/lib/isMobilePhone";
 import { z } from "zod";
+import { MAX_ORDER_NUMBER, MIN_ORDER_NUMBER } from "~/constants/committees";
 
 const base64Regex =
   /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
@@ -35,8 +36,12 @@ export const datetimeString = standardString.datetime({
 });
 
 export const orderNumber = standardNumber
-  .min(0, { message: "Måste vara ett tal större än eller lika med 0" })
-  .max(99, { message: "Måste vara ett tal mindre än eller lika med 99" });
+  .min(MIN_ORDER_NUMBER, {
+    message: `Måste vara ett tal större än eller lika med ${MIN_ORDER_NUMBER}`,
+  })
+  .max(MAX_ORDER_NUMBER, {
+    message: `Måste vara ett tal mindre än eller lika med ${MAX_ORDER_NUMBER}`,
+  });
 
 export const emailString = standardString.email({ message: "Ogiltig epost" });
 

@@ -12,7 +12,8 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { cn, getBase64WebPStringFromFileInput } from "~/utils/utils";
+import { getBase64WebPStringFromFileInput } from "~/utils/getBase64WebPStringFromFileInput";
+import { cn } from "~/utils/utils";
 import type { IImageInput } from "./form-types";
 
 export const ImageInput = <
@@ -29,9 +30,9 @@ export const ImageInput = <
   rules,
   className,
   accept = "image/png, image/jpeg",
-  maxHeight = 300,
-  maxWidth = 300,
-  quality = 85,
+  maxHeight,
+  maxWidth,
+  quality,
   containImage = false,
   ...rest
 }: IImageInput<TFieldValues, TName>): JSX.Element => {
@@ -82,12 +83,12 @@ export const ImageInput = <
                   className,
                 )}
                 onChange={(event) => {
-                  getBase64WebPStringFromFileInput(
+                  getBase64WebPStringFromFileInput({
                     event,
                     maxHeight,
                     maxWidth,
                     quality,
-                  )
+                  })
                     .then((val) => setValue(val))
                     .catch(() => setValue(""));
                 }}

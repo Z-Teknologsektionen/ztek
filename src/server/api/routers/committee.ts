@@ -4,6 +4,7 @@ import {
   createCommitteeSchema,
   updateCommitteeAsActiveSchema,
   updateCommitteeSchema,
+  upsertCommitteeSocialLinksBaseSchema,
 } from "~/server/api/helpers/schemas/committees";
 import {
   createTRPCRouter,
@@ -44,8 +45,7 @@ export const committeeRouter = createTRPCRouter({
           email: true,
           image: true,
           electionPeriod: true,
-          link: true,
-          linkText: true,
+          socialLinks: true,
           members: {
             where: {
               OR: [
@@ -93,8 +93,6 @@ export const committeeRouter = createTRPCRouter({
           email: true,
           image: true,
           electionPeriod: true,
-          link: true,
-          linkText: true,
           members: {
             where: {
               OR: [
@@ -143,6 +141,7 @@ export const committeeRouter = createTRPCRouter({
           id: true,
           electionPeriod: true,
           updatedAt: true,
+          socialLinks: true,
           members: {
             orderBy: {
               order: "desc",
@@ -175,8 +174,7 @@ export const committeeRouter = createTRPCRouter({
         email: true,
         description: true,
         role: true,
-        link: true,
-        linkText: true,
+        socialLinks: true,
         _count: {
           select: {
             members: true,
@@ -211,7 +209,27 @@ export const committeeRouter = createTRPCRouter({
         },
       });
     }),
-  createCommitteeAsAuthed: organizationManagementProcedure
+  setCommitteeSocialLinksAsUser: protectedProcedure
+    .input(upsertCommitteeSocialLinksBaseSchema.extend({ id: objectId }))
+    .mutation(({ ctx, input: { socialLinks, id } }) => {
+      const formatedSocialLinks = socialLinks.map((link) => ({
+        order: link.order,
+        iconVariant: link.iconAndUrl.iconVariant,
+        url: link.iconAndUrl.url,
+      }));
+      return ctx.prisma.committee.update({
+        where: {
+          id: id,
+        },
+        data: {
+          socialLinks: {
+            set: formatedSocialLinks,
+          },
+        },
+      });
+    }),
+
+  createCommittee: adminProcedure
     .input(createCommitteeSchema)
     .mutation(
       ({
@@ -225,7 +243,7 @@ export const committeeRouter = createTRPCRouter({
           slug,
           image,
           electionPeriod,
-          linkObject: { link, linkText },
+          socialLinks,
         },
       }) => {
         return ctx.prisma.committee.create({
@@ -238,8 +256,16 @@ export const committeeRouter = createTRPCRouter({
             role,
             slug,
             electionPeriod,
-            link,
-            linkText,
+            socialLinks: socialLinks.map(
+              ({
+                iconAndUrl: { iconVariant, url },
+                order: socialLinkOrder,
+              }) => ({
+                iconVariant,
+                url,
+                order: socialLinkOrder,
+              }),
+            ),
           },
           select: {
             name: true,
@@ -247,7 +273,7 @@ export const committeeRouter = createTRPCRouter({
         });
       },
     ),
-  updateCommitteeAsAuthed: organizationManagementProcedure
+  updateCommittee: adminProcedure
     .input(updateCommitteeSchema)
     .mutation(
       ({
@@ -263,7 +289,7 @@ export const committeeRouter = createTRPCRouter({
           slug,
           image,
           electionPeriod,
-          linkObject: { link, linkText } = {},
+          socialLinks,
         },
       }) => {
         return ctx.prisma.committee.update({
@@ -280,8 +306,16 @@ export const committeeRouter = createTRPCRouter({
             slug,
             committeeType,
             electionPeriod,
-            link,
-            linkText,
+            socialLinks: socialLinks?.map(
+              ({
+                iconAndUrl: { iconVariant, url },
+                order: socialLinkOrder,
+              }) => ({
+                iconVariant,
+                url,
+                order: socialLinkOrder,
+              }),
+            ),
           },
         });
       },
