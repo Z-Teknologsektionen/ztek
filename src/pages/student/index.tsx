@@ -81,10 +81,10 @@ const StudentPage: NextPage = () => {
 
       <div className="container mx-auto mt-8 divide-y-4 divide-zDarkGray divide-opacity-20">
         <SectionWrapper className="pt-2">
-          <div className="grid grid-cols-3 gap-3 md:grid-cols-5 lg:grid-cols-7">
-            {quickLinks.map((link) => (
-              <TooltipProvider key={link.text}>
-                <Tooltip>
+          <TooltipProvider>
+            <div className="grid grid-cols-3 gap-3 md:grid-cols-5 lg:grid-cols-7">
+              {quickLinks.map((link) => (
+                <Tooltip key={link.text}>
                   <TooltipTrigger asChild>
                     <Link
                       className="col-span-1 mx-auto flex flex-col items-center justify-center rounded-lg text-center transition-all hover:ring hover:ring-zWhite"
@@ -105,9 +105,9 @@ const StudentPage: NextPage = () => {
                     <p>{link.tooltip}</p>
                   </TooltipContent>
                 </Tooltip>
-              </TooltipProvider>
-            ))}
-          </div>
+              ))}
+            </div>
+          </TooltipProvider>
         </SectionWrapper>
         <SectionWrapper className="p-2">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">

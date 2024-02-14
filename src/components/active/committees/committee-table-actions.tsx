@@ -69,10 +69,15 @@ export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
               key={id}
               defaultValues={{
                 ...values,
-                linkObject: {
-                  link: values.link,
-                  linkText: values.linkText,
-                },
+                socialLinks: values.socialLinks.map(
+                  ({ iconVariant, order, url }) => ({
+                    iconAndUrl: {
+                      iconVariant,
+                      url,
+                    },
+                    order,
+                  }),
+                ),
               }}
               formType="update"
               onSubmit={(updatedValues) =>

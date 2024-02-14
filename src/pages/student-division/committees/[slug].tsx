@@ -4,14 +4,15 @@ import {
   type InferGetStaticPropsType,
   type NextPage,
 } from "next";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import CommitteeMemberCard from "~/components/committees/CommitteeMemberCard";
+import CommitteeMemberCard from "~/components/committees/committee-member-card";
+import CommitteeSocialIcon from "~/components/committees/committee-social-icon";
 import HeadLayout from "~/components/layout/HeadLayout";
 import SecondaryTitle from "~/components/layout/SecondaryTitle";
 import SectionTitle from "~/components/layout/SectionTitle";
 import SectionWrapper from "~/components/layout/SectionWrapper";
 import OldCommitteeCard from "~/components/old-committees/old-committee-card";
+import { TooltipProvider } from "~/components/ui/tooltip";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 
@@ -30,9 +31,6 @@ const CommitteePage: NextPage<
 
   if (committee === undefined) return router.push("/404");
 
-  const hasLinkAndLinkText = committee.link !== "" && committee.linkText !== "";
-  const isExternalLink = committee.link.startsWith("http");
-
   return (
     <>
       <HeadLayout title={committee.name}>
@@ -43,28 +41,25 @@ const CommitteePage: NextPage<
           <div className="mx-auto max-w-3xl space-y-2 border-b-2 border-t-2 p-4 text-center">
             <SectionTitle>{committee.name}</SectionTitle>
             <p>{committee.description}</p>
-            {hasLinkAndLinkText && (
+            {committee.socialLinks.length !== 0 ? (
+              <TooltipProvider>
+                <div className="flex flex-row flex-wrap justify-center gap-2">
+                  {committee.socialLinks.map((socialLink) => (
+                    <CommitteeSocialIcon {...socialLink} key={socialLink.url} />
+                  ))}
+                </div>
+              </TooltipProvider>
+            ) : (
               <p className="text-sm">
-                - Se mer från {committee.name}:{" "}
-                <Link
+                - Kontakt:{" "}
+                <a
                   className="underline decoration-zDarkGray/50 underline-offset-2 hover:opacity-75"
-                  href={committee.link}
-                  rel={isExternalLink ? "noopener noreferrer" : undefined}
-                  target={isExternalLink ? "_blank" : "_self"}
+                  href={`mailto:${committee.email}`}
                 >
-                  {committee.linkText}
-                </Link>
+                  {committee.email}
+                </a>
               </p>
             )}
-            <p className="text-sm">
-              - Kontakt:{" "}
-              <a
-                className="underline decoration-zDarkGray/50 underline-offset-2 hover:opacity-75"
-                href={`mailto:${committee.email}`}
-              >
-                {committee.email}
-              </a>
-            </p>
           </div>
           <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] place-items-center gap-4">
             {committee.members.length !== 0 ? (
