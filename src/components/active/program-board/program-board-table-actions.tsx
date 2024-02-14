@@ -1,6 +1,5 @@
 import { MoreHorizontal } from "lucide-react";
 import { useState, type FC } from "react";
-import toast from "react-hot-toast";
 import UpsertProgramBoardMemberForm from "~/components/active/program-board/upsert-program-board-form";
 import DeleteDialog from "~/components/dialogs/delete-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
@@ -11,50 +10,25 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { api } from "~/utils/api";
+import {
+  useDeleteProgramBoardMember,
+  useUpdateProgramBoardMember,
+} from "~/hooks/mutations/useMutateProgramBoardMember";
 import type { ProgramBoardType } from "./program-board-columns";
 
 export const ProgramBoardMemberTableActions: FC<ProgramBoardType> = ({
   id,
   ...values
 }) => {
-  const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: updateProgramBoardMember } =
-    api.programBoard.updateOne.useMutation({
-      onMutate: () => toast.loading("Uppdaterar medlem..."),
-      onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-      onSuccess: () => {
-        setIsOpen(false);
-        toast.success(`Medlemen har uppdaterats!`);
-        void ctx.programBoard.invalidate();
-      },
-      onError: (error) => {
-        if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("Något gick fel. Försök igen senare");
-        }
-      },
-    });
+  const { mutate: updateProgramBoardMember } = useUpdateProgramBoardMember({
+    onSuccess: () => {
+      setIsOpen(false);
+    },
+  });
 
-  const { mutate: deleteProgramBoardMember } =
-    api.programBoard.deleteOne.useMutation({
-      onMutate: () => toast.loading("Raderar medlem..."),
-      onSettled: (_c, _d, _e, toastId) => {
-        toast.remove(toastId);
-        void ctx.programBoard.invalidate();
-      },
-      onSuccess: () => toast.success("Medlem har raderats!"),
-      onError: (error) => {
-        if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("Något gick fel. Försök igen senare");
-        }
-      },
-    });
+  const { mutate: deleteProgramBoardMember } = useDeleteProgramBoardMember({});
 
   return (
     <DropdownMenu>

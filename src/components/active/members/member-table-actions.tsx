@@ -1,6 +1,5 @@
 import { MoreHorizontal } from "lucide-react";
 import { useState, type FC } from "react";
-import toast from "react-hot-toast";
 import { UpsertMemberForm } from "~/components/active/members/upsert-member-form";
 import DeleteDialog from "~/components/dialogs/delete-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
@@ -11,7 +10,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { api } from "~/utils/api";
+import {
+  useDeleteMemberAsAdmin,
+  useUpdateMemberAsAdmin,
+} from "~/hooks/mutations/useMutateMember";
 
 export const CommitteeMemberTableActions: FC<{
   committeeId: string;
@@ -24,43 +26,13 @@ export const CommitteeMemberTableActions: FC<{
   phone: string;
   role: string;
 }> = ({ id, ...values }) => {
-  const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: updateMember } = api.member.updateMemberAsAdmin.useMutation({
-    onMutate: () => toast.loading("Uppdaterar medlem..."),
-    onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-    onSuccess: () => {
-      setIsOpen(false);
-      toast.success(`Medlem har uppdaterats!`);
-      void ctx.committee.invalidate();
-      void ctx.member.invalidate();
-    },
-    onError: (error) => {
-      if (error.message) {
-        toast.error(error.message);
-      } else {
-        toast.error("Något gick fel. Försök igen senare");
-      }
-    },
+  const { mutate: updateMember } = useUpdateMemberAsAdmin({
+    onSuccess: () => setIsOpen(false),
   });
 
-  const { mutate: deleteMember } = api.member.deleteMemberAsAdmin.useMutation({
-    onMutate: () => toast.loading("Raderar medlem..."),
-    onSettled: (_c, _d, _e, toastId) => {
-      toast.remove(toastId);
-      void ctx.member.invalidate();
-      void ctx.committee.invalidate();
-    },
-    onSuccess: () => toast.success("Medlem har raderats!"),
-    onError: (error) => {
-      if (error.message) {
-        toast.error(error.message);
-      } else {
-        toast.error("Något gick fel. Försök igen senare");
-      }
-    },
-  });
+  const { mutate: deleteMember } = useDeleteMemberAsAdmin({});
 
   return (
     <DropdownMenu>
