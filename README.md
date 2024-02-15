@@ -282,8 +282,56 @@ Before the project can be deployed to Vercel, it needs to pass some basic checks
 
 ### Prisma and Database
 
+Prisma is a modern database toolkit used in this project to simplify database access with type safety and auto-generated queries. It's integrated into the project to manage database interactions efficiently. Prisma supports various databases, including PostgreSQL, MySQL, and SQLite, making it versatile for different project requirements.
+
+#### Database setup
+
+The `.env` file contains the `DATABASE_URL` variable, which should be set to the connection string for the database. This project uses MongoDB Atlas which is a free cloud database. The connection string can be found in the MongoDB Atlas dashboard. The connection string should be placed in the `.env` file and the database should be created in the MongoDB Atlas dashboard if not already present. MongoDB is a noSQL database and is different from SQL databases like PostgreSQL and MySQL. It can store data in a more flexible way and is a good choice for this project.
+
+#### Prisma schema
+
+The Prisma schema `schema.prisma` file defines the data model for the project. It includes the database tables, fields, relationships, and constraints. Prisma uses this schema to generate the database schema and TypeScript types for interacting with the database. Whenever something is changed in the schema, the database should be updated with the following command:
+
+```sh
+npx prisma generate
+```
+
+Here's an example of a simple Prisma schema:
+
+```prisma
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  posts     Post[]
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+  createdAt DateTime @default(now())
+}
+```
+
+In this schema, a `User` can have many posts while a post can only have one user. The `@id` attribute is used to define the primary key, and the `@default` attribute is used to define default values. The `@unique` attribute is used to define unique constraints. The `@relation` attribute is used to define relationships between tables.
+
 ### tRPC and NextAuth.js
 
-Todo: Dennis to write about tRPC and NextAuth.js
+tRPC and NextAuth.js are integral parts of the project, contributing to its functionality and security.
 
-### TailwindCSS
+#### tRPC
+
+[tRPC](https://trpc.io/) (Typed RPC) is used for defining typed APIs in TypeScript. It helps in defining API routes with type safety, making it easier to build and maintain APIs. In this project, tRPC is utilized for creating APIs for various functionalities, such as authentication and data retrieval.
+
+#### NextAuth.js
+
+[NextAuth.js](https://next-auth.js.org/) provides authentication solutions for Next.js applications. It supports various authentication providers like Google, Facebook, GitHub, etc., making it flexible for different authentication methods. It handles authentication flows, including OAuth, JWT, and session management, ensuring secure user authentication. In this project, NextAuth.js is used for user authentication with google and session management. In `auth.ts` a user's roles and permissions are injected to the session so it can be used throughout the application.
+
+### Tailwind CSS
+
+[Tailwind CSS](https://tailwindcss.com/) is a utility-first CSS framework used for styling the project. It offers a wide range of pre-built utility classes that can be directly applied to HTML elements, allowing for rapid UI development. Tailwind CSS promotes a modular approach to styling, enabling developers to build responsive and customizable designs efficiently. Minimal CSS should be used in this project and Tailwind CSS is used to keep the code clean and easy to read.
