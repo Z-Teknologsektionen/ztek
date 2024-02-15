@@ -213,7 +213,7 @@ const StudentHealthPage: NextPage = () => {
                 <p className="text-center">Profilbild saknas</p>
               )}
             </div>
-            <div className="col-span-3 md:col-span-2 md:pl-20">
+            <div className="col-span-3 md:col-span-2">
               <SectionTitle className="break-words pb-4">
                 Studerande ArbetsMiljöOmbud (SAMO)
               </SectionTitle>
