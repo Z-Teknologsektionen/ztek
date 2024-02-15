@@ -91,3 +91,44 @@ export const useDeleteCommitteeAsAuthed = ({
     },
   });
 };
+
+export const useAddCommitteeSocialLinksAsActive = () => {
+  const ctx = api.useUtils();
+
+  return api.committee.setCommitteeSocialLinksAsActive.useMutation({
+    onMutate: () => toast.loading("Uppdaterar länkar..."),
+    onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
+    onSuccess: async () => {
+      toast.success(`Länkarna har uppdaterats!`);
+      await ctx.committee.invalidate();
+    },
+    onError: (error) => {
+      if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error("Någaot gick fel. Försök igen senare");
+      }
+    },
+  });
+};
+
+export const useUpdateCommitteeAsActive = () => {
+  const ctx = api.useUtils();
+
+  return api.committee.updateCommitteeAsActive.useMutation({
+    onMutate: () => toast.loading("Uppdaterar organet..."),
+
+    onSettled: async (_, __, ___, toastId) => {
+      toast.dismiss(toastId);
+      await ctx.committee.invalidate();
+    },
+    onSuccess: () => toast.success("Organet har uppdaterats"),
+    onError: (error) => {
+      if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error("Något gick fel. Försök igen senare");
+      }
+    },
+  });
+};

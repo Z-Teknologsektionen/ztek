@@ -96,3 +96,24 @@ export const useDeleteMemberAsAuthed = ({
     },
   });
 };
+export const useUpdateMemberAsActive = () => {
+  const ctx = api.useUtils();
+
+  return api.member.updateMemberAsActive.useMutation({
+    onMutate: () => toast.loading("Uppdaterar medlem..."),
+    onSettled: async (_, __, ___, toastId) => {
+      toast.dismiss(toastId);
+      await ctx.committee.invalidate();
+    },
+    onSuccess: ({ role }) => {
+      toast.success(`Medlem med roll "${role}" har uppdaterats!`);
+    },
+    onError: (error) => {
+      if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error("Något gick fel. Försök igen senare");
+      }
+    },
+  });
+};

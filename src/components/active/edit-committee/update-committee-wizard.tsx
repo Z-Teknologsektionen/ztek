@@ -18,8 +18,8 @@ import {
   COMMITTEE_IMAGE_QUALITY,
   COMMITTEE_IMAGE_SIZE,
 } from "~/constants/committees";
+import { useUpdateCommitteeAsActive } from "~/hooks/mutations/useMutateCommittee";
 import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
-import { useUpdateCommitteeAsActive } from "~/hooks/useUpdateCommitteeAsActive";
 import { upsertCommitteeBaseSchema } from "~/server/api/helpers/schemas/committees";
 import type { RouterOutputs } from "~/utils/api";
 import { getBase64WebPStringFromFileInput } from "~/utils/getBase64WebPStringFromFileInput";
