@@ -11,7 +11,7 @@ const ZenithMediaTab: FC = () => {
     data: zenithMedia,
     isLoading: isLoadingZenithMedia,
     isError: isZenithMediaError,
-  } = api.zenithMedia.getAllAsAuthorized.useQuery();
+  } = api.zenithMedia.getAllAsAuthed.useQuery();
 
   return (
     <RoleWrapper accountRole="MODIFY_ZENITH_MEDIA">

@@ -19,8 +19,8 @@ const EditCommitteePage: FC = () => {
     data: committee,
     isLoading: isLoadingCommittee,
     isError: isCommitteeError,
-  } = api.committee.getOneByEmail.useQuery({
-    email: session.user.email,
+  } = api.committee.getOneByIdAsActive.useQuery({
+    id: session.user.committeeId || "",
   });
 
   const hasData = !isLoadingCommittee && !isCommitteeError;

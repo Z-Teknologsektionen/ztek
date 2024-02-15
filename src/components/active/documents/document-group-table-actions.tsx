@@ -11,8 +11,8 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import {
-  useDeleteDocumentGroup,
-  useUpdateDocumentGroup,
+  useDeleteDocumentGroupAsAuthed,
+  useUpdateDocumentGroupAsAuthed,
 } from "~/hooks/mutations/useMutateDocumentGroup";
 
 export const DocumentGroupTableActions: FC<{
@@ -22,11 +22,11 @@ export const DocumentGroupTableActions: FC<{
 }> = ({ id, ...values }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: updateDocumentGroup } = useUpdateDocumentGroup({
+  const { mutate: updateDocumentGroup } = useUpdateDocumentGroupAsAuthed({
     onSuccess: () => setIsOpen(false),
   });
 
-  const { mutate: deleteDocumentGroup } = useDeleteDocumentGroup({});
+  const { mutate: deleteDocumentGroup } = useDeleteDocumentGroupAsAuthed({});
 
   return (
     <DropdownMenu>

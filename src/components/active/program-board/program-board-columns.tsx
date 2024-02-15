@@ -5,7 +5,7 @@ import type { RouterOutputs } from "~/utils/api";
 import { ProgramBoardMemberTableActions } from "./program-board-table-actions";
 
 export type ProgramBoardType =
-  RouterOutputs["programBoard"]["getAllAsAdmin"][0];
+  RouterOutputs["programBoard"]["getAllAsAuthed"][0];
 
 export const programBoardColumns: ColumnDef<ProgramBoardType>[] = [
   {

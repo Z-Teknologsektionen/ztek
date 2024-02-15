@@ -11,8 +11,8 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import {
-  useDeleteProgramBoardMember,
-  useUpdateProgramBoardMember,
+  useDeleteProgramBoardMemberAsAuthed,
+  useUpdateProgramBoardMemberAsAuthed,
 } from "~/hooks/mutations/useMutateProgramBoardMember";
 import type { ProgramBoardType } from "./program-board-columns";
 
@@ -22,13 +22,15 @@ export const ProgramBoardMemberTableActions: FC<ProgramBoardType> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: updateProgramBoardMember } = useUpdateProgramBoardMember({
-    onSuccess: () => {
-      setIsOpen(false);
-    },
-  });
+  const { mutate: updateProgramBoardMember } =
+    useUpdateProgramBoardMemberAsAuthed({
+      onSuccess: () => {
+        setIsOpen(false);
+      },
+    });
 
-  const { mutate: deleteProgramBoardMember } = useDeleteProgramBoardMember({});
+  const { mutate: deleteProgramBoardMember } =
+    useDeleteProgramBoardMemberAsAuthed({});
 
   return (
     <DropdownMenu>

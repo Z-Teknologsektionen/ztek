@@ -8,8 +8,8 @@ import { NumberInput } from "~/components/forms/NumberInput";
 import { Button } from "~/components/ui/button";
 import { Form } from "~/components/ui/form";
 import { MAX_ORDER_NUMBER, MIN_ORDER_NUMBER } from "~/constants/committees";
+import { useUpdateMemberAsActive } from "~/hooks/mutations/useMutateMember";
 import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
-import { useUpdateMemberAsUser } from "~/hooks/useUpdateMemberAsUser";
 import { upsertMemberBaseSchema } from "~/server/api/helpers/schemas/members";
 import type { RouterOutputs } from "~/utils/api";
 import localeObject from "~/utils/dayjs";
@@ -19,13 +19,13 @@ dayjs.extend(relativeTime);
 dayjs.locale(localeObject);
 
 type UpdateUserWizardProps = {
-  member: RouterOutputs["committee"]["getOneByEmail"]["members"][0];
+  member: RouterOutputs["committee"]["getOneByIdAsActive"]["members"][0];
 };
 
 export const UpdateUserWizard: FC<UpdateUserWizardProps> = ({ member }) => {
   const [newImage, setNewImage] = useState<string>(member.image);
 
-  const { mutate: mutateMember } = useUpdateMemberAsUser();
+  const { mutate: mutateMember } = useUpdateMemberAsActive();
 
   const form = useFormWithZodSchema({
     schema: upsertMemberBaseSchema,

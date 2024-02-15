@@ -6,26 +6,13 @@ import {
   updateMemberSchema,
 } from "~/server/api/helpers/schemas/members";
 import {
-  adminProcedure,
   createTRPCRouter,
+  organizationManagementProcedure,
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
 
 export const committeeMemberRouter = createTRPCRouter({
-  getOneById: adminProcedure
-    .input(
-      z.object({
-        id: objectId,
-      }),
-    )
-    .query(({ ctx, input: { id } }) => {
-      return ctx.prisma.committeeMember.findUniqueOrThrow({
-        where: {
-          id,
-        },
-      });
-    }),
   getOneByEmail: publicProcedure
     .input(
       z.object({
@@ -47,27 +34,6 @@ export const committeeMemberRouter = createTRPCRouter({
         },
       });
     }),
-  getOneByUserId: protectedProcedure
-    .input(z.object({ userId: objectId }))
-    .query(({ ctx, input: { userId } }) => {
-      return ctx.prisma.committeeMember.findFirstOrThrow({
-        where: {
-          userId: userId,
-        },
-        select: {
-          id: true,
-          committeeId: true,
-          name: true,
-          nickName: true,
-          phone: true,
-          image: true,
-          order: true,
-          role: true,
-          email: true,
-        },
-      });
-    }),
-
   updateMemberAsActive: protectedProcedure
     .input(updateMemberAsActiveSchema)
     .mutation(({ ctx, input: { id, name, nickName, image, order } }) => {
@@ -84,7 +50,7 @@ export const committeeMemberRouter = createTRPCRouter({
       });
       return member;
     }),
-  getCommitteeMembersAsAdmin: adminProcedure
+  getCommitteeMembersAsAuthed: organizationManagementProcedure
     .input(
       z
         .object({
@@ -118,7 +84,7 @@ export const committeeMemberRouter = createTRPCRouter({
         committeeId: committee.id,
       }));
     }),
-  createMemberAsAdmin: adminProcedure
+  createMemberAsAuthed: organizationManagementProcedure
     .input(createMemberSchema)
     .mutation(
       async ({
@@ -156,7 +122,7 @@ export const committeeMemberRouter = createTRPCRouter({
         });
       },
     ),
-  updateMemberAsAdmin: adminProcedure
+  updateMemberAsAuthed: organizationManagementProcedure
     .input(updateMemberSchema)
     .mutation(
       async ({
@@ -200,7 +166,7 @@ export const committeeMemberRouter = createTRPCRouter({
         });
       },
     ),
-  deleteMemberAsAdmin: adminProcedure
+  deleteMemberAsAuthed: organizationManagementProcedure
     .input(
       z.object({
         id: objectId,

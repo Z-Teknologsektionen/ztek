@@ -3,21 +3,21 @@ import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 import type { UseMutationFunctionProps } from "./types";
 
-export const useUpdateProgramBoardMember = ({
+export const useUpdateProgramBoardMemberAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
 }: UseMutationFunctionProps) => {
   const ctx = api.useUtils();
 
-  return api.programBoard.updateOne.useMutation({
+  return api.programBoard.updateOneAsAuthed.useMutation({
     onMutate: () => toast.loading("Uppdaterar medlem..."),
     onSettled: (_, __, ___, toastId) => {
       toast.dismiss(toastId);
       onSettled?.();
     },
     onSuccess: async () => {
-      toast.success(`Medlemen har uppdaterats!`);
+      toast.success(`Programmedlemmen har uppdaterats!`);
       await ctx.programBoard.invalidate();
       onSuccess?.();
     },
@@ -32,14 +32,14 @@ export const useUpdateProgramBoardMember = ({
   });
 };
 
-export const useDeleteProgramBoardMember = ({
+export const useDeleteProgramBoardMemberAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
 }: UseMutationFunctionProps) => {
   const ctx = api.useUtils();
 
-  return api.programBoard.deleteOne.useMutation({
+  return api.programBoard.deleteOneAsAuthed.useMutation({
     onMutate: () => toast.loading("Raderar medlem..."),
     onSettled: (_c, _d, _e, toastId) => {
       toast.remove(toastId);

@@ -31,7 +31,8 @@ export const UpsertDocumentForm: FC<UpsertDocumentFormProps> = ({
     defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
 
-  const { data: documentsGroups } = api.document.getAllGroupsAsAdmin.useQuery();
+  const { data: documentsGroups } =
+    api.document.getAllGroupsAsAuthed.useQuery();
 
   return (
     <Form {...form}>

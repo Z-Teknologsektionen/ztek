@@ -6,7 +6,7 @@ import { getCommitteeTypeStringFromEnum } from "~/utils/getCommitteeTypeStringFr
 import { getSocialIconFromEnum } from "~/utils/getSocialFromEnum";
 import { CommitteeTableActions } from "./committee-table-actions";
 
-export type CommitteeType = RouterOutputs["committee"]["getAllAsAdmin"][0];
+export type CommitteeType = RouterOutputs["committee"]["getAllAsAuthed"][0];
 
 export const committeeColumns: ColumnDef<CommitteeType>[] = [
   {

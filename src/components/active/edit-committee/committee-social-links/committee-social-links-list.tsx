@@ -2,8 +2,8 @@ import { useMemo, type FC } from "react";
 import { useFieldArray } from "react-hook-form";
 import type { z } from "zod";
 import { MAX_NUMER_OF_SOCIAL_LINKS } from "~/constants/committees";
+import { useAddCommitteeSocialLinksAsActive } from "~/hooks/mutations/useMutateCommittee";
 import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
-import { useAddCommitteeSocialLinksAsUser } from "~/hooks/useSetCommitteeSocialLinksAsUser";
 import { upsertCommitteeSocialLinksBaseSchema } from "~/server/api/helpers/schemas/committees";
 import CommitteeSocialLinksListActions from "./committee-social-links-list-actions";
 import CommitteeSocialLinksListItem from "./committee-social-links-list-item";
@@ -22,7 +22,7 @@ const CommitteeSocialLinksList: FC<CommitteeSocialLinksListProps> = ({
   initialSocialLinks,
   committeeId,
 }) => {
-  const { mutate: updateSocialLinks } = useAddCommitteeSocialLinksAsUser();
+  const { mutate: updateSocialLinks } = useAddCommitteeSocialLinksAsActive();
 
   const form = useFormWithZodSchema({
     schema: upsertCommitteeSocialLinksBaseSchema,

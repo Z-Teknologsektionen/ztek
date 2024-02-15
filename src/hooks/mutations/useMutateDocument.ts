@@ -3,14 +3,14 @@ import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 import type { UseMutationFunctionProps } from "./types";
 
-export const useCreateDocument = ({
+export const useCreateDocumentAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
 }: UseMutationFunctionProps) => {
   const ctx = api.useUtils();
 
-  return api.document.createOne.useMutation({
+  return api.document.createOneAsAuthed.useMutation({
     onMutate: () => toast.loading("Skapar nytt dokument..."),
     onSettled: (_, __, ___, toastId) => {
       toast.dismiss(toastId);
@@ -32,14 +32,14 @@ export const useCreateDocument = ({
   });
 };
 
-export const useDeleteDocument = ({
+export const useDeleteDocumentAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
 }: UseMutationFunctionProps) => {
   const ctx = api.useUtils();
 
-  return api.document.deleteOne.useMutation({
+  return api.document.deleteOneAsAuthed.useMutation({
     onMutate: () => toast.loading("Raderar dokument..."),
     onSettled: (_c, _d, _e, toastId) => {
       toast.remove(toastId);
@@ -61,14 +61,14 @@ export const useDeleteDocument = ({
   });
 };
 
-export const useUpdateDocument = ({
+export const useUpdateDocumentAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
 }: UseMutationFunctionProps) => {
   const ctx = api.useUtils();
 
-  return api.document.deleteOne.useMutation({
+  return api.document.deleteOneAsAuthed.useMutation({
     onMutate: () => toast.loading("Raderar dokument..."),
     onSettled: (_c, _d, _e, toastId) => {
       toast.remove(toastId);

@@ -14,12 +14,12 @@ const EditDocumentsTab: FC = () => {
     data: documents,
     isLoading: isLoadingDocuments,
     isError: isDocumentError,
-  } = api.document.getAllAsAdmin.useQuery();
+  } = api.document.getAllAsAuthed.useQuery();
   const {
     data: documentGroups,
     isLoading: isLoadingDocumentGroups,
     isError: isDocumentGroupError,
-  } = api.document.getAllGroupsAsAdmin.useQuery();
+  } = api.document.getAllGroupsAsAuthed.useQuery();
 
   return (
     <RoleWrapper accountRole={AccountRoles.MODIFY_DOCUMENTS}>

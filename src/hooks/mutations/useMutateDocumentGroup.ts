@@ -3,14 +3,14 @@ import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 import type { UseMutationFunctionProps } from "./types";
 
-export const useCreateDocumentGroup = ({
+export const useCreateDocumentGroupAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
 }: UseMutationFunctionProps) => {
   const ctx = api.useUtils();
 
-  return api.document.createOneGroup.useMutation({
+  return api.document.createOneGroupAsAuthed.useMutation({
     onMutate: () => toast.loading("Skapar ny dokumentgrupp..."),
     onSettled: (_, __, ___, toastId) => {
       toast.dismiss(toastId);
@@ -32,14 +32,14 @@ export const useCreateDocumentGroup = ({
   });
 };
 
-export const useUpdateDocumentGroup = ({
+export const useUpdateDocumentGroupAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
 }: UseMutationFunctionProps) => {
   const ctx = api.useUtils();
 
-  return api.document.updateOneGroup.useMutation({
+  return api.document.updateOneGroupAsAuthed.useMutation({
     onMutate: () => toast.loading("Uppdaterar dokumentgrupp..."),
     onSettled: (_, __, ___, toastId) => {
       toast.dismiss(toastId);
@@ -61,14 +61,14 @@ export const useUpdateDocumentGroup = ({
   });
 };
 
-export const useDeleteDocumentGroup = ({
+export const useDeleteDocumentGroupAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
 }: UseMutationFunctionProps) => {
   const ctx = api.useUtils();
 
-  return api.document.deleteOneGroup.useMutation({
+  return api.document.deleteOneGroupAsAuthed.useMutation({
     onMutate: () => toast.loading("Raderar dokumentgrupp..."),
     onSettled: (_c, _d, _e, toastId) => {
       toast.remove(toastId);

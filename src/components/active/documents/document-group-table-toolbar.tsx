@@ -3,7 +3,7 @@ import { useState } from "react";
 import { UpsertDocumentGroupForm } from "~/components/active/documents/upsert-document-group-form";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
-import { useCreateDocumentGroup } from "~/hooks/mutations/useMutateDocumentGroup";
+import { useCreateDocumentGroupAsAuthed } from "~/hooks/mutations/useMutateDocumentGroup";
 
 interface DocumentGroupTableToolbarProps<TData> {
   table: Table<TData>;
@@ -17,7 +17,7 @@ export const DocumentGroupTableToolbar = <TData,>({
   const {
     mutate: createNewDocumentGroup,
     isLoading: creatingNewDocumentGroup,
-  } = useCreateDocumentGroup({ onSuccess: () => setIsOpen(false) });
+  } = useCreateDocumentGroupAsAuthed({ onSuccess: () => setIsOpen(false) });
 
   return (
     <div className="overflow-x-auto">

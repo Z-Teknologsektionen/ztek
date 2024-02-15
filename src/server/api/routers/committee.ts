@@ -7,8 +7,8 @@ import {
   upsertCommitteeSocialLinksBaseSchema,
 } from "~/server/api/helpers/schemas/committees";
 import {
-  adminProcedure,
   createTRPCRouter,
+  organizationManagementProcedure,
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
@@ -75,110 +75,16 @@ export const committeeRouter = createTRPCRouter({
         },
       });
     }),
-  getOneById: publicProcedure
+  getOneByIdAsActive: protectedProcedure
     .input(
       z.object({
         id: objectId,
       }),
     )
     .query(({ ctx, input: { id } }) => {
-      return ctx.prisma.committee.findUniqueOrThrow({
-        where: {
-          id: id,
-        },
-        select: {
-          id: true,
-          name: true,
-          description: true,
-          email: true,
-          image: true,
-          electionPeriod: true,
-          members: {
-            where: {
-              OR: [
-                {
-                  name: {
-                    not: "",
-                  },
-                },
-                {
-                  nickName: {
-                    not: "",
-                  },
-                },
-              ],
-            },
-            orderBy: [{ order: "desc" }],
-            select: {
-              id: true,
-              name: true,
-              nickName: true,
-              role: true,
-              image: true,
-              email: true,
-              phone: true,
-            },
-          },
-        },
-      });
-    }),
-  getOneBySlugAsAdmin: adminProcedure
-    .input(
-      z.object({
-        slug: z.string(),
-      }),
-    )
-    .query(({ ctx, input: { slug } }) => {
-      return ctx.prisma.committee.findUniqueOrThrow({
-        where: {
-          slug: slug,
-        },
-        select: {
-          name: true,
-          description: true,
-          email: true,
-          image: true,
-          id: true,
-          role: true,
-          slug: true,
-          updatedAt: true,
-          order: true,
-          electionPeriod: true,
-          _count: {
-            select: {
-              members: true,
-            },
-          },
-          members: {
-            select: {
-              name: true,
-              nickName: true,
-              role: true,
-              image: true,
-              email: true,
-              phone: true,
-              id: true,
-              order: true,
-              updatedAt: true,
-            },
-          },
-        },
-      });
-    }),
-  getOneByEmail: protectedProcedure
-    .input(
-      z.object({
-        email: z.string(),
-      }),
-    )
-    .query(({ ctx, input: { email } }) => {
       return ctx.prisma.committee.findFirstOrThrow({
         where: {
-          members: {
-            some: {
-              email: email,
-            },
-          },
+          id: id,
         },
         select: {
           name: true,
@@ -208,7 +114,7 @@ export const committeeRouter = createTRPCRouter({
         },
       });
     }),
-  getAllAsAdmin: adminProcedure.query(async ({ ctx }) => {
+  getAllAsAuthed: organizationManagementProcedure.query(async ({ ctx }) => {
     const committees = await ctx.prisma.committee.findMany({
       select: {
         id: true,
@@ -235,7 +141,7 @@ export const committeeRouter = createTRPCRouter({
       ...rest,
     }));
   }),
-  getAllCommitteeNamesAsAdmin: adminProcedure.query(({ ctx }) => {
+  getAllCommitteeNamesAsActive: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.committee.findMany({
       select: {
         name: true,
@@ -243,7 +149,7 @@ export const committeeRouter = createTRPCRouter({
       orderBy: [{ order: "desc" }],
     });
   }),
-  updateCommitteeAsUser: protectedProcedure
+  updateCommitteeAsActive: protectedProcedure
     .input(updateCommitteeAsActiveSchema)
     .mutation(({ ctx, input: { id, description, image } }) => {
       return ctx.prisma.committee.update({
@@ -256,7 +162,7 @@ export const committeeRouter = createTRPCRouter({
         },
       });
     }),
-  setCommitteeSocialLinksAsUser: protectedProcedure
+  setCommitteeSocialLinksAsActive: protectedProcedure
     .input(upsertCommitteeSocialLinksBaseSchema.extend({ id: objectId }))
     .mutation(({ ctx, input: { socialLinks, id } }) => {
       const formatedSocialLinks = socialLinks.map((link) => ({
@@ -276,7 +182,7 @@ export const committeeRouter = createTRPCRouter({
       });
     }),
 
-  createCommittee: adminProcedure
+  createCommitteeAsAuthed: organizationManagementProcedure
     .input(createCommitteeSchema)
     .mutation(
       ({
@@ -320,7 +226,7 @@ export const committeeRouter = createTRPCRouter({
         });
       },
     ),
-  updateCommittee: adminProcedure
+  updateCommitteeAsAuthed: organizationManagementProcedure
     .input(updateCommitteeSchema)
     .mutation(
       ({
@@ -367,7 +273,7 @@ export const committeeRouter = createTRPCRouter({
         });
       },
     ),
-  deleteCommittee: adminProcedure
+  deleteCommitteeAsAuthed: organizationManagementProcedure
     .input(
       z.object({
         id: objectId,

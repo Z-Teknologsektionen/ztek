@@ -4,7 +4,7 @@ import { UpsertDocumentForm } from "~/components/active/documents/upsert-documen
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { useCreateDocument } from "~/hooks/mutations/useMutateDocument";
+import { useCreateDocumentAsAuthed } from "~/hooks/mutations/useMutateDocument";
 
 interface DocumentTableToolbarProps<TData> {
   table: Table<TData>;
@@ -16,7 +16,7 @@ export const DocumentTableToolbar = <TData,>({
   const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: createNewDocument, isLoading: creatingNewDocument } =
-    useCreateDocument({
+    useCreateDocumentAsAuthed({
       onSuccess: () => setIsOpen(false),
     });
 

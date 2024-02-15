@@ -3,14 +3,14 @@ import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 import type { UseMutationFunctionProps } from "./types";
 
-export const useCreateMemberAsAdmin = ({
+export const useCreateMemberAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
 }: UseMutationFunctionProps) => {
   const ctx = api.useUtils();
 
-  return api.member.createMemberAsAdmin.useMutation({
+  return api.member.createMemberAsAuthed.useMutation({
     onMutate: () => toast.loading("Skapar ny medlem..."),
     onSettled: (_, __, ___, toastId) => {
       toast.dismiss(toastId);
@@ -37,14 +37,14 @@ export const useCreateMemberAsAdmin = ({
   });
 };
 
-export const useUpdateMemberAsAdmin = ({
+export const useUpdateMemberAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
 }: UseMutationFunctionProps) => {
   const ctx = api.useUtils();
 
-  return api.member.updateMemberAsAdmin.useMutation({
+  return api.member.updateMemberAsAuthed.useMutation({
     onMutate: () => toast.loading("Uppdaterar medlem..."),
     onSettled: (_, __, ___, toastId) => {
       toast.dismiss(toastId);
@@ -67,14 +67,14 @@ export const useUpdateMemberAsAdmin = ({
   });
 };
 
-export const useDeleteMemberAsAdmin = ({
+export const useDeleteMemberAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
 }: UseMutationFunctionProps) => {
   const ctx = api.useUtils();
 
-  return api.member.deleteMemberAsAdmin.useMutation({
+  return api.member.deleteMemberAsAuthed.useMutation({
     onMutate: () => toast.loading("Raderar medlem..."),
     onSettled: (_c, _d, _e, toastId) => {
       toast.remove(toastId);
@@ -93,6 +93,27 @@ export const useDeleteMemberAsAdmin = ({
         toast.error("Något gick fel. Försök igen senare");
       }
       onError?.();
+    },
+  });
+};
+export const useUpdateMemberAsActive = () => {
+  const ctx = api.useUtils();
+
+  return api.member.updateMemberAsActive.useMutation({
+    onMutate: () => toast.loading("Uppdaterar medlem..."),
+    onSettled: async (_, __, ___, toastId) => {
+      toast.dismiss(toastId);
+      await ctx.committee.invalidate();
+    },
+    onSuccess: ({ role }) => {
+      toast.success(`Medlem med roll "${role}" har uppdaterats!`);
+    },
+    onError: (error) => {
+      if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error("Något gick fel. Försök igen senare");
+      }
     },
   });
 };

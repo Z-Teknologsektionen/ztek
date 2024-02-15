@@ -11,19 +11,19 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import {
-  useDeleteCommitteeAsAdmin,
-  useUpdateCommitteeAsAdmin,
+  useDeleteCommitteeAsAuthed,
+  useUpdateCommitteeAsAuthed,
 } from "~/hooks/mutations/useMutateCommittee";
 import type { CommitteeType } from "./committee-columns";
 
 export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: updateCommittee } = useUpdateCommitteeAsAdmin({
+  const { mutate: updateCommittee } = useUpdateCommitteeAsAuthed({
     onSuccess: () => setIsOpen(false),
   });
 
-  const { mutate: deleteMember } = useDeleteCommitteeAsAdmin({});
+  const { mutate: deleteMember } = useDeleteCommitteeAsAuthed({});
 
   return (
     <DropdownMenu>
