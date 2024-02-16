@@ -3,12 +3,11 @@ import { CommitteeType } from "@prisma/client";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { BasicInput } from "~/components/forms/BasicInput";
-import { DropdownInput } from "~/components/forms/DropdownInput";
-import { ImageInput } from "~/components/forms/ImageInput";
-import { NumberInput } from "~/components/forms/NumberInput";
-import { TextAreaInput } from "~/components/forms/TextAreaInput";
-import type { IUpsertForm } from "~/components/forms/form-types";
+import { BasicInput } from "~/components/forms/basic-input";
+import { DropdownInput } from "~/components/forms/dropdown-input";
+import { ImageInput } from "~/components/forms/image-input";
+import { NumberInput } from "~/components/forms/number-input";
+import { TextAreaInput } from "~/components/forms/textarea-input";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
@@ -21,7 +20,8 @@ import {
   MIN_ORDER_NUMBER,
 } from "~/constants/committees";
 import { createCommitteeSchema } from "~/server/api/helpers/schemas/committees";
-import { getCommitteeTypeStringFromEnum } from "~/utils/getCommitteeTypeStringFromEnum";
+import type { IUpsertForm } from "~/types/form-types";
+import { getCommitteeTypeStringFromEnum } from "~/utils/get-committee-type-string-from-enum";
 import UpsertCommitteeSocialLinksFormSection from "./upsert-committee-social-links-form-section";
 
 export type UpsertCommitteeFormProps = IUpsertForm<

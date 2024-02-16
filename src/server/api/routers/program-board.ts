@@ -2,7 +2,7 @@ import { z } from "zod";
 import {
   createProgramBoardMemberSchema,
   updateProgramBoardMemberSchema,
-} from "~/server/api/helpers/schemas/programBoardMembers";
+} from "~/server/api/helpers/schemas/program-board-members";
 import {
   createTRPCRouter,
   programBoardProcedure,

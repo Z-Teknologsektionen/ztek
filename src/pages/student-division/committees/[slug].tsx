@@ -7,10 +7,10 @@ import {
 import { useRouter } from "next/router";
 import CommitteeMemberCard from "~/components/committees/committee-member-card";
 import CommitteeSocialIcon from "~/components/committees/committee-social-icon";
-import HeadLayout from "~/components/layout/HeadLayout";
-import SecondaryTitle from "~/components/layout/SecondaryTitle";
-import SectionTitle from "~/components/layout/SectionTitle";
-import SectionWrapper from "~/components/layout/SectionWrapper";
+import HeadLayout from "~/components/layout/head-layout";
+import SecondaryTitle from "~/components/layout/secondary-title";
+import SectionTitle from "~/components/layout/section-title";
+import SectionWrapper from "~/components/layout/section-wrapper";
 import OldCommitteeCard from "~/components/old-committees/old-committee-card";
 import { TooltipProvider } from "~/components/ui/tooltip";
 import ssg from "~/server/api/helpers/ssg";

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { objectId } from "~/server/api/helpers/customZodTypes";
+import { objectId } from "~/server/api/helpers/custom-zod-helpers";
 import {
   createCommitteeSchema,
   updateCommitteeAsActiveSchema,

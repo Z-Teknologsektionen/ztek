@@ -7,10 +7,10 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
-import { Textarea } from "~/components/ui/textarea";
-import type { ITextAreaInput } from "./form-types";
+import { Input } from "~/components/ui/input";
+import type { ITextInput } from "~/types/form-types";
 
-export const TextAreaInput = <
+export const BasicInput = <
   TFieldValues extends FieldValues,
   TName extends Path<TFieldValues>,
 >({
@@ -22,8 +22,9 @@ export const TextAreaInput = <
   rules,
   shouldUnregister,
   control,
+  type = "text",
   ...rest
-}: ITextAreaInput<TFieldValues, TName>): JSX.Element => {
+}: ITextInput<TFieldValues, TName>): JSX.Element => {
   return (
     <FormField
       control={control}
@@ -34,7 +35,7 @@ export const TextAreaInput = <
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Textarea {...field} {...rest} />
+            <Input {...field} {...rest} type={type} />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />

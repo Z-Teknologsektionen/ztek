@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useFieldArray, type Control } from "react-hook-form";
 import { FaArrowDown, FaArrowUp, FaPlus, FaTrash } from "react-icons/fa6";
-import { BasicInput } from "~/components/forms/BasicInput";
+import { BasicInput } from "~/components/forms/basic-input";
 import SelectCommitteeSocialIcon from "~/components/forms/select-committee-social-icon";
 import ButtonWithIconAndTooltip from "~/components/tooltips/button-with-icon-and-tooltip";
 import { FormDescription } from "~/components/ui/form";

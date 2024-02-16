@@ -9,7 +9,7 @@ import {
 import {
   getSocialIconFromEnum,
   getSocialNameFromEnum,
-} from "~/utils/getSocialFromEnum";
+} from "~/utils/get-social-from-enum";
 
 type CommitteeSocialIconProps = {
   iconVariant: IconEnum;

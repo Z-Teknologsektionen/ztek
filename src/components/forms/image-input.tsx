@@ -12,9 +12,9 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { getBase64WebPStringFromFileInput } from "~/utils/getBase64WebPStringFromFileInput";
+import type { IImageInput } from "~/types/form-types";
+import { getBase64WebPStringFromFileInput } from "~/utils/get-base64-webp-string-from-file-input";
 import { cn } from "~/utils/utils";
-import type { IImageInput } from "./form-types";
 
 export const ImageInput = <
   TFieldValues extends FieldValues,

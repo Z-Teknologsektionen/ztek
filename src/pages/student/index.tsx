@@ -13,10 +13,10 @@ import {
   MdReport,
   MdSchool,
 } from "react-icons/md";
-import HeadLayout from "~/components/layout/HeadLayout";
-import SecondaryTitle from "~/components/layout/SecondaryTitle";
-import SectionTitle from "~/components/layout/SectionTitle";
-import SectionWrapper from "~/components/layout/SectionWrapper";
+import HeadLayout from "~/components/layout/head-layout";
+import SecondaryTitle from "~/components/layout/secondary-title";
+import SectionTitle from "~/components/layout/section-title";
+import SectionWrapper from "~/components/layout/section-wrapper";
 import { Button, buttonVariants } from "~/components/ui/button";
 import {
   Tooltip,

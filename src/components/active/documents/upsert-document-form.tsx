@@ -2,14 +2,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { BasicInput } from "~/components/forms/BasicInput";
-import { BooleanInput } from "~/components/forms/BooleanInput";
-import { DropdownInput } from "~/components/forms/DropdownInput";
-import type { IUpsertForm } from "~/components/forms/form-types";
+import { BasicInput } from "~/components/forms/basic-input";
+import { BooleanInput } from "~/components/forms/boolean-input";
+import { DropdownInput } from "~/components/forms/dropdown-input";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
 import { createDocumentSchema } from "~/server/api/helpers/schemas/documents";
+import type { IUpsertForm } from "~/types/form-types";
 import { api } from "~/utils/api";
 
 type UpsertDocumentFormProps = IUpsertForm<typeof createDocumentSchema>;

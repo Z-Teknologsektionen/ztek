@@ -22,7 +22,7 @@ import { useUpdateCommitteeAsActive } from "~/hooks/mutations/useMutateCommittee
 import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
 import { upsertCommitteeBaseSchema } from "~/server/api/helpers/schemas/committees";
 import type { RouterOutputs } from "~/utils/api";
-import { getBase64WebPStringFromFileInput } from "~/utils/getBase64WebPStringFromFileInput";
+import { getBase64WebPStringFromFileInput } from "~/utils/get-base64-webp-string-from-file-input";
 
 type UpdateCommitteeWizardProps = {
   committee: RouterOutputs["committee"]["getOneByIdAsActive"];

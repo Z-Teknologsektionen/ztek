@@ -3,11 +3,10 @@ import { AccountRoles } from "@prisma/client";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { BasicInput } from "~/components/forms/BasicInput";
-import { DropdownInput } from "~/components/forms/DropdownInput";
-import { ImageInput } from "~/components/forms/ImageInput";
-import { NumberInput } from "~/components/forms/NumberInput";
-import type { IUpsertForm } from "~/components/forms/form-types";
+import { BasicInput } from "~/components/forms/basic-input";
+import { DropdownInput } from "~/components/forms/dropdown-input";
+import { ImageInput } from "~/components/forms/image-input";
+import { NumberInput } from "~/components/forms/number-input";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
@@ -16,7 +15,8 @@ import {
   COMMITTEE_IMAGE_SIZE,
 } from "~/constants/committees";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
-import { createOldCommitteeSchema } from "~/server/api/helpers/schemas/oldCommittee";
+import { createOldCommitteeSchema } from "~/server/api/helpers/schemas/old-committee";
+import type { IUpsertForm } from "~/types/form-types";
 import { api } from "~/utils/api";
 import UpsertOldCommitteeMembersFormSection from "./upsert-old-committe-membes-section-form";
 

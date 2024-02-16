@@ -1,9 +1,12 @@
 import { z } from "zod";
-import { objectId, standardBoolean } from "~/server/api/helpers/customZodTypes";
+import {
+  objectId,
+  standardBoolean,
+} from "~/server/api/helpers/custom-zod-helpers";
 import {
   createOldCommitteeSchema,
   updateOldCommitteeSchema,
-} from "~/server/api/helpers/schemas/oldCommittee";
+} from "~/server/api/helpers/schemas/old-committee";
 import {
   createTRPCRouter,
   protectedProcedure,

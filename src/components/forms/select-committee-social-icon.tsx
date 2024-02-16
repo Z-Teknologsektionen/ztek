@@ -1,7 +1,6 @@
 import { IconEnum } from "@prisma/client";
 import type { ReactNode } from "react";
 import type { FieldValues, Path } from "react-hook-form";
-import type { IBasicFormField } from "~/components/forms/form-types";
 import {
   FormControl,
   FormDescription,
@@ -19,10 +18,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
+import type { IBasicFormField } from "~/types/form-types";
 import {
   getSocialIconFromEnum,
   getSocialNameFromEnum,
-} from "~/utils/getSocialFromEnum";
+} from "~/utils/get-social-from-enum";
 
 const SelectCommitteeSocialIcon = <
   TFieldValues extends FieldValues,

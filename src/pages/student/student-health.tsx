@@ -2,10 +2,10 @@ import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import { MdEmail, MdInfo, MdPhone, MdReport } from "react-icons/md";
 import CommitteeImage from "~/components/committees/committee-image";
-import HeadLayout from "~/components/layout/HeadLayout";
-import SecondaryTitle from "~/components/layout/SecondaryTitle";
-import SectionTitle from "~/components/layout/SectionTitle";
-import SectionWrapper from "~/components/layout/SectionWrapper";
+import HeadLayout from "~/components/layout/head-layout";
+import SecondaryTitle from "~/components/layout/secondary-title";
+import SectionTitle from "~/components/layout/section-title";
+import SectionWrapper from "~/components/layout/section-wrapper";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 

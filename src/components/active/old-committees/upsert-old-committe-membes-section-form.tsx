@@ -1,9 +1,9 @@
 import type { FC } from "react";
 import { useFieldArray, type Control } from "react-hook-form";
 import { MdAdd } from "react-icons/md";
-import { BasicInput } from "~/components/forms/BasicInput";
-import { NumberInput } from "~/components/forms/NumberInput";
-import SecondaryTitle from "~/components/layout/SecondaryTitle";
+import { BasicInput } from "~/components/forms/basic-input";
+import { NumberInput } from "~/components/forms/number-input";
+import SecondaryTitle from "~/components/layout/secondary-title";
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
 import type { UpsertOldCommitteeFormValues } from "./upsert-old-committee-form";

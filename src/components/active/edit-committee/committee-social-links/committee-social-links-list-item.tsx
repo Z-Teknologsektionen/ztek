@@ -14,7 +14,7 @@ import TruncatedStringWithTooltip from "~/components/tooltips/truncated-string-w
 import {
   getSocialIconFromEnum,
   getSocialNameFromEnum,
-} from "~/utils/getSocialFromEnum";
+} from "~/utils/get-social-from-enum";
 import type { UpsertCommitteeSocialLinksSchemaType } from "./committee-social-links-list";
 import { UpsertCommitteeSocailIconsForm } from "./upsert-committee-social-link-form";
 

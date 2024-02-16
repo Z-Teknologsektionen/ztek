@@ -2,7 +2,7 @@ import { AccountRoles } from "@prisma/client";
 import { useRouter } from "next/router";
 import type { FC, PropsWithChildren } from "react";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
-import HeadLayout from "./HeadLayout";
+import HeadLayout from "./head-layout";
 
 const RoleWrapper: FC<
   PropsWithChildren<{ accountRole: AccountRoles | undefined }>
