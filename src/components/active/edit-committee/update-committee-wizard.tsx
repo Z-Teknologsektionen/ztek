@@ -20,7 +20,7 @@ import {
 } from "~/constants/committees";
 import { useUpdateCommitteeAsActive } from "~/hooks/mutations/useMutateCommittee";
 import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
-import { upsertCommitteeBaseSchema } from "~/server/api/helpers/schemas/committees";
+import { upsertCommitteeBaseSchema } from "~/schemas/committee";
 import type { RouterOutputs } from "~/utils/api";
 import { getBase64WebPStringFromFileInput } from "~/utils/get-base64-webp-string-from-file-input";
 

@@ -15,7 +15,7 @@ import {
   COMMITTEE_IMAGE_SIZE,
 } from "~/constants/committees";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
-import { createOldCommitteeSchema } from "~/server/api/helpers/schemas/old-committee";
+import { createOldCommitteeSchema } from "~/schemas/old-committee";
 import type { IUpsertForm } from "~/types/form-types";
 import { api } from "~/utils/api";
 import UpsertOldCommitteeMembersFormSection from "./upsert-old-committe-membes-section-form";

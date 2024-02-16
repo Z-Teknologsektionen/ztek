@@ -10,7 +10,7 @@ import { Form } from "~/components/ui/form";
 import { MAX_ORDER_NUMBER, MIN_ORDER_NUMBER } from "~/constants/committees";
 import { useUpdateMemberAsActive } from "~/hooks/mutations/useMutateMember";
 import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
-import { upsertMemberBaseSchema } from "~/server/api/helpers/schemas/members";
+import { upsertMemberBaseSchema } from "~/schemas/member";
 import type { RouterOutputs } from "~/utils/api";
 import localeObject from "~/utils/dayjs";
 import UpdateUserImageFormField from "./update-user-image-form-field";

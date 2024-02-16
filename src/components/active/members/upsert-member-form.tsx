@@ -15,7 +15,7 @@ import {
   MAX_ORDER_NUMBER,
   MIN_ORDER_NUMBER,
 } from "~/constants/committees";
-import { createMemberSchema } from "~/server/api/helpers/schemas/members";
+import { createMemberSchema } from "~/schemas/member";
 import type { IUpsertForm } from "~/types/form-types";
 import { api } from "~/utils/api";
 

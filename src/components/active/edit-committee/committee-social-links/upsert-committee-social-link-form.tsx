@@ -8,7 +8,7 @@ import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
 import { MAX_ORDER_NUMBER } from "~/constants/committees";
-import { socialIconSchema } from "~/server/api/helpers/schemas/committees";
+import { socialIconSchema } from "~/schemas/committee";
 import type { IUpsertForm } from "~/types/form-types";
 
 type UpsertCommitteeSocialLinksFormProps = IUpsertForm<typeof socialIconSchema>;

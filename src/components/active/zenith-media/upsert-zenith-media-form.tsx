@@ -9,7 +9,7 @@ import { NumberInput } from "~/components/forms/number-input";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
-import { createZenithMediaSchema } from "~/server/api/helpers/schemas/zenith-media";
+import { createZenithMediaSchema } from "~/schemas/zenith-media";
 import type { IUpsertForm } from "~/types/form-types";
 
 type UpsertZenithMediaFormProps = IUpsertForm<typeof createZenithMediaSchema>;

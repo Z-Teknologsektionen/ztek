@@ -6,7 +6,7 @@ import { BasicInput } from "~/components/forms/basic-input";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
-import { createDocumentGroupSchema } from "~/server/api/helpers/schemas/documents";
+import { createDocumentGroupSchema } from "~/schemas/document";
 import type { IUpsertForm } from "~/types/form-types";
 
 type UpsertDocumentGroupFormProps = IUpsertForm<

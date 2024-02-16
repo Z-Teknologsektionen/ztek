@@ -19,7 +19,7 @@ import {
   MIN_ELECTION_PERIOD,
   MIN_ORDER_NUMBER,
 } from "~/constants/committees";
-import { createCommitteeSchema } from "~/server/api/helpers/schemas/committees";
+import { createCommitteeSchema } from "~/schemas/committee";
 import type { IUpsertForm } from "~/types/form-types";
 import { getCommitteeTypeStringFromEnum } from "~/utils/get-committee-type-string-from-enum";
 import UpsertCommitteeSocialLinksFormSection from "./upsert-committee-social-links-form-section";

@@ -6,7 +6,7 @@ import {
   objectId,
   standardBoolean,
   validYearPastOrCurrent,
-} from "~/server/api/helpers/custom-zod-helpers";
+} from "~/schemas/helpers/custom-zod-helpers";
 
 export const createZenithMediaSchema = z.object({
   title: nonEmptyString,

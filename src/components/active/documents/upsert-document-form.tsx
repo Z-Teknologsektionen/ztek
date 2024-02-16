@@ -8,7 +8,7 @@ import { DropdownInput } from "~/components/forms/dropdown-input";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
-import { createDocumentSchema } from "~/server/api/helpers/schemas/documents";
+import { createDocumentSchema } from "~/schemas/document";
 import type { IUpsertForm } from "~/types/form-types";
 import { api } from "~/utils/api";
 

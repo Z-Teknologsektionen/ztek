@@ -4,7 +4,7 @@ import { z } from "zod";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
 import { Badge } from "~/components/ui/badge";
-import { objectId, validYear } from "~/server/api/helpers/custom-zod-helpers";
+import { objectId, validYear } from "~/schemas/helpers/custom-zod-helpers";
 import { type RouterOutputs } from "~/utils/api";
 import { OldCommitteeTableActions } from "./old-committee-table-actions";
 

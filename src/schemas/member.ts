@@ -8,7 +8,7 @@ import {
   orderNumber,
   phoneNumberString,
   standardString,
-} from "~/server/api/helpers/custom-zod-helpers";
+} from "~/schemas/helpers/custom-zod-helpers";
 
 export const upsertMemberBaseSchema = z.object({
   name: standardString,

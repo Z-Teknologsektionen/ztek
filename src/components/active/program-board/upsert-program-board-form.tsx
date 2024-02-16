@@ -16,7 +16,7 @@ import {
   MAX_ORDER_NUMBER,
   MIN_ORDER_NUMBER,
 } from "~/constants/committees";
-import { createProgramBoardMemberSchema } from "~/server/api/helpers/schemas/program-board-members";
+import { createProgramBoardMemberSchema } from "~/schemas/program-board-member";
 
 type UpsertProgramBoardMemberFormProps = IUpsertForm<
   typeof createProgramBoardMemberSchema
