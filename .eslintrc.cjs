@@ -38,6 +38,7 @@ const config = {
     "typescript-sort-keys",
     "unused-imports",
     "check-file",
+    "no-relative-import-paths",
   ],
   extends: ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
   rules: {
@@ -182,6 +183,10 @@ const config = {
       {
         "!(.github|.next|.vscode|node_modules)/*/": "KEBAB_CASE", // All folders should be KEBAB_CASE
       },
+    ],
+    "no-relative-import-paths/no-relative-import-paths": [
+      "error",
+      { allowSameFolder: true, rootDir: "src", prefix: "~" },
     ],
   },
 };
