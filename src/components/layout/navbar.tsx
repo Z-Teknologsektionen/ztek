@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import type { FC } from "react";
 import { useState } from "react";
+import { navbarRoutes } from "~/data/navbar-routes";
 
 const Navbar: FC = () => {
   const { data: session } = useSession();
@@ -12,27 +13,12 @@ const Navbar: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = (): void => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen((prev) => !prev);
   };
-  const routes = [
-    { name: "Student", href: "/student", target: "_self" },
-    {
-      name: "Zaloonen",
-      href: "/student-division/zaloonen",
-      target: "_self",
-    },
-    { name: "Dokument", href: "/documents", target: "_self" },
-    { name: "Sektionen", href: "/student-division", target: "_self" },
-    {
-      name: "Sektionsorgan",
-      href: "/student-division/committees",
-      target: "_self",
-    },
-    { name: "För Företag", href: "/business", target: "_self" },
-    { name: "Bilder", href: "https://zfoto.ztek.se", target: "_blank" },
-  ];
+
   if (session?.user)
-    routes.push({ name: "Aktiv", href: "/active", target: "_self" });
+    navbarRoutes.push({ name: "Aktiv", href: "/active", target: "_self" });
+
   return (
     <nav className="z-10 mt-8 bg-zBlack text-zWhite">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -75,7 +61,7 @@ const Navbar: FC = () => {
           </div>
           <div className="hidden lg:block">
             <div className="flex items-center gap-x-4">
-              {routes.map((route) => (
+              {navbarRoutes.map((route) => (
                 <NavLink
                   key={`open-${route.name}`}
                   href={route.href}
@@ -101,7 +87,7 @@ const Navbar: FC = () => {
         {isMenuOpen && (
           <div className="lg:hidden">
             <div className="ml-10 mt-2 flex flex-col space-y-2">
-              {routes.map((route) => (
+              {navbarRoutes.map((route) => (
                 <NavLink
                   key={`mobile-${route.name}`}
                   href={route.href}
