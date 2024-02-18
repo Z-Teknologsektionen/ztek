@@ -7,23 +7,23 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
-import type { INumberInput } from "./form-types";
+import { Textarea } from "~/components/ui/textarea";
+import type { ITextAreaInput } from "~/types/form-types";
 
-export const NumberInput = <
+export const TextAreaInput = <
   TFieldValues extends FieldValues,
   TName extends Path<TFieldValues>,
 >({
   label,
   name,
   description,
-  control,
   defaultValue,
   disabled,
   rules,
   shouldUnregister,
+  control,
   ...rest
-}: INumberInput<TFieldValues, TName>): JSX.Element => {
+}: ITextAreaInput<TFieldValues, TName>): JSX.Element => {
   return (
     <FormField
       control={control}
@@ -34,12 +34,7 @@ export const NumberInput = <
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input
-              {...field}
-              {...rest}
-              onChange={(event) => field.onChange(Number(event.target.value))}
-              type="number"
-            />
+            <Textarea {...field} {...rest} />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />

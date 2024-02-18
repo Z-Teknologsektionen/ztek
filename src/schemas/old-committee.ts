@@ -7,7 +7,7 @@ import {
   orderNumber,
   standardString,
   validYear,
-} from "~/server/api/helpers/customZodTypes";
+} from "~/schemas/helpers/custom-zod-helpers";
 
 const OldCommitteeMemberSchema = z.object({
   name: nonEmptyString,

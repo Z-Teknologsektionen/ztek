@@ -8,7 +8,7 @@ import {
   objectId,
   orderNumber,
   phoneNumberString,
-} from "~/server/api/helpers/customZodTypes";
+} from "~/schemas/helpers/custom-zod-helpers";
 
 export const createProgramBoardMemberSchema = z.object({
   name: nonEmptyString,

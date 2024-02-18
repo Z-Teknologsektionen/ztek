@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import type { IDropdownInput } from "./form-types";
+import type { IDropdownInput } from "~/types/form-types";
 
 export const DropdownInput = <
   TFieldValues extends FieldValues,

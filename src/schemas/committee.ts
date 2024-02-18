@@ -18,7 +18,7 @@ import {
   slugString,
   standardNumber,
   standardString,
-} from "~/server/api/helpers/customZodTypes";
+} from "~/schemas/helpers/custom-zod-helpers";
 
 export const upsertCommitteeBaseSchema = z.object({
   image: base64WebPImageString.or(emptyString),

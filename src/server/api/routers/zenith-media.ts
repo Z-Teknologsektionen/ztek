@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { objectId } from "~/server/api/helpers/customZodTypes";
+import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
   createZenithMediaSchema,
   updateZenithMediaSchema,
-} from "~/server/api/helpers/schemas/zenith-media";
+} from "~/schemas/zenith-media";
 import {
   createTRPCRouter,
   publicProcedure,

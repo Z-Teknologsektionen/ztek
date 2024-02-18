@@ -3,11 +3,11 @@ import { TabsContent } from "@radix-ui/react-tabs";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import TabInformationSection from "~/components/active/tab-information-section";
-import RoleWrapper from "~/components/layout/RoleWrapper";
+import RoleWrapper from "~/components/layout/role-wrapper";
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { activeTabs } from "~/data/activeTabs";
+import { activeTabs } from "~/data/active-tabs";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 
 const ActiveHomePage: NextPage = () => {

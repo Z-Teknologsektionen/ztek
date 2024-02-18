@@ -2,14 +2,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { BasicInput } from "~/components/forms/BasicInput";
-import type { IUpsertForm } from "~/components/forms/form-types";
+import { BasicInput } from "~/components/forms/basic-input";
 import SelectCommitteeSocialIcon from "~/components/forms/select-committee-social-icon";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
 import { MAX_ORDER_NUMBER } from "~/constants/committees";
-import { socialIconSchema } from "~/server/api/helpers/schemas/committees";
+import { socialIconSchema } from "~/schemas/committee";
+import type { IUpsertForm } from "~/types/form-types";
 
 type UpsertCommitteeSocialLinksFormProps = IUpsertForm<typeof socialIconSchema>;
 

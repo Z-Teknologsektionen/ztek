@@ -1,6 +1,6 @@
 import type { FC } from "react";
-import SectionTitle from "~/components/layout/SectionTitle";
-import SectionWrapper from "~/components/layout/SectionWrapper";
+import SectionTitle from "~/components/layout/section-title";
+import SectionWrapper from "~/components/layout/section-wrapper";
 
 const MissingCommitteeSection: FC = () => {
   return (

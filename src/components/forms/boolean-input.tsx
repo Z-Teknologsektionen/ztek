@@ -8,7 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
-import type { IBooleanInput } from "./form-types";
+import type { IBooleanInput } from "~/types/form-types";
 
 export const BooleanInput = <
   TFieldValues extends FieldValues,

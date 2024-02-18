@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { objectId } from "~/server/api/helpers/customZodTypes";
 import {
   createCommitteeSchema,
   updateCommitteeAsActiveSchema,
   updateCommitteeSchema,
   upsertCommitteeSocialLinksBaseSchema,
-} from "~/server/api/helpers/schemas/committees";
+} from "~/schemas/committee";
+import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
   createTRPCRouter,
   organizationManagementProcedure,

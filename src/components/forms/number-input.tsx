@@ -8,23 +8,22 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import type { ITextInput } from "./form-types";
+import type { INumberInput } from "~/types/form-types";
 
-export const BasicInput = <
+export const NumberInput = <
   TFieldValues extends FieldValues,
   TName extends Path<TFieldValues>,
 >({
   label,
   name,
   description,
+  control,
   defaultValue,
   disabled,
   rules,
   shouldUnregister,
-  control,
-  type = "text",
   ...rest
-}: ITextInput<TFieldValues, TName>): JSX.Element => {
+}: INumberInput<TFieldValues, TName>): JSX.Element => {
   return (
     <FormField
       control={control}
@@ -35,7 +34,12 @@ export const BasicInput = <
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input {...field} {...rest} type={type} />
+            <Input
+              {...field}
+              {...rest}
+              onChange={(event) => field.onChange(Number(event.target.value))}
+              type="number"
+            />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />
