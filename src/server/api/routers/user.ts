@@ -1,4 +1,4 @@
-import { updateUserRolesSchema } from "~/server/api/helpers/schemas/user";
+import { updateUserRolesSchema } from "~/schemas/user";
 import {
   createTRPCRouter,
   organizationManagementProcedure,

@@ -2,8 +2,8 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
 import { type RouterOutputs } from "~/utils/api";
-import { getCommitteeTypeStringFromEnum } from "~/utils/getCommitteeTypeStringFromEnum";
-import { getSocialIconFromEnum } from "~/utils/getSocialFromEnum";
+import { getCommitteeTypeStringFromEnum } from "~/utils/get-committee-type-string-from-enum";
+import { getSocialIconFromEnum } from "~/utils/get-social-from-enum";
 import { CommitteeTableActions } from "./committee-table-actions";
 
 export type CommitteeType = RouterOutputs["committee"]["getAllAsAuthed"][0];

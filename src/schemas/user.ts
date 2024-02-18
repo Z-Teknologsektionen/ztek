@@ -1,6 +1,6 @@
 import { AccountRoles } from "@prisma/client";
 import { z } from "zod";
-import { objectId } from "~/server/api/helpers/customZodTypes";
+import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 
 export const updateUserRolesSchema = z.object({
   id: objectId,

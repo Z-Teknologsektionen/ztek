@@ -1,7 +1,7 @@
 import type { FC } from "react";
-import RoleWrapper from "~/components/layout/RoleWrapper";
-import SectionTitle from "~/components/layout/SectionTitle";
-import SectionWrapper from "~/components/layout/SectionWrapper";
+import RoleWrapper from "~/components/layout/role-wrapper";
+import SectionTitle from "~/components/layout/section-title";
+import SectionWrapper from "~/components/layout/section-wrapper";
 
 const ActiveStartTab: FC = () => {
   return (

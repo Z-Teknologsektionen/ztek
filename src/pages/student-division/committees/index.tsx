@@ -1,13 +1,13 @@
 import { CommitteeType } from "@prisma/client";
 import { type GetStaticProps, type NextPage } from "next";
-import CommitteeLayout from "~/components/committees/CommitteeLayout";
-import HeadLayout from "~/components/layout/HeadLayout";
-import SecondaryTitle from "~/components/layout/SecondaryTitle";
-import SectionTitle from "~/components/layout/SectionTitle";
-import SectionWrapper from "~/components/layout/SectionWrapper";
+import CommitteeLayout from "~/components/committees/committee-layout";
+import HeadLayout from "~/components/layout/head-layout";
+import SecondaryTitle from "~/components/layout/secondary-title";
+import SectionTitle from "~/components/layout/section-title";
+import SectionWrapper from "~/components/layout/section-wrapper";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
-import { getCommitteeTypeStringFromEnum } from "~/utils/getCommitteeTypeStringFromEnum";
+import { getCommitteeTypeStringFromEnum } from "~/utils/get-committee-type-string-from-enum";
 
 const Home: NextPage = () => {
   const { data: committees } = api.committee.getAll.useQuery();

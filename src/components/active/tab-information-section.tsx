@@ -1,6 +1,6 @@
 import type { FC } from "react";
-import SectionTitle from "../layout/SectionTitle";
-import SectionWrapper from "../layout/SectionWrapper";
+import SectionTitle from "~/components/layout/section-title";
+import SectionWrapper from "~/components/layout/section-wrapper";
 
 export type TabInformationSectionProps = {
   description?: string;

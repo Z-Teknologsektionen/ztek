@@ -1,4 +1,4 @@
-export type UseMutationFunctionProps = {
+export type UseMutationHookProps = {
   onError?: () => void;
   onSettled?: () => void;
   onSuccess?: () => void;

@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import toast from "react-hot-toast";
+import type { UseMutationHookProps } from "~/types/mutation-hook-types";
 import { api } from "~/utils/api";
-import type { UseMutationFunctionProps } from "./types";
 
 export const useCreateMemberAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
-}: UseMutationFunctionProps) => {
+}: UseMutationHookProps) => {
   const ctx = api.useUtils();
 
   return api.member.createMemberAsAuthed.useMutation({
@@ -41,7 +41,7 @@ export const useUpdateMemberAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
-}: UseMutationFunctionProps) => {
+}: UseMutationHookProps) => {
   const ctx = api.useUtils();
 
   return api.member.updateMemberAsAuthed.useMutation({
@@ -71,7 +71,7 @@ export const useDeleteMemberAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
-}: UseMutationFunctionProps) => {
+}: UseMutationHookProps) => {
   const ctx = api.useUtils();
 
   return api.member.deleteMemberAsAuthed.useMutation({

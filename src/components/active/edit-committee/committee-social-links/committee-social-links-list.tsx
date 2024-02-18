@@ -4,7 +4,7 @@ import type { z } from "zod";
 import { MAX_NUMER_OF_SOCIAL_LINKS } from "~/constants/committees";
 import { useAddCommitteeSocialLinksAsActive } from "~/hooks/mutations/useMutateCommittee";
 import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
-import { upsertCommitteeSocialLinksBaseSchema } from "~/server/api/helpers/schemas/committees";
+import { upsertCommitteeSocialLinksBaseSchema } from "~/schemas/committee";
 import CommitteeSocialLinksListActions from "./committee-social-links-list-actions";
 import CommitteeSocialLinksListItem from "./committee-social-links-list-item";
 import CommitteeSocialLinksToolbar from "./committee-social-links-list-toolbar";

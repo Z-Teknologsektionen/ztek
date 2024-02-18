@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import toast from "react-hot-toast";
+import type { UseMutationHookProps } from "~/types/mutation-hook-types";
 import { api } from "~/utils/api";
-import type { UseMutationFunctionProps } from "./types";
 
 export const useUpdateUserAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
-}: UseMutationFunctionProps) => {
+}: UseMutationHookProps) => {
   const ctx = api.useUtils();
 
   return api.user.updateUserRolesAsAuthed.useMutation({

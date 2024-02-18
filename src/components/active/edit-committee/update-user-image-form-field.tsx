@@ -1,5 +1,4 @@
 import type { FieldPath, FieldValues, Path } from "react-hook-form";
-import type { IBasicFormField } from "~/components/forms/form-types";
 import { Button } from "~/components/ui/button";
 import {
   FormControl,
@@ -13,7 +12,8 @@ import {
   COMMITTEE_IMAGE_QUALITY,
   COMMITTEE_IMAGE_SIZE,
 } from "~/constants/committees";
-import { getBase64WebPStringFromFileInput } from "~/utils/getBase64WebPStringFromFileInput";
+import type { IBasicFormField } from "~/types/form-types";
+import { getBase64WebPStringFromFileInput } from "~/utils/get-base64-webp-string-from-file-input";
 
 interface IUpdateUserImageFormField<
   TFieldValues extends FieldValues = FieldValues,

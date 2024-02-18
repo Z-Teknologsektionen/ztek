@@ -1,11 +1,11 @@
 import type { FC } from "react";
 import { UpdateCommitteeWizard } from "~/components/active/edit-committee/update-committee-wizard";
 import { UpdateUserWizard } from "~/components/active/edit-committee/update-user-wizard";
-import HeadLayout from "~/components/layout/HeadLayout";
-import RoleWrapper from "~/components/layout/RoleWrapper";
-import SecondaryTitle from "~/components/layout/SecondaryTitle";
-import SectionWrapper from "~/components/layout/SectionWrapper";
+import HeadLayout from "~/components/layout/head-layout";
 import LoadningSpinner from "~/components/layout/loadning-spinner";
+import RoleWrapper from "~/components/layout/role-wrapper";
+import SecondaryTitle from "~/components/layout/secondary-title";
+import SectionWrapper from "~/components/layout/section-wrapper";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
 import CommitteeSocialLinksList from "./committee-social-links/committee-social-links-list";
