@@ -3,10 +3,27 @@ import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
 import { MdBusiness, MdEmail, MdOutlineHouse } from "react-icons/md";
-import { footerQuickLinks } from "~/data/footer-quick-links";
+// import { footerQuickLinks } from "~/data/footer-quick-links";
 
 const Footer: FC = () => {
   const { data: session } = useSession();
+
+  const footerQuickLinks = [
+    {
+      text: "Canvas",
+      href: "https://chalmers.instructure.com/",
+    },
+    {
+      text: "TimeEdit",
+      href: "https://cloud.timeedit.net/chalmers/web/public/",
+      blank: true,
+    },
+    {
+      text: "Boka Grupprum",
+      href: "https://cloud.timeedit.net/chalmers/web/b1/",
+      blank: true,
+    },
+  ];
 
   if (session?.user) {
     footerQuickLinks.push({

@@ -59,6 +59,15 @@ export interface IImageInput<
   quality: number;
 }
 
+export interface IFileInput<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+> extends IBasicFormField<TFieldValues, TName>,
+    Omit<
+      InputHTMLAttributes<HTMLInputElement>,
+      "defaultValue" | "name" | "type" | "value" | "onChange"
+    > {}
+
 export interface INumberInput<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,

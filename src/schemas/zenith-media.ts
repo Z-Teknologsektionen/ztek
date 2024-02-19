@@ -1,21 +1,30 @@
 import { z } from "zod";
 import {
   base64WebPImageString,
+  emptyString,
   httpsUrlString,
   nonEmptyString,
   objectId,
-  standardBoolean,
   validYearPastOrCurrent,
 } from "~/schemas/helpers/custom-zod-helpers";
 
-export const createZenithMediaSchema = z.object({
+export const zenithMediaBaseSchema = z.object({
   title: nonEmptyString,
-  url: httpsUrlString,
-  isPDF: standardBoolean,
+  url: httpsUrlString.or(emptyString).optional(),
+  fileInput: z.string().optional(),
   year: validYearPastOrCurrent,
-  image: base64WebPImageString,
+  coverImage: base64WebPImageString,
 });
 
-export const updateZenithMediaSchema = createZenithMediaSchema
+export const createZenithMediaSchema = zenithMediaBaseSchema.refine(
+  (val) => !!val.url === !val.fileInput,
+  {
+    message:
+      "Du måste antingen ange en url eller ladda upp en fil. Båda kan inte vara närvarande samtidigt.",
+    path: ["url", "fileInput"],
+  },
+);
+
+export const updateZenithMediaSchema = zenithMediaBaseSchema
   .partial()
   .extend({ id: objectId });

@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import type { FC } from "react";
 import { useState } from "react";
-import { navbarRoutes } from "~/data/navbar-routes";
 
 const Navbar: FC = () => {
   const { data: session } = useSession();
@@ -15,6 +14,24 @@ const Navbar: FC = () => {
   const toggleMenu = (): void => {
     setIsMenuOpen((prev) => !prev);
   };
+
+  const navbarRoutes = [
+    { name: "Student", href: "/student", target: "_self" },
+    {
+      name: "Zaloonen",
+      href: "/student-division/zaloonen",
+      target: "_self",
+    },
+    { name: "Dokument", href: "/documents", target: "_self" },
+    { name: "Sektionen", href: "/student-division", target: "_self" },
+    {
+      name: "Sektionsorgan",
+      href: "/student-division/committees",
+      target: "_self",
+    },
+    { name: "För Företag", href: "/business", target: "_self" },
+    { name: "Bilder", href: "https://zfoto.ztek.se", target: "_blank" },
+  ];
 
   if (session?.user)
     navbarRoutes.push({ name: "Aktiv", href: "/active", target: "_self" });

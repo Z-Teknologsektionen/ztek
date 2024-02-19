@@ -1,3 +1,4 @@
+import { fileTypeFromBuffer } from "file-type";
 import { createReadStream } from "fs";
 import { z } from "zod";
 import { objectId } from "~/schemas/helpers/custom-zod-helpers";
@@ -10,7 +11,7 @@ import {
   publicProcedure,
   zenithMediaProcedure,
 } from "~/server/api/trpc";
-import { deleteFile, renameFile, uploadFile } from "~/utils/sftpEngine";
+import { deleteFile, renameFile, uploadFile } from "~/utils/sftp-engine";
 
 export const zenithMediaRouter = createTRPCRouter({
   getAllByYear: publicProcedure.query(async ({ ctx }) => {
@@ -21,8 +22,7 @@ export const zenithMediaRouter = createTRPCRouter({
         title: true,
         year: true,
         url: true,
-        isPDF: true,
-        image: true,
+        coverImage: true,
       },
     });
 
@@ -44,37 +44,48 @@ export const zenithMediaRouter = createTRPCRouter({
   }),
   createOneAsAuthed: zenithMediaProcedure
     .input(createZenithMediaSchema)
-    .mutation(async ({ ctx, input: { isPDF, title, year, image } }) => {
-      let fileUrl = "";
-      try {
-        const file = createReadStream("C:/Users/marte/Desktop/ztek/test.png");
-        fileUrl = await uploadFile(
-          file,
-          "media",
-          `${title.replaceAll(" ", "-").toLowerCase()}.png`,
-        );
-      } catch (error) {
-        if (error instanceof Error) {
-          throw new Error(error.message);
-        } else {
-          throw new Error("Something went wrong when uploading the file.");
+    .mutation(
+      async ({ ctx, input: { fileInput, url, title, year, coverImage } }) => {
+        let fileUrl = url;
+        if (!fileInput) {
+          throw new Error("No file input found.");
         }
-      }
+        const fileBuffer = Buffer.from(fileInput, "base64");
+        const fileType = await fileTypeFromBuffer(fileBuffer);
+        // console.log(result);
 
-      return ctx.prisma.zenithMedia.create({
-        data: {
-          title: title,
-          isPDF: isPDF,
-          url: fileUrl,
-          year: year,
-          image: image,
-        },
-      });
-    }),
+        try {
+          const file = createReadStream("C:/Users/marte/Desktop/ztek/test.png");
+          fileUrl = await uploadFile(
+            file,
+            "media",
+            `${title.replaceAll(" ", "-").toLowerCase()}.${fileType?.ext}`,
+          );
+        } catch (error) {
+          if (error instanceof Error) {
+            throw new Error(error.message);
+          } else {
+            throw new Error("Something went wrong when uploading the file.");
+          }
+        }
+
+        return ctx.prisma.zenithMedia.create({
+          data: {
+            title: title,
+            url: fileUrl,
+            year: year,
+            coverImage: coverImage,
+          },
+        });
+      },
+    ),
   updateOneAsAuthed: zenithMediaProcedure
     .input(updateZenithMediaSchema)
     .mutation(
-      async ({ ctx, input: { id, isPDF, title, url, year, image } }) => {
+      async ({
+        ctx,
+        input: { id, fileInput, title, url, year, coverImage },
+      }) => {
         let newUrl = url;
         if (title) {
           const oldData = await ctx.prisma.zenithMedia.findUnique({
@@ -105,11 +116,10 @@ export const zenithMediaRouter = createTRPCRouter({
             id: id,
           },
           data: {
-            isPDF: isPDF,
             title: title,
             url: newUrl,
             year: year,
-            image: image,
+            coverImage: coverImage,
           },
         });
       },
