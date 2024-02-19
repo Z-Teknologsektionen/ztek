@@ -1,8 +1,8 @@
 import { AccountRoles } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
+import BadgeCell from "~/components/columns/badge-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
-import { Badge } from "~/components/ui/badge";
 import { type RouterOutputs } from "~/utils/api";
 import { MemberRolesActions } from "./member-roles-actions";
 import { CommitteeMemberTableActions } from "./member-table-actions";
@@ -67,12 +67,9 @@ export const memberColumns: ColumnDef<CommitteeMemberType>[] = [
     cell: ({ row }) => {
       const member = row.original;
       if (member.userId === null || member.userRoles === undefined) {
-        return (
-          <Badge className="text-center" variant="outline">
-            Inget konto
-          </Badge>
-        );
+        return <BadgeCell>Inget konto</BadgeCell>;
       }
+
       return (
         <div className="flex gap-1">
           <MemberRolesActions
@@ -81,17 +78,17 @@ export const memberColumns: ColumnDef<CommitteeMemberType>[] = [
           />
           {member.userRoles.length < 3 ? (
             member.userRoles.map((role) => (
-              <Badge
+              <BadgeCell
                 key={role}
                 variant={
                   role === AccountRoles.ADMIN ? "destructive" : "outline"
                 }
               >
                 {role}
-              </Badge>
+              </BadgeCell>
             ))
           ) : (
-            <Badge
+            <BadgeCell
               variant={
                 member.userRoles.includes(AccountRoles.ADMIN)
                   ? "destructive"
@@ -99,7 +96,7 @@ export const memberColumns: ColumnDef<CommitteeMemberType>[] = [
               }
             >
               {member.userRoles.length} roller
-            </Badge>
+            </BadgeCell>
           )}
         </div>
       );

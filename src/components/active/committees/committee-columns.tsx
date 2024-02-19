@@ -1,6 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
+import { TABLE_ICON_SIZE } from "~/constants/size-constants";
 import { type RouterOutputs } from "~/utils/api";
 import { getCommitteeTypeStringFromEnum } from "~/utils/get-committee-type-string-from-enum";
 import { getSocialIconFromEnum } from "~/utils/get-social-from-enum";
@@ -51,6 +52,7 @@ export const committeeColumns: ColumnDef<CommitteeType>[] = [
     enableHiding: true,
     filterFn: "inNumberRange",
   },
+
   {
     id: "Sociala länkar",
     accessorKey: "socialLinks",
@@ -66,7 +68,7 @@ export const committeeColumns: ColumnDef<CommitteeType>[] = [
             <>
               {socialLinks.map(({ iconVariant, url }) => {
                 const Icon = getSocialIconFromEnum(iconVariant);
-                return <Icon key={url} size={15} />;
+                return <Icon key={url} size={TABLE_ICON_SIZE} />;
               })}
             </>
           ) : (
