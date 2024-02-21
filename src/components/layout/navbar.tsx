@@ -1,23 +1,19 @@
 import { Menu, X } from "lucide-react";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import type { FC } from "react";
 import { useState } from "react";
-import { navbarRoutes } from "~/data/navbar-routes";
+import { useNavbarRoutes } from "~/hooks/useNavbarRoutes";
 
 const Navbar: FC = () => {
-  const { data: session } = useSession();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navbarRoutes = useNavbarRoutes();
 
   const toggleMenu = (): void => {
     setIsMenuOpen((prev) => !prev);
   };
-
-  if (session?.user)
-    navbarRoutes.push({ name: "Aktiv", href: "/active", target: "_self" });
 
   return (
     <nav className="z-10 mt-8 bg-zBlack text-zWhite">

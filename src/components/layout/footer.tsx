@@ -1,26 +1,12 @@
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
 import { MdBusiness, MdEmail, MdOutlineHouse } from "react-icons/md";
-import { footerQuickLinks } from "~/data/footer-quick-links";
+import { useFooterQuickLinks } from "~/hooks/useFooterQuickLinks";
 
 const Footer: FC = () => {
-  const { data: session } = useSession();
-
-  if (session?.user) {
-    footerQuickLinks.push({
-      text: "Logga ut",
-      href: "/",
-      blank: false,
-    });
-  } else {
-    footerQuickLinks.push({
-      text: "Logga in",
-      href: "/active",
-      blank: false,
-    });
-  }
+  const footerQuickLinks = useFooterQuickLinks();
 
   return (
     <footer className="bg-zBlack pb-2 pt-8 text-zWhite">
