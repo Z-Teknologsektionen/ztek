@@ -13,7 +13,7 @@ const OldCommitteSection: FC<{
       belongsToCommitteeId: committeeId,
     });
 
-  if (!oldCommittees) return null;
+  if (!oldCommittees || oldCommittees.length === 0) return null;
 
   return (
     <SectionWrapper>
@@ -24,14 +24,12 @@ const OldCommitteSection: FC<{
           åren. Tryck på de olika åren för att få mer information.
         </p>
       </div>
-      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {oldCommittees
-          .sort((a, b) => b.year - a.year)
-          .map((oldCommittee) => (
-            <div key={oldCommittee.id} className="col-span-1 m-2">
-              <OldCommitteeCard {...oldCommittee} />
-            </div>
-          ))}
+      <div className="mt-4 grid grid-cols-1 place-items-center gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {oldCommittees.map((oldCommittee) => (
+          <div key={oldCommittee.id}>
+            <OldCommitteeCard {...oldCommittee} />
+          </div>
+        ))}
       </div>
     </SectionWrapper>
   );
