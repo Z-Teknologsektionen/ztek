@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { MdCancel, MdCheck } from "react-icons/md";
 import { TABLE_ICON_SIZE } from "~/constants/size-constants";
 
