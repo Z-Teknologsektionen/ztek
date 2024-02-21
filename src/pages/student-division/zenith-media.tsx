@@ -16,6 +16,7 @@ import {
 import ssg from "~/server/api/helpers/ssg";
 import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
+import { openUrlAsPdf } from "~/utils/open-url-as-pdf";
 
 type IZenithMediaCard =
   RouterOutputs["zenithMedia"]["getAllByYear"][0]["mediaArray"][0];
@@ -32,7 +33,7 @@ export const ZenithMediaCard: FC<IZenithMediaCard> = ({
       <TooltipTrigger asChild>
         <Link
           className="relative h-[187.5px] w-[125px]"
-          href={isPDF ? `https://docs.google.com/viewer?url=${url}` : url}
+          href={openUrlAsPdf({ url, isPDF })}
           rel="noopener noreferrer"
           target="_blank"
         >
