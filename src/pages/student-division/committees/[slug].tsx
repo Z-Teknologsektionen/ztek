@@ -76,27 +76,30 @@ const CommitteePage: NextPage<
               </div>
             )}
           </div>
-          {oldCommittees && oldCommittees.length !== 0 && (
-            <div className="">
-              <div className="mx-auto max-w-3xl space-y-2 border-b-2 border-t-2 p-4 text-center">
-                <SectionTitle center>Patethimmel</SectionTitle>
-                <p>
-                  Här hittar du alla medlemmar som varit med i {committee.name}{" "}
-                  genom åren. Tryck på de olika åren för att få mer information.
-                </p>
-              </div>
-              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {oldCommittees
-                  .sort((a, b) => b.year - a.year)
-                  .map((oldCommittee) => (
-                    <div key={oldCommittee.id} className="col-span-1 m-2">
+        </SectionWrapper>
+        {oldCommittees && (
+          <SectionWrapper>
+            {oldCommittees.length !== 0 && (
+              <div>
+                <div className="mx-auto max-w-3xl space-y-2 border-b-2 border-t-2 p-4 text-center">
+                  <SectionTitle center>Patethimmel</SectionTitle>
+                  <p>
+                    Här hittar du alla medlemmar som varit med i{" "}
+                    {committee.name} genom åren. Tryck på de olika åren för att
+                    få mer information.
+                  </p>
+                </div>
+                <div className="mt-4 grid grid-cols-1 place-items-center gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  {oldCommittees.map((oldCommittee) => (
+                    <div key={oldCommittee.id}>
                       <OldCommitteeCard {...oldCommittee} />
                     </div>
                   ))}
+                </div>
               </div>
-            </div>
-          )}
-        </SectionWrapper>
+            )}
+          </SectionWrapper>
+        )}
       </main>
     </>
   );
