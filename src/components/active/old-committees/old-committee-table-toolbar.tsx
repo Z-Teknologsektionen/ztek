@@ -27,13 +27,13 @@ export const OldCommitteeTableToolbar = <TData,>({
   const yearColumn = table.getColumn("År");
 
   const { data: oldCommittees } =
-    api.oldCommittee.getManyByCommitteeIdAsUser.useQuery({
+    api.oldCommittee.getManyByCommitteeIdAsActive.useQuery({
       belongsToCommitteeId: session?.user.committeeId || "",
       isAdmin: session?.user.roles.includes("ADMIN") || false,
     });
 
   const { mutate: createNewOldCommittee, isLoading: creatingNewOldCommittee } =
-    api.oldCommittee.createOldCommittee.useMutation({
+    api.oldCommittee.createOldCommitteeAsActive.useMutation({
       onMutate: () => toast.loading("Skapar ny patetgrupp..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: ({ name: name }) => {

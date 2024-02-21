@@ -2,21 +2,11 @@ import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { IconContext } from "react-icons";
-import {
-  MdAccountBalance,
-  MdAnalytics,
-  MdCalendarMonth,
-  MdEmail,
-  MdFacebook,
-  MdInfo,
-  MdMeetingRoom,
-  MdReport,
-  MdSchool,
-} from "react-icons/md";
-import HeadLayout from "~/components/layout/HeadLayout";
-import SecondaryTitle from "~/components/layout/SecondaryTitle";
-import SectionTitle from "~/components/layout/SectionTitle";
-import SectionWrapper from "~/components/layout/SectionWrapper";
+import { MdEmail, MdInfo } from "react-icons/md";
+import HeadLayout from "~/components/layout/head-layout";
+import SecondaryTitle from "~/components/layout/secondary-title";
+import SectionTitle from "~/components/layout/section-title";
+import SectionWrapper from "~/components/layout/section-wrapper";
 import { Button, buttonVariants } from "~/components/ui/button";
 import {
   Tooltip,
@@ -24,55 +14,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { studentQuickLinks } from "~/data/student-quick-links";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 import { cn } from "~/utils/utils";
 
-const quickLinks = [
-  {
-    icon: <MdCalendarMonth size={"3em"} />,
-    href: "https://cloud.timeedit.net/chalmers/web/public/",
-    text: "Schema",
-    tooltip: "TimeEdit",
-  },
-  {
-    icon: <MdMeetingRoom size={"3em"} />,
-    href: "https://cloud.timeedit.net/chalmers/web/b1/",
-    text: "Grupprum",
-    tooltip: "Boka grupprum på Chalmers",
-  },
-  {
-    icon: <MdSchool size={"3em"} />,
-    href: "https://www.chalmers.se/utbildning/dina-studier/",
-    text: "Studentportalen",
-    tooltip: "Här kan du läsa mer om dina studier",
-  },
-  {
-    icon: <MdAnalytics size={"3em"} />,
-    href: "https://stats.ftek.se/",
-    text: "Tentastatistik",
-    tooltip: "Här kan du se tentastatestik för de flesta kurser på Chalmers.",
-  },
-  {
-    icon: <MdAccountBalance size={"3em"} />,
-    href: "https://www.student.ladok.se/student/app/studentwebb",
-    text: "Ladok",
-    tooltip: "Här kan du anmäla dig till tentor och se dina resultat.",
-  },
-  {
-    icon: <MdFacebook size={"3em"} />,
-    href: "https://www.facebook.com/groups/activityatz",
-    text: "Activity@Z",
-    tooltip: "Här kommer information om olika arrangemang på sektionen",
-  },
-  {
-    icon: <MdReport size={"3em"} />,
-    href: "https://www.chalmers.se/utbildning/dina-studier/studie-och-arbetsmiljo/fysisk-arbetsmiljo/#felanmalan-i-lokalerna",
-    text: "Felanmäl lokal",
-    tooltip:
-      "Här kan du rapportera olika fel eller skador som du hittar på någon av Chalmers lokaler",
-  },
-];
 const StudentPage: NextPage = () => {
   const { data, isLoading, isError } = api.programBoard.getAll.useQuery();
   return (
@@ -81,14 +27,14 @@ const StudentPage: NextPage = () => {
 
       <div className="container mx-auto mt-8 divide-y-4 divide-zDarkGray divide-opacity-20">
         <SectionWrapper className="pt-2">
-          <div className="grid grid-cols-3 gap-3 md:grid-cols-5 lg:grid-cols-7">
-            {quickLinks.map((link) => (
-              <TooltipProvider key={link.text}>
-                <Tooltip>
+          <TooltipProvider>
+            <div className="grid grid-cols-3 gap-3 md:grid-cols-5 lg:grid-cols-7">
+              {studentQuickLinks.map(({ href, icon: Icon, text, tooltip }) => (
+                <Tooltip key={text}>
                   <TooltipTrigger asChild>
                     <Link
                       className="col-span-1 mx-auto flex flex-col items-center justify-center rounded-lg text-center transition-all hover:ring hover:ring-zWhite"
-                      href={link.href}
+                      href={href}
                       target="_blank"
                     >
                       <IconContext.Provider
@@ -96,18 +42,18 @@ const StudentPage: NextPage = () => {
                           color: "black",
                         }}
                       >
-                        {link.icon}
+                        <Icon size="3rem" />
                       </IconContext.Provider>
-                      <p className="text-center text-xs">{link.text}</p>
+                      <p className="text-center text-xs">{text}</p>
                     </Link>
                   </TooltipTrigger>
                   <TooltipContent className="bg-zWhite">
-                    <p>{link.tooltip}</p>
+                    <p>{tooltip}</p>
                   </TooltipContent>
                 </Tooltip>
-              </TooltipProvider>
-            ))}
-          </div>
+              ))}
+            </div>
+          </TooltipProvider>
         </SectionWrapper>
         <SectionWrapper className="p-2">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">

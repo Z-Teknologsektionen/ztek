@@ -2,15 +2,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { type FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { BasicInput } from "~/components/forms/BasicInput";
-import { ImageInput } from "~/components/forms/ImageInput";
-import { NumberInput } from "~/components/forms/NumberInput";
-import type { IUpsertForm } from "~/components/forms/form-types";
+import { BasicInput } from "~/components/forms/basic-input";
+import { ImageInput } from "~/components/forms/image-input";
+import { NumberInput } from "~/components/forms/number-input";
+import type { IUpsertForm } from "~/types/form-types";
 // import { TextInput } from "~/components/forms/textInput";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
-import { createProgramBoardMemberSchema } from "~/server/api/helpers/schemas/programBoardMembers";
+import {
+  COMMITTEE_IMAGE_QUALITY,
+  COMMITTEE_IMAGE_SIZE,
+  MAX_ORDER_NUMBER,
+  MIN_ORDER_NUMBER,
+} from "~/constants/committees";
+import { createProgramBoardMemberSchema } from "~/schemas/program-board-member";
 
 type UpsertProgramBoardMemberFormProps = IUpsertForm<
   typeof createProgramBoardMemberSchema
@@ -19,7 +25,11 @@ type UpsertProgramBoardMemberFormProps = IUpsertForm<
 const DEFAULT_VALUES: UpsertProgramBoardMemberFormProps["defaultValues"] = {
   phone: "",
   image: "",
-  order: 0,
+  order: MIN_ORDER_NUMBER,
+  email: "",
+  name: "",
+  role: "",
+  url: "",
 };
 
 const UpsertProgramBoardMemberForm: FC<UpsertProgramBoardMemberFormProps> = ({
@@ -66,17 +76,20 @@ const UpsertProgramBoardMemberForm: FC<UpsertProgramBoardMemberFormProps> = ({
           />
           <NumberInput
             control={form.control}
-            defaultValue={0}
+            defaultValue={MIN_ORDER_NUMBER}
             description="Används för att bestämma vilken ordning personen ska visas i. Lägre värde visas till vänster."
             label="Ordning"
-            max={99}
-            min={0}
+            max={MAX_ORDER_NUMBER}
+            min={MIN_ORDER_NUMBER}
             name="order"
           />
           <ImageInput
             control={form.control}
             label="Bild (valfri)"
+            maxHeight={COMMITTEE_IMAGE_SIZE}
+            maxWidth={COMMITTEE_IMAGE_SIZE}
             name="image"
+            quality={COMMITTEE_IMAGE_QUALITY}
           />
         </div>
         <DialogFooter>
@@ -87,7 +100,7 @@ const UpsertProgramBoardMemberForm: FC<UpsertProgramBoardMemberFormProps> = ({
             type="button"
             variant={"outline"}
           >
-            Rensa
+            Återställ
           </Button>
 
           <Button type="submit" variant={"default"}>

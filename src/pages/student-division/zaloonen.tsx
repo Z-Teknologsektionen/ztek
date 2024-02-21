@@ -1,10 +1,10 @@
 import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import DocumentsAccordionItem from "~/components/documents/DocumentsAccordionItem";
-import HeadLayout from "~/components/layout/HeadLayout";
-import SectionTitle from "~/components/layout/SectionTitle";
-import SectionWrapper from "~/components/layout/SectionWrapper";
+import DocumentsAccordionItem from "~/components/documents/documents-accordion-item";
+import HeadLayout from "~/components/layout/head-layout";
+import SectionTitle from "~/components/layout/section-title";
+import SectionWrapper from "~/components/layout/section-wrapper";
 import { Accordion } from "~/components/ui/accordion";
 import { buttonVariants } from "~/components/ui/button";
 import ssg from "~/server/api/helpers/ssg";
@@ -111,7 +111,7 @@ const ZaloonenPage: NextPage = () => {
         </div>
       </SectionWrapper>
       <iframe
-        className="mx-auto -mt-8 mb-8 aspect-video h-[75vh] w-full max-w-3xl"
+        className="mx-auto -mt-8 mb-8 aspect-video h-[100vh] w-full max-w-3xl overscroll-auto"
         seamless={true}
         src="https://embed.styledcalendar.com/#KwrikxxDh0q9078hGAzF"
         style={{ overflow: "hidden" }}

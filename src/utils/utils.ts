@@ -7,15 +7,6 @@ export function cn(...inputs: ClassValue[]): string {
   return twMerge(clsx(inputs));
 }
 
-export const getLocalDateTimeFromUTC = (UTCDate: Date) => {
-  const getUTCOffset = UTCDate.getTimezoneOffset() / -60;
-
-  const localDate = new Date(UTCDate);
-  localDate.setHours(localDate.getHours() + getUTCOffset);
-
-  return localDate;
-};
-
 export const getBase64WebPStringFromFileInput = async (
   e: ChangeEvent<HTMLInputElement>,
   maxHeight: number = 300,

@@ -1,9 +1,9 @@
 import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import HeadLayout from "~/components/layout/HeadLayout";
-import SectionTitle from "~/components/layout/SectionTitle";
-import SectionWrapper from "~/components/layout/SectionWrapper";
+import HeadLayout from "~/components/layout/head-layout";
+import SectionTitle from "~/components/layout/section-title";
+import SectionWrapper from "~/components/layout/section-wrapper";
 import { Button } from "~/components/ui/button";
 import { Skeleton } from "~/components/ui/skeleton";
 import {
@@ -12,7 +12,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import { courseData } from "~/data/courseData";
+import { courseData } from "~/data/course-data";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 
@@ -221,6 +221,7 @@ const NewStudent: NextPage = () => {
             kurser som ingår under de tre första åren, tryck på en kurs för att
             läsa mer
           </p>
+          {/* Getting courseData from src/data/courseData.*/}
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
             <TooltipProvider>
               {Object.entries(courseData).map(([year, periods], yearIndex) => (

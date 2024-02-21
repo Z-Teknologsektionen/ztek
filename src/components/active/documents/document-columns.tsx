@@ -4,7 +4,7 @@ import { DataTableViewOptions } from "~/components/data-table/data-table-view-op
 import { type RouterOutputs } from "~/utils/api";
 import { DocumentTableActions } from "./document-table-actions";
 
-export type DocumentType = RouterOutputs["document"]["getAllAsAdmin"][0];
+export type DocumentType = RouterOutputs["document"]["getAllAsAuthed"][0];
 
 export const documentColumns: ColumnDef<DocumentType>[] = [
   {

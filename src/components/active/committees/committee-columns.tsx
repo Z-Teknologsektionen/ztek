@@ -2,10 +2,11 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
 import { type RouterOutputs } from "~/utils/api";
-import { getCommitteeTypeStringFromEnum } from "~/utils/getCommitteeTypeStringFromEnum";
+import { getCommitteeTypeStringFromEnum } from "~/utils/get-committee-type-string-from-enum";
+import { getSocialIconFromEnum } from "~/utils/get-social-from-enum";
 import { CommitteeTableActions } from "./committee-table-actions";
 
-export type CommitteeType = RouterOutputs["committee"]["getAllAsAdmin"][0];
+export type CommitteeType = RouterOutputs["committee"]["getAllAsAuthed"][0];
 
 export const committeeColumns: ColumnDef<CommitteeType>[] = [
   {
@@ -51,20 +52,29 @@ export const committeeColumns: ColumnDef<CommitteeType>[] = [
     filterFn: "inNumberRange",
   },
   {
-    id: "Länk",
-    accessorKey: "link",
+    id: "Sociala länkar",
+    accessorKey: "socialLinks",
     header: ({ column }) => <DataTableColumnHeader column={column} />,
-    enableSorting: true,
+    enableSorting: false,
     enableHiding: true,
-    filterFn: "includesString",
-  },
-  {
-    id: "Länktext",
-    accessorKey: "linkText",
-    header: ({ column }) => <DataTableColumnHeader column={column} />,
-    enableSorting: true,
-    enableHiding: true,
-    filterFn: "includesString",
+    cell: ({ row }) => {
+      const socialLinks = row.original.socialLinks;
+      const hasSocialLinks = socialLinks.length > 0;
+      return (
+        <div className="flex flex-row gap-1">
+          {hasSocialLinks ? (
+            <>
+              {socialLinks.map(({ iconVariant, url }) => {
+                const Icon = getSocialIconFromEnum(iconVariant);
+                return <Icon key={url} size={15} />;
+              })}
+            </>
+          ) : (
+            <p>Inga sociala länkar</p>
+          )}
+        </div>
+      );
+    },
   },
   {
     id: "actions",

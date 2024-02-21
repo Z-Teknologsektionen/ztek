@@ -20,7 +20,7 @@ export const ZenithMediaTableToolbar = <TData,>({
   const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: createNewZenithMedia, isLoading: creatingNewZenithMedia } =
-    api.zenithMedia.createOne.useMutation({
+    api.zenithMedia.createOneAsAuthed.useMutation({
       onMutate: () => toast.loading("Skapar ny media..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
       onSuccess: () => {

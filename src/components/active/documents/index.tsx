@@ -1,8 +1,8 @@
 import { AccountRoles } from "@prisma/client";
 import type { FC } from "react";
 import { AdvancedDataTable } from "~/components/data-table/advanced-data-table";
-import RoleWrapper from "~/components/layout/RoleWrapper";
-import SectionWrapper from "~/components/layout/SectionWrapper";
+import RoleWrapper from "~/components/layout/role-wrapper";
+import SectionWrapper from "~/components/layout/section-wrapper";
 import { api } from "~/utils/api";
 import { documentColumns } from "./document-columns";
 import { documentGroupColumns } from "./document-group-columns";
@@ -14,12 +14,12 @@ const EditDocumentsTab: FC = () => {
     data: documents,
     isLoading: isLoadingDocuments,
     isError: isDocumentError,
-  } = api.document.getAllAsAdmin.useQuery();
+  } = api.document.getAllAsAuthed.useQuery();
   const {
     data: documentGroups,
     isLoading: isLoadingDocumentGroups,
     isError: isDocumentGroupError,
-  } = api.document.getAllGroupsAsAdmin.useQuery();
+  } = api.document.getAllGroupsAsAuthed.useQuery();
 
   return (
     <RoleWrapper accountRole={AccountRoles.MODIFY_DOCUMENTS}>

@@ -1,43 +1,24 @@
-"use client";
-
 import type { Table } from "@tanstack/react-table";
 import { useState } from "react";
-import toast from "react-hot-toast";
 import { UpsertDocumentGroupForm } from "~/components/active/documents/upsert-document-group-form";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
-import { api } from "~/utils/api";
+import { useCreateDocumentGroupAsAuthed } from "~/hooks/mutations/useMutateDocumentGroup";
 
 interface DocumentGroupTableToolbarProps<TData> {
   table: Table<TData>;
 }
 
 export const DocumentGroupTableToolbar = <TData,>({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
-  table,
+  table: _table,
 }: DocumentGroupTableToolbarProps<TData>): JSX.Element => {
-  const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
 
   const {
     mutate: createNewDocumentGroup,
     isLoading: creatingNewDocumentGroup,
-  } = api.document.createOneGroup.useMutation({
-    onMutate: () => toast.loading("Skapar ny dokumentgrupp..."),
-    onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-    onSuccess: () => {
-      toast.success("En nytt dokument har skapats.");
-      setIsOpen(false);
-      void ctx.document.invalidate();
-    },
-    onError: (error) => {
-      if (error.message) {
-        toast.error(error.message);
-      } else {
-        toast.error("Något gick fel. Försök igen senare");
-      }
-    },
-  });
+  } = useCreateDocumentGroupAsAuthed({ onSuccess: () => setIsOpen(false) });
+
   return (
     <div className="overflow-x-auto">
       <div className="flex items-center justify-between">
@@ -49,7 +30,6 @@ export const DocumentGroupTableToolbar = <TData,>({
             form={
               <UpsertDocumentGroupForm
                 key={"new"}
-                defaultValues={{}}
                 formType="create"
                 onSubmit={(values) => createNewDocumentGroup(values)}
               />

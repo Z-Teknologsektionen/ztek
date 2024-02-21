@@ -3,16 +3,20 @@ import { AccountRoles } from "@prisma/client";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { BasicInput } from "~/components/forms/BasicInput";
-import { DropdownInput } from "~/components/forms/DropdownInput";
-import { ImageInput } from "~/components/forms/ImageInput";
-import { NumberInput } from "~/components/forms/NumberInput";
-import type { IUpsertForm } from "~/components/forms/form-types";
+import { BasicInput } from "~/components/forms/basic-input";
+import { DropdownInput } from "~/components/forms/dropdown-input";
+import { ImageInput } from "~/components/forms/image-input";
+import { NumberInput } from "~/components/forms/number-input";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
+import {
+  COMMITTEE_IMAGE_QUALITY,
+  COMMITTEE_IMAGE_SIZE,
+} from "~/constants/committees";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
-import { createOldCommitteeSchema } from "~/server/api/helpers/schemas/oldCommittee";
+import { createOldCommitteeSchema } from "~/schemas/old-committee";
+import type { IUpsertForm } from "~/types/form-types";
 import { api } from "~/utils/api";
 import UpsertOldCommitteeMembersFormSection from "./upsert-old-committe-membes-section-form";
 
@@ -27,6 +31,8 @@ const DEFAULT_VALUES: UpsertOldCommitteeFormProps["defaultValues"] = {
   logo: "",
   image: "",
   members: [],
+  name: "",
+  belongsToCommitteeId: "",
 };
 
 const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
@@ -38,7 +44,7 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
   const isAdmin = session?.user.roles.includes(AccountRoles.ADMIN);
 
   const dropDownMappable = isAdmin
-    ? api.committee.getAllAsAdmin.useQuery().data?.map((committee) => ({
+    ? api.committee.getAllAsAuthed.useQuery().data?.map((committee) => ({
         id: committee.id,
         name: committee.name,
       })) || []
@@ -84,12 +90,19 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
           <ImageInput
             control={form.control}
             label="Omslagsbild (valfri)"
+            maxHeight={COMMITTEE_IMAGE_SIZE}
+            maxWidth={COMMITTEE_IMAGE_SIZE}
             name="image"
+            quality={COMMITTEE_IMAGE_QUALITY}
+            containImage
           />
           <ImageInput
             control={form.control}
             label="Logga (valfri)"
+            maxHeight={COMMITTEE_IMAGE_SIZE}
+            maxWidth={COMMITTEE_IMAGE_SIZE}
             name="logo"
+            quality={COMMITTEE_IMAGE_QUALITY}
           />
         </div>
         <DialogFooter>
@@ -100,7 +113,7 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
             type="button"
             variant={"outline"}
           >
-            Rensa
+            Återställ
           </Button>
           <Button type="submit" variant={"default"}>
             {formType === "create" ? "Skapa" : "Uppdatera"}

@@ -4,12 +4,12 @@ import { z } from "zod";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
 import { Badge } from "~/components/ui/badge";
-import { objectId, validYear } from "~/server/api/helpers/customZodTypes";
+import { objectId, validYear } from "~/schemas/helpers/custom-zod-helpers";
 import { type RouterOutputs } from "~/utils/api";
 import { OldCommitteeTableActions } from "./old-committee-table-actions";
 
 export type OldCommitteeType =
-  RouterOutputs["oldCommittee"]["getManyByCommitteeIdAsUser"][0];
+  RouterOutputs["oldCommittee"]["getManyByCommitteeIdAsActive"][0];
 
 const ICON_SIZE = 15;
 

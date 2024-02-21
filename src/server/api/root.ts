@@ -1,9 +1,9 @@
 import { createTRPCRouter } from "~/server/api/trpc";
 import { committeeRouter } from "./routers/committee";
-import { committeeMemberRouter } from "./routers/committeeMember";
+import { committeeMemberRouter } from "./routers/committee-member";
 import { documentRouter } from "./routers/document";
-import { oldCommitteeRouter } from "./routers/oldCommittee";
-import { programBoardRouter } from "./routers/programBoard";
+import { oldCommitteeRouter } from "./routers/old-committee";
+import { programBoardRouter } from "./routers/program-board";
 import { userRouter } from "./routers/user";
 import { zenithMediaRouter } from "./routers/zenith-media";
 

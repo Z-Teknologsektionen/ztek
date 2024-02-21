@@ -21,38 +21,40 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
   const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: updateZenithMedia } = api.zenithMedia.updateOne.useMutation({
-    onMutate: () => toast.loading("Uppdaterar media..."),
-    onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-    onSuccess: () => {
-      setIsOpen(false);
-      toast.success("Median har uppdaterats!");
-      void ctx.zenithMedia.invalidate();
-    },
-    onError: (error) => {
-      if (error.message) {
-        toast.error(error.message);
-      } else {
-        toast.error("Något gick fel. Försök igen senare");
-      }
-    },
-  });
+  const { mutate: updateZenithMedia } =
+    api.zenithMedia.updateOneAsAuthed.useMutation({
+      onMutate: () => toast.loading("Uppdaterar media..."),
+      onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
+      onSuccess: () => {
+        setIsOpen(false);
+        toast.success("Mediet har uppdaterats!");
+        void ctx.zenithMedia.invalidate();
+      },
+      onError: (error) => {
+        if (error.message) {
+          toast.error(error.message);
+        } else {
+          toast.error("Något gick fel. Försök igen senare");
+        }
+      },
+    });
 
-  const { mutate: deleteZenithMedia } = api.zenithMedia.deleteOne.useMutation({
-    onMutate: () => toast.loading("Raderar media..."),
-    onSettled: (_c, _d, _e, toastId) => {
-      toast.remove(toastId);
-      void ctx.zenithMedia.invalidate();
-    },
-    onSuccess: () => toast.success("Median har raderats!"),
-    onError: (error) => {
-      if (error.message) {
-        toast.error(error.message);
-      } else {
-        toast.error("Något gick fel. Försök igen senare");
-      }
-    },
-  });
+  const { mutate: deleteZenithMedia } =
+    api.zenithMedia.deleteOneAsAuthed.useMutation({
+      onMutate: () => toast.loading("Raderar media..."),
+      onSettled: (_c, _d, _e, toastId) => {
+        toast.remove(toastId);
+        void ctx.zenithMedia.invalidate();
+      },
+      onSuccess: () => toast.success("Median har raderats!"),
+      onError: (error) => {
+        if (error.message) {
+          toast.error(error.message);
+        } else {
+          toast.error("Något gick fel. Försök igen senare");
+        }
+      },
+    });
 
   return (
     <DropdownMenu>

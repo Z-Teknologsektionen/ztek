@@ -1,16 +1,16 @@
 import type { FC } from "react";
 import { useState } from "react";
-import type { RouterOutputs } from "~/utils/api";
-import CommitteeImage from "../committees/CommitteeImage";
+import CommitteeImage from "~/components/committees/committee-image";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "../ui/accordion";
-import { Avatar, AvatarImage } from "../ui/avatar";
-import { ScrollArea } from "../ui/scroll-area";
-import { Separator } from "../ui/separator";
+} from "~/components/ui/accordion";
+import { Avatar, AvatarImage } from "~/components/ui/avatar";
+import { ScrollArea } from "~/components/ui/scroll-area";
+import { Separator } from "~/components/ui/separator";
+import type { RouterOutputs } from "~/utils/api";
 
 const OldCommitteeCard: FC<
   RouterOutputs["oldCommittee"]["getManyByCommitteeId"][0]
@@ -32,6 +32,7 @@ const OldCommitteeCard: FC<
             <AccordionContent>
               <CommitteeImage
                 alt={`Gruppbild på ${name}`}
+                className="object-contain"
                 filename={image ? image : logo ? logo : ""}
               />
             </AccordionContent>
