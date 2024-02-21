@@ -5,7 +5,7 @@ import {
   updateCommitteeSchema,
   upsertCommitteeSocialLinksBaseSchema,
 } from "~/schemas/committee";
-import { objectId } from "~/schemas/helpers/custom-zod-helpers";
+import { objectId, slugString } from "~/schemas/helpers/custom-zod-helpers";
 import {
   createTRPCRouter,
   organizationManagementProcedure,
@@ -30,7 +30,7 @@ export const committeeRouter = createTRPCRouter({
   getOneBySlug: publicProcedure
     .input(
       z.object({
-        slug: z.string(),
+        slug: slugString,
       }),
     )
     .query(({ ctx, input: { slug } }) => {
@@ -46,6 +46,12 @@ export const committeeRouter = createTRPCRouter({
           image: true,
           electionPeriod: true,
           socialLinks: true,
+          document: {
+            select: {
+              url: true,
+              isPDF: true,
+            },
+          },
           members: {
             where: {
               OR: [
@@ -128,6 +134,7 @@ export const committeeRouter = createTRPCRouter({
         description: true,
         role: true,
         socialLinks: true,
+        documentId: true,
         _count: {
           select: {
             members: true,
@@ -197,6 +204,8 @@ export const committeeRouter = createTRPCRouter({
           image,
           electionPeriod,
           socialLinks,
+          documentId,
+          committeeType,
         },
       }) => {
         return ctx.prisma.committee.create({
@@ -209,6 +218,8 @@ export const committeeRouter = createTRPCRouter({
             role,
             slug,
             electionPeriod,
+            documentId,
+            committeeType,
             socialLinks: socialLinks.map(
               ({
                 iconAndUrl: { iconVariant, url },
@@ -243,6 +254,7 @@ export const committeeRouter = createTRPCRouter({
           image,
           electionPeriod,
           socialLinks,
+          documentId,
         },
       }) => {
         return ctx.prisma.committee.update({
@@ -259,6 +271,7 @@ export const committeeRouter = createTRPCRouter({
             slug,
             committeeType,
             electionPeriod,
+            documentId,
             socialLinks: socialLinks?.map(
               ({
                 iconAndUrl: { iconVariant, url },

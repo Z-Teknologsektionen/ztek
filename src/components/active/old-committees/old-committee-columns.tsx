@@ -1,17 +1,15 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { MdCancel, MdCheck } from "react-icons/md";
 import { z } from "zod";
+import BadgeCell from "~/components/columns/badge-cell";
+import BooleanCell from "~/components/columns/boolean-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
-import { Badge } from "~/components/ui/badge";
 import { objectId, validYear } from "~/schemas/helpers/custom-zod-helpers";
 import { type RouterOutputs } from "~/utils/api";
 import { OldCommitteeTableActions } from "./old-committee-table-actions";
 
 export type OldCommitteeType =
   RouterOutputs["oldCommittee"]["getManyByCommitteeIdAsActive"][0];
-
-const ICON_SIZE = 15;
 
 export const oldCommitteeColumns: ColumnDef<OldCommitteeType>[] = [
   {
@@ -59,11 +57,7 @@ export const oldCommitteeColumns: ColumnDef<OldCommitteeType>[] = [
     id: "Antal medlemmar",
     accessorKey: "members",
     header: ({ column }) => <DataTableColumnHeader column={column} />,
-    cell: ({ row }) => (
-      <Badge className="text-center" variant="outline">
-        {row.original.members.length}
-      </Badge>
-    ),
+    cell: ({ row }) => <BadgeCell>{row.original.members.length}</BadgeCell>,
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
@@ -73,15 +67,7 @@ export const oldCommitteeColumns: ColumnDef<OldCommitteeType>[] = [
     id: "Har bild",
     accessorKey: "image",
     header: ({ column }) => <DataTableColumnHeader column={column} />,
-    cell: ({ row }) => (
-      <div className="ml-2">
-        {row.original.image ? (
-          <MdCheck color="green" size={ICON_SIZE} />
-        ) : (
-          <MdCancel color="red" size={ICON_SIZE} />
-        )}
-      </div>
-    ),
+    cell: ({ row }) => <BooleanCell value={!!row.original.image} />,
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
@@ -91,15 +77,7 @@ export const oldCommitteeColumns: ColumnDef<OldCommitteeType>[] = [
     id: "Har logga",
     accessorKey: "logo",
     header: ({ column }) => <DataTableColumnHeader column={column} />,
-    cell: ({ row }) => (
-      <div className="ml-2">
-        {row.original.logo ? (
-          <MdCheck color="green" size={ICON_SIZE} />
-        ) : (
-          <MdCancel color="red" size={ICON_SIZE} />
-        )}
-      </div>
-    ),
+    cell: ({ row }) => <BooleanCell value={!!row.original.logo} />,
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,

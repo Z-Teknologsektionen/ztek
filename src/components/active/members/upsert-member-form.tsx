@@ -75,8 +75,8 @@ export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
           />
 
           <DropdownInput
-            control={form.control}
             description="Hittar du inte rätt organ? Du kan lägga till fler organ som administratör."
+            form={form}
             label="Tillhör organ"
             mappable={committees || []}
             name="committeeId"

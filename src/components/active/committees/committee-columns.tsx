@@ -1,4 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
+import BadgeCell from "~/components/columns/badge-cell";
+import BooleanCell from "~/components/columns/boolean-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
 import { TABLE_ICON_SIZE } from "~/constants/size-constants";
@@ -54,6 +56,14 @@ export const committeeColumns: ColumnDef<CommitteeType>[] = [
   },
 
   {
+    id: "Har dokument",
+    accessorKey: "documentId",
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    enableSorting: false,
+    enableHiding: true,
+    cell: ({ row }) => <BooleanCell value={row.original.documentId !== null} />,
+  },
+  {
     id: "Sociala länkar",
     accessorKey: "socialLinks",
     header: ({ column }) => <DataTableColumnHeader column={column} />,
@@ -72,7 +82,7 @@ export const committeeColumns: ColumnDef<CommitteeType>[] = [
               })}
             </>
           ) : (
-            <p>Inga sociala länkar</p>
+            <BadgeCell>Inga sociala länkar</BadgeCell>
           )}
         </div>
       );

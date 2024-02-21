@@ -83,8 +83,17 @@ export const updateCommitteeAsActiveSchema = upsertCommitteeBaseSchema
 
 export const createCommitteeSchema = upsertCommitteeBaseSchema
   .extend({
+    documentId: objectId.nullable(),
     name: nonEmptyString,
-    committeeType: z.nativeEnum(CommitteeType),
+    committeeType: z.nativeEnum(CommitteeType, {
+      //Dessa två rader borde användas med bug hos zod gör att det inte funkar
+      // https://github.com/colinhacks/zod/issues/3146
+      // required_error: "Vänligen välj vilket typ av organ det är",
+      // invalid_type_error: "Otilllåten typ, ladda om sidan och försök igen",
+      errorMap: () => ({
+        message: "Vänligen välj vilket typ av organ det är",
+      }),
+    }),
     slug: slugString,
     role: nonEmptyString,
     email: emailString,

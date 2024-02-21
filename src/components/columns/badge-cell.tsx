@@ -12,7 +12,7 @@ const BadgeCell: FC<
 > = ({ variant = "outline", className = "", children }) => {
   return (
     <Badge
-      className={cn("grid place-items-center", className)}
+      className={cn("grid w-fit place-items-center text-center", className)}
       variant={variant}
     >
       {children}
