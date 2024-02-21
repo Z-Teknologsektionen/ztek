@@ -63,6 +63,12 @@ This is what the current `.env` file looks for this project. Reach out to other 
 
 Now you should be able to run the project and connect to all relevant databases. If the code still throws an error, try restarting the ESLint server by pressing `ctrl + shift + p` and typing `ESLint: Restart ESLint Server`.
 
+### Common issues
+
+When checking out a branch, always run `npm install` to make sure you have all the dependencies needed for the project. If you are having issues with the project, try running `npm run lint` and `npm run typecheck` to see if there are any errors in the code. If you are still having issues, reach out to the other members of Webbgruppen.
+
+Sometimes prisma does its own thing and throws errors. If you are having issues with prisma, try running `npx prisma generate` to regenerate the prisma files.
+
 ### File Structure
 
 A typical Next.js project has a specific file structure. Here's a brief overview of the main directories and files you'll find in a Next.js project and their roles:
@@ -326,12 +332,33 @@ tRPC and NextAuth.js are integral parts of the project, contributing to its func
 
 #### tRPC
 
-[tRPC](https://trpc.io/) (Typed RPC) is used for defining typed APIs in TypeScript. It helps in defining API routes with type safety, making it easier to build and maintain APIs. In this project, tRPC is utilized for creating APIs for various functionalities, such as authentication and data retrieval.
+[tRPC](https://trpc.io/) (Typed RPC) is used for defining typed APIs in TypeScript. It helps in defining API routes with type safety, making it easier to build and maintain APIs. In this project, tRPC is utilized for creating APIs for various functionalities, such as authentication and data retrieval. To add a new route to the API, a new file should be created in the `src/server/api/routers` directory. The file should be named based on the route. The file should export a `createTRPCRouter` function that defines the route and its functionality. You also need to add the implemented route in `src/server/api/root.ts`. In the front end, you fetch the data from the api as per the following example:
 
-#### NextAuth.js
+```tsx
+import { api } from "~/utils/api";
 
-[NextAuth.js](https://next-auth.js.org/) provides authentication solutions for Next.js applications. It supports various authentication providers like Google, Facebook, GitHub, etc., making it flexible for different authentication methods. It handles authentication flows, including OAuth, JWT, and session management, ensuring secure user authentication. In this project, NextAuth.js is used for user authentication with google and session management. In `auth.ts` a user's roles and permissions are injected to the session so it can be used throughout the application.
+const {
+  data: committees,
+  isLoading: isLoadingCommittees,
+  isError: isCommitteesError,
+} = api.committee.getAllAsAuthed.useQuery();
+
+<AdvancedDataTable
+  columns={committeeColumns}
+  data={committees || []}
+  error={isCommitteesError}
+  loading={isLoadingCommittees}
+  toolbar={CommitteeTableToolbar}
+  usePagination={true}
+/>;
+```
+
+In this example the data is fetched from the api and the data is used to display a table. The `api` object is used to fetch the data from the api with the `useQuery` method. The `data` property will not be available until all data is loaded and while it's loading the `isLoading` property will be set to true. The `isError` property is set to true if an error is thrown while quering the database.
+
+##### NextAuth.js
+
+[NextAuth.js](https://next-auth.js.org/) provides authentication solutions for Next.js applications. It supports various authentication providers like Google, Facebook, GitHub, etc., making it flexible for different authentication methods. It handles authentication flows, including OAuth, JWT, and session management, ensuring secure user authentication. In this project, NextAuth.js is used for user authentication with google and session management. In `auth.ts` a user's roles and permissions are injected to the session so it can be used throughout the application. If more properties should be added to the session, it should be done in this file. To access the session properties the method `useRequireAuth()` to get a user's session and `useSession()` to get the session properties. If the user is unauthorized, the `useRequireAuth()` method will redirect the user to the login page.
 
 ### Tailwind CSS
 
-[Tailwind CSS](https://tailwindcss.com/) is a utility-first CSS framework used for styling the project. It offers a wide range of pre-built utility classes that can be directly applied to HTML elements, allowing for rapid UI development. Tailwind CSS promotes a modular approach to styling, enabling developers to build responsive and customizable designs efficiently. Minimal CSS should be used in this project and Tailwind CSS is used to keep the code clean and easy to read.
+[Tailwind CSS](https://tailwindcss.com/) is a utility-first CSS framework used for styling the project. It offers a wide range of pre-built utility classes that can be directly applied to HTML elements, allowing for rapid UI development. Tailwind CSS is used all over this project and is preferred over traditional CSS for its simplicity and flexibility. If you are unsure about how to style something, look at the [Tailwind CSS documentation](https://tailwindcss.com/) or reach out to the other members of Webbgruppen.
