@@ -69,10 +69,9 @@ export const ZenithMediaTableToolbar = <TData,>({
                 key={"new"}
                 defaultValues={{
                   year: new Date().getFullYear(),
-                  isPDF: true,
                   title: "",
                   url: "",
-                  image: "",
+                  coverImage: "",
                 }}
                 formType="create"
                 onSubmit={(values) => createNewZenithMedia(values)}
