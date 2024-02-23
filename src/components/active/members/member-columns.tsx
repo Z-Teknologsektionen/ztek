@@ -7,7 +7,7 @@ import { type RouterOutputs } from "~/utils/api";
 import { MemberRolesActions } from "./member-roles-actions";
 import { CommitteeMemberTableActions } from "./member-table-actions";
 
-type CommitteeMemberType =
+export type CommitteeMemberType =
   RouterOutputs["member"]["getCommitteeMembersAsAuthed"][0];
 
 export const memberColumns: ColumnDef<CommitteeMemberType>[] = [

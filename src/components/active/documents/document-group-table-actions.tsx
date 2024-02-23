@@ -1,15 +1,10 @@
-import { MoreHorizontal } from "lucide-react";
 import { useState, type FC } from "react";
 import { UpsertDocumentGroupForm } from "~/components/active/documents/upsert-document-group-form";
+import DeleteTriggerButton from "~/components/buttons/delete-trigger-button";
+import EditTriggerButton from "~/components/buttons/edit-trigger-button";
 import DeleteDialog from "~/components/dialogs/delete-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
-import { Button } from "~/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
+import { TooltipProvider } from "~/components/ui/tooltip";
 import {
   useDeleteDocumentGroupAsAuthed,
   useUpdateDocumentGroupAsAuthed,
@@ -29,14 +24,8 @@ export const DocumentGroupTableActions: FC<{
   const { mutate: deleteDocumentGroup } = useDeleteDocumentGroupAsAuthed({});
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button className="h-8 w-8 p-0" variant="ghost">
-          <span className="sr-only">Öppna meny</span>
-          <MoreHorizontal className="h-4 w-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+    <TooltipProvider>
+      <div className="flex justify-end">
         <UpsertDialog
           form={
             <UpsertDocumentGroupForm
@@ -54,21 +43,13 @@ export const DocumentGroupTableActions: FC<{
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           title="Uppdatera dokument"
-          trigger={
-            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-              Redigera
-            </DropdownMenuItem>
-          }
+          trigger={<EditTriggerButton />}
         />
         <DeleteDialog
           onSubmit={() => deleteDocumentGroup({ id })}
-          trigger={
-            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-              Radera
-            </DropdownMenuItem>
-          }
-        ></DeleteDialog>
-      </DropdownMenuContent>
-    </DropdownMenu>
+          trigger={<DeleteTriggerButton />}
+        />
+      </div>
+    </TooltipProvider>
   );
 };
