@@ -20,13 +20,6 @@ export type UpsertCommitteeAsActiveFormValues = z.infer<
   typeof updateCommitteeAsActiveSchema
 >;
 
-const DEFAULT_VALUES: UpsertCommitteeAsActiveFormProps["defaultValues"] = {
-  socialLinks: [],
-  id: "",
-  image: "",
-  description: "",
-};
-
 const UpsertCommitteeAsActiveForm: FC<UpsertCommitteeAsActiveFormProps> = ({
   defaultValues,
   onSubmit,
@@ -34,7 +27,7 @@ const UpsertCommitteeAsActiveForm: FC<UpsertCommitteeAsActiveFormProps> = ({
 }) => {
   const form = useFormWithZodSchema({
     schema: updateCommitteeAsActiveSchema,
-    defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
+    defaultValues,
   });
 
   return (

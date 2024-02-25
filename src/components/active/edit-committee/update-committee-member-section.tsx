@@ -2,7 +2,8 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import { useState, type FC } from "react";
 import {
-  MdAccountCircle,
+  MdAccountBox,
+  MdBadge,
   MdEdit,
   MdEmail,
   MdPhone,
@@ -16,11 +17,11 @@ import { Separator } from "~/components/ui/separator";
 import { useUpdateMemberAsActive } from "~/hooks/mutations/useMutateMember";
 import type { RouterOutputs } from "~/utils/api";
 
-type CommitteeProps = {
-  committee: RouterOutputs["committee"]["getOneByIdAsActive"];
+type CommitteeMemberProps = {
+  members: RouterOutputs["committee"]["getOneByIdAsActive"]["members"];
 };
-export const UpdateCommitteeMemberSection: FC<CommitteeProps> = ({
-  committee,
+export const UpdateCommitteeMemberSection: FC<CommitteeMemberProps> = ({
+  members,
 }) => {
   const [openFormId, setOpenFormId] = useState<string | null>(null);
 
@@ -29,11 +30,11 @@ export const UpdateCommitteeMemberSection: FC<CommitteeProps> = ({
   });
 
   return (
-    <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-      {committee.members.map((member) => (
+    <div className="top-* sticky grid grid-cols-2 gap-4 md:grid-cols-3">
+      {members.map((member) => (
         <div
           key={member.id}
-          className="flex flex-col content-center items-center gap-2 rounded border bg-cardBackground"
+          className=" flex flex-col content-center items-center gap-2 rounded border bg-cardBackground"
         >
           <div className="mb-0 mr-2 mt-2 self-end">
             <UpsertDialog
@@ -50,16 +51,9 @@ export const UpdateCommitteeMemberSection: FC<CommitteeProps> = ({
                 />
               }
               isOpen={openFormId === member.id}
-              setIsOpen={(isOpen) => {
-                if (!isOpen) {
-                  setOpenFormId(null);
-                } else {
-                  setOpenFormId(member.id);
-                }
-              }}
+              setIsOpen={(isOpen) => setOpenFormId(isOpen ? member.id : null)}
               title={`Uppdatera ${member.name}`}
               trigger={
-                // <Button>Press me</Button>
                 <IconWithTooltip
                   className="hover:fill-orange-500"
                   icon={MdEdit}
@@ -74,17 +68,24 @@ export const UpdateCommitteeMemberSection: FC<CommitteeProps> = ({
             <AvatarFallback asChild>
               <Image
                 alt={member.name}
-                height={1080}
+                height={300}
                 src="/logo.png"
-                width={1920}
+                width={300}
               />
             </AvatarFallback>
           </Avatar>
           <p className="text-center font-semibold">{member.name}</p>
           <div className="px-4">
-            <p className="my-2 flex flex-row gap-2 text-xs font-semibold">
-              <IconWithTooltip icon={MdAccountCircle} tooltipText={"Roll"} />
+            <p className="my-2 flex flex-row gap-2 text-xs">
+              <IconWithTooltip icon={MdBadge} tooltipText={"Roll"} />
               {member.role}
+            </p>
+            <p className="my-2 flex flex-row gap-2 text-xs">
+              <IconWithTooltip
+                icon={MdAccountBox}
+                tooltipText={"Kommitténamn"}
+              />
+              {member.nickName}
             </p>
             <p className="my-2 flex flex-row gap-2 text-xs">
               <IconWithTooltip icon={MdEmail} tooltipText={"Email"} />

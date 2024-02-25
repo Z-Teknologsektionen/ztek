@@ -72,13 +72,13 @@ const UpsertCommitteeSocialLinksFormAsActiveSection: FC<
                         name={`socialLinks.${idx}.iconAndUrl.url`}
                       />
                     </div>
-                    <div className="flex items-end gap-1 pb-3">
+                    <div className="flex items-end gap-1 pb-4">
                       <FaArrowUp
                         className="cursor-pointer hover:fill-zLightGray"
                         onClick={() =>
                           idx === 0 ? undefined : swapSocialLinks(idx, idx - 1)
                         }
-                        size={18}
+                        size={15}
                       />
                       <FaArrowDown
                         className="cursor-pointer hover:fill-zLightGray"
@@ -87,12 +87,12 @@ const UpsertCommitteeSocialLinksFormAsActiveSection: FC<
                             ? undefined
                             : swapSocialLinks(idx, idx + 1)
                         }
-                        size={18}
+                        size={15}
                       />
                       <FaTrash
                         className="cursor-pointer hover:fill-zRed"
                         onClick={() => removeSocialIcon(idx)}
-                        size={18}
+                        size={15}
                       />
                     </div>
                   </div>

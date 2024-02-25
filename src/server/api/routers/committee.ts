@@ -3,7 +3,6 @@ import {
   createCommitteeSchema,
   updateCommitteeAsActiveSchema,
   updateCommitteeSchema,
-  upsertCommitteeSocialLinksBaseSchema,
 } from "~/schemas/committee";
 import { objectId, slugString } from "~/schemas/helpers/custom-zod-helpers";
 import {
@@ -178,26 +177,6 @@ export const committeeRouter = createTRPCRouter({
         },
       });
     }),
-  setCommitteeSocialLinksAsActive: protectedProcedure
-    .input(upsertCommitteeSocialLinksBaseSchema.extend({ id: objectId }))
-    .mutation(({ ctx, input: { socialLinks, id } }) => {
-      const formatedSocialLinks = socialLinks.map((link) => ({
-        order: link.order,
-        iconVariant: link.iconAndUrl.iconVariant,
-        url: link.iconAndUrl.url,
-      }));
-      return ctx.prisma.committee.update({
-        where: {
-          id: id,
-        },
-        data: {
-          socialLinks: {
-            set: formatedSocialLinks,
-          },
-        },
-      });
-    }),
-
   createCommitteeAsAuthed: organizationManagementProcedure
     .input(createCommitteeSchema)
     .mutation(

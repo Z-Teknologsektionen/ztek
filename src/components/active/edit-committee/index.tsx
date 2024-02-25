@@ -7,9 +7,9 @@ import SectionWrapper from "~/components/layout/section-wrapper";
 
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
-import MissingCommitteeSection from "./components/missing-committee-section";
-import { UpdateCommitteeMemberSection } from "./components/update-committee-member-section";
-import { UpdateCommitteeSection } from "./components/update-committee-section";
+import MissingCommitteeSection from "./missing-committee-section";
+import { UpdateCommitteeMemberSection } from "./update-committee-member-section";
+import { UpdateCommitteeSection } from "./update-committee-section";
 
 const EditCommitteePage: FC = () => {
   const { data: session } = useRequireAuth();
@@ -34,11 +34,11 @@ const EditCommitteePage: FC = () => {
           {isLoadingCommittee && <LoadningSpinner />}
           {hasData && !committee && <MissingCommitteeSection />}
           {showStandardViews && (
-            <div className="grid grid-cols-6 gap-20">
-              <div className="order-last col-span-6 md:order-first md:col-span-4">
-                <UpdateCommitteeMemberSection committee={committee} />
+            <div className="grid grid-cols-6 ">
+              <div className="order-last col-span-6 mx-4 lg:order-first lg:col-span-4">
+                <UpdateCommitteeMemberSection members={committee.members} />
               </div>
-              <div className="col-span-6 flex flex-col items-center md:col-span-2">
+              <div className="col-span-6 mx-4 mb-4 lg:col-span-2 lg:mb-0">
                 <UpdateCommitteeSection committee={committee} />
               </div>
             </div>

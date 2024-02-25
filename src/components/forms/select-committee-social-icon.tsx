@@ -56,7 +56,7 @@ const SelectCommitteeSocialIcon = <
                 <SelectValue placeholder="Välj en ikon" />
               </SelectTrigger>
               <SelectContent>
-                <ScrollArea className="max-w-[48]">
+                <ScrollArea className="h-48">
                   <SelectGroup>
                     {Object.values(IconEnum).map((icon) => {
                       const Icon = getSocialIconFromEnum(icon);
