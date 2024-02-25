@@ -52,11 +52,11 @@ const SelectCommitteeSocialIcon = <
               defaultValue={defaultValue}
               onValueChange={field.onChange}
             >
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-32">
                 <SelectValue placeholder="Välj en ikon" />
               </SelectTrigger>
               <SelectContent>
-                <ScrollArea className="h-48">
+                <ScrollArea className="max-w-[48]">
                   <SelectGroup>
                     {Object.values(IconEnum).map((icon) => {
                       const Icon = getSocialIconFromEnum(icon);

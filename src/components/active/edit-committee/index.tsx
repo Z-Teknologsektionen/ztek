@@ -1,15 +1,15 @@
-import type { FC } from "react";
-import { UpdateCommitteeWizard } from "~/components/active/edit-committee/update-committee-wizard";
-import { UpdateUserWizard } from "~/components/active/edit-committee/update-user-wizard";
+import { TooltipProvider } from "@radix-ui/react-tooltip";
+import { type FC } from "react";
 import HeadLayout from "~/components/layout/head-layout";
 import LoadningSpinner from "~/components/layout/loadning-spinner";
 import RoleWrapper from "~/components/layout/role-wrapper";
-import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
+
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
-import CommitteeSocialLinksList from "./committee-social-links/committee-social-links-list";
-import MissingCommitteeSection from "./missing-committee-section";
+import MissingCommitteeSection from "./components/missing-committee-section";
+import { UpdateCommitteeMemberSection } from "./components/update-committee-member-section";
+import { UpdateCommitteeSection } from "./components/update-committee-section";
 
 const EditCommitteePage: FC = () => {
   const { data: session } = useRequireAuth();
@@ -29,37 +29,22 @@ const EditCommitteePage: FC = () => {
   return (
     <RoleWrapper accountRole={undefined}>
       <HeadLayout title="Redigera medlemmar" />
-      {isLoadingCommittee && <LoadningSpinner />}
-      {hasData && !committee && <MissingCommitteeSection />}
-      {showStandardViews && (
-        <SectionWrapper className="flex flex-col items-center justify-center space-y-8 py-16">
-          <h1 className="text-center text-3xl font-semibold">
-            {committee.name}
-          </h1>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {committee.members.map((member) => (
-              <UpdateUserWizard key={member.id} member={member} />
-            ))}
-          </div>
-          <UpdateCommitteeWizard key={committee.id} committee={committee} />
-          <div className="w-full space-y-4">
-            <SecondaryTitle center>Sociala länkar</SecondaryTitle>
-            <CommitteeSocialLinksList
-              key={committee.socialLinks.toString()}
-              committeeId={committee.id}
-              initialSocialLinks={committee.socialLinks.map(
-                ({ iconVariant, order, url }) => ({
-                  iconAndUrl: {
-                    iconVariant,
-                    url,
-                  },
-                  order,
-                }),
-              )}
-            />
-          </div>
+      <TooltipProvider>
+        <SectionWrapper>
+          {isLoadingCommittee && <LoadningSpinner />}
+          {hasData && !committee && <MissingCommitteeSection />}
+          {showStandardViews && (
+            <div className="grid grid-cols-6 gap-20">
+              <div className="order-last col-span-6 md:order-first md:col-span-4">
+                <UpdateCommitteeMemberSection committee={committee} />
+              </div>
+              <div className="col-span-6 flex flex-col items-center md:col-span-2">
+                <UpdateCommitteeSection committee={committee} />
+              </div>
+            </div>
+          )}
         </SectionWrapper>
-      )}
+      </TooltipProvider>
     </RoleWrapper>
   );
 };

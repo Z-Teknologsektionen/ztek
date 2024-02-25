@@ -78,6 +78,7 @@ export const upsertCommitteeSocialLinksBaseSchema = z.object({
 });
 
 export const updateCommitteeAsActiveSchema = upsertCommitteeBaseSchema
+  .merge(upsertCommitteeSocialLinksBaseSchema)
   .partial()
   .extend({ id: objectId });
 
