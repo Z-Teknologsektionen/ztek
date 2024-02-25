@@ -1,9 +1,9 @@
 import type { FC } from "react";
 import { useFieldArray, type Control } from "react-hook-form";
-import { FaArrowDown, FaArrowUp, FaPlus, FaTrash } from "react-icons/fa6";
+import { FaArrowDown, FaArrowUp, FaTrash } from "react-icons/fa6";
 import { BasicInput } from "~/components/forms/basic-input";
 import SelectCommitteeSocialIcon from "~/components/forms/select-committee-social-icon";
-import ButtonWithIconAndTooltip from "~/components/tooltips/button-with-icon-and-tooltip";
+import { Button } from "~/components/ui/button";
 import { FormDescription } from "~/components/ui/form";
 import { Label } from "~/components/ui/label";
 import { TooltipProvider } from "~/components/ui/tooltip";
@@ -32,8 +32,8 @@ const UpsertCommitteeSocialLinksFormAsActiveSection: FC<
       <div className="flex flex-col gap-2">
         <div className="flex flex-row items-center justify-between">
           <Label>Sociala länkar (valfri)</Label>
-          <ButtonWithIconAndTooltip
-            icon={FaPlus}
+          <Button
+            className="ml-2 h-8 px-2 lg:px-3"
             onClick={() =>
               addSocialIcon({
                 iconAndUrl: {
@@ -43,13 +43,16 @@ const UpsertCommitteeSocialLinksFormAsActiveSection: FC<
                 order: MAX_ORDER_NUMBER,
               })
             }
-            size={10}
-            tooltipText="Lägg till ny social länk"
-          />
+            size="lg"
+            type="button"
+            variant="outline"
+          >
+            Ny social länk
+          </Button>
         </div>
         {socialLinks.length === 0 ? (
           <FormDescription className="text-xs">
-            Inga sociala länkar. Lägg till första genom att klicka på +
+            Inga sociala länkar.
           </FormDescription>
         ) : (
           <div className="flex flex-col gap-2">
