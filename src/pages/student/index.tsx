@@ -3,7 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { IconContext } from "react-icons";
 import { MdEmail, MdInfo } from "react-icons/md";
+import ExternalLink from "~/components/layout/external-link";
 import HeadLayout from "~/components/layout/head-layout";
+import ImageWithCredit from "~/components/layout/image-with-credit";
+import ImageWithDescription from "~/components/layout/image-with-description";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
@@ -129,16 +132,14 @@ const StudentPage: NextPage = () => {
                 möjligheter att få hjälp och möjlighet att påverka dina studier.
                 Här nedanför finns lite information om vad som finns
                 tillgängligt för dig som student och information om programmet.
-                Programmets studieplan hittar du på{" "}
-                <Link
-                  className="text-blue-600 hover:text-blue-800 hover:underline"
-                  href={
-                    "https://www.chalmers.se/utbildning/hitta-program/automation-och-mekatronik-civilingenjor/"
-                  }
+                Programmets studieplan hittar du på
+                <ExternalLink
+                  href="https://www.chalmers.se/utbildning/hitta-program/automation-och-mekatronik-civilingenjor/"
                   target="_blank"
                 >
-                  Chalmers hemsida
-                </Link>{" "}
+                  {" "}
+                  Chalmers hemsida{" "}
+                </ExternalLink>
                 där du också kan läsa mer om de olika kurserna som du läser
                 varje år. Som student på Z-programmet har man stor möjlighet att
                 välja olika mastrar beroende på intresseområde då över 20 olika
@@ -148,32 +149,27 @@ const StudentPage: NextPage = () => {
               </p>
             </div>
             <div className="col-span-3 mx-auto mt-4 md:col-span-1 md:my-auto">
-              <Image
-                alt="image"
-                className="rounded"
-                height={600}
+              <ImageWithCredit
+                alt="Bild på zäta-studenter"
+                height={800}
+                photoCommittee="zFoto"
+                photographer="Casper Ludberg"
                 src="/z_student.jpg"
-                width={600}
+                width={800}
               />
-              <p className="mt-2 text-center">Foto: Casper Lundberg/zFoto</p>
             </div>
           </div>
         </SectionWrapper>
         <SectionWrapper id="snz">
           <div className="grid grid-cols-3">
-            <div className="order-last col-span-3 m-auto lg:order-first lg:col-span-1">
-              <Image
-                alt="image"
-                className="rounded"
-                height={250}
+            <div className="order-last col-span-3 m-2 lg:order-first lg:col-span-1">
+              <ImageWithDescription
+                alt="Snz logga"
+                description="SNZ - Sektionens studienämnd"
+                height={300}
                 src="/SNZ.png"
-                width={250}
+                width={300}
               />
-              <div className="mt-0 text-center">
-                <p>
-                  <strong>SNZ</strong> - sektionens studienämnd.
-                </p>
-              </div>
             </div>
             <div className="order-first col-span-3 pl-4 lg:order-last lg:col-span-2">
               <SectionTitle className="mb-4">Påverka dina studier</SectionTitle>

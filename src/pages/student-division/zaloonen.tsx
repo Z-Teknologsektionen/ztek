@@ -1,8 +1,8 @@
 import type { GetStaticProps, NextPage } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import DocumentsAccordionItem from "~/components/documents/documents-accordion-item";
 import HeadLayout from "~/components/layout/head-layout";
+import ImageWithCredit from "~/components/layout/image-with-credit";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
 import { Accordion } from "~/components/ui/accordion";
@@ -21,7 +21,7 @@ const ZaloonenPage: NextPage = () => {
     <>
       <HeadLayout title="Zaloonen" />
       <SectionWrapper>
-        <SectionTitle className="mb-4">Om Zaloonen</SectionTitle>
+        <SectionTitle className="mb-4">Zaloonen</SectionTitle>
         <div className="grid grid-cols-5 gap-x-20">
           <div className="col-span-full lg:col-span-3">
             <p className="max-w-3xl">
@@ -49,15 +49,15 @@ const ZaloonenPage: NextPage = () => {
               <br />
             </p>
           </div>
-          <div className="col-span-full mx-auto mt-4 max-w-md lg:col-span-2">
-            <Image
-              alt="Zaloonen Image"
-              className="rounded"
+          <div className="col-span-full mt-4 max-w-md lg:col-span-2">
+            <ImageWithCredit
+              alt="Image of Zaloonen"
               height={1000}
+              photoCommittee="zFoto"
+              photographer="Dennis Holmström"
               src="/zaloonen.jpg"
               width={1000}
             />
-            <p className="mt-2 text-center">Foto: Dennis Holmström/zFoto</p>
           </div>
         </div>
       </SectionWrapper>

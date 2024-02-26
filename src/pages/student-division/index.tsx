@@ -162,6 +162,7 @@ const StudentDivision: NextPage = () => {
                 {documentIsError && <p>Dokument kunde inte hämtas.</p>}
                 {documentData &&
                   documentData.Document.map((doc) => (
+                    //Hittade inget bra sätt att konvertera detta till en ImageWIthDescription, tooltipen funkar inte.
                     <div
                       key={doc.title}
                       className="col-span-1 mx-2 mb-2 overflow-hidden"
