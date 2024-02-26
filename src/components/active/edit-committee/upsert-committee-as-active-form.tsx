@@ -3,7 +3,6 @@ import type { z } from "zod";
 import FormWrapper from "~/components/forms/form-wrapper";
 import { ImageInput } from "~/components/forms/image-input";
 import { TextAreaInput } from "~/components/forms/textarea-input";
-import { FormDescription } from "~/components/ui/form";
 import {
   COMMITTEE_IMAGE_QUALITY,
   COMMITTEE_IMAGE_SIZE,
@@ -37,10 +36,6 @@ const UpsertCommitteeAsActiveForm: FC<UpsertCommitteeAsActiveFormProps> = ({
       onValid={onSubmit}
       resetForm={() => form.reset()}
     >
-      <FormDescription>
-        Du som aktiv kan inte uppdatera alla fält, så som du vill ändra något
-        mer än detta måste du kontakta en Webbgruppen.
-      </FormDescription>
       <ImageInput
         control={form.control}
         label="Bild (valfri)"

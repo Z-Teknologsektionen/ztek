@@ -5,6 +5,7 @@ import { MdEdit, MdUpdate } from "react-icons/md";
 import UpsertCommitteeAsActiveForm from "~/components/active/edit-committee/upsert-committee-as-active-form";
 import CommitteeSocialIcon from "~/components/committees/committee-social-icon";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
+import IconNextToText from "~/components/layout/icon-next-to-text";
 import IconWithTooltip from "~/components/tooltips/icon-with-tooltip";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import {
@@ -29,10 +30,11 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
     onSuccess: () => setOpenFormId(null),
   });
   return (
-    <div className="top-* sticky">
+    <div className="sticky top-2">
       <Card className="flex flex-col content-center items-center bg-cardBackground text-center">
         <div className="self-end">
           <UpsertDialog
+            description="Du som aktiv kan inte uppdatera alla fält, så som du vill ändra något mer än detta måste du kontakta en Webbgruppen"
             form={
               <UpsertCommitteeAsActiveForm
                 key={committee.id}
@@ -68,7 +70,7 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
             title="Uppdatera organ"
             trigger={
               <IconWithTooltip
-                className="hover:fill-orange-500"
+                className="mr-1 mt-1 hover:fill-orange-500"
                 icon={MdEdit}
                 size={25}
                 tooltipText="Redigera information"
@@ -78,7 +80,7 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
         </div>
         <CardHeader className="pt-0">
           <Avatar className="h-60 w-60">
-            <AvatarImage src={committee?.image} />
+            <AvatarImage className="object-cover" src={committee?.image} />
             <AvatarFallback>Bild saknas</AvatarFallback>
           </Avatar>
           <CardTitle className="pt-2">{committee?.name}</CardTitle>
@@ -116,11 +118,16 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
         </CardContent>
         <CardFooter>
           <CardDescription className="mt-4 flex flex-row gap-2 text-xs">
-            <IconWithTooltip
+            <IconNextToText
+              icon={MdUpdate}
+              text={dayjs(committee.updatedAt).fromNow()}
+              tooltipText="Uppdaterades senast"
+            />
+            {/* <IconWithTooltip
               icon={MdUpdate}
               tooltipText={"Uppdaterades senast"}
             />
-            {dayjs(committee.updatedAt).fromNow()}
+            {dayjs(committee.updatedAt).fromNow()} */}
           </CardDescription>
         </CardFooter>
       </Card>

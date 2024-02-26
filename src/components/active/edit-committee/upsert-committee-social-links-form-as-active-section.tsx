@@ -59,7 +59,10 @@ const UpsertCommitteeSocialLinksFormAsActiveSection: FC<
             {socialLinks.map(
               ({ iconAndUrl: { iconVariant, url }, id }, idx) => {
                 return (
-                  <div key={id} className="flex flex-row  justify-between px-2">
+                  <div
+                    key={id}
+                    className="flex flex-row justify-between gap-2 px-2"
+                  >
                     <div className="flex gap-2">
                       <SelectCommitteeSocialIcon
                         control={control}
@@ -75,7 +78,7 @@ const UpsertCommitteeSocialLinksFormAsActiveSection: FC<
                         name={`socialLinks.${idx}.iconAndUrl.url`}
                       />
                     </div>
-                    <div className="flex items-end gap-1 pb-4">
+                    <div className="flex items-end gap-2 pb-4">
                       <FaArrowUp
                         className="cursor-pointer hover:fill-zLightGray"
                         onClick={() =>

@@ -5,7 +5,6 @@ import { BasicInput } from "~/components/forms/basic-input";
 import FormWrapper from "~/components/forms/form-wrapper";
 import { ImageInput } from "~/components/forms/image-input";
 import { NumberInput } from "~/components/forms/number-input";
-import { FormDescription } from "~/components/ui/form";
 import {
   COMMITTEE_IMAGE_QUALITY,
   COMMITTEE_IMAGE_SIZE,
@@ -39,11 +38,6 @@ export const UpsertMemberAsActiveForm: FC<UpdateMemberAsActiveProps> = ({
       onValid={onSubmit}
       resetForm={() => form.reset()}
     >
-      <FormDescription>
-        Om du lämnar både &quot;Namn&quot; och &quot;Kommitténamn&quot; tomma så
-        kommer personen inte visas på hemsidan. Om du vill att de ska visas ändå
-        kan du sätta namnet till &quot;Vakant&quot;
-      </FormDescription>
       <BasicInput control={form.control} label="Namn" name="name" />
       <BasicInput control={form.control} label="Kommitténamn" name="nickName" />
       <BasicInput
