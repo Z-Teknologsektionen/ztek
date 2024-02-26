@@ -37,7 +37,6 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
   interface JWT extends DefaultJWT {
     email: string;
-    roles: AccountRoles[];
   }
 }
 
@@ -58,7 +57,6 @@ const authOptions: NextAuthOptions = {
       if (user) {
         return {
           ...token,
-          roles: user.roles,
           email: user.email,
         };
       }
@@ -72,14 +70,21 @@ const authOptions: NextAuthOptions = {
         select: {
           id: true,
           committeeId: true,
+          user: {
+            select: {
+              roles: true,
+            },
+          },
         },
       });
-
+      if (!committeeMember) {
+        return session;
+      }
       return {
         ...session,
         user: {
           ...session.user,
-          roles: token.roles,
+          roles: committeeMember.user?.roles || [],
           email: token.email,
           memberId: committeeMember?.id,
           committeeId: committeeMember?.committeeId,

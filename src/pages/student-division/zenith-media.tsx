@@ -2,10 +2,10 @@ import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
-import HeadLayout from "~/components/layout/HeadLayout";
-import SecondaryTitle from "~/components/layout/SecondaryTitle";
-import SectionTitle from "~/components/layout/SectionTitle";
-import SectionWrapper from "~/components/layout/SectionWrapper";
+import HeadLayout from "~/components/layout/head-layout";
+import SecondaryTitle from "~/components/layout/secondary-title";
+import SectionTitle from "~/components/layout/section-title";
+import SectionWrapper from "~/components/layout/section-wrapper";
 import { Skeleton } from "~/components/ui/skeleton";
 import {
   Tooltip,
@@ -16,6 +16,7 @@ import {
 import ssg from "~/server/api/helpers/ssg";
 import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
+import { openUrlAsPdf } from "~/utils/open-url-as-pdf";
 
 type IZenithMediaCard =
   RouterOutputs["zenithMedia"]["getAllByYear"][0]["mediaArray"][0];
@@ -32,7 +33,7 @@ export const ZenithMediaCard: FC<IZenithMediaCard> = ({
       <TooltipTrigger asChild>
         <Link
           className="relative h-[187.5px] w-[125px]"
-          href={isPDF ? `https://docs.google.com/viewer?url=${url}` : url}
+          href={openUrlAsPdf({ url, isPDF })}
           rel="noopener noreferrer"
           target="_blank"
         >

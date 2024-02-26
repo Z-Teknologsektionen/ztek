@@ -2,15 +2,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { BasicInput } from "~/components/forms/BasicInput";
-import { DropdownInput } from "~/components/forms/DropdownInput";
-import { ImageInput } from "~/components/forms/ImageInput";
-import { NumberInput } from "~/components/forms/NumberInput";
-import type { IUpsertForm } from "~/components/forms/form-types";
+import { BasicInput } from "~/components/forms/basic-input";
+import { DropdownInput } from "~/components/forms/dropdown-input";
+import { ImageInput } from "~/components/forms/image-input";
+import { NumberInput } from "~/components/forms/number-input";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
-import { createMemberSchema } from "~/server/api/helpers/schemas/members";
+import {
+  COMMITTEE_IMAGE_QUALITY,
+  COMMITTEE_IMAGE_SIZE,
+  MAX_ORDER_NUMBER,
+  MIN_ORDER_NUMBER,
+} from "~/constants/committees";
+import { createMemberSchema } from "~/schemas/member";
+import type { IUpsertForm } from "~/types/form-types";
 import { api } from "~/utils/api";
 
 type UpsertMemberFormProps = IUpsertForm<typeof createMemberSchema>;
@@ -21,6 +27,9 @@ const DEFAULT_VALUES: UpsertMemberFormProps["defaultValues"] = {
   image: "",
   name: "",
   nickName: "",
+  email: "",
+  role: "",
+  committeeId: "",
 };
 
 export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
@@ -33,7 +42,7 @@ export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
     defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
 
-  const { data: committees } = api.committee.getAllAsAdmin.useQuery();
+  const { data: committees } = api.committee.getAllAsAuthed.useQuery();
 
   return (
     <Form {...form}>
@@ -66,8 +75,8 @@ export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
           />
 
           <DropdownInput
-            control={form.control}
             description="Hittar du inte rätt organ? Du kan lägga till fler organ som administratör."
+            form={form}
             label="Tillhör organ"
             mappable={committees || []}
             name="committeeId"
@@ -77,8 +86,8 @@ export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
             control={form.control}
             description="Används för att bestämma vilken ordning organets medlemmar ska visas i"
             label="Ordning"
-            max={99}
-            min={0}
+            max={MAX_ORDER_NUMBER}
+            min={MIN_ORDER_NUMBER}
             name="order"
           />
           <BasicInput
@@ -91,7 +100,10 @@ export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
           <ImageInput
             control={form.control}
             label="Bild (valfri)"
+            maxHeight={COMMITTEE_IMAGE_SIZE}
+            maxWidth={COMMITTEE_IMAGE_SIZE}
             name="image"
+            quality={COMMITTEE_IMAGE_QUALITY}
           />
         </div>
         <DialogFooter>

@@ -22,7 +22,7 @@ export const ProgramBoardTableToolbar = <TData,>({
   const {
     mutate: createNewProgramBoardMember,
     isLoading: creatingNewProgramBoardMember,
-  } = api.programBoard.createOne.useMutation({
+  } = api.programBoard.createOneAsAuthed.useMutation({
     onMutate: () => toast.loading("Skapar nytt organ..."),
     onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
     onSuccess: () => {
@@ -49,7 +49,6 @@ export const ProgramBoardTableToolbar = <TData,>({
             form={
               <UpsertProgramBoardMemberForm
                 key={"new"}
-                defaultValues={{}}
                 formType="create"
                 onSubmit={(values) => createNewProgramBoardMember(values)}
               />

@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { objectId } from "~/server/api/helpers/customZodTypes";
+import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
   createZenithMediaSchema,
   updateZenithMediaSchema,
-} from "~/server/api/helpers/schemas/zenith-media";
+} from "~/schemas/zenith-media";
 import {
   createTRPCRouter,
   publicProcedure,
@@ -35,12 +35,12 @@ export const zenithMediaRouter = createTRPCRouter({
 
     return formatedData;
   }),
-  getAllAsAuthorized: zenithMediaProcedure.query(async ({ ctx }) => {
+  getAllAsAuthed: zenithMediaProcedure.query(async ({ ctx }) => {
     return ctx.prisma.zenithMedia.findMany({
       orderBy: { createdAt: "desc" },
     });
   }),
-  createOne: zenithMediaProcedure
+  createOneAsAuthed: zenithMediaProcedure
     .input(createZenithMediaSchema)
     .mutation(async ({ ctx, input: { isPDF, title, url, year, image } }) => {
       return ctx.prisma.zenithMedia.create({
@@ -53,7 +53,7 @@ export const zenithMediaRouter = createTRPCRouter({
         },
       });
     }),
-  updateOne: zenithMediaProcedure
+  updateOneAsAuthed: zenithMediaProcedure
     .input(updateZenithMediaSchema)
     .mutation(
       async ({ ctx, input: { id, isPDF, title, url, year, image } }) => {
@@ -71,7 +71,7 @@ export const zenithMediaRouter = createTRPCRouter({
         });
       },
     ),
-  deleteOne: zenithMediaProcedure
+  deleteOneAsAuthed: zenithMediaProcedure
     .input(z.object({ id: objectId }))
     .mutation(async ({ ctx, input: { id } }) => {
       return ctx.prisma.zenithMedia.delete({

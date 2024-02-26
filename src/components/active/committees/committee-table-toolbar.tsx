@@ -1,12 +1,9 @@
-"use client";
-
 import type { Table } from "@tanstack/react-table";
 import { useState } from "react";
-import toast from "react-hot-toast";
 import UpsertCommitteeForm from "~/components/active/committees/upsert-committee-form";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
-import { api } from "~/utils/api";
+import { useCreateCommitteeAsAuthed } from "~/hooks/mutations/useMutateCommittee";
 
 interface CommitteeTableToolbarProps<TData> {
   table: Table<TData>;
@@ -15,27 +12,13 @@ interface CommitteeTableToolbarProps<TData> {
 export const CommitteeTableToolbar = <TData,>({
   table: _table,
 }: CommitteeTableToolbarProps<TData>): JSX.Element => {
-  const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: createNewCommittee, isLoading: creatingNewCommittee } =
-    api.committee.createCommittee.useMutation({
-      onMutate: () => toast.loading("Skapar nytt organ..."),
-      onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-      onSuccess: ({ name }) => {
-        toast.success(`Ett nytt organ med namnet: ${name} har skapats!`);
-        setIsOpen(false);
-        void ctx.committee.invalidate();
-        void ctx.member.invalidate();
-      },
-      onError: (error) => {
-        if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("Något gick fel. Försök igen senare");
-        }
-      },
+    useCreateCommitteeAsAuthed({
+      onSuccess: () => setIsOpen(false),
     });
+
   return (
     <div className="overflow-x-auto">
       <div className="flex items-center justify-between">

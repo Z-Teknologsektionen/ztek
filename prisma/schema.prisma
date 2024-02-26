@@ -11,21 +11,26 @@ datasource db {
 }
 
 model Committee {
-    id             String            @id @default(auto()) @map("_id") @db.ObjectId
-    name           String
-    description    String
-    image          String            @default("")
-    slug           String            @unique
+    id         String  @id @default(auto()) @map("_id") @db.ObjectId
+    documentId String? @db.ObjectId
+
+    name        String
+    description String
+    image       String                @default("")
+    socialLinks CommitteeSocialLink[]
+
+    slug           String        @unique
     role           String
-    email          String            @unique
+    email          String        @unique
     order          Int
-    electionPeriod Int               @default(1)
-    committeeType  CommitteeType     @default(COMMITTEE)
-    link           String            @default("")
-    linkText       String            @default("")
-    members        CommitteeMember[]
-    OldCommittee   OldCommittee[]
-    updatedAt      DateTime          @updatedAt
+    electionPeriod Int           @default(1)
+    committeeType  CommitteeType @default(COMMITTEE)
+
+    members      CommitteeMember[]
+    oldCommittee OldCommittee[]
+    document     Document?         @relation(fields: [documentId], references: [id])
+
+    updatedAt DateTime @updatedAt
 }
 
 enum CommitteeType {
@@ -35,16 +40,43 @@ enum CommitteeType {
     OTHER
 }
 
+type CommitteeSocialLink {
+    url         String
+    iconVariant IconEnum
+    order       Int      @default(100)
+}
+
+enum IconEnum {
+    FACEBOOK
+    MAIL
+    LINK
+    INSTAGRAM
+    LINKEDIN
+    SPOTIFY
+    TIKTOK
+    TWITCH
+    YOUTUBE
+    XTWITTER
+    THREADS
+    CAMERA
+    QUESTIONMARK
+    HOME
+    DOCUEMNT
+}
+
 model OldCommittee {
-    id                   String      @id @default(auto()) @map("_id") @db.ObjectId
-    name                 String
-    year                 Int
-    image                String      @default("")
-    logo                 String      @default("")
-    members              OldMember[]
-    belongsToCommittee   Committee   @relation(fields: [belongsToCommitteeId], references: [id], onDelete: Restrict)
-    belongsToCommitteeId String      @db.ObjectId
-    updatedAt            DateTime    @updatedAt
+    id                   String @id @default(auto()) @map("_id") @db.ObjectId
+    belongsToCommitteeId String @db.ObjectId
+
+    name    String
+    year    Int
+    image   String      @default("")
+    logo    String      @default("")
+    members OldMember[]
+
+    belongsToCommittee Committee @relation(fields: [belongsToCommitteeId], references: [id], onDelete: Restrict)
+
+    updatedAt DateTime @updatedAt
 }
 
 type OldMember {
@@ -55,19 +87,23 @@ type OldMember {
 }
 
 model CommitteeMember {
-    id          String    @id @default(auto()) @map("_id") @db.ObjectId
-    committeeId String    @db.ObjectId
-    userId      String?   @db.ObjectId
-    name        String    @default("")
-    nickName    String    @default("")
-    phone       String    @default("")
-    image       String    @default("")
-    order       Int       @default(0)
-    role        String
-    email       String
-    committee   Committee @relation(fields: [committeeId], references: [id], onDelete: Restrict)
-    user        User?     @relation(fields: [userId], references: [id])
-    updatedAt   DateTime  @updatedAt
+    id          String  @id @default(auto()) @map("_id") @db.ObjectId
+    committeeId String  @db.ObjectId
+    userId      String? @db.ObjectId
+
+    name     String @default("")
+    nickName String @default("")
+    phone    String @default("")
+    image    String @default("")
+    order    Int    @default(0)
+
+    role  String
+    email String
+
+    committee Committee @relation(fields: [committeeId], references: [id], onDelete: Restrict)
+    user      User?     @relation(fields: [userId], references: [id])
+
+    updatedAt DateTime @updatedAt
 }
 
 model ZenithMedia {
@@ -91,7 +127,8 @@ model Document {
     url   String
     isPDF Boolean @default(false)
 
-    group DocumentGroup @relation(fields: [groupId], references: [id], onDelete: Restrict)
+    group              DocumentGroup @relation(fields: [groupId], references: [id], onDelete: Restrict)
+    linkedToCommittees Committee[]
 }
 
 model DocumentGroup {
@@ -161,7 +198,7 @@ model User {
 enum AccountRoles {
     ZALOONEN
     CREATE_POST
-    MODIFY_ROLES
+    ORGANIZATION_MANAGEMENT
     MODIFY_DOCUMENTS
     MODIFY_PROGRAM_BOARD
     MODIFY_ZENITH_MEDIA

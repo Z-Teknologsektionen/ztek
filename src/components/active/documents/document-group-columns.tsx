@@ -4,7 +4,7 @@ import { DataTableViewOptions } from "~/components/data-table/data-table-view-op
 import { type RouterOutputs } from "~/utils/api";
 import { DocumentGroupTableActions } from "./document-group-table-actions";
 
-type DocumentGroupType = RouterOutputs["document"]["getAllGroupsAsAdmin"][0];
+type DocumentGroupType = RouterOutputs["document"]["getAllGroupsAsAuthed"][0];
 
 export const documentGroupColumns: ColumnDef<DocumentGroupType>[] = [
   {

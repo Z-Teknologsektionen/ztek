@@ -4,8 +4,7 @@ import { PopoverClose } from "@radix-ui/react-popover";
 import { PlusIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
-import toast from "react-hot-toast";
-import { Badge } from "~/components/ui/badge";
+import BadgeCell from "~/components/columns/badge-cell";
 import { Button } from "~/components/ui/button";
 import {
   Command,
@@ -21,7 +20,7 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import { Separator } from "~/components/ui/separator";
-import { api } from "~/utils/api";
+import { useUpdateUserAsAuthed } from "~/hooks/mutations/useMutateUserAsAuthed";
 import { cn } from "~/utils/utils";
 
 interface MemberRolesActionsProps {
@@ -45,35 +44,16 @@ export const MemberRolesActions = ({
     [currentRoles, selectedValues],
   );
 
-  const ctx = api.useUtils();
-
-  const { mutate: updateUser, isLoading: updatingUser } =
-    api.user.updateUserRolesAsAdmin.useMutation({
-      onMutate: () => toast.loading("Uppdaterar behörigheter..."),
-      onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-      onSuccess: ({ roles }) => {
-        toast.success(`Följade behörigheter har satts: ${roles.join(", ")}`);
-        void ctx.user.invalidate();
-        void ctx.member.invalidate();
-      },
-      onError: (error) => {
-        if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("Något gick fel. Försök igen senare");
-        }
-      },
-    });
+  const { mutate: updateUser, isLoading: updatingUser } = useUpdateUserAsAuthed(
+    {},
+  );
 
   return (
     <Popover>
       <PopoverTrigger>
-        <Badge
-          className="grid place-items-center p-1 hover:cursor-pointer hover:bg-blue-50"
-          variant="outline"
-        >
+        <BadgeCell className="p-1 hover:cursor-pointer hover:bg-blue-50">
           <PlusIcon className="h-3 w-3" />
-        </Badge>
+        </BadgeCell>
       </PopoverTrigger>
       <PopoverContent align="start" className="w-auto p-0">
         <Command>

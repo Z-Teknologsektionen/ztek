@@ -1,10 +1,11 @@
 import type { ColumnDef } from "@tanstack/react-table";
+import BooleanCell from "~/components/columns/boolean-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
 import { type RouterOutputs } from "~/utils/api";
 import { DocumentTableActions } from "./document-table-actions";
 
-export type DocumentType = RouterOutputs["document"]["getAllAsAdmin"][0];
+export type DocumentType = RouterOutputs["document"]["getAllAsAuthed"][0];
 
 export const documentColumns: ColumnDef<DocumentType>[] = [
   {
@@ -41,7 +42,7 @@ export const documentColumns: ColumnDef<DocumentType>[] = [
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       return value && row.getValue(id);
     },
-    cell: ({ row }) => (row.original.isPDF ? "Ja" : "Nej"),
+    cell: ({ row }) => <BooleanCell value={row.original.isPDF} />,
   },
   {
     id: "actions",

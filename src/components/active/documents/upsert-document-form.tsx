@@ -2,20 +2,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { BasicInput } from "~/components/forms/BasicInput";
-import { BooleanInput } from "~/components/forms/BooleanInput";
-import { DropdownInput } from "~/components/forms/DropdownInput";
-import type { IUpsertForm } from "~/components/forms/form-types";
+import { BasicInput } from "~/components/forms/basic-input";
+import { BooleanInput } from "~/components/forms/boolean-input";
+import { DropdownInput } from "~/components/forms/dropdown-input";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
-import { createDocumentSchema } from "~/server/api/helpers/schemas/documents";
+import { createDocumentSchema } from "~/schemas/document";
+import type { IUpsertForm } from "~/types/form-types";
 import { api } from "~/utils/api";
 
 type UpsertDocumentFormProps = IUpsertForm<typeof createDocumentSchema>;
 
 const DEFAULT_VALUES: UpsertDocumentFormProps["defaultValues"] = {
   isPDF: false,
+  title: "",
+  url: "",
+  groupId: "",
 };
 
 export const UpsertDocumentForm: FC<UpsertDocumentFormProps> = ({
@@ -28,7 +31,8 @@ export const UpsertDocumentForm: FC<UpsertDocumentFormProps> = ({
     defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
 
-  const { data: documentsGroups } = api.document.getAllGroupsAsAdmin.useQuery();
+  const { data: documentsGroups } =
+    api.document.getAllGroupsAsAuthed.useQuery();
 
   return (
     <Form {...form}>
@@ -49,8 +53,8 @@ export const UpsertDocumentForm: FC<UpsertDocumentFormProps> = ({
             name="isPDF"
           />
           <DropdownInput
-            control={form.control}
             description={`Ett dokument måste tillhöra en grupp. Om du inte hittar en grupp som passar kan du skapa en ny fliken "Administera dokument".`}
+            form={form}
             label="Dokumentgrupp"
             mappable={documentsGroups || []}
             name="groupId"
@@ -65,7 +69,7 @@ export const UpsertDocumentForm: FC<UpsertDocumentFormProps> = ({
             type="button"
             variant={"outline"}
           >
-            Rensa
+            Återställ
           </Button>
           <Button type="submit" variant={"default"}>
             {formType === "create" ? "Skapa" : "Uppdatera"}

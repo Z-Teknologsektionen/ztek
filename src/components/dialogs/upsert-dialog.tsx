@@ -8,16 +8,16 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 
-interface IUpsertDialog {
+type UpsertDialogProps = {
   description?: string;
   form: ReactNode;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   title: string;
   trigger: ReactNode;
-}
+};
 
-export const UpsertDialog: FC<IUpsertDialog> = ({
+export const UpsertDialog: FC<UpsertDialogProps> = ({
   form,
   trigger,
   title,
@@ -27,7 +27,9 @@ export const UpsertDialog: FC<IUpsertDialog> = ({
 }) => {
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogTrigger asChild>
+        <div>{trigger}</div>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>

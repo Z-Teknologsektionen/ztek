@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { objectId } from "~/server/api/helpers/customZodTypes";
+import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
   createTRPCRouter,
   documentProcedure,
@@ -31,7 +31,7 @@ export const documentRouter = createTRPCRouter({
       },
     });
   }),
-  getAllGroupsAsAdmin: documentProcedure.query(async ({ ctx }) => {
+  getAllGroupsAsAuthed: documentProcedure.query(async ({ ctx }) => {
     const groups = await ctx.prisma.documentGroup.findMany({
       select: {
         id: true,
@@ -46,7 +46,7 @@ export const documentRouter = createTRPCRouter({
       ...rest,
     }));
   }),
-  getAllAsAdmin: documentProcedure.query(async ({ ctx }) => {
+  getAllAsAuthed: documentProcedure.query(async ({ ctx }) => {
     const documents = ctx.prisma.document.findMany({
       select: {
         group: {
@@ -67,16 +67,7 @@ export const documentRouter = createTRPCRouter({
     }));
   }),
 
-  getOne: documentProcedure
-    .input(
-      z.object({
-        id: objectId,
-      }),
-    )
-    .query(({ ctx, input }) => {
-      return ctx.prisma.document.findUniqueOrThrow({ where: { id: input.id } });
-    }),
-  createOne: documentProcedure
+  createOneAsAuthed: documentProcedure
     .input(
       z.object({
         title: z.string().min(1),
@@ -95,7 +86,7 @@ export const documentRouter = createTRPCRouter({
         },
       });
     }),
-  updateOne: documentProcedure
+  updateOneAsAuthed: documentProcedure
     .input(
       z.object({
         id: objectId,
@@ -116,7 +107,7 @@ export const documentRouter = createTRPCRouter({
         },
       });
     }),
-  deleteOne: documentProcedure
+  deleteOneAsAuthed: documentProcedure
     .input(
       z.object({
         id: objectId,
@@ -127,17 +118,6 @@ export const documentRouter = createTRPCRouter({
         where: {
           id: input.id,
         },
-      });
-    }),
-  getOneGroup: documentProcedure
-    .input(
-      z.object({
-        id: objectId,
-      }),
-    )
-    .query(({ ctx, input }) => {
-      return ctx.prisma.documentGroup.findUniqueOrThrow({
-        where: { id: input.id },
       });
     }),
   getOneGroupByName: publicProcedure
@@ -160,7 +140,7 @@ export const documentRouter = createTRPCRouter({
         },
       });
     }),
-  createOneGroup: documentProcedure
+  createOneGroupAsAuthed: documentProcedure
     .input(
       z.object({
         name: z.string().min(1),
@@ -175,7 +155,7 @@ export const documentRouter = createTRPCRouter({
         },
       });
     }),
-  updateOneGroup: documentProcedure
+  updateOneGroupAsAuthed: documentProcedure
     .input(
       z.object({
         id: objectId,
@@ -192,7 +172,7 @@ export const documentRouter = createTRPCRouter({
         },
       });
     }),
-  deleteOneGroup: documentProcedure
+  deleteOneGroupAsAuthed: documentProcedure
     .input(
       z.object({
         id: objectId,

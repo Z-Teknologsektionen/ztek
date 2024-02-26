@@ -3,14 +3,14 @@ import { TabsContent } from "@radix-ui/react-tabs";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import TabInformationSection from "~/components/active/tab-information-section";
-import RoleWrapper from "~/components/layout/RoleWrapper";
+import RoleWrapper from "~/components/layout/role-wrapper";
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { activeTabs } from "~/data/activeTabs";
+import { activeTabs } from "~/data/active-tabs";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 
-const AdminHomePage: NextPage = () => {
+const ActiveHomePage: NextPage = () => {
   const [selectedTab, setSelectedTab] = useState<string | undefined>(() => {
     // Get the selected tab from localStorage when the component mounts
     if (typeof window !== "undefined") {
@@ -62,7 +62,7 @@ const AdminHomePage: NextPage = () => {
         </div>
         <ScrollArea className="w-full">
           <div className="flex justify-center space-x-2">
-            <TabsList className="min-w-max rounded-none bg-zBlack px-4 text-white md:px-6 lg:rounded-b-2xl xl:px-4">
+            <TabsList className="h-12 min-w-max rounded-none rounded-b-2xl bg-zBlack py-6 text-white md:px-6 xl:px-4">
               {availableTabs.map((tab) => (
                 <TabsTrigger
                   key={tab.name}
@@ -73,15 +73,15 @@ const AdminHomePage: NextPage = () => {
                   {tab.name}
                 </TabsTrigger>
               ))}
+              <div className="bg-zDark h-2" />
+              <ScrollBar
+                className="mx-4 h-2 bg-zBlack"
+                color="white"
+                forceMount={true}
+                orientation="horizontal"
+              />
             </TabsList>
           </div>
-          <div className="bg-zDark h-2" />
-          <ScrollBar
-            className="h-2 bg-zBlack"
-            color="white"
-            forceMount={true}
-            orientation="horizontal"
-          />
         </ScrollArea>
         {activeTabs.map((tab) => {
           return (
@@ -102,4 +102,4 @@ const AdminHomePage: NextPage = () => {
   );
 };
 
-export default AdminHomePage;
+export default ActiveHomePage;

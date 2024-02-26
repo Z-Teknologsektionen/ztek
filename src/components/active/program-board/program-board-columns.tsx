@@ -4,7 +4,8 @@ import { DataTableViewOptions } from "~/components/data-table/data-table-view-op
 import type { RouterOutputs } from "~/utils/api";
 import { ProgramBoardMemberTableActions } from "./program-board-table-actions";
 
-type ProgramBoardType = RouterOutputs["programBoard"]["getAllAsAdmin"][0];
+export type ProgramBoardType =
+  RouterOutputs["programBoard"]["getAllAsAuthed"][0];
 
 export const programBoardColumns: ColumnDef<ProgramBoardType>[] = [
   {
@@ -86,11 +87,7 @@ export const programBoardColumns: ColumnDef<ProgramBoardType>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      const programBoardMember = {
-        ...row.original,
-        phone: row.original.phone || undefined,
-        image: row.original.image || undefined,
-      };
+      const programBoardMember = row.original;
 
       return (
         <div className="flex justify-center">

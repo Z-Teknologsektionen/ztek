@@ -1,8 +1,8 @@
 import type { GetStaticProps, NextPage } from "next";
-import DocumentsAccordionItem from "~/components/documents/DocumentsAccordionItem";
-import HeadLayout from "~/components/layout/HeadLayout";
-import SectionTitle from "~/components/layout/SectionTitle";
-import SectionWrapper from "~/components/layout/SectionWrapper";
+import DocumentsAccordionItem from "~/components/documents/documents-accordion-item";
+import HeadLayout from "~/components/layout/head-layout";
+import SectionTitle from "~/components/layout/section-title";
+import SectionWrapper from "~/components/layout/section-wrapper";
 import { Accordion } from "~/components/ui/accordion";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
