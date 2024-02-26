@@ -1,5 +1,6 @@
 import { Cross2Icon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
+import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { UpsertZenithMediaForm } from "~/components/active/zenith-media/upsert-zenith-media-form";
@@ -7,6 +8,7 @@ import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { api } from "~/utils/api";
+import type { ZenithFormValuesType } from "./zenith-media-table-actions";
 
 interface MemberTableToolbarProps<TData> {
   table: Table<TData>;
@@ -18,6 +20,33 @@ export const ZenithMediaTableToolbar = <TData,>({
   const isFiltered = table.getState().columnFilters.length > 0;
   const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleCreateZenithMediaFile = (_props: ZenithFormValuesType): void => {
+    // const formData = new FormData();
+
+    // formData.append("title", props.title);
+    // props.fileInput?.forEach((file, index) => {
+    //   formData.append(`file${index}`, file);
+    // });
+
+    axios
+      .get("/api/sftp/upload")
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    // axios
+    //   .post("/api/sftp/upload")
+    //   .then((response) => {
+    //     console.log(response);
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
+  };
 
   const { mutate: createNewZenithMedia, isLoading: creatingNewZenithMedia } =
     api.zenithMedia.createOneAsAuthed.useMutation({
@@ -74,7 +103,12 @@ export const ZenithMediaTableToolbar = <TData,>({
                   coverImage: "",
                 }}
                 formType="create"
-                onSubmit={(values) => createNewZenithMedia(values)}
+                onSubmit={(values) => {
+                  if (values.fileInput) {
+                    handleCreateZenithMediaFile(values);
+                  }
+                  // createNewZenithMedia(values);
+                }}
               />
             }
             isOpen={isOpen}
@@ -82,6 +116,7 @@ export const ZenithMediaTableToolbar = <TData,>({
             title="Skapa ny media"
             trigger={
               <Button
+                className="ml-2 h-8 px-2 lg:px-3"
                 disabled={creatingNewZenithMedia}
                 size="lg"
                 type="button"

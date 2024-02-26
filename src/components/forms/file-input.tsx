@@ -1,4 +1,4 @@
-import { useFormContext, type FieldValues, type Path } from "react-hook-form";
+import { type FieldValues, type Path } from "react-hook-form";
 import {
   FormControl,
   FormDescription,
@@ -9,7 +9,6 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import type { IFileInput } from "~/types/form-types";
-import { getBase64FromFile } from "~/utils/get-base64-from-file";
 import { cn } from "~/utils/utils";
 
 export const FileInput = <
@@ -28,11 +27,6 @@ export const FileInput = <
   accept = "image/png, image/jpeg, application/pdf",
   ...rest
 }: IFileInput<TFieldValues, TName>): JSX.Element => {
-  const form = useFormContext();
-  const setValue = (value: string): void => {
-    form.setValue(name as string, value);
-  };
-
   return (
     <FormField
       control={control}
@@ -49,13 +43,10 @@ export const FileInput = <
                 {...rest}
                 accept={accept}
                 className={cn("hover:cursor-pointer", className)}
-                onChange={(event) => {
-                  if (event.target?.files?.[0]) {
-                    getBase64FromFile(event.target?.files?.[0])
-                      .then((result) => setValue(result))
-                      .catch(() => {
-                        form.setValue(name as string, "");
-                      });
+                onChange={(e) => {
+                  if (e.target?.files?.[0]) {
+                    const filesArray = Array.from(e.target.files);
+                    field.onChange(filesArray);
                   }
                 }}
                 type="file"

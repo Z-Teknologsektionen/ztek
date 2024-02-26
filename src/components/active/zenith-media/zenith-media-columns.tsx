@@ -6,6 +6,10 @@ import { ZenithMediaTableActions } from "./zenith-media-table-actions";
 
 export type ZenithMediaType = RouterOutputs["zenithMedia"]["getAllAsAuthed"][0];
 
+export type ZenithMediaTypeWithFile = ZenithMediaType & {
+  fileInput: File[];
+};
+
 export const zenithMediaColumns: ColumnDef<ZenithMediaType>[] = [
   {
     id: "Titel",
@@ -34,16 +38,16 @@ export const zenithMediaColumns: ColumnDef<ZenithMediaType>[] = [
     enableResizing: true,
     filterFn: "inNumberRange",
   },
-  {
-    id: "PDF?",
-    accessorKey: "isPDF",
-    header: ({ column }) => <DataTableColumnHeader column={column} />,
-    cell: ({ row }) => (row.original.isPDF ? "Ja" : "Nej"),
-    enableSorting: true,
-    enableHiding: true,
-    enableResizing: true,
-    filterFn: "equals",
-  },
+  // {
+  //   id: "PDF?",
+  //   accessorKey: "isPDF",
+  //   header: ({ column }) => <DataTableColumnHeader column={column} />,
+  //   cell: ({ row }) => (row.original.isPDF ? "Ja" : "Nej"),
+  //   enableSorting: true,
+  //   enableHiding: true,
+  //   enableResizing: true,
+  //   filterFn: "equals",
+  // },
   {
     id: "actions",
     header: ({ table }) => (

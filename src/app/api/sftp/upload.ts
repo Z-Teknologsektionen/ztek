@@ -1,6 +1,12 @@
-export async function POST(request: Request): Promise<Response> {
-  const formData = await request.formData();
-  // const file = formData.get("file");
-  console.log("form data", formData);
-  return new Response("Hello, Next.js!");
+import type { NextApiRequest, NextApiResponse } from "next";
+
+type ResponseData = {
+  message: string;
+};
+
+export default function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<ResponseData>,
+): void {
+  res.status(200).json({ message: "Hello from Next.js!" });
 }

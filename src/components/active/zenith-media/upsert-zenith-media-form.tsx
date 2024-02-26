@@ -27,6 +27,7 @@ const DEFAULT_VALUES: UpsertZenithMediaFormProps["defaultValues"] = {
   year: new Date().getFullYear(),
   coverImage: "",
   title: "",
+  fileInput: undefined,
   url: "",
 };
 
@@ -48,7 +49,7 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
           <BasicInput control={form.control} label="Titel" name="title" />
           <NumberInput control={form.control} label="År" name="year" />
           <ImageInput
-            accept="image/*, application/pdf,"
+            accept="image/*,"
             control={form.control}
             description="Omslagsbild"
             label="Omslag"

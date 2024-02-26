@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { MoreHorizontal } from "lucide-react";
 import { useState, type FC } from "react";
 import toast from "react-hot-toast";
@@ -14,12 +15,24 @@ import {
 import { api } from "~/utils/api";
 import type { ZenithMediaType } from "./zenith-media-columns";
 
+export type ZenithFormValuesType = {
+  coverImage: string;
+  fileInput?: File[];
+  title: string;
+  url?: string | undefined;
+  year: number;
+};
+
 export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
   id,
   ...values
 }) => {
   const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleUpdateZenithMediaFile = (props: ZenithFormValuesType): void => {
+    console.log("update", props.fileInput?.length);
+  };
 
   const { mutate: updateZenithMedia } =
     api.zenithMedia.updateOneAsAuthed.useMutation({
@@ -69,14 +82,18 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
           form={
             <UpsertZenithMediaForm
               key={id}
-              defaultValues={values}
+              defaultValues={{ ...values }}
               formType="update"
-              onSubmit={({ ...rest }) =>
+              onSubmit={({ ...rest }) => {
+                console.log("Files", rest.fileInput);
+                if (rest.fileInput) {
+                  handleUpdateZenithMediaFile(rest);
+                }
                 updateZenithMedia({
                   id: id,
                   ...rest,
-                })
-              }
+                });
+              }}
             />
           }
           isOpen={isOpen}
