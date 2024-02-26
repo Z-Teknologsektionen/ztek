@@ -11,7 +11,6 @@ import { Button, buttonVariants } from "~/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { studentQuickLinks } from "~/data/student-quick-links";
@@ -27,33 +26,31 @@ const StudentPage: NextPage = () => {
 
       <div className="container mx-auto mt-8 divide-y-4 divide-zDarkGray divide-opacity-20">
         <SectionWrapper className="pt-2">
-          <TooltipProvider>
-            <div className="grid grid-cols-3 gap-3 md:grid-cols-5 lg:grid-cols-7">
-              {studentQuickLinks.map(({ href, icon: Icon, text, tooltip }) => (
-                <Tooltip key={text}>
-                  <TooltipTrigger asChild>
-                    <Link
-                      className="col-span-1 mx-auto flex flex-col items-center justify-center rounded-lg text-center transition-all hover:ring hover:ring-zWhite"
-                      href={href}
-                      target="_blank"
+          <div className="grid grid-cols-3 gap-3 md:grid-cols-5 lg:grid-cols-7">
+            {studentQuickLinks.map(({ href, icon: Icon, text, tooltip }) => (
+              <Tooltip key={text}>
+                <TooltipTrigger asChild>
+                  <Link
+                    className="col-span-1 mx-auto flex flex-col items-center justify-center rounded-lg text-center transition-all hover:ring hover:ring-zWhite"
+                    href={href}
+                    target="_blank"
+                  >
+                    <IconContext.Provider
+                      value={{
+                        color: "black",
+                      }}
                     >
-                      <IconContext.Provider
-                        value={{
-                          color: "black",
-                        }}
-                      >
-                        <Icon size="3rem" />
-                      </IconContext.Provider>
-                      <p className="text-center text-xs">{text}</p>
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent className="bg-zWhite">
-                    <p>{tooltip}</p>
-                  </TooltipContent>
-                </Tooltip>
-              ))}
-            </div>
-          </TooltipProvider>
+                      <Icon size="3rem" />
+                    </IconContext.Provider>
+                    <p className="text-center text-xs">{text}</p>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent className="bg-zWhite">
+                  <p>{tooltip}</p>
+                </TooltipContent>
+              </Tooltip>
+            ))}
+          </div>
         </SectionWrapper>
         <SectionWrapper className="p-2">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">

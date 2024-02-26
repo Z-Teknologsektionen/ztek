@@ -5,7 +5,6 @@ import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import DeleteTriggerButton from "~/components/buttons/delete-trigger-button";
 import EditTriggerButton from "~/components/buttons/edit-trigger-button";
 import DeleteDialog from "~/components/dialogs/delete-dialog";
-import { TooltipProvider } from "~/components/ui/tooltip";
 import { api } from "~/utils/api";
 import type { OldCommitteeType } from "./old-committee-columns";
 import UpsertOldCommitteeForm from "./upsert-old-committee-form";
@@ -53,32 +52,30 @@ export const OldCommitteeTableActions: FC<OldCommitteeType> = ({
     });
 
   return (
-    <TooltipProvider>
-      <div className="flex justify-end">
-        <UpsertDialog
-          form={
-            <UpsertOldCommitteeForm
-              key={id}
-              defaultValues={values}
-              formType="update"
-              onSubmit={(updatedValues) =>
-                updateOldCommittee({
-                  id: id,
-                  ...updatedValues,
-                })
-              }
-            />
-          }
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          title="Uppdatera patetorgan"
-          trigger={<EditTriggerButton />}
-        />
-        <DeleteDialog
-          onSubmit={() => deleteOldCommittee({ id })}
-          trigger={<DeleteTriggerButton />}
-        />
-      </div>
-    </TooltipProvider>
+    <div className="flex justify-end">
+      <UpsertDialog
+        form={
+          <UpsertOldCommitteeForm
+            key={id}
+            defaultValues={values}
+            formType="update"
+            onSubmit={(updatedValues) =>
+              updateOldCommittee({
+                id: id,
+                ...updatedValues,
+              })
+            }
+          />
+        }
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        title="Uppdatera patetorgan"
+        trigger={<EditTriggerButton />}
+      />
+      <DeleteDialog
+        onSubmit={() => deleteOldCommittee({ id })}
+        trigger={<DeleteTriggerButton />}
+      />
+    </div>
   );
 };
