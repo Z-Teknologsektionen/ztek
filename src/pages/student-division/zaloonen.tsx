@@ -1,5 +1,6 @@
 import type { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
+import CenteredButtonWithLink from "~/components/buttons/centered-button-with-link";
 import DocumentsAccordionItem from "~/components/documents/documents-accordion-item";
 import HeadLayout from "~/components/layout/head-layout";
 import ImageWithCredit from "~/components/layout/image-with-credit";
@@ -66,16 +67,9 @@ const ZaloonenPage: NextPage = () => {
         {isError && (
           <p>
             Du kan hitta Zaloonens dokument{" "}
-            <Link
-              className={buttonVariants({
-                variant: "link",
-                size: "default",
-                className: "px-0 font-normal",
-              })}
-              href={"/documents"}
-            >
+            <CenteredButtonWithLink href="/documents">
               här
-            </Link>
+            </CenteredButtonWithLink>
           </p>
         )}
         {isLoading && <p>Försöker hämta Zaloonens dokument...</p>}
