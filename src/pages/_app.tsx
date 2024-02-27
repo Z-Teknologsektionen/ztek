@@ -17,7 +17,7 @@ const MyApp: AppType<{
       <Toaster position="top-center" reverseOrder={false} />
       <HeadLayout description="Z-teknologsektionens hemsida"></HeadLayout>
       <div className="zWhite flex min-h-screen flex-col">
-        <TooltipProvider delayDuration={500}>
+        <TooltipProvider delayDuration={200}>
           <Navbar />
           <main className="flex-grow">
             <Component {...pageProps} />

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { IconContext } from "react-icons";
 import { MdEmail, MdInfo } from "react-icons/md";
+import CenteredButtonWithLink from "~/components/buttons/centered-button-with-link";
 import ExternalLink from "~/components/layout/external-link";
 import HeadLayout from "~/components/layout/head-layout";
 import ImageWithCredit from "~/components/layout/image-with-credit";
@@ -10,7 +11,6 @@ import ImageWithDescription from "~/components/layout/image-with-description";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
-import { Button, buttonVariants } from "~/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -19,7 +19,6 @@ import {
 import { studentQuickLinks } from "~/data/student-quick-links";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
-import { cn } from "~/utils/utils";
 
 const StudentPage: NextPage = () => {
   const { data, isLoading, isError } = api.programBoard.getAll.useQuery();
@@ -68,15 +67,9 @@ const StudentPage: NextPage = () => {
                   dig? Klicka här då.
                 </p>
               </div>
-              <Button
-                className="mx-auto mt-auto block w-fit transition-all hover:ring hover:ring-zWhite"
-                variant={"outline"}
-                asChild
-              >
-                <Link href="/student/student-health">
-                  Mer om studiesocialt stöd
-                </Link>
-              </Button>
+              <CenteredButtonWithLink href="/student/student-health">
+                Mer om studiesocialt stöd
+              </CenteredButtonWithLink>
             </div>
             <div className="col-span-1 my-4 flex flex-col rounded-md">
               <div className="pb-4">
@@ -86,13 +79,9 @@ const StudentPage: NextPage = () => {
                   för att läsa mer om programmet och vad du kan förvänta dig!
                 </p>
               </div>
-              <Button
-                className="mx-auto mt-auto block w-fit transition-all hover:ring hover:ring-zWhite"
-                variant={"outline"}
-                asChild
-              >
-                <Link href="/student/new-student">Mer information</Link>
-              </Button>
+              <CenteredButtonWithLink href="/student/new-student">
+                Mer information
+              </CenteredButtonWithLink>
             </div>
             <div className="col-span-1 my-4 flex flex-col rounded-md">
               <div className="pb-4">
@@ -105,15 +94,9 @@ const StudentPage: NextPage = () => {
                   med.
                 </p>
               </div>
-              <Button
-                className="mx-auto mt-auto block w-fit transition-all hover:ring hover:ring-zWhite"
-                variant={"outline"}
-                asChild
-              >
-                <Link href="#snz" scroll={false}>
-                  Mer information
-                </Link>
-              </Button>
+              <CenteredButtonWithLink href="#snz">
+                Mer information
+              </CenteredButtonWithLink>
             </div>
           </div>
           {/* 
@@ -197,17 +180,13 @@ const StudentPage: NextPage = () => {
                 eller feedback gällande utbildning inom programmet kan du
                 kontakta SNZ via deras hemsida.
               </p>
-              <div className="mx-auto mt-2 block w-fit">
-                <Link
-                  className={cn(
-                    buttonVariants({ variant: "outline", size: "lg" }),
-                  )}
-                  href={"https://snz.se"}
-                  target="_blank"
-                >
-                  Gå till snz.se
-                </Link>
-              </div>
+              <CenteredButtonWithLink
+                className="mt-2"
+                href="https://snz.se"
+                target="_blank"
+              >
+                Gå till snz.se
+              </CenteredButtonWithLink>
             </div>
           </div>
         </SectionWrapper>

@@ -1,13 +1,14 @@
 import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import CenteredButtonWithLink from "~/components/buttons/centered-button-with-link";
 import CommitteeImage from "~/components/committees/committee-image";
+import BreakText from "~/components/layout/break-text";
 import ExternalLink from "~/components/layout/external-link";
 import HeadLayout from "~/components/layout/head-layout";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
-import { Button } from "~/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -42,15 +43,9 @@ const StudentDivision: NextPage = () => {
                   själv. Här hålls sittningar, pluggkvällar och annat dylikt.
                 </p>
               </div>
-              <Button
-                className="mx-auto mt-auto block w-fit transition-all hover:ring hover:ring-zWhite"
-                variant={"outline"}
-                asChild
-              >
-                <Link href="/student-division/zaloonen">
-                  Ta mig till Zaloonen!
-                </Link>
-              </Button>
+              <CenteredButtonWithLink href="/student-division/zaloonen">
+                Ta mig till Zaloonen!
+              </CenteredButtonWithLink>
             </div>
             <div className="col-span-1 my-4 flex flex-col rounded-md">
               <div className="pb-4">
@@ -64,15 +59,9 @@ const StudentDivision: NextPage = () => {
                   läs mer här.
                 </p>
               </div>
-              <Button
-                className="mx-auto mt-auto block w-fit transition-all hover:ring hover:ring-zWhite"
-                variant={"outline"}
-                asChild
-              >
-                <Link href="#organ" scroll={false}>
-                  Mer om azpning
-                </Link>
-              </Button>
+              <CenteredButtonWithLink href="#organ">
+                Mer om azpning
+              </CenteredButtonWithLink>
             </div>
             <div className="col-span-1 my-4 flex flex-col rounded-md">
               <div className="pb-4">
@@ -85,15 +74,9 @@ const StudentDivision: NextPage = () => {
                   tillväga.
                 </p>
               </div>
-              <Button
-                className="mx-auto mt-auto block w-fit transition-all hover:ring hover:ring-zWhite"
-                variant={"outline"}
-                asChild
-              >
-                <Link href="#sektionsmote" scroll={false}>
-                  Mer information
-                </Link>
-              </Button>
+              <CenteredButtonWithLink href="#sektionsmote">
+                Mer information
+              </CenteredButtonWithLink>
             </div>
           </div>
         </SectionWrapper>
@@ -184,7 +167,7 @@ const StudentDivision: NextPage = () => {
                               src="/document_stack.svg"
                               width={100}
                             />
-                            {doc.title}
+                            <BreakText>{doc.title}</BreakText>
                           </Link>
                         </TooltipTrigger>
                         <TooltipContent className="bg-zWhite">
@@ -300,7 +283,10 @@ const StudentDivision: NextPage = () => {
                             className="mx-0 h-8 w-8"
                             filename={committee.image}
                           />
-                          <p
+                          <BreakText className="text-sm hover:underline">
+                            {committee.name}
+                          </BreakText>
+                          {/* <p
                             className="overflow-hidden text-sm hover:underline md:text-base"
                             style={{
                               textOverflow: "ellipsis",
@@ -308,7 +294,7 @@ const StudentDivision: NextPage = () => {
                             }}
                           >
                             {committee.name}
-                          </p>
+                          </p> */}
                         </Link>
                       ))}
                   </div>
