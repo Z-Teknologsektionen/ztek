@@ -18,8 +18,7 @@ const FormWrapper = <TData extends FieldValues>({
   resetForm,
   formType,
 }: PropsWithChildren<{
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  form: UseFormReturn<TData, any, undefined>;
+  form: UseFormReturn<TData>;
   formType: "create" | "update";
   onInvalid?: SubmitErrorHandler<TData>;
   onValid: SubmitHandler<TData>;

@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { BasicInput } from "~/components/forms/basic-input";
+import FormFieldInputText from "~/components/forms/form-field-input-text";
 import SelectCommitteeSocialIcon from "~/components/forms/select-committee-social-icon";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
@@ -35,15 +35,11 @@ export const UpsertCommitteeSocailIconsForm: FC<
       <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="max-h-96 space-y-4 overflow-y-auto p-1">
           <SelectCommitteeSocialIcon
-            control={form.control}
+            form={form}
             label="Icon"
             name="iconAndUrl.iconVariant"
           />
-          <BasicInput
-            control={form.control}
-            label="Länk"
-            name="iconAndUrl.url"
-          />
+          <FormFieldInputText form={form} label="Länk" name="iconAndUrl.url" />
         </div>
         <DialogFooter>
           <Button

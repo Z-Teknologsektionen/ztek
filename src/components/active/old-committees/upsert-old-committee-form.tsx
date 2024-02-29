@@ -3,17 +3,16 @@ import { AccountRoles } from "@prisma/client";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { BasicInput } from "~/components/forms/basic-input";
-import { DropdownInput } from "~/components/forms/dropdown-input";
-import { ImageInput } from "~/components/forms/image-input";
-import { NumberInput } from "~/components/forms/number-input";
-import { Button } from "~/components/ui/button";
-import { DialogFooter } from "~/components/ui/dialog";
-import { Form } from "~/components/ui/form";
+import FormFieldInputImage from "~/components/forms/form-field-input-image";
+import FormFieldInputNumber from "~/components/forms/form-field-input-number";
+import FormFieldInputText from "~/components/forms/form-field-input-text";
+import FormFieldSelect from "~/components/forms/form-field-select";
+import FormWrapper from "~/components/forms/form-wrapper";
 import {
   COMMITTEE_IMAGE_QUALITY,
   COMMITTEE_IMAGE_SIZE,
 } from "~/constants/committees";
+import { MAX_4_DIGIT_YEAR, MIN_4_DIGIT_YEAR } from "~/constants/size-constants";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { createOldCommitteeSchema } from "~/schemas/old-committee";
 import type { IUpsertForm } from "~/types/form-types";
@@ -45,8 +44,8 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
 
   const dropDownMappable = isAdmin
     ? api.committee.getAllAsAuthed.useQuery().data?.map((committee) => ({
-        id: committee.id,
-        name: committee.name,
+        value: committee.id,
+        label: committee.name,
       })) || []
     : [];
 
@@ -60,67 +59,55 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
   });
 
   return (
-    <Form {...form}>
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
-          <BasicInput
-            control={form.control}
-            description="Ex. Zexet 22"
-            label="Namn"
-            name="name"
-          />
-          {isAdmin && (
-            <DropdownInput
-              disabled={false}
-              form={form}
-              label="Huvudorgan"
-              mappable={dropDownMappable}
-              name="belongsToCommitteeId"
-              placeholder="Välj huvudorgan"
-            />
-          )}
-          <NumberInput
-            control={form.control}
-            description="Används för att sortera de olika åren. Så om man satt 22/23, skriv 2022"
-            label="År"
-            name="year"
-          />
-          <UpsertOldCommitteeMembersFormSection control={form.control} />
-          <ImageInput
-            control={form.control}
-            label="Omslagsbild (valfri)"
-            maxHeight={COMMITTEE_IMAGE_SIZE}
-            maxWidth={COMMITTEE_IMAGE_SIZE}
-            name="image"
-            quality={COMMITTEE_IMAGE_QUALITY}
-            containImage
-          />
-          <ImageInput
-            control={form.control}
-            label="Logga (valfri)"
-            maxHeight={COMMITTEE_IMAGE_SIZE}
-            maxWidth={COMMITTEE_IMAGE_SIZE}
-            name="logo"
-            quality={COMMITTEE_IMAGE_QUALITY}
-          />
-        </div>
-        <DialogFooter>
-          <Button
-            onClick={() => {
-              form.reset(defaultValues);
-            }}
-            type="button"
-            variant={"outline"}
-          >
-            Återställ
-          </Button>
-          <Button type="submit" variant={"default"}>
-            {formType === "create" ? "Skapa" : "Uppdatera"}
-          </Button>
-        </DialogFooter>
-      </form>
-    </Form>
+    <FormWrapper
+      form={form}
+      formType={formType}
+      onValid={onSubmit}
+      resetForm={() => form.reset()}
+    >
+      <FormFieldInputText
+        description="Ex. Zexet 22"
+        form={form}
+        label="Namn"
+        name="name"
+      />
+      {isAdmin && (
+        <FormFieldSelect
+          disabled={false}
+          form={form}
+          label="Huvudorgan"
+          name="belongsToCommitteeId"
+          options={dropDownMappable}
+          placeholder="Välj huvudorgan"
+        />
+      )}
+      <FormFieldInputNumber
+        description="Används för att sortera de olika åren. Så om man satt 22/23, skriv 2022"
+        form={form}
+        label="År"
+        max={MAX_4_DIGIT_YEAR}
+        min={MIN_4_DIGIT_YEAR}
+        name="year"
+      />
+      <UpsertOldCommitteeMembersFormSection form={form} />
+      <FormFieldInputImage
+        form={form}
+        label="Omslagsbild (valfri)"
+        maxHeight={COMMITTEE_IMAGE_SIZE}
+        maxWidth={COMMITTEE_IMAGE_SIZE}
+        name="image"
+        quality={COMMITTEE_IMAGE_QUALITY}
+        containImage
+      />
+      <FormFieldInputImage
+        form={form}
+        label="Logga (valfri)"
+        maxHeight={COMMITTEE_IMAGE_SIZE}
+        maxWidth={COMMITTEE_IMAGE_SIZE}
+        name="logo"
+        quality={COMMITTEE_IMAGE_QUALITY}
+      />
+    </FormWrapper>
   );
 };
 

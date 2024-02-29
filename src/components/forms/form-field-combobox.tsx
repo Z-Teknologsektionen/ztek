@@ -22,35 +22,28 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import { ScrollArea } from "~/components/ui/scroll-area";
-import type { IComboboxInput } from "~/types/form-types";
+import type { IFormFieldCombobox } from "~/types/form-types";
 import { cn } from "~/utils/utils";
 
-const ComboboxInput = <
-  TFieldValues extends FieldValues,
-  TName extends Path<TFieldValues>,
->({
+const FormFieldCombobox = <TFieldValues extends FieldValues>({
   options,
-  emptyListText,
   label,
   form,
   name,
   description,
   placeholder,
-  control = form.control,
-  defaultValue,
   disabled,
-  rules,
-  shouldUnregister,
   serchText,
-}: IComboboxInput<TFieldValues, TName>): React.JSX.Element => {
+  noResultsText,
+  resetButton,
+}: IFormFieldCombobox<TFieldValues>): React.JSX.Element => {
   return (
     <FormField
-      control={control}
-      defaultValue={defaultValue}
+      control={form.control}
       disabled={disabled}
       name={name}
       render={({ field }) => (
-        <FormItem className="flex flex-col">
+        <FormItem>
           <FormLabel>{label}</FormLabel>
           <div className="flex flex-row gap-2">
             <Popover>
@@ -75,7 +68,7 @@ const ComboboxInput = <
               <PopoverContent side="bottom" sideOffset={4}>
                 <Command>
                   <CommandInput placeholder={serchText} />
-                  <CommandEmpty>{emptyListText}</CommandEmpty>
+                  <CommandEmpty>{noResultsText}</CommandEmpty>
                   <ScrollArea className="h-40">
                     <CommandGroup>
                       {options.map((option) => (
@@ -86,7 +79,10 @@ const ComboboxInput = <
                               name,
                               (field.value !== option.value
                                 ? option.value
-                                : "") as PathValue<TFieldValues, TName>,
+                                : "") as PathValue<
+                                TFieldValues,
+                                Path<TFieldValues>
+                              >,
                             );
                           }}
                           value={option.label}
@@ -107,24 +103,28 @@ const ComboboxInput = <
                 </Command>
               </PopoverContent>
             </Popover>
-            <Button
-              onClick={() =>
-                form.setValue(name, "" as PathValue<TFieldValues, TName>)
-              }
-              type="button"
-              variant="ghost"
-            >
-              Rensa
-            </Button>
+
+            {resetButton && (
+              <Button
+                onClick={() =>
+                  form.setValue(
+                    name,
+                    "" as PathValue<TFieldValues, Path<TFieldValues>>,
+                  )
+                }
+                type="button"
+                variant="ghost"
+              >
+                Rensa
+              </Button>
+            )}
           </div>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />
         </FormItem>
       )}
-      rules={rules}
-      shouldUnregister={shouldUnregister}
     />
   );
 };
 
-export default ComboboxInput;
+export default FormFieldCombobox;

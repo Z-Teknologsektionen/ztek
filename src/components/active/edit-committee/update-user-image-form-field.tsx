@@ -1,7 +1,8 @@
-import type { FieldPath, FieldValues, Path } from "react-hook-form";
+import type { FieldValues } from "react-hook-form";
 import { Button } from "~/components/ui/button";
 import {
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -12,28 +13,27 @@ import {
   COMMITTEE_IMAGE_QUALITY,
   COMMITTEE_IMAGE_SIZE,
 } from "~/constants/committees";
-import type { IBasicFormField } from "~/types/form-types";
+import type { IFormFieldDefaults } from "~/types/form-types";
 import { getBase64WebPStringFromFileInput } from "~/utils/get-base64-webp-string-from-file-input";
 
 interface IUpdateUserImageFormField<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> extends IBasicFormField<TFieldValues, TName> {
+> extends IFormFieldDefaults<TFieldValues> {
   setValue: (arg0: string) => void;
 }
 
-const UpdateUserImageFormField = <
-  TFieldValues extends FieldValues,
-  TName extends Path<TFieldValues>,
->({
-  control,
+const UpdateUserImageFormField = <TFieldValues extends FieldValues>({
+  form,
+  description,
+  disabled,
   label,
   name,
   setValue,
-}: IUpdateUserImageFormField<TFieldValues, TName>): React.JSX.Element => {
+}: IUpdateUserImageFormField<TFieldValues>): React.JSX.Element => {
   return (
     <FormField
-      control={control}
+      control={form.control}
+      disabled={disabled}
       name={name}
       render={({ field }) => (
         <FormItem>
@@ -74,6 +74,7 @@ const UpdateUserImageFormField = <
             </div>
           </FormControl>
           <FormMessage />
+          {description && <FormDescription>{description}</FormDescription>}
         </FormItem>
       )}
     />

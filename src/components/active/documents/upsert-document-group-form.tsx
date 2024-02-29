@@ -2,10 +2,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { BasicInput } from "~/components/forms/basic-input";
-import { Button } from "~/components/ui/button";
-import { DialogFooter } from "~/components/ui/dialog";
-import { Form } from "~/components/ui/form";
+import FormFieldInputText from "~/components/forms/form-field-input-text";
+import FormWrapper from "~/components/forms/form-wrapper";
 import { createDocumentGroupSchema } from "~/schemas/document";
 import type { IUpsertForm } from "~/types/form-types";
 
@@ -29,32 +27,18 @@ export const UpsertDocumentGroupForm: FC<UpsertDocumentGroupFormProps> = ({
   });
 
   return (
-    <Form {...form}>
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <form className=" space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
-          <BasicInput control={form.control} label="Namn" name="name" />
-          <BasicInput
-            control={form.control}
-            label="Extra text (valfri)"
-            name="extraText"
-          />
-        </div>
-        <DialogFooter>
-          <Button
-            onClick={() => {
-              form.reset();
-            }}
-            type="button"
-            variant={"outline"}
-          >
-            Återställ
-          </Button>
-          <Button type="submit" variant={"default"}>
-            {formType === "create" ? "Skapa" : "Uppdatera"}
-          </Button>
-        </DialogFooter>
-      </form>
-    </Form>
+    <FormWrapper
+      form={form}
+      formType={formType}
+      onValid={onSubmit}
+      resetForm={() => form.reset()}
+    >
+      <FormFieldInputText form={form} label="Namn" name="name" />
+      <FormFieldInputText
+        form={form}
+        label="Extra text (valfri)"
+        name="extraText"
+      />
+    </FormWrapper>
   );
 };

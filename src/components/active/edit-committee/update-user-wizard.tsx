@@ -3,8 +3,9 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { useState, type FC } from "react";
 import type { z } from "zod";
 import CommitteeImage from "~/components/committees/committee-image";
-import { BasicInput } from "~/components/forms/basic-input";
-import { NumberInput } from "~/components/forms/number-input";
+import FormFieldInputNumber from "~/components/forms/form-field-input-number";
+import FormFieldInputTel from "~/components/forms/form-field-input-tel";
+import FormFieldInputText from "~/components/forms/form-field-input-text";
 import { Button } from "~/components/ui/button";
 import { Form } from "~/components/ui/form";
 import { MAX_ORDER_NUMBER, MIN_ORDER_NUMBER } from "~/constants/committees";
@@ -47,30 +48,28 @@ export const UpdateUserWizard: FC<UpdateUserWizardProps> = ({ member }) => {
           filename={newImage}
         />
         <div className="space-y-2 p-1">
-          <BasicInput control={form.control} label="Namn" name="name" />
-          <BasicInput
-            control={form.control}
+          <FormFieldInputText form={form} label="Namn" name="name" />
+          <FormFieldInputText
+            form={form}
             label="Kommitténamn"
             name="nickName"
           />
-          <BasicInput
-            control={form.control}
+          <FormFieldInputTel
             description="Du behöver inte fylla i detta. Kommer visas publikt på organsidan."
+            form={form}
             label="Telefonnummer"
             name="phone"
-            type="tel"
           />
-          <NumberInput
-            control={form.control}
-            defaultValue={MIN_ORDER_NUMBER}
+          <FormFieldInputNumber
             description="Används för att bestämma vilken ordning organets medlemmar ska visas i"
+            form={form}
             label="Ordning"
             max={MAX_ORDER_NUMBER}
             min={MIN_ORDER_NUMBER}
             name="order"
           />
           <UpdateUserImageFormField
-            control={form.control}
+            form={form}
             label="Bild"
             name="image"
             setValue={(val) => {

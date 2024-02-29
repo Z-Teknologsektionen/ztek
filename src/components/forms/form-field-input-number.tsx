@@ -1,4 +1,4 @@
-import type { FieldValues, Path } from "react-hook-form";
+import type { FieldValues } from "react-hook-form";
 import {
   FormControl,
   FormDescription,
@@ -8,26 +8,20 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import type { INumberInput } from "~/types/form-types";
+import type { IFormFieldInputNumber } from "~/types/form-types";
 
-export const NumberInput = <
-  TFieldValues extends FieldValues,
-  TName extends Path<TFieldValues>,
->({
+const FormFieldInputNumber = <TFieldValues extends FieldValues>({
   label,
   name,
   description,
-  control,
-  defaultValue,
   disabled,
-  rules,
-  shouldUnregister,
-  ...rest
-}: INumberInput<TFieldValues, TName>): JSX.Element => {
+  form,
+  max,
+  min,
+}: IFormFieldInputNumber<TFieldValues>): JSX.Element => {
   return (
     <FormField
-      control={control}
-      defaultValue={defaultValue}
+      control={form.control}
       disabled={disabled}
       name={name}
       render={({ field }) => (
@@ -36,7 +30,8 @@ export const NumberInput = <
           <FormControl>
             <Input
               {...field}
-              {...rest}
+              max={max}
+              min={min}
               onChange={(event) => field.onChange(Number(event.target.value))}
               type="number"
             />
@@ -45,8 +40,8 @@ export const NumberInput = <
           <FormMessage />
         </FormItem>
       )}
-      rules={rules}
-      shouldUnregister={shouldUnregister}
     />
   );
 };
+
+export default FormFieldInputNumber;

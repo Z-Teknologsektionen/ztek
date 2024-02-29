@@ -2,13 +2,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { BasicInput } from "~/components/forms/basic-input";
-import { BooleanInput } from "~/components/forms/boolean-input";
-import { ImageInput } from "~/components/forms/image-input";
-import { NumberInput } from "~/components/forms/number-input";
-import { Button } from "~/components/ui/button";
-import { DialogFooter } from "~/components/ui/dialog";
-import { Form } from "~/components/ui/form";
+import FormFieldCheckbox from "~/components/forms/form-field-checkbox";
+import FormFieldInputImage from "~/components/forms/form-field-input-image";
+import FormFieldInputNumber from "~/components/forms/form-field-input-number";
+import FormFieldInputText from "~/components/forms/form-field-input-text";
+import FormFieldInputUrl from "~/components/forms/form-field-input-url";
+import FormWrapper from "~/components/forms/form-wrapper";
+import { MAX_4_DIGIT_YEAR, MIN_4_DIGIT_YEAR } from "~/constants/size-constants";
 import { createZenithMediaSchema } from "~/schemas/zenith-media";
 import type { IUpsertForm } from "~/types/form-types";
 
@@ -33,50 +33,36 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
   });
 
   return (
-    <Form {...form}>
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <form className=" space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
-          <BasicInput control={form.control} label="Titel" name="title" />
-          <BasicInput
-            control={form.control}
-            label="Url"
-            name="url"
-            type="url"
-          />
-          <NumberInput control={form.control} label="År" name="year" />
-          <BooleanInput
-            control={form.control}
-            description="Går länken till en PDF?"
-            label="Typ av media"
-            name="isPDF"
-          />
-          <ImageInput
-            accept="image/*, application/pdf,"
-            control={form.control}
-            description="Omslagsbilden till median"
-            label="Omslag"
-            maxHeight={600}
-            maxWidth={400}
-            name="image"
-            quality={85}
-          />
-        </div>
-        <DialogFooter>
-          <Button
-            onClick={() => {
-              form.reset(defaultValues);
-            }}
-            type="button"
-            variant={"outline"}
-          >
-            Återställ
-          </Button>
-          <Button type="submit" variant={"default"}>
-            {formType === "create" ? "Skapa" : "Uppdatera"}
-          </Button>
-        </DialogFooter>
-      </form>
-    </Form>
+    <FormWrapper
+      form={form}
+      formType={formType}
+      onValid={onSubmit}
+      resetForm={() => form.reset()}
+    >
+      <FormFieldInputText form={form} label="Titel" name="title" />
+      <FormFieldInputUrl form={form} label="Url" name="url" />
+      <FormFieldInputNumber
+        form={form}
+        label="År"
+        max={MAX_4_DIGIT_YEAR}
+        min={MIN_4_DIGIT_YEAR}
+        name="year"
+      />
+      <FormFieldCheckbox
+        description="Går länken till en PDF?"
+        form={form}
+        label="Typ av media"
+        name="isPDF"
+      />
+      <FormFieldInputImage
+        description="Omslagsbilden till median"
+        form={form}
+        label="Omslag"
+        maxHeight={600}
+        maxWidth={400}
+        name="image"
+        quality={85}
+      />
+    </FormWrapper>
   );
 };

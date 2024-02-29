@@ -1,7 +1,9 @@
 import type { FC } from "react";
-import { useFieldArray, type Control } from "react-hook-form";
+import type { UseFormReturn } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
+
 import { FaArrowDown, FaArrowUp, FaPlus, FaTrash } from "react-icons/fa6";
-import { BasicInput } from "~/components/forms/basic-input";
+import FormFieldInputText from "~/components/forms/form-field-input-text";
 import SelectCommitteeSocialIcon from "~/components/forms/select-committee-social-icon";
 import ButtonWithIconAndTooltip from "~/components/tooltips/button-with-icon-and-tooltip";
 import { FormDescription } from "~/components/ui/form";
@@ -10,12 +12,12 @@ import { MAX_ORDER_NUMBER } from "~/constants/committees";
 import type { UpsertCommitteeFormValues } from "./upsert-committee-form";
 
 type UpsertCommitteeSocialLinksFormSectionProps = {
-  control: Control<UpsertCommitteeFormValues>;
+  form: UseFormReturn<UpsertCommitteeFormValues>;
 };
 
 const UpsertCommitteeSocialLinksFormSection: FC<
   UpsertCommitteeSocialLinksFormSectionProps
-> = ({ control }) => {
+> = ({ form }) => {
   const {
     fields: socialLinks,
     append: addSocialIcon,
@@ -23,7 +25,7 @@ const UpsertCommitteeSocialLinksFormSection: FC<
     remove: removeSocialIcon,
   } = useFieldArray({
     name: "socialLinks",
-    control,
+    control: form.control,
   });
 
   return (
@@ -50,21 +52,19 @@ const UpsertCommitteeSocialLinksFormSection: FC<
         </FormDescription>
       ) : (
         <div className="flex flex-col gap-2">
-          {socialLinks.map(({ iconAndUrl: { iconVariant, url }, id }, idx) => {
+          {socialLinks.map(({ id }, idx) => {
             return (
               <div
                 key={id}
                 className="space-y-4 rounded border px-2 py-4 shadow"
               >
                 <SelectCommitteeSocialIcon
-                  control={control}
-                  defaultValue={iconVariant}
+                  form={form}
                   label="Ikon"
                   name={`socialLinks.${idx}.iconAndUrl.iconVariant`}
                 />
-                <BasicInput
-                  control={control}
-                  defaultValue={url}
+                <FormFieldInputText
+                  form={form}
                   label="Url"
                   name={`socialLinks.${idx}.iconAndUrl.url`}
                 />

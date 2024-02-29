@@ -1,4 +1,4 @@
-import type { FieldValues, Path } from "react-hook-form";
+import type { FieldValues } from "react-hook-form";
 import {
   FormControl,
   FormDescription,
@@ -8,40 +8,33 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Textarea } from "~/components/ui/textarea";
-import type { ITextAreaInput } from "~/types/form-types";
+import type { IFormFieldTextArea } from "~/types/form-types";
 
-export const TextAreaInput = <
-  TFieldValues extends FieldValues,
-  TName extends Path<TFieldValues>,
->({
+const FormFieldTextArea = <TFieldValues extends FieldValues>({
   label,
   name,
   description,
-  defaultValue,
   disabled,
-  rules,
-  shouldUnregister,
-  control,
-  ...rest
-}: ITextAreaInput<TFieldValues, TName>): JSX.Element => {
+  form,
+  className,
+}: IFormFieldTextArea<TFieldValues>): JSX.Element => {
   return (
     <FormField
-      control={control}
-      defaultValue={defaultValue}
+      control={form.control}
       disabled={disabled}
       name={name}
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Textarea {...field} {...rest} />
+            <Textarea {...field} className={className} />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />
         </FormItem>
       )}
-      rules={rules}
-      shouldUnregister={shouldUnregister}
     />
   );
 };
+
+export default FormFieldTextArea;

@@ -1,6 +1,6 @@
 import { IconEnum } from "@prisma/client";
 import type { ReactNode } from "react";
-import type { FieldValues, Path } from "react-hook-form";
+import type { FieldValues } from "react-hook-form";
 import {
   FormControl,
   FormDescription,
@@ -18,28 +18,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import type { IBasicFormField } from "~/types/form-types";
+import type { IFormFieldDefaults } from "~/types/form-types";
 import {
   getSocialIconFromEnum,
   getSocialNameFromEnum,
 } from "~/utils/get-social-from-enum";
 
-const SelectCommitteeSocialIcon = <
-  TFieldValues extends FieldValues,
-  TName extends Path<TFieldValues>,
->({
-  control,
+const SelectCommitteeSocialIcon = <TFieldValues extends FieldValues>({
   label,
   name,
-  defaultValue,
   description,
   disabled,
-  rules,
-  shouldUnregister,
-}: IBasicFormField<TFieldValues, TName>): ReactNode => {
+  form,
+}: IFormFieldDefaults<TFieldValues>): ReactNode => {
   return (
     <FormField
-      control={control}
+      control={form.control}
       disabled={disabled}
       name={name}
       // Här vet bara GUD varför ref inte ska skickas in till select ger galen error i consol om man skickar in och fungerar fin fint utan
@@ -47,11 +41,7 @@ const SelectCommitteeSocialIcon = <
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Select
-              {...field}
-              defaultValue={defaultValue}
-              onValueChange={field.onChange}
-            >
+            <Select {...field} onValueChange={field.onChange}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Välj en ikon" />
               </SelectTrigger>
@@ -79,8 +69,6 @@ const SelectCommitteeSocialIcon = <
           {description && <FormDescription>{description}</FormDescription>}
         </FormItem>
       )}
-      rules={rules}
-      shouldUnregister={shouldUnregister}
     />
   );
 };

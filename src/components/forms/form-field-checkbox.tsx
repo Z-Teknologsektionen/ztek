@@ -1,4 +1,4 @@
-import type { FieldValues, Path } from "react-hook-form";
+import type { FieldValues } from "react-hook-form";
 import { Checkbox } from "~/components/ui/checkbox";
 import {
   FormControl,
@@ -8,26 +8,18 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
-import type { IBooleanInput } from "~/types/form-types";
+import type { IFormFieldCheckbox } from "~/types/form-types";
 
-export const BooleanInput = <
-  TFieldValues extends FieldValues,
-  TName extends Path<TFieldValues>,
->({
+const FormFieldCheckbox = <TFieldValues extends FieldValues>({
   label,
   description,
   name,
-  control,
-  defaultValue,
   disabled,
-  shouldUnregister,
-  rules,
-  ...rest
-}: IBooleanInput<TFieldValues, TName>): JSX.Element => {
+  form,
+}: IFormFieldCheckbox<TFieldValues>): JSX.Element => {
   return (
     <FormField
-      control={control}
-      defaultValue={defaultValue}
+      control={form.control}
       disabled={disabled}
       name={name}
       render={({ field }) => (
@@ -37,20 +29,19 @@ export const BooleanInput = <
             <FormControl>
               <Checkbox
                 {...field}
-                {...rest}
                 checked={field.value}
                 onCheckedChange={field.onChange}
               />
             </FormControl>
             <div className="space-y-1 leading-none">
-              {description && <FormDescription>{description}</FormDescription>}
+              <FormDescription>{description}</FormDescription>
             </div>
           </div>
           <FormMessage />
         </FormItem>
       )}
-      rules={rules}
-      shouldUnregister={shouldUnregister}
     />
   );
 };
+
+export default FormFieldCheckbox;

@@ -2,14 +2,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { type FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { BasicInput } from "~/components/forms/basic-input";
-import { ImageInput } from "~/components/forms/image-input";
-import { NumberInput } from "~/components/forms/number-input";
-import type { IUpsertForm } from "~/types/form-types";
-// import { TextInput } from "~/components/forms/textInput";
-import { Button } from "~/components/ui/button";
-import { DialogFooter } from "~/components/ui/dialog";
-import { Form } from "~/components/ui/form";
+import FormFieldInputEmail from "~/components/forms/form-field-input-email";
+import FormFieldInputImage from "~/components/forms/form-field-input-image";
+import FormFieldInputNumber from "~/components/forms/form-field-input-number";
+import FormFieldInputTel from "~/components/forms/form-field-input-tel";
+import FormFieldInputText from "~/components/forms/form-field-input-text";
+import FormFieldInputUrl from "~/components/forms/form-field-input-url";
+import FormWrapper from "~/components/forms/form-wrapper";
 import {
   COMMITTEE_IMAGE_QUALITY,
   COMMITTEE_IMAGE_SIZE,
@@ -17,6 +16,7 @@ import {
   MIN_ORDER_NUMBER,
 } from "~/constants/committees";
 import { createProgramBoardMemberSchema } from "~/schemas/program-board-member";
+import type { IUpsertForm } from "~/types/form-types";
 
 type UpsertProgramBoardMemberFormProps = IUpsertForm<
   typeof createProgramBoardMemberSchema
@@ -43,72 +43,54 @@ const UpsertProgramBoardMemberForm: FC<UpsertProgramBoardMemberFormProps> = ({
   });
 
   return (
-    <Form {...form}>
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
-          <BasicInput control={form.control} label="Namn" name="name" />
-          <BasicInput
-            control={form.control}
-            label="Titel"
-            name="role"
-            placeholder="Programansvarig/Studievägledare/..."
-          />
-          <BasicInput
-            control={form.control}
-            label="Telefonnummer (valfri)"
-            name="phone"
-          />
-          <BasicInput
-            control={form.control}
-            label="Epost"
-            name="email"
-            placeholder="lucky@ztek.se"
-            type="email"
-          />
-          <BasicInput
-            control={form.control}
-            description="Används för att länka till personens sida på Chalmers hemsida"
-            label="Url"
-            name="url"
-            placeholder="https://chalmers.se/lucky"
-            type="url"
-          />
-          <NumberInput
-            control={form.control}
-            defaultValue={MIN_ORDER_NUMBER}
-            description="Används för att bestämma vilken ordning personen ska visas i. Lägre värde visas till vänster."
-            label="Ordning"
-            max={MAX_ORDER_NUMBER}
-            min={MIN_ORDER_NUMBER}
-            name="order"
-          />
-          <ImageInput
-            control={form.control}
-            label="Bild (valfri)"
-            maxHeight={COMMITTEE_IMAGE_SIZE}
-            maxWidth={COMMITTEE_IMAGE_SIZE}
-            name="image"
-            quality={COMMITTEE_IMAGE_QUALITY}
-          />
-        </div>
-        <DialogFooter>
-          <Button
-            onClick={() => {
-              form.reset(defaultValues);
-            }}
-            type="button"
-            variant={"outline"}
-          >
-            Återställ
-          </Button>
-
-          <Button type="submit" variant={"default"}>
-            {formType === "create" ? "Skapa" : "Uppdatera"}
-          </Button>
-        </DialogFooter>
-      </form>
-    </Form>
+    <FormWrapper
+      form={form}
+      formType={formType}
+      onValid={onSubmit}
+      resetForm={() => form.reset()}
+    >
+      <FormFieldInputText form={form} label="Namn" name="name" />
+      <FormFieldInputText
+        form={form}
+        label="Titel"
+        name="role"
+        placeholder="Programansvarig/Studievägledare/..."
+      />
+      <FormFieldInputTel
+        form={form}
+        label="Telefonnummer (valfri)"
+        name="phone"
+      />
+      <FormFieldInputEmail
+        form={form}
+        label="Epost"
+        name="email"
+        placeholder="lucky@ztek.se"
+      />
+      <FormFieldInputUrl
+        description="Används för att länka till personens sida på Chalmers hemsida"
+        form={form}
+        label="Url"
+        name="url"
+        placeholder="https://chalmers.se/lucky"
+      />
+      <FormFieldInputNumber
+        description="Används för att bestämma vilken ordning personen ska visas i. Lägre värde visas till vänster."
+        form={form}
+        label="Ordning"
+        max={MAX_ORDER_NUMBER}
+        min={MIN_ORDER_NUMBER}
+        name="order"
+      />
+      <FormFieldInputImage
+        form={form}
+        label="Bild (valfri)"
+        maxHeight={COMMITTEE_IMAGE_SIZE}
+        maxWidth={COMMITTEE_IMAGE_SIZE}
+        name="image"
+        quality={COMMITTEE_IMAGE_QUALITY}
+      />
+    </FormWrapper>
   );
 };
 
