@@ -4,7 +4,7 @@ import { useFieldArray } from "react-hook-form";
 
 import { FaArrowDown, FaArrowUp, FaPlus, FaTrash } from "react-icons/fa6";
 import FormFieldInputText from "~/components/forms/form-field-input-text";
-import SelectCommitteeSocialIcon from "~/components/forms/select-committee-social-icon";
+import FormFieldSelectCommitteeSocialIcon from "~/components/forms/form-field-select-committee-social-icon";
 import ButtonWithIconAndTooltip from "~/components/tooltips/button-with-icon-and-tooltip";
 import { FormDescription } from "~/components/ui/form";
 import { Label } from "~/components/ui/label";
@@ -58,7 +58,7 @@ const UpsertCommitteeSocialLinksFormSection: FC<
                 key={id}
                 className="space-y-4 rounded border px-2 py-4 shadow"
               >
-                <SelectCommitteeSocialIcon
+                <FormFieldSelectCommitteeSocialIcon
                   form={form}
                   label="Ikon"
                   name={`socialLinks.${idx}.iconAndUrl.iconVariant`}

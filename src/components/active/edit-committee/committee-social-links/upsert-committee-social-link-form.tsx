@@ -3,7 +3,7 @@ import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import FormFieldInputText from "~/components/forms/form-field-input-text";
-import SelectCommitteeSocialIcon from "~/components/forms/select-committee-social-icon";
+import FormFieldSelectCommitteeSocialIcon from "~/components/forms/form-field-select-committee-social-icon";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
@@ -34,7 +34,7 @@ export const UpsertCommitteeSocailIconsForm: FC<
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="max-h-96 space-y-4 overflow-y-auto p-1">
-          <SelectCommitteeSocialIcon
+          <FormFieldSelectCommitteeSocialIcon
             form={form}
             label="Icon"
             name="iconAndUrl.iconVariant"

@@ -24,7 +24,7 @@ import {
   getSocialNameFromEnum,
 } from "~/utils/get-social-from-enum";
 
-const SelectCommitteeSocialIcon = <TFieldValues extends FieldValues>({
+const FormFieldSelectCommitteeSocialIcon = <TFieldValues extends FieldValues>({
   label,
   name,
   description,
@@ -73,4 +73,4 @@ const SelectCommitteeSocialIcon = <TFieldValues extends FieldValues>({
   );
 };
 
-export default SelectCommitteeSocialIcon;
+export default FormFieldSelectCommitteeSocialIcon;
