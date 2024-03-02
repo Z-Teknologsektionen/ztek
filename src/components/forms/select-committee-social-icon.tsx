@@ -52,7 +52,7 @@ const SelectCommitteeSocialIcon = <
               defaultValue={defaultValue}
               onValueChange={field.onChange}
             >
-              <SelectTrigger className="w-32">
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Välj en ikon" />
               </SelectTrigger>
               <SelectContent>

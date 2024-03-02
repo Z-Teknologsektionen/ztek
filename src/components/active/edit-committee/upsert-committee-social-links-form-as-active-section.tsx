@@ -26,6 +26,7 @@ const UpsertCommitteeSocialLinksFormAsActiveSection: FC<
     name: "socialLinks",
     control,
   });
+  const ICON_SIZE = 15;
 
   return (
     <TooltipProvider>
@@ -64,12 +65,14 @@ const UpsertCommitteeSocialLinksFormAsActiveSection: FC<
                     className="flex flex-row justify-between gap-2 px-2"
                   >
                     <div className="flex gap-2">
-                      <SelectCommitteeSocialIcon
-                        control={control}
-                        defaultValue={iconVariant}
-                        label="Ikon"
-                        name={`socialLinks.${idx}.iconAndUrl.iconVariant`}
-                      />
+                      <div className="w-36">
+                        <SelectCommitteeSocialIcon
+                          control={control}
+                          defaultValue={iconVariant}
+                          label="Ikon"
+                          name={`socialLinks.${idx}.iconAndUrl.iconVariant`}
+                        />
+                      </div>
                       <BasicInput
                         className="flex-shrink"
                         control={control}
@@ -84,7 +87,7 @@ const UpsertCommitteeSocialLinksFormAsActiveSection: FC<
                         onClick={() =>
                           idx === 0 ? undefined : swapSocialLinks(idx, idx - 1)
                         }
-                        size={15}
+                        size={ICON_SIZE}
                       />
                       <FaArrowDown
                         className="cursor-pointer hover:fill-zLightGray"
@@ -93,12 +96,12 @@ const UpsertCommitteeSocialLinksFormAsActiveSection: FC<
                             ? undefined
                             : swapSocialLinks(idx, idx + 1)
                         }
-                        size={15}
+                        size={ICON_SIZE}
                       />
                       <FaTrash
                         className="cursor-pointer hover:fill-zRed"
                         onClick={() => removeSocialIcon(idx)}
-                        size={15}
+                        size={ICON_SIZE}
                       />
                     </div>
                   </div>

@@ -28,7 +28,7 @@ export const UpsertMemberAsActiveForm: FC<UpdateMemberAsActiveProps> = ({
 }) => {
   const form = useFormWithZodSchema({
     schema: upsertMemberBaseSchema,
-    defaultValues: { ...defaultValues },
+    defaultValues,
   });
 
   return (
@@ -42,8 +42,8 @@ export const UpsertMemberAsActiveForm: FC<UpdateMemberAsActiveProps> = ({
       <BasicInput control={form.control} label="Kommitténamn" name="nickName" />
       <BasicInput
         control={form.control}
-        description="Du behöver inte fylla i detta. Kommer visas publikt på organsidan."
-        label="Telefonnummer"
+        description="Kommer visas publikt på organsidan."
+        label="Telefonnummer (valfritt)"
         name="phone"
         type="tel"
       />

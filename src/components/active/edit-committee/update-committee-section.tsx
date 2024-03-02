@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import Image from "next/image";
 import { useState, type FC } from "react";
 import { FaFile } from "react-icons/fa";
 import { MdEdit, MdUpdate } from "react-icons/md";
@@ -60,13 +61,7 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
               />
             }
             isOpen={openFormId === committee.id}
-            setIsOpen={(isOpen) => {
-              if (!isOpen) {
-                setOpenFormId(null);
-              } else {
-                setOpenFormId(committee.id);
-              }
-            }}
+            setIsOpen={(isOpen) => setOpenFormId(isOpen ? committee.id : null)}
             title="Uppdatera organ"
             trigger={
               <IconWithTooltip
@@ -79,9 +74,16 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
           />
         </div>
         <CardHeader className="pt-0">
-          <Avatar className="h-60 w-60">
+          <Avatar className="h-60 w-60" color="red">
             <AvatarImage className="object-cover" src={committee?.image} />
-            <AvatarFallback>Bild saknas</AvatarFallback>
+            <AvatarFallback className="bg-inherit" asChild>
+              <Image
+                alt={committee.name}
+                height={300}
+                src="/logo.png"
+                width={300}
+              />
+            </AvatarFallback>
           </Avatar>
           <CardTitle className="pt-2">{committee?.name}</CardTitle>
           <CardDescription>{committee.role}</CardDescription>
@@ -100,7 +102,7 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
           </div>
           <Separator className="my-2 h-0.5" />
 
-          <p className="text-sm">Länkade dokument</p>
+          <h2 className="text-sm">Länkat dokument</h2>
           {committee.document && (
             <IconWithTooltip
               className="fill-black"
@@ -111,7 +113,7 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
           )}
           <Separator className="my-2 h-0.5" />
 
-          <p className="text-sm">Beskrivning</p>
+          <h2 className="text-sm">Beskrivning</h2>
           <CardDescription className="text-xs">
             {committee?.description}
           </CardDescription>
@@ -123,11 +125,6 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
               text={dayjs(committee.updatedAt).fromNow()}
               tooltipText="Uppdaterades senast"
             />
-            {/* <IconWithTooltip
-              icon={MdUpdate}
-              tooltipText={"Uppdaterades senast"}
-            />
-            {dayjs(committee.updatedAt).fromNow()} */}
           </CardDescription>
         </CardFooter>
       </Card>

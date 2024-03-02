@@ -36,7 +36,14 @@ const EditCommitteePage: FC = () => {
           {showStandardViews && (
             <div className="grid grid-cols-6 ">
               <div className="order-last col-span-6 mx-4 lg:order-first lg:col-span-4">
-                <UpdateCommitteeMemberSection members={committee.members} />
+                <div className="sticky top-2 grid grid-cols-2 gap-4 md:grid-cols-3">
+                  {committee.members.map((member) => (
+                    <UpdateCommitteeMemberSection
+                      key={member.id}
+                      member={member}
+                    />
+                  ))}
+                </div>
               </div>
               <div className="col-span-6 mx-4 mb-4 lg:col-span-2 lg:mb-0">
                 <UpdateCommitteeSection committee={committee} />

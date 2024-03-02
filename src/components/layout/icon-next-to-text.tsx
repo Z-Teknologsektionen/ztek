@@ -24,8 +24,8 @@ export const IconNextToText: FC<IconNextToTextProps> = ({
     <div
       className={cn(
         "flex gap-2 text-xs",
-        className,
         textFirst ? "flex-row-reverse justify-end" : "flex-row",
+        className,
       )}
     >
       <IconWithTooltip
