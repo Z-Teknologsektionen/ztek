@@ -1,4 +1,5 @@
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
@@ -15,6 +16,7 @@ const MyApp: AppType<{
   return (
     <SessionProvider session={pageProps.session}>
       <Analytics mode="auto" />
+      <SpeedInsights />
       <Toaster position="top-center" reverseOrder={false} />
       <HeadLayout description="Z-teknologsektionens hemsida"></HeadLayout>
       <div className="zWhite flex min-h-screen flex-col">
