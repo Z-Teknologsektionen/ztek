@@ -29,11 +29,11 @@ const EditCommitteePage: FC = () => {
   return (
     <RoleWrapper accountRole={undefined}>
       <HeadLayout title="Redigera medlemmar" />
-      <TooltipProvider>
-        <SectionWrapper>
-          {isLoadingCommittee && <LoadningSpinner />}
-          {hasData && !committee && <MissingCommitteeSection />}
-          {showStandardViews && (
+      <SectionWrapper>
+        {isLoadingCommittee && <LoadningSpinner />}
+        {hasData && !committee && <MissingCommitteeSection />}
+        {showStandardViews && (
+          <TooltipProvider>
             <div className="grid grid-cols-6 ">
               <div className="order-last col-span-6 mx-4 lg:order-first lg:col-span-4">
                 <div className="sticky top-2 grid grid-cols-2 gap-4 md:grid-cols-3">
@@ -49,9 +49,9 @@ const EditCommitteePage: FC = () => {
                 <UpdateCommitteeSection committee={committee} />
               </div>
             </div>
-          )}
-        </SectionWrapper>
-      </TooltipProvider>
+          </TooltipProvider>
+        )}
+      </SectionWrapper>
     </RoleWrapper>
   );
 };
