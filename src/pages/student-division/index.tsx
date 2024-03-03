@@ -147,7 +147,6 @@ const StudentDivision: NextPage = () => {
                 {documentIsError && <p>Dokument kunde inte hämtas.</p>}
                 {documentData &&
                   documentData.Document.map((doc) => (
-                    //Hittade inget bra sätt att konvertera detta till en ImageWIthDescription, tooltipen funkar inte.
                     <div
                       key={doc.title}
                       className="col-span-1 mx-2 mb-2 overflow-hidden"
@@ -290,15 +289,6 @@ const StudentDivision: NextPage = () => {
                           <BreakText className="text-sm hover:underline">
                             {committee.name}
                           </BreakText>
-                          {/* <p
-                            className="overflow-hidden text-sm hover:underline md:text-base"
-                            style={{
-                              textOverflow: "ellipsis",
-                              whiteSpace: "nowrap",
-                            }}
-                          >
-                            {committee.name}
-                          </p> */}
                         </Link>
                       ))}
                   </div>

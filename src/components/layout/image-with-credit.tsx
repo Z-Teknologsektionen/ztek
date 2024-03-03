@@ -5,6 +5,7 @@ type ImageWithCreditProps = {
   alt: string;
   className?: string;
   height: number;
+  imageClassName?: string;
   photoCommittee: string;
   photographer: string;
   src: string;
@@ -13,6 +14,7 @@ type ImageWithCreditProps = {
 
 const ImageWithCredit: FC<ImageWithCreditProps> = ({
   className,
+  imageClassName,
   height,
   alt,
   width,
@@ -21,10 +23,10 @@ const ImageWithCredit: FC<ImageWithCreditProps> = ({
   photoCommittee,
 }) => {
   return (
-    <>
+    <div className={cn("rounded", className)}>
       <Image
         alt={alt}
-        className={cn("rounded", className)}
+        className={cn("rounded", imageClassName)}
         height={height}
         src={src}
         width={width}
@@ -32,7 +34,7 @@ const ImageWithCredit: FC<ImageWithCreditProps> = ({
       <p className="mt-2 text-center">
         Foto: {photographer}/{photoCommittee}
       </p>
-    </>
+    </div>
   );
 };
 

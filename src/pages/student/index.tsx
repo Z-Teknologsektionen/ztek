@@ -102,11 +102,6 @@ const StudentPage: NextPage = () => {
               </CenteredButtonWithLink>
             </div>
           </div>
-          {/* 
-        Vad vill jag ha här?
-        Studiehälsa
-        Zaloonen 
-        SNZ-bös */}
         </SectionWrapper>
 
         <SectionWrapper>
@@ -150,7 +145,7 @@ const StudentPage: NextPage = () => {
           <div className="grid grid-cols-3">
             <div className="order-last col-span-3 m-2 lg:order-first lg:col-span-1">
               <ImageWithDescription
-                alt="Snz logga"
+                alt="SNZ:s logga"
                 description="SNZ - Sektionens studienämnd"
                 height={300}
                 src="/SNZ.png"

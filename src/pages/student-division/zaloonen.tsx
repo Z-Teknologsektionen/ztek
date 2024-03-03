@@ -52,7 +52,7 @@ const ZaloonenPage: NextPage = () => {
           </div>
           <div className="col-span-full mt-4 max-w-md lg:col-span-2">
             <ImageWithCredit
-              alt="Image of Zaloonen"
+              alt="Bild på Zaloonen"
               height={1000}
               photoCommittee="zFoto"
               photographer="Dennis Holmström"
