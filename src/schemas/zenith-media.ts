@@ -10,38 +10,73 @@ import {
 
 //50 MB
 const MAX_FILE_SIZE = 50 * 1000 * 1000;
-const ACCEPTED_FILE_TYPES = ["image/*", "application/pdf"];
+export const ACCEPTED_MEDIA_TYPES = ["image/*", "application/pdf"];
 
 export const zenithMediaBaseSchema = z.object({
   title: nonEmptyString,
-  url: httpsUrlString.or(emptyString).optional(),
-  fileInput: z
-    .custom<File[]>()
-    // .refine((files) => files?.length == 1, "Obligatoriskt fält.")
-    // .refine(
-    //   (files) => files?.[0]?.size && files?.[0]?.size <= MAX_FILE_SIZE,
-    //   `Filen får inte vara större än 50MB. Kontakta Webbgruppen om du behöver ladda upp större grejer.`,
-    // )
-    // .refine(
-    //   (files) =>
-    //     files?.[0]?.type && ACCEPTED_FILE_TYPES.includes(files?.[0]?.type),
-    //   "Bara bilder och pdf-er är tillåtna.",
-    // )
-    .optional(),
+  // url: httpsUrlString.or(emptyString).optional(),
+  // fileInput: z
+  //   .custom<File[]>()
+  //   .refine((files) => files?.length == 1, "Obligatoriskt fält.")
+  //   .refine(
+  //     (files) => files?.[0]?.size && files?.[0]?.size <= MAX_FILE_SIZE,
+  //     `Filen får inte vara större än 50MB. Kontakta Webbgruppen om du behöver ladda upp större grejer.`,
+  //   )
+  //   .refine(
+  //     (files) =>
+  //       files?.[0]?.type && ACCEPTED_MEDIA_TYPES.includes(files?.[0]?.type),
+  //     "Bara bilder och pdf-er är tillåtna.",
+  //   )
+  //   .optional(),
   year: validYearPastOrCurrent,
   coverImage: base64WebPImageString,
 });
 
-export const createZenithMediaSchema = zenithMediaBaseSchema;
-// .refine(
-//   (val) => !!val.url === !val.fileInput,
-//   {
-//     message:
-//       "Du måste antingen ange en url eller ladda upp en fil. Båda kan inte vara närvarande samtidigt.",
-//     path: ["url", "fileInput"],
-//   },
-// );
+export const createZenithMediaClientSchema = zenithMediaBaseSchema.extend({
+  input: z
+    .object({
+      url: httpsUrlString.or(emptyString).optional(),
+      fileInput: z
+        .custom<File[]>()
+        .refine((files) => files?.length == 1, "Obligatoriskt fält.")
+        .refine(
+          (files) => files?.[0]?.size && files?.[0]?.size <= MAX_FILE_SIZE,
+          `Filen får inte vara större än 50MB. Kontakta Webbgruppen om du behöver ladda upp större grejer.`,
+        )
+        .refine(
+          (files) =>
+            files?.[0]?.type && ACCEPTED_MEDIA_TYPES.includes(files?.[0]?.type),
+          "Bara bilder och pdf-er är tillåtna.",
+        )
+        .optional(),
+    })
+    .refine(
+      (input) => {
+        //Check if both url and fileInput are present or both are missing
+        return !!input.url !== !!input.fileInput;
+      },
+      {
+        message: "Du måste antingen ladda upp en fil eller länka till en url.",
+        path: ["fileInput"],
+      },
+    )
+    .refine(
+      (input) => {
+        //Check if both url and fileInput are present or both are missing
+        return !!input.url !== !!input.fileInput;
+      },
+      {
+        message: "Du måste antingen ladda upp en fil eller länka till en url.",
+        path: ["url"],
+      },
+    ),
+});
+
+export const createZenithMediaServerSchema = zenithMediaBaseSchema.extend({
+  url: httpsUrlString,
+});
 
 export const updateZenithMediaSchema = zenithMediaBaseSchema
+  .extend({ url: httpsUrlString })
   .partial()
   .extend({ id: objectId });

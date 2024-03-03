@@ -17,18 +17,21 @@ import {
 import { DialogFooter } from "~/components/ui/dialog";
 import { Form } from "~/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import type { zenithMediaBaseSchema } from "~/schemas/zenith-media";
-import { createZenithMediaSchema } from "~/schemas/zenith-media";
+import { createZenithMediaClientSchema } from "~/schemas/zenith-media";
 import type { IUpsertForm } from "~/types/form-types";
 
-type UpsertZenithMediaFormProps = IUpsertForm<typeof zenithMediaBaseSchema>;
+type UpsertZenithMediaFormProps = IUpsertForm<
+  typeof createZenithMediaClientSchema
+>;
 
 const DEFAULT_VALUES: UpsertZenithMediaFormProps["defaultValues"] = {
   year: new Date().getFullYear(),
   coverImage: "",
   title: "",
-  fileInput: undefined,
-  url: "",
+  input: {
+    fileInput: undefined,
+    url: "",
+  },
 };
 
 export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
@@ -36,8 +39,8 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
   onSubmit,
   formType,
 }) => {
-  const form = useForm<z.infer<typeof createZenithMediaSchema>>({
-    resolver: zodResolver(createZenithMediaSchema),
+  const form = useForm<z.infer<typeof createZenithMediaClientSchema>>({
+    resolver: zodResolver(createZenithMediaClientSchema),
     defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
 
@@ -79,7 +82,7 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
                     control={form.control}
                     description="Mediafil"
                     label="Fil"
-                    name="fileInput"
+                    name="input.fileInput"
                   />
                 </CardContent>
               </Card>
@@ -97,7 +100,7 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
                   <BasicInput
                     control={form.control}
                     label="Url"
-                    name="url"
+                    name="input.url"
                     type="url"
                   />
                 </CardContent>

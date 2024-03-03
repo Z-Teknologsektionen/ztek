@@ -1,5 +1,6 @@
 import { Cross2Icon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
+import type { AxiosError } from "axios";
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -21,31 +22,52 @@ export const ZenithMediaTableToolbar = <TData,>({
   const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleCreateZenithMediaFile = (_props: ZenithFormValuesType): void => {
-    // const formData = new FormData();
+  const handleCreateZenithMediaFile = (props: ZenithFormValuesType): void => {
+    const formData = new FormData();
 
-    // formData.append("title", props.title);
-    // props.fileInput?.forEach((file, index) => {
-    //   formData.append(`file${index}`, file);
-    // });
-
-    axios
-      .get("/api/sftp/upload")
+    if (props.input.fileInput && props.input.fileInput[0]) {
+      formData.set("file", props.input.fileInput[0]);
+    } else {
+      return console.error("No file input");
+    }
+    formData.set("public", "true");
+    formData.set("dir", "media");
+    formData.set(
+      "filename",
+      props.title.toLowerCase().replace(" ", "-") +
+        "." +
+        props.input.fileInput[0].name.split(".").pop(),
+    );
+    const toastId = toast.loading("Laddar upp filen...");
+    axios({
+      method: "post",
+      url: "/api/sftp/upload",
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
       .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+        toast.dismiss(toastId);
+        toast.success("Filuppladdningen lyckades");
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        if (response.data.message) {
+          createNewZenithMedia({
+            coverImage: props.coverImage,
+            title: props.title,
+            year: props.year,
+            url: response.data.message,
+          });
+        }
 
-    // axios
-    //   .post("/api/sftp/upload")
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
+        // console.log(response);
+      })
+      .catch((error: AxiosError) => {
+        toast.dismiss(toastId);
+        const errorMessage =
+          (error.response?.data as { error?: string })?.error || "";
+        toast.error(
+          "Något gick fel vid uppladdningen av filen. \n" + errorMessage,
+        );
+      });
   };
 
   const { mutate: createNewZenithMedia, isLoading: creatingNewZenithMedia } =
@@ -99,15 +121,21 @@ export const ZenithMediaTableToolbar = <TData,>({
                 defaultValues={{
                   year: new Date().getFullYear(),
                   title: "",
-                  url: "",
+                  input: {
+                    url: "",
+                  },
                   coverImage: "",
                 }}
                 formType="create"
-                onSubmit={(values) => {
-                  if (values.fileInput) {
+                onSubmit={(values: ZenithFormValuesType) => {
+                  if (values.input.fileInput) {
                     handleCreateZenithMediaFile(values);
+                  } else {
+                    createNewZenithMedia({
+                      url: values.input.url || "",
+                      ...values,
+                    });
                   }
-                  // createNewZenithMedia(values);
                 }}
               />
             }

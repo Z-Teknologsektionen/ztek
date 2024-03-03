@@ -1,3 +1,5 @@
+import Image from "next/image";
+import { useState } from "react";
 import { type FieldValues, type Path } from "react-hook-form";
 import {
   FormControl,
@@ -27,6 +29,8 @@ export const FileInput = <
   accept = "image/png, image/jpeg, application/pdf",
   ...rest
 }: IFileInput<TFieldValues, TName>): JSX.Element => {
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
   return (
     <FormField
       control={control}
@@ -37,16 +41,35 @@ export const FileInput = <
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <div className="flex w-auto gap-2">
+            <div className="flex w-auto flex-col gap-2">
+              {previewUrl &&
+                (accept.includes("application/pdf") ? (
+                  <object
+                    data={previewUrl}
+                    height="200px"
+                    type="application/pdf"
+                    width="100%"
+                  >
+                    Preview not available
+                  </object>
+                ) : (
+                  <Image alt="Preview" src={previewUrl} />
+                ))}
+
               <Input
                 {...field}
                 {...rest}
                 accept={accept}
-                className={cn("hover:cursor-pointer", className)}
+                className={cn(
+                  "text-transparent hover:cursor-pointer",
+                  className,
+                )}
                 onChange={(e) => {
                   if (e.target?.files?.[0]) {
                     const filesArray = Array.from(e.target.files);
                     field.onChange(filesArray);
+                    const url = URL.createObjectURL(e.target.files[0]);
+                    setPreviewUrl(url);
                   }
                 }}
                 type="file"

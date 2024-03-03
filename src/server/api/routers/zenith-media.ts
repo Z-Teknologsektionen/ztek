@@ -1,9 +1,7 @@
-import { fileTypeFromBuffer } from "file-type";
-import { createReadStream } from "fs";
 import { z } from "zod";
 import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
-  createZenithMediaSchema,
+  createZenithMediaServerSchema,
   updateZenithMediaSchema,
 } from "~/schemas/zenith-media";
 import {
@@ -11,7 +9,7 @@ import {
   publicProcedure,
   zenithMediaProcedure,
 } from "~/server/api/trpc";
-import { deleteFile, renameFile, uploadFile } from "~/utils/sftp-engine";
+import { deleteFile } from "~/utils/sftp-engine";
 
 export const zenithMediaRouter = createTRPCRouter({
   getAllByYear: publicProcedure.query(async ({ ctx }) => {
@@ -43,87 +41,32 @@ export const zenithMediaRouter = createTRPCRouter({
     });
   }),
   createOneAsAuthed: zenithMediaProcedure
-    .input(createZenithMediaSchema)
-    .mutation(
-      async ({ ctx, input: { fileInput, url, title, year, coverImage } }) => {
-        let fileUrl = url;
-        if (!fileInput) {
-          throw new Error("No file input found.");
-        }
-        const fileBuffer = Buffer.from(fileInput, "base64");
-        const fileType = await fileTypeFromBuffer(fileBuffer);
-        // console.log(result);
-
-        try {
-          const file = createReadStream("C:/Users/marte/Desktop/ztek/test.png");
-          fileUrl = await uploadFile(
-            file,
-            "media",
-            `${title.replaceAll(" ", "-").toLowerCase()}.${fileType?.ext}`,
-          );
-        } catch (error) {
-          if (error instanceof Error) {
-            throw new Error(error.message);
-          } else {
-            throw new Error("Something went wrong when uploading the file.");
-          }
-        }
-
-        return ctx.prisma.zenithMedia.create({
-          data: {
-            title: title,
-            url: fileUrl,
-            year: year,
-            coverImage: coverImage,
-          },
-        });
-      },
-    ),
+    .input(createZenithMediaServerSchema)
+    .mutation(async ({ ctx, input: { url, title, year, coverImage } }) => {
+      return ctx.prisma.zenithMedia.create({
+        data: {
+          title: title,
+          url: url,
+          year: year,
+          coverImage: coverImage,
+        },
+      });
+    }),
   updateOneAsAuthed: zenithMediaProcedure
     .input(updateZenithMediaSchema)
-    .mutation(
-      async ({
-        ctx,
-        input: { id, fileInput, title, url, year, coverImage },
-      }) => {
-        let newUrl = url;
-        if (title) {
-          const oldData = await ctx.prisma.zenithMedia.findUnique({
-            where: { id: id },
-            select: { url: true },
-          });
-
-          if (!oldData) {
-            throw new Error("Media not found");
-          }
-          try {
-            newUrl = await renameFile(
-              oldData.url,
-              "media",
-              `${title.replaceAll(" ", "-").toLowerCase()}.png`,
-              true,
-            );
-          } catch (error) {
-            if (error instanceof Error) {
-              throw new Error(error.message);
-            } else {
-              throw new Error("Something went wrong when deleting the file.");
-            }
-          }
-        }
-        return ctx.prisma.zenithMedia.update({
-          where: {
-            id: id,
-          },
-          data: {
-            title: title,
-            url: newUrl,
-            year: year,
-            coverImage: coverImage,
-          },
-        });
-      },
-    ),
+    .mutation(async ({ ctx, input: { id, title, url, year, coverImage } }) => {
+      return ctx.prisma.zenithMedia.update({
+        where: {
+          id: id,
+        },
+        data: {
+          title: title,
+          url: url,
+          year: year,
+          coverImage: coverImage,
+        },
+      });
+    }),
   deleteOneAsAuthed: zenithMediaProcedure
     .input(z.object({ id: objectId }))
     .mutation(async ({ ctx, input: { id } }) => {

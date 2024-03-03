@@ -80,7 +80,10 @@ export const ImageInput = <
                 {...field}
                 {...rest}
                 accept={accept}
-                className={cn("hover:cursor-pointer", className)}
+                className={cn(
+                  "text-transparent hover:cursor-pointer",
+                  className,
+                )}
                 onChange={(event) => {
                   getBase64WebPStringFromFileInput({
                     event,

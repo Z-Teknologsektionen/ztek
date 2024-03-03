@@ -17,9 +17,11 @@ import type { ZenithMediaType } from "./zenith-media-columns";
 
 export type ZenithFormValuesType = {
   coverImage: string;
-  fileInput?: File[];
+  input: {
+    fileInput?: File[];
+    url?: string;
+  };
   title: string;
-  url?: string | undefined;
   year: number;
 };
 
@@ -31,7 +33,7 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
   const [isOpen, setIsOpen] = useState(false);
 
   const handleUpdateZenithMediaFile = (props: ZenithFormValuesType): void => {
-    console.log("update", props.fileInput?.length);
+    console.log("update", props.input.fileInput?.length);
   };
 
   const { mutate: updateZenithMedia } =
@@ -82,7 +84,13 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
           form={
             <UpsertZenithMediaForm
               key={id}
-              defaultValues={{ ...values }}
+              defaultValues={{
+                input: {
+                  fileInput: undefined,
+                  url: "",
+                },
+                ...values,
+              }}
               formType="update"
               onSubmit={({ ...rest }) => {
                 console.log("Files", rest.fileInput);

@@ -21,8 +21,7 @@ type IZenithMediaCard =
   RouterOutputs["zenithMedia"]["getAllByYear"][0]["mediaArray"][0];
 
 export const ZenithMediaCard: FC<IZenithMediaCard> = ({
-  image,
-  isPDF,
+  coverImage,
   title,
   url,
   year,
@@ -32,14 +31,14 @@ export const ZenithMediaCard: FC<IZenithMediaCard> = ({
       <TooltipTrigger asChild>
         <Link
           className="relative h-[187.5px] w-[125px]"
-          href={isPDF ? `https://docs.google.com/viewer?url=${url}` : url}
+          href={url}
           rel="noopener noreferrer"
           target="_blank"
         >
           <Image
             alt={`Omslagsbild till ${title}`}
             className="object-cover object-center"
-            src={image}
+            src={coverImage}
             unselectable="on"
             fill
             unoptimized
