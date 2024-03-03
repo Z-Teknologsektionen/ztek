@@ -2,18 +2,11 @@ import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { IconContext } from "react-icons";
-import {
-  MdAccountBalance,
-  MdAnalytics,
-  MdCalendarMonth,
-  MdEmail,
-  MdFacebook,
-  MdInfo,
-  MdMeetingRoom,
-  MdReport,
-  MdSchool,
-} from "react-icons/md";
+import { MdEmail, MdInfo } from "react-icons/md";
+import ExternalLink from "~/components/layout/external-link";
 import HeadLayout from "~/components/layout/head-layout";
+import ImageWithCredit from "~/components/layout/image-with-credit";
+import ImageWithDescription from "~/components/layout/image-with-description";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
@@ -21,58 +14,13 @@ import { Button, buttonVariants } from "~/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { studentQuickLinks } from "~/data/student-quick-links";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 import { cn } from "~/utils/utils";
 
-const quickLinks = [
-  {
-    icon: <MdCalendarMonth size={"3em"} />,
-    href: "https://cloud.timeedit.net/chalmers/web/public/",
-    text: "Schema",
-    tooltip: "TimeEdit",
-  },
-  {
-    icon: <MdMeetingRoom size={"3em"} />,
-    href: "https://cloud.timeedit.net/chalmers/web/b1/",
-    text: "Grupprum",
-    tooltip: "Boka grupprum på Chalmers",
-  },
-  {
-    icon: <MdSchool size={"3em"} />,
-    href: "https://www.chalmers.se/utbildning/dina-studier/",
-    text: "Studentportalen",
-    tooltip: "Här kan du läsa mer om dina studier",
-  },
-  {
-    icon: <MdAnalytics size={"3em"} />,
-    href: "https://stats.ftek.se/",
-    text: "Tentastatistik",
-    tooltip: "Här kan du se tentastatestik för de flesta kurser på Chalmers.",
-  },
-  {
-    icon: <MdAccountBalance size={"3em"} />,
-    href: "https://www.student.ladok.se/student/app/studentwebb",
-    text: "Ladok",
-    tooltip: "Här kan du anmäla dig till tentor och se dina resultat.",
-  },
-  {
-    icon: <MdFacebook size={"3em"} />,
-    href: "https://www.facebook.com/groups/activityatz",
-    text: "Activity@Z",
-    tooltip: "Här kommer information om olika arrangemang på sektionen",
-  },
-  {
-    icon: <MdReport size={"3em"} />,
-    href: "https://www.chalmers.se/utbildning/dina-studier/studie-och-arbetsmiljo/fysisk-arbetsmiljo/#felanmalan-i-lokalerna",
-    text: "Felanmäl lokal",
-    tooltip:
-      "Här kan du rapportera olika fel eller skador som du hittar på någon av Chalmers lokaler",
-  },
-];
 const StudentPage: NextPage = () => {
   const { data, isLoading, isError } = api.programBoard.getAll.useQuery();
   return (
@@ -81,33 +29,31 @@ const StudentPage: NextPage = () => {
 
       <div className="container mx-auto mt-8 divide-y-4 divide-zDarkGray divide-opacity-20">
         <SectionWrapper className="pt-2">
-          <TooltipProvider>
-            <div className="grid grid-cols-3 gap-3 md:grid-cols-5 lg:grid-cols-7">
-              {quickLinks.map((link) => (
-                <Tooltip key={link.text}>
-                  <TooltipTrigger asChild>
-                    <Link
-                      className="col-span-1 mx-auto flex flex-col items-center justify-center rounded-lg text-center transition-all hover:ring hover:ring-zWhite"
-                      href={link.href}
-                      target="_blank"
+          <div className="grid grid-cols-3 gap-3 md:grid-cols-5 lg:grid-cols-7">
+            {studentQuickLinks.map(({ href, icon: Icon, text, tooltip }) => (
+              <Tooltip key={text}>
+                <TooltipTrigger asChild>
+                  <Link
+                    className="col-span-1 mx-auto flex flex-col items-center justify-center rounded-lg text-center transition-all hover:ring hover:ring-zWhite"
+                    href={href}
+                    target="_blank"
+                  >
+                    <IconContext.Provider
+                      value={{
+                        color: "black",
+                      }}
                     >
-                      <IconContext.Provider
-                        value={{
-                          color: "black",
-                        }}
-                      >
-                        {link.icon}
-                      </IconContext.Provider>
-                      <p className="text-center text-xs">{link.text}</p>
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent className="bg-zWhite">
-                    <p>{link.tooltip}</p>
-                  </TooltipContent>
-                </Tooltip>
-              ))}
-            </div>
-          </TooltipProvider>
+                      <Icon size="3rem" />
+                    </IconContext.Provider>
+                    <p className="text-center text-xs">{text}</p>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent className="bg-zWhite">
+                  <p>{tooltip}</p>
+                </TooltipContent>
+              </Tooltip>
+            ))}
+          </div>
         </SectionWrapper>
         <SectionWrapper className="p-2">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -186,16 +132,14 @@ const StudentPage: NextPage = () => {
                 möjligheter att få hjälp och möjlighet att påverka dina studier.
                 Här nedanför finns lite information om vad som finns
                 tillgängligt för dig som student och information om programmet.
-                Programmets studieplan hittar du på{" "}
-                <Link
-                  className="text-blue-600 hover:text-blue-800 hover:underline"
-                  href={
-                    "https://www.chalmers.se/utbildning/hitta-program/automation-och-mekatronik-civilingenjor/"
-                  }
+                Programmets studieplan hittar du på
+                <ExternalLink
+                  href="https://www.chalmers.se/utbildning/hitta-program/automation-och-mekatronik-civilingenjor/"
                   target="_blank"
                 >
-                  Chalmers hemsida
-                </Link>{" "}
+                  {" "}
+                  Chalmers hemsida{" "}
+                </ExternalLink>
                 där du också kan läsa mer om de olika kurserna som du läser
                 varje år. Som student på Z-programmet har man stor möjlighet att
                 välja olika mastrar beroende på intresseområde då över 20 olika
@@ -205,32 +149,27 @@ const StudentPage: NextPage = () => {
               </p>
             </div>
             <div className="col-span-3 mx-auto mt-4 md:col-span-1 md:my-auto">
-              <Image
-                alt="image"
-                className="rounded"
-                height={600}
+              <ImageWithCredit
+                alt="Bild på zäta-studenter"
+                height={800}
+                photoCommittee="zFoto"
+                photographer="Casper Ludberg"
                 src="/z_student.jpg"
-                width={600}
+                width={800}
               />
-              <p className="mt-2 text-center">Foto: Casper Lundberg/zFoto</p>
             </div>
           </div>
         </SectionWrapper>
         <SectionWrapper id="snz">
           <div className="grid grid-cols-3">
-            <div className="order-last col-span-3 m-auto lg:order-first lg:col-span-1">
-              <Image
-                alt="image"
-                className="rounded"
-                height={250}
+            <div className="order-last col-span-3 m-2 lg:order-first lg:col-span-1">
+              <ImageWithDescription
+                alt="Snz logga"
+                description="SNZ - Sektionens studienämnd"
+                height={300}
                 src="/SNZ.png"
-                width={250}
+                width={300}
               />
-              <div className="mt-0 text-center">
-                <p>
-                  <strong>SNZ</strong> - sektionens studienämnd.
-                </p>
-              </div>
             </div>
             <div className="order-first col-span-3 pl-4 lg:order-last lg:col-span-2">
               <SectionTitle className="mb-4">Påverka dina studier</SectionTitle>

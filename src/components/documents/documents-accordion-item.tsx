@@ -8,6 +8,7 @@ import {
 } from "~/components/ui/accordion";
 import { buttonVariants } from "~/components/ui/button";
 import type { RouterOutputs } from "~/utils/api";
+import { openUrlAsPdf } from "~/utils/open-url-as-pdf";
 
 type DocumentGroup = RouterOutputs["document"]["getAllSortedByGroup"][0];
 type Document = DocumentGroup["Document"][0];
@@ -49,9 +50,7 @@ const DocumentsAccordionItem: FC<{
                       size: "sm",
                       className: "text-xs font-light",
                     })}
-                    href={
-                      isPDF ? `https://docs.google.com/viewer?url=${url}` : url
-                    }
+                    href={openUrlAsPdf({ url, isPDF })}
                     rel="noopener noreferrer"
                     target="_blank"
                   >

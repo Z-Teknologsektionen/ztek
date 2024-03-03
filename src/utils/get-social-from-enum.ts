@@ -12,7 +12,13 @@ import {
   FaTwitch,
   FaYoutube,
 } from "react-icons/fa";
-import { FaHouse, FaLink, FaThreads, FaXTwitter } from "react-icons/fa6";
+import {
+  FaFile,
+  FaHouse,
+  FaLink,
+  FaThreads,
+  FaXTwitter,
+} from "react-icons/fa6";
 
 export const getSocialIconFromEnum = (type: IconEnum): IconType => {
   switch (type) {
@@ -44,6 +50,8 @@ export const getSocialIconFromEnum = (type: IconEnum): IconType => {
       return FaQuestionCircle;
     case "HOME":
       return FaHouse;
+    case "DOCUEMNT":
+      return FaFile;
   }
 };
 
@@ -77,5 +85,7 @@ export const getSocialNameFromEnum = (type: IconEnum): string => {
       return "Frågetecken";
     case "HOME":
       return "Hem";
+    case "DOCUEMNT":
+      return "Dokument";
   }
 };

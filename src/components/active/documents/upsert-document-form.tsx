@@ -53,8 +53,8 @@ export const UpsertDocumentForm: FC<UpsertDocumentFormProps> = ({
             name="isPDF"
           />
           <DropdownInput
-            control={form.control}
             description={`Ett dokument måste tillhöra en grupp. Om du inte hittar en grupp som passar kan du skapa en ny fliken "Administera dokument".`}
+            form={form}
             label="Dokumentgrupp"
             mappable={documentsGroups || []}
             name="groupId"

@@ -72,8 +72,8 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
           />
           {isAdmin && (
             <DropdownInput
-              control={form.control}
               disabled={false}
+              form={form}
               label="Huvudorgan"
               mappable={dropDownMappable}
               name="belongsToCommitteeId"

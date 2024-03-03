@@ -38,16 +38,6 @@ export const zenithMediaColumns: ColumnDef<ZenithMediaType>[] = [
     enableResizing: true,
     filterFn: "inNumberRange",
   },
-  // {
-  //   id: "PDF?",
-  //   accessorKey: "isPDF",
-  //   header: ({ column }) => <DataTableColumnHeader column={column} />,
-  //   cell: ({ row }) => (row.original.isPDF ? "Ja" : "Nej"),
-  //   enableSorting: true,
-  //   enableHiding: true,
-  //   enableResizing: true,
-  //   filterFn: "equals",
-  // },
   {
     id: "actions",
     header: ({ table }) => (

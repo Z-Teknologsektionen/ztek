@@ -11,16 +11,16 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 
-interface IDeleteDialog {
+type DeleteDialogProps = {
   description?: string;
   onSubmit: () => void;
   primaryButtonText?: string;
   secondaryButtonText?: string;
   title?: string;
   trigger: ReactNode;
-}
+};
 
-const DeleteDialog: FC<IDeleteDialog> = ({
+const DeleteDialog: FC<DeleteDialogProps> = ({
   trigger,
   description = "Denna ändringen går inte att ångra!",
   title = "Är du säker?",
@@ -30,7 +30,9 @@ const DeleteDialog: FC<IDeleteDialog> = ({
 }) => {
   return (
     <Dialog>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogTrigger asChild>
+        <div>{trigger}</div>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>

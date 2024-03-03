@@ -2,6 +2,7 @@ import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import CommitteeImage from "~/components/committees/committee-image";
+import ExternalLink from "~/components/layout/external-link";
 import HeadLayout from "~/components/layout/head-layout";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionTitle from "~/components/layout/section-title";
@@ -10,7 +11,6 @@ import { Button } from "~/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import ssg from "~/server/api/helpers/ssg";
@@ -158,42 +158,41 @@ const StudentDivision: NextPage = () => {
           <div className="grid grid-cols-3">
             <div className="order-last col-span-3 mt-2 lg:order-first lg:col-span-1">
               <div className="mr-2 grid grid-cols-4">
-                <TooltipProvider>
-                  {documentIsLoading && <p>Läser in dokument...</p>}
-                  {documentIsError && <p>Dokument kunde inte hämtas.</p>}
-                  {documentData &&
-                    documentData.Document.map((doc) => (
-                      <div
-                        key={doc.title}
-                        className="col-span-1 mx-2 mb-2 overflow-hidden"
-                        style={{
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Link
-                              className="text-sm hover:text-blue-800 hover:underline"
-                              href={doc.url}
-                              target="_blank"
-                            >
-                              <Image
-                                alt="Sektionens uppbyggnad"
-                                height={100}
-                                src="/document_stack.svg"
-                                width={100}
-                              />
-                              {doc.title}
-                            </Link>
-                          </TooltipTrigger>
-                          <TooltipContent className="bg-zWhite">
-                            <p>{doc.title}</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </div>
-                    ))}
-                </TooltipProvider>
+                {documentIsLoading && <p>Läser in dokument...</p>}
+                {documentIsError && <p>Dokument kunde inte hämtas.</p>}
+                {documentData &&
+                  documentData.Document.map((doc) => (
+                    //Hittade inget bra sätt att konvertera detta till en ImageWIthDescription, tooltipen funkar inte.
+                    <div
+                      key={doc.title}
+                      className="col-span-1 mx-2 mb-2 overflow-hidden"
+                      style={{
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Link
+                            className="text-sm hover:text-blue-800 hover:underline"
+                            href={doc.url}
+                            target="_blank"
+                          >
+                            <Image
+                              alt="Sektionens uppbyggnad"
+                              height={100}
+                              src="/document_stack.svg"
+                              width={100}
+                            />
+                            {doc.title}
+                          </Link>
+                        </TooltipTrigger>
+                        <TooltipContent className="bg-zWhite">
+                          <p>{doc.title}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </div>
+                  ))}
               </div>
             </div>
             <div className="order-first col-span-3 lg:order-last lg:col-span-2">
@@ -210,20 +209,16 @@ const StudentDivision: NextPage = () => {
                 röst väger lika tungt. Finns det något du vill ändra på eller
                 tycker du att sektionen saknar något? Isåfall kan du skriva en
                 motion till sektionsmötet och skicka den till{" "}
-                <a
-                  className="text-blue-800 hover:underline"
-                  href="mailto:ztyret@ztek.se"
-                >
+                <ExternalLink href={"mailto:ztyret@ztek.se"}>
                   ztyret@ztek.se
-                </a>{" "}
+                </ExternalLink>{" "}
                 senast 7 dagar innan sektionsmötet. Det går också att skriva en{" "}
-                <Link
-                  className="text-blue-600 hover:text-blue-800 hover:underline"
+                <ExternalLink
                   href={"https://sv.wikipedia.org/wiki/Interpellation"}
                   target="_blank"
                 >
                   interpellation
-                </Link>{" "}
+                </ExternalLink>{" "}
                 till sektionsmötet där du kan ställa frågor till olika organ.
               </p>
             </div>
@@ -242,12 +237,9 @@ const StudentDivision: NextPage = () => {
                 eller för att utföra ett uppdrag, till exempel anordna
                 mottagning eller trycka en tidning. Sektionens olika organ och
                 dess medlemmar hittar du{" "}
-                <Link
-                  className="text-blue-600 hover:text-blue-800 hover:underline"
-                  href="/student-division/committees"
-                >
+                <ExternalLink href="/student-division/committees">
                   här
-                </Link>
+                </ExternalLink>
                 .
                 <br />
                 <br />
@@ -267,13 +259,12 @@ const StudentDivision: NextPage = () => {
                 hinner man grilla på en timme? Alla dessa svar kan du få om du
                 azpar olika organ. Information om de olika azpningarna brukar
                 anslås i vår Facebookgrupp,{" "}
-                <Link
-                  className="text-blue-600 hover:text-blue-800 hover:underline"
+                <ExternalLink
                   href={"https://www.facebook.com/groups/activityatz"}
                   target="_blank"
                 >
                   Activity@Z
-                </Link>
+                </ExternalLink>
                 . Man kan azpa olika organ utan att söka till dem precis som man
                 kan söka de olika organen utan att ha azpat. Följande organ har
                 inval i dessa läsperioder:

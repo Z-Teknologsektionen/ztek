@@ -5,14 +5,16 @@ import type {
   Control,
   FieldPath,
   FieldValues,
+  SubmitHandler,
   UseControllerProps,
+  UseFormReturn,
 } from "react-hook-form";
 import type { z } from "zod";
 
 export interface IUpsertForm<schema extends z.ZodObject<z.ZodRawShape>> {
   defaultValues?: z.infer<schema>;
   formType: "create" | "update";
-  onSubmit: (props: z.infer<schema>) => void;
+  onSubmit: SubmitHandler<z.infer<schema>>;
 }
 
 export interface IBasicFormField<
@@ -36,13 +38,24 @@ export interface IBooleanInput<
 export interface IDropdownInput<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> extends IBasicFormField<TFieldValues, TName>,
-    Omit<
-      SelectPrimitive.SelectProps,
-      "defaultValue" | "name" | "onValueChange"
-    > {
+> extends Omit<IBasicFormField<TFieldValues, TName>, "control">,
+    Omit<SelectPrimitive.SelectProps, "defaultValue" | "name"> {
+  control?: Control<TFieldValues>;
+  form: UseFormReturn<TFieldValues>;
   mappable: { id: string; name: string }[];
   placeholder: string;
+}
+
+export interface IComboboxInput<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+> extends Omit<IBasicFormField<TFieldValues, TName>, "control"> {
+  control?: Control<TFieldValues>;
+  emptyListText: string;
+  form: UseFormReturn<TFieldValues>;
+  options: { label: string; value: string }[];
+  placeholder: string;
+  serchText: string;
 }
 
 export interface IImageInput<

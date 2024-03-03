@@ -4,7 +4,7 @@ import { PopoverClose } from "@radix-ui/react-popover";
 import { PlusIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
-import { Badge } from "~/components/ui/badge";
+import BadgeCell from "~/components/columns/badge-cell";
 import { Button } from "~/components/ui/button";
 import {
   Command,
@@ -51,12 +51,9 @@ export const MemberRolesActions = ({
   return (
     <Popover>
       <PopoverTrigger>
-        <Badge
-          className="grid place-items-center p-1 hover:cursor-pointer hover:bg-blue-50"
-          variant="outline"
-        >
+        <BadgeCell className="p-1 hover:cursor-pointer hover:bg-blue-50">
           <PlusIcon className="h-3 w-3" />
-        </Badge>
+        </BadgeCell>
       </PopoverTrigger>
       <PopoverContent align="start" className="w-auto p-0">
         <Command>

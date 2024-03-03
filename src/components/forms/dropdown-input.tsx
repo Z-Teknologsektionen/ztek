@@ -1,4 +1,5 @@
-import type { FieldValues, Path } from "react-hook-form";
+import type { FieldValues, Path, PathValue } from "react-hook-form";
+import { Button } from "~/components/ui/button";
 import {
   FormControl,
   FormDescription,
@@ -21,11 +22,12 @@ export const DropdownInput = <
   TName extends Path<TFieldValues>,
 >({
   label,
+  form,
   name,
   description,
   placeholder,
   mappable,
-  control,
+  control = form.control,
   defaultValue,
   disabled,
   rules,
@@ -38,28 +40,40 @@ export const DropdownInput = <
       defaultValue={defaultValue}
       disabled={disabled}
       name={name}
-      render={({ field }) => (
+      // Här vet bara GUD varför ref inte ska skickas in till select ger galen error i consol om man skickar in och fungerar fin fint utan
+      render={({ field: { ref: _ref, ...field } }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          <Select
-            {...field}
-            {...rest}
-            defaultValue={field.value}
-            onValueChange={field.onChange}
-          >
-            <FormControl>
-              <SelectTrigger>
-                <SelectValue placeholder={placeholder} />
-              </SelectTrigger>
-            </FormControl>
-            <SelectContent>
-              {mappable?.map(({ id, name: displayName }) => (
-                <SelectItem key={id} value={id}>
-                  {displayName}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="flex flex-row gap-2">
+            <Select
+              {...field}
+              {...rest}
+              defaultValue={field.value}
+              onValueChange={field.onChange}
+            >
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder={placeholder} />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {mappable?.map(({ id, name: displayName }) => (
+                  <SelectItem key={id} value={id}>
+                    {displayName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Button
+              onClick={() =>
+                form.setValue(name, "" as PathValue<TFieldValues, TName>)
+              }
+              type="button"
+              variant="ghost"
+            >
+              Rensa
+            </Button>
+          </div>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />
         </FormItem>

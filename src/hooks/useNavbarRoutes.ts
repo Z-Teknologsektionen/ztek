@@ -1,4 +1,12 @@
-export const navbarRoutes = [
+import { useSession } from "next-auth/react";
+
+type NavbarRouteType = {
+  href: string;
+  name: string;
+  target: "_self" | "_blank";
+};
+
+const navbarRoutes: NavbarRouteType[] = [
   { name: "Student", href: "/student", target: "_self" },
   {
     name: "Zaloonen",
@@ -15,3 +23,15 @@ export const navbarRoutes = [
   { name: "För Företag", href: "/business", target: "_self" },
   { name: "Bilder", href: "https://zfoto.ztek.se", target: "_blank" },
 ];
+
+export const useNavbarRoutes = (): NavbarRouteType[] => {
+  const { status } = useSession();
+
+  if (status === "authenticated")
+    return [
+      ...navbarRoutes,
+      { name: "Aktiv", href: "/active", target: "_self" },
+    ];
+
+  return navbarRoutes;
+};

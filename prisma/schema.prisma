@@ -11,7 +11,8 @@ datasource db {
 }
 
 model Committee {
-    id String @id @default(auto()) @map("_id") @db.ObjectId
+    id         String  @id @default(auto()) @map("_id") @db.ObjectId
+    documentId String? @db.ObjectId
 
     name        String
     description String
@@ -27,6 +28,7 @@ model Committee {
 
     members      CommitteeMember[]
     oldCommittee OldCommittee[]
+    document     Document?         @relation(fields: [documentId], references: [id])
 
     updatedAt DateTime @updatedAt
 }
@@ -59,6 +61,7 @@ enum IconEnum {
     CAMERA
     QUESTIONMARK
     HOME
+    DOCUEMNT
 }
 
 model OldCommittee {
@@ -123,7 +126,8 @@ model Document {
     url   String
     isPDF Boolean @default(false)
 
-    group DocumentGroup @relation(fields: [groupId], references: [id], onDelete: Restrict)
+    group              DocumentGroup @relation(fields: [groupId], references: [id], onDelete: Restrict)
+    linkedToCommittees Committee[]
 }
 
 model DocumentGroup {
