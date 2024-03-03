@@ -1,7 +1,6 @@
 import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { IconContext } from "react-icons";
 import { MdEmail, MdInfo } from "react-icons/md";
 import CenteredButtonWithLink from "~/components/buttons/centered-button-with-link";
 import ExternalLink from "~/components/layout/external-link";
@@ -14,8 +13,10 @@ import SectionWrapper from "~/components/layout/section-wrapper";
 import {
   Tooltip,
   TooltipContent,
+  TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
 import { studentQuickLinks } from "~/data/student-quick-links";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
@@ -30,27 +31,29 @@ const StudentPage: NextPage = () => {
         <SectionWrapper className="pt-2">
           <div className="grid grid-cols-3 gap-3 md:grid-cols-5 lg:grid-cols-7">
             {studentQuickLinks.map(({ href, icon: Icon, text, tooltip }) => (
-              <Tooltip key={text}>
-                <TooltipTrigger asChild>
-                  <Link
-                    className="col-span-1 mx-auto flex flex-col items-center justify-center rounded-lg text-center transition-all hover:ring hover:ring-zWhite"
-                    href={href}
-                    target="_blank"
-                  >
-                    <IconContext.Provider
-                      value={{
-                        color: "black",
-                      }}
+              <TooltipProvider key={text} delayDuration={TOOLTIP_DELAY_MS}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link
+                      className="col-span-1 mx-auto flex flex-col items-center justify-center rounded-lg text-center transition-all hover:ring hover:ring-zWhite"
+                      href={href}
+                      target="_blank"
                     >
-                      <Icon size="3rem" />
-                    </IconContext.Provider>
-                    <p className="text-center text-xs">{text}</p>
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent className="bg-zWhite">
-                  <p>{tooltip}</p>
-                </TooltipContent>
-              </Tooltip>
+                      {/* <IconContext.Provider
+                        value={{
+                          color: "black",
+                        }}
+                      > */}
+                      <Icon className="fill-black" size="3rem" />
+                      {/* </IconContext.Provider> */}
+                      <p className="text-center text-xs">{text}</p>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent className="bg-zWhite">
+                    <p>{tooltip}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             ))}
           </div>
         </SectionWrapper>

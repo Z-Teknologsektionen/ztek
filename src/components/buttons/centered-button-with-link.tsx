@@ -1,12 +1,12 @@
 import Link from "next/link";
-import type { FC, PropsWithChildren } from "react";
+import type { FC, HTMLAttributeAnchorTarget, PropsWithChildren } from "react";
 import { Button } from "~/components/ui/button";
 import { cn } from "~/utils/utils";
 
 type CenteredButtonWithLinkProps = {
   className?: string;
   href: string;
-  target?: string;
+  target?: HTMLAttributeAnchorTarget;
 };
 
 const CenteredButtonWithLink: FC<

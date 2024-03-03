@@ -12,8 +12,10 @@ import SectionWrapper from "~/components/layout/section-wrapper";
 import {
   Tooltip,
   TooltipContent,
+  TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 
@@ -154,26 +156,28 @@ const StudentDivision: NextPage = () => {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Link
-                            className="text-sm hover:text-blue-800 hover:underline"
-                            href={doc.url}
-                            target="_blank"
-                          >
-                            <Image
-                              alt="Sektionens uppbyggnad"
-                              height={100}
-                              src="/document_stack.svg"
-                              width={100}
-                            />
-                            <BreakText>{doc.title}</BreakText>
-                          </Link>
-                        </TooltipTrigger>
-                        <TooltipContent className="bg-zWhite">
-                          <p>{doc.title}</p>
-                        </TooltipContent>
-                      </Tooltip>
+                      <TooltipProvider delayDuration={TOOLTIP_DELAY_MS}>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Link
+                              className="text-sm hover:text-blue-800 hover:underline"
+                              href={doc.url}
+                              target="_blank"
+                            >
+                              <Image
+                                alt="Sektionens uppbyggnad"
+                                height={100}
+                                src="/document_stack.svg"
+                                width={100}
+                              />
+                              <BreakText>{doc.title}</BreakText>
+                            </Link>
+                          </TooltipTrigger>
+                          <TooltipContent className="bg-zWhite">
+                            <p>{doc.title}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </div>
                   ))}
               </div>

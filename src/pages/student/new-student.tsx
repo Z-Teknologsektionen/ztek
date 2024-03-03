@@ -9,8 +9,10 @@ import { Skeleton } from "~/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
+  TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
 import { courseData } from "~/data/course-data";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
@@ -236,19 +238,21 @@ const NewStudent: NextPage = () => {
                             className="mb-1 flex flex-row justify-between text-slate-500"
                           >
                             <div className="shrink">
-                              <Tooltip>
-                                <TooltipTrigger>
-                                  <a
-                                    className="line-clamp-1 text-left font-medium hover:text-blue-500"
-                                    href={url}
-                                    rel="noopener noreferrer"
-                                    target="_blank"
-                                  >
-                                    {courseName}
-                                  </a>
-                                </TooltipTrigger>
-                                <TooltipContent>{courseName}</TooltipContent>
-                              </Tooltip>
+                              <TooltipProvider delayDuration={TOOLTIP_DELAY_MS}>
+                                <Tooltip>
+                                  <TooltipTrigger>
+                                    <a
+                                      className="line-clamp-1 text-left font-medium hover:text-blue-500"
+                                      href={url}
+                                      rel="noopener noreferrer"
+                                      target="_blank"
+                                    >
+                                      {courseName}
+                                    </a>
+                                  </TooltipTrigger>
+                                  <TooltipContent>{courseName}</TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
                             </div>
                             <div className="flex shrink-0 items-center">
                               {followUp && (
