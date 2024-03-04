@@ -5,7 +5,6 @@ import DeleteTriggerButton from "~/components/buttons/delete-trigger-button";
 import EditTriggerButton from "~/components/buttons/edit-trigger-button";
 import DeleteDialog from "~/components/dialogs/delete-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
-import { TooltipProvider } from "~/components/ui/tooltip";
 import { api } from "~/utils/api";
 import type { ZenithMediaType } from "./zenith-media-columns";
 
@@ -52,32 +51,30 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
     });
 
   return (
-    <TooltipProvider>
-      <div className="flex justify-end">
-        <UpsertDialog
-          form={
-            <UpsertZenithMediaForm
-              key={id}
-              defaultValues={values}
-              formType="update"
-              onSubmit={({ ...rest }) =>
-                updateZenithMedia({
-                  id: id,
-                  ...rest,
-                })
-              }
-            />
-          }
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          title="Uppdatera media"
-          trigger={<EditTriggerButton />}
-        />
-        <DeleteDialog
-          onSubmit={() => deleteZenithMedia({ id })}
-          trigger={<DeleteTriggerButton />}
-        />
-      </div>
-    </TooltipProvider>
+    <div className="flex justify-end">
+      <UpsertDialog
+        form={
+          <UpsertZenithMediaForm
+            key={id}
+            defaultValues={values}
+            formType="update"
+            onSubmit={({ ...rest }) =>
+              updateZenithMedia({
+                id: id,
+                ...rest,
+              })
+            }
+          />
+        }
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        title="Uppdatera media"
+        trigger={<EditTriggerButton />}
+      />
+      <DeleteDialog
+        onSubmit={() => deleteZenithMedia({ id })}
+        trigger={<DeleteTriggerButton />}
+      />
+    </div>
   );
 };

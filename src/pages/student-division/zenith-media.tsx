@@ -10,7 +10,6 @@ import { Skeleton } from "~/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import ssg from "~/server/api/helpers/ssg";
@@ -93,21 +92,19 @@ const ZenithMediaPage: NextPage = () => {
             webbgruppen!
           </p>
         )}
-        <TooltipProvider>
-          {data &&
-            data.length > 0 &&
-            data.map(({ year, mediaArray }) => (
-              <div key={year} className="space-y-4">
-                <SecondaryTitle>{year}</SecondaryTitle>
-                <div className="flex flex-row flex-wrap gap-4">
-                  {mediaArray.length > 0 &&
-                    mediaArray.map((media) => (
-                      <ZenithMediaCard key={media.id} {...media} />
-                    ))}
-                </div>
+        {data &&
+          data.length > 0 &&
+          data.map(({ year, mediaArray }) => (
+            <div key={year} className="space-y-4">
+              <SecondaryTitle>{year}</SecondaryTitle>
+              <div className="flex flex-row flex-wrap gap-4">
+                {mediaArray.length > 0 &&
+                  mediaArray.map((media) => (
+                    <ZenithMediaCard key={media.id} {...media} />
+                  ))}
               </div>
-            ))}
-        </TooltipProvider>
+            </div>
+          ))}
       </SectionWrapper>
     </>
   );

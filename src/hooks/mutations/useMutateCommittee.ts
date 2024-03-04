@@ -70,13 +70,13 @@ export const useDeleteCommitteeAsAuthed = ({
   const ctx = api.useUtils();
 
   return api.committee.deleteCommitteeAsAuthed.useMutation({
-    onMutate: () => toast.loading("Raderar medlem..."),
+    onMutate: () => toast.loading("Raderar organet..."),
     onSettled: (_c, _d, _e, toastId) => {
       toast.remove(toastId);
       onSettled?.();
     },
     onSuccess: async () => {
-      toast.success("Medlem har raderats!");
+      toast.success("Organet har raderats!");
       await ctx.member.invalidate();
       await ctx.committee.invalidate();
       onSuccess?.();

@@ -11,7 +11,6 @@ import OldCommitteSection from "~/components/committees/old-committees/old-commi
 import HeadLayout from "~/components/layout/head-layout";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
-import { TooltipProvider } from "~/components/ui/tooltip";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 import { openUrlAsPdf } from "~/utils/open-url-as-pdf";
@@ -36,29 +35,24 @@ const CommitteePage: NextPage<
           <div className="mx-auto max-w-3xl space-y-2 border-b-2 border-t-2 p-4 text-center">
             <SectionTitle>{committee.name}</SectionTitle>
             <p>{committee.description}</p>
-            <TooltipProvider>
-              <div className="flex flex-row flex-wrap justify-center gap-2">
-                {committee.socialLinks.length !== 0 ? (
-                  committee.socialLinks.map((socialLink) => (
-                    <CommitteeSocialIcon {...socialLink} key={socialLink.url} />
-                  ))
-                ) : (
-                  <CommitteeSocialIcon
-                    iconVariant="MAIL"
-                    url={committee.email}
-                  />
-                )}
-                {committee.document && (
-                  <CommitteeSocialIcon
-                    iconVariant="DOCUEMNT"
-                    url={openUrlAsPdf({
-                      url: committee.document.url,
-                      isPDF: committee.document.isPDF,
-                    })}
-                  />
-                )}
-              </div>
-            </TooltipProvider>
+            <div className="flex flex-row flex-wrap justify-center gap-2">
+              {committee.socialLinks.length !== 0 ? (
+                committee.socialLinks.map((socialLink) => (
+                  <CommitteeSocialIcon {...socialLink} key={socialLink.url} />
+                ))
+              ) : (
+                <CommitteeSocialIcon iconVariant="MAIL" url={committee.email} />
+              )}
+              {committee.document && (
+                <CommitteeSocialIcon
+                  iconVariant="DOCUEMNT"
+                  url={openUrlAsPdf({
+                    url: committee.document.url,
+                    isPDF: committee.document.isPDF,
+                  })}
+                />
+              )}
+            </div>
           </div>
           <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] place-items-center gap-4">
             {committee.members.length !== 0 &&

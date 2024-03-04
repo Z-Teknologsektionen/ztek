@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import { MdCheckCircle } from "react-icons/md";
+import ExternalLink from "~/components/layout/external-link";
 import HeadLayout from "~/components/layout/head-layout";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionTitle from "~/components/layout/section-title";
@@ -26,21 +27,13 @@ const BusinessPage: NextPage = () => {
             till potentiella arbetsgivare, samtidigt får företag chansen att
             marknadsföra sig och skapa en långsiktig rekryteringsbas. Kontakta
             oss på{" "}
-            <a
-              className="text-blue-500 hover:underline"
-              href="mailto:foretag@argz.se"
-            >
+            <ExternalLink href="mailto:foretag@argz.se">
               foretag@argz.se
-            </a>{" "}
+            </ExternalLink>{" "}
             eller gå in på vår hemsida{" "}
-            <a
-              className="text-blue-500 hover:underline"
-              href="https://www.argz.se/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
+            <ExternalLink href="https://www.argz.se/" target="_blank">
               ArgZ.se
-            </a>
+            </ExternalLink>
           </p>
           <br></br>
           <div className="grid grid-cols-3 gap-2">

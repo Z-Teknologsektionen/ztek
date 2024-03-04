@@ -4,7 +4,6 @@ import DeleteTriggerButton from "~/components/buttons/delete-trigger-button";
 import EditTriggerButton from "~/components/buttons/edit-trigger-button";
 import DeleteDialog from "~/components/dialogs/delete-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
-import { TooltipProvider } from "~/components/ui/tooltip";
 import {
   useDeleteDocumentAsAuthed,
   useUpdateDocumentAsAuthed,
@@ -21,32 +20,30 @@ export const DocumentTableActions: FC<DocumentType> = ({ id, ...values }) => {
   const { mutate: deleteDocument } = useDeleteDocumentAsAuthed({});
 
   return (
-    <TooltipProvider>
-      <div className="flex justify-end">
-        <UpsertDialog
-          form={
-            <UpsertDocumentForm
-              key={id}
-              defaultValues={values}
-              formType="update"
-              onSubmit={({ ...rest }) =>
-                updateDocument({
-                  id: id,
-                  ...rest,
-                })
-              }
-            />
-          }
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          title="Uppdatera dokument"
-          trigger={<EditTriggerButton />}
-        />
-        <DeleteDialog
-          onSubmit={() => deleteDocument({ id })}
-          trigger={<DeleteTriggerButton />}
-        />
-      </div>
-    </TooltipProvider>
+    <div className="flex justify-end">
+      <UpsertDialog
+        form={
+          <UpsertDocumentForm
+            key={id}
+            defaultValues={values}
+            formType="update"
+            onSubmit={({ ...rest }) =>
+              updateDocument({
+                id: id,
+                ...rest,
+              })
+            }
+          />
+        }
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        title="Uppdatera dokument"
+        trigger={<EditTriggerButton />}
+      />
+      <DeleteDialog
+        onSubmit={() => deleteDocument({ id })}
+        trigger={<DeleteTriggerButton />}
+      />
+    </div>
   );
 };

@@ -4,7 +4,6 @@ import DeleteTriggerButton from "~/components/buttons/delete-trigger-button";
 import EditTriggerButton from "~/components/buttons/edit-trigger-button";
 import DeleteDialog from "~/components/dialogs/delete-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
-import { TooltipProvider } from "~/components/ui/tooltip";
 import {
   useDeleteMemberAsAuthed,
   useUpdateMemberAsAuthed,
@@ -24,32 +23,30 @@ export const CommitteeMemberTableActions: FC<CommitteeMemberType> = ({
   const { mutate: deleteMember } = useDeleteMemberAsAuthed({});
 
   return (
-    <TooltipProvider>
-      <div className="flex justify-end">
-        <UpsertDialog
-          form={
-            <UpsertMemberForm
-              key={id}
-              defaultValues={values}
-              formType="update"
-              onSubmit={(updatesValues) =>
-                updateMember({
-                  id: id,
-                  ...updatesValues,
-                })
-              }
-            />
-          }
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          title="Uppdatera aktiv"
-          trigger={<EditTriggerButton />}
-        />
-        <DeleteDialog
-          onSubmit={() => deleteMember({ id })}
-          trigger={<DeleteTriggerButton />}
-        />
-      </div>
-    </TooltipProvider>
+    <div className="flex justify-end">
+      <UpsertDialog
+        form={
+          <UpsertMemberForm
+            key={id}
+            defaultValues={values}
+            formType="update"
+            onSubmit={(updatesValues) =>
+              updateMember({
+                id: id,
+                ...updatesValues,
+              })
+            }
+          />
+        }
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        title="Uppdatera aktiv"
+        trigger={<EditTriggerButton />}
+      />
+      <DeleteDialog
+        onSubmit={() => deleteMember({ id })}
+        trigger={<DeleteTriggerButton />}
+      />
+    </div>
   );
 };
