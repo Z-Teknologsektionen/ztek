@@ -3,7 +3,7 @@ import {
   deleteFileFromSftpServer,
   uploadFileToSftpServer,
 } from "~/utils/sftp-engine";
-
+const containsOnlyOnePunctuation = /^[^\p{P}]*[\p{P}][^\p{P}]*$/u;
 export interface SftpApiResponse {
   error?: string;
   message?: string;
@@ -23,6 +23,21 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json(
       {
         error: "Missing required formdata fields",
+      },
+      {
+        status: 400,
+      },
+    );
+  }
+
+  if (
+    filename.includes("/") ||
+    filename.includes("\\") ||
+    !containsOnlyOnePunctuation.test(filename)
+  ) {
+    return NextResponse.json(
+      {
+        error: `Filename ${filename} contains invalid characters.`,
       },
       {
         status: 400,
