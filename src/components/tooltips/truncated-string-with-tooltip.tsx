@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import TruncatedText from "~/components/layout/truncated-text";
 import {
   Tooltip,
   TooltipContent,
@@ -6,7 +7,6 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
-import { cn } from "~/utils/utils";
 
 type TruncatedStringWithTooltipProps = {
   className?: string;
@@ -21,7 +21,7 @@ const TruncatedStringWithTooltip: FC<TruncatedStringWithTooltipProps> = ({
     <TooltipProvider delayDuration={TOOLTIP_DELAY_MS}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <p className={cn("truncate", className)}>{text}</p>
+          <TruncatedText className={className} text={text} />
         </TooltipTrigger>
         <TooltipContent>
           <p>{text}</p>

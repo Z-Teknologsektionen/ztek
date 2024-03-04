@@ -1,11 +1,11 @@
 import type { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
-import CenteredButtonWithLink from "~/components/buttons/centered-button-with-link";
 import DocumentsAccordionItem from "~/components/documents/documents-accordion-item";
 import HeadLayout from "~/components/layout/head-layout";
 import ImageWithCredit from "~/components/layout/image-with-credit";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
+import StyledLink from "~/components/layout/styled-link";
 import { Accordion } from "~/components/ui/accordion";
 import { buttonVariants } from "~/components/ui/button";
 import ssg from "~/server/api/helpers/ssg";
@@ -67,9 +67,7 @@ const ZaloonenPage: NextPage = () => {
         {isError && (
           <p>
             Du kan hitta Zaloonens dokument{" "}
-            <CenteredButtonWithLink href="/documents">
-              här
-            </CenteredButtonWithLink>
+            <StyledLink href="/documents">här</StyledLink>
           </p>
         )}
         {isLoading && <p>Försöker hämta Zaloonens dokument...</p>}

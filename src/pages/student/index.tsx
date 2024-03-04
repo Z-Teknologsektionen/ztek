@@ -3,13 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { MdEmail, MdInfo } from "react-icons/md";
 import CenteredButtonWithLink from "~/components/buttons/centered-button-with-link";
-import ExternalLink from "~/components/layout/external-link";
 import HeadLayout from "~/components/layout/head-layout";
 import ImageWithCredit from "~/components/layout/image-with-credit";
 import ImageWithDescription from "~/components/layout/image-with-description";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
+import StyledLink from "~/components/layout/styled-link";
 import {
   Tooltip,
   TooltipContent,
@@ -39,13 +39,7 @@ const StudentPage: NextPage = () => {
                       href={href}
                       target="_blank"
                     >
-                      {/* <IconContext.Provider
-                        value={{
-                          color: "black",
-                        }}
-                      > */}
                       <Icon className="fill-black" size="3rem" />
-                      {/* </IconContext.Provider> */}
                       <p className="text-center text-xs">{text}</p>
                     </Link>
                   </TooltipTrigger>
@@ -114,13 +108,13 @@ const StudentPage: NextPage = () => {
                 Här nedanför finns lite information om vad som finns
                 tillgängligt för dig som student och information om programmet.
                 Programmets studieplan hittar du på
-                <ExternalLink
+                <StyledLink
                   href="https://www.chalmers.se/utbildning/hitta-program/automation-och-mekatronik-civilingenjor/"
                   target="_blank"
                 >
                   {" "}
                   Chalmers hemsida{" "}
-                </ExternalLink>
+                </StyledLink>
                 där du också kan läsa mer om de olika kurserna som du läser
                 varje år. Som student på Z-programmet har man stor möjlighet att
                 välja olika mastrar beroende på intresseområde då över 20 olika

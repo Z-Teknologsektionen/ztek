@@ -23,7 +23,7 @@ const ImageWithCredit: FC<ImageWithCreditProps> = ({
   photoCommittee,
 }) => {
   return (
-    <div className={cn("rounded", className)}>
+    <div className={className}>
       <Image
         alt={alt}
         className={cn("rounded", imageClassName)}

@@ -1,9 +1,9 @@
 import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
-import ExternalLink from "~/components/layout/external-link";
 import HeadLayout from "~/components/layout/head-layout";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
+import StyledLink from "~/components/layout/styled-link";
 import { Button } from "~/components/ui/button";
 import { Skeleton } from "~/components/ui/skeleton";
 import {
@@ -58,9 +58,9 @@ const NewStudent: NextPage = () => {
                     <p>
                       <strong>{programManager.name}</strong> - programansvarig
                     </p>
-                    <ExternalLink href={`mailto:${programManager.email}`}>
+                    <StyledLink href={`mailto:${programManager.email}`}>
                       {programManager.email}
-                    </ExternalLink>
+                    </StyledLink>
                   </div>
                 </>
               )}
@@ -127,12 +127,12 @@ const NewStudent: NextPage = () => {
             forskare och experter inom området och utforska den senaste tekniken
             inom automation och mekatronik. Studenter vid Z-programmet kan välja
             på 21 olika mastrar, varav en ägs av Z,&nbsp;
-            <ExternalLink
+            <StyledLink
               href="https://www.chalmers.se/en/education/find-masters-programme/systems-control-and-mechatronics-msc/"
               target="_blank"
             >
               Systemteknik, reglerteknik och mekatronik
-            </ExternalLink>
+            </StyledLink>
             .
           </p>
         </SectionWrapper>

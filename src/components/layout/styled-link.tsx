@@ -3,13 +3,13 @@ import type { FC, HTMLAttributeAnchorTarget, PropsWithChildren } from "react";
 
 import { cn } from "~/utils/utils";
 
-type ExternalLinkProps = {
+type StyledLinkProps = {
   className?: string;
   href: string;
   target?: HTMLAttributeAnchorTarget;
 };
 
-const ExternalLink: FC<PropsWithChildren<ExternalLinkProps>> = ({
+const StyledLink: FC<PropsWithChildren<StyledLinkProps>> = ({
   className,
   href,
   children,
@@ -30,4 +30,4 @@ const ExternalLink: FC<PropsWithChildren<ExternalLinkProps>> = ({
   );
 };
 
-export default ExternalLink;
+export default StyledLink;
