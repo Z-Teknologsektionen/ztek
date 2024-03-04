@@ -8,7 +8,6 @@ import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
 import StyledLink from "~/components/layout/styled-link";
-import { default as TruncatedText } from "~/components/layout/truncated-text";
 import {
   Tooltip,
   TooltipContent,
@@ -169,7 +168,7 @@ const StudentDivision: NextPage = () => {
                                 src="/document_stack.svg"
                                 width={100}
                               />
-                              <TruncatedText text={doc.title} />
+                              <p className="truncate">{doc.title}</p>
                             </Link>
                           </TooltipTrigger>
                           <TooltipContent className="bg-zWhite">
@@ -284,10 +283,9 @@ const StudentDivision: NextPage = () => {
                             className="mx-0 h-8 w-8"
                             filename={committee.image}
                           />
-                          <TruncatedText
-                            className="text-sm hover:underline md:text-base"
-                            text={committee.name}
-                          />
+                          <p className="truncate text-sm hover:underline md:text-base">
+                            {committee.name}
+                          </p>
                         </Link>
                       ))}
                   </div>

@@ -13,15 +13,12 @@ const CenteredButtonWithLink: FC<
   PropsWithChildren<CenteredButtonWithLinkProps>
 > = ({ className, href, children, target = "_self" }) => {
   return (
-    <Button
-      className={cn(
-        "mx-auto mt-auto block w-fit transition-all hover:ring hover:ring-zWhite",
-        className,
-      )}
-      variant={"outline"}
-      asChild
-    >
+    <Button variant={"outline"} asChild>
       <Link
+        className={cn(
+          "mx-auto mt-auto block w-fit transition-all hover:ring hover:ring-zWhite",
+          className,
+        )}
         href={href}
         rel={target === "_blank" ? "noopener noreferrer" : ""}
         target={target}
