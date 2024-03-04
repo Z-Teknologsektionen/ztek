@@ -12,7 +12,7 @@ env:
   SFTP_PORT: "22"
   SFTP_USER: "fake"
   SFTP_BASE_PATH: "/fake"
-  SFTP_KEY: fakefake
+  SFTP_KEY: "fakefake"
   NEXT_PUBLIC_SFTP_BASE_URL: "https://fake.com"
 
 jobs:
