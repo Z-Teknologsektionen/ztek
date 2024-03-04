@@ -9,7 +9,7 @@ import {
   publicProcedure,
   zenithMediaProcedure,
 } from "~/server/api/trpc";
-import { deleteFile } from "~/utils/sftp-engine";
+import { deleteFileFromSftpServer } from "~/utils/sftp-engine";
 
 export const zenithMediaRouter = createTRPCRouter({
   getAllByYear: publicProcedure.query(async ({ ctx }) => {
@@ -79,7 +79,7 @@ export const zenithMediaRouter = createTRPCRouter({
         throw new Error("Media not found");
       }
       try {
-        await deleteFile(fileUrl.url);
+        await deleteFileFromSftpServer(fileUrl.url);
       } catch (error) {
         if (error instanceof Error) {
           throw new Error(error.message);

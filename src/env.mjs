@@ -16,7 +16,6 @@ const server = z.object({
   SFTP_USER: z.string(),
   SFTP_KEY: z.string(),
   SFTP_BASE_PATH: z.string(),
-  SFTP_BASE_URL: z.string(),
 });
 
 /**
@@ -25,6 +24,7 @@ const server = z.object({
  */
 const client = z.object({
   // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+  NEXT_PUBLIC_SFTP_BASE_URL: z.string(),
 });
 
 /**
@@ -45,7 +45,7 @@ const processEnv = {
   SFTP_USER: process.env.SFTP_USER,
   SFTP_KEY: process.env.SFTP_KEY,
   SFTP_BASE_PATH: process.env.SFTP_BASE_PATH,
-  SFTP_BASE_URL: process.env.SFTP_BASE_URL,
+  NEXT_PUBLIC_SFTP_BASE_URL: process.env.NEXT_PUBLIC_SFTP_BASE_URL,
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };
 

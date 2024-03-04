@@ -1,8 +1,12 @@
 import type { TransferOptions } from "ssh2-sftp-client";
 import Client from "ssh2-sftp-client";
+import type {
+  createFileOnSftpServerType,
+  renameFileOnSftpServerType,
+} from "~/types/sftp-types";
 
 const basePath = process.env.SFTP_BASE_PATH || "";
-const baseUrl = process.env.SFTP_BASE_URL || "";
+const baseUrl = process.env.NEXT_PUBLIC_SFTP_BASE_URL || "";
 
 const config = {
   host: process.env.SFTP_HOST,
@@ -22,12 +26,13 @@ const options: TransferOptions = {
   },
 };
 
-export const uploadFile = async (
-  input: Buffer | NodeJS.ReadableStream,
-  dir: string,
-  filename: string,
-  isPublic: boolean = true,
-): Promise<string> => {
+export const uploadFileToSftpServer = async ({
+  input,
+  dir,
+  filename,
+  isPublic = true,
+  overwrite = false,
+}: createFileOnSftpServerType): Promise<string> => {
   const sftp = new Client();
   const path = `${basePath}/${isPublic ? "public" : "private"}/${dir}`;
   const resultUrl = `${baseUrl}/${
@@ -38,7 +43,7 @@ export const uploadFile = async (
     await sftp.connect(config);
 
     const fileExists = await sftp.exists(`${path}/${filename}`);
-    if (fileExists) {
+    if (fileExists && !overwrite) {
       throw new Error(`File ${filename} already exists`);
     }
 
@@ -64,7 +69,7 @@ export const uploadFile = async (
   }
 };
 
-export const deleteFile = async (url: string): Promise<void> => {
+export const deleteFileFromSftpServer = async (url: string): Promise<void> => {
   const sftp = new Client();
   const path = getPathFromUrl(url);
   try {
@@ -83,12 +88,12 @@ export const deleteFile = async (url: string): Promise<void> => {
   }
 };
 
-export const renameFile = async (
-  oldUrl: string,
-  dir: string,
-  filename: string,
-  isPublic: boolean = true,
-): Promise<string> => {
+export const renameFileOnSftpServer = async ({
+  oldUrl,
+  dir,
+  filename,
+  isPublic = false,
+}: renameFileOnSftpServerType): Promise<string> => {
   const sftp = new Client();
   const oldPath = getPathFromUrl(oldUrl);
   const newPath = `${basePath}/${isPublic ? "public" : "private"}/${dir}`;

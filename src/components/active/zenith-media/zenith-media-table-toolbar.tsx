@@ -1,13 +1,15 @@
 import { Cross2Icon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
-import type { AxiosError } from "axios";
-import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { UpsertZenithMediaForm } from "~/components/active/zenith-media/upsert-zenith-media-form";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import {
+  handleCreateSftpFile,
+  handleDeleteSftpFile,
+} from "~/hooks/api-calls/sftp";
 import { api } from "~/utils/api";
 import type { ZenithFormValuesType } from "./zenith-media-table-actions";
 
@@ -23,49 +25,40 @@ export const ZenithMediaTableToolbar = <TData,>({
   const [isOpen, setIsOpen] = useState(false);
 
   const handleCreateZenithMediaFile = (props: ZenithFormValuesType): void => {
-    const formData = new FormData();
-
-    if (props.input.fileInput && props.input.fileInput[0]) {
-      formData.set("file", props.input.fileInput[0]);
-    } else {
-      return console.error("No file input");
+    if (!(props.input.fileInput && props.input.fileInput[0])) {
+      toast.error("No file input");
+      return;
     }
-    formData.set("public", "true");
-    formData.set("dir", "media");
-    formData.set(
-      "filename",
+    const filename =
       props.title.toLowerCase().replace(" ", "-") +
-        "." +
-        props.input.fileInput[0].name.split(".").pop(),
+      "." +
+      props.input.fileInput[0].name.split(".").pop();
+    const toastId = toast.loading(
+      `Laddar upp ${props.input.fileInput[0].name}.\n Detta kan ta en stund om du laddar upp stora filer...`,
     );
-    const toastId = toast.loading("Laddar upp filen...");
-    axios({
-      method: "post",
-      url: "/api/sftp/upload",
-      data: formData,
-      headers: { "Content-Type": "multipart/form-data" },
+    handleCreateSftpFile({
+      dir: "media",
+      file: props.input.fileInput[0],
+      isPublic: true,
+      overwrite: false,
+      filename,
     })
-      .then((response) => {
+      .then((url) => {
         toast.dismiss(toastId);
         toast.success("Filuppladdningen lyckades");
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        if (response.data.message) {
+        if (url) {
           createNewZenithMedia({
             coverImage: props.coverImage,
             title: props.title,
             year: props.year,
-            url: response.data.message,
+            url: url,
           });
         }
-
-        // console.log(response);
       })
-      .catch((error: AxiosError) => {
+      .catch((err: Error) => {
         toast.dismiss(toastId);
-        const errorMessage =
-          (error.response?.data as { error?: string })?.error || "";
         toast.error(
-          "Något gick fel vid uppladdningen av filen. \n" + errorMessage,
+          "Något gick fel vid uppladdningen av filen. \n" + err.message,
         );
       });
   };
@@ -74,17 +67,29 @@ export const ZenithMediaTableToolbar = <TData,>({
     api.zenithMedia.createOneAsAuthed.useMutation({
       onMutate: () => toast.loading("Skapar ny media..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-      onSuccess: () => {
+      onSuccess: ({ title }) => {
         setIsOpen(false);
-        toast.success("En ny media har skapats.");
+        toast.success(`${title} har skapats.`);
         void ctx.zenithMedia.invalidate();
       },
-      onError: (error) => {
+      onError: (error, data) => {
         if (error.message) {
           toast.error(error.message);
         } else {
           toast.error("Något gick fel. Försök igen senare");
         }
+        const deleteToastId = toast.loading("Tar bort filen från servern...");
+        handleDeleteSftpFile(data.url)
+          .then(() => {
+            toast.dismiss(deleteToastId);
+            toast.success("Filen har tagits bort från servern.");
+          })
+          .catch((err: Error) => {
+            toast.dismiss(deleteToastId);
+            toast.error(
+              `Kunde inte ta bort filen från servern. \n ${err.message}`,
+            );
+          });
       },
     });
 
