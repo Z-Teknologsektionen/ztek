@@ -12,7 +12,7 @@ type IconNextToTextProps = {
   tooltipText: string;
 };
 
-export const IconNextToText: FC<IconNextToTextProps> = ({
+const IconNextToText: FC<IconNextToTextProps> = ({
   icon,
   text,
   tooltipText,

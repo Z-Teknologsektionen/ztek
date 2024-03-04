@@ -32,7 +32,9 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
   });
   return (
     <div className="sticky top-2">
-      <Card className="flex flex-col content-center items-center bg-cardBackground text-center">
+      {/*  lint bråkar, funkar inte att spara utan bg-cardBackground bråkar med mig */}
+      {/* eslint-disable-next-line prettier/prettier*/}
+      <Card className="bg-cardBackground flex flex-col content-center items-center text-center ">
         <div className="self-end">
           <UpsertDialog
             description="Du som aktiv kan inte uppdatera alla fält, så som du vill ändra något mer än detta måste du kontakta en Webbgruppen"
@@ -74,7 +76,7 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
           />
         </div>
         <CardHeader className="pt-0">
-          <Avatar className="h-60 w-60" color="red">
+          <Avatar className="h-60 w-60">
             <AvatarImage className="object-cover" src={committee?.image} />
             <AvatarFallback className="bg-inherit" asChild>
               <Image

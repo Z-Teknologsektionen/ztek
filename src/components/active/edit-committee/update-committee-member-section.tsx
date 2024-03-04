@@ -19,6 +19,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Separator } from "~/components/ui/separator";
 import { useUpdateMemberAsActive } from "~/hooks/mutations/useMutateMember";
 import type { RouterOutputs } from "~/utils/api";
+import { cn } from "~/utils/utils";
 
 type CommitteeMemberProps = {
   member: RouterOutputs["committee"]["getOneByIdAsActive"]["members"]["0"];
@@ -26,18 +27,20 @@ type CommitteeMemberProps = {
 export const UpdateCommitteeMemberSection: FC<CommitteeMemberProps> = ({
   member,
 }) => {
-  const [openFormId, setOpenFormId] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: updateMemberAsActive } = useUpdateMemberAsActive({
-    onSuccess: () => setOpenFormId(null),
+    onSuccess: () => setIsOpen(false),
   });
 
-  const visibleOnWebsite = member.nickName || member.name;
+  const visibleOnWebsite = Boolean(member.nickName || member.name);
 
   return (
     <div
       key={member.id}
-      className="flex flex-col content-center items-center gap-2 rounded border bg-cardBackground"
+      // lint bråkar, funkar inte att spara utan bg-cardBackground bråkar med mig
+      // eslint-disable-next-line prettier/prettier
+      className="bg-cardBackground flex flex-col content-center items-center gap-2 rounded border"
     >
       <div className="mb-0 mr-2 mt-2 self-end">
         <UpsertDialog
@@ -56,8 +59,8 @@ export const UpdateCommitteeMemberSection: FC<CommitteeMemberProps> = ({
               }
             />
           }
-          isOpen={openFormId === member.id}
-          setIsOpen={(isOpen) => setOpenFormId(isOpen ? member.id : null)}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
           title={`Uppdatera ${member.name}`}
           trigger={
             <IconWithTooltip
@@ -88,9 +91,9 @@ export const UpdateCommitteeMemberSection: FC<CommitteeMemberProps> = ({
           tooltipText="Roll"
         />
         <IconNextToText
-          className="my-2"
+          className={cn("my-2", member.nickName ? "" : "text-gray-500")}
           icon={MdAccountBox}
-          text={member.nickName}
+          text={member.nickName || "Ej inlagt"}
           tooltipText="Kommitténamn"
         />
         <IconNextToText
@@ -100,9 +103,9 @@ export const UpdateCommitteeMemberSection: FC<CommitteeMemberProps> = ({
           tooltipText="Email"
         />
         <IconNextToText
-          className="my-2"
+          className={cn("my-2", member.phone ? "" : "text-gray-500")}
           icon={MdPhone}
-          text={member.phone}
+          text={member.phone || "Ej inlagt"}
           tooltipText="Telefonnummer"
         />
         <Separator className="my-2 h-0.5" />
