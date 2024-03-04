@@ -8,6 +8,12 @@ env:
   GOOGLE_CLIENT_SECRET: "fake"
   NEXTAUTH_URL: "https://fake.com"
   NEXTAUTH_SECRET: "fakefakefakefake"
+  SFTP_HOST: "fake.com"
+  SFTP_PORT: "22"
+  SFTP_USER: "fake"
+  SFTP_BASE_PATH: "/fake"
+  SFTP_KEY: fakefake
+  NEXT_PUBLIC_SFTP_BASE_URL: "https://fake.com"
 
 jobs:
   build:
