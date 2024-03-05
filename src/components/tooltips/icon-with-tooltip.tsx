@@ -6,6 +6,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
 import { cn } from "~/utils/utils";
 
 type IconWithTooltipProps = {
@@ -22,7 +23,7 @@ const IconWithTooltip: FC<IconWithTooltipProps> = ({
   size = 15,
 }) => {
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={TOOLTIP_DELAY_MS}>
       <Tooltip>
         <TooltipTrigger>
           <Icon className={cn("fill-zBlack", className)} size={size} />

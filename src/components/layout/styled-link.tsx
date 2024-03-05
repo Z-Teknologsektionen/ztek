@@ -1,15 +1,15 @@
 import Link from "next/link";
-import type { FC, PropsWithChildren } from "react";
+import type { FC, HTMLAttributeAnchorTarget, PropsWithChildren } from "react";
 
 import { cn } from "~/utils/utils";
 
-type ExternalLinkProps = {
+type StyledLinkProps = {
   className?: string;
   href: string;
-  target?: string;
+  target?: HTMLAttributeAnchorTarget;
 };
 
-const ExternalLink: FC<PropsWithChildren<ExternalLinkProps>> = ({
+const StyledLink: FC<PropsWithChildren<StyledLinkProps>> = ({
   className,
   href,
   children,
@@ -22,7 +22,7 @@ const ExternalLink: FC<PropsWithChildren<ExternalLinkProps>> = ({
         className,
       )}
       href={href}
-      rel={target === "_blank" ? "noopener noreferrer" : ""}
+      rel={target === "_blank" ? "noopener noreferrer" : undefined}
       target={target}
     >
       {children}
@@ -30,4 +30,4 @@ const ExternalLink: FC<PropsWithChildren<ExternalLinkProps>> = ({
   );
 };
 
-export default ExternalLink;
+export default StyledLink;

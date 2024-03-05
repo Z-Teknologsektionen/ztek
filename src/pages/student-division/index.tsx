@@ -1,18 +1,20 @@
 import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import CenteredButtonWithLink from "~/components/buttons/centered-button-with-link";
 import CommitteeImage from "~/components/committees/committee-image";
-import ExternalLink from "~/components/layout/external-link";
 import HeadLayout from "~/components/layout/head-layout";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
-import { Button } from "~/components/ui/button";
+import StyledLink from "~/components/layout/styled-link";
 import {
   Tooltip,
   TooltipContent,
+  TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 
@@ -42,15 +44,9 @@ const StudentDivision: NextPage = () => {
                   själv. Här hålls sittningar, pluggkvällar och annat dylikt.
                 </p>
               </div>
-              <Button
-                className="mx-auto mt-auto block w-fit transition-all hover:ring hover:ring-zWhite"
-                variant={"outline"}
-                asChild
-              >
-                <Link href="/student-division/zaloonen">
-                  Ta mig till Zaloonen!
-                </Link>
-              </Button>
+              <CenteredButtonWithLink href="/student-division/zaloonen">
+                Ta mig till Zaloonen!
+              </CenteredButtonWithLink>
             </div>
             <div className="col-span-1 my-4 flex flex-col rounded-md">
               <div className="pb-4">
@@ -64,15 +60,9 @@ const StudentDivision: NextPage = () => {
                   läs mer här.
                 </p>
               </div>
-              <Button
-                className="mx-auto mt-auto block w-fit transition-all hover:ring hover:ring-zWhite"
-                variant={"outline"}
-                asChild
-              >
-                <Link href="#organ" scroll={false}>
-                  Mer om azpning
-                </Link>
-              </Button>
+              <CenteredButtonWithLink href="#organ">
+                Mer om azpning
+              </CenteredButtonWithLink>
             </div>
             <div className="col-span-1 my-4 flex flex-col rounded-md">
               <div className="pb-4">
@@ -85,15 +75,9 @@ const StudentDivision: NextPage = () => {
                   tillväga.
                 </p>
               </div>
-              <Button
-                className="mx-auto mt-auto block w-fit transition-all hover:ring hover:ring-zWhite"
-                variant={"outline"}
-                asChild
-              >
-                <Link href="#sektionsmote" scroll={false}>
-                  Mer information
-                </Link>
-              </Button>
+              <CenteredButtonWithLink href="#sektionsmote">
+                Mer information
+              </CenteredButtonWithLink>
             </div>
           </div>
         </SectionWrapper>
@@ -162,7 +146,6 @@ const StudentDivision: NextPage = () => {
                 {documentIsError && <p>Dokument kunde inte hämtas.</p>}
                 {documentData &&
                   documentData.Document.map((doc) => (
-                    //Hittade inget bra sätt att konvertera detta till en ImageWIthDescription, tooltipen funkar inte.
                     <div
                       key={doc.title}
                       className="col-span-1 mx-2 mb-2 overflow-hidden"
@@ -171,26 +154,28 @@ const StudentDivision: NextPage = () => {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Link
-                            className="text-sm hover:text-blue-800 hover:underline"
-                            href={doc.url}
-                            target="_blank"
-                          >
-                            <Image
-                              alt="Sektionens uppbyggnad"
-                              height={100}
-                              src="/document_stack.svg"
-                              width={100}
-                            />
-                            {doc.title}
-                          </Link>
-                        </TooltipTrigger>
-                        <TooltipContent className="bg-zWhite">
-                          <p>{doc.title}</p>
-                        </TooltipContent>
-                      </Tooltip>
+                      <TooltipProvider delayDuration={TOOLTIP_DELAY_MS}>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Link
+                              className="text-sm hover:text-blue-800 hover:underline"
+                              href={doc.url}
+                              target="_blank"
+                            >
+                              <Image
+                                alt="Sektionens uppbyggnad"
+                                height={100}
+                                src="/document_stack.svg"
+                                width={100}
+                              />
+                              <p className="truncate">{doc.title}</p>
+                            </Link>
+                          </TooltipTrigger>
+                          <TooltipContent className="bg-zWhite">
+                            <p>{doc.title}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </div>
                   ))}
               </div>
@@ -209,16 +194,16 @@ const StudentDivision: NextPage = () => {
                 röst väger lika tungt. Finns det något du vill ändra på eller
                 tycker du att sektionen saknar något? Isåfall kan du skriva en
                 motion till sektionsmötet och skicka den till{" "}
-                <ExternalLink href={"mailto:ztyret@ztek.se"}>
+                <StyledLink href={"mailto:ztyret@ztek.se"}>
                   ztyret@ztek.se
-                </ExternalLink>{" "}
+                </StyledLink>{" "}
                 senast 7 dagar innan sektionsmötet. Det går också att skriva en{" "}
-                <ExternalLink
+                <StyledLink
                   href={"https://sv.wikipedia.org/wiki/Interpellation"}
                   target="_blank"
                 >
                   interpellation
-                </ExternalLink>{" "}
+                </StyledLink>{" "}
                 till sektionsmötet där du kan ställa frågor till olika organ.
               </p>
             </div>
@@ -237,9 +222,7 @@ const StudentDivision: NextPage = () => {
                 eller för att utföra ett uppdrag, till exempel anordna
                 mottagning eller trycka en tidning. Sektionens olika organ och
                 dess medlemmar hittar du{" "}
-                <ExternalLink href="/student-division/committees">
-                  här
-                </ExternalLink>
+                <StyledLink href="/student-division/committees">här</StyledLink>
                 .
                 <br />
                 <br />
@@ -259,12 +242,12 @@ const StudentDivision: NextPage = () => {
                 hinner man grilla på en timme? Alla dessa svar kan du få om du
                 azpar olika organ. Information om de olika azpningarna brukar
                 anslås i vår Facebookgrupp,{" "}
-                <ExternalLink
+                <StyledLink
                   href={"https://www.facebook.com/groups/activityatz"}
                   target="_blank"
                 >
                   Activity@Z
-                </ExternalLink>
+                </StyledLink>
                 . Man kan azpa olika organ utan att söka till dem precis som man
                 kan söka de olika organen utan att ha azpat. Följande organ har
                 inval i dessa läsperioder:
@@ -300,13 +283,7 @@ const StudentDivision: NextPage = () => {
                             className="mx-0 h-8 w-8"
                             filename={committee.image}
                           />
-                          <p
-                            className="overflow-hidden text-sm hover:underline md:text-base"
-                            style={{
-                              textOverflow: "ellipsis",
-                              whiteSpace: "nowrap",
-                            }}
-                          >
+                          <p className="truncate text-sm hover:underline md:text-base">
                             {committee.name}
                           </p>
                         </Link>
