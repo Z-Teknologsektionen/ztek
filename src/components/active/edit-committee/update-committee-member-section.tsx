@@ -38,9 +38,7 @@ export const UpdateCommitteeMemberSection: FC<CommitteeMemberProps> = ({
   return (
     <div
       key={member.id}
-      // lint bråkar, funkar inte att spara utan bg-cardBackground bråkar med mig
-      // eslint-disable-next-line prettier/prettier
-      className="bg-cardBackground flex flex-col content-center items-center gap-2 rounded border"
+      className="flex flex-col content-center items-center gap-2 rounded border bg-cardBackground"
     >
       <div className="mb-0 mr-2 mt-2 self-end">
         <UpsertDialog

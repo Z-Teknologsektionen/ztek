@@ -26,15 +26,13 @@ type CommitteeProps = {
 };
 
 export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
-  const [openFormId, setOpenFormId] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
   const { mutate: updateCommitteeAsActive } = useUpdateCommitteeAsActive({
-    onSuccess: () => setOpenFormId(null),
+    onSuccess: () => setIsOpen(false),
   });
   return (
     <div className="sticky top-2">
-      {/*  lint bråkar, funkar inte att spara utan bg-cardBackground bråkar med mig */}
-      {/* eslint-disable-next-line prettier/prettier*/}
-      <Card className="bg-cardBackground flex flex-col content-center items-center text-center ">
+      <Card className="flex flex-col content-center items-center bg-cardBackground text-center ">
         <div className="self-end">
           <UpsertDialog
             description="Du som aktiv kan inte uppdatera alla fält, så som du vill ändra något mer än detta måste du kontakta en Webbgruppen"
@@ -62,8 +60,8 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
                 }
               />
             }
-            isOpen={openFormId === committee.id}
-            setIsOpen={(isOpen) => setOpenFormId(isOpen ? committee.id : null)}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
             title="Uppdatera organ"
             trigger={
               <IconWithTooltip
