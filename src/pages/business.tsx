@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import { MdCheckCircle } from "react-icons/md";
-import ExternalLink from "~/components/layout/external-link";
 import HeadLayout from "~/components/layout/head-layout";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
+import StyledLink from "~/components/layout/styled-link";
 const BusinessPage: NextPage = () => {
   return (
     <>
@@ -27,13 +27,13 @@ const BusinessPage: NextPage = () => {
             till potentiella arbetsgivare, samtidigt får företag chansen att
             marknadsföra sig och skapa en långsiktig rekryteringsbas. Kontakta
             oss på{" "}
-            <ExternalLink href="mailto:foretag@argz.se">
+            <StyledLink href="mailto:foretag@argz.se">
               foretag@argz.se
-            </ExternalLink>{" "}
+            </StyledLink>{" "}
             eller gå in på vår hemsida{" "}
-            <ExternalLink href="https://www.argz.se/" target="_blank">
+            <StyledLink href="https://www.argz.se/" target="_blank">
               ArgZ.se
-            </ExternalLink>
+            </StyledLink>
           </p>
           <br></br>
           <div className="grid grid-cols-3 gap-2">

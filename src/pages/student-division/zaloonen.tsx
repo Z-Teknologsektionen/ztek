@@ -5,6 +5,7 @@ import HeadLayout from "~/components/layout/head-layout";
 import ImageWithCredit from "~/components/layout/image-with-credit";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
+import StyledLink from "~/components/layout/styled-link";
 import { Accordion } from "~/components/ui/accordion";
 import { buttonVariants } from "~/components/ui/button";
 import ssg from "~/server/api/helpers/ssg";
@@ -51,7 +52,7 @@ const ZaloonenPage: NextPage = () => {
           </div>
           <div className="col-span-full mt-4 max-w-md lg:col-span-2">
             <ImageWithCredit
-              alt="Image of Zaloonen"
+              alt="Bild på Zaloonen"
               height={1000}
               photoCommittee="zFoto"
               photographer="Dennis Holmström"
@@ -66,16 +67,7 @@ const ZaloonenPage: NextPage = () => {
         {isError && (
           <p>
             Du kan hitta Zaloonens dokument{" "}
-            <Link
-              className={buttonVariants({
-                variant: "link",
-                size: "default",
-                className: "px-0 font-normal",
-              })}
-              href={"/documents"}
-            >
-              här
-            </Link>
+            <StyledLink href="/documents">här</StyledLink>
           </p>
         )}
         {isLoading && <p>Försöker hämta Zaloonens dokument...</p>}
