@@ -31,7 +31,7 @@ const OldCommitteeCard: FC<
         <AccordionItem className="border-none" value="image">
           <AccordionContent>
             <CommitteeImage
-              alt={name}
+              alt={image ? "Gruppbild på medlemmarna" : "Logga"}
               className="object-contain"
               filename={image ? image : logo ? logo : ""}
             />
@@ -47,7 +47,7 @@ const OldCommitteeCard: FC<
                 <>
                   <div className="flex flex-col items-center justify-center">
                     <Avatar className="h-fit w-1/3">
-                      <AvatarImage alt="Logga på" src={logo} />
+                      <AvatarImage alt="Logga" src={logo} />
                     </Avatar>
                     <p className="mt-2 text-center italic">{name}s logga</p>
                   </div>
