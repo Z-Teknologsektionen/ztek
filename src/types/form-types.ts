@@ -1,3 +1,4 @@
+import type { HTMLInputTypeAttribute } from "react";
 import type {
   FieldValues,
   Path,
@@ -29,30 +30,11 @@ export interface IFormFieldMapableDefaults<TFieldValues extends FieldValues>
   resetButton?: boolean;
 }
 
-export interface IFormFieldInputText<
-  TFieldValues extends FieldValues = FieldValues,
-> extends IFormFieldDefaults<TFieldValues> {
+export interface IFormFieldInput<TFieldValues extends FieldValues = FieldValues>
+  extends IFormFieldDefaults<TFieldValues> {
   placeholder?: string;
+  type: HTMLInputTypeAttribute;
 }
-
-export interface IFormFieldInputEmail<
-  TFieldValues extends FieldValues = FieldValues,
-> extends IFormFieldDefaults<TFieldValues> {
-  placeholder?: string;
-}
-
-export interface IFormFieldInputUrl<
-  TFieldValues extends FieldValues = FieldValues,
-> extends IFormFieldDefaults<TFieldValues> {
-  placeholder?: string;
-}
-
-export interface IFormFieldInputTel<
-  TFieldValues extends FieldValues = FieldValues,
-> extends IFormFieldDefaults<TFieldValues> {
-  placeholder?: string;
-}
-
 export interface IFormFieldCheckbox<
   TFieldValues extends FieldValues = FieldValues,
 > extends IFormFieldDefaults<TFieldValues> {
@@ -60,7 +42,9 @@ export interface IFormFieldCheckbox<
 }
 
 export interface IFormFieldSelect<TFieldValues extends FieldValues>
-  extends IFormFieldMapableDefaults<TFieldValues> {}
+  extends IFormFieldMapableDefaults<TFieldValues> {
+  scrollArea?: boolean;
+}
 
 export interface IFormFieldCombobox<TFieldValues extends FieldValues>
   extends IFormFieldMapableDefaults<TFieldValues> {

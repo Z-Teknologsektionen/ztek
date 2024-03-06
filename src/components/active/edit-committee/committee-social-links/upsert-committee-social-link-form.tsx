@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import FormFieldInputText from "~/components/forms/form-field-input-text";
+import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldSelectCommitteeSocialIcon from "~/components/forms/form-field-select-committee-social-icon";
 import { Button } from "~/components/ui/button";
 import { DialogFooter } from "~/components/ui/dialog";
@@ -39,7 +39,12 @@ export const UpsertCommitteeSocailIconsForm: FC<
             label="Icon"
             name="iconAndUrl.iconVariant"
           />
-          <FormFieldInputText form={form} label="Länk" name="iconAndUrl.url" />
+          <FormFieldInput
+            form={form}
+            label="Länk"
+            name="iconAndUrl.url"
+            type="url"
+          />
         </div>
         <DialogFooter>
           <Button

@@ -2,11 +2,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import FormFieldInputEmail from "~/components/forms/form-field-input-email";
+import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldInputImage from "~/components/forms/form-field-input-image";
 import FormFieldInputNumber from "~/components/forms/form-field-input-number";
-import FormFieldInputTel from "~/components/forms/form-field-input-tel";
-import FormFieldInputText from "~/components/forms/form-field-input-text";
 import FormFieldSelect from "~/components/forms/form-field-select";
 import FormWrapper from "~/components/forms/form-wrapper";
 import {
@@ -51,24 +49,32 @@ export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
       onValid={onSubmit}
       resetForm={() => form.reset()}
     >
-      <FormFieldInputText form={form} label="Namn (valfri)" name="name" />
-      <FormFieldInputText
+      <FormFieldInput
+        form={form}
+        label="Namn (valfri)"
+        name="name"
+        type="text"
+      />
+      <FormFieldInput
         form={form}
         label="Kommitténamn (valfri)"
         name="nickName"
+        type="text"
       />
-      <FormFieldInputEmail
+      <FormFieldInput
         form={form}
         label="Epost"
         name="email"
         placeholder="lucky@ztek.se"
+        type="email"
       />
-      <FormFieldInputText
+      <FormFieldInput
         description="Vilken post har personen?"
         form={form}
         label="Post"
         name="role"
         placeholder="Ordförande"
+        type="text"
       />
       <FormFieldSelect
         description="Hittar du inte rätt organ? Du kan lägga till fler organ som administratör."
@@ -88,11 +94,12 @@ export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
         min={MIN_ORDER_NUMBER}
         name="order"
       />
-      <FormFieldInputTel
+      <FormFieldInput
         description="Du behöver inte fylla i detta. Kommer visas publikt på organsidan."
         form={form}
         label="Telefonnummer (valfri)"
         name="phone"
+        type="tel"
       />
       <FormFieldInputImage
         form={form}

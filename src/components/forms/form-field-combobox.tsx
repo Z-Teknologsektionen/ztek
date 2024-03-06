@@ -69,7 +69,7 @@ const FormFieldCombobox = <TFieldValues extends FieldValues>({
                 <Command>
                   <CommandInput placeholder={serchText} />
                   <CommandEmpty>{noResultsText}</CommandEmpty>
-                  <ScrollArea className="h-40">
+                  <ScrollArea className="h-48">
                     <CommandGroup>
                       {options.map((option) => (
                         <CommandItem

@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import FormFieldInputText from "~/components/forms/form-field-input-text";
+import FormFieldInput from "~/components/forms/form-field-input";
 import FormWrapper from "~/components/forms/form-wrapper";
 import { createDocumentGroupSchema } from "~/schemas/document";
 import type { IUpsertForm } from "~/types/form-types";
@@ -33,11 +33,12 @@ export const UpsertDocumentGroupForm: FC<UpsertDocumentGroupFormProps> = ({
       onValid={onSubmit}
       resetForm={() => form.reset()}
     >
-      <FormFieldInputText form={form} label="Namn" name="name" />
-      <FormFieldInputText
+      <FormFieldInput form={form} label="Namn" name="name" type="text" />
+      <FormFieldInput
         form={form}
         label="Extra text (valfri)"
         name="extraText"
+        type="text"
       />
     </FormWrapper>
   );

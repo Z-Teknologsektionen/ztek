@@ -2,12 +2,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { type FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import FormFieldInputEmail from "~/components/forms/form-field-input-email";
+import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldInputImage from "~/components/forms/form-field-input-image";
 import FormFieldInputNumber from "~/components/forms/form-field-input-number";
-import FormFieldInputTel from "~/components/forms/form-field-input-tel";
-import FormFieldInputText from "~/components/forms/form-field-input-text";
-import FormFieldInputUrl from "~/components/forms/form-field-input-url";
 import FormWrapper from "~/components/forms/form-wrapper";
 import {
   COMMITTEE_IMAGE_QUALITY,
@@ -49,30 +46,34 @@ const UpsertProgramBoardMemberForm: FC<UpsertProgramBoardMemberFormProps> = ({
       onValid={onSubmit}
       resetForm={() => form.reset()}
     >
-      <FormFieldInputText form={form} label="Namn" name="name" />
-      <FormFieldInputText
+      <FormFieldInput form={form} label="Namn" name="name" type="text" />
+      <FormFieldInput
         form={form}
         label="Titel"
         name="role"
         placeholder="Programansvarig/Studievägledare/..."
+        type="text"
       />
-      <FormFieldInputTel
+      <FormFieldInput
         form={form}
         label="Telefonnummer (valfri)"
         name="phone"
+        type="tel"
       />
-      <FormFieldInputEmail
+      <FormFieldInput
         form={form}
         label="Epost"
         name="email"
         placeholder="lucky@ztek.se"
+        type="email"
       />
-      <FormFieldInputUrl
+      <FormFieldInput
         description="Används för att länka till personens sida på Chalmers hemsida"
         form={form}
         label="Url"
         name="url"
         placeholder="https://chalmers.se/lucky"
+        type="url"
       />
       <FormFieldInputNumber
         description="Används för att bestämma vilken ordning personen ska visas i. Lägre värde visas till vänster."

@@ -27,13 +27,13 @@ const FormFieldInputImage = <TFieldValues extends FieldValues>({
   form,
   className,
 }: IFormFieldInputImage<TFieldValues>): JSX.Element => {
-  const [newImage, setNewImage] = useState<string>(form.getValues(name));
+  const [image, setImage] = useState<string>(form.getValues(name));
 
-  const scaledHeight = 300;
-  const scaledWidth = (300 * maxWidth) / maxHeight;
+  const scaledHeight = 200;
+  const scaledWidth = (scaledHeight * maxWidth) / maxHeight;
 
   const setValue = (value: string): void => {
-    setNewImage(value);
+    setImage(value);
     form.setValue(name, value as PathValue<TFieldValues, Path<TFieldValues>>);
   };
 
@@ -45,20 +45,22 @@ const FormFieldInputImage = <TFieldValues extends FieldValues>({
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          <Image
-            alt="Image preview"
-            className={cn(
-              "mx-auto object-center",
-              containImage ? "object-contain" : "object-cover",
-              "text-transparent",
-              "after:relative after:-top-6 after:z-10 after:grid after:h-full after:max-h-64 after:min-h-[8rem] after:w-full after:place-content-center after:truncate after:text-center after:text-xl after:text-black after:content-['Ladda_upp_bild']",
-            )}
-            height={maxHeight}
-            quality={quality}
-            src={newImage}
-            style={{ height: scaledHeight, width: scaledWidth }}
-            width={maxWidth}
-          />
+          {image !== "" && (
+            <Image
+              alt="preview of image"
+              className={cn(
+                "mx-auto object-center",
+                containImage ? "object-contain" : "object-cover",
+                "text-transparent",
+                "after:relative after:-top-6 after:z-10 after:grid after:h-full after:max-h-64 after:min-h-[8rem] after:w-full after:place-content-center after:truncate after:text-center after:text-xl after:text-black after:content-['Ladda_upp_bild']",
+              )}
+              height={maxHeight}
+              quality={quality}
+              src={image}
+              style={{ height: scaledHeight, width: scaledWidth }}
+              width={maxWidth}
+            />
+          )}
           <FormControl>
             <div className="flex w-auto gap-2">
               <Input

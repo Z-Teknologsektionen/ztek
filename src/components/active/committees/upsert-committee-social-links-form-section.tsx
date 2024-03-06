@@ -3,7 +3,7 @@ import type { UseFormReturn } from "react-hook-form";
 import { useFieldArray } from "react-hook-form";
 
 import { FaArrowDown, FaArrowUp, FaPlus, FaTrash } from "react-icons/fa6";
-import FormFieldInputText from "~/components/forms/form-field-input-text";
+import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldSelectCommitteeSocialIcon from "~/components/forms/form-field-select-committee-social-icon";
 import ButtonWithIconAndTooltip from "~/components/tooltips/button-with-icon-and-tooltip";
 import { FormDescription } from "~/components/ui/form";
@@ -63,10 +63,11 @@ const UpsertCommitteeSocialLinksFormSection: FC<
                   label="Ikon"
                   name={`socialLinks.${idx}.iconAndUrl.iconVariant`}
                 />
-                <FormFieldInputText
+                <FormFieldInput
                   form={form}
                   label="Url"
                   name={`socialLinks.${idx}.iconAndUrl.url`}
+                  type="url"
                 />
                 <div className="flex flex-row justify-end gap-2">
                   <ButtonWithIconAndTooltip

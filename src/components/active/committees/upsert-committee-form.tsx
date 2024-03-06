@@ -2,10 +2,9 @@ import { CommitteeType } from "@prisma/client";
 import type { FC } from "react";
 import type { z } from "zod";
 import FormFieldCombobox from "~/components/forms/form-field-combobox";
-import FormFieldInputEmail from "~/components/forms/form-field-input-email";
+import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldInputImage from "~/components/forms/form-field-input-image";
 import FormFieldInputNumber from "~/components/forms/form-field-input-number";
-import FormFieldInputText from "~/components/forms/form-field-input-text";
 import FormFieldSelect from "~/components/forms/form-field-select";
 import FormFieldTextArea from "~/components/forms/form-field-textarea";
 import FormWrapper from "~/components/forms/form-wrapper";
@@ -62,8 +61,8 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
       onValid={onSubmit}
       resetForm={() => form.reset()}
     >
-      <FormFieldInputText form={form} label="Namn" name="name" />
-      <FormFieldInputText form={form} label="Slug" name="slug" />
+      <FormFieldInput form={form} label="Namn" name="name" type="text" />
+      <FormFieldInput form={form} label="Slug" name="slug" type="text" />
       <FormFieldSelect
         description="Vilken typ av organ är det?"
         form={form}
@@ -74,20 +73,21 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
           label: getCommitteeTypeStringFromEnum(cType),
         }))}
         placeholder="Välj typ av organ"
-        resetButton
       />
       <FormFieldTextArea form={form} label="Beskrivning" name="description" />
-      <FormFieldInputText
+      <FormFieldInput
         description="Organets roll på sektionen, t.ex. Studienämnd"
         form={form}
         label="Roll"
         name="role"
+        type="text"
       />
-      <FormFieldInputEmail
+      <FormFieldInput
         form={form}
         label="Epost"
         name="email"
         placeholder="lucky@ztek.se"
+        type="email"
       />
       <FormFieldInputNumber
         form={form}
@@ -126,6 +126,7 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
         }
         placeholder="Välj dokument"
         serchText="Sök efter document"
+        resetButton
       />
       <UpsertCommitteeSocialLinksFormSection form={form} />
     </FormWrapper>

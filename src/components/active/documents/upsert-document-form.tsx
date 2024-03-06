@@ -3,8 +3,7 @@ import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import FormFieldCheckbox from "~/components/forms/form-field-checkbox";
-import FormFieldInputText from "~/components/forms/form-field-input-text";
-import FormFieldInputUrl from "~/components/forms/form-field-input-url";
+import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldSelect from "~/components/forms/form-field-select";
 import FormWrapper from "~/components/forms/form-wrapper";
 import { createDocumentSchema } from "~/schemas/document";
@@ -40,8 +39,8 @@ export const UpsertDocumentForm: FC<UpsertDocumentFormProps> = ({
       onValid={onSubmit}
       resetForm={() => form.reset()}
     >
-      <FormFieldInputText form={form} label="Titel" name="title" />
-      <FormFieldInputUrl form={form} label="Url" name="url" />
+      <FormFieldInput form={form} label="Titel" name="title" type="text" />
+      <FormFieldInput form={form} label="Url" name="url" type="url" />
       <FormFieldCheckbox
         description="Är dokumentet i pdf-format?"
         form={form}
@@ -49,7 +48,7 @@ export const UpsertDocumentForm: FC<UpsertDocumentFormProps> = ({
         name="isPDF"
       />
       <FormFieldSelect
-        description={`Ett dokument måste tillhöra en grupp. Om du inte hittar en grupp som passar kan du skapa en ny fliken "Administera dokument".`}
+        description={`Om du inte hittar en grupp som passar kan du skapa en ny fliken "Administera dokument".`}
         form={form}
         label="Dokumentgrupp"
         name="groupId"

@@ -3,8 +3,8 @@ import type { UseFormReturn } from "react-hook-form";
 import { useFieldArray } from "react-hook-form";
 
 import { MdAdd } from "react-icons/md";
+import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldInputNumber from "~/components/forms/form-field-input-number";
-import FormFieldInputText from "~/components/forms/form-field-input-text";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
@@ -44,23 +44,26 @@ const UpsertOldCommitteeMembersFormSection: FC<
             </Button>
           </div>
           <div className="grid grid-cols-2 gap-2">
-            <FormFieldInputText
+            <FormFieldInput
               form={form}
               label="Namn"
               name={`members.${index}.name`}
               placeholder="Namn"
+              type="text"
             />
-            <FormFieldInputText
+            <FormFieldInput
               form={form}
               label="Postnamn"
               name={`members.${index}.nickName`}
               placeholder="Postnamn"
+              type="text"
             />
-            <FormFieldInputText
+            <FormFieldInput
               form={form}
               label="Post"
               name={`members.${index}.role`}
               placeholder="Post"
+              type="text"
             />
             <FormFieldInputNumber
               form={form}

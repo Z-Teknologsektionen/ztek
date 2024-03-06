@@ -25,15 +25,16 @@ const FormFieldCheckbox = <TFieldValues extends FieldValues>({
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          <div className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+          <div className="flex flex-row items-center gap-4 rounded-md border p-3">
             <FormControl>
               <Checkbox
                 {...field}
                 checked={field.value}
+                className="h-5 w-5"
                 onCheckedChange={field.onChange}
               />
             </FormControl>
-            <div className="space-y-1 leading-none">
+            <div className="space-y-1 text-sm leading-none">
               <FormDescription>{description}</FormDescription>
             </div>
           </div>

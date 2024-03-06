@@ -3,9 +3,9 @@ import { AccountRoles } from "@prisma/client";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
+import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldInputImage from "~/components/forms/form-field-input-image";
 import FormFieldInputNumber from "~/components/forms/form-field-input-number";
-import FormFieldInputText from "~/components/forms/form-field-input-text";
 import FormFieldSelect from "~/components/forms/form-field-select";
 import FormWrapper from "~/components/forms/form-wrapper";
 import {
@@ -65,11 +65,12 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
       onValid={onSubmit}
       resetForm={() => form.reset()}
     >
-      <FormFieldInputText
+      <FormFieldInput
         description="Ex. Zexet 22"
         form={form}
         label="Namn"
         name="name"
+        type="text"
       />
       {isAdmin && (
         <FormFieldSelect

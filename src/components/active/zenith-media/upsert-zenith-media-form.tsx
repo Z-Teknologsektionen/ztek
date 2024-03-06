@@ -3,10 +3,9 @@ import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import FormFieldCheckbox from "~/components/forms/form-field-checkbox";
+import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldInputImage from "~/components/forms/form-field-input-image";
 import FormFieldInputNumber from "~/components/forms/form-field-input-number";
-import FormFieldInputText from "~/components/forms/form-field-input-text";
-import FormFieldInputUrl from "~/components/forms/form-field-input-url";
 import FormWrapper from "~/components/forms/form-wrapper";
 import { MAX_4_DIGIT_YEAR, MIN_4_DIGIT_YEAR } from "~/constants/size-constants";
 import { createZenithMediaSchema } from "~/schemas/zenith-media";
@@ -39,8 +38,8 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
       onValid={onSubmit}
       resetForm={() => form.reset()}
     >
-      <FormFieldInputText form={form} label="Titel" name="title" />
-      <FormFieldInputUrl form={form} label="Url" name="url" />
+      <FormFieldInput form={form} label="Titel" name="title" type="text" />
+      <FormFieldInput form={form} label="Url" name="url" type="url" />
       <FormFieldInputNumber
         form={form}
         label="År"
@@ -55,7 +54,7 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
         name="isPDF"
       />
       <FormFieldInputImage
-        description="Omslagsbilden till median"
+        description="Omslagsbilden till mediet"
         form={form}
         label="Omslag"
         maxHeight={600}

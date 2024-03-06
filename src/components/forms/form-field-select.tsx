@@ -8,14 +8,17 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
+import { ScrollArea } from "~/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
 import type { IFormFieldSelect } from "~/types/form-types";
+import { cn } from "~/utils/utils";
 
 const FormFieldSelect = <TFieldValues extends FieldValues>({
   label,
@@ -26,6 +29,7 @@ const FormFieldSelect = <TFieldValues extends FieldValues>({
   disabled,
   options,
   resetButton,
+  scrollArea = options.length > 8, // 6 är antalet som får plats när h-48 används
 }: IFormFieldSelect<TFieldValues>): JSX.Element => {
   return (
     <FormField
@@ -48,11 +52,15 @@ const FormFieldSelect = <TFieldValues extends FieldValues>({
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                {options?.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
+                <ScrollArea className={cn(scrollArea && "h-48")}>
+                  <SelectGroup>
+                    {options.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </ScrollArea>
               </SelectContent>
             </Select>
             {resetButton && (

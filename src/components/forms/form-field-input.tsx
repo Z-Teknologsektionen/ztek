@@ -8,15 +8,16 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import type { IFormFieldInputText } from "~/types/form-types";
+import type { IFormFieldInput } from "~/types/form-types";
 
-const FormFieldInputText = <TFieldValues extends FieldValues>({
+const FormFieldInput = <TFieldValues extends FieldValues>({
   label,
   name,
   description,
   disabled,
   form,
-}: IFormFieldInputText<TFieldValues>): JSX.Element => {
+  type,
+}: IFormFieldInput<TFieldValues>): JSX.Element => {
   return (
     <FormField
       control={form.control}
@@ -26,7 +27,7 @@ const FormFieldInputText = <TFieldValues extends FieldValues>({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input {...field} type="text" />
+            <Input {...field} type={type} />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />
@@ -36,4 +37,4 @@ const FormFieldInputText = <TFieldValues extends FieldValues>({
   );
 };
 
-export default FormFieldInputText;
+export default FormFieldInput;
