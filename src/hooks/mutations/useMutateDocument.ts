@@ -68,14 +68,14 @@ export const useUpdateDocumentAsAuthed = ({
 }: UseMutationHookProps) => {
   const ctx = api.useUtils();
 
-  return api.document.deleteOneAsAuthed.useMutation({
-    onMutate: () => toast.loading("Raderar dokument..."),
+  return api.document.updateOneAsAuthed.useMutation({
+    onMutate: () => toast.loading("Uppdaterar dokument..."),
     onSettled: (_c, _d, _e, toastId) => {
       toast.remove(toastId);
       onSettled?.();
     },
     onSuccess: async () => {
-      toast.success("Dokumentet har raderats!");
+      toast.success("Dokumentet har uppdaterats!");
       await ctx.document.invalidate();
       onSuccess?.();
     },

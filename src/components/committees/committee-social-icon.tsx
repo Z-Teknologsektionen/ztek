@@ -4,8 +4,10 @@ import type { FC } from "react";
 import {
   Tooltip,
   TooltipContent,
+  TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
 import {
   getSocialIconFromEnum,
   getSocialNameFromEnum,
@@ -27,21 +29,23 @@ const CommitteeSocialIcon: FC<CommitteeSocialIconProps> = ({
   const isEmail = iconVariant === "MAIL";
 
   return (
-    <Tooltip>
-      <TooltipTrigger>
-        <Link
-          href={isEmail ? `mailto:${url}` : url}
-          rel={isExternalLink ? "noopener noreferrer" : undefined}
-          target={isExternalLink ? "_blank" : "_self"}
-        >
-          <Icon size={20} />
-          <p className="sr-only">{iconName}</p>
-        </Link>
-      </TooltipTrigger>
-      <TooltipContent>
-        <p>{iconName}</p>
-      </TooltipContent>
-    </Tooltip>
+    <TooltipProvider delayDuration={TOOLTIP_DELAY_MS}>
+      <Tooltip>
+        <TooltipTrigger>
+          <Link
+            href={isEmail ? `mailto:${url}` : url}
+            rel={isExternalLink ? "noopener noreferrer" : undefined}
+            target={isExternalLink ? "_blank" : "_self"}
+          >
+            <Icon size={20} />
+            <p className="sr-only">{iconName}</p>
+          </Link>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>{iconName}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };
 

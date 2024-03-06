@@ -3,7 +3,6 @@ import {
   createCommitteeSchema,
   updateCommitteeAsActiveSchema,
   updateCommitteeSchema,
-  upsertCommitteeSocialLinksBaseSchema,
 } from "~/schemas/committee";
 import { objectId, slugString } from "~/schemas/helpers/custom-zod-helpers";
 import {
@@ -101,6 +100,8 @@ export const committeeRouter = createTRPCRouter({
           electionPeriod: true,
           updatedAt: true,
           socialLinks: true,
+          role: true,
+          document: true,
           members: {
             orderBy: {
               order: "desc",
@@ -158,7 +159,7 @@ export const committeeRouter = createTRPCRouter({
   }),
   updateCommitteeAsActive: protectedProcedure
     .input(updateCommitteeAsActiveSchema)
-    .mutation(({ ctx, input: { id, description, image } }) => {
+    .mutation(({ ctx, input: { id, description, image, socialLinks } }) => {
       return ctx.prisma.committee.update({
         where: {
           id,
@@ -166,29 +167,16 @@ export const committeeRouter = createTRPCRouter({
         data: {
           description,
           image,
+          socialLinks: socialLinks?.map(
+            ({ iconAndUrl: { iconVariant, url }, order: socialLinkOrder }) => ({
+              iconVariant,
+              url,
+              order: socialLinkOrder,
+            }),
+          ),
         },
       });
     }),
-  setCommitteeSocialLinksAsActive: protectedProcedure
-    .input(upsertCommitteeSocialLinksBaseSchema.extend({ id: objectId }))
-    .mutation(({ ctx, input: { socialLinks, id } }) => {
-      const formatedSocialLinks = socialLinks.map((link) => ({
-        order: link.order,
-        iconVariant: link.iconAndUrl.iconVariant,
-        url: link.iconAndUrl.url,
-      }));
-      return ctx.prisma.committee.update({
-        where: {
-          id: id,
-        },
-        data: {
-          socialLinks: {
-            set: formatedSocialLinks,
-          },
-        },
-      });
-    }),
-
   createCommitteeAsAuthed: organizationManagementProcedure
     .input(createCommitteeSchema)
     .mutation(

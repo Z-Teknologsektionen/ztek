@@ -32,6 +32,7 @@ export interface IFormFieldMapableDefaults<TFieldValues extends FieldValues>
 
 export interface IFormFieldInput<TFieldValues extends FieldValues = FieldValues>
   extends IFormFieldDefaults<TFieldValues> {
+  className?: string;
   placeholder?: string;
   type: HTMLInputTypeAttribute;
 }

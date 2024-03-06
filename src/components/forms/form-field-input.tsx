@@ -17,6 +17,8 @@ const FormFieldInput = <TFieldValues extends FieldValues>({
   disabled,
   form,
   type,
+  className,
+  placeholder,
 }: IFormFieldInput<TFieldValues>): JSX.Element => {
   return (
     <FormField
@@ -27,7 +29,12 @@ const FormFieldInput = <TFieldValues extends FieldValues>({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input {...field} type={type} />
+            <Input
+              {...field}
+              className={className}
+              placeholder={placeholder}
+              type={type}
+            />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />

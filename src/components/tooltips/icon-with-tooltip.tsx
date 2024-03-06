@@ -3,8 +3,10 @@ import type { IconType } from "react-icons";
 import {
   Tooltip,
   TooltipContent,
+  TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
 import { cn } from "~/utils/utils";
 
 type IconWithTooltipProps = {
@@ -21,15 +23,17 @@ const IconWithTooltip: FC<IconWithTooltipProps> = ({
   size = 15,
 }) => {
   return (
-    <Tooltip>
-      <TooltipTrigger>
-        <Icon className={cn("fill-zBlack", className)} size={size} />
-        <p className="sr-only">{tooltipText}</p>
-      </TooltipTrigger>
-      <TooltipContent>
-        <p>{tooltipText}</p>
-      </TooltipContent>
-    </Tooltip>
+    <TooltipProvider delayDuration={TOOLTIP_DELAY_MS}>
+      <Tooltip>
+        <TooltipTrigger>
+          <Icon className={cn("fill-zBlack", className)} size={size} />
+          <p className="sr-only">{tooltipText}</p>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>{tooltipText}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };
 
