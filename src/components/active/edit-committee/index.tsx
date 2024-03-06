@@ -1,15 +1,13 @@
-import type { FC } from "react";
-import { UpdateCommitteeWizard } from "~/components/active/edit-committee/update-committee-wizard";
-import { UpdateUserWizard } from "~/components/active/edit-committee/update-user-wizard";
+import { type FC } from "react";
 import HeadLayout from "~/components/layout/head-layout";
 import LoadningSpinner from "~/components/layout/loadning-spinner";
 import RoleWrapper from "~/components/layout/role-wrapper";
-import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
-import CommitteeSocialLinksList from "./committee-social-links/committee-social-links-list";
 import MissingCommitteeSection from "./missing-committee-section";
+import { UpdateCommitteeMemberSection } from "./update-committee-member-section";
+import { UpdateCommitteeSection } from "./update-committee-section";
 
 const EditCommitteePage: FC = () => {
   const { data: session } = useRequireAuth();
@@ -29,37 +27,27 @@ const EditCommitteePage: FC = () => {
   return (
     <RoleWrapper accountRole={undefined}>
       <HeadLayout title="Redigera medlemmar" />
-      {isLoadingCommittee && <LoadningSpinner />}
-      {hasData && !committee && <MissingCommitteeSection />}
-      {showStandardViews && (
-        <SectionWrapper className="flex flex-col items-center justify-center space-y-8 py-16">
-          <h1 className="text-center text-3xl font-semibold">
-            {committee.name}
-          </h1>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {committee.members.map((member) => (
-              <UpdateUserWizard key={member.id} member={member} />
-            ))}
+      <SectionWrapper>
+        {isLoadingCommittee && <LoadningSpinner />}
+        {hasData && !committee && <MissingCommitteeSection />}
+        {showStandardViews && (
+          <div className="grid grid-cols-6 ">
+            <div className="order-last col-span-6 mx-4 lg:order-first lg:col-span-4">
+              <div className="sticky top-2 grid grid-cols-2 gap-4 md:grid-cols-3">
+                {committee.members.map((member) => (
+                  <UpdateCommitteeMemberSection
+                    key={member.id}
+                    member={member}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="col-span-6 mx-4 mb-4 lg:col-span-2 lg:mb-0">
+              <UpdateCommitteeSection committee={committee} />
+            </div>
           </div>
-          <UpdateCommitteeWizard key={committee.id} committee={committee} />
-          <div className="w-full space-y-4">
-            <SecondaryTitle center>Sociala länkar</SecondaryTitle>
-            <CommitteeSocialLinksList
-              key={committee.socialLinks.toString()}
-              committeeId={committee.id}
-              initialSocialLinks={committee.socialLinks.map(
-                ({ iconVariant, order, url }) => ({
-                  iconAndUrl: {
-                    iconVariant,
-                    url,
-                  },
-                  order,
-                }),
-              )}
-            />
-          </div>
-        </SectionWrapper>
-      )}
+        )}
+      </SectionWrapper>
     </RoleWrapper>
   );
 };

@@ -34,12 +34,6 @@ const rawActiveTabs: ActiveTabsProps[] = [
     name: "Administera organet",
     desc: "Här kan du som precis gått på byta namn på sittande och byta logga!",
     component: EditCommitteeTab,
-    instructions: [
-      `Om du lämnar båda namn fälten tomma så kommer personen inte visas på hemsidan. Om du vill att de ska visas ändå kan du sätta namnet till "Vakant"`,
-      `Personer med högt värde på "Ordning" kommer visas först`,
-      `Om kommitenamn finns så kommer det prioriteras och visas större`,
-      `Om du vill redigera något av de fält som är statiska så kan enbart webbgruppen göra detta, kontakta dem via slack eller mail.`,
-    ],
   },
   {
     name: "Pateter",

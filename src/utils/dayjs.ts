@@ -20,7 +20,7 @@ const localeObject: ILocale = {
     hh: "%d timmar",
     d: "en dag",
     dd: "%d dagar",
-    M: "en månader",
+    M: "en månad",
     MM: "%d månader",
     y: "ett år",
     yy: "%d år",
