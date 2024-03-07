@@ -1,5 +1,6 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 import { type FieldValues } from "react-hook-form";
 import {
   FormControl,
@@ -10,12 +11,10 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { IFormFieldFileInput } from "~/types/form-types";
+import type { IFormFieldFileInput } from "~/types/form-types";
 import { cn } from "~/utils/utils";
 
-export const FormFieldFileInput = <
-  TFieldValues extends FieldValues,
->({
+export const FormFieldFileInput = <TFieldValues extends FieldValues>({
   label,
   description,
   name,

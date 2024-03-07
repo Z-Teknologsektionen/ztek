@@ -1,3 +1,4 @@
+import { TooltipProvider } from "@radix-ui/react-tooltip";
 import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,8 +11,9 @@ import { Skeleton } from "~/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
-  TooltipTrigger
+  TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
 import ssg from "~/server/api/helpers/ssg";
 import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
@@ -26,30 +28,32 @@ export const ZenithMediaCard: FC<IZenithMediaCard> = ({
   year,
 }) => {
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Link
-          className="relative h-[187.5px] w-[125px]"
-          href={url}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <Image
-            alt={`Omslagsbild till ${title}`}
-            className="object-cover object-center"
-            src={coverImage}
-            unselectable="on"
-            fill
-            unoptimized
-          />
-        </Link>
-      </TooltipTrigger>
-      <TooltipContent>
-        <p>
-          {title}, {year}
-        </p>
-      </TooltipContent>
-    </Tooltip>
+    <TooltipProvider delayDuration={TOOLTIP_DELAY_MS}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Link
+            className="relative h-[187.5px] w-[125px]"
+            href={url}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <Image
+              alt={`Omslagsbild till ${title}`}
+              className="object-cover object-center"
+              src={coverImage}
+              unselectable="on"
+              fill
+              unoptimized
+            />
+          </Link>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>
+            {title}, {year}
+          </p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };
 

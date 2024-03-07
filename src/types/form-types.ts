@@ -65,10 +65,10 @@ export interface IFormFieldInputImage<
 
 export interface IFormFieldFileInput<
   TFieldValues extends FieldValues = FieldValues,
-  > extends IFormFieldDefaults<TFieldValues> {
+> extends IFormFieldDefaults<TFieldValues> {
   accept?: string;
   className?: string;
-  }
+}
 
 export interface IFormFieldInputNumber<
   TFieldValues extends FieldValues = FieldValues,
