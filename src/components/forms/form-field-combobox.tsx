@@ -46,7 +46,7 @@ const FormFieldCombobox = <TFieldValues extends FieldValues>({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <div className="flex flex-row gap-2">
-            <Popover>
+            <Popover modal={true}>
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button
@@ -68,8 +68,8 @@ const FormFieldCombobox = <TFieldValues extends FieldValues>({
               <PopoverContent side="bottom" sideOffset={4}>
                 <Command>
                   <CommandInput placeholder={serchText} />
-                  <CommandEmpty>{noResultsText}</CommandEmpty>
                   <ScrollArea className="h-48">
+                    <CommandEmpty>{noResultsText}</CommandEmpty>
                     <CommandGroup>
                       {options.map((option) => (
                         <CommandItem
