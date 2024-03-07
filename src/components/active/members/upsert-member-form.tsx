@@ -2,13 +2,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { BasicInput } from "~/components/forms/basic-input";
-import { DropdownInput } from "~/components/forms/dropdown-input";
-import { ImageInput } from "~/components/forms/image-input";
-import { NumberInput } from "~/components/forms/number-input";
-import { Button } from "~/components/ui/button";
-import { DialogFooter } from "~/components/ui/dialog";
-import { Form } from "~/components/ui/form";
+import FormFieldInput from "~/components/forms/form-field-input";
+import FormFieldInputImage from "~/components/forms/form-field-input-image";
+import FormFieldInputNumber from "~/components/forms/form-field-input-number";
+import FormFieldSelect from "~/components/forms/form-field-select";
+import FormWrapper from "~/components/forms/form-wrapper";
 import {
   COMMITTEE_IMAGE_QUALITY,
   COMMITTEE_IMAGE_SIZE,
@@ -45,82 +43,72 @@ export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
   const { data: committees } = api.committee.getAllAsAuthed.useQuery();
 
   return (
-    <Form {...form}>
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <form className=" space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
-          <BasicInput
-            control={form.control}
-            label="Namn (valfri)"
-            name="name"
-          />
-          <BasicInput
-            control={form.control}
-            label="Kommitténamn (valfri)"
-            name="nickName"
-          />
-          <BasicInput
-            control={form.control}
-            label="Epost"
-            name="email"
-            placeholder="lucky@ztek.se"
-            type="email"
-          />
-          <BasicInput
-            control={form.control}
-            description="Vilken post har personen?"
-            label="Post"
-            name="role"
-            placeholder="Ordförande"
-          />
-
-          <DropdownInput
-            description="Hittar du inte rätt organ? Du kan lägga till fler organ som administratör."
-            form={form}
-            label="Tillhör organ"
-            mappable={committees || []}
-            name="committeeId"
-            placeholder="Välj organ"
-          />
-          <NumberInput
-            control={form.control}
-            description="Används för att bestämma vilken ordning organets medlemmar ska visas i"
-            label="Ordning"
-            max={MAX_ORDER_NUMBER}
-            min={MIN_ORDER_NUMBER}
-            name="order"
-          />
-          <BasicInput
-            control={form.control}
-            description="Du behöver inte fylla i detta. Kommer visas publikt på organsidan."
-            label="Telefonnummer (valfri)"
-            name="phone"
-            type="tel"
-          />
-          <ImageInput
-            control={form.control}
-            label="Bild (valfri)"
-            maxHeight={COMMITTEE_IMAGE_SIZE}
-            maxWidth={COMMITTEE_IMAGE_SIZE}
-            name="image"
-            quality={COMMITTEE_IMAGE_QUALITY}
-          />
-        </div>
-        <DialogFooter>
-          <Button
-            onClick={() => {
-              form.reset();
-            }}
-            type="button"
-            variant={"outline"}
-          >
-            Återställ
-          </Button>
-          <Button type="submit" variant={"default"}>
-            {formType === "create" ? "Skapa" : "Uppdatera"}
-          </Button>
-        </DialogFooter>
-      </form>
-    </Form>
+    <FormWrapper
+      form={form}
+      formType={formType}
+      onValid={onSubmit}
+      resetForm={() => form.reset()}
+    >
+      <FormFieldInput
+        form={form}
+        label="Namn (valfri)"
+        name="name"
+        type="text"
+      />
+      <FormFieldInput
+        form={form}
+        label="Kommitténamn (valfri)"
+        name="nickName"
+        type="text"
+      />
+      <FormFieldInput
+        form={form}
+        label="Epost"
+        name="email"
+        placeholder="lucky@ztek.se"
+        type="email"
+      />
+      <FormFieldInput
+        description="Vilken post har personen?"
+        form={form}
+        label="Post"
+        name="role"
+        placeholder="Ordförande"
+        type="text"
+      />
+      <FormFieldSelect
+        description="Hittar du inte rätt organ? Du kan lägga till fler organ som administratör."
+        form={form}
+        label="Tillhör organ"
+        name="committeeId"
+        options={
+          committees?.map(({ id, name }) => ({ value: id, label: name })) || []
+        }
+        placeholder="Välj organ"
+      />
+      <FormFieldInputNumber
+        description="Används för att bestämma vilken ordning organets medlemmar ska visas i"
+        form={form}
+        label="Ordning"
+        max={MAX_ORDER_NUMBER}
+        min={MIN_ORDER_NUMBER}
+        name="order"
+      />
+      <FormFieldInput
+        description="Du behöver inte fylla i detta. Kommer visas publikt på organsidan."
+        form={form}
+        label="Telefonnummer (valfri)"
+        name="phone"
+        type="tel"
+      />
+      <FormFieldInputImage
+        form={form}
+        label="Bild (valfri)"
+        maxHeight={COMMITTEE_IMAGE_SIZE}
+        maxWidth={COMMITTEE_IMAGE_SIZE}
+        name="image"
+        quality={COMMITTEE_IMAGE_QUALITY}
+      />
+    </FormWrapper>
   );
 };

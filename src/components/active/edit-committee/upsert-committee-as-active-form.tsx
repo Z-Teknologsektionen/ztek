@@ -1,8 +1,8 @@
 import type { FC } from "react";
 import type { z } from "zod";
+import FormFieldInputImage from "~/components/forms/form-field-input-image";
+import FormFieldTextArea from "~/components/forms/form-field-textarea";
 import FormWrapper from "~/components/forms/form-wrapper";
-import { ImageInput } from "~/components/forms/image-input";
-import { TextAreaInput } from "~/components/forms/textarea-input";
 import {
   COMMITTEE_IMAGE_QUALITY,
   COMMITTEE_IMAGE_SIZE,
@@ -36,20 +36,16 @@ const UpsertCommitteeAsActiveForm: FC<UpsertCommitteeAsActiveFormProps> = ({
       onValid={onSubmit}
       resetForm={() => form.reset()}
     >
-      <ImageInput
-        control={form.control}
+      <FormFieldInputImage
+        form={form}
         label="Bild (valfri)"
         maxHeight={COMMITTEE_IMAGE_SIZE}
         maxWidth={COMMITTEE_IMAGE_SIZE}
         name="image"
         quality={COMMITTEE_IMAGE_QUALITY}
       />
-      <TextAreaInput
-        control={form.control}
-        label="Beskrivning"
-        name="description"
-      />
-      <UpsertCommitteeSocialLinksFormAsActiveSection control={form.control} />
+      <FormFieldTextArea form={form} label="Beskrivning" name="description" />
+      <UpsertCommitteeSocialLinksFormAsActiveSection form={form} />
     </FormWrapper>
   );
 };

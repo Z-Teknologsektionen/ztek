@@ -1,8 +1,9 @@
 import type { FC } from "react";
-import { useFieldArray, type Control } from "react-hook-form";
+import type { UseFormReturn } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
 import { FaArrowDown, FaArrowUp, FaTrash } from "react-icons/fa6";
-import { BasicInput } from "~/components/forms/basic-input";
-import SelectCommitteeSocialIcon from "~/components/forms/select-committee-social-icon";
+import FormFieldInput from "~/components/forms/form-field-input";
+import FormFieldSelectCommitteeSocialIcon from "~/components/forms/form-field-select-committee-social-icon";
 import { Button } from "~/components/ui/button";
 import { FormDescription } from "~/components/ui/form";
 import { Label } from "~/components/ui/label";
@@ -11,12 +12,12 @@ import { MAX_ORDER_NUMBER } from "~/constants/committees";
 import type { UpsertCommitteeAsActiveFormValues } from "./upsert-committee-as-active-form";
 
 type UpsertCommitteeSocialLinksFormAsActiveSectionProps = {
-  control: Control<UpsertCommitteeAsActiveFormValues>;
+  form: UseFormReturn<UpsertCommitteeAsActiveFormValues>;
 };
 
 const UpsertCommitteeSocialLinksFormAsActiveSection: FC<
   UpsertCommitteeSocialLinksFormAsActiveSectionProps
-> = ({ control }) => {
+> = ({ form }) => {
   const {
     fields: socialLinks,
     append: addSocialIcon,
@@ -24,7 +25,7 @@ const UpsertCommitteeSocialLinksFormAsActiveSection: FC<
     remove: removeSocialIcon,
   } = useFieldArray({
     name: "socialLinks",
-    control,
+    control: form.control,
   });
   const ICON_SIZE = 15;
 
@@ -57,57 +58,54 @@ const UpsertCommitteeSocialLinksFormAsActiveSection: FC<
           </FormDescription>
         ) : (
           <div className="flex flex-col gap-2">
-            {socialLinks.map(
-              ({ iconAndUrl: { iconVariant, url }, id }, idx) => {
-                return (
-                  <div
-                    key={id}
-                    className="flex flex-row justify-between gap-2 px-2"
-                  >
-                    <div className="flex gap-2">
-                      <div className="w-36">
-                        <SelectCommitteeSocialIcon
-                          control={control}
-                          defaultValue={iconVariant}
-                          label="Ikon"
-                          name={`socialLinks.${idx}.iconAndUrl.iconVariant`}
-                        />
-                      </div>
-                      <BasicInput
-                        className="flex-shrink"
-                        control={control}
-                        defaultValue={url}
-                        label="Url"
-                        name={`socialLinks.${idx}.iconAndUrl.url`}
+            {socialLinks.map(({ id }, idx) => {
+              return (
+                <div
+                  key={id}
+                  className="flex flex-row justify-between gap-2 px-2"
+                >
+                  <div className="flex gap-2">
+                    <div className="w-36">
+                      <FormFieldSelectCommitteeSocialIcon
+                        form={form}
+                        label="Ikon"
+                        name={`socialLinks.${idx}.iconAndUrl.iconVariant`}
                       />
                     </div>
-                    <div className="flex items-end gap-2 pb-4">
-                      <FaArrowUp
-                        className="cursor-pointer hover:fill-zLightGray"
-                        onClick={() =>
-                          idx === 0 ? undefined : swapSocialLinks(idx, idx - 1)
-                        }
-                        size={ICON_SIZE}
-                      />
-                      <FaArrowDown
-                        className="cursor-pointer hover:fill-zLightGray"
-                        onClick={() =>
-                          idx === socialLinks.length - 1
-                            ? undefined
-                            : swapSocialLinks(idx, idx + 1)
-                        }
-                        size={ICON_SIZE}
-                      />
-                      <FaTrash
-                        className="cursor-pointer hover:fill-zRed"
-                        onClick={() => removeSocialIcon(idx)}
-                        size={ICON_SIZE}
-                      />
-                    </div>
+                    <FormFieldInput
+                      className="flex-shrink"
+                      form={form}
+                      label="Url"
+                      name={`socialLinks.${idx}.iconAndUrl.url`}
+                      type="url"
+                    />
                   </div>
-                );
-              },
-            )}
+                  <div className="flex items-end gap-2 pb-4">
+                    <FaArrowUp
+                      className="cursor-pointer hover:fill-zLightGray"
+                      onClick={() =>
+                        idx === 0 ? undefined : swapSocialLinks(idx, idx - 1)
+                      }
+                      size={ICON_SIZE}
+                    />
+                    <FaArrowDown
+                      className="cursor-pointer hover:fill-zLightGray"
+                      onClick={() =>
+                        idx === socialLinks.length - 1
+                          ? undefined
+                          : swapSocialLinks(idx, idx + 1)
+                      }
+                      size={ICON_SIZE}
+                    />
+                    <FaTrash
+                      className="cursor-pointer hover:fill-zRed"
+                      onClick={() => removeSocialIcon(idx)}
+                      size={ICON_SIZE}
+                    />
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>

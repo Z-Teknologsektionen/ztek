@@ -8,36 +8,32 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
+import { ScrollArea } from "~/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import type { IDropdownInput } from "~/types/form-types";
+import type { IFormFieldSelect } from "~/types/form-types";
+import { cn } from "~/utils/utils";
 
-export const DropdownInput = <
-  TFieldValues extends FieldValues,
-  TName extends Path<TFieldValues>,
->({
+const FormFieldSelect = <TFieldValues extends FieldValues>({
   label,
   form,
   name,
   description,
   placeholder,
-  mappable,
-  control = form.control,
-  defaultValue,
   disabled,
-  rules,
-  shouldUnregister,
-  ...rest
-}: IDropdownInput<TFieldValues, TName>): JSX.Element => {
+  options,
+  resetButton,
+  scrollArea = options.length > 8, // 6 är antalet som får plats när h-48 används
+}: IFormFieldSelect<TFieldValues>): JSX.Element => {
   return (
     <FormField
-      control={control}
-      defaultValue={defaultValue}
+      control={form.control}
       disabled={disabled}
       name={name}
       // Här vet bara GUD varför ref inte ska skickas in till select ger galen error i consol om man skickar in och fungerar fin fint utan
@@ -47,7 +43,6 @@ export const DropdownInput = <
           <div className="flex flex-row gap-2">
             <Select
               {...field}
-              {...rest}
               defaultValue={field.value}
               onValueChange={field.onChange}
             >
@@ -57,29 +52,38 @@ export const DropdownInput = <
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                {mappable?.map(({ id, name: displayName }) => (
-                  <SelectItem key={id} value={id}>
-                    {displayName}
-                  </SelectItem>
-                ))}
+                <ScrollArea className={cn(scrollArea && "h-48")}>
+                  <SelectGroup>
+                    {options.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </ScrollArea>
               </SelectContent>
             </Select>
-            <Button
-              onClick={() =>
-                form.setValue(name, "" as PathValue<TFieldValues, TName>)
-              }
-              type="button"
-              variant="ghost"
-            >
-              Rensa
-            </Button>
+            {resetButton && (
+              <Button
+                onClick={() =>
+                  form.setValue(
+                    name,
+                    "" as PathValue<TFieldValues, Path<TFieldValues>>,
+                  )
+                }
+                type="button"
+                variant="ghost"
+              >
+                Rensa
+              </Button>
+            )}
           </div>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />
         </FormItem>
       )}
-      rules={rules}
-      shouldUnregister={shouldUnregister}
     />
   );
 };
+
+export default FormFieldSelect;

@@ -1,10 +1,10 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { type FC } from "react";
-import { BasicInput } from "~/components/forms/basic-input";
+import FormFieldInput from "~/components/forms/form-field-input";
+import FormFieldInputImage from "~/components/forms/form-field-input-image";
+import FormFieldInputNumber from "~/components/forms/form-field-input-number";
 import FormWrapper from "~/components/forms/form-wrapper";
-import { ImageInput } from "~/components/forms/image-input";
-import { NumberInput } from "~/components/forms/number-input";
 import {
   COMMITTEE_IMAGE_QUALITY,
   COMMITTEE_IMAGE_SIZE,
@@ -38,26 +38,30 @@ export const UpsertMemberAsActiveForm: FC<UpdateMemberAsActiveProps> = ({
       onValid={onSubmit}
       resetForm={() => form.reset()}
     >
-      <BasicInput control={form.control} label="Namn" name="name" />
-      <BasicInput control={form.control} label="Kommitténamn" name="nickName" />
-      <BasicInput
-        control={form.control}
+      <FormFieldInput form={form} label="Namn" name="name" type="text" />
+      <FormFieldInput
+        form={form}
+        label="Kommitténamn"
+        name="nickName"
+        type="text"
+      />
+      <FormFieldInput
         description="Kommer visas publikt på organsidan."
+        form={form}
         label="Telefonnummer (valfritt)"
         name="phone"
         type="tel"
       />
-      <NumberInput
-        control={form.control}
-        defaultValue={MIN_ORDER_NUMBER}
+      <FormFieldInputNumber
         description="Används för att bestämma vilken ordning organets medlemmar ska visas i"
+        form={form}
         label="Ordning"
         max={MAX_ORDER_NUMBER}
         min={MIN_ORDER_NUMBER}
         name="order"
       />
-      <ImageInput
-        control={form.control}
+      <FormFieldInputImage
+        form={form}
         label="Bild (valfri)"
         maxHeight={COMMITTEE_IMAGE_SIZE}
         maxWidth={COMMITTEE_IMAGE_SIZE}

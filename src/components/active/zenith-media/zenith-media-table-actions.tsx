@@ -35,12 +35,12 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
 
   const { mutate: deleteZenithMedia } =
     api.zenithMedia.deleteOneAsAuthed.useMutation({
-      onMutate: () => toast.loading("Raderar media..."),
+      onMutate: () => toast.loading("Raderar mediet..."),
       onSettled: (_c, _d, _e, toastId) => {
         toast.remove(toastId);
         void ctx.zenithMedia.invalidate();
       },
-      onSuccess: () => toast.success("Median har raderats!"),
+      onSuccess: () => toast.success("Mediet har raderats!"),
       onError: (error) => {
         if (error.message) {
           toast.error(error.message);
