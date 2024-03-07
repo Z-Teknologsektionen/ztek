@@ -109,7 +109,7 @@ const FormFieldCombobox = <TFieldValues extends FieldValues>({
                 onClick={() =>
                   form.setValue(
                     name,
-                    "" as PathValue<TFieldValues, Path<TFieldValues>>,
+                    null as PathValue<TFieldValues, Path<TFieldValues>>,
                   )
                 }
                 type="button"

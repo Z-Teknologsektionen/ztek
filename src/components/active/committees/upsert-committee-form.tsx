@@ -39,7 +39,7 @@ const DEFAULT_VALUES: UpsertCommitteeFormProps["defaultValues"] = {
   email: "",
   slug: "",
   name: "",
-  documentId: "",
+  documentId: null,
 };
 
 const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
