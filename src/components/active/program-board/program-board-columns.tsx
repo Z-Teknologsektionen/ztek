@@ -90,12 +90,10 @@ export const programBoardColumns: ColumnDef<ProgramBoardType>[] = [
       const programBoardMember = row.original;
 
       return (
-        <div className="flex justify-center">
-          <ProgramBoardMemberTableActions
-            key={programBoardMember.id}
-            {...programBoardMember}
-          />
-        </div>
+        <ProgramBoardMemberTableActions
+          key={programBoardMember.id}
+          {...programBoardMember}
+        />
       );
     },
   },

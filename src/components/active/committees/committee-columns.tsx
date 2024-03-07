@@ -99,11 +99,7 @@ export const committeeColumns: ColumnDef<CommitteeType>[] = [
     ),
     cell: ({ row }) => {
       const committee = row.original;
-      return (
-        <div className="flex justify-center">
-          <CommitteeTableActions key={committee.id} {...committee} />
-        </div>
-      );
+      return <CommitteeTableActions key={committee.id} {...committee} />;
     },
   },
 ];

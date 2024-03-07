@@ -124,12 +124,10 @@ export const memberColumns: ColumnDef<CommitteeMemberType>[] = [
     cell: ({ row }) => {
       const committeeMember = row.original;
       return (
-        <div className="flex justify-center">
-          <CommitteeMemberTableActions
-            key={committeeMember.id}
-            {...committeeMember}
-          />
-        </div>
+        <CommitteeMemberTableActions
+          key={committeeMember.id}
+          {...committeeMember}
+        />
       );
     },
   },

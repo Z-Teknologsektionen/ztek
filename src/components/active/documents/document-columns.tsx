@@ -49,17 +49,13 @@ export const documentColumns: ColumnDef<DocumentType>[] = [
     enableSorting: false,
     enableHiding: false,
     header: ({ table }) => (
-      <div className="flex justify-center">
+      <div className="flex justify-end">
         <DataTableViewOptions table={table} />
       </div>
     ),
     cell: ({ row }) => {
       const document = row.original;
-      return (
-        <div className="flex justify-center">
-          <DocumentTableActions key={document.id} {...document} />
-        </div>
-      );
+      return <DocumentTableActions key={document.id} {...document} />;
     },
   },
 ];

@@ -43,7 +43,7 @@ export const documentGroupColumns: ColumnDef<DocumentGroupType>[] = [
     cell: ({ row }) => {
       const documentGroup = row.original;
       return (
-        <div className="flex justify-center">
+        <div className="flex justify-end">
           <DocumentGroupTableActions
             key={documentGroup.id}
             {...documentGroup}
