@@ -58,7 +58,7 @@ const UpsertCommitteeSocialLinksFormAsActiveSection: FC<
           </FormDescription>
         ) : (
           <div className="flex flex-col gap-2">
-            {socialLinks.map(({ id }, idx) => {
+            {socialLinks.map(({ id, iconAndUrl }, idx) => {
               return (
                 <div
                   key={id}
@@ -77,7 +77,7 @@ const UpsertCommitteeSocialLinksFormAsActiveSection: FC<
                       form={form}
                       label="Url"
                       name={`socialLinks.${idx}.iconAndUrl.url`}
-                      type="url"
+                      type={iconAndUrl.iconVariant === "MAIL" ? "email" : "url"}
                     />
                   </div>
                   <div className="flex items-end gap-2 pb-4">
