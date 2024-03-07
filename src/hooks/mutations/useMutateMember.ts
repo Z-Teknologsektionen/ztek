@@ -96,7 +96,11 @@ export const useDeleteMemberAsAuthed = ({
     },
   });
 };
-export const useUpdateMemberAsActive = () => {
+export const useUpdateMemberAsActive = ({
+  onError,
+  onSettled,
+  onSuccess,
+}: UseMutationHookProps) => {
   const ctx = api.useUtils();
 
   return api.member.updateMemberAsActive.useMutation({
@@ -104,9 +108,11 @@ export const useUpdateMemberAsActive = () => {
     onSettled: async (_, __, ___, toastId) => {
       toast.dismiss(toastId);
       await ctx.committee.invalidate();
+      onSettled?.();
     },
     onSuccess: ({ role }) => {
       toast.success(`Medlem med roll "${role}" har uppdaterats!`);
+      onSuccess?.();
     },
     onError: (error) => {
       if (error.message) {
@@ -114,6 +120,7 @@ export const useUpdateMemberAsActive = () => {
       } else {
         toast.error("Något gick fel. Försök igen senare");
       }
+      onError?.();
     },
   });
 };

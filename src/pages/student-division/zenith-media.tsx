@@ -10,7 +10,7 @@ import { Skeleton } from "~/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
-  TooltipTrigger,
+  TooltipTrigger
 } from "~/components/ui/tooltip";
 import ssg from "~/server/api/helpers/ssg";
 import type { RouterOutputs } from "~/utils/api";

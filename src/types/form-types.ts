@@ -1,12 +1,8 @@
-import type * as CheckboxPrimitive from "@radix-ui/react-checkbox";
-import type * as SelectPrimitive from "@radix-ui/react-select";
-import type { InputHTMLAttributes, ReactNode } from "react";
+import type { HTMLInputTypeAttribute } from "react";
 import type {
-  Control,
-  FieldPath,
   FieldValues,
+  Path,
   SubmitHandler,
-  UseControllerProps,
   UseFormReturn,
 } from "react-hook-form";
 import type { z } from "zod";
@@ -17,87 +13,72 @@ export interface IUpsertForm<schema extends z.ZodObject<z.ZodRawShape>> {
   onSubmit: SubmitHandler<z.infer<schema>>;
 }
 
-export interface IBasicFormField<
+export interface IFormFieldDefaults<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> extends UseControllerProps<TFieldValues, TName> {
-  control: Control<TFieldValues>;
-  description?: ReactNode;
+> {
+  description?: string;
+  disabled?: boolean;
+  form: UseFormReturn<TFieldValues>;
   label: string;
+  name: Path<TFieldValues>;
 }
 
-export interface IBooleanInput<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> extends IBasicFormField<TFieldValues, TName>,
-    Omit<
-      React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>,
-      "defaultValue" | "name" | "checked" | "onCheckedChange"
-    > {}
-
-export interface IDropdownInput<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> extends Omit<IBasicFormField<TFieldValues, TName>, "control">,
-    Omit<SelectPrimitive.SelectProps, "defaultValue" | "name"> {
-  control?: Control<TFieldValues>;
-  form: UseFormReturn<TFieldValues>;
-  mappable: { id: string; name: string }[];
-  placeholder: string;
-}
-
-export interface IComboboxInput<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> extends Omit<IBasicFormField<TFieldValues, TName>, "control"> {
-  control?: Control<TFieldValues>;
-  emptyListText: string;
-  form: UseFormReturn<TFieldValues>;
+export interface IFormFieldMapableDefaults<TFieldValues extends FieldValues>
+  extends IFormFieldDefaults<TFieldValues> {
   options: { label: string; value: string }[];
   placeholder: string;
+  resetButton?: boolean;
+}
+
+export interface IFormFieldInput<TFieldValues extends FieldValues = FieldValues>
+  extends IFormFieldDefaults<TFieldValues> {
+  className?: string;
+  placeholder?: string;
+  type: HTMLInputTypeAttribute;
+}
+export interface IFormFieldCheckbox<
+  TFieldValues extends FieldValues = FieldValues,
+> extends IFormFieldDefaults<TFieldValues> {
+  description: string;
+}
+
+export interface IFormFieldSelect<TFieldValues extends FieldValues>
+  extends IFormFieldMapableDefaults<TFieldValues> {
+  scrollArea?: boolean;
+}
+
+export interface IFormFieldCombobox<TFieldValues extends FieldValues>
+  extends IFormFieldMapableDefaults<TFieldValues> {
+  noResultsText: string;
   serchText: string;
 }
 
-export interface IImageInput<
+export interface IFormFieldInputImage<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> extends IBasicFormField<TFieldValues, TName>,
-    Omit<
-      InputHTMLAttributes<HTMLInputElement>,
-      "defaultValue" | "name" | "type" | "value" | "onChange"
-    > {
+> extends IFormFieldDefaults<TFieldValues> {
+  className?: string;
   containImage?: boolean;
   maxHeight: number;
   maxWidth: number;
   quality: number;
 }
 
-export interface IFileInput<
+export interface IFormFieldFileInput<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> extends IBasicFormField<TFieldValues, TName>,
-    Omit<
-      InputHTMLAttributes<HTMLInputElement>,
-      "defaultValue" | "name" | "type" | "value" | "onChange"
-    > {}
+  > extends IFormFieldDefaults<TFieldValues> {
+  accept?: string;
+  className?: string;
+  }
 
-export interface INumberInput<
+export interface IFormFieldInputNumber<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> extends IBasicFormField<TFieldValues, TName>,
-    Omit<
-      InputHTMLAttributes<HTMLInputElement>,
-      "defaultValue" | "name" | "value" | "onChange" | "type"
-    > {}
+> extends IFormFieldDefaults<TFieldValues> {
+  max: number;
+  min: number;
+}
 
-export interface ITextAreaInput<
+export interface IFormFieldTextArea<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> extends IBasicFormField<TFieldValues, TName>,
-    Omit<InputHTMLAttributes<HTMLTextAreaElement>, "defaultValue" | "name"> {}
-
-export interface ITextInput<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> extends IBasicFormField<TFieldValues, TName>,
-    Omit<InputHTMLAttributes<HTMLInputElement>, "defaultValue" | "name"> {}
+> extends IFormFieldDefaults<TFieldValues> {
+  className?: string;
+}

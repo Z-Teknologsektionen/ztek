@@ -26,6 +26,7 @@ export default {
         waring: "#FFA500",
         danger: "#FF0000",
         success: "#008000",
+        cardBackground: "#F5F5F5",
       },
       backgroundImage: {
         "about-image": "url('/kandidat.jpg')",

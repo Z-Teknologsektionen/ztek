@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { useState } from "react";
-import { type FieldValues, type Path } from "react-hook-form";
+import React, { useState } from "react";
+import { type FieldValues } from "react-hook-form";
 import {
   FormControl,
   FormDescription,
@@ -10,31 +10,26 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import type { IFileInput } from "~/types/form-types";
+import { IFormFieldFileInput } from "~/types/form-types";
 import { cn } from "~/utils/utils";
 
-export const FileInput = <
+export const FormFieldFileInput = <
   TFieldValues extends FieldValues,
-  TName extends Path<TFieldValues>,
 >({
   label,
   description,
   name,
-  control,
-  defaultValue,
-  disabled,
-  shouldUnregister,
-  rules,
+  form,
   className,
+  disabled,
   accept = "image/png, image/jpeg, application/pdf",
   ...rest
-}: IFileInput<TFieldValues, TName>): JSX.Element => {
+}: IFormFieldFileInput<TFieldValues>): React.JSX.Element => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   return (
     <FormField
-      control={control}
-      defaultValue={defaultValue}
+      control={form.control}
       disabled={disabled}
       name={name}
       render={({ field }) => (
@@ -81,8 +76,6 @@ export const FileInput = <
           <FormMessage />
         </FormItem>
       )}
-      rules={rules}
-      shouldUnregister={shouldUnregister}
     />
   );
 };

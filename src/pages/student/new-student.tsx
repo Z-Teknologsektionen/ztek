@@ -1,16 +1,18 @@
 import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
-import ExternalLink from "~/components/layout/external-link";
 import HeadLayout from "~/components/layout/head-layout";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
+import StyledLink from "~/components/layout/styled-link";
 import { Button } from "~/components/ui/button";
 import { Skeleton } from "~/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
+  TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
 import { courseData } from "~/data/course-data";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
@@ -56,9 +58,9 @@ const NewStudent: NextPage = () => {
                     <p>
                       <strong>{programManager.name}</strong> - programansvarig
                     </p>
-                    <ExternalLink href={`mailto:${programManager.email}`}>
+                    <StyledLink href={`mailto:${programManager.email}`}>
                       {programManager.email}
-                    </ExternalLink>
+                    </StyledLink>
                   </div>
                 </>
               )}
@@ -125,12 +127,12 @@ const NewStudent: NextPage = () => {
             forskare och experter inom området och utforska den senaste tekniken
             inom automation och mekatronik. Studenter vid Z-programmet kan välja
             på 21 olika mastrar, varav en ägs av Z,&nbsp;
-            <ExternalLink
+            <StyledLink
               href="https://www.chalmers.se/en/education/find-masters-programme/systems-control-and-mechatronics-msc/"
               target="_blank"
             >
               Systemteknik, reglerteknik och mekatronik
-            </ExternalLink>
+            </StyledLink>
             .
           </p>
         </SectionWrapper>
@@ -236,19 +238,21 @@ const NewStudent: NextPage = () => {
                             className="mb-1 flex flex-row justify-between text-slate-500"
                           >
                             <div className="shrink">
-                              <Tooltip>
-                                <TooltipTrigger>
-                                  <a
-                                    className="line-clamp-1 text-left font-medium hover:text-blue-500"
-                                    href={url}
-                                    rel="noopener noreferrer"
-                                    target="_blank"
-                                  >
-                                    {courseName}
-                                  </a>
-                                </TooltipTrigger>
-                                <TooltipContent>{courseName}</TooltipContent>
-                              </Tooltip>
+                              <TooltipProvider delayDuration={TOOLTIP_DELAY_MS}>
+                                <Tooltip>
+                                  <TooltipTrigger>
+                                    <a
+                                      className="line-clamp-1 text-left font-medium hover:text-blue-500"
+                                      href={url}
+                                      rel="noopener noreferrer"
+                                      target="_blank"
+                                    >
+                                      {courseName}
+                                    </a>
+                                  </TooltipTrigger>
+                                  <TooltipContent>{courseName}</TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
                             </div>
                             <div className="flex shrink-0 items-center">
                               {followUp && (

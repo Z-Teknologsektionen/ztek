@@ -2,21 +2,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { BasicInput } from "~/components/forms/basic-input";
-import { FileInput } from "~/components/forms/file-input";
-import { ImageInput } from "~/components/forms/image-input";
-import { NumberInput } from "~/components/forms/number-input";
-import { Button } from "~/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
-import { DialogFooter } from "~/components/ui/dialog";
-import { Form } from "~/components/ui/form";
+import { FormFieldFileInput } from "~/components/forms/form-field-file-input";
+import FormFieldInput from "~/components/forms/form-field-input";
+import FormFieldInputImage from "~/components/forms/form-field-input-image";
+import FormFieldInputNumber from "~/components/forms/form-field-input-number";
+import FormWrapper from "~/components/forms/form-wrapper";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { MAX_4_DIGIT_YEAR, MIN_4_DIGIT_YEAR } from "~/constants/size-constants";
 import { createZenithMediaClientSchema } from "~/schemas/zenith-media";
 import type { IUpsertForm } from "~/types/form-types";
 
@@ -45,23 +38,30 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
   });
 
   return (
-    <Form {...form}>
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <form className=" space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="max-h-96 space-y-4 overflow-y-scroll p-1">
-          <BasicInput control={form.control} label="Titel" name="title" />
-          <NumberInput control={form.control} label="År" name="year" />
-          <ImageInput
-            accept="image/*,"
-            control={form.control}
-            description="Omslagsbild"
-            label="Omslag"
-            maxHeight={600}
-            maxWidth={400}
-            name="coverImage"
-            quality={85}
-          />
+    <FormWrapper
+      form={form}
+      formType={formType}
+      onValid={onSubmit}
+      resetForm={() => form.reset()}
+    >
+      <FormFieldInput form={form} label="Titel" name="title" type="text" />
+      <FormFieldInputNumber
+        form={form}
+        label="År"
+        max={MAX_4_DIGIT_YEAR}
+        min={MIN_4_DIGIT_YEAR}
+        name="year"
+      />
 
+      <FormFieldInputImage
+        description="Omslagsbilden till mediet"
+        form={form}
+        label="Omslag"
+        maxHeight={600}
+        maxWidth={400}
+        name="coverImage"
+        quality={85}
+      />
           <Tabs defaultValue="upload">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="upload">Ladda upp</TabsTrigger>
@@ -77,9 +77,9 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <FileInput
+                  <FormFieldFileInput
                     accept="image/*, application/pdf,"
-                    control={form.control}
+                    form={form}
                     description="Mediafil"
                     label="Fil"
                     name="input.fileInput"
@@ -97,8 +97,8 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <BasicInput
-                    control={form.control}
+                  <FormFieldInput
+                    form={form}
                     label="Url"
                     name="input.url"
                     type="url"
@@ -107,22 +107,6 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
               </Card>
             </TabsContent>
           </Tabs>
-        </div>
-        <DialogFooter>
-          <Button
-            onClick={() => {
-              form.reset(defaultValues);
-            }}
-            type="button"
-            variant={"outline"}
-          >
-            Återställ
-          </Button>
-          <Button type="submit" variant={"default"}>
-            {formType === "create" ? "Skapa" : "Uppdatera"}
-          </Button>
-        </DialogFooter>
-      </form>
-    </Form>
+    </FormWrapper>
   );
 };

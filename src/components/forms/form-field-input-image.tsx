@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
-import type { FieldValues, Path } from "react-hook-form";
-import { useFormContext } from "react-hook-form";
+import type { FieldValues, Path, PathValue } from "react-hook-form";
 import { Button } from "~/components/ui/button";
 import {
   FormControl,
@@ -12,55 +11,43 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import type { IImageInput } from "~/types/form-types";
+import type { IFormFieldInputImage } from "~/types/form-types";
 import { getBase64WebPStringFromFileInput } from "~/utils/get-base64-webp-string-from-file-input";
 import { cn } from "~/utils/utils";
 
-export const ImageInput = <
-  TFieldValues extends FieldValues,
-  TName extends Path<TFieldValues>,
->({
+const FormFieldInputImage = <TFieldValues extends FieldValues>({
   label,
   description,
   name,
-  control,
-  defaultValue,
   disabled,
-  shouldUnregister,
-  rules,
-  className,
-  accept = "image/png, image/jpeg",
   maxHeight,
   maxWidth,
   quality,
   containImage = false,
-  ...rest
-}: IImageInput<TFieldValues, TName>): JSX.Element => {
-  const [newImage, setNewImage] = useState<string>(
-    control._defaultValues[name] as string,
-  );
-  const form = useFormContext();
+  form,
+  className,
+}: IFormFieldInputImage<TFieldValues>): JSX.Element => {
+  const [image, setImage] = useState<string>(form.getValues(name));
 
-  const scaledHeight = 300;
-  const scaledWidth = (300 * maxWidth) / maxHeight;
+  const scaledHeight = 200;
+  const scaledWidth = (scaledHeight * maxWidth) / maxHeight;
 
   const setValue = (value: string): void => {
-    setNewImage(value);
-    form.setValue(name as string, value);
+    setImage(value);
+    form.setValue(name, value as PathValue<TFieldValues, Path<TFieldValues>>);
   };
 
   return (
     <FormField
-      control={control}
-      defaultValue={defaultValue}
+      control={form.control}
       disabled={disabled}
       name={name}
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          {newImage && (
+          {image !== "" && (
             <Image
-              alt="Image preview"
+              alt="preview of image"
               className={cn(
                 "mx-auto object-center",
                 containImage ? "object-contain" : "object-cover",
@@ -69,7 +56,7 @@ export const ImageInput = <
               )}
               height={maxHeight}
               quality={quality}
-              src={newImage}
+              src={image}
               style={{ height: scaledHeight, width: scaledWidth }}
               width={maxWidth}
             />
@@ -78,8 +65,7 @@ export const ImageInput = <
             <div className="flex w-auto gap-2">
               <Input
                 {...field}
-                {...rest}
-                accept={accept}
+                accept="image/*"
                 className={cn(
                   "text-transparent hover:cursor-pointer",
                   className,
@@ -98,7 +84,6 @@ export const ImageInput = <
                 value={""}
               />
               <Button
-                className="w-[25%]"
                 onClick={() => setValue("")}
                 type="button"
                 variant="ghost"
@@ -111,8 +96,8 @@ export const ImageInput = <
           <FormMessage />
         </FormItem>
       )}
-      rules={rules}
-      shouldUnregister={shouldUnregister}
     />
   );
 };
+
+export default FormFieldInputImage;

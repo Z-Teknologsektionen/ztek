@@ -1,22 +1,25 @@
 import type { FC } from "react";
-import { useFieldArray, type Control } from "react-hook-form";
+import type { UseFormReturn } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
+
 import { MdAdd } from "react-icons/md";
-import { BasicInput } from "~/components/forms/basic-input";
-import { NumberInput } from "~/components/forms/number-input";
+import FormFieldInput from "~/components/forms/form-field-input";
+import FormFieldInputNumber from "~/components/forms/form-field-input-number";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
+import { MAX_ORDER_NUMBER, MIN_ORDER_NUMBER } from "~/constants/committees";
 import type { UpsertOldCommitteeFormValues } from "./upsert-old-committee-form";
 
 type UpsertOldCommitteeMembersFormSectionProps = {
-  control: Control<UpsertOldCommitteeFormValues>;
+  form: UseFormReturn<UpsertOldCommitteeFormValues>;
 };
 
 const UpsertOldCommitteeMembersFormSection: FC<
   UpsertOldCommitteeMembersFormSectionProps
-> = ({ control }) => {
+> = ({ form }) => {
   const { fields, append, remove } = useFieldArray({
-    control: control,
+    control: form.control,
     name: "members",
   });
 
@@ -41,29 +44,33 @@ const UpsertOldCommitteeMembersFormSection: FC<
             </Button>
           </div>
           <div className="grid grid-cols-2 gap-2">
-            <BasicInput
-              control={control}
+            <FormFieldInput
+              form={form}
               label="Namn"
               name={`members.${index}.name`}
               placeholder="Namn"
+              type="text"
             />
-            <BasicInput
-              control={control}
+            <FormFieldInput
+              form={form}
               label="Postnamn"
               name={`members.${index}.nickName`}
               placeholder="Postnamn"
+              type="text"
             />
-            <BasicInput
-              control={control}
+            <FormFieldInput
+              form={form}
               label="Post"
               name={`members.${index}.role`}
               placeholder="Post"
+              type="text"
             />
-            <NumberInput
-              control={control}
+            <FormFieldInputNumber
+              form={form}
               label="Ordning"
+              max={MAX_ORDER_NUMBER}
+              min={MIN_ORDER_NUMBER}
               name={`members.${index}.order`}
-              placeholder="Ordning"
             />
           </div>
         </div>

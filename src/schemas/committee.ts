@@ -20,16 +20,6 @@ import {
   standardString,
 } from "~/schemas/helpers/custom-zod-helpers";
 
-export const upsertCommitteeBaseSchema = z.object({
-  image: base64WebPImageString.or(emptyString),
-  description: standardString
-    .min(1, "Måste vara minst 1 tecken")
-    .max(
-      MAX_DESCRIPTION_TEXT_LENGTH,
-      `Får inte vara mer än ${MAX_DESCRIPTION_TEXT_LENGTH.toString()} tecken`,
-    ),
-});
-
 export const socialIconSchema = z.object({
   order: orderNumber,
   iconAndUrl: z
@@ -73,7 +63,14 @@ export const socialIconSchema = z.object({
     ),
 });
 
-export const upsertCommitteeSocialLinksBaseSchema = z.object({
+export const upsertCommitteeBaseSchema = z.object({
+  image: base64WebPImageString.or(emptyString),
+  description: standardString
+    .min(1, "Måste vara minst 1 tecken")
+    .max(
+      MAX_DESCRIPTION_TEXT_LENGTH,
+      `Får inte vara mer än ${MAX_DESCRIPTION_TEXT_LENGTH.toString()} tecken`,
+    ),
   socialLinks: z.array(socialIconSchema).max(MAX_NUMER_OF_SOCIAL_LINKS),
 });
 
@@ -81,34 +78,32 @@ export const updateCommitteeAsActiveSchema = upsertCommitteeBaseSchema
   .partial()
   .extend({ id: objectId });
 
-export const createCommitteeSchema = upsertCommitteeBaseSchema
-  .extend({
-    documentId: objectId.nullable(),
-    name: nonEmptyString,
-    committeeType: z.nativeEnum(CommitteeType, {
-      //Dessa två rader borde användas med bug hos zod gör att det inte funkar
-      // https://github.com/colinhacks/zod/issues/3146
-      // required_error: "Vänligen välj vilket typ av organ det är",
-      // invalid_type_error: "Otilllåten typ, ladda om sidan och försök igen",
-      errorMap: () => ({
-        message: "Vänligen välj vilket typ av organ det är",
-      }),
+export const createCommitteeSchema = upsertCommitteeBaseSchema.extend({
+  documentId: objectId.nullable(),
+  name: nonEmptyString,
+  committeeType: z.nativeEnum(CommitteeType, {
+    //Dessa två rader borde användas med bug hos zod gör att det inte funkar
+    // https://github.com/colinhacks/zod/issues/3146
+    // required_error: "Vänligen välj vilket typ av organ det är",
+    // invalid_type_error: "Otilllåten typ, ladda om sidan och försök igen",
+    errorMap: () => ({
+      message: "Vänligen välj vilket typ av organ det är",
     }),
-    slug: slugString,
-    role: nonEmptyString,
-    email: emailString,
-    order: orderNumber,
-    electionPeriod: standardNumber
-      .min(
-        MIN_ELECTION_PERIOD,
-        `Måste vara ett nummer mellan ${MIN_ELECTION_PERIOD} och ${MAX_ELECTION_PERIOD}`,
-      )
-      .max(
-        MAX_ELECTION_PERIOD,
-        `Måste vara ett nummer mellan ${MIN_ELECTION_PERIOD} och ${MAX_ELECTION_PERIOD}`,
-      ),
-  })
-  .merge(upsertCommitteeSocialLinksBaseSchema);
+  }),
+  slug: slugString,
+  role: nonEmptyString,
+  email: emailString,
+  order: orderNumber,
+  electionPeriod: standardNumber
+    .min(
+      MIN_ELECTION_PERIOD,
+      `Måste vara ett nummer mellan ${MIN_ELECTION_PERIOD} och ${MAX_ELECTION_PERIOD}`,
+    )
+    .max(
+      MAX_ELECTION_PERIOD,
+      `Måste vara ett nummer mellan ${MIN_ELECTION_PERIOD} och ${MAX_ELECTION_PERIOD}`,
+    ),
+});
 
 export const updateCommitteeSchema = createCommitteeSchema
   .partial()
