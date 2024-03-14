@@ -168,10 +168,10 @@ export const committeeRouter = createTRPCRouter({
           description,
           image,
           socialLinks: socialLinks?.map(
-            ({ iconAndUrl: { iconVariant, url }, order: socialLinkOrder }) => ({
+            ({ iconAndUrl: { iconVariant, url }, linkText }) => ({
               iconVariant,
               url,
-              order: socialLinkOrder,
+              linkText,
             }),
           ),
         },
@@ -209,13 +209,10 @@ export const committeeRouter = createTRPCRouter({
             documentId,
             committeeType,
             socialLinks: socialLinks.map(
-              ({
-                iconAndUrl: { iconVariant, url },
-                order: socialLinkOrder,
-              }) => ({
+              ({ iconAndUrl: { iconVariant, url }, linkText }) => ({
                 iconVariant,
                 url,
-                order: socialLinkOrder,
+                linkText,
               }),
             ),
           },
@@ -261,13 +258,10 @@ export const committeeRouter = createTRPCRouter({
             electionPeriod,
             documentId,
             socialLinks: socialLinks?.map(
-              ({
-                iconAndUrl: { iconVariant, url },
-                order: socialLinkOrder,
-              }) => ({
+              ({ iconAndUrl: { iconVariant, url }, linkText }) => ({
                 iconVariant,
                 url,
-                order: socialLinkOrder,
+                linkText,
               }),
             ),
           },

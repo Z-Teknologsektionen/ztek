@@ -29,12 +29,12 @@ export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
             defaultValues={{
               ...values,
               socialLinks: values.socialLinks.map(
-                ({ iconVariant, order, url }) => ({
+                ({ iconVariant, url, linkText }) => ({
                   iconAndUrl: {
                     iconVariant,
                     url,
                   },
-                  order,
+                  linkText,
                 }),
               ),
             }}

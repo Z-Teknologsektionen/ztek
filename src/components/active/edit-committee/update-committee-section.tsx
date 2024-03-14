@@ -42,12 +42,12 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
                 defaultValues={{
                   ...committee,
                   socialLinks: committee.socialLinks.map(
-                    ({ iconVariant, order, url }) => ({
+                    ({ iconVariant, linkText, url }) => ({
                       iconAndUrl: {
                         iconVariant,
                         url,
                       },
-                      order,
+                      linkText,
                     }),
                   ),
                 }}

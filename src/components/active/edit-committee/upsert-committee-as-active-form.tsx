@@ -8,15 +8,15 @@ import {
   COMMITTEE_IMAGE_SIZE,
 } from "~/constants/committees";
 import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
-import { updateCommitteeAsActiveSchema } from "~/schemas/committee";
+import { upsertCommitteeBaseSchema } from "~/schemas/committee";
 import type { IUpsertForm } from "~/types/form-types";
 import UpsertCommitteeSocialLinksFormAsActiveSection from "./upsert-committee-social-links-form-as-active-section";
 
 export type UpsertCommitteeAsActiveFormProps = IUpsertForm<
-  typeof updateCommitteeAsActiveSchema
+  typeof upsertCommitteeBaseSchema
 >;
 export type UpsertCommitteeAsActiveFormValues = z.infer<
-  typeof updateCommitteeAsActiveSchema
+  typeof upsertCommitteeBaseSchema
 >;
 
 const UpsertCommitteeAsActiveForm: FC<UpsertCommitteeAsActiveFormProps> = ({
@@ -25,7 +25,7 @@ const UpsertCommitteeAsActiveForm: FC<UpsertCommitteeAsActiveFormProps> = ({
   formType,
 }) => {
   const form = useFormWithZodSchema({
-    schema: updateCommitteeAsActiveSchema,
+    schema: upsertCommitteeBaseSchema,
     defaultValues,
   });
 

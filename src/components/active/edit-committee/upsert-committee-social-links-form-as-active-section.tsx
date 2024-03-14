@@ -8,7 +8,6 @@ import { Button } from "~/components/ui/button";
 import { FormDescription } from "~/components/ui/form";
 import { Label } from "~/components/ui/label";
 import { TooltipProvider } from "~/components/ui/tooltip";
-import { MAX_ORDER_NUMBER } from "~/constants/committees";
 import type { UpsertCommitteeAsActiveFormValues } from "./upsert-committee-as-active-form";
 
 type UpsertCommitteeSocialLinksFormAsActiveSectionProps = {
@@ -42,7 +41,7 @@ const UpsertCommitteeSocialLinksFormAsActiveSection: FC<
                   iconVariant: "QUESTIONMARK",
                   url: "",
                 },
-                order: MAX_ORDER_NUMBER,
+                linkText: "",
               })
             }
             size="lg"

@@ -21,7 +21,7 @@ import {
 } from "~/schemas/helpers/custom-zod-helpers";
 
 export const socialIconSchema = z.object({
-  order: orderNumber,
+  linkText: standardString.or(emptyString).nullable(),
   iconAndUrl: z
     .object({
       url: standardString,

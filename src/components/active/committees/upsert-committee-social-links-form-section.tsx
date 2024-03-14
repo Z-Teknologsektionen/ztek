@@ -8,7 +8,6 @@ import FormFieldSelectCommitteeSocialIcon from "~/components/forms/form-field-se
 import ButtonWithIconAndTooltip from "~/components/tooltips/button-with-icon-and-tooltip";
 import { FormDescription } from "~/components/ui/form";
 import { Label } from "~/components/ui/label";
-import { MAX_ORDER_NUMBER } from "~/constants/committees";
 import type { UpsertCommitteeFormValues } from "./upsert-committee-form";
 
 type UpsertCommitteeSocialLinksFormSectionProps = {
@@ -40,7 +39,7 @@ const UpsertCommitteeSocialLinksFormSection: FC<
                 iconVariant: "QUESTIONMARK",
                 url: "",
               },
-              order: MAX_ORDER_NUMBER,
+              linkText: "",
             })
           }
           tooltipText="Lägg till ny social länk"
