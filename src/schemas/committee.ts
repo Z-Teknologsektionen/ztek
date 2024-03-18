@@ -20,48 +20,48 @@ import {
   standardString,
 } from "~/schemas/helpers/custom-zod-helpers";
 
-export const socialIconSchema = z.object({
-  linkText: standardString.or(emptyString).nullable(),
-  iconAndUrl: z
-    .object({
-      url: standardString,
-      iconVariant: z.nativeEnum(IconEnum, {
-        invalid_type_error: "Måste vara ett värde som finns i IconEnum",
-        required_error: "Obligatoriskt fält",
-      }),
-    })
-    .refine(
-      ({ iconVariant, url }) => {
-        switch (iconVariant) {
-          case "MAIL":
-            return emailString.safeParse(url).success;
-          case "LINK":
-            return relativePathString.or(httpsUrlString).safeParse(url).success;
-          default:
-            // Om inte ett special fall kräv en https länk
-            return httpsUrlString.safeParse(url).success;
-        }
-      },
-      ({ iconVariant }) => {
-        let message = "";
-        switch (iconVariant) {
-          case "MAIL":
-            message = "Måste vara en epostadress";
-            break;
-          case "LINK":
-            message = `Måste vara en https länk eller börja på med /`;
-            break;
-          default:
-            // Om inte ett special fall kräv en https länk
-            message = "Måste vara en https länk";
-        }
-        return {
-          path: ["url"],
-          message: message,
-        };
-      },
-    ),
-});
+export const socialIconSchema = z
+  .object({
+    linkText: standardString
+      .nullable()
+      .transform((str) => (str !== "" ? str : null)),
+    url: standardString,
+    iconVariant: z.nativeEnum(IconEnum, {
+      invalid_type_error: "Måste vara ett värde som finns i IconEnum",
+      required_error: "Obligatoriskt fält",
+    }),
+  })
+  .refine(
+    ({ iconVariant, url }) => {
+      switch (iconVariant) {
+        case "MAIL":
+          return emailString.safeParse(url).success;
+        case "LINK":
+          return relativePathString.or(httpsUrlString).safeParse(url).success;
+        default:
+          // Om inte ett special fall kräv en https länk
+          return httpsUrlString.safeParse(url).success;
+      }
+    },
+    ({ iconVariant }) => {
+      let message = "";
+      switch (iconVariant) {
+        case "MAIL":
+          message = "Måste vara en epostadress";
+          break;
+        case "LINK":
+          message = `Måste vara en https länk eller börja på med /`;
+          break;
+        default:
+          // Om inte ett special fall kräv en https länk
+          message = "Måste vara en https länk";
+      }
+      return {
+        path: ["url"],
+        message: message,
+      };
+    },
+  );
 
 export const upsertCommitteeBaseSchema = z.object({
   image: base64WebPImageString.or(emptyString),
@@ -71,7 +71,18 @@ export const upsertCommitteeBaseSchema = z.object({
       MAX_DESCRIPTION_TEXT_LENGTH,
       `Får inte vara mer än ${MAX_DESCRIPTION_TEXT_LENGTH.toString()} tecken`,
     ),
-  socialLinks: z.array(socialIconSchema).max(MAX_NUMER_OF_SOCIAL_LINKS),
+  socialLinks: z
+    .array(socialIconSchema)
+    .max(MAX_NUMER_OF_SOCIAL_LINKS)
+    .refine((socialLinks) => {
+      if (socialLinks.length === 0) return true;
+
+      const hasMailLink = socialLinks.find(
+        (socialLink) => socialLink.iconVariant === "MAIL",
+      );
+
+      return hasMailLink;
+    }, "Organets sociala länkar måste innehålla en mail länk"),
 });
 
 export const updateCommitteeAsActiveSchema = upsertCommitteeBaseSchema
@@ -79,7 +90,13 @@ export const updateCommitteeAsActiveSchema = upsertCommitteeBaseSchema
   .extend({ id: objectId });
 
 export const createCommitteeSchema = upsertCommitteeBaseSchema.extend({
-  documentId: objectId.nullable(),
+  documentId: objectId
+    //.or(emptyString)
+    .nullable()
+    .catch(null),
+  /* .transform((val) => {
+      return val !== "" ? val : null;
+    }), */
   name: nonEmptyString,
   committeeType: z.nativeEnum(CommitteeType, {
     //Dessa två rader borde användas med bug hos zod gör att det inte funkar

@@ -1,6 +1,7 @@
 import { CommitteeType } from "@prisma/client";
 import type { FC } from "react";
 import type { z } from "zod";
+import UpsertCommitteeSocialLinksSection from "~/components/committees/upsert-committe/upsert-committee-social-links-section";
 import FormFieldCombobox from "~/components/forms/form-field-combobox";
 import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldInputImage from "~/components/forms/form-field-input-image";
@@ -21,7 +22,6 @@ import { createCommitteeSchema } from "~/schemas/committee";
 import type { IUpsertForm } from "~/types/form-types";
 import { api } from "~/utils/api";
 import { getCommitteeTypeStringFromEnum } from "~/utils/get-committee-type-string-from-enum";
-import UpsertCommitteeSocialLinksFormSection from "./upsert-committee-social-links-form-section";
 
 export type UpsertCommitteeFormProps = IUpsertForm<
   typeof createCommitteeSchema
@@ -128,7 +128,8 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
         serchText="Sök efter document"
         resetButton
       />
-      <UpsertCommitteeSocialLinksFormSection form={form} />
+      <UpsertCommitteeSocialLinksSection />
+      {/* <UpsertCommitteeSocialLinksFormSection form={form} /> */}
     </FormWrapper>
   );
 };

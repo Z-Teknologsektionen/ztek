@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import type { z } from "zod";
+import UpsertCommitteeSocialLinksSection from "~/components/committees/upsert-committe/upsert-committee-social-links-section";
 import FormFieldInputImage from "~/components/forms/form-field-input-image";
 import FormFieldTextArea from "~/components/forms/form-field-textarea";
 import FormWrapper from "~/components/forms/form-wrapper";
@@ -10,12 +10,8 @@ import {
 import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
 import { upsertCommitteeBaseSchema } from "~/schemas/committee";
 import type { IUpsertForm } from "~/types/form-types";
-import UpsertCommitteeSocialLinksFormAsActiveSection from "./upsert-committee-social-links-form-as-active-section";
 
 export type UpsertCommitteeAsActiveFormProps = IUpsertForm<
-  typeof upsertCommitteeBaseSchema
->;
-export type UpsertCommitteeAsActiveFormValues = z.infer<
   typeof upsertCommitteeBaseSchema
 >;
 
@@ -45,7 +41,7 @@ const UpsertCommitteeAsActiveForm: FC<UpsertCommitteeAsActiveFormProps> = ({
         quality={COMMITTEE_IMAGE_QUALITY}
       />
       <FormFieldTextArea form={form} label="Beskrivning" name="description" />
-      <UpsertCommitteeSocialLinksFormAsActiveSection form={form} />
+      <UpsertCommitteeSocialLinksSection />
     </FormWrapper>
   );
 };

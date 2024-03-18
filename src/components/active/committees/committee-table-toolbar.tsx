@@ -31,7 +31,9 @@ export const CommitteeTableToolbar = <TData,>({
               <UpsertCommitteeForm
                 key={"new"}
                 formType="create"
-                onSubmit={(values) => createNewCommittee(values)}
+                onSubmit={(values) =>
+                  createNewCommittee({ ...values, socialLinks: [] })
+                }
               />
             }
             isOpen={isOpen}

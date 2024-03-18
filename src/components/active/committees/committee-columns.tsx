@@ -71,19 +71,16 @@ export const committeeColumns: ColumnDef<CommitteeType>[] = [
     enableHiding: true,
     cell: ({ row }) => {
       const socialLinks = row.original.socialLinks;
-      const hasSocialLinks = socialLinks.length > 0;
+
+      if (socialLinks.length === 0)
+        return <BadgeCell>Inga sociala länkar</BadgeCell>;
+
       return (
-        <div className="flex flex-row gap-1">
-          {hasSocialLinks ? (
-            <>
-              {socialLinks.map(({ iconVariant, url }) => {
-                const Icon = getSocialIconFromEnum(iconVariant);
-                return <Icon key={url} size={TABLE_ICON_SIZE} />;
-              })}
-            </>
-          ) : (
-            <BadgeCell>Inga sociala länkar</BadgeCell>
-          )}
+        <div className="flex flex-row items-center justify-center gap-1">
+          {socialLinks.map(({ iconVariant, url }) => {
+            const Icon = getSocialIconFromEnum(iconVariant);
+            return <Icon key={url} size={TABLE_ICON_SIZE} />;
+          })}
         </div>
       );
     },
