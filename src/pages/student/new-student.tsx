@@ -29,13 +29,7 @@ const NewStudent: NextPage = () => {
   return (
     <>
       <HeadLayout title="Ny Student" />
-      <div
-        style={{
-          backgroundImage: `url(/vecteezy_abstract-gradient-white-grey-liquid-wave-background_23669537.jpg)`,
-          backgroundSize: "cover", // or 'contain' depending on your needs
-          backgroundRepeat: "repeat",
-        }}
-      >
+      <div className="bg-[url('/background-5.jpg')] bg-[100%_auto] bg-repeat-y">
         <div className="container mx-auto divide-y-4 divide-zDarkGray divide-opacity-20">
           <SectionWrapper>
             <div className="grid grid-cols-3">
@@ -307,6 +301,75 @@ const NewStudent: NextPage = () => {
               </TooltipProvider>
             </div>
           </SectionWrapper>
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
         </div>
       </div>
     </>
