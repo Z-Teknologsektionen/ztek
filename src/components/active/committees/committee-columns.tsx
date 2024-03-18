@@ -92,11 +92,7 @@ export const committeeColumns: ColumnDef<CommitteeType>[] = [
     id: "actions",
     enableSorting: false,
     enableHiding: false,
-    header: ({ table }) => (
-      <div className="mr-0 flex justify-end">
-        <DataTableViewOptions table={table} />
-      </div>
-    ),
+    header: ({ table }) => <DataTableViewOptions table={table} />,
     cell: ({ row }) => {
       const committee = row.original;
       return <CommitteeTableActions key={committee.id} {...committee} />;

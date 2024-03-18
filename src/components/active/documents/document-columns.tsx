@@ -48,11 +48,7 @@ export const documentColumns: ColumnDef<DocumentType>[] = [
     id: "actions",
     enableSorting: false,
     enableHiding: false,
-    header: ({ table }) => (
-      <div className="flex justify-end">
-        <DataTableViewOptions table={table} />
-      </div>
-    ),
+    header: ({ table }) => <DataTableViewOptions table={table} />,
     cell: ({ row }) => {
       const document = row.original;
       return <DocumentTableActions key={document.id} {...document} />;
