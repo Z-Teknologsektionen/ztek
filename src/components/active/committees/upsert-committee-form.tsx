@@ -129,7 +129,6 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
         resetButton
       />
       <UpsertCommitteeSocialLinksSection />
-      {/* <UpsertCommitteeSocialLinksFormSection form={form} /> */}
     </FormWrapper>
   );
 };

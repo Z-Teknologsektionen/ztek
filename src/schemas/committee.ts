@@ -90,13 +90,7 @@ export const updateCommitteeAsActiveSchema = upsertCommitteeBaseSchema
   .extend({ id: objectId });
 
 export const createCommitteeSchema = upsertCommitteeBaseSchema.extend({
-  documentId: objectId
-    //.or(emptyString)
-    .nullable()
-    .catch(null),
-  /* .transform((val) => {
-      return val !== "" ? val : null;
-    }), */
+  documentId: objectId.or(emptyString.nullable().transform(() => null)),
   name: nonEmptyString,
   committeeType: z.nativeEnum(CommitteeType, {
     //Dessa två rader borde användas med bug hos zod gör att det inte funkar
