@@ -1,5 +1,4 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import BadgeCell from "~/components/columns/badge-cell";
 import BooleanCell from "~/components/columns/boolean-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
@@ -72,8 +71,7 @@ export const committeeColumns: ColumnDef<CommitteeType>[] = [
     cell: ({ row }) => {
       const socialLinks = row.original.socialLinks;
 
-      if (socialLinks.length === 0)
-        return <BadgeCell>Inga sociala länkar</BadgeCell>;
+      if (socialLinks.length === 0) return <BooleanCell value={false} />;
 
       return (
         <div className="flex flex-row items-center justify-center gap-1">
