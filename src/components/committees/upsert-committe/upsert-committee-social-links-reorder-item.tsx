@@ -6,7 +6,6 @@ import type {
   UseFieldArrayRemove,
   UseFormReturn,
 } from "react-hook-form";
-import toast from "react-hot-toast";
 import { FaArrowsAltV } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa6";
 import FormFieldInput from "~/components/forms/form-field-input";
@@ -34,7 +33,7 @@ const UpsertCommitteeSocialLinksReorderItem: FC<{
       className="flex flex-row items-center justify-between gap-4 rounded border bg-cardBackground p-3 shadow"
       drag="y"
       dragControls={control}
-      // dragListener={false}
+      dragListener={false}
       id={socialLink.id}
       onDragStart={onDragStart}
       value={socialLink}
@@ -70,11 +69,6 @@ const UpsertCommitteeSocialLinksReorderItem: FC<{
         <FaTrash
           className="cursor-pointer hover:fill-zRed"
           onClick={() => {
-            if (socialLink.iconVariant === "MAIL") {
-              return toast.error(
-                "Organet måste ha kvar sin mail länk, du kan enbart ändra ordning på denna",
-              );
-            }
             removeSocialIcon(idx);
           }}
           size={15}

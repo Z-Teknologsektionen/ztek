@@ -31,24 +31,11 @@ const UpsertCommitteeSocialLinksSection: FC = () => {
   });
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex flex-row items-start justify-between gap-4">
-        <FormField
-          control={form.control}
-          name={"socialLinks.root" as "socialLinks"} // För att få rätt error meddelanden från zod
-          render={() => (
-            <FormItem>
-              <FormLabel>Sociala länkar (valfri)</FormLabel>
-              <FormDescription className="text-xs">
-                Här kan du hantera organets länkar. Ordningen kan ändras genom
-                att dra i pilen. Det måste finnas en maillänk till organet
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-row items-center justify-between gap-2">
+        <FormLabel>Sociala länkar (valfri)</FormLabel>
         <Button
-          className="mx-2"
+          className="mx-2 h-7"
           onClick={() =>
             addSocialIcon({
               iconVariant: "" as "QUESTIONMARK",
@@ -63,9 +50,23 @@ const UpsertCommitteeSocialLinksSection: FC = () => {
           Ny social länk
         </Button>
       </div>
+      <FormField
+        control={form.control}
+        name={"socialLinks.root" as "socialLinks"} // För att få rätt error meddelanden från zod
+        render={() => (
+          <FormItem>
+            <FormDescription className="text-xs font-normal">
+              Här kan du hantera organets länkar. Ordningen kan ändras genom att
+              dra i pilen. En länk till organets mail kommer finns och behöver
+              därför inte skapas. Den kommer alltid vissas först.
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
       {socialLinks.length === 0 ? (
-        <p className="text-sm text-slate-500 dark:text-slate-400">
-          Inga sociala länkar.
+        <p className="text-slate-500 dark:text-slate-400">
+          Inga sociala länkar inlagda.
         </p>
       ) : (
         <UpsertCommitteeSocialLinksReorderGroup

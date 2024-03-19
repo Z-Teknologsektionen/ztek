@@ -81,13 +81,10 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
           <Separator className="my-1 h-0.5" />
           <h2 className="text-sm">Sociala länkar</h2>
           <div className="mt-2 flex flex-row flex-wrap justify-center gap-2">
-            {committee.socialLinks.length !== 0 ? (
-              committee.socialLinks.map((socialLink) => (
-                <CommitteeSocialIcon {...socialLink} key={socialLink.url} />
-              ))
-            ) : (
-              <CommitteeSocialIcon iconVariant="MAIL" url={committee.email} />
-            )}
+            <CommitteeSocialIcon iconVariant="MAIL" url={committee.email} />
+            {committee.socialLinks.map((socialLink) => (
+              <CommitteeSocialIcon {...socialLink} key={socialLink.url} />
+            ))}
           </div>
           <Separator className="my-2 h-0.5" />
 
