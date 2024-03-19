@@ -27,8 +27,8 @@ export const socialIconSchema = z
       .transform((str) => (str !== "" ? str : null)),
     url: standardString,
     iconVariant: z.nativeEnum(IconEnum, {
-      invalid_type_error: "Måste vara ett värde som finns i IconEnum",
-      required_error: "Obligatoriskt fält",
+      // https://github.com/colinhacks/zod/issues/3146
+      errorMap: () => ({ message: "Vänligen välj en ikon" }),
     }),
   })
   .refine(
@@ -71,18 +71,7 @@ export const upsertCommitteeBaseSchema = z.object({
       MAX_DESCRIPTION_TEXT_LENGTH,
       `Får inte vara mer än ${MAX_DESCRIPTION_TEXT_LENGTH.toString()} tecken`,
     ),
-  socialLinks: z
-    .array(socialIconSchema)
-    .max(MAX_NUMER_OF_SOCIAL_LINKS)
-    .refine((socialLinks) => {
-      if (socialLinks.length === 0) return true;
-
-      const hasMailLink = socialLinks.find(
-        (socialLink) => socialLink.iconVariant === "MAIL",
-      );
-
-      return hasMailLink;
-    }, "Organets sociala länkar måste innehålla en mail länk"),
+  socialLinks: z.array(socialIconSchema).max(MAX_NUMER_OF_SOCIAL_LINKS),
 });
 
 export const updateCommitteeAsActiveSchema = upsertCommitteeBaseSchema
