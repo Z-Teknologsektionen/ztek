@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
-import type { FieldValues, Path } from "react-hook-form";
-import { useFormContext } from "react-hook-form";
+import type { FieldValues, Path, PathValue } from "react-hook-form";
 import { Button } from "~/components/ui/button";
 import {
   FormControl,
@@ -12,72 +11,61 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import type { IImageInput } from "~/types/form-types";
+import type { IFormFieldInputImage } from "~/types/form-types";
 import { getBase64WebPStringFromFileInput } from "~/utils/get-base64-webp-string-from-file-input";
 import { cn } from "~/utils/utils";
 
-export const ImageInput = <
-  TFieldValues extends FieldValues,
-  TName extends Path<TFieldValues>,
->({
+const FormFieldInputImage = <TFieldValues extends FieldValues>({
   label,
   description,
   name,
-  control,
-  defaultValue,
   disabled,
-  shouldUnregister,
-  rules,
-  className,
-  accept = "image/png, image/jpeg",
   maxHeight,
   maxWidth,
   quality,
   containImage = false,
-  ...rest
-}: IImageInput<TFieldValues, TName>): JSX.Element => {
-  const [newImage, setNewImage] = useState<string>(
-    control._defaultValues[name] as string,
-  );
-  const form = useFormContext();
+  form,
+  className,
+}: IFormFieldInputImage<TFieldValues>): JSX.Element => {
+  const [image, setImage] = useState<string>(form.getValues(name));
 
-  const scaledHeight = 300;
-  const scaledWidth = (300 * maxWidth) / maxHeight;
+  const scaledHeight = 200;
+  const scaledWidth = (scaledHeight * maxWidth) / maxHeight;
 
   const setValue = (value: string): void => {
-    setNewImage(value);
-    form.setValue(name as string, value);
+    setImage(value);
+    form.setValue(name, value as PathValue<TFieldValues, Path<TFieldValues>>);
   };
 
   return (
     <FormField
-      control={control}
-      defaultValue={defaultValue}
+      control={form.control}
       disabled={disabled}
       name={name}
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          <Image
-            alt="Image preview"
-            className={cn(
-              "mx-auto object-center",
-              containImage ? "object-contain" : "object-cover",
-              "text-transparent",
-              "after:relative after:-top-6 after:z-10 after:grid after:h-full after:max-h-64 after:min-h-[8rem] after:w-full after:place-content-center after:truncate after:text-center after:text-xl after:text-black after:content-['Ladda_upp_bild']",
-            )}
-            height={maxHeight}
-            quality={quality}
-            src={newImage}
-            style={{ height: scaledHeight, width: scaledWidth }}
-            width={maxWidth}
-          />
+          {image !== "" && (
+            <Image
+              alt="preview of image"
+              className={cn(
+                "mx-auto object-center",
+                containImage ? "object-contain" : "object-cover",
+                "text-transparent",
+                "after:relative after:-top-6 after:z-10 after:grid after:h-full after:max-h-64 after:min-h-[8rem] after:w-full after:place-content-center after:truncate after:text-center after:text-xl after:text-black after:content-['Ladda_upp_bild']",
+              )}
+              height={maxHeight}
+              quality={quality}
+              src={image}
+              style={{ height: scaledHeight, width: scaledWidth }}
+              width={maxWidth}
+            />
+          )}
           <FormControl>
             <div className="flex w-auto gap-2">
               <Input
                 {...field}
-                {...rest}
-                accept={accept}
+                accept="image/*"
                 className={cn(
                   "text-transparent hover:cursor-pointer",
                   className,
@@ -96,7 +84,6 @@ export const ImageInput = <
                 value={""}
               />
               <Button
-                className="w-[25%]"
                 onClick={() => setValue("")}
                 type="button"
                 variant="ghost"
@@ -109,8 +96,8 @@ export const ImageInput = <
           <FormMessage />
         </FormItem>
       )}
-      rules={rules}
-      shouldUnregister={shouldUnregister}
     />
   );
 };
+
+export default FormFieldInputImage;

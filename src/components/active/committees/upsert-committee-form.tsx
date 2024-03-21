@@ -1,13 +1,13 @@
 import { CommitteeType } from "@prisma/client";
 import type { FC } from "react";
 import type { z } from "zod";
-import { BasicInput } from "~/components/forms/basic-input";
-import ComboboxInput from "~/components/forms/combobox-input";
-import { DropdownInput } from "~/components/forms/dropdown-input";
+import FormFieldCombobox from "~/components/forms/form-field-combobox";
+import FormFieldInput from "~/components/forms/form-field-input";
+import FormFieldInputImage from "~/components/forms/form-field-input-image";
+import FormFieldInputNumber from "~/components/forms/form-field-input-number";
+import FormFieldSelect from "~/components/forms/form-field-select";
+import FormFieldTextArea from "~/components/forms/form-field-textarea";
 import FormWrapper from "~/components/forms/form-wrapper";
-import { ImageInput } from "~/components/forms/image-input";
-import { NumberInput } from "~/components/forms/number-input";
-import { TextAreaInput } from "~/components/forms/textarea-input";
 import {
   COMMITTEE_IMAGE_QUALITY,
   COMMITTEE_IMAGE_SIZE,
@@ -61,67 +61,63 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
       onValid={onSubmit}
       resetForm={() => form.reset()}
     >
-      <BasicInput control={form.control} label="Namn" name="name" />
-      <BasicInput control={form.control} label="Slug" name="slug" />
-      <DropdownInput
+      <FormFieldInput form={form} label="Namn" name="name" type="text" />
+      <FormFieldInput form={form} label="Slug" name="slug" type="text" />
+      <FormFieldSelect
         description="Vilken typ av organ är det?"
         form={form}
         label="Typ av organ"
-        mappable={Object.values(CommitteeType).map((cType) => ({
-          id: cType,
-          name: getCommitteeTypeStringFromEnum(cType),
-        }))}
         name="committeeType"
+        options={Object.values(CommitteeType).map((cType) => ({
+          value: cType,
+          label: getCommitteeTypeStringFromEnum(cType),
+        }))}
         placeholder="Välj typ av organ"
       />
-      <TextAreaInput
-        control={form.control}
-        label="Beskrivning"
-        name="description"
-      />
-      <BasicInput
-        control={form.control}
+      <FormFieldTextArea form={form} label="Beskrivning" name="description" />
+      <FormFieldInput
         description="Organets roll på sektionen, t.ex. Studienämnd"
+        form={form}
         label="Roll"
         name="role"
+        type="text"
       />
-      <BasicInput
-        control={form.control}
+      <FormFieldInput
+        form={form}
         label="Epost"
         name="email"
         placeholder="lucky@ztek.se"
         type="email"
       />
-      <NumberInput
-        control={form.control}
+      <FormFieldInputNumber
+        form={form}
         label="Invalsperiod"
         max={MAX_ELECTION_PERIOD}
         min={MIN_ELECTION_PERIOD}
         name="electionPeriod"
       />
-      <NumberInput
-        control={form.control}
-        defaultValue={MIN_ORDER_NUMBER}
+      <FormFieldInputNumber
         description="Används för att bestämma vilken ordning organet ska visas i"
+        form={form}
         label="Ordning"
         max={MAX_ORDER_NUMBER}
         min={MIN_ORDER_NUMBER}
         name="order"
       />
-      <ImageInput
-        control={form.control}
+      <FormFieldInputImage
+        form={form}
         label="Bild (valfri)"
         maxHeight={COMMITTEE_IMAGE_SIZE}
         maxWidth={COMMITTEE_IMAGE_SIZE}
         name="image"
         quality={COMMITTEE_IMAGE_QUALITY}
       />
-      <ComboboxInput
+      <FormFieldCombobox
         description="Hittar du inte rätt dokument? Du kan lägga till fler dokument som administratör."
-        emptyListText="Hittade inga dokument"
         form={form}
         label="Dokument (valfritt)"
         name="documentId"
+        noResultsText="Hittade inga dokument"
         options={
           allDocuments?.map(({ id, title }) => ({
             value: id,
@@ -130,8 +126,9 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
         }
         placeholder="Välj dokument"
         serchText="Sök efter document"
+        resetButton
       />
-      <UpsertCommitteeSocialLinksFormSection control={form.control} />
+      <UpsertCommitteeSocialLinksFormSection form={form} />
     </FormWrapper>
   );
 };

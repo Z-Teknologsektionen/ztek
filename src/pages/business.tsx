@@ -5,6 +5,7 @@ import HeadLayout from "~/components/layout/head-layout";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
+import StyledLink from "~/components/layout/styled-link";
 const BusinessPage: NextPage = () => {
   return (
     <>
@@ -26,21 +27,13 @@ const BusinessPage: NextPage = () => {
             till potentiella arbetsgivare, samtidigt får företag chansen att
             marknadsföra sig och skapa en långsiktig rekryteringsbas. Kontakta
             oss på{" "}
-            <a
-              className="text-blue-500 hover:underline"
-              href="mailto:foretag@argz.se"
-            >
+            <StyledLink href="mailto:foretag@argz.se">
               foretag@argz.se
-            </a>{" "}
+            </StyledLink>{" "}
             eller gå in på vår hemsida{" "}
-            <a
-              className="text-blue-500 hover:underline"
-              href="https://www.argz.se/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
+            <StyledLink href="https://www.argz.se/" target="_blank">
               ArgZ.se
-            </a>
+            </StyledLink>
           </p>
           <br></br>
           <div className="grid grid-cols-3 gap-2">

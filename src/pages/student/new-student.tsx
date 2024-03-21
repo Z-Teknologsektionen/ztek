@@ -1,9 +1,9 @@
 import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import HeadLayout from "~/components/layout/head-layout";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
+import StyledLink from "~/components/layout/styled-link";
 import { Button } from "~/components/ui/button";
 import { Skeleton } from "~/components/ui/skeleton";
 import {
@@ -12,6 +12,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
 import { courseData } from "~/data/course-data";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
@@ -57,13 +58,9 @@ const NewStudent: NextPage = () => {
                     <p>
                       <strong>{programManager.name}</strong> - programansvarig
                     </p>
-                    <Link
-                      className="text-blue-600 hover:text-blue-800 hover:underline"
-                      href={`mailto:${programManager.email}`}
-                      target="_blank"
-                    >
+                    <StyledLink href={`mailto:${programManager.email}`}>
                       {programManager.email}
-                    </Link>
+                    </StyledLink>
                   </div>
                 </>
               )}
@@ -130,13 +127,12 @@ const NewStudent: NextPage = () => {
             forskare och experter inom området och utforska den senaste tekniken
             inom automation och mekatronik. Studenter vid Z-programmet kan välja
             på 21 olika mastrar, varav en ägs av Z,&nbsp;
-            <a
-              className="text-blue-600 hover:underline dark:text-blue-500"
+            <StyledLink
               href="https://www.chalmers.se/en/education/find-masters-programme/systems-control-and-mechatronics-msc/"
               target="_blank"
             >
               Systemteknik, reglerteknik och mekatronik
-            </a>
+            </StyledLink>
             .
           </p>
         </SectionWrapper>
@@ -223,26 +219,26 @@ const NewStudent: NextPage = () => {
           </p>
           {/* Getting courseData from src/data/courseData.*/}
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-            <TooltipProvider>
-              {Object.entries(courseData).map(([year, periods], yearIndex) => (
-                <div key={yearIndex} className="rounded border p-4 shadow">
-                  <h2 className="mb-2 text-center text-xl font-bold">{year}</h2>
-                  {Object.entries(periods).map(
-                    ([period, courses], periodIndex) => (
-                      <div key={periodIndex} className="mb-4">
-                        <h3 className="mb-1 border-b border-gray-400 text-lg font-semibold">
-                          {period}
-                        </h3>
-                        {courses.map(
-                          (
-                            { courseName, points, followUp, url },
-                            courseIndex,
-                          ) => (
-                            <div
-                              key={courseIndex}
-                              className="mb-1 flex flex-row justify-between text-slate-500"
-                            >
-                              <div className="shrink">
+            {Object.entries(courseData).map(([year, periods], yearIndex) => (
+              <div key={yearIndex} className="rounded border p-4 shadow">
+                <h2 className="mb-2 text-center text-xl font-bold">{year}</h2>
+                {Object.entries(periods).map(
+                  ([period, courses], periodIndex) => (
+                    <div key={periodIndex} className="mb-4">
+                      <h3 className="mb-1 border-b border-gray-400 text-lg font-semibold">
+                        {period}
+                      </h3>
+                      {courses.map(
+                        (
+                          { courseName, points, followUp, url },
+                          courseIndex,
+                        ) => (
+                          <div
+                            key={courseIndex}
+                            className="mb-1 flex flex-row justify-between text-slate-500"
+                          >
+                            <div className="shrink">
+                              <TooltipProvider delayDuration={TOOLTIP_DELAY_MS}>
                                 <Tooltip>
                                   <TooltipTrigger>
                                     <a
@@ -256,34 +252,34 @@ const NewStudent: NextPage = () => {
                                   </TooltipTrigger>
                                   <TooltipContent>{courseName}</TooltipContent>
                                 </Tooltip>
-                              </div>
-                              <div className="flex shrink-0 items-center">
-                                {followUp && (
-                                  <em className="mr-2 text-xs text-red-500">
-                                    Fortsättning
-                                  </em>
-                                )}
-                                <p className="mr-2 text-sm text-gray-600">
-                                  {points} HP
-                                </p>
-                              </div>
+                              </TooltipProvider>
+                            </div>
+                            <div className="flex shrink-0 items-center">
+                              {followUp && (
+                                <em className="mr-2 text-xs text-red-500">
+                                  Fortsättning
+                                </em>
+                              )}
+                              <p className="mr-2 text-sm text-gray-600">
+                                {points} HP
+                              </p>
+                            </div>
+                          </div>
+                        ),
+                      )}
+                      {courses.length < 3 &&
+                        Array.from({ length: 3 - courses.length }).map(
+                          (_, i) => (
+                            <div key={i} className="invisible">
+                              Invisible Course
                             </div>
                           ),
                         )}
-                        {courses.length < 3 &&
-                          Array.from({ length: 3 - courses.length }).map(
-                            (_, i) => (
-                              <div key={i} className="invisible">
-                                Invisible Course
-                              </div>
-                            ),
-                          )}
-                      </div>
-                    ),
-                  )}
-                </div>
-              ))}
-            </TooltipProvider>
+                    </div>
+                  ),
+                )}
+              </div>
+            ))}
           </div>
         </SectionWrapper>
       </div>

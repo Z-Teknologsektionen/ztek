@@ -1,23 +1,25 @@
 import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { IconContext } from "react-icons";
 import { MdEmail, MdInfo } from "react-icons/md";
+import CenteredButtonWithLink from "~/components/buttons/centered-button-with-link";
 import HeadLayout from "~/components/layout/head-layout";
+import ImageWithCredit from "~/components/layout/image-with-credit";
+import ImageWithDescription from "~/components/layout/image-with-description";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
-import { Button, buttonVariants } from "~/components/ui/button";
+import StyledLink from "~/components/layout/styled-link";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
 import { studentQuickLinks } from "~/data/student-quick-links";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
-import { cn } from "~/utils/utils";
 
 const StudentPage: NextPage = () => {
   const { data, isLoading, isError } = api.programBoard.getAll.useQuery();
@@ -27,23 +29,17 @@ const StudentPage: NextPage = () => {
 
       <div className="container mx-auto mt-8 divide-y-4 divide-zDarkGray divide-opacity-20">
         <SectionWrapper className="pt-2">
-          <TooltipProvider>
-            <div className="grid grid-cols-3 gap-3 md:grid-cols-5 lg:grid-cols-7">
-              {studentQuickLinks.map(({ href, icon: Icon, text, tooltip }) => (
-                <Tooltip key={text}>
+          <div className="grid grid-cols-3 gap-3 md:grid-cols-5 lg:grid-cols-7">
+            {studentQuickLinks.map(({ href, icon: Icon, text, tooltip }) => (
+              <TooltipProvider key={text} delayDuration={TOOLTIP_DELAY_MS}>
+                <Tooltip>
                   <TooltipTrigger asChild>
                     <Link
                       className="col-span-1 mx-auto flex flex-col items-center justify-center rounded-lg text-center transition-all hover:ring hover:ring-zWhite"
                       href={href}
                       target="_blank"
                     >
-                      <IconContext.Provider
-                        value={{
-                          color: "black",
-                        }}
-                      >
-                        <Icon size="3rem" />
-                      </IconContext.Provider>
+                      <Icon className="fill-black" size="3rem" />
                       <p className="text-center text-xs">{text}</p>
                     </Link>
                   </TooltipTrigger>
@@ -51,9 +47,9 @@ const StudentPage: NextPage = () => {
                     <p>{tooltip}</p>
                   </TooltipContent>
                 </Tooltip>
-              ))}
-            </div>
-          </TooltipProvider>
+              </TooltipProvider>
+            ))}
+          </div>
         </SectionWrapper>
         <SectionWrapper className="p-2">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -68,15 +64,9 @@ const StudentPage: NextPage = () => {
                   dig? Klicka här då.
                 </p>
               </div>
-              <Button
-                className="mx-auto mt-auto block w-fit transition-all hover:ring hover:ring-zWhite"
-                variant={"outline"}
-                asChild
-              >
-                <Link href="/student/student-health">
-                  Mer om studiesocialt stöd
-                </Link>
-              </Button>
+              <CenteredButtonWithLink href="/student/student-health">
+                Mer om studiesocialt stöd
+              </CenteredButtonWithLink>
             </div>
             <div className="col-span-1 my-4 flex flex-col rounded-md">
               <div className="pb-4">
@@ -86,13 +76,9 @@ const StudentPage: NextPage = () => {
                   för att läsa mer om programmet och vad du kan förvänta dig!
                 </p>
               </div>
-              <Button
-                className="mx-auto mt-auto block w-fit transition-all hover:ring hover:ring-zWhite"
-                variant={"outline"}
-                asChild
-              >
-                <Link href="/student/new-student">Mer information</Link>
-              </Button>
+              <CenteredButtonWithLink href="/student/new-student">
+                Mer information
+              </CenteredButtonWithLink>
             </div>
             <div className="col-span-1 my-4 flex flex-col rounded-md">
               <div className="pb-4">
@@ -105,22 +91,11 @@ const StudentPage: NextPage = () => {
                   med.
                 </p>
               </div>
-              <Button
-                className="mx-auto mt-auto block w-fit transition-all hover:ring hover:ring-zWhite"
-                variant={"outline"}
-                asChild
-              >
-                <Link href="#snz" scroll={false}>
-                  Mer information
-                </Link>
-              </Button>
+              <CenteredButtonWithLink href="#snz">
+                Mer information
+              </CenteredButtonWithLink>
             </div>
           </div>
-          {/* 
-        Vad vill jag ha här?
-        Studiehälsa
-        Zaloonen 
-        SNZ-bös */}
         </SectionWrapper>
 
         <SectionWrapper>
@@ -132,16 +107,14 @@ const StudentPage: NextPage = () => {
                 möjligheter att få hjälp och möjlighet att påverka dina studier.
                 Här nedanför finns lite information om vad som finns
                 tillgängligt för dig som student och information om programmet.
-                Programmets studieplan hittar du på{" "}
-                <Link
-                  className="text-blue-600 hover:text-blue-800 hover:underline"
-                  href={
-                    "https://www.chalmers.se/utbildning/hitta-program/automation-och-mekatronik-civilingenjor/"
-                  }
+                Programmets studieplan hittar du på
+                <StyledLink
+                  href="https://www.chalmers.se/utbildning/hitta-program/automation-och-mekatronik-civilingenjor/"
                   target="_blank"
                 >
-                  Chalmers hemsida
-                </Link>{" "}
+                  {" "}
+                  Chalmers hemsida{" "}
+                </StyledLink>
                 där du också kan läsa mer om de olika kurserna som du läser
                 varje år. Som student på Z-programmet har man stor möjlighet att
                 välja olika mastrar beroende på intresseområde då över 20 olika
@@ -151,32 +124,27 @@ const StudentPage: NextPage = () => {
               </p>
             </div>
             <div className="col-span-3 mx-auto mt-4 md:col-span-1 md:my-auto">
-              <Image
-                alt="image"
-                className="rounded"
-                height={600}
+              <ImageWithCredit
+                alt="Bild på zäta-studenter"
+                height={800}
+                photoCommittee="zFoto"
+                photographer="Casper Ludberg"
                 src="/z_student.jpg"
-                width={600}
+                width={800}
               />
-              <p className="mt-2 text-center">Foto: Casper Lundberg/zFoto</p>
             </div>
           </div>
         </SectionWrapper>
         <SectionWrapper id="snz">
           <div className="grid grid-cols-3">
-            <div className="order-last col-span-3 m-auto lg:order-first lg:col-span-1">
-              <Image
-                alt="image"
-                className="rounded"
-                height={250}
+            <div className="order-last col-span-3 m-2 lg:order-first lg:col-span-1">
+              <ImageWithDescription
+                alt="SNZ:s logga"
+                description="SNZ - Sektionens studienämnd"
+                height={300}
                 src="/SNZ.png"
-                width={250}
+                width={300}
               />
-              <div className="mt-0 text-center">
-                <p>
-                  <strong>SNZ</strong> - sektionens studienämnd.
-                </p>
-              </div>
             </div>
             <div className="order-first col-span-3 pl-4 lg:order-last lg:col-span-2">
               <SectionTitle className="mb-4">Påverka dina studier</SectionTitle>
@@ -204,17 +172,13 @@ const StudentPage: NextPage = () => {
                 eller feedback gällande utbildning inom programmet kan du
                 kontakta SNZ via deras hemsida.
               </p>
-              <div className="mx-auto mt-2 block w-fit">
-                <Link
-                  className={cn(
-                    buttonVariants({ variant: "outline", size: "lg" }),
-                  )}
-                  href={"https://snz.se"}
-                  target="_blank"
-                >
-                  Gå till snz.se
-                </Link>
-              </div>
+              <CenteredButtonWithLink
+                className="mt-2"
+                href="https://snz.se"
+                target="_blank"
+              >
+                Gå till snz.se
+              </CenteredButtonWithLink>
             </div>
           </div>
         </SectionWrapper>

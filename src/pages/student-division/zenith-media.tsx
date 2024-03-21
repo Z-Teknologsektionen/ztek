@@ -13,6 +13,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
 import ssg from "~/server/api/helpers/ssg";
 import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
@@ -29,30 +30,32 @@ export const ZenithMediaCard: FC<IZenithMediaCard> = ({
   year,
 }) => {
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Link
-          className="relative h-[187.5px] w-[125px]"
-          href={openUrlAsPdf({ url, isPDF })}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <Image
-            alt={`Omslagsbild till ${title}`}
-            className="object-cover object-center"
-            src={image}
-            unselectable="on"
-            fill
-            unoptimized
-          />
-        </Link>
-      </TooltipTrigger>
-      <TooltipContent>
-        <p>
-          {title}, {year}
-        </p>
-      </TooltipContent>
-    </Tooltip>
+    <TooltipProvider delayDuration={TOOLTIP_DELAY_MS}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Link
+            className="relative h-[187.5px] w-[125px]"
+            href={openUrlAsPdf({ url, isPDF })}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <Image
+              alt={`Omslagsbild till ${title}`}
+              className="object-cover object-center"
+              src={image}
+              unselectable="on"
+              fill
+              unoptimized
+            />
+          </Link>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>
+            {title}, {year}
+          </p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };
 
@@ -93,21 +96,19 @@ const ZenithMediaPage: NextPage = () => {
             webbgruppen!
           </p>
         )}
-        <TooltipProvider>
-          {data &&
-            data.length > 0 &&
-            data.map(({ year, mediaArray }) => (
-              <div key={year} className="space-y-4">
-                <SecondaryTitle>{year}</SecondaryTitle>
-                <div className="flex flex-row flex-wrap gap-4">
-                  {mediaArray.length > 0 &&
-                    mediaArray.map((media) => (
-                      <ZenithMediaCard key={media.id} {...media} />
-                    ))}
-                </div>
+        {data &&
+          data.length > 0 &&
+          data.map(({ year, mediaArray }) => (
+            <div key={year} className="space-y-4">
+              <SecondaryTitle>{year}</SecondaryTitle>
+              <div className="flex flex-row flex-wrap gap-4">
+                {mediaArray.length > 0 &&
+                  mediaArray.map((media) => (
+                    <ZenithMediaCard key={media.id} {...media} />
+                  ))}
               </div>
-            ))}
-        </TooltipProvider>
+            </div>
+          ))}
       </SectionWrapper>
     </>
   );
