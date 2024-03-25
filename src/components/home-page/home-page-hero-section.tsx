@@ -15,7 +15,7 @@ const HomePageHeroSection: FC = () => {
               <div className="">
                 <div className="text-balance align-text-bottom text-base font-bold md:text-2xl xl:text-4xl">
                   Välkommen till Automation och Mekatronik på Chalmers tekniska
-                  högskola!
+                  högskola!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 </div>
                 <div className="text-balance col-start-1 row-start-5 text-sm md:col-start-1 md:row-start-2 md:text-base xl:text-xl">
                   Z-teknologsektionen, eller Z som programmet kallas, är
