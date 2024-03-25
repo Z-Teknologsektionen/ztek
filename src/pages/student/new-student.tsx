@@ -1,6 +1,7 @@
 import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import BackgroundImage from "~/components/layout/background-image";
 import HeadLayout from "~/components/layout/head-layout";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
@@ -29,7 +30,7 @@ const NewStudent: NextPage = () => {
   return (
     <>
       <HeadLayout title="Ny Student" />
-      <div className="bg-[url('/background-5.jpg')] bg-[100%_auto] bg-repeat-y">
+      <BackgroundImage>
         <div className="container mx-auto divide-y-4 divide-zDarkGray divide-opacity-20">
           <SectionWrapper>
             <div className="grid grid-cols-3">
@@ -301,77 +302,8 @@ const NewStudent: NextPage = () => {
               </TooltipProvider>
             </div>
           </SectionWrapper>
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
         </div>
-      </div>
+      </BackgroundImage>
     </>
   );
 };
