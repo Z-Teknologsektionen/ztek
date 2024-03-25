@@ -17,7 +17,7 @@ const BackgroundImage: FC<PropsWithChildren<IBackgroundImageProps>> = ({
   return (
     <div
       style={{
-        backgroundImage: `url('/Ztek_BG_2.svg')`,
+        backgroundImage: `url('/Ztek_BG_4.svg')`,
         backgroundRepeat: "repeat-y",
         backgroundSize: "100% auto",
       }}
