@@ -40,7 +40,7 @@
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "dayjs": "^1.11.10",
-    "framer-motion": "^11.0.14",
+    "framer-motion": "^11.0.20",
     "js-base64": "^3.7.5",
     "keen-slider": "^6.8.6",
     "lucide-react": "^0.320.0",

@@ -24,15 +24,14 @@ const UpsertCommitteeSocialLinksReorderItem: FC<{
    * Detta är dock enbart i dev pga ReactStrict mode
    * https://github.com/framer/motion/issues/1518
    */
-  const control = useDragControls();
+  const dragControls = useDragControls();
 
   return (
     <Reorder.Item
       key={socialLink.id}
       as="li"
       className="flex flex-row items-center justify-between gap-4 rounded border bg-cardBackground p-3 shadow"
-      drag="y"
-      dragControls={control}
+      dragControls={dragControls}
       dragListener={false}
       id={socialLink.id}
       onDragStart={onDragStart}
@@ -75,7 +74,10 @@ const UpsertCommitteeSocialLinksReorderItem: FC<{
         />
         <FaArrowsAltV
           className="cursor-grab hover:cursor-grabbing hover:fill-zLightGray"
-          onPointerDown={(e) => control.start(e)}
+          onPointerDown={(e) => {
+            dragControls.start(e);
+            e.preventDefault();
+          }}
           size={18}
         />
       </div>

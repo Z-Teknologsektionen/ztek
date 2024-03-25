@@ -20,6 +20,7 @@ const UpsertCommitteeSocialLinksReorderGroup: FC<{
   return (
     <Reorder.Group
       as="ul"
+      axis="y"
       className="flex flex-col gap-2"
       onReorder={(e) => {
         const activeSocialLink = socialLinks[reorderActiveIdx];
