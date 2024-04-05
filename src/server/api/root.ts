@@ -5,6 +5,7 @@ import { documentRouter } from "./routers/document";
 import { oldCommitteeRouter } from "./routers/old-committee";
 import { programBoardRouter } from "./routers/program-board";
 import { userRouter } from "./routers/user";
+import { zaloonenRouter } from "./routers/zaloonen-booking";
 import { zenithMediaRouter } from "./routers/zenith-media";
 
 /**
@@ -20,6 +21,7 @@ export const appRouter = createTRPCRouter({
   programBoard: programBoardRouter,
   user: userRouter,
   zenithMedia: zenithMediaRouter,
+  zaloonen: zaloonenRouter,
 });
 
 // export type definition of API

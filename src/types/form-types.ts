@@ -63,6 +63,12 @@ export interface IFormFieldInputImage<
   quality: number;
 }
 
+export interface IFormFieldInputDatetimeLocal<
+  TFieldValues extends FieldValues = FieldValues,
+> extends IFormFieldDefaults<TFieldValues> {
+  className?: string;
+}
+
 export interface IFormFieldInputNumber<
   TFieldValues extends FieldValues = FieldValues,
 > extends IFormFieldDefaults<TFieldValues> {

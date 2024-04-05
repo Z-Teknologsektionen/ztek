@@ -17,7 +17,9 @@ const FormWrapper = <TData extends FieldValues>({
   children,
   resetForm,
   formType,
+  disabled,
 }: PropsWithChildren<{
+  disabled?: boolean;
   form: UseFormReturn<TData>;
   formType: "create" | "update";
   onInvalid?: SubmitErrorHandler<TData>;
@@ -35,10 +37,15 @@ const FormWrapper = <TData extends FieldValues>({
           <div className="space-y-4 p-1">{children}</div>
         </ScrollArea>
         <DialogFooter>
-          <Button onClick={resetForm} type="button" variant={"outline"}>
+          <Button
+            disabled={disabled}
+            onClick={resetForm}
+            type="button"
+            variant="outline"
+          >
             Återställ
           </Button>
-          <Button type="submit" variant={"default"}>
+          <Button disabled={disabled} type="submit" variant="default">
             {formType === "create" ? "Skapa" : "Uppdatera"}
           </Button>
         </DialogFooter>

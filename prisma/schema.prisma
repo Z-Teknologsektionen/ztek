@@ -100,8 +100,9 @@ model CommitteeMember {
     role  String
     email String
 
-    committee Committee @relation(fields: [committeeId], references: [id], onDelete: Restrict)
-    user      User?     @relation(fields: [userId], references: [id])
+    committee                     Committee         @relation(fields: [committeeId], references: [id], onDelete: Restrict)
+    user                          User?             @relation(fields: [userId], references: [id])
+    latestUpdatedZaloonenBookings ZaloonenBooking[]
 
     updatedAt DateTime @updatedAt
 }
@@ -155,6 +156,65 @@ model ProgramBoardMember {
     createdAt DateTime @default(now())
 }
 
+model ZaloonenBooking {
+    id          String  @id @default(auto()) @map("_id") @db.ObjectId
+    updatedById String? @db.ObjectId
+
+    organizerName    String
+    organizerEmail   String
+    eventName        String
+    eventType        ZaloonenBookingEventTypes
+    eventDescription String
+    bookingType      ZaloonenBookingTypes
+
+    primaryStartDateTime   DateTime
+    primaryEndDateTime     DateTime
+    secondaryStartDateTime DateTime?
+    secondaryEndDateTime   DateTime?
+
+    partyManagerName  String
+    partyManagerEmail String
+    partyManagerPhone String
+    hasServingPermit  Boolean
+
+    partyNoticeSent       Boolean
+    bookingStatus         ZaloonenBookingStatus
+    approvedStartDateTime DateTime?
+    approvedEndDateTime   DateTime?
+
+    primaryDateConflicts     ZaloonenBooking[] @relation("BookingConflicts", fields: [primaryDateConflictIds], references: [id])
+    primaryDateConflictIds   String[]          @db.ObjectId
+    secondaryDateConflicts   ZaloonenBooking[] @relation("BookingConflicts", fields: [secondaryDateConflictIds], references: [id])
+    secondaryDateConflictIds String[]          @db.ObjectId
+
+    updatedBy CommitteeMember? @relation(fields: [updatedById], references: [id])
+    updatedAt DateTime         @updatedAt
+    createdAt DateTime         @default(now())
+}
+
+enum ZaloonenBookingEventTypes {
+    OFFICIAL
+    INTERNAL
+    OTHER_WITH_Z
+    OTHER_WITHOUT_Z
+}
+
+enum ZaloonenBookingTypes {
+    ALL
+    KITCHEN
+    APPLIANCES
+}
+
+enum ZaloonenBookingStatus {
+    INITIAL
+    APPROVED_FIRST_DATETIME
+    APPROVED_SECOND_DATETIME
+    DENIED
+    AWAITING_CLEANING
+    ON_HOLD
+    COMPLEATED
+}
+
 // Next Auth models
 model Account {
     id                String  @id @default(auto()) @map("_id") @db.ObjectId
@@ -196,12 +256,12 @@ model User {
 }
 
 enum AccountRoles {
-    ZALOONEN
     CREATE_POST
     ORGANIZATION_MANAGEMENT
     MODIFY_DOCUMENTS
     MODIFY_PROGRAM_BOARD
     MODIFY_ZENITH_MEDIA
+    MODIFY_ZALOONEN_BOOKING
     ADMIN
 }
 

@@ -32,7 +32,9 @@ import { prisma } from "~/server/db";
 import { AccountRoles } from "@prisma/client";
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
-import { ZodError } from "zod";
+import { z, ZodError } from "zod";
+import { objectId, standardString } from "~/schemas/helpers/custom-zod-helpers";
+import { validateZaloonenBookingHash } from "./helpers/zaloonen-booking";
 
 type CreateContextOptions = {
   session: Session | null;
@@ -183,3 +185,46 @@ export const zenithMediaProcedure = t.procedure.use(
 export const organizationManagementProcedure = t.procedure.use(
   enforceUserHasRoleOrAdmin(AccountRoles.ORGANIZATION_MANAGEMENT),
 );
+
+export const zaloonenProcedure = t.procedure.use(
+  enforceUserHasRoleOrAdmin(AccountRoles.MODIFY_ZALOONEN_BOOKING),
+);
+
+const enforceZaloonenBookingHash = t.middleware(
+  async ({ ctx, next, input }) => {
+    const safeParse = z
+      .object({ hash: standardString, id: objectId })
+      .safeParse(input);
+
+    if (!safeParse.success)
+      throw new TRPCError({ message: "Ogiltig input", code: "BAD_REQUEST" });
+
+    const zaloonenBooking = await validateZaloonenBookingHash({
+      hash: safeParse.data.hash,
+      id: safeParse.data.id,
+      prisma,
+    }).catch((error) => {
+      if (error instanceof Error)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: error.message,
+        });
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Ogiltig input",
+      });
+    });
+
+    return next({
+      ctx: {
+        // infers the `session` as non-nullable
+        ...ctx,
+        booking: zaloonenBooking,
+      },
+    });
+  },
+);
+
+export const zaloonenProcedureWithHash = t.procedure
+  .input(z.object({ hash: standardString, id: objectId }))
+  .use(enforceZaloonenBookingHash);

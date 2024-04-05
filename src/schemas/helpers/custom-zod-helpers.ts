@@ -8,12 +8,25 @@ const base64Regex =
 
 const slugRegex = /^[a-z]+(?:-[a-z]+)*$/;
 
+export const standardDate = z.date({
+  required_error: "Obligatoriskt fält",
+  invalid_type_error: "Måste vara ett datum",
+});
+
+export const futureDate = standardDate.min(new Date());
+
+export const passedDate = standardDate.max(new Date());
+
 export const standardString = z
   .string({
     required_error: "Obligatoriskt fält",
     invalid_type_error: "Måste vara en sträng",
   })
   .trim();
+
+export const nonEmptyString = standardString.min(1, {
+  message: "Obligatoriskt fält. Får inte vara tomt",
+});
 
 export const standardNumber = z.number({
   required_error: "Obligatoriskt fält",
@@ -25,17 +38,24 @@ export const standardBoolean = z.boolean({
   invalid_type_error: "Måste vara en bool",
 });
 
-export const objectId = standardString.refine((val) => {
+export const objectId = nonEmptyString.refine((val) => {
   return mongoose.Types.ObjectId.isValid(val);
 }, "Ogiltigt objectId");
 
-export const datetimeString = standardString.datetime({
+export const datetimeString = nonEmptyString.datetime({
   precision: 3,
   offset: false,
   message: "Otilllåtet datum/tidsformat",
 });
 
+export const futureDateTimeString = datetimeString.refine(
+  (dateStr) => new Date() < new Date(dateStr),
+  "Du kan inte boka ett datum som har passerat",
+);
+
 export const orderNumber = standardNumber
+  .int("Måste vara ett heltal")
+  .positive("Måste vara ett positivt tal")
   .min(MIN_ORDER_NUMBER, {
     message: `Måste vara ett tal större än eller lika med ${MIN_ORDER_NUMBER}`,
   })
@@ -43,13 +63,9 @@ export const orderNumber = standardNumber
     message: `Måste vara ett tal mindre än eller lika med ${MAX_ORDER_NUMBER}`,
   });
 
-export const emailString = standardString.email({ message: "Ogiltig epost" });
+export const emailString = nonEmptyString.email({ message: "Ogiltig epost" });
 
-export const nonEmptyString = standardString.min(1, {
-  message: "Obligatoriskt fält. Får inte vara tomt",
-});
-
-export const base64WebPImageString = standardString
+export const base64WebPImageString = nonEmptyString
   .startsWith("data:image/webp;base64,", {
     message: "Måste vara en base64 sträng med typ webp",
   })
@@ -58,17 +74,23 @@ export const base64WebPImageString = standardString
     return base64Regex.test(formatedVal);
   }, "Inte giltig base64 sträng");
 
-export const phoneNumberString = standardString.refine(
-  (val) => isMobilePhone(val, "sv-SE"),
+export const phoneNumberString = nonEmptyString.refine(
+  (val) => isMobilePhone(val, "sv-SE", { strictMode: false }),
   "Ogiltigt telefonnummer",
 );
 
-export const slugString = standardString.refine(
+export const slugString = nonEmptyString.refine(
   (val) => slugRegex.test(val),
   `Otillåten sträng, får bara innehålla småbokstäver och - men inte sluta på -. Använder följande regexp "${slugRegex}"`,
 );
 
 export const emptyString = z.literal("");
+
+export const emptyStringToUndefined = emptyString.transform(() => undefined);
+
+export const emptyStringToNull = emptyString.transform(() => null);
+
+export const undefinedToNull = z.undefined().transform(() => null);
 
 export const httpsUrlString = standardString
   .url("Måste vara en URL")
