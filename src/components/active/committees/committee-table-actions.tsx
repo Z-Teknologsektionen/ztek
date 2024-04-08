@@ -4,7 +4,6 @@ import DeleteTriggerButton from "~/components/buttons/delete-trigger-button";
 import EditTriggerButton from "~/components/buttons/edit-trigger-button";
 import DeleteDialog from "~/components/dialogs/delete-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
-
 import {
   useDeleteCommitteeAsAuthed,
   useUpdateCommitteeAsAuthed,
@@ -26,18 +25,7 @@ export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
         form={
           <UpsertCommitteeForm
             key={id}
-            defaultValues={{
-              ...values,
-              socialLinks: values.socialLinks.map(
-                ({ iconVariant, order, url }) => ({
-                  iconAndUrl: {
-                    iconVariant,
-                    url,
-                  },
-                  order,
-                }),
-              ),
-            }}
+            defaultValues={values}
             formType="update"
             onSubmit={(updatedValues) =>
               updateCommittee({

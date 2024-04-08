@@ -35,22 +35,11 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
       <Card className="flex flex-col content-center items-center bg-cardBackground text-center ">
         <div className="self-end">
           <UpsertDialog
-            description="Du som aktiv kan inte uppdatera alla fält, så som du vill ändra något mer än detta måste du kontakta en Webbgruppen"
+            description="Du som aktiv kan inte uppdatera alla fält, så som du vill ändra något mer än detta måste du kontakta Webbgruppen"
             form={
               <UpsertCommitteeAsActiveForm
                 key={committee.id}
-                defaultValues={{
-                  ...committee,
-                  socialLinks: committee.socialLinks.map(
-                    ({ iconVariant, order, url }) => ({
-                      iconAndUrl: {
-                        iconVariant,
-                        url,
-                      },
-                      order,
-                    }),
-                  ),
-                }}
+                defaultValues={committee}
                 formType="update"
                 onSubmit={(updatedValues) =>
                   updateCommitteeAsActive({
@@ -65,7 +54,7 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
             title="Uppdatera organ"
             trigger={
               <IconWithTooltip
-                className="mr-1 mt-1 hover:fill-orange-500"
+                className="m-1 hover:fill-orange-500"
                 icon={MdEdit}
                 size={25}
                 tooltipText="Redigera information"
@@ -92,13 +81,10 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
           <Separator className="my-1 h-0.5" />
           <h2 className="text-sm">Sociala länkar</h2>
           <div className="mt-2 flex flex-row flex-wrap justify-center gap-2">
-            {committee.socialLinks.length !== 0 ? (
-              committee.socialLinks.map((socialLink) => (
-                <CommitteeSocialIcon {...socialLink} key={socialLink.url} />
-              ))
-            ) : (
-              <CommitteeSocialIcon iconVariant="MAIL" url={committee.email} />
-            )}
+            <CommitteeSocialIcon iconVariant="MAIL" url={committee.email} />
+            {committee.socialLinks.map((socialLink) => (
+              <CommitteeSocialIcon {...socialLink} key={socialLink.url} />
+            ))}
           </div>
           <Separator className="my-2 h-0.5" />
 
@@ -118,14 +104,12 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
             {committee?.description}
           </CardDescription>
         </CardContent>
-        <CardFooter>
-          <CardDescription className="mt-4 flex flex-row gap-2 text-xs">
-            <IconNextToText
-              icon={MdUpdate}
-              text={dayjs(committee.updatedAt).fromNow()}
-              tooltipText="Uppdaterades senast"
-            />
-          </CardDescription>
+        <CardFooter className="mt-4 flex flex-row gap-2 text-xs">
+          <IconNextToText
+            icon={MdUpdate}
+            text={dayjs(committee.updatedAt).fromNow()}
+            tooltipText="Uppdaterades senast"
+          />
         </CardFooter>
       </Card>
     </div>
