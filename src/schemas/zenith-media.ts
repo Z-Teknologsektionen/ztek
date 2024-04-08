@@ -10,7 +10,7 @@ import {
 
 //200 MB
 const MAX_MB_SIZE = 200;
-const MAX_FILE_SIZE = MAX_MB_SIZE * 1000 * 1000;
+const MAX_FILE_SIZE = MAX_MB_SIZE * 1024 * 1024;
 export const ACCEPTED_MEDIA_TYPES = ["image/*", "application/pdf"];
 
 export const zenithMediaBaseSchema = z.object({

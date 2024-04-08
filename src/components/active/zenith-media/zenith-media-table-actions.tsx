@@ -6,10 +6,13 @@ import EditTriggerButton from "~/components/buttons/edit-trigger-button";
 import DeleteDialog from "~/components/dialogs/delete-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import {
+  useDeleteZenithMediaAsAuthed,
+  useUpdateZenithMediaAsAuthed,
+} from "~/hooks/mutations/useMutateZenithMedia";
+import {
   handleCreateSftpFile,
   handleDeleteSftpFile,
-} from "~/hooks/api-calls/sftp";
-import { api } from "~/utils/api";
+} from "~/utils/sftp/api-calls";
 import type { ZenithMediaType } from "./zenith-media-columns";
 
 export type ZenithFormValuesType = {
@@ -26,7 +29,6 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
   id,
   ...values
 }) => {
-  const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
   const basePath = process.env.NEXT_PUBLIC_SFTP_BASE_URL as string;
 
@@ -84,53 +86,13 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
       });
   };
 
-  const { mutate: updateZenithMedia } =
-    api.zenithMedia.updateOneAsAuthed.useMutation({
-      onMutate: () => toast.loading("Uppdaterar media..."),
-      onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-      onSuccess: ({ title }) => {
-        setIsOpen(false);
-        toast.success(`${title} har uppdaterats!`);
-        void ctx.zenithMedia.invalidate();
-      },
-      onError: (error, data) => {
-        if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("Något gick fel. Försök igen senare");
-        }
-        if (!data.url) return;
-        const deleteToastId = toast.loading("Tar bort filen från servern...");
-        handleDeleteSftpFile(data.url)
-          .then(() => {
-            toast.dismiss(deleteToastId);
-            toast.success("Filen har tagits bort från servern.");
-          })
-          .catch((err: Error) => {
-            toast.dismiss(deleteToastId);
-            toast.error(
-              `Kunde inte ta bort filen från servern. \n ${err.message}`,
-            );
-          });
-      },
-    });
+  const { mutate: updateZenithMedia } = useUpdateZenithMediaAsAuthed({
+    onSuccess: () => setIsOpen(false),
+  });
 
-  const { mutate: deleteZenithMedia } =
-    api.zenithMedia.deleteOneAsAuthed.useMutation({
-      onMutate: () => toast.loading("Raderar mediet..."),
-      onSettled: (_c, _d, _e, toastId) => {
-        toast.remove(toastId);
-        void ctx.zenithMedia.invalidate();
-      },
-      onSuccess: () => toast.success("Mediet har raderats!"),
-      onError: (error) => {
-        if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("Något gick fel. Försök igen senare");
-        }
-      },
-    });
+  const { mutate: deleteZenithMedia } = useDeleteZenithMediaAsAuthed({
+    onSuccess: () => setIsOpen(false),
+  });
 
   return (
     <div className="flex justify-end">

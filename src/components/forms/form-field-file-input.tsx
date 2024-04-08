@@ -21,11 +21,10 @@ export const FormFieldFileInput = <TFieldValues extends FieldValues>({
   form,
   className,
   disabled,
-  accept = "image/png, image/jpeg, application/pdf",
-  ...rest
+  accept = "image/*, application/pdf",
 }: IFormFieldFileInput<TFieldValues>): React.JSX.Element => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
+  const [fileType, setFileType] = useState<string | null>(null);
   return (
     <FormField
       control={form.control}
@@ -35,9 +34,9 @@ export const FormFieldFileInput = <TFieldValues extends FieldValues>({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <div className="flex w-auto flex-col gap-2">
+            <div className="flex w-auto flex-col items-center gap-2">
               {previewUrl &&
-                (accept.includes("application/pdf") ? (
+                (fileType === "application/pdf" ? (
                   <object
                     data={previewUrl}
                     height="200px"
@@ -47,12 +46,17 @@ export const FormFieldFileInput = <TFieldValues extends FieldValues>({
                     Preview not available
                   </object>
                 ) : (
-                  <Image alt="Preview" src={previewUrl} />
+                  <Image
+                    alt="Preview"
+                    className=""
+                    height={200}
+                    src={previewUrl}
+                    width={300}
+                  />
                 ))}
 
               <Input
                 {...field}
-                {...rest}
                 accept={accept}
                 className={cn(
                   "text-transparent hover:cursor-pointer",
@@ -62,6 +66,7 @@ export const FormFieldFileInput = <TFieldValues extends FieldValues>({
                   if (e.target?.files?.[0]) {
                     const filesArray = Array.from(e.target.files);
                     field.onChange(filesArray);
+                    setFileType(e.target.files[0].type);
                     const url = URL.createObjectURL(e.target.files[0]);
                     setPreviewUrl(url);
                   }

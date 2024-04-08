@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import {
   deleteFileFromSftpServer,
   uploadFileToSftpServer,
-} from "~/utils/sftp-engine";
+} from "~/utils/sftp/sftp-engine";
 const containsOnlyOnePunctuation = /^[^\p{P}]*[\p{P}][^\p{P}]*$/u;
 export interface SftpApiResponse {
   error?: string;

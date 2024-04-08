@@ -9,7 +9,7 @@ import {
   publicProcedure,
   zenithMediaProcedure,
 } from "~/server/api/trpc";
-import { deleteFileFromSftpServer } from "~/utils/sftp-engine";
+import { deleteFileFromSftpServer } from "~/utils/sftp/sftp-engine";
 
 export const zenithMediaRouter = createTRPCRouter({
   getAllByYear: publicProcedure.query(async ({ ctx }) => {

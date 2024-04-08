@@ -3,7 +3,7 @@ import isMobilePhone from "validator/lib/isMobilePhone";
 import { z } from "zod";
 import { MAX_ORDER_NUMBER, MIN_ORDER_NUMBER } from "~/constants/committees";
 
-const base64Regex =
+export const base64Regex =
   /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
 
 const slugRegex = /^[a-z]+(?:-[a-z]+)*$/;

@@ -1,18 +1,19 @@
 import type { TransferOptions } from "ssh2-sftp-client";
 import Client from "ssh2-sftp-client";
+import { env } from "~/env.mjs";
 import type {
   createFileOnSftpServerType,
   renameFileOnSftpServerType,
 } from "~/types/sftp-types";
 
-const basePath = process.env.SFTP_BASE_PATH || "";
-const baseUrl = process.env.NEXT_PUBLIC_SFTP_BASE_URL || "";
+const basePath = env.SFTP_BASE_PATH;
+const baseUrl = env.NEXT_PUBLIC_SFTP_BASE_URL;
 
 const config = {
-  host: process.env.SFTP_HOST,
+  host: env.SFTP_HOST,
   port: 22,
-  username: process.env.SFTP_USER,
-  privateKey: Buffer.from(process.env.SFTP_KEY || "", "base64"),
+  username: env.SFTP_USER,
+  privateKey: Buffer.from(env.SFTP_KEY, "base64"),
   // debug: console.log,
 };
 
