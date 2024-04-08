@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AccountRoles } from "@prisma/client";
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
@@ -17,6 +16,7 @@ import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { createOldCommitteeSchema } from "~/schemas/old-committee";
 import type { IUpsertForm } from "~/types/form-types";
 import { api } from "~/utils/api";
+import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 import UpsertOldCommitteeMembersFormSection from "./upsert-old-committe-membes-section-form";
 
 type UpsertOldCommitteeFormProps = IUpsertForm<typeof createOldCommitteeSchema>;
@@ -40,7 +40,7 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
   formType,
 }) => {
   const { data: session } = useRequireAuth();
-  const isAdmin = session?.user.roles.includes(AccountRoles.ADMIN);
+  const isAdmin = userHasAdminAccess(session?.user.roles);
 
   const dropDownMappable = isAdmin
     ? api.committee.getAllAsAuthed.useQuery().data?.map((committee) => ({

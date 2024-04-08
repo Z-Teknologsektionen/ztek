@@ -7,6 +7,7 @@ import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
+import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 import UpsertOldCommitteeForm from "./upsert-old-committee-form";
 
 interface OldCommitteeTableToolbarProps<TData> {
@@ -17,7 +18,7 @@ export const OldCommitteeTableToolbar = <TData,>({
   table,
 }: OldCommitteeTableToolbarProps<TData>): JSX.Element => {
   const { data: session } = useRequireAuth();
-  const isAdmin = session?.user.roles.includes("ADMIN") || false;
+  const isAdmin = userHasAdminAccess(session?.user.roles);
 
   const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +30,7 @@ export const OldCommitteeTableToolbar = <TData,>({
   const { data: oldCommittees } =
     api.oldCommittee.getManyByCommitteeIdAsActive.useQuery({
       belongsToCommitteeId: session?.user.committeeId || "",
-      isAdmin: session?.user.roles.includes("ADMIN") || false,
+      isAdmin: isAdmin,
     });
 
   const { mutate: createNewOldCommittee, isLoading: creatingNewOldCommittee } =

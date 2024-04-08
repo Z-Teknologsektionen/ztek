@@ -1,3 +1,4 @@
+import { AccountRoles } from "@prisma/client";
 import type { FC } from "react";
 import { AdvancedDataTable } from "~/components/data-table/advanced-data-table";
 import RoleWrapper from "~/components/layout/role-wrapper";
@@ -14,7 +15,7 @@ const ZenithMediaTab: FC = () => {
   } = api.zenithMedia.getAllAsAuthed.useQuery();
 
   return (
-    <RoleWrapper accountRole="MODIFY_ZENITH_MEDIA">
+    <RoleWrapper accountRole={AccountRoles.MODIFY_ZENITH_MEDIA}>
       <SectionWrapper>
         <AdvancedDataTable
           columns={zenithMediaColumns}

@@ -21,12 +21,14 @@ import {
 } from "~/components/ui/popover";
 import { Separator } from "~/components/ui/separator";
 import { useUpdateUserAsAuthed } from "~/hooks/mutations/useMutateUserAsAuthed";
+import { useRequireAuth } from "~/hooks/useRequireAuth";
+import { canUserEditUser } from "~/utils/can-user-edit-user";
 import { cn } from "~/utils/utils";
 
-interface MemberRolesActionsProps {
+type MemberRolesActionsProps = {
   currentRoles?: AccountRoles[];
   userId: string;
-}
+};
 
 export const MemberRolesActions = ({
   userId,
@@ -48,10 +50,14 @@ export const MemberRolesActions = ({
     {},
   );
 
+  const { data: session } = useRequireAuth();
+
+  const userCanEdit = canUserEditUser(session?.user.roles, currentRoles);
+
   return (
     <Popover>
-      <PopoverTrigger>
-        <BadgeCell className="p-1 hover:cursor-pointer hover:bg-blue-50">
+      <PopoverTrigger className="group" disabled={!userCanEdit || updatingUser}>
+        <BadgeCell className="p-1 hover:cursor-pointer hover:bg-blue-50 group-disabled:opacity-50">
           <PlusIcon className="h-3 w-3" />
         </BadgeCell>
       </PopoverTrigger>
@@ -61,20 +67,21 @@ export const MemberRolesActions = ({
           <CommandList>
             <CommandEmpty>Inga resultat hittades.</CommandEmpty>
             <CommandGroup>
-              {Object.values(AccountRoles).map((option) => {
-                const isSelected = selectedValues.includes(option);
+              {Object.values(AccountRoles).map((selectedRole) => {
+                if (!canUserEditUser(session?.user.roles, [selectedRole]))
+                  return null;
+
+                const isSelected = selectedValues.includes(selectedRole);
+
                 return (
                   <CommandItem
-                    key={option}
-                    className={cn(
-                      updatingUser ? "cursor-not-allowed" : "cursor-pointer",
-                    )}
+                    key={selectedRole}
                     disabled={updatingUser}
                     onSelect={() => {
                       setSelectedValues((prev) =>
-                        prev.includes(option)
-                          ? prev.filter((role) => role !== option)
-                          : [...prev, option],
+                        prev.includes(selectedRole)
+                          ? prev.filter((role) => role !== selectedRole)
+                          : [...prev, selectedRole],
                       );
                     }}
                   >
@@ -88,7 +95,7 @@ export const MemberRolesActions = ({
                     >
                       <CheckIcon className="h-4 w-4" />
                     </div>
-                    {<span>{option}</span>}
+                    {<span>{selectedRole}</span>}
                   </CommandItem>
                 );
               })}

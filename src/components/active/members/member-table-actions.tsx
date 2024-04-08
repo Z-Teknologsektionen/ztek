@@ -8,6 +8,8 @@ import {
   useDeleteMemberAsAuthed,
   useUpdateMemberAsAuthed,
 } from "~/hooks/mutations/useMutateMember";
+import { useRequireAuth } from "~/hooks/useRequireAuth";
+import { canUserEditUser } from "~/utils/can-user-edit-user";
 import type { CommitteeMemberType } from "./member-columns";
 
 export const CommitteeMemberTableActions: FC<CommitteeMemberType> = ({
@@ -21,6 +23,13 @@ export const CommitteeMemberTableActions: FC<CommitteeMemberType> = ({
   });
 
   const { mutate: deleteMember } = useDeleteMemberAsAuthed({});
+
+  const { data: session } = useRequireAuth();
+
+  const userCanDelete =
+    session !== null && canUserEditUser(session.user.roles, values.userRoles);
+
+  const isOwnUser = session !== null && session.user.memberId === id;
 
   return (
     <div className="flex justify-end">
@@ -44,6 +53,7 @@ export const CommitteeMemberTableActions: FC<CommitteeMemberType> = ({
         trigger={<EditTriggerButton />}
       />
       <DeleteDialog
+        disabled={!userCanDelete || isOwnUser}
         onSubmit={() => deleteMember({ id })}
         trigger={<DeleteTriggerButton />}
       />

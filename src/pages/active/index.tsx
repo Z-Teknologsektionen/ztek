@@ -1,4 +1,3 @@
-import { AccountRoles } from "@prisma/client";
 import { TabsContent } from "@radix-ui/react-tabs";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
@@ -9,6 +8,7 @@ import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { activeTabs } from "~/data/active-tabs";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
+import { userHasCorrectRole } from "~/utils/user-has-correct-role";
 
 const ActiveHomePage: NextPage = () => {
   const [selectedTab, setSelectedTab] = useState<string | undefined>(() => {
@@ -25,23 +25,21 @@ const ActiveHomePage: NextPage = () => {
   }, [selectedTab]);
 
   const { data: session } = useRequireAuth();
-
   if (!session) return null;
-  const { user } = session;
 
-  const hasPermission = (role?: AccountRoles): boolean =>
-    role === undefined ||
-    user.roles.includes(role) ||
-    user.roles.includes(AccountRoles.ADMIN);
+  const { user } = session;
 
   const userHasPermission = (tabName: string): boolean => {
     const tab = activeTabs.find((r) => r.name === tabName);
-    return (tab && hasPermission(tab.requiredRole)) || false;
+    return (
+      tab !== undefined && userHasCorrectRole(user.roles, tab.requiredRole)
+    );
   };
 
   const availableTabs = activeTabs.filter(({ requiredRole }) =>
-    hasPermission(requiredRole),
+    userHasCorrectRole(user.roles, requiredRole),
   );
+
   const initialTab = activeTabs.find((tab) => tab.initialTab);
 
   return (
