@@ -66,8 +66,7 @@ const ActiveHomePage: NextPage = () => {
               {availableTabs.map((tab) => (
                 <TabsTrigger
                   key={tab.name}
-                  className="z-10 flex min-w-fit overflow-hidden"
-                  style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+                  className="flex min-w-fit overflow-hidden truncate"
                   value={tab.name}
                 >
                   {tab.name}
