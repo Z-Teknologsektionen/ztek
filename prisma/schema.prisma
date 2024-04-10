@@ -100,8 +100,9 @@ model CommitteeMember {
     role  String
     email String
 
-    committee Committee @relation(fields: [committeeId], references: [id], onDelete: Restrict)
-    user      User?     @relation(fields: [userId], references: [id])
+    committee        Committee          @relation(fields: [committeeId], references: [id], onDelete: Restrict)
+    user             User?              @relation(fields: [userId], references: [id])
+    HomepageCarousel HomepageCarousel[]
 
     updatedAt DateTime @updatedAt
 }
@@ -155,6 +156,21 @@ model ProgramBoardMember {
     createdAt DateTime @default(now())
 }
 
+model HomepageCarousel {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    title     String
+    url       String
+    order     Int       @default(0)
+    startDate DateTime
+    endDate   DateTime?
+
+    createdBy   CommitteeMember @relation(fields: [createdById], references: [id])
+    createdById String          @db.ObjectId
+
+    updatedAt DateTime @updatedAt
+}
+
 // Next Auth models
 model Account {
     id                String  @id @default(auto()) @map("_id") @db.ObjectId
@@ -202,6 +218,7 @@ enum AccountRoles {
     MODIFY_DOCUMENTS
     MODIFY_PROGRAM_BOARD
     MODIFY_ZENITH_MEDIA
+    PR_ROLE
     ADMIN
 }
 

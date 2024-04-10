@@ -171,6 +171,9 @@ export const adminProcedure = t.procedure.use(enforceUserIsAdmin);
 export const programBoardProcedure = t.procedure.use(
   enforceUserHasRoleOrAdmin(AccountRoles.MODIFY_PROGRAM_BOARD),
 );
+export const prRoleProcedure = t.procedure.use(
+  enforceUserHasRoleOrAdmin(AccountRoles.PR_ROLE),
+);
 
 export const documentProcedure = t.procedure.use(
   enforceUserHasRoleOrAdmin(AccountRoles.MODIFY_DOCUMENTS),

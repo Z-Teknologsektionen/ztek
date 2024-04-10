@@ -4,6 +4,7 @@ import AdministerCommitteesTab from "~/components/active/committees";
 import EditDocumentsTab from "~/components/active/documents";
 import EditCommitteeTab from "~/components/active/edit-committee";
 import ActiveStartTab from "~/components/active/home";
+import EditHomepageCarouselTab from "~/components/active/homepage-carousel";
 import AdministerMembersTab from "~/components/active/members";
 import OldCommitteesTab from "~/components/active/old-committees";
 import ProgramBoardTab from "~/components/active/program-board";
@@ -46,6 +47,12 @@ const rawActiveTabs: ActiveTabsProps[] = [
     desc: "Här kan du ta bort eller lägga till olika dokument.",
     component: EditDocumentsTab,
     requiredRole: AccountRoles.MODIFY_DOCUMENTS,
+  },
+  {
+    name: "Administrera startsidan",
+    desc: "Här kan du lägga till, redigera eller ta bort bilder från karusellen på startsidan.",
+    component: EditHomepageCarouselTab,
+    requiredRole: AccountRoles.PR_ROLE,
   },
   {
     name: "Administrera medlemmar",
