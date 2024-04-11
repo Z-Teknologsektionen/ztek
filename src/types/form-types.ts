@@ -75,3 +75,9 @@ export interface IFormFieldTextArea<
 > extends IFormFieldDefaults<TFieldValues> {
   className?: string;
 }
+
+export interface IFormFieldUrlMediaWithPreview<
+  TFieldValues extends FieldValues = FieldValues,
+> extends IFormFieldDefaults<TFieldValues> {
+  className?: string;
+}

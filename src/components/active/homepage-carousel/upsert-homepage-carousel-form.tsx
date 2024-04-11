@@ -3,6 +3,7 @@ import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import FormFieldInput from "~/components/forms/form-field-input";
+import FormFieldUrlMediaWithPreview from "~/components/forms/form-field-url-media-with-preview";
 import FormWrapper from "~/components/forms/form-wrapper";
 
 import { useRequireAuth } from "~/hooks/useRequireAuth";
@@ -58,12 +59,11 @@ const UpsertHomepageCarouselForm: FC<UpsertHomepageCarouselFormProps> = ({
         name="title"
         type="text"
       />
-      <FormFieldInput
+      <FormFieldUrlMediaWithPreview
         description="Du kan för närvarande bara länka till bilder, inte ladda upp."
         form={form}
         label="Url"
         name="url"
-        type="url"
       />
       <div className="grid grid-cols-2 gap-2">
         <FormFieldInput
