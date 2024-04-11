@@ -73,10 +73,10 @@ const rawActiveTabs: ActiveTabsProps[] = [
     requiredRole: AccountRoles.MODIFY_ZENITH_MEDIA,
   },
   {
-    name: "Administera Zaloonen bokningar",
+    name: "Administera Zaloonens bokningar",
     desc: "Här kan du hantera Zaloonens bokningar",
     component: ZaloonenBookingTab,
-    requiredRole: AccountRoles.MODIFY_ZENITH_MEDIA,
+    requiredRole: AccountRoles.MODIFY_ZALOONEN_BOOKING,
   },
 ];
 
