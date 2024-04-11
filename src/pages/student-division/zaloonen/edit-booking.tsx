@@ -38,23 +38,14 @@ const EditZaloonenBooking: NextPage<
         {bookingValues && (
           <UpsertZaloonenBookingFormSection
             defaultValues={{
-              hash: hash,
               ...bookingValues,
+              hash: hash,
               bookEvenIfColision: false, // TODO: Ska den verkligen kolla detta om man bara försöker uppdatera sin boking isf kanske man ska kolla om man över huvudtaget försöker uppdatera en bokning eller inte
               saveInformation: false as true,
-              dates: {
-                primaryDate: {
-                  endDate: bookingValues.primaryEndDateTime.toISOString(),
-                  startDate: bookingValues.primaryStartDateTime.toISOString(),
-                },
-                secondaryDate: {
-                  endDate: bookingValues.secondaryEndDateTime
-                    ? bookingValues.secondaryEndDateTime.toISOString()
-                    : bookingValues.secondaryEndDateTime,
-                  startDate: bookingValues.secondaryStartDateTime
-                    ? bookingValues.secondaryStartDateTime.toISOString()
-                    : bookingValues.secondaryStartDateTime,
-                },
+
+              primaryDate: {
+                endDate: bookingValues.endDateTime.toISOString(),
+                startDate: bookingValues.startDateTime.toISOString(),
               },
             }}
             formType="update"

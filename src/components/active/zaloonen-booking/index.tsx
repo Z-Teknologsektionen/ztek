@@ -1,3 +1,4 @@
+import { AccountRoles, ZaloonenBookingStatus } from "@prisma/client";
 import dayjs from "dayjs";
 import type { FC } from "react";
 import { AdvancedDataTable } from "~/components/data-table/advanced-data-table";
@@ -28,25 +29,16 @@ const ZaloonenBookingTab: FC = () => {
 
   const approvedBookingsSorted = bookings
     .filter(
-      (booking) =>
-        booking.bookingStatus === "APPROVED_FIRST_DATETIME" ||
-        booking.bookingStatus === "APPROVED_SECOND_DATETIME",
+      (booking) => booking.bookingStatus === ZaloonenBookingStatus.APPROVED,
     )
-    .sort((a, b) =>
-      a.approvedStartDateTime && b.approvedStartDateTime
-        ? a.approvedStartDateTime > b.approvedStartDateTime
-          ? 1
-          : -1
-        : 0,
-    );
+    .sort((a, b) => (a.startDateTime > b.startDateTime ? 1 : -1));
 
   const actionRequiredBookings = approvedBookingsSorted.filter(
-    (booking) =>
-      dayjs(new Date()).diff(dayjs(booking.primaryStartDateTime), "d") <= 0,
+    (booking) => dayjs(new Date()).diff(dayjs(booking.startDateTime), "d") <= 0,
   );
 
   return (
-    <RoleWrapper accountRole={"MODIFY_ZALOONEN_BOOKING"}>
+    <RoleWrapper accountRole={AccountRoles.MODIFY_ZALOONEN_BOOKING}>
       <SectionWrapper>
         <div className="grid grid-cols-6 gap-3">
           <div className="col-span-4">
@@ -69,16 +61,9 @@ const ZaloonenBookingTab: FC = () => {
                 bookings
                   .filter(
                     (booking) =>
-                      booking.bookingStatus === "APPROVED_FIRST_DATETIME" ||
-                      booking.bookingStatus === "APPROVED_SECOND_DATETIME",
+                      booking.bookingStatus === ZaloonenBookingStatus.APPROVED,
                   )
-                  .sort((a, b) =>
-                    a.approvedStartDateTime && b.approvedStartDateTime
-                      ? a.approvedStartDateTime > b.approvedStartDateTime
-                        ? 1
-                        : -1
-                      : 0,
-                  )
+                  .sort((a, b) => (a.startDateTime > b.startDateTime ? -1 : 1))
                   .map((booking) => (
                     <div key={booking.id} className="w-full px-4">
                       <div className="flex justify-between">
@@ -88,7 +73,7 @@ const ZaloonenBookingTab: FC = () => {
                         <p>
                           Om{" "}
                           {dayjs(new Date()).diff(
-                            dayjs(booking.primaryStartDateTime),
+                            dayjs(booking.startDateTime),
                             "d",
                           )}{" "}
                           dag(ar)

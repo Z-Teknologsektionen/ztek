@@ -1,9 +1,9 @@
 import {
   ZaloonenBookingEventTypes,
+  ZaloonenBookingStatus,
   ZaloonenBookingTypes,
 } from "@prisma/client";
 import { z } from "zod";
-import { authedZaloonenBookingUpdates } from "~/constants/zaloonen-booking";
 import {
   emailString,
   futureDate,
@@ -62,6 +62,7 @@ export const createZaloonenBookingSchema = z
       errorMap: () => ({ message: "Vänligen acceptera villkoren" }),
     }),
     bookEvenIfColision: standardBoolean.optional().default(false),
+    hash: standardString.optional(),
   })
   .merge(partyNoticeSchema);
 
@@ -78,7 +79,7 @@ export const upsertZaloonenBookingSchema = createZaloonenBookingSchema.merge(
   zaloonenBookingHashSchema,
 );
 
-export const updateBookingAsAuthed = z.object({
+export const updateBookingStatusAsAuthed = z.object({
   id: objectId,
-  bookingStatus: z.enum(authedZaloonenBookingUpdates),
+  bookingStatus: z.nativeEnum(ZaloonenBookingStatus),
 });

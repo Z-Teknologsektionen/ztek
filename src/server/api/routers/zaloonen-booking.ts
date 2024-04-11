@@ -3,11 +3,14 @@ import { TRPCError } from "@trpc/server";
 import mongoose from "mongoose";
 import { env } from "process";
 import {
-  updateBookingAsAuthed,
+  updateBookingStatusAsAuthed,
   upsertZaloonenBookingSchema,
   zaloonenBookingHashSchema,
 } from "~/schemas/zaloonen-booking";
-import { validateZaloonenBookingHash } from "~/server/api/helpers/zaloonen-booking";
+import {
+  generateZaloonenBookingHash,
+  validateZaloonenBookingHash,
+} from "~/server/api/helpers/zaloonen-booking";
 import {
   createTRPCRouter,
   publicProcedure,
@@ -60,11 +63,26 @@ export const zaloonenRouter = createTRPCRouter({
             where: {
               OR: [
                 {
+                  // Bokingen startar under denna bokningen
                   startDateTime: {
                     lte: primaryDate.endDate,
-                  },
-                  endDateTime: {
                     gte: primaryDate.startDate,
+                  },
+                },
+                {
+                  // Bokingen slutar under denna bokningen
+                  endDateTime: {
+                    lte: primaryDate.endDate,
+                    gte: primaryDate.startDate,
+                  },
+                },
+                {
+                  // Bokingen pågår under hela denna bokningen
+                  endDateTime: {
+                    gte: primaryDate.endDate,
+                  },
+                  startDateTime: {
+                    lte: primaryDate.startDate,
                   },
                 },
               ],
@@ -77,7 +95,7 @@ export const zaloonenRouter = createTRPCRouter({
           if (collidingBookings.length > 0) {
             throw new TRPCError({
               code: "CONFLICT",
-              message: "Krockar med en annan bokning",
+              message: "Krockar med en redan godkänd bokning",
             });
           }
         }
@@ -85,14 +103,13 @@ export const zaloonenRouter = createTRPCRouter({
         // TODO: Fundera på om krockar ska lagras i DB eller inte kanske inte värt med tänkte på hur snabbt beräkningarna går trots allt
         // TODO: Skicka mail om att bokningen har skapats och kanske även om den uppdaterats
 
-        return prisma.zaloonenBooking.upsert({
+        const res = await prisma.zaloonenBooking.upsert({
           where: {
             id: bookingId || new mongoose.Types.ObjectId().toString(), //Upsert klarar för tillfället inte att alla i where är undefined så skapar ett nytt object id som garanterat inte finns i DB
           },
           create: {
             ...data,
             startDateTime: primaryDate.startDate,
-            hash: bookingHash,
             endDateTime: primaryDate.endDate,
             updatedById: session?.user.memberId ?? null,
           },
@@ -103,10 +120,23 @@ export const zaloonenRouter = createTRPCRouter({
             updatedById: session?.user.memberId ?? null,
           },
         });
+
+        res.hash = generateZaloonenBookingHash({
+          id: res.id,
+          createdAt: res.createdAt,
+        });
+        return await prisma.zaloonenBooking.update({
+          where: {
+            id: res.id,
+          },
+          data: {
+            hash: res.hash,
+          },
+        });
       },
     ),
   updateZaloonenBookingStatusAsAuthed: zaloonenProcedure
-    .input(updateBookingAsAuthed)
+    .input(updateBookingStatusAsAuthed)
     .mutation(
       async ({ ctx: { prisma, session }, input: { id, bookingStatus } }) => {
         const booking = await prisma.zaloonenBooking
@@ -117,6 +147,13 @@ export const zaloonenRouter = createTRPCRouter({
               code: "BAD_REQUEST",
             });
           });
+
+        if (!bookingStatus) {
+          throw new TRPCError({
+            message: "Kunde inte uppdatera bokingens status.",
+            code: "BAD_REQUEST",
+          });
+        }
 
         if (bookingStatus === ZaloonenBookingStatus.DENIED) {
           //TOOD: Skika mail om att bokningen inte godkänd

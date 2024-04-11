@@ -3,7 +3,6 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
 import { DataTableFacetedFilter } from "~/components/data-table/data-table-faceted-filter";
 import { Button } from "~/components/ui/button";
-import { api } from "~/utils/api";
 
 interface ZaloonenBookingTableToolbarProps<TData> {
   table: Table<TData>;
@@ -13,7 +12,7 @@ export const ZaloonenBookingTableToolbar = <TData,>({
   table,
 }: ZaloonenBookingTableToolbarProps<TData>): JSX.Element => {
   const isFiltered = table.getState().columnFilters.length > 0;
-  const ctx = api.useUtils();
+  // const ctx = api.useUtils();
 
   const bokningsStatusColumn = table.getColumn("Bokningsstatus");
 

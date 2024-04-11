@@ -1,4 +1,8 @@
-import type { PrismaClient, ZaloonenBooking } from "@prisma/client";
+import {
+  ZaloonenBookingStatus,
+  type PrismaClient,
+  type ZaloonenBooking,
+} from "@prisma/client";
 import type {
   DefaultArgs,
   PrismaClientOptions,
@@ -6,95 +10,15 @@ import type {
 import { createHash } from "crypto";
 
 export const generateZaloonenBookingHash = ({
-  createdAt,
   id,
+  createdAt,
 }: {
   createdAt: Date;
   id: string;
 }): string =>
   createHash("sha256")
-    .update(id + createdAt.toISOString())
+    .update(id + process.env.HASH_SALT + createdAt.toISOString())
     .digest("hex");
-
-export const getDateConflictIds = async ({
-  prisma,
-  newBookingPrimaryEnd,
-  newBookingPrimaryStart,
-  newBookingSecondaryStart,
-  newBookingSecondaryEnd,
-}: {
-  newBookingPrimaryEnd: Date;
-  newBookingPrimaryStart: Date;
-  newBookingSecondaryEnd: Date | null;
-  newBookingSecondaryStart: Date | null;
-  prisma: PrismaClient<PrismaClientOptions, never, DefaultArgs>;
-}): Promise<{
-  primaryDateConflictIds: string[];
-  secondaryDateConflictIds: string[];
-}> => {
-  const allBookings = await prisma.zaloonenBooking.findMany({});
-
-  const primaryDateConflictIds = allBookings
-    .filter(
-      ({
-        primaryEndDateTime,
-        secondaryEndDateTime,
-        secondaryStartDateTime,
-        primaryStartDateTime,
-      }) =>
-        checkIfDatesOverlap(
-          primaryStartDateTime,
-          primaryEndDateTime,
-          newBookingPrimaryStart,
-          newBookingPrimaryEnd,
-        ) &&
-        checkIfDatesOverlap(
-          secondaryStartDateTime,
-          secondaryEndDateTime,
-          newBookingPrimaryStart,
-          newBookingPrimaryEnd,
-        ),
-    )
-    .map(({ id }) => id);
-
-  const secondaryDateConflictIds = allBookings
-    .filter(
-      ({
-        primaryEndDateTime,
-        secondaryEndDateTime,
-        secondaryStartDateTime,
-        primaryStartDateTime,
-      }) =>
-        checkIfDatesOverlap(
-          primaryStartDateTime,
-          primaryEndDateTime,
-          newBookingSecondaryStart,
-          newBookingSecondaryEnd,
-        ) &&
-        checkIfDatesOverlap(
-          secondaryStartDateTime,
-          secondaryEndDateTime,
-          newBookingSecondaryStart,
-          newBookingSecondaryEnd,
-        ),
-    )
-    .map(({ id }) => id);
-
-  return { secondaryDateConflictIds, primaryDateConflictIds };
-};
-
-export const checkIfDatesOverlap = (
-  startA: Date | null,
-  endA: Date | null,
-  startB: Date | null,
-  endB: Date | null,
-): boolean =>
-  startA !== null &&
-  endA !== null &&
-  startB !== null &&
-  endB !== null &&
-  startA <= endB &&
-  endA >= startB;
 
 export const validateZaloonenBookingHash = async ({
   prisma,
@@ -115,7 +39,7 @@ export const validateZaloonenBookingHash = async ({
       );
     });
 
-  if (zaloonenBooking.bookingStatus !== "INITIAL")
+  if (zaloonenBooking.bookingStatus !== ZaloonenBookingStatus.REQUESTED)
     throw new Error(
       "Bokningen har börjat behandlas av ZÅG. Kontakta ZÅG om du vill göra något med bokningen",
     );
@@ -126,7 +50,9 @@ export const validateZaloonenBookingHash = async ({
   });
 
   //TODO: Ta bort när mail skickas så man kan komma åt detta.
-  console.log({ generatedHash });
+
+  // console.log({ generatedHash });
+  // console.log("++++++++++++++++++++++++++++++++++++++++++");
   if (hash !== generatedHash)
     throw new Error(
       "Ogiltig hash, kolla ditt senaste mail och klicka på länken där",

@@ -159,7 +159,7 @@ model ProgramBoardMember {
 model ZaloonenBooking {
     id          String  @id @default(auto()) @map("_id") @db.ObjectId
     updatedById String? @db.ObjectId
-    hash        String  @unique
+    hash        String? @unique
 
     organizerName    String
     organizerEmail   String
