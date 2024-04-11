@@ -16,6 +16,32 @@ export const handleDeleteSftpFile = (url: string): Promise<string> => {
   });
 };
 
+export const handleRenameSftpFile = (
+  oldUrl: string,
+  newName: string,
+  dir: string,
+  isPublic: string,
+): Promise<string> => {
+  console.log(oldUrl, newName, dir, isPublic);
+  const formData = new FormData();
+  formData.set("oldUrl", oldUrl);
+  formData.set("public", String(props.isPublic));
+  formData.set("dir", props.dir);
+  formData.set("overwrite", String(props.overwrite));
+  formData.set("filename", props.filename);
+
+  return new Promise((resolve, reject) => {
+    axios
+      .put("/api/sftp", { params: { oldUrl, newName, dir, isPublic } })
+      .then(() => {
+        return resolve("Filen har döpts om.");
+      })
+      .catch((error: Error) => {
+        return reject(error.message);
+      });
+  });
+};
+
 export const handleCreateSftpFile = (
   props: createFileOnSftpClientType,
 ): Promise<string> => {

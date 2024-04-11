@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import {
   deleteFileFromSftpServer,
+  renameFileOnSftpServer,
   uploadFileToSftpServer,
 } from "~/utils/sftp/sftp-engine";
 const containsOnlyOnePunctuation = /^[^\p{P}]*[\p{P}][^\p{P}]*$/u;
@@ -56,6 +57,56 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       filename,
       isPublic: isPublic === "true" ? true : false,
       overwrite: overwriteFile,
+    });
+    return NextResponse.json({ success: true, message: path });
+  } catch (error) {
+    if (error instanceof Error) {
+      return NextResponse.json(
+        {
+          error: error.message,
+        },
+        {
+          status: 400,
+        },
+      );
+    } else {
+      return NextResponse.json(
+        {
+          error: "Something went wrong.",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+  }
+}
+
+export async function PUT(request: NextRequest): Promise<NextResponse> {
+  console.log(request.nextUrl.toString());
+  const oldUrl = request.nextUrl.searchParams.get("oldUrl") as string;
+  const newName = request.nextUrl.searchParams.get("newName") as string;
+  const dir = request.nextUrl.searchParams.get("dir") as string;
+  const isPublic = request.nextUrl.searchParams.get("isPublic") as string;
+  console.log(oldUrl, newName, dir, isPublic);
+  if (!oldUrl || !newName || !dir || !isPublic) {
+    return NextResponse.json(
+      {
+        error:
+          "Missing required query parameters: oldUrl, newName, dir or isPublic",
+      },
+      {
+        status: 400,
+      },
+    );
+  }
+
+  try {
+    const path = await renameFileOnSftpServer({
+      oldUrl,
+      dir,
+      filename: newName,
+      isPublic: isPublic === "true" ? true : false,
     });
     return NextResponse.json({ success: true, message: path });
   } catch (error) {
