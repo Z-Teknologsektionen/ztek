@@ -1,9 +1,14 @@
+import { ZaloonenBookingStatus } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
-import { FaInfoCircle } from "react-icons/fa";
+import dayjs from "dayjs";
+import { FaFileContract, FaInfoCircle } from "react-icons/fa";
+import { MdBadge, MdLiquor, MdTimer, MdUpdate } from "react-icons/md";
 import { z } from "zod";
-import BooleanCell from "~/components/columns/boolean-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
+import IconNextToText from "~/components/layout/icon-next-to-text";
+import IconWithTooltip from "~/components/tooltips/icon-with-tooltip";
+import { Badge } from "~/components/ui/badge";
 import {
   Popover,
   PopoverContent,
@@ -23,17 +28,73 @@ export type ZaloonenBookingType =
 
 export const zaloonenBookingColumns: ColumnDef<ZaloonenBookingType>[] = [
   {
+    id: "Status",
+    accessorKey: "bookingStatus",
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    cell: ({ row }) => (
+      <div className="flex flex-row gap-2">
+        <Badge
+          className={cn(
+            "bg-zDarkGray hover:bg-zDarkGray",
+            row.original.bookingStatus === ZaloonenBookingStatus.DENIED
+              ? "bg-danger hover:bg-danger"
+              : "",
+            row.original.bookingStatus === ZaloonenBookingStatus.APPROVED
+              ? "bg-success hover:bg-success"
+              : "",
+            row.original.bookingStatus === ZaloonenBookingStatus.REQUESTED
+              ? "bg-warning hover:bg-warning"
+              : "",
+          )}
+        >
+          {row.original.bookingStatus}
+        </Badge>
+        {row.original.bookingStatus !== ZaloonenBookingStatus.DENIED &&
+          row.original.bookingStatus !== ZaloonenBookingStatus.REQUESTED && (
+            <div>
+              <IconWithTooltip
+                className={cn(
+                  row.original.partyNoticeSent ? "fill-success" : "fill-danger",
+                )}
+                icon={FaFileContract}
+                size={20}
+                tooltipText={
+                  row.original.partyNoticeSent
+                    ? "Festanmälan skickad"
+                    : "Festanmälan ej skickad"
+                }
+              />
+            </div>
+          )}
+      </div>
+    ),
+    enableSorting: false,
+    enableHiding: true,
+    filterFn: (row, id, value) => {
+      const filterArray = z.string().array().parse(value);
+      return filterArray.includes(row.original.bookingStatus);
+    },
+    //TODO: Lägg till cell som har ett svenskt värde
+  },
+  {
     id: "Evenemang",
     accessorKey: "event",
     header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: false,
     enableHiding: true,
     cell: ({ row }) => (
-      <div className={cn("flex w-fit flex-row gap-4")}>
+      <div className={cn("flex w-full flex-row justify-between gap-4")}>
         <div>
           <p>{row.original.eventName}</p>
           <p>{row.original.organizerName}</p>
         </div>
+        {row.original.hasServingPermit && (
+          <IconWithTooltip
+            icon={MdLiquor}
+            size={20}
+            tooltipText="Alkoholtillstånd"
+          />
+        )}
         <Popover>
           <PopoverTrigger>
             <FaInfoCircle
@@ -62,50 +123,36 @@ export const zaloonenBookingColumns: ColumnDef<ZaloonenBookingType>[] = [
       </div>
     ),
   },
+
   {
-    id: "Bokningstyp",
-    accessorKey: "bookingType",
-    header: ({ column }) => <DataTableColumnHeader column={column} />,
-    enableSorting: false,
-    enableHiding: true,
-    cell: ({ row }) => getZaloonenBookingNameFromType(row.original.bookingType),
-  },
-  {
-    id: "Bokningsstatus",
-    accessorKey: "bookingStatus",
-    header: ({ column }) => <DataTableColumnHeader column={column} />,
-    enableSorting: false,
-    enableHiding: true,
-    filterFn: (row, id, value) => {
-      const filterArray = z.string().array().parse(value);
-      return filterArray.includes(row.original.bookingStatus);
-    },
-    //TODO: Lägg till cell som har ett svenskt värde
-  },
-  {
-    id: "Datum",
+    id: "Bokningsdatum",
     accessorKey: "date",
     header: ({ column }) => <DataTableColumnHeader column={column} />,
-    enableSorting: false,
+    enableSorting: true,
     enableHiding: true,
     cell: ({ row }) => {
       const { startDateTime, endDateTime } = row.original;
       return (
-        <p className="text-xs font-normal">
-          {startDateTime.toLocaleString()} - {endDateTime.toLocaleString()}
-        </p>
+        <>
+          <p className="text-sm font-normal">
+            {dayjs(startDateTime).format("YYYY-MM-DD HH:mm")}
+          </p>
+          <p className="text-sm font-normal">
+            {dayjs(endDateTime).format("YYYY-MM-DD HH:mm")}
+          </p>
+        </>
       );
+    },
+    sortingFn: (rowA, rowB) => {
+      return rowA.original.startDateTime < rowB.original.startDateTime ? 1 : -1;
     },
   },
   {
-    id: "Beskrivning",
-    accessorKey: "eventDescription",
+    id: "Kategori",
+    accessorKey: "eventType",
     header: ({ column }) => <DataTableColumnHeader column={column} />,
-    enableSorting: false,
+    enableSorting: true,
     enableHiding: true,
-    cell: ({ row }) => (
-      <p className="text-balance text-xs">{row.original.eventDescription}</p>
-    ),
   },
   {
     id: "Festansvarig",
@@ -118,8 +165,8 @@ export const zaloonenBookingColumns: ColumnDef<ZaloonenBookingType>[] = [
         row.original;
       return (
         <>
-          <div className={cn("flex w-fit flex-row gap-2")}>
-            <p>{partyManagerName.split(" ")[0]}</p>
+          <div className={cn("flex w-full flex-row justify-between gap-2")}>
+            <p>{partyManagerName}</p>
             <Popover>
               <PopoverTrigger>
                 <FaInfoCircle
@@ -154,22 +201,21 @@ export const zaloonenBookingColumns: ColumnDef<ZaloonenBookingType>[] = [
     },
   },
   {
-    id: "TODO",
-    accessorKey: "partyNoticeSent",
+    id: "Inskickad",
+    accessorKey: "createdAt",
     header: ({ column }) => <DataTableColumnHeader column={column} />,
-    enableSorting: false,
+    enableSorting: true,
     enableHiding: true,
     cell: ({ row }) => (
-      <div className="w-fit">
-        <div className={cn("flex flex-row items-center justify-between gap-2")}>
-          <p>Festanmälan: </p>
-          <BooleanCell value={row.original.partyNoticeSent} />
-        </div>
-        <div className={cn("flex flex-row items-center justify-between gap-2")}>
-          <p>Alkoholtillstånd: </p>
-          <BooleanCell value={row.original.hasServingPermit} />
-        </div>
-      </div>
+      <IconNextToText
+        className="text-sm"
+        icon={MdTimer}
+        text={dayjs(row.original.createdAt).format("YYYY-MM-DD")}
+        textFirst={true}
+        tooltipText={dayjs(row.original.createdAt).format(
+          "YYYY-MM-DD  HH:mm:ss",
+        )}
+      />
     ),
   },
   {
@@ -178,15 +224,22 @@ export const zaloonenBookingColumns: ColumnDef<ZaloonenBookingType>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
-    cell: ({ row }) => row.original.updatedAt.toLocaleString(),
-  },
-  {
-    id: "Skapad",
-    accessorKey: "createdAt",
-    header: ({ column }) => <DataTableColumnHeader column={column} />,
-    enableSorting: true,
-    enableHiding: true,
-    cell: ({ row }) => row.original.createdAt.toLocaleString(),
+    cell: ({ row }) => (
+      <>
+        <IconNextToText
+          className="text-sm"
+          icon={MdUpdate}
+          text={dayjs(row.original.updatedAt).fromNow()}
+          tooltipText="Uppdaterades senast"
+        />
+        <IconNextToText
+          className="text-sm"
+          icon={MdBadge}
+          text={row.original.updatedBy?.name ?? "Ej uppdaterad"}
+          tooltipText="Uppdaterades av"
+        />
+      </>
+    ),
   },
   {
     id: "actions",

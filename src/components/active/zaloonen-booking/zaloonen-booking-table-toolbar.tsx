@@ -14,7 +14,7 @@ export const ZaloonenBookingTableToolbar = <TData,>({
   const isFiltered = table.getState().columnFilters.length > 0;
   // const ctx = api.useUtils();
 
-  const bokningsStatusColumn = table.getColumn("Bokningsstatus");
+  const bokningsStatusColumn = table.getColumn("Status");
 
   return (
     <div className="overflow-x-auto">

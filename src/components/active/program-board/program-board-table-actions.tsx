@@ -2,7 +2,7 @@ import { useState, type FC } from "react";
 import UpsertProgramBoardMemberForm from "~/components/active/program-board/upsert-program-board-form";
 import DeleteTriggerButton from "~/components/buttons/delete-trigger-button";
 import EditTriggerButton from "~/components/buttons/edit-trigger-button";
-import DeleteDialog from "~/components/dialogs/delete-dialog";
+import ActionDialog from "~/components/dialogs/action-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import {
   useDeleteProgramBoardMemberAsAuthed,
@@ -47,7 +47,7 @@ export const ProgramBoardMemberTableActions: FC<ProgramBoardType> = ({
         title="Uppdatera programmedlem"
         trigger={<EditTriggerButton />}
       />
-      <DeleteDialog
+      <ActionDialog
         onSubmit={() => deleteProgramBoardMember({ id })}
         trigger={<DeleteTriggerButton />}
       />

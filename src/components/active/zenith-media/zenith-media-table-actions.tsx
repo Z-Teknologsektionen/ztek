@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { UpsertZenithMediaForm } from "~/components/active/zenith-media/upsert-zenith-media-form";
 import DeleteTriggerButton from "~/components/buttons/delete-trigger-button";
 import EditTriggerButton from "~/components/buttons/edit-trigger-button";
-import DeleteDialog from "~/components/dialogs/delete-dialog";
+import ActionDialog from "~/components/dialogs/action-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { api } from "~/utils/api";
 import type { ZenithMediaType } from "./zenith-media-columns";
@@ -71,7 +71,7 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
         title="Uppdatera media"
         trigger={<EditTriggerButton />}
       />
-      <DeleteDialog
+      <ActionDialog
         onSubmit={() => deleteZenithMedia({ id })}
         trigger={<DeleteTriggerButton />}
       />

@@ -32,6 +32,7 @@ interface AdvancedDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   error?: boolean;
+  initialSortingState?: SortingState;
   loading?: boolean;
   pageSize?: number;
   toolbar?: ComponentType<{ table: TableType<TData> }>;
@@ -45,12 +46,13 @@ export const AdvancedDataTable = <TData, TValue>({
   error,
   toolbar: Toolbar,
   usePagination = true,
+  initialSortingState = [],
   pageSize = 20,
 }: AdvancedDataTableProps<TData, TValue>): ReactNode => {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>(initialSortingState);
 
   const table = useReactTable({
     data,

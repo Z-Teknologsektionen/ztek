@@ -4,7 +4,7 @@ import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 
 import DeleteTriggerButton from "~/components/buttons/delete-trigger-button";
 import EditTriggerButton from "~/components/buttons/edit-trigger-button";
-import DeleteDialog from "~/components/dialogs/delete-dialog";
+import ActionDialog from "~/components/dialogs/action-dialog";
 import { api } from "~/utils/api";
 import type { OldCommitteeType } from "./old-committee-columns";
 import UpsertOldCommitteeForm from "./upsert-old-committee-form";
@@ -72,7 +72,7 @@ export const OldCommitteeTableActions: FC<OldCommitteeType> = ({
         title="Uppdatera patetorgan"
         trigger={<EditTriggerButton />}
       />
-      <DeleteDialog
+      <ActionDialog
         onSubmit={() => deleteOldCommittee({ id })}
         trigger={<DeleteTriggerButton />}
       />

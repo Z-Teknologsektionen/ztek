@@ -21,7 +21,7 @@ const EditTriggerButton: FC = () => {
               "mx-2 h-6",
             )}
           >
-            <MdEdit className="fill-waring" size={15} />
+            <MdEdit className="fill-warning" size={15} />
             <div className="sr-only">Redigera</div>
           </div>
         </TooltipTrigger>

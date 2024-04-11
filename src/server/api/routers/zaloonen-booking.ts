@@ -2,6 +2,8 @@ import { ZaloonenBookingStatus } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import mongoose from "mongoose";
 import { env } from "process";
+import { z } from "zod";
+import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
   updateBookingStatusAsAuthed,
   upsertZaloonenBookingSchema,
@@ -184,7 +186,7 @@ export const zaloonenRouter = createTRPCRouter({
         });
       },
     ),
-  deleteBookingWithHash: publicProcedure
+  deleteBookingWithIdAndHash: publicProcedure
     .input(zaloonenBookingHashSchema)
     .mutation(async ({ ctx: { prisma }, input }) => {
       await validateZaloonenBookingHash({
@@ -204,6 +206,13 @@ export const zaloonenRouter = createTRPCRouter({
         where: {
           id: input.id,
         },
+      });
+    }),
+  deleteBookingAsAuthed: zaloonenProcedure
+    .input(z.object({ id: objectId }))
+    .mutation(({ ctx, input: { id } }) => {
+      return ctx.prisma.zaloonenBooking.delete({
+        where: { id },
       });
     }),
   getAllBookingsAsAuthed: zaloonenProcedure.query(

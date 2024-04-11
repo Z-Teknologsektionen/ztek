@@ -2,7 +2,7 @@ import { useState, type FC } from "react";
 import { UpsertDocumentForm } from "~/components/active/documents/upsert-document-form";
 import DeleteTriggerButton from "~/components/buttons/delete-trigger-button";
 import EditTriggerButton from "~/components/buttons/edit-trigger-button";
-import DeleteDialog from "~/components/dialogs/delete-dialog";
+import ActionDialog from "~/components/dialogs/action-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import {
   useDeleteDocumentAsAuthed,
@@ -40,7 +40,7 @@ export const DocumentTableActions: FC<DocumentType> = ({ id, ...values }) => {
         title="Uppdatera dokument"
         trigger={<EditTriggerButton />}
       />
-      <DeleteDialog
+      <ActionDialog
         onSubmit={() => deleteDocument({ id })}
         trigger={<DeleteTriggerButton />}
       />
