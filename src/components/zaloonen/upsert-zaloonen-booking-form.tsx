@@ -33,20 +33,13 @@ export type UpsertZaloonenBookingSchemaType = Exclude<
 
 const DEFAULT_VALUES: UpsertZaloonenBookingSchemaType = {
   bookingType: "" as "ALL",
-  dates: {
-    primaryDate: {
-      endDate: "",
-      startDate: "",
-    },
-    secondaryDate: {
-      endDate: "",
-      startDate: "",
-    },
+  primaryDate: {
+    endDate: "",
+    startDate: "",
   },
   eventDescription: "",
   eventName: "",
   eventType: "" as "OFFICIAL",
-  hasServingPermit: false,
   organizerEmail: "",
   organizerName: "",
   partyManagerEmail: "",
@@ -54,6 +47,7 @@ const DEFAULT_VALUES: UpsertZaloonenBookingSchemaType = {
   partyManagerPhone: "",
   saveInformation: false as true,
   bookEvenIfColision: false,
+  hasServingPermit: false,
   hash: undefined,
   id: undefined,
 };
@@ -79,6 +73,7 @@ const UpsertZaloonenBookingFormSection: FC<UpsertZaloonenBookingProps> = ({
       toast.success(
         `Din bokning har ${formType === "create" ? "skapats" : "updaterats"}!`,
       );
+      form.reset();
       //TODO: Skicka till ny skärm, visa ett boking skikat kort eller likande. Konstigt nu när formuläret är kvar för man vet inte riktigt vad som har hänt...
     },
     onError: (error, values) => {

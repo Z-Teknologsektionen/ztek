@@ -41,7 +41,7 @@ const formatDateTimeForPartyNotice = (date: Date): string => {
   return date.toLocaleString("SE-sv");
 };
 
-export const sendPartNotice = async (
+export const sendPartyNotice = async (
   props: z.infer<typeof sendPartNoticeSchema>,
 ): Promise<string> => {
   const safeParse = sendPartNoticeSchema.safeParse(props);

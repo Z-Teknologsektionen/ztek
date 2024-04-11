@@ -19,28 +19,14 @@ export const UpsertZaloonenBookingFormDateSection: FC<{
         <FormFieldInputDatetimeLocal
           form={form}
           label="Starttid bokning förstahand"
-          name="dates.primaryDate.startDate"
+          name="primaryDate.startDate"
         />
       </div>
       <div className="col-span-full md:col-span-1">
         <FormFieldInputDatetimeLocal
           form={form}
           label="Sluttid bokning förstahand"
-          name="dates.primaryDate.endDate"
-        />
-      </div>
-      <div className="col-span-full md:col-span-1">
-        <FormFieldInputDatetimeLocal
-          form={form}
-          label="Starttid bokning andrahand (valfri)"
-          name="dates.secondaryDate.startDate"
-        />
-      </div>
-      <div className="col-span-full md:col-span-1">
-        <FormFieldInputDatetimeLocal
-          form={form}
-          label="Sluttid bokning andrahand (valfri)"
-          name="dates.secondaryDate.endDate"
+          name="primaryDate.endDate"
         />
       </div>
     </div>

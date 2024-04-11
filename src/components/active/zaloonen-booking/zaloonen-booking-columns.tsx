@@ -83,36 +83,16 @@ export const zaloonenBookingColumns: ColumnDef<ZaloonenBookingType>[] = [
     //TODO: Lägg till cell som har ett svenskt värde
   },
   {
-    id: "Förstahandsdatum",
-    accessorKey: "primaryDateTime",
+    id: "Datum",
+    accessorKey: "date",
     header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: false,
     enableHiding: true,
     cell: ({ row }) => {
-      const { primaryEndDateTime, primaryStartDateTime } = row.original;
+      const { startDateTime, endDateTime } = row.original;
       return (
         <p className="text-xs font-normal">
-          {primaryStartDateTime.toLocaleString()} -{" "}
-          {primaryEndDateTime.toLocaleString()}
-        </p>
-      );
-    },
-  },
-  {
-    id: "Andrahandsdatum",
-    accessorKey: "secondaryStartDateTime",
-    header: ({ column }) => <DataTableColumnHeader column={column} />,
-    enableSorting: false,
-    enableHiding: true,
-    cell: ({ row }) => {
-      const { secondaryEndDateTime, secondaryStartDateTime } = row.original;
-      if (secondaryEndDateTime === null || secondaryStartDateTime === null)
-        return <p className="text-xs font-normal">Ej aktuellt</p>;
-
-      return (
-        <p className="text-xs font-normal">
-          {secondaryStartDateTime.toLocaleString()} -{" "}
-          {secondaryEndDateTime.toLocaleString()}
+          {startDateTime.toLocaleString()} - {endDateTime.toLocaleString()}
         </p>
       );
     },

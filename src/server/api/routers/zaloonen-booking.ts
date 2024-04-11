@@ -1,3 +1,4 @@
+import { ZaloonenBookingStatus } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import mongoose from "mongoose";
 import { env } from "process";
@@ -6,17 +7,14 @@ import {
   upsertZaloonenBookingSchema,
   zaloonenBookingHashSchema,
 } from "~/schemas/zaloonen-booking";
-import {
-  getDateConflictIds,
-  validateZaloonenBookingHash,
-} from "~/server/api/helpers/zaloonen-booking";
+import { validateZaloonenBookingHash } from "~/server/api/helpers/zaloonen-booking";
 import {
   createTRPCRouter,
   publicProcedure,
   zaloonenProcedure,
   zaloonenProcedureWithHash,
 } from "~/server/api/trpc";
-import { sendPartNotice } from "~/utils/send-party-notice";
+import { sendPartyNotice } from "~/utils/send-party-notice";
 
 export const zaloonenRouter = createTRPCRouter({
   getZaloonenBookingWithHash: zaloonenProcedureWithHash.query(
@@ -32,8 +30,8 @@ export const zaloonenRouter = createTRPCRouter({
         input: {
           id: bookingId,
           hash: bookingHash,
+          primaryDate,
           bookEvenIfColision,
-          dates: { primaryDate, secondaryDate },
           saveInformation: _saveInformation, // ZOD validerar denna så vi behöver inte göra något :)
           ...data
         },
@@ -58,34 +56,30 @@ export const zaloonenRouter = createTRPCRouter({
         }
 
         if (!bookEvenIfColision) {
-          const { primaryDateConflictIds, secondaryDateConflictIds } =
-            await getDateConflictIds({
-              prisma: prisma,
-              newBookingPrimaryStart: new Date(primaryDate.startDate),
-              newBookingPrimaryEnd: new Date(primaryDate.endDate),
-              newBookingSecondaryStart:
-                secondaryDate.startDate !== null
-                  ? new Date(secondaryDate.startDate)
-                  : null,
-              newBookingSecondaryEnd:
-                secondaryDate.endDate !== null
-                  ? new Date(secondaryDate.endDate)
-                  : null,
-            });
+          const collidingBookings = await prisma.zaloonenBooking.findMany({
+            where: {
+              OR: [
+                {
+                  startDateTime: {
+                    lte: primaryDate.endDate,
+                  },
+                  endDateTime: {
+                    gte: primaryDate.startDate,
+                  },
+                },
+              ],
+              id: { not: bookingId },
+              bookingStatus:
+                ZaloonenBookingStatus.APPROVED as ZaloonenBookingStatus,
+            },
+          });
 
-          if (primaryDateConflictIds.length > 0)
+          if (collidingBookings.length > 0) {
             throw new TRPCError({
               code: "CONFLICT",
-              message:
-                "Det finns redan en annan önskad bokning som krockar med förstahands datumet.\n Vill du boka ändå?",
+              message: "Krockar med en annan bokning",
             });
-
-          if (secondaryDateConflictIds.length > 0)
-            throw new TRPCError({
-              code: "CONFLICT",
-              message:
-                "Det finns redan en annan önskad bokning som krockar andrahands datumet.\n Vill du boka ändå?",
-            });
+          }
         }
 
         // TODO: Fundera på om krockar ska lagras i DB eller inte kanske inte värt med tänkte på hur snabbt beräkningarna går trots allt
@@ -97,26 +91,21 @@ export const zaloonenRouter = createTRPCRouter({
           },
           create: {
             ...data,
-            primaryEndDateTime: primaryDate.endDate,
-            primaryStartDateTime: primaryDate.startDate,
-            secondaryEndDateTime: secondaryDate.endDate,
-            secondaryStartDateTime: secondaryDate.startDate,
+            startDateTime: primaryDate.startDate,
+            hash: bookingHash,
+            endDateTime: primaryDate.endDate,
             updatedById: session?.user.memberId ?? null,
-            bookingStatus: "INITIAL",
-            partyNoticeSent: false,
           },
           update: {
             ...data,
-            primaryEndDateTime: primaryDate.endDate,
-            primaryStartDateTime: primaryDate.startDate,
-            secondaryEndDateTime: secondaryDate.endDate,
-            secondaryStartDateTime: secondaryDate.startDate,
+            startDateTime: primaryDate.startDate,
+            endDateTime: primaryDate.endDate,
             updatedById: session?.user.memberId ?? null,
           },
         });
       },
     ),
-  updateZaloonenBookingAsAuthed: zaloonenProcedure
+  updateZaloonenBookingStatusAsAuthed: zaloonenProcedure
     .input(updateBookingAsAuthed)
     .mutation(
       async ({ ctx: { prisma, session }, input: { id, bookingStatus } }) => {
@@ -129,59 +118,22 @@ export const zaloonenRouter = createTRPCRouter({
             });
           });
 
-        if (booking.bookingStatus !== "INITIAL")
-          throw new TRPCError({
-            code: "BAD_REQUEST",
-            message:
-              "Du kan enbart ändra status på en bokning som inte har blivit rörd",
-          });
-
-        if (bookingStatus === "DENIED") {
+        if (bookingStatus === ZaloonenBookingStatus.DENIED) {
           //TOOD: Skika mail om att bokningen inte godkänd
-          return prisma.zaloonenBooking.update({
-            where: {
-              id: id,
-            },
-            data: {
-              bookingStatus: bookingStatus,
-              updatedById: session.user.memberId,
-            },
-          });
         }
 
-        if (bookingStatus === "APPROVED_FIRST_DATETIME") {
+        if (bookingStatus === ZaloonenBookingStatus.APPROVED) {
           //TODO: Skicka mail om att bokningen är godkänd på första datummet
-        }
 
-        if (bookingStatus === "APPROVED_SECOND_DATETIME") {
-          //TODO: Skicka mail om att bokningen är godkänd på andra datummet
-        }
-
-        const approvedStartDateTime =
-          bookingStatus === "APPROVED_FIRST_DATETIME"
-            ? booking.primaryStartDateTime
-            : booking.secondaryStartDateTime;
-
-        const approvedEndDateTime =
-          bookingStatus === "APPROVED_FIRST_DATETIME"
-            ? booking.primaryEndDateTime
-            : booking.secondaryEndDateTime;
-
-        if (approvedStartDateTime === null || approvedEndDateTime === null)
-          throw new TRPCError({
-            code: "BAD_REQUEST",
-            message:
-              "Du försöker godkänna en tid som inte är definerad. Kolla om allt ser rätt ut och försök igen!",
-          });
-
-        if (env.NODE_ENV === "production") {
-          //TODO: Skicka festanmälan
-          //TODO: Ska detta verkligen göras om man bara lånar typ värmeskåp eller lagar mat i Zaloonen??
-          await sendPartNotice({
-            ...booking,
-            endDate: approvedEndDateTime,
-            startDate: approvedStartDateTime,
-          });
+          if (env.NODE_ENV === "production") {
+            //TODO: Skicka festanmälan
+            //TODO: Ska detta verkligen göras om man bara lånar typ värmeskåp eller lagar mat i Zaloonen??
+            await sendPartyNotice({
+              ...booking,
+              endDate: booking.endDateTime,
+              startDate: booking.endDateTime,
+            });
+          }
         }
 
         return prisma.zaloonenBooking.update({
@@ -191,8 +143,6 @@ export const zaloonenRouter = createTRPCRouter({
           data: {
             bookingStatus: bookingStatus,
             updatedById: session.user.memberId,
-            approvedEndDateTime: approvedEndDateTime,
-            approvedStartDateTime: approvedStartDateTime,
           },
         });
       },

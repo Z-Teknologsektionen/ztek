@@ -159,6 +159,7 @@ model ProgramBoardMember {
 model ZaloonenBooking {
     id          String  @id @default(auto()) @map("_id") @db.ObjectId
     updatedById String? @db.ObjectId
+    hash        String  @unique
 
     organizerName    String
     organizerEmail   String
@@ -167,25 +168,17 @@ model ZaloonenBooking {
     eventDescription String
     bookingType      ZaloonenBookingTypes
 
-    primaryStartDateTime   DateTime
-    primaryEndDateTime     DateTime
-    secondaryStartDateTime DateTime?
-    secondaryEndDateTime   DateTime?
+    startDateTime DateTime
+    endDateTime   DateTime
 
     partyManagerName  String
     partyManagerEmail String
     partyManagerPhone String
     hasServingPermit  Boolean
 
-    partyNoticeSent       Boolean
-    bookingStatus         ZaloonenBookingStatus
-    approvedStartDateTime DateTime?
-    approvedEndDateTime   DateTime?
-
-    primaryDateConflicts     ZaloonenBooking[] @relation("BookingConflicts", fields: [primaryDateConflictIds], references: [id])
-    primaryDateConflictIds   String[]          @db.ObjectId
-    secondaryDateConflicts   ZaloonenBooking[] @relation("BookingConflicts", fields: [secondaryDateConflictIds], references: [id])
-    secondaryDateConflictIds String[]          @db.ObjectId
+    partyNoticeSent Boolean               @default(false)
+    bookingStatus   ZaloonenBookingStatus @default(REQUESTED)
+    comments        String?
 
     updatedBy CommitteeMember? @relation(fields: [updatedById], references: [id])
     updatedAt DateTime         @updatedAt
@@ -206,13 +199,11 @@ enum ZaloonenBookingTypes {
 }
 
 enum ZaloonenBookingStatus {
-    INITIAL
-    APPROVED_FIRST_DATETIME
-    APPROVED_SECOND_DATETIME
+    REQUESTED
+    APPROVED
     DENIED
-    AWAITING_CLEANING
     ON_HOLD
-    COMPLEATED
+    COMPLETED
 }
 
 // Next Auth models
