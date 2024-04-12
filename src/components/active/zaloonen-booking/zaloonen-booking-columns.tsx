@@ -91,7 +91,10 @@ export const zaloonenBookingColumns: ColumnDef<ZaloonenBookingType>[] = [
     enableSorting: false,
     enableHiding: true,
     cell: ({ row }) => (
-      <div className={cn("flex w-full flex-row justify-between gap-4")}>
+      <div
+        className={cn("flex w-full flex-row justify-between gap-4")}
+        id={row.original.id}
+      >
         <div className="max-w-32">
           <p className="truncate">{row.original.eventName}</p>
           <p className="truncate">{row.original.organizerName}</p>

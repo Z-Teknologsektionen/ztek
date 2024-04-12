@@ -6,6 +6,7 @@ import RoleWrapper from "~/components/layout/role-wrapper";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
 
+import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { api } from "~/utils/api";
 import { ActionRequiredBookingCard } from "./action-required-booking-card";
@@ -78,10 +79,10 @@ const ZaloonenBookingTab: FC = () => {
                   .sort((a, b) => (a.startDateTime < b.startDateTime ? -1 : 1))
                   .map((booking) => (
                     <div key={booking.id} className="w-full px-4">
-                      <div className="flex justify-between">
-                        <p>
+                      <div className="flex justify-between hover:cursor-pointer hover:font-bold">
+                        <Link href={`#${booking.id}`}>
                           {booking.eventName}-{booking.organizerName}
-                        </p>
+                        </Link>
                         <p>
                           Om{" "}
                           {dayjs(dayjs(booking.startDateTime)).diff(

@@ -19,7 +19,6 @@ import {
   zaloonenProcedure,
   zaloonenProcedureWithHash,
 } from "~/server/api/trpc";
-import { sendPartyNotice } from "~/utils/send-party-notice";
 
 export const zaloonenRouter = createTRPCRouter({
   getZaloonenBookingWithHash: zaloonenProcedureWithHash.query(
@@ -167,11 +166,11 @@ export const zaloonenRouter = createTRPCRouter({
           if (env.NODE_ENV === "production") {
             //TODO: Skicka festanmälan
             //TODO: Ska detta verkligen göras om man bara lånar typ värmeskåp eller lagar mat i Zaloonen??
-            await sendPartyNotice({
-              ...booking,
-              endDate: booking.endDateTime,
-              startDate: booking.endDateTime,
-            });
+            // await sendPartyNotice({
+            //   ...booking,
+            //   endDate: booking.endDateTime,
+            //   startDate: booking.endDateTime,
+            // });
           }
         }
 
