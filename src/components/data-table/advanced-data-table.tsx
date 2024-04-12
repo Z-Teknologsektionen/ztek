@@ -68,6 +68,10 @@ export const AdvancedDataTable = <TData, TValue>({
         pageSize: pageSize,
       },
     },
+    debugTable: true,
+    debugHeaders: true,
+    debugColumns: true,
+    columnResizeMode: "onEnd",
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
@@ -91,13 +95,32 @@ export const AdvancedDataTable = <TData, TValue>({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} colSpan={header.colSpan}>
+                    <TableHead
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      style={{
+                        width: header.getSize(),
+                      }}
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
                             header.getContext(),
                           )}
+                      {/* TODO hur fan gör man detta */}
+                      {/* <div
+                        className={cn(
+                          `${table.options.columnResizeDirection}`,
+                          header.column.getIsResizing() ? "isResizing" : "",
+                          "resizer top-2 h-full w-2 cursor-col-resize touch-none select-none",
+                        )}
+                        {...{
+                          onDoubleClick: () => header.column.resetSize(),
+                          onMouseDown: header.getResizeHandler(),
+                          onTouchStart: header.getResizeHandler(),
+                        }}
+                      /> */}
                     </TableHead>
                   );
                 })}

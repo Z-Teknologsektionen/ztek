@@ -6,8 +6,6 @@ import RoleWrapper from "~/components/layout/role-wrapper";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
 
-import localizedFormat from "dayjs/plugin/localizedFormat";
-import { dayjsLocalizer } from "react-big-calendar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { api } from "~/utils/api";
 import { ActionRequiredBookingCard } from "./action-required-booking-card";
@@ -21,9 +19,9 @@ const ZaloonenBookingTab: FC = () => {
     isError: isBookingError,
   } = api.zaloonen.getAllBookingsAsAuthed.useQuery();
 
-  dayjs.locale("sv");
-  dayjs.extend(localizedFormat);
-  const localizer = dayjsLocalizer(dayjs);
+  // dayjs.locale("sv");
+  // dayjs.extend(localizedFormat);
+  // const localizer = dayjsLocalizer(dayjs);
   if (isLoadingBookings) {
     return <SectionWrapper>Loading...</SectionWrapper>;
   }
@@ -44,12 +42,12 @@ const ZaloonenBookingTab: FC = () => {
     (booking) => dayjs(new Date()).diff(dayjs(booking.startDateTime), "d") <= 0,
   );
 
-  const calendarEvents = bookings.map((booking) => ({
-    id: booking.id,
-    title: booking.eventName,
-    start: new Date(booking.startDateTime),
-    end: new Date(booking.endDateTime),
-  }));
+  // const calendarEvents = bookings.map((booking) => ({
+  //   id: booking.id,
+  //   title: booking.eventName,
+  //   start: new Date(booking.startDateTime),
+  //   end: new Date(booking.endDateTime),
+  // }));
 
   return (
     <RoleWrapper accountRole={AccountRoles.MODIFY_ZALOONEN_BOOKING}>
@@ -77,7 +75,7 @@ const ZaloonenBookingTab: FC = () => {
                     (booking) =>
                       booking.bookingStatus === ZaloonenBookingStatus.APPROVED,
                   )
-                  .sort((a, b) => (a.startDateTime > b.startDateTime ? -1 : 1))
+                  .sort((a, b) => (a.startDateTime < b.startDateTime ? -1 : 1))
                   .map((booking) => (
                     <div key={booking.id} className="w-full px-4">
                       <div className="flex justify-between">
@@ -86,8 +84,8 @@ const ZaloonenBookingTab: FC = () => {
                         </p>
                         <p>
                           Om{" "}
-                          {dayjs(new Date()).diff(
-                            dayjs(booking.startDateTime),
+                          {dayjs(dayjs(booking.startDateTime)).diff(
+                            dayjs(),
                             "d",
                           )}{" "}
                           dag(ar)

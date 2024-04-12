@@ -1,8 +1,16 @@
-import { ZaloonenBookingStatus } from "@prisma/client";
+import { ZaloonenBookingStatus, ZaloonenBookingTypes } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import { FaFileContract, FaInfoCircle } from "react-icons/fa";
-import { MdBadge, MdLiquor, MdTimer, MdUpdate } from "react-icons/md";
+import {
+  MdBadge,
+  MdForkRight,
+  MdHouse,
+  MdKitchen,
+  MdLiquor,
+  MdTimer,
+  MdUpdate,
+} from "react-icons/md";
 import { z } from "zod";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
@@ -84,42 +92,67 @@ export const zaloonenBookingColumns: ColumnDef<ZaloonenBookingType>[] = [
     enableHiding: true,
     cell: ({ row }) => (
       <div className={cn("flex w-full flex-row justify-between gap-4")}>
-        <div>
-          <p>{row.original.eventName}</p>
-          <p>{row.original.organizerName}</p>
+        <div className="max-w-32">
+          <p className="truncate">{row.original.eventName}</p>
+          <p className="truncate">{row.original.organizerName}</p>
         </div>
-        {row.original.hasServingPermit && (
-          <IconWithTooltip
-            icon={MdLiquor}
-            size={20}
-            tooltipText="Alkoholtillstånd"
-          />
-        )}
-        <Popover>
-          <PopoverTrigger>
-            <FaInfoCircle
-              className={cn("fill-zBlack")}
-              size={TABLE_ICON_SIZE}
+        <div className="flex flex-row gap-2">
+          {row.original.hasServingPermit && (
+            <IconWithTooltip
+              icon={MdLiquor}
+              size={20}
+              tooltipText="Alkoholtillstånd"
             />
-            <p className="sr-only">Visa beskrivning</p>
-          </PopoverTrigger>
-          <PopoverContent side="top">
-            <p className="font-medium">Event:</p>
-            <p>{row.original.eventName}</p>
-            <p>{getZaloonenBookingEventNameFromType(row.original.eventType)}</p>
-            <p>{getZaloonenBookingNameFromType(row.original.bookingType)}</p>
-            <p className="font-medium">Arragör:</p>
-            <p>{row.original.organizerName}</p>
-            <p>
-              <a
-                className="text-blue-400 underline underline-offset-1"
-                href={`mailto:${row.original.organizerEmail}`}
-              >
-                {row.original.organizerEmail}
-              </a>
-            </p>
-          </PopoverContent>
-        </Popover>
+          )}
+          {row.original.bookingType === ZaloonenBookingTypes.KITCHEN && (
+            <IconWithTooltip
+              icon={MdKitchen}
+              size={20}
+              tooltipText="Bara köket"
+            />
+          )}
+          {row.original.bookingType === ZaloonenBookingTypes.ALL && (
+            <IconWithTooltip
+              icon={MdHouse}
+              size={20}
+              tooltipText="Hela Zaloonen"
+            />
+          )}
+          {row.original.bookingType === ZaloonenBookingTypes.APPLIANCES && (
+            <IconWithTooltip
+              icon={MdForkRight}
+              size={20}
+              tooltipText="Hela Zaloonen"
+            />
+          )}
+          <Popover>
+            <PopoverTrigger>
+              <FaInfoCircle
+                className={cn("fill-zBlack")}
+                size={TABLE_ICON_SIZE}
+              />
+              <p className="sr-only">Visa beskrivning</p>
+            </PopoverTrigger>
+            <PopoverContent side="top">
+              <p className="font-medium">Event:</p>
+              <p>{row.original.eventName}</p>
+              <p>
+                {getZaloonenBookingEventNameFromType(row.original.eventType)}
+              </p>
+              <p>{getZaloonenBookingNameFromType(row.original.bookingType)}</p>
+              <p className="font-medium">Arragör:</p>
+              <p>{row.original.organizerName}</p>
+              <p>
+                <a
+                  className="text-blue-400 underline underline-offset-1"
+                  href={`mailto:${row.original.organizerEmail}`}
+                >
+                  {row.original.organizerEmail}
+                </a>
+              </p>
+            </PopoverContent>
+          </Popover>
+        </div>
       </div>
     ),
   },
@@ -135,10 +168,10 @@ export const zaloonenBookingColumns: ColumnDef<ZaloonenBookingType>[] = [
       return (
         <>
           <p className="text-sm font-normal">
-            {dayjs(startDateTime).format("YYYY-MM-DD HH:mm")}
+            {dayjs(startDateTime).format("DD-MM-YYYY HH:mm")}
           </p>
           <p className="text-sm font-normal">
-            {dayjs(endDateTime).format("YYYY-MM-DD HH:mm")}
+            {dayjs(endDateTime).format("DD-MM-YYYY HH:mm")}
           </p>
         </>
       );
@@ -210,10 +243,10 @@ export const zaloonenBookingColumns: ColumnDef<ZaloonenBookingType>[] = [
       <IconNextToText
         className="text-sm"
         icon={MdTimer}
-        text={dayjs(row.original.createdAt).format("YYYY-MM-DD")}
+        text={dayjs(row.original.createdAt).format("DD-MM-YYYY")}
         textFirst={true}
         tooltipText={dayjs(row.original.createdAt).format(
-          "YYYY-MM-DD  HH:mm:ss",
+          "DD-MM-YYYY  HH:mm:ss",
         )}
       />
     ),
