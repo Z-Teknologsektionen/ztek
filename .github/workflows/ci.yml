@@ -1,19 +1,9 @@
 name: CI
 
-on: [push, pull_request]
+on: [pull_request]
 
 env:
-  DATABASE_URL: "https://fake.com"
-  GOOGLE_CLIENT_ID: "fake"
-  GOOGLE_CLIENT_SECRET: "fake"
-  NEXTAUTH_URL: "https://fake.com"
-  NEXTAUTH_SECRET: "fakefakefakefake"
-  SFTP_HOST: "fake.com"
-  SFTP_PORT: "22"
-  SFTP_USER: "fake"
-  SFTP_BASE_PATH: "/fake"
-  SFTP_KEY: "fakefake"
-  NEXT_PUBLIC_SFTP_BASE_URL: "https://fake.com"
+  SKIP_ENV_VALIDATION: "true"
 
 jobs:
   build:

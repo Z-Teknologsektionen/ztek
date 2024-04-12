@@ -12,10 +12,15 @@ const server = z.object({
   NEXTAUTH_URL: z.string().url(),
   NEXTAUTH_SECRET: z.string().min(16),
   SFTP_HOST: z.string(),
-  SFTP_PORT: z.string(),
+  SFTP_PORT: z.coerce.number(),
   SFTP_USER: z.string(),
-  SFTP_KEY: z.string(),
-  SFTP_BASE_PATH: z.string(),
+  SFTP_KEY: z
+    .string()
+    .regex(/^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/),
+  SFTP_BASE_PATH: z
+    .string()
+    .startsWith("/")
+    .regex(/^(\/[a-zA-Z0-9\.-]{1,}){1,}$/),
 });
 
 /**
@@ -24,7 +29,7 @@ const server = z.object({
  */
 const client = z.object({
   // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
-  NEXT_PUBLIC_SFTP_BASE_URL: z.string(),
+  NEXT_PUBLIC_SFTP_BASE_URL: z.string().startsWith("https://"),
 });
 
 /**
@@ -58,6 +63,7 @@ const merged = server.merge(client);
 /** @typedef {z.infer<typeof merged>} MergedOutput */
 /** @typedef {z.SafeParseReturnType<MergedInput, MergedOutput>} MergedSafeParseReturn */
 
+// @ts-ignore
 let env = /** @type {MergedOutput} */ (process.env);
 
 if (!!process.env.SKIP_ENV_VALIDATION == false) {
