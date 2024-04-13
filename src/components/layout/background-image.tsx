@@ -15,16 +15,18 @@ const BackgroundImage: FC<PropsWithChildren<IBackgroundImageProps>> = ({
   ...rest
 }) => {
   return (
-    <div
-      style={{
-        backgroundImage: `url('/Ztek_BG_4.svg')`,
-        backgroundRepeat: "repeat-y",
-        backgroundSize: "100% auto",
-      }}
-      {...rest}
-    >
+    <>
+      <div
+        className="absolute inset-0 -z-10 bg-[url('/Ztek_BG_4.svg')] bg-[length:100%_auto] bg-repeat-y"
+        style={{
+          backgroundImage: `url('/Ztek_BG_4.svg')`,
+          backgroundRepeat: "repeat-y",
+          backgroundSize: "100% auto",
+        }}
+        {...rest}
+      />
       {children}
-    </div>
+    </>
   );
 };
 
