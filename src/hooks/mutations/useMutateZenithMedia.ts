@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import toast from "react-hot-toast";
+import { env } from "~/env.mjs";
 import type { UseMutationHookProps } from "~/types/mutation-hook-types";
 import { api } from "~/utils/api";
 import { handleDeleteSftpFile } from "~/utils/sftp/api-calls";
@@ -17,28 +18,16 @@ export const useCreateZenithMediaAsAuthed = ({
       toast.dismiss(toastId);
       onSettled?.();
     },
-    onSuccess: () => {
-      void ctx.zenithMedia.invalidate();
+    onSuccess: async () => {
+      await ctx.zenithMedia.invalidate();
       onSuccess?.();
     },
-    onError: (error, data) => {
-      if (error.message) {
-        toast.error(error.message);
-      } else {
-        toast.error("Något gick fel. Försök igen senare");
+    onError: async (error, input) => {
+      toast.error(error.message);
+
+      if (input.url.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)) {
+        await handleDeleteSftpFile(input.url);
       }
-      const deleteToastId = toast.loading("Tar bort filen från servern...");
-      handleDeleteSftpFile(data.url)
-        .then(() => {
-          toast.dismiss(deleteToastId);
-          toast.success("Filen har tagits bort från servern.");
-        })
-        .catch((err: Error) => {
-          toast.dismiss(deleteToastId);
-          toast.error(
-            `Kunde inte ta bort filen från servern. \n ${err.message}`,
-          );
-        });
       onError?.();
     },
   });
@@ -57,30 +46,19 @@ export const useUpdateZenithMediaAsAuthed = ({
       toast.dismiss(toastId);
       onSettled?.();
     },
-    onSuccess: ({ title }) => {
+    onSuccess: async ({ title }) => {
       toast.success(`${title} har uppdaterats!`);
-      void ctx.zenithMedia.invalidate();
+      await ctx.zenithMedia.invalidate();
       onSuccess?.();
     },
-    onError: (error, data) => {
-      if (error.message) {
-        toast.error(error.message);
-      } else {
-        toast.error("Något gick fel. Försök igen senare");
+    onError: async (error, input) => {
+      toast.error(error.message);
+
+      // TODO: Vafan ska hända om man updaterat titel så filen bytt namn. Då vill vi inte radera utan byta tillbaka...
+      if (input.url && input.url.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)) {
+        await handleDeleteSftpFile(input.url);
       }
-      if (!data.url) return;
-      const deleteToastId = toast.loading("Tar bort filen från servern...");
-      handleDeleteSftpFile(data.url)
-        .then(() => {
-          toast.dismiss(deleteToastId);
-          toast.success("Filen har tagits bort från servern.");
-        })
-        .catch((err: Error) => {
-          toast.dismiss(deleteToastId);
-          toast.error(
-            `Kunde inte ta bort filen från servern. \n ${err.message}`,
-          );
-        });
+
       onError?.();
     },
   });
@@ -95,22 +73,17 @@ export const useDeleteZenithMediaAsAuthed = ({
 
   return api.zenithMedia.deleteOneAsAuthed.useMutation({
     onMutate: () => toast.loading("Raderar mediet..."),
-    onSettled: (_c, _d, _e, toastId) => {
+    onSettled: async (_c, _d, _e, toastId) => {
       toast.remove(toastId);
-      void ctx.zenithMedia.invalidate();
+      await ctx.zenithMedia.invalidate();
       onSettled?.();
     },
     onSuccess: () => {
       toast.success("Mediet har raderats!");
-      void ctx.zenithMedia.invalidate();
       onSuccess?.();
     },
     onError: (error) => {
-      if (error.message) {
-        toast.error(error.message);
-      } else {
-        toast.error("Något gick fel. Försök igen senare");
-      }
+      toast.error(error.message);
       onError?.();
     },
   });

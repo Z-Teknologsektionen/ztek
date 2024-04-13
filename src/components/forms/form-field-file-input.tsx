@@ -23,8 +23,9 @@ export const FormFieldFileInput = <TFieldValues extends FieldValues>({
   disabled,
   accept = "image/*, application/pdf",
 }: IFormFieldFileInput<TFieldValues>): React.JSX.Element => {
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [fileType, setFileType] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
+
+  const previewUrl = file !== null ? URL.createObjectURL(file) : "";
   return (
     <FormField
       control={form.control}
@@ -36,7 +37,7 @@ export const FormFieldFileInput = <TFieldValues extends FieldValues>({
           <FormControl>
             <div className="flex w-auto flex-col items-center gap-2">
               {previewUrl &&
-                (fileType === "application/pdf" ? (
+                (file?.type === "application/pdf" ? (
                   <object
                     data={previewUrl}
                     height="200px"
@@ -63,12 +64,13 @@ export const FormFieldFileInput = <TFieldValues extends FieldValues>({
                   className,
                 )}
                 onChange={(e) => {
-                  if (e.target?.files?.[0]) {
-                    const filesArray = Array.from(e.target.files);
-                    field.onChange(filesArray);
-                    setFileType(e.target.files[0].type);
-                    const url = URL.createObjectURL(e.target.files[0]);
-                    setPreviewUrl(url);
+                  const newFile = e.target.files?.item(0);
+                  if (newFile !== null && newFile !== undefined) {
+                    field.onChange(newFile);
+                    setFile(newFile);
+                  } else {
+                    field.onChange(null);
+                    setFile(null);
                   }
                 }}
                 type="file"

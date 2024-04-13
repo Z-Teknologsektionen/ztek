@@ -2,7 +2,7 @@ import { z } from "zod";
 import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
   createZenithMediaServerSchema,
-  updateZenithMediaSchema,
+  updateZenithMediaServerSchema,
 } from "~/schemas/zenith-media";
 import {
   createTRPCRouter,
@@ -53,7 +53,7 @@ export const zenithMediaRouter = createTRPCRouter({
       });
     }),
   updateOneAsAuthed: zenithMediaProcedure
-    .input(updateZenithMediaSchema)
+    .input(updateZenithMediaServerSchema)
     .mutation(async ({ ctx, input: { id, title, url, year, coverImage } }) => {
       return ctx.prisma.zenithMedia.update({
         where: {

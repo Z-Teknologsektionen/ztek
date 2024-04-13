@@ -1,7 +1,4 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import type { FC } from "react";
-import { useForm } from "react-hook-form";
-import type { z } from "zod";
 import { FormFieldFileInput } from "~/components/forms/form-field-file-input";
 import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldInputImage from "~/components/forms/form-field-input-image";
@@ -15,7 +12,9 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { ZENITH_MEDIA_ACCEPTED_MEDIA_TYPES } from "~/constants/sftp";
 import { MAX_4_DIGIT_YEAR, MIN_4_DIGIT_YEAR } from "~/constants/size-constants";
+import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
 import { createZenithMediaClientSchema } from "~/schemas/zenith-media";
 import type { IUpsertForm } from "~/types/form-types";
 
@@ -27,7 +26,7 @@ const DEFAULT_VALUES: UpsertZenithMediaFormProps["defaultValues"] = {
   year: new Date().getFullYear(),
   coverImage: "",
   title: "",
-  input: {
+  media: {
     fileInput: undefined,
     url: "",
   },
@@ -38,8 +37,8 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
   onSubmit,
   formType,
 }) => {
-  const form = useForm<z.infer<typeof createZenithMediaClientSchema>>({
-    resolver: zodResolver(createZenithMediaClientSchema),
+  const form = useFormWithZodSchema({
+    schema: createZenithMediaClientSchema,
     defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
 
@@ -84,11 +83,11 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
             </CardHeader>
             <CardContent className="space-y-2">
               <FormFieldFileInput
-                accept="image/*, application/pdf,"
+                accept={ZENITH_MEDIA_ACCEPTED_MEDIA_TYPES.join(", ")}
                 description="Mediafil"
                 form={form}
                 label="Fil"
-                name="input.fileInput"
+                name="media.fileInput"
               />
             </CardContent>
           </Card>
@@ -106,7 +105,7 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
               <FormFieldInput
                 form={form}
                 label="Url"
-                name="input.url"
+                name="media.url"
                 type="url"
               />
             </CardContent>
