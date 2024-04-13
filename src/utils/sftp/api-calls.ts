@@ -1,72 +1,80 @@
 import type { AxiosError } from "axios";
 import axios from "axios";
-import type { SftpApiResponse } from "~/app/api/sftp/route";
-import type { createFileOnSftpClientType } from "~/types/sftp-types";
+import { z } from "zod";
+import { MAX_SFTP_FILE_SIZE } from "~/constants/sftp";
+import { httpsUrlString } from "~/schemas/helpers/custom-zod-helpers";
+import type {
+  CreateFileOnSftpClientType,
+  SftpApiResponse,
+} from "~/types/sftp-types";
 
-export const handleDeleteSftpFile = (url: string): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    axios
-      .delete("/api/sftp", { params: { url } })
-      .then(() => {
-        return resolve("Filen har tagits bort från servern.");
-      })
-      .catch((error: Error) => {
-        return reject(error);
-      });
-  });
+export const handleCreateSftpFile = async ({
+  dir,
+  file,
+  filename,
+  isPublic,
+  overwrite,
+}: CreateFileOnSftpClientType): Promise<string> => {
+  return await axios
+    .post(
+      "/api/sftp",
+      {
+        dir,
+        file,
+        filename,
+        isPublic,
+        overwrite,
+      },
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+        maxBodyLength: MAX_SFTP_FILE_SIZE,
+        maxContentLength: MAX_SFTP_FILE_SIZE,
+      },
+    )
+    .then((res) => {
+      const responseData = res.data as SftpApiResponse;
+      return responseData.message || "Kunde inte hämta filens url.";
+    });
 };
 
-export const handleRenameSftpFile = (
-  oldUrl: string,
-  newName: string,
-  dir: string,
-  isPublic: string,
-): Promise<string> => {
-  console.log(oldUrl, newName, dir, isPublic);
-  const formData = new FormData();
-  formData.set("oldUrl", oldUrl);
-  formData.set("public", String(props.isPublic));
-  formData.set("dir", props.dir);
-  formData.set("overwrite", String(props.overwrite));
-  formData.set("filename", props.filename);
-
-  return new Promise((resolve, reject) => {
-    axios
-      .put("/api/sftp", { params: { oldUrl, newName, dir, isPublic } })
-      .then(() => {
-        return resolve("Filen har döpts om.");
-      })
-      .catch((error: Error) => {
-        return reject(error.message);
-      });
-  });
-};
-
-export const handleCreateSftpFile = (
-  props: createFileOnSftpClientType,
-): Promise<string> => {
-  const formData = new FormData();
-  formData.set("file", props.file);
-  formData.set("public", String(props.isPublic));
-  formData.set("dir", props.dir);
-  formData.set("overwrite", String(props.overwrite));
-  formData.set("filename", props.filename);
-
-  return new Promise((resolve, reject) => {
-    axios({
-      method: "post",
-      url: "/api/sftp",
-      data: formData,
-      headers: { "Content-Type": "multipart/form-data" },
+export const handleRenameSftpFile = async ({
+  newName,
+  oldUrl,
+}: {
+  newName: string;
+  oldUrl: string;
+}): Promise<string> => {
+  return await axios
+    .put(
+      "/api/sftp",
+      {
+        newName,
+        oldUrl,
+      },
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+      },
+    )
+    .then((res) => z.object({ message: httpsUrlString }).parse(res.data))
+    .then((res) => {
+      return res.message;
     })
-      .then((response) => {
-        const responseData = response.data as SftpApiResponse;
-        resolve(responseData.message || "Kunde inte hämta filens url.");
-      })
-      .catch((error: AxiosError) => {
-        const errorMessage =
-          (error.response?.data as { error?: string })?.error || "";
-        reject(new Error(errorMessage));
-      });
-  });
+    .catch((error: AxiosError) => {
+      throw new Error(error.message);
+    });
+};
+
+export const handleDeleteSftpFile = async (url: string): Promise<boolean> => {
+  return await axios
+    .delete("/api/sftp", {
+      data: { url },
+      headers: {
+        "content-type": "application/json",
+      },
+    })
+    .then(() => {
+      return true;
+    });
 };

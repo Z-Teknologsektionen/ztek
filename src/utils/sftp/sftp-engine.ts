@@ -2,8 +2,8 @@ import type { TransferOptions } from "ssh2-sftp-client";
 import Client from "ssh2-sftp-client";
 import { env } from "~/env.mjs";
 import type {
-  createFileOnSftpServerType,
-  renameFileOnSftpServerType,
+  CreateFileOnSftpServerType,
+  RenameFileOnSftpServerType,
 } from "~/types/sftp-types";
 
 const basePath = env.SFTP_BASE_PATH;
@@ -33,32 +33,27 @@ export const uploadFileToSftpServer = async ({
   filename,
   isPublic = true,
   overwrite = false,
-}: createFileOnSftpServerType): Promise<string> => {
+}: CreateFileOnSftpServerType): Promise<string> => {
   const sftp = new Client();
-  const path = `${basePath}/${isPublic ? "public" : "private"}/${dir}`;
-  const resultUrl = `${baseUrl}/${
-    isPublic ? "public" : "private"
-  }/${dir}/${filename}`;
+
+  const newPath = `${basePath}/${isPublic ? "public" : "private"}/${dir}`;
+  const newFilePath = `${newPath}/${filename}`;
 
   try {
     await sftp.connect(config);
 
-    const fileExists = await sftp.exists(`${path}/${filename}`);
+    const fileExists = await sftp.exists(newFilePath);
     if (fileExists && !overwrite) {
       throw new Error(`File ${filename} already exists`);
     }
 
-    const pathExists = await sftp.exists(path);
+    const pathExists = await sftp.exists(newPath);
     if (!pathExists) {
-      await sftp.mkdir(path, true);
+      await sftp.mkdir(newPath, true);
     }
-    await sftp.put(
-      input,
-      `${basePath}/${isPublic ? "public" : "private"}/${dir}/${filename}`,
-      options,
-    );
-    //Everything is fine, return the url to the file
-    return resultUrl;
+    await sftp.put(input, newFilePath, options);
+
+    return getUrlFromPath(newFilePath);
   } catch (error) {
     if (error instanceof Error) {
       throw new Error("Failed to upload file: " + error.message);
@@ -72,12 +67,14 @@ export const uploadFileToSftpServer = async ({
 
 export const deleteFileFromSftpServer = async (url: string): Promise<void> => {
   const sftp = new Client();
+
   const path = getPathFromUrl(url);
+
   try {
     await sftp.connect(config);
 
     //Ignore error if file does not exist.
-    await sftp.delete(path, true);
+    await sftp.delete(path);
   } catch (error) {
     if (error instanceof Error) {
       throw new Error("Failed to delete file: " + error.message);
@@ -91,24 +88,24 @@ export const deleteFileFromSftpServer = async (url: string): Promise<void> => {
 
 export const renameFileOnSftpServer = async ({
   oldUrl,
-  dir,
   filename,
-  isPublic = false,
-}: renameFileOnSftpServerType): Promise<string> => {
+}: RenameFileOnSftpServerType): Promise<string> => {
   const sftp = new Client();
+
   const oldPath = getPathFromUrl(oldUrl);
-  const newPath = `${basePath}/${isPublic ? "public" : "private"}/${dir}`;
-  const resultUrl = `${baseUrl}/${
-    isPublic ? "public" : "private"
-  }/${dir}/${filename}`;
+  const newPath = `${oldPath.split("/").slice(0, -1).join("/")}/${filename}`;
+
   try {
     await sftp.connect(config);
+
     const pathExists = await sftp.exists(newPath);
     if (!pathExists) {
       await sftp.mkdir(newPath, true);
     }
-    await sftp.rename(oldPath, `${newPath}/${filename}`);
-    return resultUrl;
+
+    await sftp.rename(oldPath, newPath);
+
+    return getUrlFromPath(newPath);
   } catch (error) {
     if (error instanceof Error) {
       throw new Error("Failed to rename file: " + error.message);
@@ -120,6 +117,6 @@ export const renameFileOnSftpServer = async ({
   }
 };
 
-const getPathFromUrl = (url: string): string => {
-  return url.replace(baseUrl, basePath);
-};
+const getPathFromUrl = (str: string): string => str.replace(baseUrl, basePath);
+
+const getUrlFromPath = (str: string): string => str.replace(basePath, baseUrl);
