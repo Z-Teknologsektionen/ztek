@@ -33,6 +33,11 @@ const config = {
       },
     ],
   },
+  api: {
+    bodyParser: {
+      sizeLimit: "500mb",
+    },
+  },
   webpack: (config, { dev, isServer, webpack, nextRuntime }) => {
     config.module.rules.push({
       test: /\.node$/,
