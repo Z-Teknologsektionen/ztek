@@ -1,10 +1,11 @@
-import { ZaloonenBookingStatus } from "@prisma/client";
+import { AccountRoles, ZaloonenBookingStatus } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import mongoose from "mongoose";
 import { env } from "process";
 import { z } from "zod";
 import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
+  updateBookingInspectorAsAuthed,
   updateBookingStatusAsAuthed,
   upsertZaloonenBookingSchema,
   zaloonenBookingHashSchema,
@@ -19,6 +20,7 @@ import {
   zaloonenProcedure,
   zaloonenProcedureWithHash,
 } from "~/server/api/trpc";
+import { sendPartyNotice } from "~/utils/send-party-notice";
 
 export const zaloonenRouter = createTRPCRouter({
   getZaloonenBookingWithHash: zaloonenProcedureWithHash.query(
@@ -140,14 +142,14 @@ export const zaloonenRouter = createTRPCRouter({
     .input(updateBookingStatusAsAuthed)
     .mutation(
       async ({ ctx: { prisma, session }, input: { id, bookingStatus } }) => {
-        const booking = await prisma.zaloonenBooking
-          .findUniqueOrThrow({ where: { id: id } })
-          .catch(() => {
-            throw new TRPCError({
-              message: "Kunde inte hitta bokningen du ville uppdatera",
-              code: "BAD_REQUEST",
-            });
-          });
+        // const booking = await prisma.zaloonenBooking
+        //   .findUniqueOrThrow({ where: { id: id } })
+        //   .catch(() => {
+        //     throw new TRPCError({
+        //       message: "Kunde inte hitta bokningen du ville uppdatera",
+        //       code: "BAD_REQUEST",
+        //     });
+        //   });
 
         if (!bookingStatus) {
           throw new TRPCError({
@@ -162,16 +164,6 @@ export const zaloonenRouter = createTRPCRouter({
 
         if (bookingStatus === ZaloonenBookingStatus.APPROVED) {
           //TODO: Skicka mail om att bokningen är godkänd på första datummet
-
-          if (env.NODE_ENV === "production") {
-            //TODO: Skicka festanmälan
-            //TODO: Ska detta verkligen göras om man bara lånar typ värmeskåp eller lagar mat i Zaloonen??
-            // await sendPartyNotice({
-            //   ...booking,
-            //   endDate: booking.endDateTime,
-            //   startDate: booking.endDateTime,
-            // });
-          }
         }
 
         return prisma.zaloonenBooking.update({
@@ -185,6 +177,7 @@ export const zaloonenRouter = createTRPCRouter({
         });
       },
     ),
+
   deleteBookingWithIdAndHash: publicProcedure
     .input(zaloonenBookingHashSchema)
     .mutation(async ({ ctx: { prisma }, input }) => {
@@ -222,6 +215,104 @@ export const zaloonenRouter = createTRPCRouter({
             select: {
               email: true,
               nickName: true,
+              name: true,
+            },
+          },
+        },
+      });
+    },
+  ),
+
+  sendZaloonenPartyNotice: zaloonenProcedure
+    .input(z.object({ id: objectId }))
+    .mutation(async ({ ctx: { prisma }, input: { id } }) => {
+      const booking = await prisma.zaloonenBooking.findUnique({
+        where: { id },
+      });
+
+      if (!booking) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Kunde inte hitta bokningen",
+        });
+      }
+
+      if (booking.partyNoticeSent) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Festanmälan har redan skickats",
+        });
+      }
+
+      if (booking.bookingStatus !== ZaloonenBookingStatus.APPROVED) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Bokningen har inte status: APPROVED",
+        });
+      }
+
+      //Send the party notice
+
+      if (env.NODE_ENV === "production") {
+        //TODO: Skicka festanmälan
+        //TODO: Ska detta verkligen göras om man bara lånar typ värmeskåp eller lagar mat i Zaloonen??
+        await sendPartyNotice({
+          ...booking,
+          endDate: booking.endDateTime,
+          startDate: booking.endDateTime,
+        }).catch((error: Error) => {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: error.message,
+          });
+        });
+      } else {
+        // eslint-disable-next-line no-console
+        console.log("FAKE: Skickar festanmälan");
+      }
+
+      return await prisma.zaloonenBooking.update({
+        where: {
+          id: id,
+        },
+        data: {
+          partyNoticeSent: true,
+        },
+      });
+    }),
+
+  updateZaloonenBookingInspectorAsAuthed: zaloonenProcedure
+    .input(updateBookingInspectorAsAuthed)
+    .mutation(
+      async ({
+        ctx: { prisma, session },
+        input: { id, bookingInspectorId },
+      }) => {
+        //TODO: Add booking to calendar
+        return prisma.zaloonenBooking.update({
+          where: {
+            id: id,
+          },
+          data: {
+            bookingInspectorId: bookingInspectorId,
+            updatedById: session.user.memberId,
+          },
+        });
+      },
+    ),
+
+  getAllBookingInspectorsAsAuthed: zaloonenProcedure.query(
+    async ({ ctx: { prisma } }) => {
+      return await prisma.user.findMany({
+        where: {
+          roles: {
+            has: AccountRoles.MODIFY_ZALOONEN_BOOKING,
+          },
+        },
+        select: {
+          committeeMembers: {
+            select: {
+              id: true,
               name: true,
             },
           },

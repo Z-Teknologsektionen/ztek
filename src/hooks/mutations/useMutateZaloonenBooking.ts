@@ -60,3 +60,61 @@ export const useUpdateZaloonenBookingStatusAsAuthed = ({
     },
   });
 };
+
+export const useUpdateZaloonenBookingInspectorAsAuthed = ({
+  onError,
+  onSettled,
+  onSuccess,
+}: UseMutationHookProps) => {
+  const ctx = api.useUtils();
+
+  return api.zaloonen.updateZaloonenBookingInspectorAsAuthed.useMutation({
+    onMutate: () => toast.loading("Uppdaterar bokning..."),
+    onSettled: (_c, _d, _e, toastId) => {
+      toast.remove(toastId);
+      onSettled?.();
+    },
+    onSuccess: async () => {
+      toast.success("Bokningen har uppdaterats!");
+      await ctx.zaloonen.invalidate();
+      onSuccess?.();
+    },
+    onError: (error) => {
+      if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error("Något gick fel. Försök igen senare");
+      }
+      onError?.();
+    },
+  });
+};
+
+export const useSendZaloonenPartyNoticeAsAuthed = ({
+  onError,
+  onSettled,
+  onSuccess,
+}: UseMutationHookProps) => {
+  const ctx = api.useUtils();
+
+  return api.zaloonen.sendZaloonenPartyNotice.useMutation({
+    onMutate: () => toast.loading("Festanmäler bokning..."),
+    onSettled: (_c, _d, _e, toastId) => {
+      toast.remove(toastId);
+      onSettled?.();
+    },
+    onSuccess: async () => {
+      toast.success("Bokningen har festanmälts!");
+      await ctx.zaloonen.invalidate();
+      onSuccess?.();
+    },
+    onError: (error) => {
+      if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error("Något gick fel. Kontakta Webbgruppen");
+      }
+      onError?.();
+    },
+  });
+};

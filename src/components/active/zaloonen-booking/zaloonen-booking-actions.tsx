@@ -2,16 +2,27 @@ import { ZaloonenBookingStatus } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import type { FC } from "react";
-import { MdCheck, MdDangerous } from "react-icons/md";
+import { FaFileContract } from "react-icons/fa";
 import DeleteTriggerButton from "~/components/buttons/delete-trigger-button";
 import EditTriggerButton from "~/components/buttons/edit-trigger-button";
 import ActionDialog from "~/components/dialogs/action-dialog";
-import ButtonWithIconAndTooltip from "~/components/tooltips/button-with-icon-and-tooltip";
+import IconWithTooltip from "~/components/tooltips/icon-with-tooltip";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
 import {
   useDeleteZaloonenBookingAsAuthed,
   useUpdateZaloonenBookingStatusAsAuthed,
 } from "~/hooks/mutations/useMutateZaloonenBooking";
+import { cn } from "~/utils/utils";
 import type { ZaloonenBookingType } from "./zaloonen-booking-columns";
+import { ZaloonenStatusBadge } from "./zaloonen-status-badge";
 
 export const ZaloonenBookingActions: FC<ZaloonenBookingType> = ({
   id,
@@ -22,78 +33,81 @@ export const ZaloonenBookingActions: FC<ZaloonenBookingType> = ({
   const { mutate: deleteZaloonenBooking } = useDeleteZaloonenBookingAsAuthed(
     {},
   );
+  return (
+    <div className="flex justify-end">
+      <Link
+        href={`${router.basePath}/student-division/zaloonen/edit-booking?id=${id}&hash=${values.hash}`}
+        target="_blank"
+      >
+        <EditTriggerButton />
+      </Link>
+      <ActionDialog
+        onSubmit={() => deleteZaloonenBooking({ id })}
+        trigger={<DeleteTriggerButton />}
+      />
+    </div>
+  );
+};
 
+export const ZaloonenBookingStatusActions: FC<ZaloonenBookingType> = ({
+  id,
+  ...values
+}) => {
   const { mutate: updateZaloonenBookingStatus } =
     useUpdateZaloonenBookingStatusAsAuthed({});
 
-  const ApproveBookingButton = (
-    <ButtonWithIconAndTooltip
-      classNameButton="mx-2 h-6"
-      classNameIcon="fill-success"
-      disabled={values.bookingStatus === ZaloonenBookingStatus.APPROVED}
-      icon={MdCheck}
-      tooltipText={"Godkänn bokning"}
-    />
-  );
-
-  const RejectBoookingButton = (
-    <ButtonWithIconAndTooltip
-      classNameButton="mx-2 h-6"
-      classNameIcon="fill-danger"
-      disabled={values.bookingStatus === ZaloonenBookingStatus.DENIED}
-      icon={MdDangerous}
-      tooltipText={"Neka bokning"}
-    />
-  );
-
   return (
-    <>
-      <div className="flex justify-end">
-        {values.bookingStatus !== ZaloonenBookingStatus.APPROVED ? (
-          <ActionDialog
-            classNameButton="bg-success"
-            description={`${values.eventName} kommer att godkännas och visas publikt i kalendern.`}
-            onSubmit={() =>
-              updateZaloonenBookingStatus({
-                id,
-                bookingStatus: ZaloonenBookingStatus.APPROVED,
-              })
-            }
-            primaryButtonText="Godkänn"
-            title="Godkänn bokning?"
-            trigger={ApproveBookingButton}
-            variant="default"
-          />
-        ) : (
-          ApproveBookingButton
+    <div className="flex w-fit flex-row gap-2">
+      <Select
+        defaultValue={values.bookingStatus ?? ""}
+        onValueChange={(value) =>
+          updateZaloonenBookingStatus({
+            id,
+            bookingStatus: value as ZaloonenBookingStatus,
+          })
+        }
+      >
+        <SelectTrigger className="h-6 bg-cardBackground">
+          <ZaloonenStatusBadge status={values.bookingStatus}>
+            <SelectValue placeholder="Status" />
+          </ZaloonenStatusBadge>
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            {values && (
+              <>
+                <SelectLabel>Status</SelectLabel>
+                {Object.values(ZaloonenBookingStatus).map((status) => {
+                  return (
+                    <SelectItem key={status} value={status}>
+                      <ZaloonenStatusBadge status={status}>
+                        {status}
+                      </ZaloonenStatusBadge>
+                    </SelectItem>
+                  );
+                })}
+              </>
+            )}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+      {values.bookingStatus !== ZaloonenBookingStatus.DENIED &&
+        values.bookingStatus !== ZaloonenBookingStatus.REQUESTED && (
+          <div className="content-center">
+            <IconWithTooltip
+              className={cn(
+                values.partyNoticeSent ? "fill-success" : "fill-danger",
+              )}
+              icon={FaFileContract}
+              size={15}
+              tooltipText={
+                values.partyNoticeSent
+                  ? "Festanmälan skickad"
+                  : "Festanmälan ej skickad"
+              }
+            />
+          </div>
         )}
-
-        <Link
-          href={`${router.basePath}/student-division/zaloonen/edit-booking?id=${id}&hash=${values.hash}`}
-          target="_blank"
-        >
-          <EditTriggerButton />
-        </Link>
-      </div>
-      <div className="mt-2 flex justify-end">
-        {values.bookingStatus !== ZaloonenBookingStatus.DENIED ? (
-          <ActionDialog
-            onSubmit={() =>
-              updateZaloonenBookingStatus({
-                id,
-                bookingStatus: ZaloonenBookingStatus.DENIED,
-              })
-            }
-            trigger={RejectBoookingButton}
-          />
-        ) : (
-          RejectBoookingButton
-        )}
-        <ActionDialog
-          onSubmit={() => deleteZaloonenBooking({ id })}
-          trigger={<DeleteTriggerButton />}
-        />
-      </div>
-    </>
+    </div>
   );
 };

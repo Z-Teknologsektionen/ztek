@@ -1,12 +1,10 @@
-import { ZaloonenBookingStatus, ZaloonenBookingTypes } from "@prisma/client";
+import { ZaloonenBookingTypes } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
-import { FaFileContract, FaInfoCircle } from "react-icons/fa";
 import {
   MdBadge,
   MdForkRight,
   MdHouse,
-  MdKitchen,
   MdLiquor,
   MdTimer,
   MdUpdate,
@@ -16,20 +14,17 @@ import { DataTableColumnHeader } from "~/components/data-table/data-table-column
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
 import IconNextToText from "~/components/layout/icon-next-to-text";
 import IconWithTooltip from "~/components/tooltips/icon-with-tooltip";
-import { Badge } from "~/components/ui/badge";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover";
-import { TABLE_ICON_SIZE } from "~/constants/size-constants";
+
 import { type RouterOutputs } from "~/utils/api";
-import {
-  getZaloonenBookingEventNameFromType,
-  getZaloonenBookingNameFromType,
-} from "~/utils/get-zaloonen-info-from-enum";
+
+import { FaKitchenSet } from "react-icons/fa6";
 import { cn } from "~/utils/utils";
-import { ZaloonenBookingActions } from "./zaloonen-booking-actions";
+import { BookingPopoverInfo } from "./booking-popover-info";
+import { PartyManagerPopoverInfo } from "./party-manager-popover-info";
+import {
+  ZaloonenBookingActions,
+  ZaloonenBookingStatusActions,
+} from "./zaloonen-booking-actions";
 
 export type ZaloonenBookingType =
   RouterOutputs["zaloonen"]["getAllBookingsAsAuthed"][0];
@@ -39,44 +34,13 @@ export const zaloonenBookingColumns: ColumnDef<ZaloonenBookingType>[] = [
     id: "Status",
     accessorKey: "bookingStatus",
     header: ({ column }) => <DataTableColumnHeader column={column} />,
-    cell: ({ row }) => (
-      <div className="flex flex-row gap-2">
-        <Badge
-          className={cn(
-            "bg-zDarkGray hover:bg-zDarkGray",
-            row.original.bookingStatus === ZaloonenBookingStatus.DENIED
-              ? "bg-danger hover:bg-danger"
-              : "",
-            row.original.bookingStatus === ZaloonenBookingStatus.APPROVED
-              ? "bg-success hover:bg-success"
-              : "",
-            row.original.bookingStatus === ZaloonenBookingStatus.REQUESTED
-              ? "bg-warning hover:bg-warning"
-              : "",
-          )}
-        >
-          {row.original.bookingStatus}
-        </Badge>
-        {row.original.bookingStatus !== ZaloonenBookingStatus.DENIED &&
-          row.original.bookingStatus !== ZaloonenBookingStatus.REQUESTED && (
-            <div>
-              <IconWithTooltip
-                className={cn(
-                  row.original.partyNoticeSent ? "fill-success" : "fill-danger",
-                )}
-                icon={FaFileContract}
-                size={20}
-                tooltipText={
-                  row.original.partyNoticeSent
-                    ? "Festanmälan skickad"
-                    : "Festanmälan ej skickad"
-                }
-              />
-            </div>
-          )}
-      </div>
-    ),
-    enableSorting: false,
+    cell: ({ row }) => {
+      return (
+        <ZaloonenBookingStatusActions key={row.original.id} {...row.original} />
+      );
+    },
+
+    enableSorting: true,
     enableHiding: true,
     filterFn: (row, id, value) => {
       const filterArray = z.string().array().parse(value);
@@ -95,6 +59,7 @@ export const zaloonenBookingColumns: ColumnDef<ZaloonenBookingType>[] = [
         className={cn("flex w-full flex-row justify-between gap-4")}
         id={row.original.id}
       >
+        <BookingPopoverInfo booking={row.original} />
         <div className="max-w-32">
           <p className="truncate">{row.original.eventName}</p>
           <p className="truncate">{row.original.organizerName}</p>
@@ -109,7 +74,7 @@ export const zaloonenBookingColumns: ColumnDef<ZaloonenBookingType>[] = [
           )}
           {row.original.bookingType === ZaloonenBookingTypes.KITCHEN && (
             <IconWithTooltip
-              icon={MdKitchen}
+              icon={FaKitchenSet}
               size={20}
               tooltipText="Bara köket"
             />
@@ -128,33 +93,6 @@ export const zaloonenBookingColumns: ColumnDef<ZaloonenBookingType>[] = [
               tooltipText="Hela Zaloonen"
             />
           )}
-          <Popover>
-            <PopoverTrigger>
-              <FaInfoCircle
-                className={cn("fill-zBlack")}
-                size={TABLE_ICON_SIZE}
-              />
-              <p className="sr-only">Visa beskrivning</p>
-            </PopoverTrigger>
-            <PopoverContent side="top">
-              <p className="font-medium">Event:</p>
-              <p>{row.original.eventName}</p>
-              <p>
-                {getZaloonenBookingEventNameFromType(row.original.eventType)}
-              </p>
-              <p>{getZaloonenBookingNameFromType(row.original.bookingType)}</p>
-              <p className="font-medium">Arragör:</p>
-              <p>{row.original.organizerName}</p>
-              <p>
-                <a
-                  className="text-blue-400 underline underline-offset-1"
-                  href={`mailto:${row.original.organizerEmail}`}
-                >
-                  {row.original.organizerEmail}
-                </a>
-              </p>
-            </PopoverContent>
-          </Popover>
         </div>
       </div>
     ),
@@ -197,40 +135,11 @@ export const zaloonenBookingColumns: ColumnDef<ZaloonenBookingType>[] = [
     enableSorting: false,
     enableHiding: true,
     cell: ({ row }) => {
-      const { partyManagerEmail, partyManagerName, partyManagerPhone } =
-        row.original;
       return (
         <>
           <div className={cn("flex w-full flex-row justify-between gap-2")}>
-            <p>{partyManagerName}</p>
-            <Popover>
-              <PopoverTrigger>
-                <FaInfoCircle
-                  className={cn("fill-zBlack")}
-                  size={TABLE_ICON_SIZE}
-                />
-                <p className="sr-only">Visa mer information</p>
-              </PopoverTrigger>
-              <PopoverContent className="w-fit max-w-xs" side="top">
-                <p className="font-medium">{partyManagerName}</p>
-                <p>
-                  <a
-                    className="text-blue-400 underline underline-offset-1"
-                    href={`mailto:${partyManagerEmail}`}
-                  >
-                    {partyManagerEmail}
-                  </a>
-                </p>
-                <p>
-                  <a
-                    className="text-blue-400 underline underline-offset-1"
-                    href={`tel:${partyManagerPhone}`}
-                  >
-                    {partyManagerPhone}
-                  </a>
-                </p>
-              </PopoverContent>
-            </Popover>
+            <p>{row.original.partyManagerName}</p>
+            <PartyManagerPopoverInfo booking={row.original} />
           </div>
         </>
       );

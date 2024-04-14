@@ -83,3 +83,8 @@ export const updateBookingStatusAsAuthed = z.object({
   id: objectId,
   bookingStatus: z.nativeEnum(ZaloonenBookingStatus),
 });
+
+export const updateBookingInspectorAsAuthed = z.object({
+  id: objectId,
+  bookingInspectorId: objectId.optional(),
+});

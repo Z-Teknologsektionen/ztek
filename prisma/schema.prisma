@@ -104,7 +104,9 @@ model CommitteeMember {
     user                          User?             @relation(fields: [userId], references: [id])
     latestUpdatedZaloonenBookings ZaloonenBooking[]
 
-    updatedAt DateTime @updatedAt
+    updatedAt                  DateTime          @updatedAt
+    ZaloonenBookingInspectinos ZaloonenBooking[] @relation("zaloonenBookingsInspector")
+    ZaloonenBookingUpdates     ZaloonenBooking[] @relation("zaloonenBookingsUpdatedBy")
 }
 
 model ZenithMedia {
@@ -176,13 +178,18 @@ model ZaloonenBooking {
     partyManagerPhone String
     hasServingPermit  Boolean
 
+    bookingInspector   CommitteeMember? @relation("zaloonenBookingsInspector", fields: [bookingInspectorId], references: [id])
+    bookingInspectorId String?          @map("inspectorId") @db.ObjectId
+
     partyNoticeSent Boolean               @default(false)
     bookingStatus   ZaloonenBookingStatus @default(REQUESTED)
     comments        String?
 
-    updatedBy CommitteeMember? @relation(fields: [updatedById], references: [id])
-    updatedAt DateTime         @updatedAt
-    createdAt DateTime         @default(now())
+    updatedBy         CommitteeMember? @relation(name: "zaloonenBookingsUpdatedBy", fields: [updatedById], references: [id])
+    updatedAt         DateTime         @updatedAt
+    createdAt         DateTime         @default(now())
+    CommitteeMember   CommitteeMember? @relation(fields: [committeeMemberId], references: [id])
+    committeeMemberId String?          @db.ObjectId
 }
 
 enum ZaloonenBookingEventTypes {
@@ -254,6 +261,7 @@ enum AccountRoles {
     MODIFY_ZENITH_MEDIA
     MODIFY_ZALOONEN_BOOKING
     ADMIN
+    SUPER_ADMIN
 }
 
 model VerificationToken {

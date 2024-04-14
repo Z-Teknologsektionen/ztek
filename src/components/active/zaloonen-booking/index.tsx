@@ -7,6 +7,7 @@ import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
 
 import Link from "next/link";
+import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { api } from "~/utils/api";
 import { ActionRequiredBookingCard } from "./action-required-booking-card";
@@ -20,9 +21,8 @@ const ZaloonenBookingTab: FC = () => {
     isError: isBookingError,
   } = api.zaloonen.getAllBookingsAsAuthed.useQuery();
 
-  // dayjs.locale("sv");
-  // dayjs.extend(localizedFormat);
-  // const localizer = dayjsLocalizer(dayjs);
+  const { data: bookingInspectors } =
+    api.zaloonen.getAllBookingInspectorsAsAuthed.useQuery();
   if (isLoadingBookings) {
     return <SectionWrapper>Loading...</SectionWrapper>;
   }
@@ -33,63 +33,92 @@ const ZaloonenBookingTab: FC = () => {
     return <SectionWrapper>No bookings</SectionWrapper>;
   }
 
-  const approvedBookingsSorted = bookings
-    .filter(
-      (booking) => booking.bookingStatus === ZaloonenBookingStatus.APPROVED,
-    )
+  // const approvedBookingsSorted = bookings
+  //   .filter(
+  //     (booking) => booking.bookingStatus === ZaloonenBookingStatus.APPROVED,
+  //   )
+  //   .sort((a, b) => (a.startDateTime > b.startDateTime ? 1 : -1));
+
+  const actionRequiredBookings = bookings
+    .filter((booking) => {
+      const isWitin30Days =
+        dayjs(booking.startDateTime).diff(dayjs(), "d") < 30;
+      const isApprovedButNoInspector =
+        booking.bookingStatus === ZaloonenBookingStatus.APPROVED &&
+        !booking.bookingInspectorId &&
+        isWitin30Days;
+      const isApprovedButNoPartyNoticeSent =
+        booking.bookingStatus === ZaloonenBookingStatus.APPROVED &&
+        !booking.partyNoticeSent &&
+        isWitin30Days;
+      const approvedAndStartDatePassed =
+        booking.bookingStatus === ZaloonenBookingStatus.APPROVED &&
+        dayjs(booking.startDateTime).isBefore(dayjs());
+      const isOnHold = booking.bookingStatus === ZaloonenBookingStatus.ON_HOLD;
+      // return true;
+      return (
+        isApprovedButNoInspector ||
+        isApprovedButNoPartyNoticeSent ||
+        approvedAndStartDatePassed ||
+        isOnHold
+      );
+    })
     .sort((a, b) => (a.startDateTime > b.startDateTime ? 1 : -1));
-
-  const actionRequiredBookings = approvedBookingsSorted.filter(
-    (booking) => dayjs(new Date()).diff(dayjs(booking.startDateTime), "d") <= 0,
-  );
-
-  // const calendarEvents = bookings.map((booking) => ({
-  //   id: booking.id,
-  //   title: booking.eventName,
-  //   start: new Date(booking.startDateTime),
-  //   end: new Date(booking.endDateTime),
-  // }));
 
   return (
     <RoleWrapper accountRole={AccountRoles.MODIFY_ZALOONEN_BOOKING}>
       <SectionWrapper>
         <div className="grid grid-cols-6 gap-3">
-          <div className="col-span-4">
-            <SecondaryTitle center>Åtgärd krävs</SecondaryTitle>
-            <div className="grid grid-cols-3 gap-4">
-              {actionRequiredBookings &&
-                actionRequiredBookings.length > 0 &&
-                actionRequiredBookings.map((booking) => (
-                  <ActionRequiredBookingCard
-                    key={booking.id + "card"}
-                    booking={booking}
-                  />
-                ))}
-            </div>
+          <div className="col-span-4 rounded-md border bg-cardBackground">
+            <SecondaryTitle className="mt-2" center>
+              Åtgärd krävs
+            </SecondaryTitle>
+            <ScrollArea className="w-full p-4">
+              <div className="flex w-max gap-2">
+                {actionRequiredBookings &&
+                  actionRequiredBookings.length > 0 &&
+                  actionRequiredBookings.map((booking) => (
+                    <ActionRequiredBookingCard
+                      key={booking.id + "card"}
+                      booking={booking}
+                      bookingInspectors={bookingInspectors}
+                    />
+                  ))}
+              </div>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
           </div>
-          <div className="col-span-2 ">
-            <SecondaryTitle center>Kommande bokningar</SecondaryTitle>
-            <div className="flex flex-col items-center gap-2">
+          <div className="col-span-2 rounded-md border bg-cardBackground">
+            <SecondaryTitle className="my-2" center>
+              Kommande bokningar
+            </SecondaryTitle>
+            <div className="flex flex-col items-center gap-2 overflow-y-auto">
               {bookings &&
                 bookings
                   .filter(
                     (booking) =>
-                      booking.bookingStatus === ZaloonenBookingStatus.APPROVED,
+                      booking.bookingStatus ===
+                        ZaloonenBookingStatus.APPROVED &&
+                      dayjs(dayjs(booking.startDateTime)).diff(dayjs()) > 0,
+                    "d",
                   )
                   .sort((a, b) => (a.startDateTime < b.startDateTime ? -1 : 1))
                   .map((booking) => (
                     <div key={booking.id} className="w-full px-4">
                       <div className="flex justify-between hover:cursor-pointer hover:font-bold">
-                        <Link href={`#${booking.id}`}>
+                        <Link className="truncate" href={`#${booking.id}`}>
                           {booking.eventName}-{booking.organizerName}
                         </Link>
-                        <p>
+                        <p className="shrink-0">
                           Om{" "}
                           {dayjs(dayjs(booking.startDateTime)).diff(
                             dayjs(),
                             "d",
                           )}{" "}
-                          dag(ar)
+                          {dayjs(dayjs(booking.startDateTime)).diff(dayjs()) ===
+                          1
+                            ? " dag"
+                            : " dagar"}
                         </p>
                       </div>
                     </div>
