@@ -1,12 +1,22 @@
+import type { ZaloonenBooking } from "@prisma/client";
 import { AccountRoles, ZaloonenBookingStatus } from "@prisma/client";
 import dayjs from "dayjs";
-import { type FC } from "react";
+import "moment/locale/sv";
+import { useState, type FC } from "react";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 import { AdvancedDataTable } from "~/components/data-table/advanced-data-table";
 import RoleWrapper from "~/components/layout/role-wrapper";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
 
+import moment from "moment";
 import Link from "next/link";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { api } from "~/utils/api";
@@ -15,6 +25,10 @@ import { zaloonenBookingColumns } from "./zaloonen-booking-columns";
 import { ZaloonenBookingTableToolbar } from "./zaloonen-booking-table-toolbar";
 
 const ZaloonenBookingTab: FC = () => {
+  const [selectedEvent, setSelectedEvent] = useState<ZaloonenBooking | null>(
+    null,
+  );
+
   const {
     data: bookings,
     isLoading: isLoadingBookings,
@@ -32,6 +46,8 @@ const ZaloonenBookingTab: FC = () => {
   if (!bookings) {
     return <SectionWrapper>No bookings</SectionWrapper>;
   }
+  moment.locale("sv");
+  const localizer = momentLocalizer(moment);
 
   // const approvedBookingsSorted = bookings
   //   .filter(
@@ -147,15 +163,61 @@ const ZaloonenBookingTab: FC = () => {
               />
             </TabsContent>
             <TabsContent value="calendar">
-              {/* {console.log(calendarEvents)}
               <Calendar
-                defaultDate={dayjs().toDate()}
-                endAccessor="end"
-                events={calendarEvents}
+                endAccessor="endDateTime"
+                eventPropGetter={(event) => {
+                  let backgroundColor;
+                  switch (event.bookingStatus) {
+                    case "DENIED":
+                      backgroundColor = "#f87171";
+                      break;
+                    case "APPROVED":
+                      backgroundColor = "#34d399";
+                      break;
+                    case "REQUESTED":
+                      backgroundColor = "#fbbf24";
+                      break;
+                    case "ON_HOLD":
+                      backgroundColor = "#60a5fa";
+                      break;
+                    case "COMPLETED":
+                      backgroundColor = "#9ca3af";
+                      break;
+                    default:
+                      backgroundColor = "#ffffff";
+                  }
+                  return {
+                    style: {
+                      backgroundColor,
+                    },
+                  };
+                }}
+                events={bookings}
                 localizer={localizer}
-                startAccessor="start"
+                onSelectEvent={(event) => setSelectedEvent(event)}
+                scrollToTime={new Date("2021-09-01T17:00:00.000Z")}
+                showMultiDayTimes={true}
+                startAccessor="startDateTime"
                 style={{ height: 500 }}
-              /> */}
+                titleAccessor={(event) =>
+                  `${event.eventName} - ${event.organizerName}`
+                }
+              />
+              {!!selectedEvent && (
+                <Popover
+                  onOpenChange={() => setSelectedEvent(null)}
+                  open={true}
+                >
+                  <PopoverTrigger>
+                    <div />
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <p>Event Name: {selectedEvent.eventName}</p>
+                    <p>Organizer Name: {selectedEvent.organizerName}</p>
+                    {/* Add more event details as needed */}
+                  </PopoverContent>
+                </Popover>
+              )}
             </TabsContent>
           </Tabs>
         </div>
