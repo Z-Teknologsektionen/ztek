@@ -26,7 +26,7 @@ export const useCreateZenithMediaAsAuthed = ({
       toast.error(error.message);
 
       if (input.url.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)) {
-        await handleDeleteSftpFile(input.url);
+        await handleDeleteSftpFile({ url: input.url });
       }
       onError?.();
     },
@@ -56,7 +56,7 @@ export const useUpdateZenithMediaAsAuthed = ({
 
       // TODO: Vafan ska hända om man updaterat titel så filen bytt namn. Då vill vi inte radera utan byta tillbaka...
       if (input.url && input.url.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)) {
-        await handleDeleteSftpFile(input.url);
+        await handleDeleteSftpFile({ url: input.url });
       }
 
       onError?.();

@@ -1,28 +1,40 @@
-import type { SFTPDir } from "~/constants/sftp";
+import type { NextResponse } from "next/server";
+import type { z } from "zod";
+import type { SFPT_DIRS, SFTP_ACCEPTED_MEDIA_TYPES } from "~/constants/sftp";
+import type {
+  sftpAPIResponseSchema,
+  sftpDeleteFileSchema,
+  sftpRenameFileSchema,
+  sftpUploadNewFileSchema,
+  sftpUploadNewSchemaWithoutFile,
+} from "~/schemas/sftp";
 
-export type RenameFileOnSftpServerType = {
-  filename: string;
-  oldUrl: string;
+export type SFTPDir = (typeof SFPT_DIRS)[number];
+
+export type SFTPMediaType = (typeof SFTP_ACCEPTED_MEDIA_TYPES)[number];
+
+export type SFTPInputType = string | Buffer | NodeJS.ReadableStream;
+
+export type HandleCreateSftpFileProps = z.input<typeof sftpUploadNewFileSchema>;
+
+export type HandleRenameSftpFileProps = z.input<typeof sftpRenameFileSchema>;
+
+export type HandleDeleteSftpFileProps = z.input<typeof sftpDeleteFileSchema>;
+
+export type UploadFileToSftpServerProps = z.output<
+  typeof sftpUploadNewSchemaWithoutFile
+> & {
+  input: SFTPInputType;
 };
 
-export type CreateFileOnSftpServerType = {
-  dir: SFTPDir;
-  filename: string;
-  input: Buffer | NodeJS.ReadableStream;
-  isPublic: boolean;
-  overwrite: boolean;
-};
+export type RenameFileOnSftpServerProps = z.output<typeof sftpRenameFileSchema>;
 
-export type CreateFileOnSftpClientType = {
-  dir: SFTPDir;
-  file: File;
-  filename: string;
-  isPublic: boolean;
-  overwrite: boolean;
-};
+export type DeleteFileFromSftpServerProps = z.output<
+  typeof sftpDeleteFileSchema
+>;
 
-export interface SftpApiResponse {
-  error?: string;
-  message?: string;
-  status: number;
-}
+export type SFTPResponseBody = z.input<typeof sftpAPIResponseSchema>;
+
+export type NextSFTPAPIResponseWithUrl = Promise<
+  NextResponse<SFTPResponseBody | { error: string }>
+>;

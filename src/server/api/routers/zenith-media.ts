@@ -78,11 +78,13 @@ export const zenithMediaRouter = createTRPCRouter({
       if (!fileUrl) {
         throw new Error("Media not found");
       }
+
       try {
-        await deleteFileFromSftpServer(fileUrl.url);
+        await deleteFileFromSftpServer({ url: fileUrl.url });
       } catch (error) {
         if (error instanceof Error) {
-          throw new Error(error.message);
+          if (error.message !== "Filen du ville radera kunde inte hittas!")
+            throw new Error(error.message);
         } else {
           throw new Error("Something went wrong when deleting the file.");
         }

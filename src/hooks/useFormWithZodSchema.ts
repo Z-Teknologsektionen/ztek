@@ -8,10 +8,10 @@ export const useFormWithZodSchema = <TSchema extends z.Schema>({
   schema,
   defaultValues,
 }: {
-  defaultValues?: DefaultValues<z.TypeOf<TSchema>>;
+  defaultValues?: DefaultValues<z.output<TSchema>>;
   schema: TSchema;
 }) =>
-  useForm<z.infer<TSchema>>({
+  useForm<z.input<TSchema>>({
     resolver: async (data, context, options) => {
       return zodResolver(schema)(data, context, options);
     },

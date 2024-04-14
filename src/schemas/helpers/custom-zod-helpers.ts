@@ -2,13 +2,13 @@ import mongoose from "mongoose";
 import isMobilePhone from "validator/lib/isMobilePhone";
 import { z } from "zod";
 import { MAX_ORDER_NUMBER, MIN_ORDER_NUMBER } from "~/constants/committees";
-import type { SFTPMediaType } from "~/constants/sftp";
 import {
-  ACCEPTED_MEDIA_TYPES,
   MAX_SFTP_FILE_SIZE,
   MAX_SFTP_MB_SIZE,
+  SFTP_ACCEPTED_MEDIA_TYPES,
 } from "~/constants/sftp";
 import { env } from "~/env.mjs";
+import type { SFTPMediaType } from "~/types/sftp-types";
 
 export const base64Regex =
   /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
@@ -103,7 +103,7 @@ export const stringToBoolean = standardString
   )
   .transform((str) => str.toLowerCase() === "true");
 
-export const sftpUrl = standardString.refine(
+export const sftpUrl = httpsUrlString.refine(
   (str) => str.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL),
   `Måste börja på ${env.NEXT_PUBLIC_SFTP_BASE_URL}`,
 );
@@ -119,6 +119,6 @@ export const sftpFile = z
     return file.size <= MAX_SFTP_FILE_SIZE;
   }, `Filen får inte vara större än ${MAX_SFTP_MB_SIZE}MB. Kontakta Webbgruppen om du behöver ladda upp större grejer.`)
   .refine(
-    (file) => ACCEPTED_MEDIA_TYPES.includes(file.type as SFTPMediaType),
+    (file) => SFTP_ACCEPTED_MEDIA_TYPES.includes(file.type as SFTPMediaType),
     "Inte en godkänd filtyp. Kontakta webbgruppen om du behöver ladda upp den här filtypen",
   );

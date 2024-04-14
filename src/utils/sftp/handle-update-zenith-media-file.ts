@@ -17,7 +17,7 @@ export const handleUpdateZenithMediaFile = async ({
   oldUrl: string;
 }): Promise<string | undefined> => {
   if (oldUrl.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL) && oldUrl !== newUrl) {
-    await handleDeleteSftpFile(oldUrl);
+    await handleDeleteSftpFile({ url: oldUrl });
   }
 
   if (newFile !== undefined) {
@@ -28,11 +28,11 @@ export const handleUpdateZenithMediaFile = async ({
   } else if (newTitle !== oldTitle) {
     newUrl = await handleRenameSftpFile({
       oldUrl: oldUrl,
-      newName: createSFTPFilename({
+      newFilename: createSFTPFilename({
         title: newTitle,
         filename: oldUrl,
       }),
-    }).then((val) => val.replace("https:/", "https://")); //Fråga inte ens...
+    });
   }
 
   return newUrl;

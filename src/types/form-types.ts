@@ -8,9 +8,9 @@ import type {
 import type { z } from "zod";
 
 export interface IUpsertForm<schema extends z.ZodObject<z.ZodRawShape>> {
-  defaultValues?: z.infer<schema>;
+  defaultValues?: z.input<schema>;
   formType: "create" | "update";
-  onSubmit: SubmitHandler<z.infer<schema>>;
+  onSubmit: SubmitHandler<z.output<schema>>;
 }
 
 export interface IFormFieldDefaults<

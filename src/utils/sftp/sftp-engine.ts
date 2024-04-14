@@ -1,15 +1,17 @@
-import type { TransferOptions } from "ssh2-sftp-client";
-import Client from "ssh2-sftp-client";
+import type { ConnectOptions, TransferOptions } from "ssh2-sftp-client";
+import SFTPClient from "ssh2-sftp-client";
 import { env } from "~/env.mjs";
 import type {
-  CreateFileOnSftpServerType,
-  RenameFileOnSftpServerType,
+  DeleteFileFromSftpServerProps,
+  RenameFileOnSftpServerProps,
+  SFTPDir,
+  UploadFileToSftpServerProps,
 } from "~/types/sftp-types";
 
 const basePath = env.SFTP_BASE_PATH;
 const baseUrl = env.NEXT_PUBLIC_SFTP_BASE_URL;
 
-const config = {
+const config: ConnectOptions = {
   host: env.SFTP_HOST,
   port: 22,
   username: env.SFTP_USER,
@@ -27,17 +29,19 @@ const options: TransferOptions = {
   },
 };
 
+//TODO: Mycket error hantering behöver fixas med snygga medelanden. Logga ut error in konsol och avläs starten på medelandet. Ex fil finns redan bör hanteras
+
 export const uploadFileToSftpServer = async ({
   input,
   dir,
   filename,
   isPublic = true,
   overwrite = false,
-}: CreateFileOnSftpServerType): Promise<string> => {
-  const sftp = new Client();
+}: UploadFileToSftpServerProps): Promise<string> => {
+  const sftp = new SFTPClient();
 
-  const newPath = `${basePath}/${isPublic ? "public" : "private"}/${dir}`;
-  const newFilePath = `${newPath}/${filename}`;
+  const newFolderPath = createNewPath({ dir, isPublic });
+  const newFilePath = `${newFolderPath}/${filename}`;
 
   try {
     await sftp.connect(config);
@@ -47,10 +51,11 @@ export const uploadFileToSftpServer = async ({
       throw new Error(`File ${filename} already exists`);
     }
 
-    const pathExists = await sftp.exists(newPath);
-    if (!pathExists) {
-      await sftp.mkdir(newPath, true);
+    const newFolderPathExists = await sftp.exists(newFolderPath);
+    if (!newFolderPathExists) {
+      await sftp.mkdir(newFolderPath, true);
     }
+
     await sftp.put(input, newFilePath, options);
 
     return getUrlFromPath(newFilePath);
@@ -65,47 +70,27 @@ export const uploadFileToSftpServer = async ({
   }
 };
 
-export const deleteFileFromSftpServer = async (url: string): Promise<void> => {
-  const sftp = new Client();
-
-  const path = getPathFromUrl(url);
-
-  try {
-    await sftp.connect(config);
-
-    //Ignore error if file does not exist.
-    await sftp.delete(path);
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error("Failed to delete file: " + error.message);
-    } else {
-      throw new Error("Failed to delete file.");
-    }
-  } finally {
-    await sftp.end();
-  }
-};
-
 export const renameFileOnSftpServer = async ({
   oldUrl,
-  filename,
-}: RenameFileOnSftpServerType): Promise<string> => {
-  const sftp = new Client();
+  newFilename,
+}: RenameFileOnSftpServerProps): Promise<string> => {
+  const sftp = new SFTPClient();
 
-  const oldPath = getPathFromUrl(oldUrl);
-  const newPath = `${oldPath.split("/").slice(0, -1).join("/")}/${filename}`;
+  const oldFilePath = getPathFromUrl(oldUrl);
+  const newFolderPath = oldFilePath.split("/").slice(0, -1).join("/");
+  const newFilePath = `${newFolderPath}/${newFilename}`;
 
   try {
     await sftp.connect(config);
 
-    const pathExists = await sftp.exists(newPath);
+    const pathExists = await sftp.exists(newFolderPath);
     if (!pathExists) {
-      await sftp.mkdir(newPath, true);
+      await sftp.mkdir(newFolderPath, true);
     }
 
-    await sftp.rename(oldPath, newPath);
+    await sftp.rename(oldFilePath, newFilePath);
 
-    return getUrlFromPath(newPath);
+    return getUrlFromPath(newFilePath);
   } catch (error) {
     if (error instanceof Error) {
       throw new Error("Failed to rename file: " + error.message);
@@ -116,6 +101,41 @@ export const renameFileOnSftpServer = async ({
     await sftp.end();
   }
 };
+
+export const deleteFileFromSftpServer = async ({
+  url,
+}: DeleteFileFromSftpServerProps): Promise<void> => {
+  const sftp = new SFTPClient();
+
+  const filePath = getPathFromUrl(url);
+
+  try {
+    await sftp.connect(config);
+
+    //Ignore error if file does not exist.
+    await sftp.delete(filePath);
+  } catch (error) {
+    if (error instanceof Error) {
+      if (error.message.startsWith(`delete: No such file ${basePath}`)) {
+        throw new Error("Filen du ville radera kunde inte hittas!");
+      }
+
+      throw new Error("Failed to delete file: " + error.message);
+    } else {
+      throw new Error("Failed to delete file.");
+    }
+  } finally {
+    await sftp.end();
+  }
+};
+
+const createNewPath = ({
+  dir,
+  isPublic,
+}: {
+  dir: SFTPDir;
+  isPublic: boolean;
+}): string => `${basePath}/${isPublic ? "public" : "private"}/${dir}`;
 
 const getPathFromUrl = (str: string): string => str.replace(baseUrl, basePath);
 
