@@ -9,6 +9,10 @@ env:
   NEXTAUTH_URL: "https://fake.com"
   NEXTAUTH_SECRET: "fakefakefakefake"
   HASH_SALT: "fake"
+  EMAIL_HOST: "fake"
+  EMAIL_PORT: "fake"
+  EMAIL_USER: "fake"
+  EMAIL_PASS: "fake"
 
 jobs:
   build:

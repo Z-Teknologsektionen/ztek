@@ -21,6 +21,7 @@ import { Checkbox } from "~/components/ui/checkbox";
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { zaloonenBookingStatusColorClassnames } from "~/constants/zaloonen";
+import { useSendZaloonenBookingEmail } from "~/hooks/mutations/useMutateEmail";
 import { api } from "~/utils/api";
 import { cn } from "~/utils/utils";
 import { ActionRequiredBookingCard } from "./action-required-booking-card";
@@ -55,6 +56,9 @@ const ZaloonenBookingTab: FC = () => {
 
   const { data: bookingInspectors } =
     api.zaloonen.getAllBookingInspectorsAsAuthed.useQuery();
+
+  const { mutate: sendEmail, isLoading: sendingEmail } =
+    useSendZaloonenBookingEmail({});
   if (isLoadingBookings) {
     return <SectionWrapper>Loading...</SectionWrapper>;
   }
@@ -209,6 +213,12 @@ const ZaloonenBookingTab: FC = () => {
                     toolbar: (props) => {
                       return (
                         <div className="mb-4 grid grid-cols-3">
+                          <Button
+                            disabled={sendingEmail}
+                            onClick={() => sendEmail()}
+                          >
+                            Maila
+                          </Button>
                           <div className="flex justify-start gap-2">
                             {Object.values(ZaloonenBookingStatus).map(
                               (status) => (
