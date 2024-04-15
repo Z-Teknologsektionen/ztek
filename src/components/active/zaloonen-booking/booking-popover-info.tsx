@@ -16,13 +16,17 @@ import type { ZaloonenBookingType } from "./zaloonen-booking-columns";
 
 type BookingPopoverInfoProps = {
   booking: ZaloonenBookingType;
+  onOpenChange?: (open: boolean) => void;
+  open?: boolean;
 };
 
 export const BookingPopoverInfo: FC<BookingPopoverInfoProps> = ({
   booking,
+  onOpenChange,
+  open,
 }) => {
   return (
-    <Popover>
+    <Popover onOpenChange={onOpenChange} open={open}>
       <PopoverTrigger>
         <FaInfoCircle className={cn("fill-zBlack")} size={TABLE_ICON_SIZE} />
         <p className="sr-only">Visa beskrivning</p>

@@ -12,21 +12,29 @@ import SectionWrapper from "~/components/layout/section-wrapper";
 import moment from "moment";
 import Link from "next/link";
 import { Calendar, momentLocalizer } from "react-big-calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover";
+
+import { MdArrowBack, MdArrowForward } from "react-icons/md";
+import { useLocalStorage } from "usehooks-ts";
+import { Button } from "~/components/ui/button";
+
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { zaloonenBookingStatusColorClassnames } from "~/constants/zaloonen";
 import { api } from "~/utils/api";
+import { cn } from "~/utils/utils";
 import { ActionRequiredBookingCard } from "./action-required-booking-card";
+import { BookingPopoverInfo } from "./booking-popover-info";
 import { zaloonenBookingColumns } from "./zaloonen-booking-columns";
 import { ZaloonenBookingTableToolbar } from "./zaloonen-booking-table-toolbar";
 
 const ZaloonenBookingTab: FC = () => {
   const [selectedEvent, setSelectedEvent] = useState<ZaloonenBooking | null>(
     null,
+  );
+
+  const [selectedTab, setSelectedTab] = useLocalStorage(
+    "zaloonenSelectedTab",
+    "table",
   );
 
   const {
@@ -144,7 +152,11 @@ const ZaloonenBookingTab: FC = () => {
         </div>
         <div className="">
           <SecondaryTitle center>Alla bokningar</SecondaryTitle>
-          <Tabs className="" defaultValue="table">
+          <Tabs
+            className=""
+            defaultValue={selectedTab}
+            onValueChange={setSelectedTab}
+          >
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="table">Lista</TabsTrigger>
               <TabsTrigger value="calendar">Kalender</TabsTrigger>
@@ -163,61 +175,145 @@ const ZaloonenBookingTab: FC = () => {
               />
             </TabsContent>
             <TabsContent value="calendar">
-              <Calendar
-                endAccessor="endDateTime"
-                eventPropGetter={(event) => {
-                  let backgroundColor;
-                  switch (event.bookingStatus) {
-                    case "DENIED":
-                      backgroundColor = "#f87171";
-                      break;
-                    case "APPROVED":
-                      backgroundColor = "#34d399";
-                      break;
-                    case "REQUESTED":
-                      backgroundColor = "#fbbf24";
-                      break;
-                    case "ON_HOLD":
-                      backgroundColor = "#60a5fa";
-                      break;
-                    case "COMPLETED":
-                      backgroundColor = "#9ca3af";
-                      break;
-                    default:
-                      backgroundColor = "#ffffff";
-                  }
-                  return {
-                    style: {
-                      backgroundColor,
+              <div>
+                <Calendar
+                  className="col-span-5"
+                  components={{
+                    event: ({ event }) => (
+                      <div className={cn("flex flex-row rounded-md")}>
+                        <BookingPopoverInfo
+                          booking={event}
+                          onOpenChange={(open) => {
+                            if (!open) {
+                              setSelectedEvent(null);
+                            }
+                          }}
+                          open={
+                            (selectedEvent && event.id === selectedEvent.id) ??
+                            undefined
+                          }
+                        />
+                        {event.eventName}-{event.organizerName}
+                      </div>
+                    ),
+                    toolbar: (props) => {
+                      return (
+                        <div className="mb-4 grid grid-cols-3">
+                          <div>a</div>
+                          <div className="flex justify-center text-center text-lg">
+                            <MdArrowBack
+                              className="cursor-pointer"
+                              onClick={() => props.onNavigate("PREV")}
+                              size={20}
+                            />
+                            <p className="w-56 text-base font-medium capitalize  underline">
+                              {props.view === "month" &&
+                                moment(props.label)
+                                  .format("MMMM")
+                                  .toUpperCase()}
+                              {props.view === "week" && props.label}
+                              {props.view === "day" &&
+                                moment(props.label).format("ddd D MMMM")}
+                            </p>
+                            <MdArrowForward
+                              className="cursor-pointer"
+                              onClick={() => props.onNavigate("NEXT")}
+                              size={20}
+                            />
+                          </div>
+                          <div className="flex h-6 justify-end p-2">
+                            <Button
+                              className={cn(
+                                "mr-3 h-6",
+                                props.view === "day" ? "bg-slate-300" : "",
+                              )}
+                              onClick={() => props.onNavigate("TODAY")}
+                              variant={"outline"}
+                            >
+                              Idag
+                            </Button>
+                            <Button
+                              className={cn(
+                                "h-6 rounded-l-md rounded-r-none",
+                                props.view === "day" ? "bg-slate-300" : "",
+                              )}
+                              onClick={() => props.onView("day")}
+                              variant={"outline"}
+                            >
+                              Dag
+                            </Button>
+                            <Button
+                              className={cn(
+                                "h-6 rounded-none",
+                                props.view === "week" ? "bg-slate-300" : "",
+                              )}
+                              onClick={() => props.onView("week")}
+                              variant={"outline"}
+                            >
+                              Vecka
+                            </Button>
+                            <Button
+                              className={cn(
+                                "h-6 rounded-l-none rounded-r-md",
+                                props.view === "month" ? "bg-slate-300" : "",
+                              )}
+                              onClick={() => props.onView("month")}
+                              variant={"outline"}
+                            >
+                              Månad
+                            </Button>
+                          </div>
+                        </div>
+                      );
                     },
-                  };
-                }}
-                events={bookings}
-                localizer={localizer}
-                onSelectEvent={(event) => setSelectedEvent(event)}
-                scrollToTime={new Date("2021-09-01T17:00:00.000Z")}
-                showMultiDayTimes={true}
-                startAccessor="startDateTime"
-                style={{ height: 500 }}
-                titleAccessor={(event) =>
-                  `${event.eventName} - ${event.organizerName}`
-                }
-              />
-              {!!selectedEvent && (
-                <Popover
-                  onOpenChange={() => setSelectedEvent(null)}
-                  open={true}
-                >
-                  <PopoverTrigger>
-                    <div />
-                  </PopoverTrigger>
-                  <PopoverContent>
-                    <p>Event Name: {selectedEvent.eventName}</p>
-                    <p>Organizer Name: {selectedEvent.organizerName}</p>
-                    {/* Add more event details as needed */}
-                  </PopoverContent>
-                </Popover>
-              )}
+                  }}
+                  culture="sv"
+                  dayLayoutAlgorithm={"overlap"}
+                  defaultView="week"
+                  endAccessor="endDateTime"
+                  eventPropGetter={(event) => {
+                    let backgroundColor;
+                    switch (event.bookingStatus) {
+                      case "DENIED":
+                        backgroundColor = "#f87171";
+                        break;
+                      case "APPROVED":
+                        backgroundColor = "#34d399";
+                        break;
+                      case "REQUESTED":
+                        backgroundColor = "#fbbf24";
+                        break;
+                      case "ON_HOLD":
+                        backgroundColor = "#60a5fa";
+                        break;
+                      case "COMPLETED":
+                        backgroundColor = "#9ca3af";
+                        break;
+                      default:
+                        backgroundColor = "#ffffff";
+                    }
+                    return {
+                      className:
+                        zaloonenBookingStatusColorClassnames[
+                          event.bookingStatus
+                        ],
+                      style: {
+                        backgroundColor,
+                      },
+                    };
+                  }}
+                  events={bookings}
+                  localizer={localizer}
+                  onSelectEvent={setSelectedEvent}
+                  scrollToTime={new Date("2021-09-01T17:00:00.000Z")}
+                  showMultiDayTimes={true}
+                  startAccessor="startDateTime"
+                  style={{ height: 600 }}
+                  // titleAccessor={(event) =>
+                  //   `${event.eventName} - ${event.organizerName}`
+                  // }
+                />
+              </div>
             </TabsContent>
           </Tabs>
         </div>
