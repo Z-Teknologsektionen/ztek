@@ -1,3 +1,4 @@
+import moment from "moment";
 import type { FC } from "react";
 import { FaInfoCircle } from "react-icons/fa";
 import {
@@ -31,25 +32,44 @@ export const BookingPopoverInfo: FC<BookingPopoverInfoProps> = ({
         <FaInfoCircle className={cn("fill-zBlack")} size={TABLE_ICON_SIZE} />
         <p className="sr-only">Visa beskrivning</p>
       </PopoverTrigger>
-      <PopoverContent side="top">
-        <h1 className="font-medium underline">{booking.eventName}</h1>
-        <p>{booking.eventDescription}</p>
-        <Separator />
-        <p>Typ: {getZaloonenBookingEventNameFromType(booking.eventType)}</p>
-        <div>
-          <p className="">Vad: </p>
-          {getZaloonenBookingNameFromType(booking.bookingType)}
+      <PopoverContent className="text-sm" side="top">
+        <div className="text-center ">
+          <h1 className="font-medium underline">{booking.eventName}</h1>
+          <p>{booking.eventDescription}</p>
         </div>
-        <p className="font-medium">Arragör:</p>
-        <p>{booking.organizerName}</p>
-        <p>
-          <a
-            className="text-blue-400 underline underline-offset-1"
-            href={`mailto:${booking.organizerEmail}`}
-          >
-            {booking.organizerEmail}
-          </a>
-        </p>
+        <Separator className="my-2" />
+        <div>
+          <div>
+            <p className="font-medium underline">Tid:</p>
+            {moment(booking.startDateTime).format("D MMM HH:mm")} -{" "}
+            {moment(booking.endDateTime).format("D MMM HH:mm")}.{" "}
+            <p>
+              {moment(booking.endDateTime).diff(
+                moment(booking.startDateTime),
+                "hours",
+              )}{" "}
+              timmar
+            </p>
+          </div>
+          <div>
+            <p className="font-medium underline">Typ: </p>
+            {getZaloonenBookingEventNameFromType(booking.eventType)}
+          </div>
+          <div>
+            <p className="font-medium underline">Vad: </p>
+            {getZaloonenBookingNameFromType(booking.bookingType)}
+          </div>
+          <p className="font-medium underline">Arragör:</p>
+          <p>{booking.organizerName}</p>
+          <p>
+            <a
+              className="text-blue-400 underline underline-offset-1"
+              href={`mailto:${booking.organizerEmail}`}
+            >
+              {booking.organizerEmail}
+            </a>
+          </p>
+        </div>
       </PopoverContent>
     </Popover>
   );

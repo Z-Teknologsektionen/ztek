@@ -17,6 +17,7 @@ import IconWithTooltip from "~/components/tooltips/icon-with-tooltip";
 
 import { type RouterOutputs } from "~/utils/api";
 
+import moment from "moment";
 import { FaKitchenSet } from "react-icons/fa6";
 import { cn } from "~/utils/utils";
 import { BookingPopoverInfo } from "./booking-popover-info";
@@ -59,10 +60,12 @@ export const zaloonenBookingColumns: ColumnDef<ZaloonenBookingType>[] = [
         className={cn("flex w-full flex-row justify-between gap-4")}
         id={row.original.id}
       >
-        <BookingPopoverInfo booking={row.original} />
-        <div className="max-w-32">
-          <p className="truncate">{row.original.eventName}</p>
-          <p className="truncate">{row.original.organizerName}</p>
+        <div className="flex max-w-32 gap-1">
+          <BookingPopoverInfo booking={row.original} />
+          <div className="flex max-w-32 flex-col">
+            <p className="truncate">{row.original.eventName}</p>
+            <p className="truncate">{row.original.organizerName}</p>
+          </div>
         </div>
         <div className="flex flex-row gap-2">
           {row.original.hasServingPermit && (
@@ -107,14 +110,15 @@ export const zaloonenBookingColumns: ColumnDef<ZaloonenBookingType>[] = [
     cell: ({ row }) => {
       const { startDateTime, endDateTime } = row.original;
       return (
-        <>
-          <p className="text-sm font-normal">
-            {dayjs(startDateTime).format("DD-MM-YYYY HH:mm")}
+        <div className="flex justify-between gap-1">
+          <div className="flex flex-col text-sm font-normal">
+            <p>{moment(startDateTime).format("D MMM HH:mm")}</p>
+            <p>{moment(endDateTime).format("D MMM HH:mm")}</p>
+          </div>
+          <p className="flex items-center justify-center font-semibold ">
+            {moment(endDateTime).diff(moment(startDateTime), "hours")} H
           </p>
-          <p className="text-sm font-normal">
-            {dayjs(endDateTime).format("DD-MM-YYYY HH:mm")}
-          </p>
-        </>
+        </div>
       );
     },
     sortingFn: (rowA, rowB) => {

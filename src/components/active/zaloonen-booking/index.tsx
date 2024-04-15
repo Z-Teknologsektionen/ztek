@@ -17,6 +17,7 @@ import { MdArrowBack, MdArrowForward } from "react-icons/md";
 import { useLocalStorage } from "usehooks-ts";
 import { Button } from "~/components/ui/button";
 
+import { Checkbox } from "~/components/ui/checkbox";
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { zaloonenBookingStatusColorClassnames } from "~/constants/zaloonen";
@@ -31,6 +32,15 @@ const ZaloonenBookingTab: FC = () => {
   const [selectedEvent, setSelectedEvent] = useState<ZaloonenBooking | null>(
     null,
   );
+
+  const [selectedBookingStatuses, setSelectedBookingStatuses] = useLocalStorage<
+    ZaloonenBookingStatus[]
+  >("zaloonenCalendarFilter", [
+    ZaloonenBookingStatus.APPROVED,
+    ZaloonenBookingStatus.COMPLETED,
+    ZaloonenBookingStatus.ON_HOLD,
+    ZaloonenBookingStatus.REQUESTED,
+  ]);
 
   const [selectedTab, setSelectedTab] = useLocalStorage(
     "zaloonenSelectedTab",
@@ -199,7 +209,51 @@ const ZaloonenBookingTab: FC = () => {
                     toolbar: (props) => {
                       return (
                         <div className="mb-4 grid grid-cols-3">
-                          <div>a</div>
+                          <div className="flex justify-start gap-2">
+                            {Object.values(ZaloonenBookingStatus).map(
+                              (status) => (
+                                <div
+                                  key={"checkbox-" + status}
+                                  className={cn(
+                                    "items-top flex flex-col items-center gap-y-2",
+                                  )}
+                                >
+                                  <div className="grid gap-1.5 leading-none">
+                                    <label
+                                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                      htmlFor={status}
+                                    >
+                                      {status}
+                                    </label>
+                                  </div>
+                                  <Checkbox
+                                    checked={selectedBookingStatuses.includes(
+                                      status,
+                                    )}
+                                    className={cn(
+                                      ``,
+                                      zaloonenBookingStatusColorClassnames[
+                                        status
+                                      ],
+                                    )}
+                                    id={status}
+                                    onCheckedChange={(checked) => {
+                                      if (checked) {
+                                        setSelectedBookingStatuses((prev) => [
+                                          ...prev,
+                                          status,
+                                        ]);
+                                      } else {
+                                        setSelectedBookingStatuses((prev) =>
+                                          prev.filter((s) => s !== status),
+                                        );
+                                      }
+                                    }}
+                                  />
+                                </div>
+                              ),
+                            )}
+                          </div>
                           <div className="flex justify-center text-center text-lg">
                             <MdArrowBack
                               className="cursor-pointer"
@@ -302,16 +356,15 @@ const ZaloonenBookingTab: FC = () => {
                       },
                     };
                   }}
-                  events={bookings}
+                  events={bookings.filter((booking) =>
+                    selectedBookingStatuses.includes(booking.bookingStatus),
+                  )}
                   localizer={localizer}
                   onSelectEvent={setSelectedEvent}
                   scrollToTime={new Date("2021-09-01T17:00:00.000Z")}
                   showMultiDayTimes={true}
                   startAccessor="startDateTime"
                   style={{ height: 600 }}
-                  // titleAccessor={(event) =>
-                  //   `${event.eventName} - ${event.organizerName}`
-                  // }
                 />
               </div>
             </TabsContent>
