@@ -14,6 +14,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ZENITH_MEDIA_ACCEPTED_MEDIA_TYPES } from "~/constants/sftp";
 import { MAX_4_DIGIT_YEAR, MIN_4_DIGIT_YEAR } from "~/constants/size-constants";
+import { env } from "~/env.mjs";
 import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
 import { createZenithMediaClientSchema } from "~/schemas/zenith-media";
 import type { IUpsertForm } from "~/types/form-types";
@@ -27,8 +28,8 @@ const DEFAULT_VALUES: UpsertZenithMediaFormProps["defaultValues"] = {
   coverImage: "",
   title: "",
   media: {
-    fileInput: undefined,
-    url: "",
+    file: undefined,
+    url: undefined,
   },
 };
 
@@ -67,7 +68,11 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
         name="coverImage"
         quality={85}
       />
-      <Tabs defaultValue="upload">
+      <Tabs
+        defaultValue={
+          form.getValues("media.url") !== undefined ? "link" : "upload"
+        }
+      >
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="upload">Ladda upp</TabsTrigger>
           <TabsTrigger value="link">Länka till media</TabsTrigger>
@@ -87,7 +92,7 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
                 description="Mediafil"
                 form={form}
                 label="Fil"
-                name="media.fileInput"
+                name="media.file"
               />
             </CardContent>
           </Card>
@@ -103,6 +108,7 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
             </CardHeader>
             <CardContent className="space-y-2">
               <FormFieldInput
+                description={`Om länken börjar på "${env.NEXT_PUBLIC_SFTP_BASE_URL}" så är det en uppladdad fil! Byt tillbaka till "Ladda upp" om du vill ladda upp en ny fil`}
                 form={form}
                 label="Url"
                 name="media.url"

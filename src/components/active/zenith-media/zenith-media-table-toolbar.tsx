@@ -57,7 +57,7 @@ export const ZenithMediaTableToolbar = <TData,>({
                 formType="create"
                 onSubmit={async ({
                   coverImage,
-                  media: { fileInput, url },
+                  media: { file: fileInput, url },
                   title,
                   year,
                 }) => {

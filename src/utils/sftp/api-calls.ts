@@ -52,6 +52,7 @@ export const handleRenameSftpFile = async (
 
 export const handleDeleteSftpFile = async (
   body: HandleDeleteSftpFileProps,
+  ignoreAllErrors: boolean = false,
 ): Promise<boolean> => {
   return await axios
     .delete("/api/sftp", {
@@ -65,9 +66,12 @@ export const handleDeleteSftpFile = async (
       return res.success;
     })
     .catch((axiosError: AxiosError) => {
+      if (ignoreAllErrors) return false;
+
       const { error } = sftpAPIErrorResponseSchema.parse(
         axiosError.response?.data,
       );
+
       throw new Error(error);
     });
 };

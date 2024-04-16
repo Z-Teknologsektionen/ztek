@@ -6,29 +6,32 @@ import { handleCreateZenithMediaFile } from "./handle-create-zenith-media-file";
 type HandleUpdateZenithMediaFileProps = {
   newFile: File | undefined;
   newTitle: string;
-  newUrl: string | undefined;
   oldTitle: string;
   oldUrl: string;
 };
 
 export const handleUpdateZenithMediaFile = async ({
   oldUrl,
-  newUrl,
   newFile,
   newTitle,
   oldTitle,
-}: HandleUpdateZenithMediaFileProps): Promise<string | undefined> => {
-  if (oldUrl.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL) && oldUrl !== newUrl) {
-    await handleDeleteSftpFile({ url: oldUrl });
+}: HandleUpdateZenithMediaFileProps): Promise<string> => {
+  const hasNewFile = newFile !== undefined;
+  const hasNewTitle = newTitle !== oldTitle;
+
+  if (oldUrl.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL) && hasNewFile) {
+    await handleDeleteSftpFile({ url: oldUrl }, true);
   }
 
-  if (newFile !== undefined) {
-    newUrl = await handleCreateZenithMediaFile({
+  if (hasNewFile) {
+    return await handleCreateZenithMediaFile({
       file: newFile,
       title: newTitle,
     });
-  } else if (newTitle !== oldTitle) {
-    newUrl = await handleRenameSftpFile({
+  }
+
+  if (hasNewTitle) {
+    return await handleRenameSftpFile({
       oldUrl: oldUrl,
       newFilename: createSFTPFilename({
         title: newTitle,
@@ -37,5 +40,5 @@ export const handleUpdateZenithMediaFile = async ({
     });
   }
 
-  return newUrl;
+  throw new Error("Okänt fel!");
 };

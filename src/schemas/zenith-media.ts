@@ -20,7 +20,7 @@ export const createZenithMediaClientSchema = zenithMediaBaseSchema.extend({
   media: z
     .object({
       url: httpsUrlString.or(emptyString).optional(),
-      fileInput: sftpFile
+      file: sftpFile
         .refine((file) =>
           ZENITH_MEDIA_ACCEPTED_MEDIA_TYPES.includes(
             file.type as (typeof ZENITH_MEDIA_ACCEPTED_MEDIA_TYPES)[0],
@@ -28,24 +28,31 @@ export const createZenithMediaClientSchema = zenithMediaBaseSchema.extend({
         )
         .optional(),
     })
-    .refine(
-      (input) => {
-        //Check if both url and fileInput are present or both are missing
-        return !!input.url !== !!input.fileInput;
-      },
-      {
-        message:
-          "Du måste antingen ladda upp en fil eller länka till en url. Du kan inte skriva in båda. Url:en kommer sättas automagiskt om du laddar upp en fil.",
-        path: ["fileInput"],
-      },
-    ),
+    .superRefine(({ file, url }, ctx) => {
+      if (!url && !file) {
+        // Vi vill ge errors på båda flikarna samtidigt då vi inte vet vilken användaren är på!
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            "Du måste antingen ladda upp en fil eller länka till en url.",
+          path: ["file"],
+        });
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            "Du måste antingen ladda upp en fil eller länka till en url.",
+          path: ["url"],
+        });
+      }
+
+      return z.NEVER;
+    }),
 });
 
 export const createZenithMediaServerSchema = zenithMediaBaseSchema.extend({
   url: httpsUrlString,
 });
 
-export const updateZenithMediaServerSchema = zenithMediaBaseSchema
-  .extend({ url: httpsUrlString })
+export const updateZenithMediaServerSchema = createZenithMediaServerSchema
   .partial()
   .extend({ id: objectId });

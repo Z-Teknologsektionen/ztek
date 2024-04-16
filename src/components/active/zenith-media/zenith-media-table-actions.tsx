@@ -32,7 +32,7 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
             key={id}
             defaultValues={{
               media: {
-                fileInput: undefined,
+                file: undefined,
                 url: values.url,
               },
               ...values,
@@ -45,9 +45,8 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
 
               try {
                 newValues.media.url = await handleUpdateZenithMediaFile({
-                  newFile: newValues.media.fileInput,
+                  newFile: newValues.media.file,
                   newTitle: newValues.title,
-                  newUrl: newValues.media.url,
                   oldTitle: values.title,
                   oldUrl: values.url,
                 });

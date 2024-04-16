@@ -27,7 +27,7 @@ export const useCreateZenithMediaAsAuthed = ({
       toast.error(error.message);
 
       if (input.url.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)) {
-        await handleDeleteSftpFile({ url: input.url });
+        await handleDeleteSftpFile({ url: input.url }, true);
       }
 
       onError?.();
@@ -62,7 +62,7 @@ export const useUpdateZenithMediaAsAuthed = ({
       );
 
       if (input.url && input.url.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)) {
-        await handleDeleteSftpFile({ url: input.url });
+        await handleDeleteSftpFile({ url: input.url }, true);
       }
 
       onError?.();
