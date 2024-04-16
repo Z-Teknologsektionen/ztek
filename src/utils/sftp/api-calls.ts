@@ -1,6 +1,9 @@
 import type { AxiosError } from "axios";
 import axios from "axios";
-import { sftpAPIResponseSchema } from "~/schemas/sftp";
+import {
+  sftpAPIErrorResponseSchema,
+  sftpAPISuccessResponseSchema,
+} from "~/schemas/sftp";
 import type {
   HandleCreateSftpFileProps,
   HandleDeleteSftpFileProps,
@@ -14,12 +17,15 @@ export const handleCreateSftpFile = async (
     .post("/api/sftp", body, {
       headers: { "Content-Type": "multipart/form-data" },
     })
-    .then((res) => sftpAPIResponseSchema.parse(res.data))
+    .then((res) => sftpAPISuccessResponseSchema.parse(res.data))
     .then((res) => {
       return res.url;
     })
-    .catch((error: AxiosError) => {
-      throw new Error(error.message);
+    .catch((axiosError: AxiosError) => {
+      const { error } = sftpAPIErrorResponseSchema.parse(
+        axiosError.response?.data,
+      );
+      throw new Error(error);
     });
 };
 
@@ -32,12 +38,15 @@ export const handleRenameSftpFile = async (
         "content-type": "application/json",
       },
     })
-    .then((res) => sftpAPIResponseSchema.parse(res.data))
+    .then((res) => sftpAPISuccessResponseSchema.parse(res.data))
     .then((res) => {
       return res.url;
     })
-    .catch((error: AxiosError) => {
-      throw new Error(error.message);
+    .catch((axiosError: AxiosError) => {
+      const { error } = sftpAPIErrorResponseSchema.parse(
+        axiosError.response?.data,
+      );
+      throw new Error(error);
     });
 };
 
@@ -51,11 +60,14 @@ export const handleDeleteSftpFile = async (
         "content-type": "application/json",
       },
     })
-    .then((res) => sftpAPIResponseSchema.parse(res.data))
+    .then((res) => sftpAPISuccessResponseSchema.parse(res.data))
     .then((res) => {
       return res.success;
     })
-    .catch((error: AxiosError) => {
-      throw new Error(error.message);
+    .catch((axiosError: AxiosError) => {
+      const { error } = sftpAPIErrorResponseSchema.parse(
+        axiosError.response?.data,
+      );
+      throw new Error(error);
     });
 };

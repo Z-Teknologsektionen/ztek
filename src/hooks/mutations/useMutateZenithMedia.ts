@@ -18,8 +18,9 @@ export const useCreateZenithMediaAsAuthed = ({
       toast.dismiss(toastId);
       onSettled?.();
     },
-    onSuccess: async () => {
+    onSuccess: async ({ title }) => {
       await ctx.zenithMedia.invalidate();
+      toast.success(`${title} har skapats!`);
       onSuccess?.();
     },
     onError: async (error, input) => {
@@ -28,6 +29,7 @@ export const useCreateZenithMediaAsAuthed = ({
       if (input.url.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)) {
         await handleDeleteSftpFile({ url: input.url });
       }
+
       onError?.();
     },
   });
@@ -52,9 +54,13 @@ export const useUpdateZenithMediaAsAuthed = ({
       onSuccess?.();
     },
     onError: async (error, input) => {
-      toast.error(error.message);
+      toast.error(
+        `${error.message}\n Median kan raderats eller ändrats i samband med med ovanstående fel\n Försök ladda upp median igen!`,
+        {
+          duration: 6000,
+        },
+      );
 
-      // TODO: Vafan ska hända om man updaterat titel så filen bytt namn. Då vill vi inte radera utan byta tillbaka...
       if (input.url && input.url.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)) {
         await handleDeleteSftpFile({ url: input.url });
       }

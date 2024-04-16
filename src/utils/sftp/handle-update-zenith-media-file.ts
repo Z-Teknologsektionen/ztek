@@ -3,19 +3,21 @@ import { createSFTPFilename } from "~/utils/string-utils";
 import { handleDeleteSftpFile, handleRenameSftpFile } from "./api-calls";
 import { handleCreateZenithMediaFile } from "./handle-create-zenith-media-file";
 
+type HandleUpdateZenithMediaFileProps = {
+  newFile: File | undefined;
+  newTitle: string;
+  newUrl: string | undefined;
+  oldTitle: string;
+  oldUrl: string;
+};
+
 export const handleUpdateZenithMediaFile = async ({
   oldUrl,
   newUrl,
   newFile,
   newTitle,
   oldTitle,
-}: {
-  newFile: File | undefined;
-  newTitle: string;
-  newUrl: string | undefined;
-  oldTitle: string;
-  oldUrl: string;
-}): Promise<string | undefined> => {
+}: HandleUpdateZenithMediaFileProps): Promise<string | undefined> => {
   if (oldUrl.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL) && oldUrl !== newUrl) {
     await handleDeleteSftpFile({ url: oldUrl });
   }

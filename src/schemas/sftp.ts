@@ -1,14 +1,13 @@
 import { z } from "zod";
-import { SFPT_DIRS } from "~/constants/sftp";
 import {
+  sftpDir,
   sftpFile,
   sftpFilename,
   sftpUrl,
   standardBoolean,
+  standardString,
   stringToBoolean,
 } from "./helpers/custom-zod-helpers";
-
-const sftpDir = z.enum(SFPT_DIRS);
 
 export const sftpUploadNewFileSchema = z.object({
   file: sftpFile,
@@ -31,7 +30,11 @@ export const sftpDeleteFileSchema = z.object({
   url: sftpUrl,
 });
 
-export const sftpAPIResponseSchema = z.object({
+export const sftpAPISuccessResponseSchema = z.object({
   url: sftpUrl,
   success: standardBoolean,
+});
+
+export const sftpAPIErrorResponseSchema = z.object({
+  error: standardString,
 });

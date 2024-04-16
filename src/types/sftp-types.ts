@@ -2,7 +2,8 @@ import type { NextResponse } from "next/server";
 import type { z } from "zod";
 import type { SFPT_DIRS, SFTP_ACCEPTED_MEDIA_TYPES } from "~/constants/sftp";
 import type {
-  sftpAPIResponseSchema,
+  sftpAPIErrorResponseSchema,
+  sftpAPISuccessResponseSchema,
   sftpDeleteFileSchema,
   sftpRenameFileSchema,
   sftpUploadNewFileSchema,
@@ -33,8 +34,10 @@ export type DeleteFileFromSftpServerProps = z.output<
   typeof sftpDeleteFileSchema
 >;
 
-export type SFTPResponseBody = z.input<typeof sftpAPIResponseSchema>;
+export type SFTPResponseBody = z.input<typeof sftpAPISuccessResponseSchema>;
+
+export type SFTPErrprResponseBody = z.input<typeof sftpAPIErrorResponseSchema>;
 
 export type NextSFTPAPIResponseWithUrl = Promise<
-  NextResponse<SFTPResponseBody | { error: string }>
+  NextResponse<SFTPResponseBody | SFTPErrprResponseBody>
 >;

@@ -62,7 +62,7 @@ export const ZenithMediaTableToolbar = <TData,>({
                   year,
                 }) => {
                   const loadningToastId = toast.loading(
-                    "Skapar media. Detta kan ta en stund!",
+                    "Laddar upp media. Detta kan ta en stund!",
                   );
 
                   try {
@@ -77,6 +77,8 @@ export const ZenithMediaTableToolbar = <TData,>({
                         "Något gick fel vid hantering av ny median. Försök igen senare eller kontakta webbgruppen",
                       );
 
+                    toast.success("Median uppladdad!");
+
                     return createNewZenithMedia({
                       url,
                       coverImage,
@@ -84,6 +86,10 @@ export const ZenithMediaTableToolbar = <TData,>({
                       year,
                     });
                   } catch (error) {
+                    if (error instanceof Error) {
+                      return toast.error(error.message);
+                    }
+
                     toast.error(
                       "Något gick fel. Försök igen senare eller kontakta webbgruppen",
                     );

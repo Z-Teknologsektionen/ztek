@@ -5,6 +5,7 @@ import { MAX_ORDER_NUMBER, MIN_ORDER_NUMBER } from "~/constants/committees";
 import {
   MAX_SFTP_FILE_SIZE,
   MAX_SFTP_MB_SIZE,
+  SFPT_DIRS,
   SFTP_ACCEPTED_MEDIA_TYPES,
 } from "~/constants/sftp";
 import { env } from "~/env.mjs";
@@ -122,3 +123,11 @@ export const sftpFile = z
     (file) => SFTP_ACCEPTED_MEDIA_TYPES.includes(file.type as SFTPMediaType),
     "Inte en godkänd filtyp. Kontakta webbgruppen om du behöver ladda upp den här filtypen",
   );
+
+export const sftpDir = z.enum(SFPT_DIRS, {
+  errorMap: () => ({
+    message: `Ogiltigt directory. Måste vara ett av följande: "${SFPT_DIRS.join(
+      " ",
+    )}"`,
+  }),
+});

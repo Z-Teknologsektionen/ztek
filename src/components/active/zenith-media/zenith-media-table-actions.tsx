@@ -66,6 +66,10 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
                   ...newValues,
                 });
               } catch (error) {
+                if (error instanceof Error) {
+                  return toast.error(error.message);
+                }
+
                 toast.error(
                   "Något gick fel. Försök igen senare eller kontakta webbgruppen",
                 );

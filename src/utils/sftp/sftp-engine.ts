@@ -11,6 +11,8 @@ import type {
 const basePath = env.SFTP_BASE_PATH;
 const baseUrl = env.NEXT_PUBLIC_SFTP_BASE_URL;
 
+const customErrorMessagePrefix = "Custom:";
+
 const config: ConnectOptions = {
   host: env.SFTP_HOST,
   port: 22,
@@ -40,7 +42,7 @@ export const uploadFileToSftpServer = async ({
 }: UploadFileToSftpServerProps): Promise<string> => {
   const sftp = new SFTPClient();
 
-  const newFolderPath = createNewPath({ dir, isPublic });
+  const newFolderPath = createNewSFTPPath({ dir, isPublic });
   const newFilePath = `${newFolderPath}/${filename}`;
 
   try {
@@ -48,7 +50,9 @@ export const uploadFileToSftpServer = async ({
 
     const fileExists = await sftp.exists(newFilePath);
     if (fileExists && !overwrite) {
-      throw new Error(`File ${filename} already exists`);
+      throw new Error(
+        `${customErrorMessagePrefix} Fil med filnamnet: ${filename} finns redan!`,
+      );
     }
 
     const newFolderPathExists = await sftp.exists(newFolderPath);
@@ -61,10 +65,11 @@ export const uploadFileToSftpServer = async ({
     return getUrlFromPath(newFilePath);
   } catch (error) {
     if (error instanceof Error) {
-      throw new Error("Failed to upload file: " + error.message);
-    } else {
-      throw new Error("Failed to upload file.");
+      if (error.message.startsWith(customErrorMessagePrefix)) {
+        throw new Error(error.message.replace(customErrorMessagePrefix, ""));
+      }
     }
+    throw new Error("Okänt fel! Kunde inte ladda upp filen.");
   } finally {
     await sftp.end();
   }
@@ -83,8 +88,8 @@ export const renameFileOnSftpServer = async ({
   try {
     await sftp.connect(config);
 
-    const pathExists = await sftp.exists(newFolderPath);
-    if (!pathExists) {
+    const newFolderPathExists = await sftp.exists(newFolderPath);
+    if (!newFolderPathExists) {
       await sftp.mkdir(newFolderPath, true);
     }
 
@@ -93,10 +98,17 @@ export const renameFileOnSftpServer = async ({
     return getUrlFromPath(newFilePath);
   } catch (error) {
     if (error instanceof Error) {
-      throw new Error("Failed to rename file: " + error.message);
-    } else {
-      throw new Error("Failed to rename file.");
+      switch (error.message) {
+        case `_rename: No such file From: ${oldFilePath}`:
+          throw new Error("Filen du ville byta namn på kunde inte hittas!");
+
+        case `_rename: Failure From: ${oldFilePath} To: ${newFilePath}`:
+          throw new Error(
+            "Kunde inte byta namn på filen! Förmodligen finns redan en fil med samma namn.",
+          );
+      }
     }
+    throw new Error("Okänt fel! Kunde inte byta namn på filen.");
   } finally {
     await sftp.end();
   }
@@ -112,24 +124,21 @@ export const deleteFileFromSftpServer = async ({
   try {
     await sftp.connect(config);
 
-    //Ignore error if file does not exist.
     await sftp.delete(filePath);
   } catch (error) {
     if (error instanceof Error) {
-      if (error.message.startsWith(`delete: No such file ${basePath}`)) {
-        throw new Error("Filen du ville radera kunde inte hittas!");
+      switch (error.message) {
+        case `delete: No such file ${filePath}`:
+          throw new Error("Filen du ville radera kunde inte hittas!");
       }
-
-      throw new Error("Failed to delete file: " + error.message);
-    } else {
-      throw new Error("Failed to delete file.");
     }
+    throw new Error("Okänt fel! Kunde inte radera filen.");
   } finally {
     await sftp.end();
   }
 };
 
-const createNewPath = ({
+const createNewSFTPPath = ({
   dir,
   isPublic,
 }: {
