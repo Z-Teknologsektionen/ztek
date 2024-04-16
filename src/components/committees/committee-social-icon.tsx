@@ -15,15 +15,17 @@ import {
 
 type CommitteeSocialIconProps = {
   iconVariant: IconEnum;
+  linkText?: string | null;
   url: string;
 };
 
 const CommitteeSocialIcon: FC<CommitteeSocialIconProps> = ({
   iconVariant,
   url,
+  linkText,
 }) => {
   const Icon = getSocialIconFromEnum(iconVariant);
-  const iconName = getSocialNameFromEnum(iconVariant);
+  const text = linkText ?? getSocialNameFromEnum(iconVariant);
 
   const isExternalLink = url.startsWith("http");
   const isEmail = iconVariant === "MAIL";
@@ -38,11 +40,11 @@ const CommitteeSocialIcon: FC<CommitteeSocialIconProps> = ({
             target={isExternalLink ? "_blank" : "_self"}
           >
             <Icon size={20} />
-            <p className="sr-only">{iconName}</p>
+            <p className="sr-only">{text}</p>
           </Link>
         </TooltipTrigger>
         <TooltipContent>
-          <p>{iconName}</p>
+          <p>{text}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

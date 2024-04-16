@@ -81,21 +81,15 @@ export const programBoardColumns: ColumnDef<ProgramBoardType>[] = [
     enableSorting: false,
     enableHiding: false,
     enableResizing: false,
-    header: ({ table }) => (
-      <div className="mr-0 flex justify-end">
-        <DataTableViewOptions table={table} />
-      </div>
-    ),
+    header: ({ table }) => <DataTableViewOptions table={table} />,
     cell: ({ row }) => {
       const programBoardMember = row.original;
 
       return (
-        <div className="flex justify-center">
-          <ProgramBoardMemberTableActions
-            key={programBoardMember.id}
-            {...programBoardMember}
-          />
-        </div>
+        <ProgramBoardMemberTableActions
+          key={programBoardMember.id}
+          {...programBoardMember}
+        />
       );
     },
   },

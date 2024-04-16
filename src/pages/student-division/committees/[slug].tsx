@@ -36,13 +36,10 @@ const CommitteePage: NextPage<
             <SectionTitle>{committee.name}</SectionTitle>
             <p>{committee.description}</p>
             <div className="flex flex-row flex-wrap justify-center gap-2">
-              {committee.socialLinks.length !== 0 ? (
-                committee.socialLinks.map((socialLink) => (
-                  <CommitteeSocialIcon {...socialLink} key={socialLink.url} />
-                ))
-              ) : (
-                <CommitteeSocialIcon iconVariant="MAIL" url={committee.email} />
-              )}
+              <CommitteeSocialIcon iconVariant="MAIL" url={committee.email} />
+              {committee.socialLinks.map((socialLink) => (
+                <CommitteeSocialIcon {...socialLink} key={socialLink.url} />
+              ))}
               {committee.document && (
                 <CommitteeSocialIcon
                   iconVariant="DOCUEMNT"

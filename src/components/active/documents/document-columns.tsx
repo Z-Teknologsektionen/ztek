@@ -48,18 +48,10 @@ export const documentColumns: ColumnDef<DocumentType>[] = [
     id: "actions",
     enableSorting: false,
     enableHiding: false,
-    header: ({ table }) => (
-      <div className="flex justify-center">
-        <DataTableViewOptions table={table} />
-      </div>
-    ),
+    header: ({ table }) => <DataTableViewOptions table={table} />,
     cell: ({ row }) => {
       const document = row.original;
-      return (
-        <div className="flex justify-center">
-          <DocumentTableActions key={document.id} {...document} />
-        </div>
-      );
+      return <DocumentTableActions key={document.id} {...document} />;
     },
   },
 ];

@@ -116,20 +116,14 @@ export const memberColumns: ColumnDef<CommitteeMemberType>[] = [
     enableSorting: false,
     enableHiding: false,
     enableResizing: false,
-    header: ({ table }) => (
-      <div className="mr-0 flex justify-end">
-        <DataTableViewOptions table={table} />
-      </div>
-    ),
+    header: ({ table }) => <DataTableViewOptions table={table} />,
     cell: ({ row }) => {
       const committeeMember = row.original;
       return (
-        <div className="flex justify-center">
-          <CommitteeMemberTableActions
-            key={committeeMember.id}
-            {...committeeMember}
-          />
-        </div>
+        <CommitteeMemberTableActions
+          key={committeeMember.id}
+          {...committeeMember}
+        />
       );
     },
   },
