@@ -17,6 +17,7 @@ export const OldCommitteeTableToolbar = <TData,>({
   table,
 }: OldCommitteeTableToolbarProps<TData>): JSX.Element => {
   const { data: session } = useRequireAuth();
+  const committeeId = session?.user.committeeId;
   const isAdmin = session?.user.roles.includes("ADMIN") || false;
 
   const ctx = api.useUtils();
@@ -28,17 +29,17 @@ export const OldCommitteeTableToolbar = <TData,>({
 
   const { data: oldCommittees } =
     api.oldCommittee.getManyByCommitteeIdAsActive.useQuery({
-      belongsToCommitteeId: session?.user.committeeId || "",
-      isAdmin: session?.user.roles.includes("ADMIN") || false,
+      belongsToCommitteeId: committeeId || "",
+      isAdmin: isAdmin,
     });
 
   const { mutate: createNewOldCommittee, isLoading: creatingNewOldCommittee } =
     api.oldCommittee.createOldCommitteeAsActive.useMutation({
       onMutate: () => toast.loading("Skapar ny patetgrupp..."),
       onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-      onSuccess: ({ name: name }) => {
+      onSuccess: async ({ name: name }) => {
         toast.success(`${name} har skapats!`);
-        void ctx.oldCommittee.invalidate();
+        await ctx.oldCommittee.invalidate();
         setIsOpen(false);
       },
       onError: (error) => {
@@ -49,6 +50,28 @@ export const OldCommitteeTableToolbar = <TData,>({
         }
       },
     });
+
+  const {
+    mutate: createOldCommitteeFromCommittee,
+    isLoading: creatingNewOldCommitteeFromCommittee,
+  } = api.oldCommittee.createOldCommitteeFromCommitteeAsActive.useMutation({
+    onMutate: () => toast.loading("Skapar ny patetgrupp från sittande..."),
+    onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
+    onSuccess: async ({ name: name, year }) => {
+      toast.success(
+        `Ett nytt patetorgan med namnet: ${name} och året ${year} har skapats. \n Om någon blev fel eller om du vill ändra något kan du redigera patetorganet`,
+      );
+      await ctx.oldCommittee.invalidate();
+      setIsOpen(false);
+    },
+    onError: (error) => {
+      if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error("Något gick fel. Försök igen senare");
+      }
+    },
+  });
 
   const committeeOptions = useMemo(
     () =>
@@ -110,7 +133,7 @@ export const OldCommitteeTableToolbar = <TData,>({
           <UpsertDialog
             form={
               <UpsertOldCommitteeForm
-                key={"new"}
+                key="new"
                 formType="create"
                 onSubmit={(values) => createNewOldCommittee(values)}
               />
@@ -131,6 +154,22 @@ export const OldCommitteeTableToolbar = <TData,>({
             }
           />
         </div>
+        {committeeId && (
+          <Button
+            className="ml-2 h-8 px-2 lg:px-3"
+            disabled={creatingNewOldCommitteeFromCommittee}
+            onClick={() =>
+              createOldCommitteeFromCommittee({
+                belongsToCommitteeId: committeeId,
+              })
+            }
+            size="lg"
+            type="button"
+            variant="outline"
+          >
+            Lägg från sittande
+          </Button>
+        )}
       </div>
     </div>
   );

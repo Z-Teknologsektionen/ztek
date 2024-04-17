@@ -6,10 +6,10 @@ import {
   objectId,
   orderNumber,
   standardString,
-  validYear,
+  validYearPastOrCurrent,
 } from "~/schemas/helpers/custom-zod-helpers";
 
-const OldCommitteeMemberSchema = z.object({
+const oldCommitteeMemberSchema = z.object({
   name: nonEmptyString,
   nickName: standardString,
   order: orderNumber,
@@ -17,11 +17,16 @@ const OldCommitteeMemberSchema = z.object({
 });
 
 export const createOldCommitteeSchema = z.object({
-  name: nonEmptyString,
-  year: validYear,
+  name: nonEmptyString.regex(
+    /^[a-zA-Z]{1,} (\d\d|\d\d\/\d\d)$/,
+    'Måste vara på formen "Organ 22" eller "Organ 22/23"',
+  ),
+  year: validYearPastOrCurrent,
   image: base64WebPImageString.or(emptyString),
   logo: base64WebPImageString.or(emptyString),
-  members: z.array(OldCommitteeMemberSchema),
+  members: oldCommitteeMemberSchema
+    .array()
+    .min(1, "Måste vara minst en sittande i ett patetorgan"),
   belongsToCommitteeId: objectId,
 });
 
@@ -30,3 +35,7 @@ export const updateOldCommitteeSchema = createOldCommitteeSchema
   .extend({
     id: objectId,
   });
+
+export const createOldCommitteeFromCommitteeSchema = z.object({
+  belongsToCommitteeId: objectId,
+});
