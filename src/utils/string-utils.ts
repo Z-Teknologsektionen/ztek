@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export const slugifyString = (str: string): string =>
   str
     .normalize("NFKD") // split accented characters into their base characters and diacritical marks
@@ -8,13 +10,15 @@ export const slugifyString = (str: string): string =>
     .replace(/\s+/g, "-") // replace spaces with hyphens
     .replace(/-+/g, "-"); // remove consecutive hyphens
 
-export const createSFTPFilename = ({
+export const createZenithMediaFilename = ({
   title,
   filename,
 }: {
   filename: string;
   title: string;
-}): string =>
-  `${new Date().toLocaleDateString().replaceAll("-", "")}-${slugifyString(
-    title,
-  )}.${filename.split(".").pop()}`;
+}): string => {
+  const formatedDate = dayjs(new Date()).format("YYYYMMDD");
+  const fileExt = filename.split(".").pop();
+
+  return `${formatedDate}-${slugifyString(title)}.${fileExt}`;
+};

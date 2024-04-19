@@ -31,8 +31,6 @@ const options: TransferOptions = {
   },
 };
 
-//TODO: Mycket error hantering behöver fixas med snygga medelanden. Logga ut error in konsol och avläs starten på medelandet. Ex fil finns redan bör hanteras
-
 export const uploadFileToSftpServer = async ({
   input,
   dir,

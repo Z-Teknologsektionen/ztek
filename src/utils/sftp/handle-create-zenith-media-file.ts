@@ -1,4 +1,4 @@
-import { createSFTPFilename } from "~/utils/string-utils";
+import { createZenithMediaFilename } from "~/utils/string-utils";
 import { handleCreateSftpFile } from "./api-calls";
 
 type HandleCreateZenithMediaFileProps = {
@@ -10,7 +10,7 @@ export const handleCreateZenithMediaFile = async ({
   file,
   title,
 }: HandleCreateZenithMediaFileProps): Promise<string> => {
-  const filename = createSFTPFilename({ title, filename: file.name });
+  const filename = createZenithMediaFilename({ title, filename: file.name });
 
   return await handleCreateSftpFile({
     dir: "media",
