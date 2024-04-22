@@ -61,6 +61,7 @@ export interface IFormFieldInputImage<
   maxHeight: number;
   maxWidth: number;
   quality: number;
+  rounded?: boolean;
 }
 
 export interface IFormFieldInputNumber<
