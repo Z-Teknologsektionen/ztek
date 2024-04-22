@@ -1,10 +1,13 @@
 import { Cross2Icon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
-import toast from "react-hot-toast";
 import { DataTableFacetedFilter } from "~/components/data-table/data-table-faceted-filter";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
+import {
+  useCreateOldCommitteeAsActive,
+  useCreateOldCommitteeFromCommitteeAsActive,
+} from "~/hooks/mutations/useMutateOldCommittee";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
 import UpsertOldCommitteeForm from "./upsert-old-committee-form";
@@ -16,12 +19,10 @@ interface OldCommitteeTableToolbarProps<TData> {
 export const OldCommitteeTableToolbar = <TData,>({
   table,
 }: OldCommitteeTableToolbarProps<TData>): JSX.Element => {
+  const [isOpen, setIsOpen] = useState(false);
   const { data: session } = useRequireAuth();
   const committeeId = session?.user.committeeId;
   const isAdmin = session?.user.roles.includes("ADMIN") || false;
-
-  const ctx = api.useUtils();
-  const [isOpen, setIsOpen] = useState(false);
 
   const isFiltered = table.getState().columnFilters.length > 0;
   const committeeColumn = table.getColumn("Organ");
@@ -34,44 +35,14 @@ export const OldCommitteeTableToolbar = <TData,>({
     });
 
   const { mutate: createNewOldCommittee, isLoading: creatingNewOldCommittee } =
-    api.oldCommittee.createOldCommitteeAsActive.useMutation({
-      onMutate: () => toast.loading("Skapar ny patetgrupp..."),
-      onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-      onSuccess: async ({ name: name }) => {
-        toast.success(`${name} har skapats!`);
-        await ctx.oldCommittee.invalidate();
-        setIsOpen(false);
-      },
-      onError: (error) => {
-        if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("Något gick fel. Försök igen senare");
-        }
-      },
+    useCreateOldCommitteeAsActive({
+      onSuccess: () => setIsOpen(false),
     });
 
   const {
     mutate: createOldCommitteeFromCommittee,
     isLoading: creatingNewOldCommitteeFromCommittee,
-  } = api.oldCommittee.createOldCommitteeFromCommitteeAsActive.useMutation({
-    onMutate: () => toast.loading("Skapar ny patetgrupp från sittande..."),
-    onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-    onSuccess: async ({ name: name, year }) => {
-      toast.success(
-        `Ett nytt patetorgan med namnet: ${name} och året ${year} har skapats. \n Om någon blev fel eller om du vill ändra något kan du redigera patetorganet`,
-      );
-      await ctx.oldCommittee.invalidate();
-      setIsOpen(false);
-    },
-    onError: (error) => {
-      if (error.message) {
-        toast.error(error.message);
-      } else {
-        toast.error("Något gick fel. Försök igen senare");
-      }
-    },
-  });
+  } = useCreateOldCommitteeFromCommitteeAsActive({});
 
   const committeeOptions = useMemo(
     () =>
