@@ -11,10 +11,9 @@ export const metadata: Metadata = {
   description: "Här kan du hitta alla Z-teknologsektionens dokument",
 };
 
-const getDocumentGroupsWithDocuments = async (): Promise<
+export const getDocumentGroupsWithDocuments = async (): Promise<
   {
     Document: {
-      id: string;
       isPDF: boolean;
       title: string;
       url: string;
