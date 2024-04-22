@@ -43,7 +43,7 @@ enum CommitteeType {
 type CommitteeSocialLink {
     url         String
     iconVariant IconEnum
-    order       Int      @default(100)
+    linkText    String?
 }
 
 enum IconEnum {
