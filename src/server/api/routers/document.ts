@@ -7,30 +7,6 @@ import {
 } from "~/server/api/trpc";
 
 export const documentRouter = createTRPCRouter({
-  getAllSortedByGroup: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.documentGroup.findMany({
-      where: {
-        Document: {
-          some: {
-            id: {
-              not: undefined,
-            },
-          },
-        },
-      },
-      select: {
-        name: true,
-        extraText: true,
-        Document: {
-          select: {
-            isPDF: true,
-            title: true,
-            url: true,
-          },
-        },
-      },
-    });
-  }),
   getAllGroupsAsAuthed: documentProcedure.query(async ({ ctx }) => {
     const groups = await ctx.prisma.documentGroup.findMany({
       select: {
