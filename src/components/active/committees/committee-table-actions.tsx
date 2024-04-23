@@ -8,9 +8,9 @@ import {
   useDeleteCommitteeAsAuthed,
   useUpdateCommitteeAsAuthed,
 } from "~/hooks/mutations/useMutateCommittee";
-import type { CommitteeType } from "./committee-columns";
+import type { Committee } from "./committee-columns";
 
-export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
+export const CommitteeTableActions: FC<Committee> = ({ id, ...values }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: updateCommittee } = useUpdateCommitteeAsAuthed({
