@@ -94,7 +94,7 @@ export const validYearPastOrCurrent = validYear.refine(
   "Årtalet får inte vara ett framtida årtal",
 );
 
-export const relativePathString = z.string().trim().startsWith("/");
+export const relativePathString = standardString.startsWith("/");
 
 export const stringToBoolean = standardString
   .transform((str) => str.toLowerCase())
@@ -111,7 +111,7 @@ export const sftpUrl = httpsUrlString.refine(
 
 export const sftpFilename = standardString.regex(
   filenameRegExp,
-  "Ogiltigt filnamn",
+  `Ogiltigt filnamn. Använder följande regex: ${filenameRegExp}`,
 );
 
 export const sftpFile = z
@@ -121,13 +121,11 @@ export const sftpFile = z
   }, `Filen får inte vara större än ${MAX_SFTP_MB_SIZE}MB. Kontakta Webbgruppen om du behöver ladda upp större grejer.`)
   .refine(
     (file) => SFTP_ACCEPTED_MEDIA_TYPES.includes(file.type as SFTPMediaType),
-    "Inte en godkänd filtyp. Kontakta webbgruppen om du behöver ladda upp den här filtypen",
+    "Inte en godkänd filtyp. Kontakta webbgruppen om du behöver ladda upp den här filtypen.",
   );
 
 export const sftpDir = z.enum(SFPT_DIRS, {
   errorMap: () => ({
-    message: `Ogiltigt directory. Måste vara ett av följande: "${SFPT_DIRS.join(
-      " ",
-    )}"`,
+    message: `Ogiltigt directory. Måste vara ett av följande: "${SFPT_DIRS.join()}"`,
   }),
 });
