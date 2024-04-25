@@ -32,37 +32,6 @@ export const useCreateOldCommitteeAsActive = ({
   });
 };
 
-export const useCreateOldCommitteeFromCommitteeAsActive = ({
-  onError,
-  onSettled,
-  onSuccess,
-}: UseMutationHookProps) => {
-  const ctx = api.useUtils();
-
-  return api.oldCommittee.createOldCommitteeFromCommitteeAsActive.useMutation({
-    onMutate: () => toast.loading("Skapar ny patetgrupp från sittande..."),
-    onSettled: (_, __, ___, toastId) => {
-      toast.dismiss(toastId);
-      onSettled?.();
-    },
-    onSuccess: async ({ name: name, year }) => {
-      toast.success(
-        `Ett nytt patetorgan med namnet: ${name} och året ${year} har skapats. \n Om någon blev fel eller om du vill ändra något kan du redigera patetorganet`,
-      );
-      await ctx.oldCommittee.invalidate();
-      onSuccess?.();
-    },
-    onError: (error) => {
-      if (error.message) {
-        toast.error(error.message);
-      } else {
-        toast.error("Något gick fel. Försök igen senare");
-      }
-      onError?.();
-    },
-  });
-};
-
 export const useUpdateOldCommitteAsAuthed = ({
   onError,
   onSettled,

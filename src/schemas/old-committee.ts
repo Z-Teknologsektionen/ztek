@@ -37,7 +37,3 @@ export const updateOldCommitteeSchema = createOldCommitteeSchema
   .extend({
     id: objectId,
   });
-
-export const createOldCommitteeFromCommitteeSchema = z.object({
-  belongsToCommitteeId: objectId,
-});

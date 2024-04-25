@@ -4,10 +4,7 @@ import { useMemo, useState } from "react";
 import { DataTableFacetedFilter } from "~/components/data-table/data-table-faceted-filter";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
-import {
-  useCreateOldCommitteeAsActive,
-  useCreateOldCommitteeFromCommitteeAsActive,
-} from "~/hooks/mutations/useMutateOldCommittee";
+import { useCreateOldCommitteeAsActive } from "~/hooks/mutations/useMutateOldCommittee";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
 import UpsertOldCommitteeForm from "./upsert-old-committee-form";
@@ -39,10 +36,9 @@ export const OldCommitteeTableToolbar = <TData,>({
       onSuccess: () => setIsOpen(false),
     });
 
-  const {
-    mutate: createOldCommitteeFromCommittee,
-    isLoading: creatingNewOldCommitteeFromCommittee,
-  } = useCreateOldCommitteeFromCommitteeAsActive({});
+  const { data: activeCommittee } = api.committee.getOneByIdAsActive.useQuery({
+    id: committeeId || "",
+  });
 
   const committeeOptions = useMemo(
     () =>
@@ -62,9 +58,9 @@ export const OldCommitteeTableToolbar = <TData,>({
   const yearOptions = useMemo(
     () =>
       oldCommittees
-        ?.map(({ year }) => ({
-          label: year.toString(),
-          value: year,
+        ?.map(({ year: oldCommitteeYear }) => ({
+          label: oldCommitteeYear.toString(),
+          value: oldCommitteeYear,
         }))
         .filter(
           ({ value: filterValue }, index, self) =>
@@ -72,6 +68,21 @@ export const OldCommitteeTableToolbar = <TData,>({
         ) || [],
     [oldCommittees],
   );
+
+  let year = 0;
+  let formatedYear = "";
+  if (activeCommittee) {
+    year = activeCommittee?.updatedAt.getFullYear();
+    if (new Date(new Date().getFullYear(), 0, 1) < activeCommittee?.updatedAt) {
+      year -= 1;
+    }
+    formatedYear = `${year.toString().slice(2)}/${(year + 1)
+      .toString()
+      .slice(2)}`;
+    if (activeCommittee.electionPeriod === 2) {
+      formatedYear = year.toString().slice(2);
+    }
+  }
 
   return (
     <div className="overflow-x-auto">
@@ -125,21 +136,45 @@ export const OldCommitteeTableToolbar = <TData,>({
             }
           />
         </div>
-        {committeeId && (
-          <Button
-            className="ml-2 h-8 px-2 lg:px-3"
-            disabled={creatingNewOldCommitteeFromCommittee}
-            onClick={() =>
-              createOldCommitteeFromCommittee({
-                belongsToCommitteeId: committeeId,
-              })
+        {activeCommittee && (
+          <UpsertDialog
+            form={
+              <UpsertOldCommitteeForm
+                key="new"
+                defaultValues={{
+                  name: `${activeCommittee.name} ${formatedYear}`,
+                  year: year,
+                  belongsToCommitteeId: activeCommittee.id,
+                  members: activeCommittee.members.map(
+                    ({ name, nickName, order, role }) => ({
+                      name,
+                      nickName,
+                      order,
+                      role,
+                    }),
+                  ),
+                  logo: activeCommittee.image,
+                  image: "",
+                }}
+                formType="create"
+                onSubmit={(values) => createNewOldCommittee(values)}
+              />
             }
-            size="lg"
-            type="button"
-            variant="outline"
-          >
-            Lägg från sittande
-          </Button>
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            title="Nytt patetår"
+            trigger={
+              <Button
+                className="ml-2 h-8 px-2 lg:px-3"
+                disabled={creatingNewOldCommittee}
+                size="lg"
+                type="button"
+                variant="outline"
+              >
+                Lägg till från sittande
+              </Button>
+            }
+          />
         )}
       </div>
     </div>
