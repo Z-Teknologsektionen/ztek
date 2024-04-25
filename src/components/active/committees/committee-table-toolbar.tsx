@@ -35,7 +35,7 @@ export const CommitteeTableToolbar = <TData,>({
               value: type,
               label: getCommitteeTypeStringFromEnum(type, false),
             }))}
-            title="Filtrera på organ typ"
+            title="Filtrera på typ"
           />
           <DataTableFacetedFilter
             column={committeeElectionPeriodColumn}
