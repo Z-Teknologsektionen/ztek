@@ -94,7 +94,7 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
       <FormFieldInputImage
         description="Förslagsvis gruppbild. Om du anger enbart denna bild så kommer den enbart visas på omslaget"
         form={form}
-        label="Primar bild (valfri)"
+        label="Primär bild (valfri)"
         maxHeight={COMMITTEE_IMAGE_SIZE}
         maxWidth={COMMITTEE_IMAGE_SIZE}
         name="image"

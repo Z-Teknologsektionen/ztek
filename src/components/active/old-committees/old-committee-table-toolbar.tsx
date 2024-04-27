@@ -112,6 +112,46 @@ export const OldCommitteeTableToolbar = <TData,>({
           )}
         </div>
         <div className="flex justify-end">
+          {activeCommittee && (
+            <UpsertDialog
+              form={
+                <UpsertOldCommitteeForm
+                  key="new"
+                  defaultValues={{
+                    name: `${activeCommittee.name} ${formatedYear}`,
+                    year: year,
+                    belongsToCommitteeId: activeCommittee.id,
+                    members: activeCommittee.members.map(
+                      ({ name, nickName, order, role }) => ({
+                        name,
+                        nickName,
+                        order,
+                        role,
+                      }),
+                    ),
+                    logo: activeCommittee.image,
+                    image: "",
+                  }}
+                  formType="create"
+                  onSubmit={(values) => createNewOldCommittee(values)}
+                />
+              }
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              title="Nytt patetår"
+              trigger={
+                <Button
+                  className="ml-2 h-8 px-2 lg:px-3"
+                  disabled={creatingNewOldCommittee}
+                  size="lg"
+                  type="button"
+                  variant="outline"
+                >
+                  Lägg till från sittande
+                </Button>
+              }
+            />
+          )}
           <UpsertDialog
             form={
               <UpsertOldCommitteeForm
@@ -136,46 +176,6 @@ export const OldCommitteeTableToolbar = <TData,>({
             }
           />
         </div>
-        {activeCommittee && (
-          <UpsertDialog
-            form={
-              <UpsertOldCommitteeForm
-                key="new"
-                defaultValues={{
-                  name: `${activeCommittee.name} ${formatedYear}`,
-                  year: year,
-                  belongsToCommitteeId: activeCommittee.id,
-                  members: activeCommittee.members.map(
-                    ({ name, nickName, order, role }) => ({
-                      name,
-                      nickName,
-                      order,
-                      role,
-                    }),
-                  ),
-                  logo: activeCommittee.image,
-                  image: "",
-                }}
-                formType="create"
-                onSubmit={(values) => createNewOldCommittee(values)}
-              />
-            }
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            title="Nytt patetår"
-            trigger={
-              <Button
-                className="ml-2 h-8 px-2 lg:px-3"
-                disabled={creatingNewOldCommittee}
-                size="lg"
-                type="button"
-                variant="outline"
-              >
-                Lägg till från sittande
-              </Button>
-            }
-          />
-        )}
       </div>
     </div>
   );
