@@ -1,5 +1,5 @@
 import { AccountRoles } from "@prisma/client";
-import { CheckIcon } from "@radix-ui/react-icons";
+import { CheckIcon, LockClosedIcon } from "@radix-ui/react-icons";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { PlusIcon } from "lucide-react";
 import type { ReactNode } from "react";
@@ -57,7 +57,7 @@ export const MemberRolesActions = ({
   return (
     <Popover>
       <PopoverTrigger className="group" disabled={!userCanEdit || updatingUser}>
-        <BadgeCell className="p-1 hover:cursor-pointer hover:bg-blue-50 group-disabled:opacity-50">
+        <BadgeCell className="p-1 hover:cursor-pointer hover:bg-blue-50 group-disabled:cursor-not-allowed group-disabled:opacity-50">
           <PlusIcon className="h-3 w-3" />
         </BadgeCell>
       </PopoverTrigger>
@@ -68,8 +68,9 @@ export const MemberRolesActions = ({
             <CommandEmpty>Inga resultat hittades.</CommandEmpty>
             <CommandGroup>
               {Object.values(AccountRoles).map((selectedRole) => {
-                if (!canUserEditUser(session?.user.roles, [selectedRole]))
-                  return null;
+                const canEdit = canUserEditUser(session?.user.roles, [
+                  selectedRole,
+                ]);
 
                 const isSelected = selectedValues.includes(selectedRole);
 
@@ -78,6 +79,8 @@ export const MemberRolesActions = ({
                     key={selectedRole}
                     disabled={updatingUser}
                     onSelect={() => {
+                      if (!canEdit) return;
+
                       setSelectedValues((prev) =>
                         prev.includes(selectedRole)
                           ? prev.filter((role) => role !== selectedRole)
@@ -85,43 +88,47 @@ export const MemberRolesActions = ({
                       );
                     }}
                   >
-                    <div
-                      className={cn(
-                        "border-primary mr-2 flex h-4 w-4 items-center justify-center rounded-sm border",
-                        isSelected
-                          ? "bg-primary text-primary-foreground"
-                          : "opacity-50 [&_svg]:invisible",
-                      )}
-                    >
-                      <CheckIcon className="h-4 w-4" />
-                    </div>
+                    {canEdit ? (
+                      <div
+                        className={cn(
+                          "border-primary mr-2 flex h-4 w-4 items-center justify-center rounded-sm border",
+                          isSelected
+                            ? "bg-primary text-primary-foreground"
+                            : "opacity-50 [&_svg]:invisible",
+                        )}
+                      >
+                        <CheckIcon className="h-4 w-4" />
+                      </div>
+                    ) : (
+                      <LockClosedIcon className="mr-2 h-4 w-4" />
+                    )}
                     {<span>{selectedRole}</span>}
                   </CommandItem>
                 );
               })}
-              {valuesHasChanged && (
-                <div>
-                  <Separator className="mx-2 my-2" orientation="horizontal" />
-                  <div className="mx-auto my-2 flex items-center justify-center hover:bg-inherit">
-                    <PopoverClose>
-                      <Button
-                        className="h-6"
-                        onClick={() => {
-                          updateUser({
-                            id: userId,
-                            roles: selectedValues,
-                          });
-                        }}
-                        variant={"outline"}
-                      >
-                        Uppdatera
-                      </Button>
-                    </PopoverClose>
-                  </div>
-                </div>
-              )}
             </CommandGroup>
           </CommandList>
+          {valuesHasChanged && (
+            <div>
+              <Separator className="mx-2 my-2" orientation="horizontal" />
+              <div className="mx-auto my-2 flex items-center justify-center hover:bg-inherit">
+                <PopoverClose>
+                  <Button
+                    className="h-6"
+                    onClick={() => {
+                      updateUser({
+                        id: userId,
+                        roles: selectedValues,
+                      });
+                    }}
+                    variant={"outline"}
+                  >
+                    Uppdatera
+                  </Button>
+                </PopoverClose>
+              </div>
+            </div>
+          )}
         </Command>
       </PopoverContent>
     </Popover>

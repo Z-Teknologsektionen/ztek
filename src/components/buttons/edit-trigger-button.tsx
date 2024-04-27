@@ -18,7 +18,7 @@ const EditTriggerButton: FC = () => {
           <div
             className={cn(
               buttonVariants({ size: "sm", variant: "outline" }),
-              "mx-2 h-6 group-disabled:opacity-50",
+              "mx-2 h-6 group-disabled:cursor-not-allowed group-disabled:opacity-50",
             )}
           >
             <MdEdit className="fill-waring" size={15} />
