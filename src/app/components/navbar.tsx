@@ -1,20 +1,22 @@
+"use client";
+
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import type { FC } from "react";
 import { useState } from "react";
 import { useNavbarRoutes } from "~/hooks/useNavbarRoutes";
+import NavLink from "./navbar-link";
 
 const Navbar: FC = () => {
-  const router = useRouter();
+  const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navbarRoutes = useNavbarRoutes();
 
   const toggleMenu = (): void => {
     setIsMenuOpen((prev) => !prev);
   };
-
   return (
     <nav className="z-10 mt-8 bg-zBlack text-zWhite">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -60,7 +62,7 @@ const Navbar: FC = () => {
                 <NavLink
                   key={`open-${route.name}`}
                   href={route.href}
-                  isActive={router.pathname === route.href}
+                  isActive={pathname === route.href}
                   target={route.target}
                 >
                   {route.name}
@@ -86,7 +88,7 @@ const Navbar: FC = () => {
                 <NavLink
                   key={`mobile-${route.name}`}
                   href={route.href}
-                  isActive={router.pathname === route.href}
+                  isActive={pathname === route.href}
                   target={route.target}
                 >
                   <button onClick={toggleMenu}>{route.name}</button>
@@ -97,33 +99,6 @@ const Navbar: FC = () => {
         )}
       </div>
     </nav>
-  );
-};
-
-interface NavLinkProps {
-  children: React.ReactNode;
-  href: string;
-  isActive: boolean;
-  target: string;
-}
-
-const NavLink: FC<NavLinkProps> = ({ href, isActive, target, children }) => {
-  const activeClass = isActive
-    ? "block transition-all duration-500 max-w-full"
-    : "block transition-all duration-500 group-hover:max-w-full max-w-0 h-1";
-
-  return (
-    <Link
-      className={
-        "group items-center rounded-md px-3 py-2 text-sm font-medium transition"
-      }
-      href={href}
-      rel={target == "_blank" ? "noopener noreferrer" : "none"}
-      target={target}
-    >
-      {children}
-      <span className={`h-1 rounded bg-zDarkGray ${activeClass}`} />
-    </Link>
   );
 };
 
