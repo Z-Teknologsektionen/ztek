@@ -1,17 +1,10 @@
 import type { FC } from "react";
-import { FormFieldFileInput } from "~/components/forms/form-field-file-input";
 import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldInputImage from "~/components/forms/form-field-input-image";
 import FormFieldInputNumber from "~/components/forms/form-field-input-number";
 import FormWrapper from "~/components/forms/form-wrapper";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import TabsSelectFileAndUrl from "~/components/forms/tabs-select-file-and-url";
+
 import { ZENITH_MEDIA_ACCEPTED_MEDIA_TYPES } from "~/constants/sftp";
 import { MAX_4_DIGIT_YEAR, MIN_4_DIGIT_YEAR } from "~/constants/size-constants";
 import { env } from "~/env.mjs";
@@ -68,56 +61,25 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
         name="coverImage"
         quality={85}
       />
-      <Tabs
-        defaultValue={
-          form.getValues("media.url") !== undefined ? "link" : "upload"
-        }
-      >
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="upload">Ladda upp</TabsTrigger>
-          <TabsTrigger value="link">Länka till media</TabsTrigger>
-        </TabsList>
-        <TabsContent value="upload">
-          <Card>
-            <CardHeader>
-              <CardTitle>Ladda upp fil</CardTitle>
-              <CardDescription>
-                Du kan antingen ladda upp en pdf eller en fil i godtyckligt
-                bildformat.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <FormFieldFileInput
-                accept={ZENITH_MEDIA_ACCEPTED_MEDIA_TYPES.join(", ")}
-                description="Mediafil"
-                form={form}
-                label="Fil"
-                name="media.file"
-              />
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="link">
-          <Card>
-            <CardHeader>
-              <CardTitle>Länka till media</CardTitle>
-              <CardDescription>
-                Om du har laddat up ert media till exempelvis youtube så kan ni
-                länka till det här.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <FormFieldInput
-                description={`Om länken börjar på "${env.NEXT_PUBLIC_SFTP_BASE_URL}" så är det en uppladdad fil! Byt tillbaka till "Ladda upp" om du vill ladda upp en ny fil`}
-                form={form}
-                label="Url"
-                name="media.url"
-                type="url"
-              />
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+      <TabsSelectFileAndUrl
+        fileProps={{
+          accept: ZENITH_MEDIA_ACCEPTED_MEDIA_TYPES.join(", "),
+          title: "Ladda upp fil",
+          cardDescription:
+            "Du kan antingen ladda upp en pdf eller en bild fil.",
+          name: "media.file",
+          label: "Fil",
+        }}
+        form={form}
+        urlProps={{
+          label: "Url",
+          name: "media.url",
+          cardDescription:
+            "Om du har laddat up ert media till exempelvis youtube så kan ni länka till det här.",
+          fieldDescription: `Om länken börjar på "${env.NEXT_PUBLIC_SFTP_BASE_URL}" så är det en uppladdad fil! Byt tillbaka till "Ladda upp" om du vill ladda upp en ny fil`,
+          title: "Länka till media",
+        }}
+      />
     </FormWrapper>
   );
 };
