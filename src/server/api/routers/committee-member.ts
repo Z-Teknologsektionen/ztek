@@ -12,7 +12,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { canUserEditUser } from "~/utils/can-user-edit-user";
+import { canCurrentUserModifyTargetRoleUser } from "~/utils/can-user-edit-user";
 
 export const committeeMemberRouter = createTRPCRouter({
   getOneByEmail: publicProcedure
@@ -194,7 +194,12 @@ export const committeeMemberRouter = createTRPCRouter({
             message: "Kunde inte hitta användaren du försökte ta bort",
           });
         });
-      if (!canUserEditUser(session.user.roles, member.user?.roles))
+      if (
+        !canCurrentUserModifyTargetRoleUser(
+          session.user.roles,
+          member.user?.roles,
+        )
+      )
         throw new TRPCError({
           code: "FORBIDDEN",
           message:

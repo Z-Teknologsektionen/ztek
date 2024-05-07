@@ -1,4 +1,3 @@
-import { AccountRoles } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
 import BadgeCell from "~/components/columns/badge-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
@@ -81,12 +80,7 @@ export const memberColumns: ColumnDef<CommitteeMemberType>[] = [
             member.userRoles.map((role) => (
               <BadgeCell
                 key={role}
-                variant={
-                  role === AccountRoles.ADMIN ||
-                  role === AccountRoles.SUPER_ADMIN
-                    ? "destructive"
-                    : "outline"
-                }
+                variant={userHasAdminAccess([role]) ? "destructive" : "outline"}
               >
                 {role}
               </BadgeCell>

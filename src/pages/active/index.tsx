@@ -8,7 +8,7 @@ import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { activeTabs } from "~/data/active-tabs";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
-import { userHasCorrectRole } from "~/utils/user-has-correct-role";
+import { userHasRequiredRole } from "~/utils/user-has-correct-role";
 
 const ActiveHomePage: NextPage = () => {
   const [selectedTab, setSelectedTab] = useState<string | undefined>(() => {
@@ -32,12 +32,12 @@ const ActiveHomePage: NextPage = () => {
   const userHasPermission = (tabName: string): boolean => {
     const tab = activeTabs.find((r) => r.name === tabName);
     return (
-      tab !== undefined && userHasCorrectRole(user.roles, tab.requiredRole)
+      tab !== undefined && userHasRequiredRole(user.roles, tab.requiredRole)
     );
   };
 
   const availableTabs = activeTabs.filter(({ requiredRole }) =>
-    userHasCorrectRole(user.roles, requiredRole),
+    userHasRequiredRole(user.roles, requiredRole),
   );
 
   const initialTab = activeTabs.find((tab) => tab.initialTab);

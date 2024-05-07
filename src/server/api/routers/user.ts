@@ -4,17 +4,17 @@ import {
   createTRPCRouter,
   organizationManagementProcedure,
 } from "~/server/api/trpc";
-import { canUserEditUser } from "~/utils/can-user-edit-user";
+import { canCurrentUserModifyTargetRoleUser } from "~/utils/can-user-edit-user";
 
 export const userRouter = createTRPCRouter({
   updateUserRolesAsAuthed: organizationManagementProcedure
     .input(updateUserRolesSchema)
     .mutation(({ ctx: { prisma, session }, input: { id, roles } }) => {
-      if (!canUserEditUser(session.user.roles, roles))
+      if (!canCurrentUserModifyTargetRoleUser(session.user.roles, roles))
         throw new TRPCError({
           code: "FORBIDDEN",
           message:
-            "Du får inte redigera denna medlemm. Kontakta en användare med högre behövrighet än dig",
+            "Du får inte redigera denna medlem. Kontakta en användare med högre behörighet än dig",
         });
 
       return prisma.user.update({

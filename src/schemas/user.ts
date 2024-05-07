@@ -10,5 +10,13 @@ export const updateUserRolesSchema = z.object({
     .max(
       Object.values(AccountRoles).length,
       "Du kan inte ge fler användar roller än vad det finns roller. Kontrolera att det inte finns några dubbletter",
+    )
+    .refine(
+      (roles) =>
+        roles.filter(
+          (filterRole, index, self) =>
+            self.findIndex((role) => filterRole === role) === index,
+        ),
+      "Det finns dubbletter i listan. Vänligen ta bort dessa.",
     ),
 });

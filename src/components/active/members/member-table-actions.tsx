@@ -9,7 +9,7 @@ import {
   useUpdateMemberAsAuthed,
 } from "~/hooks/mutations/useMutateMember";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
-import { canUserEditUser } from "~/utils/can-user-edit-user";
+import { canCurrentUserModifyTargetRoleUser } from "~/utils/can-user-edit-user";
 import type { CommitteeMemberType } from "./member-columns";
 
 export const CommitteeMemberTableActions: FC<CommitteeMemberType> = ({
@@ -27,7 +27,8 @@ export const CommitteeMemberTableActions: FC<CommitteeMemberType> = ({
   const { data: session } = useRequireAuth();
 
   const userCanDelete =
-    session !== null && canUserEditUser(session.user.roles, values.userRoles);
+    session !== null &&
+    canCurrentUserModifyTargetRoleUser(session.user.roles, values.userRoles);
 
   const isOwnUser = session !== null && session.user.memberId === id;
 

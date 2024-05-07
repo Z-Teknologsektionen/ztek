@@ -22,7 +22,7 @@ import {
 import { Separator } from "~/components/ui/separator";
 import { useUpdateUserAsAuthed } from "~/hooks/mutations/useMutateUserAsAuthed";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
-import { canUserEditUser } from "~/utils/can-user-edit-user";
+import { canCurrentUserModifyTargetRoleUser } from "~/utils/can-user-edit-user";
 import { cn } from "~/utils/utils";
 
 type MemberRolesActionsProps = {
@@ -52,7 +52,10 @@ export const MemberRolesActions = ({
 
   const { data: session } = useRequireAuth();
 
-  const userCanEdit = canUserEditUser(session?.user.roles, currentRoles);
+  const userCanEdit = canCurrentUserModifyTargetRoleUser(
+    session?.user.roles,
+    currentRoles,
+  );
 
   return (
     <Popover>
@@ -68,9 +71,10 @@ export const MemberRolesActions = ({
             <CommandEmpty>Inga resultat hittades.</CommandEmpty>
             <CommandGroup>
               {Object.values(AccountRoles).map((selectedRole) => {
-                const canEdit = canUserEditUser(session?.user.roles, [
-                  selectedRole,
-                ]);
+                const canEdit = canCurrentUserModifyTargetRoleUser(
+                  session?.user.roles,
+                  [selectedRole],
+                );
 
                 const isSelected = selectedValues.includes(selectedRole);
 

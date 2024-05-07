@@ -35,7 +35,7 @@ import superjson from "superjson";
 import { ZodError } from "zod";
 import {
   userHasAdminAccess,
-  userHasCorrectRole,
+  userHasRequiredRole,
 } from "~/utils/user-has-correct-role";
 
 type CreateContextOptions = {
@@ -153,7 +153,7 @@ const enforceUserHasRoleOrAdmin = (role: AccountRoles) =>
       throw new TRPCError({ code: "FORBIDDEN" });
     }
     // has role or is admin
-    if (!userHasCorrectRole(session.user.roles, role)) {
+    if (!userHasRequiredRole(session.user.roles, role)) {
       throw new TRPCError({ code: "UNAUTHORIZED" });
     }
     return next({
