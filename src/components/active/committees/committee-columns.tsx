@@ -1,4 +1,6 @@
+import type { CommitteeType } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
+import { z } from "zod";
 import BooleanCell from "~/components/columns/boolean-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
@@ -8,9 +10,9 @@ import { getCommitteeTypeStringFromEnum } from "~/utils/get-committee-type-strin
 import { getSocialIconFromEnum } from "~/utils/get-social-from-enum";
 import { CommitteeTableActions } from "./committee-table-actions";
 
-export type CommitteeType = RouterOutputs["committee"]["getAllAsAuthed"][0];
+export type Committee = RouterOutputs["committee"]["getAllAsAuthed"][0];
 
-export const committeeColumns: ColumnDef<CommitteeType>[] = [
+export const committeeColumns: ColumnDef<Committee>[] = [
   {
     id: "Namn",
     accessorKey: "name",
@@ -33,7 +35,15 @@ export const committeeColumns: ColumnDef<CommitteeType>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
-    filterFn: "includesString",
+    filterFn: (row, _columnId, rawFilterValue) => {
+      const filterValue = z
+        .custom<CommitteeType>()
+        .array()
+        .safeParse(rawFilterValue);
+      if (!filterValue.success) return false;
+
+      return filterValue.data.includes(row.original.committeeType);
+    },
     cell: ({ row }) =>
       getCommitteeTypeStringFromEnum(row.original.committeeType, false),
   },

@@ -153,6 +153,7 @@ export const committeeRouter = createTRPCRouter({
     return ctx.prisma.committee.findMany({
       select: {
         name: true,
+        id: true,
       },
       orderBy: [{ order: "desc" }],
     });
