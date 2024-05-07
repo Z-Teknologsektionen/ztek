@@ -1,7 +1,8 @@
 import { env } from "~/env.mjs";
 import { createZenithMediaFilename } from "~/utils/string-utils";
-import { handleDeleteSftpFile, handleRenameSftpFile } from "./api-calls";
-import { handleCreateZenithMediaFile } from "./handle-create-zenith-media-file";
+import { handleCreateZenithMediaFile } from "./handle-create-sftp-file";
+import { handleDeleteSftpFile } from "./handle-delete-sftp-file";
+import { handleRenameSftpFile } from "./handle-rename-sftp-file";
 
 type HandleUpdateZenithMediaFileProps = {
   newFile: File | undefined;

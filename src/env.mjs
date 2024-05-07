@@ -20,7 +20,7 @@ const server = z.object({
   SFTP_BASE_PATH: z
     .string()
     .startsWith("/")
-    .regex(/^(\/[a-zA-Z0-9\.-]{1,}){1,}$/),
+    .regex(/^(\/[a-zA-Z0-9\.-]+)+$/),
 });
 
 /**

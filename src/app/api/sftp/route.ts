@@ -1,5 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
 import {
+  NextResponseServerError,
+  NextResponseZODError,
+} from "~/app/api/next-response-helpers";
+import {
   sftpDeleteFileSchema,
   sftpRenameFileSchema,
   sftpUploadNewFileSchema,
@@ -9,123 +13,62 @@ import {
   deleteFileFromSftpServer,
   renameFileOnSftpServer,
   uploadFileToSftpServer,
-} from "~/utils/sftp/sftp-engine";
+} from "./utils/sftp-engine";
 
 export async function POST(request: NextRequest): NextSFTPAPIResponseWithUrl {
-  const formData = await sftpUploadNewFileSchema.safeParseAsync(
+  const result = sftpUploadNewFileSchema.safeParse(
     Object.fromEntries(await request.formData()),
   );
 
-  if (!formData.success) {
-    const firstIssue = formData.error.issues.at(0);
-
-    return NextResponse.json(
-      {
-        error: `Ogiltig input ${
-          firstIssue && `${firstIssue?.path.join(" ")}: ${firstIssue?.message}`
-        }`,
-      },
-      {
-        status: 400,
-      },
-    );
+  if (!result.success) {
+    return NextResponseZODError(result.error);
   }
 
-  const bytes = await formData.data.file.arrayBuffer();
+  const bytes = await result.data.file.arrayBuffer();
   const buffer = Buffer.from(bytes);
 
   try {
     const url = await uploadFileToSftpServer({
       input: buffer,
-      ...formData.data,
+      ...result.data,
     });
 
     return NextResponse.json({ success: true, url });
   } catch (error) {
-    return NextResponse.json(
-      {
-        error:
-          error instanceof Error
-            ? error.message
-            : "Något gick fel! Försök igen senare eller kontakta Webbgruppen",
-      },
-      { status: 500 },
-    );
+    return NextResponseServerError();
   }
 }
 
 export async function PUT(request: NextRequest): NextSFTPAPIResponseWithUrl {
-  const body = await sftpRenameFileSchema.safeParseAsync(await request.json());
+  const result = sftpRenameFileSchema.safeParse(await request.json());
 
-  if (!body.success) {
-    const firstIssue = body.error.issues.at(0);
-
-    return NextResponse.json(
-      {
-        error: `Ogiltig input ${
-          firstIssue && `${firstIssue?.path.toString()}: ${firstIssue?.message}`
-        }`,
-      },
-      {
-        status: 400,
-      },
-    );
+  if (!result.success) {
+    return NextResponseZODError(result.error);
   }
 
   try {
-    const url = await renameFileOnSftpServer(body.data);
+    const url = await renameFileOnSftpServer(result.data);
 
     return NextResponse.json({ success: true, url });
   } catch (error) {
-    return NextResponse.json(
-      {
-        error:
-          error instanceof Error
-            ? error.message
-            : "Något gick fel! Försök igen senare eller kontakta Webbgruppen",
-      },
-      {
-        status: 500,
-      },
-    );
+    return NextResponseServerError();
   }
 }
 
 export async function DELETE(request: NextRequest): NextSFTPAPIResponseWithUrl {
-  const body = await sftpDeleteFileSchema.safeParseAsync(await request.json());
+  const result = sftpDeleteFileSchema.safeParse(await request.json());
 
-  if (!body.success) {
-    const firstIssue = body.error.issues.at(0);
-
-    return NextResponse.json(
-      {
-        error: `Ogiltig input ${
-          firstIssue && `${firstIssue?.path.toString()}: ${firstIssue?.message}`
-        }`,
-      },
-      {
-        status: 400,
-      },
-    );
+  if (!result.success) {
+    return NextResponseZODError(result.error);
   }
 
   try {
-    await deleteFileFromSftpServer(body.data);
+    await deleteFileFromSftpServer(result.data);
     return NextResponse.json({
       success: true,
-      url: body.data.url,
+      url: result.data.url,
     });
   } catch (error) {
-    return NextResponse.json(
-      {
-        error:
-          error instanceof Error
-            ? error.message
-            : "Något gick fel! Försök igen senare eller kontakta Webbgruppen",
-      },
-      {
-        status: 500,
-      },
-    );
+    return NextResponseServerError();
   }
 }

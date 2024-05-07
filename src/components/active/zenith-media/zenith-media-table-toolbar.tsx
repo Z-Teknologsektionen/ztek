@@ -7,7 +7,7 @@ import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { useCreateZenithMediaAsAuthed } from "~/hooks/mutations/useMutateZenithMedia";
-import { handleCreateZenithMediaFile } from "~/utils/sftp/handle-create-zenith-media-file";
+import { handleCreateZenithMediaFile } from "~/utils/sftp/handle-create-sftp-file";
 
 interface MemberTableToolbarProps<TData> {
   table: Table<TData>;
@@ -74,10 +74,10 @@ export const ZenithMediaTableToolbar = <TData,>({
 
                     if (!url)
                       return toast.error(
-                        "Något gick fel vid hantering av ny median. Försök igen senare eller kontakta webbgruppen",
+                        "Något gick fel vid hantering av ny mediet. Försök igen senare eller kontakta webbgruppen",
                       );
 
-                    toast.success("Median uppladdad!");
+                    toast.success("Mediet uppladdad!");
 
                     return createNewZenithMedia({
                       url,

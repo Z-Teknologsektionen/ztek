@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { env } from "~/env.mjs";
 import type { UseMutationHookProps } from "~/types/mutation-hook-types";
 import { api } from "~/utils/api";
-import { handleDeleteSftpFile } from "~/utils/sftp/api-calls";
+import { handleDeleteSftpFile } from "~/utils/sftp/handle-delete-sftp-file";
 
 export const useCreateZenithMediaAsAuthed = ({
   onError,
@@ -55,7 +55,7 @@ export const useUpdateZenithMediaAsAuthed = ({
     },
     onError: async (error, input) => {
       toast.error(
-        `${error.message}\n Median kan raderats eller ändrats i samband med med ovanstående fel\n Försök ladda upp median igen!`,
+        `${error.message}\n Mediet kan raderats eller ändrats i samband med med ovanstående fel\n Försök ladda upp mediet igen!`,
         {
           duration: 6000,
         },

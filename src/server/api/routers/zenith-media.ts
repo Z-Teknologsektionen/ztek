@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { deleteFileFromSftpServer } from "~/app/api/sftp/utils/sftp-engine";
 import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
   createZenithMediaServerSchema,
@@ -9,7 +10,6 @@ import {
   publicProcedure,
   zenithMediaProcedure,
 } from "~/server/api/trpc";
-import { deleteFileFromSftpServer } from "~/utils/sftp/sftp-engine";
 
 export const zenithMediaRouter = createTRPCRouter({
   getAllByYear: publicProcedure.query(async ({ ctx }) => {

@@ -40,7 +40,7 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
             formType="update"
             onSubmit={async (newValues) => {
               const loadningToastId = toast.loading(
-                "Updaterar media.\n Detta kan ta en stund!",
+                "Updaterar mediet.\n Detta kan ta en stund!",
               );
 
               try {
@@ -58,7 +58,7 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
                   );
                 }
 
-                toast.success("Median uppdaterad!");
+                toast.success("Mediet uppdaterad!");
 
                 updateZenithMedia({
                   id: id,

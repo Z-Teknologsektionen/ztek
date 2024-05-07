@@ -21,7 +21,7 @@ export const FormFieldFileInput = <TFieldValues extends FieldValues>({
   form,
   className,
   disabled,
-  accept = "image/*, application/pdf",
+  accept,
 }: IFormFieldFileInput<TFieldValues>): React.JSX.Element => {
   const [file, setFile] = useState<File | null>(null);
 

@@ -66,7 +66,7 @@ export interface IFormFieldInputImage<
 export interface IFormFieldFileInput<
   TFieldValues extends FieldValues = FieldValues,
 > extends IFormFieldDefaults<TFieldValues> {
-  accept?: string;
+  accept: string;
   className?: string;
 }
 
