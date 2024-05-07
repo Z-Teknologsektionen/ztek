@@ -49,6 +49,7 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
                   newTitle: newValues.title,
                   oldTitle: values.title,
                   oldUrl: values.url,
+                  newUrl: values.url,
                 });
 
                 if (!newValues.media.url) {

@@ -6,6 +6,7 @@ import { handleCreateZenithMediaFile } from "./handle-create-zenith-media-file";
 type HandleUpdateZenithMediaFileProps = {
   newFile: File | undefined;
   newTitle: string;
+  newUrl: string | undefined;
   oldTitle: string;
   oldUrl: string;
 };
@@ -15,6 +16,7 @@ export const handleUpdateZenithMediaFile = async ({
   newFile,
   newTitle,
   oldTitle,
+  newUrl,
 }: HandleUpdateZenithMediaFileProps): Promise<string> => {
   const hasNewFile = newFile !== undefined;
   const hasNewTitle = newTitle !== oldTitle;
@@ -40,5 +42,5 @@ export const handleUpdateZenithMediaFile = async ({
     });
   }
 
-  throw new Error("Okänt fel!");
+  return newUrl as string;
 };
