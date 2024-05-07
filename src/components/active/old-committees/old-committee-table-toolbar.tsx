@@ -16,7 +16,8 @@ interface OldCommitteeTableToolbarProps<TData> {
 export const OldCommitteeTableToolbar = <TData,>({
   table,
 }: OldCommitteeTableToolbarProps<TData>): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isNewOpen, setIsNewOpen] = useState(false);
+  const [isFromOldOpen, setIsFromOldOpen] = useState(false);
   const { data: session } = useRequireAuth();
   const committeeId = session?.user.committeeId;
   const isAdmin = session?.user.roles.includes("ADMIN") || false;
@@ -33,7 +34,7 @@ export const OldCommitteeTableToolbar = <TData,>({
 
   const { mutate: createNewOldCommittee, isLoading: creatingNewOldCommittee } =
     useCreateOldCommitteeAsActive({
-      onSuccess: () => setIsOpen(false),
+      onSuccess: () => setIsNewOpen(false),
     });
 
   const { data: activeCommittee } = api.committee.getOneByIdAsActive.useQuery({
@@ -116,19 +117,11 @@ export const OldCommitteeTableToolbar = <TData,>({
             <UpsertDialog
               form={
                 <UpsertOldCommitteeForm
-                  key="new"
                   defaultValues={{
                     name: `${activeCommittee.name} ${formatedYear}`,
                     year: year,
                     belongsToCommitteeId: activeCommittee.id,
-                    members: activeCommittee.members.map(
-                      ({ name, nickName, order, role }) => ({
-                        name,
-                        nickName,
-                        order,
-                        role,
-                      }),
-                    ),
+                    members: activeCommittee.members,
                     logo: activeCommittee.image,
                     image: "",
                   }}
@@ -136,8 +129,8 @@ export const OldCommitteeTableToolbar = <TData,>({
                   onSubmit={(values) => createNewOldCommittee(values)}
                 />
               }
-              isOpen={isOpen}
-              setIsOpen={setIsOpen}
+              isOpen={isFromOldOpen}
+              setIsOpen={setIsFromOldOpen}
               title="Nytt patetår"
               trigger={
                 <Button
@@ -160,8 +153,8 @@ export const OldCommitteeTableToolbar = <TData,>({
                 onSubmit={(values) => createNewOldCommittee(values)}
               />
             }
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
+            isOpen={isNewOpen}
+            setIsOpen={setIsNewOpen}
             title="Nytt patetår"
             trigger={
               <Button

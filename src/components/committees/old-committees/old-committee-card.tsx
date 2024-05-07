@@ -42,7 +42,7 @@ const OldCommitteeCard: FC<
         </AccordionTrigger>
         <AccordionContent>
           <ScrollArea className="h-64 px-2">
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col items-center gap-2">
               {logo && (
                 <>
                   <Avatar className="mx-auto h-16 w-16">
@@ -56,9 +56,9 @@ const OldCommitteeCard: FC<
                 </>
               )}
               <p className="text-center italic">{name}s medlemmar</p>
-              <div className="flex flex-col gap-1">
+              <div className="flex w-fit flex-col gap-1 ">
                 {members.map((member, index) => (
-                  <div key={index} className="w-full rounded border p-2">
+                  <div key={index} className="rounded border p-2">
                     <h3 className="text-sm font-medium leading-none">
                       {member.nickName || member.name}
                     </h3>
