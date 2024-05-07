@@ -48,10 +48,12 @@ export const MemberTableToolbar = <TData,>({
             <DataTableFacetedFilter
               column={committeeNameColumn}
               options={
-                committees?.map(({ name }) => ({ label: name, value: name })) ??
-                []
+                committees?.map(({ name, id }) => ({
+                  label: name,
+                  value: id,
+                })) ?? []
               }
-              title="Filtrera på kommitté"
+              title="Filtrera på organ"
             />
           )}
           {userRolesColumn && (

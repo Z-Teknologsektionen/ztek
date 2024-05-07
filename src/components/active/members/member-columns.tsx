@@ -1,8 +1,10 @@
 import { AccountRoles } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
+import { z } from "zod";
 import BadgeCell from "~/components/columns/badge-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
+import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import { type RouterOutputs } from "~/utils/api";
 import { MemberRolesActions } from "./member-roles-actions";
 import { CommitteeMemberTableActions } from "./member-table-actions";
@@ -18,7 +20,16 @@ export const memberColumns: ColumnDef<CommitteeMemberType>[] = [
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
-    filterFn: "includesString",
+    filterFn: (row, _columnId, rawFilterValue) => {
+      const filterValue = z.string().toLowerCase().safeParse(rawFilterValue);
+      if (!filterValue.success) return false;
+
+      const filterString = filterValue.data;
+      const name = row.original.name.toLowerCase();
+      const nickName = row.original.nickName.toLowerCase();
+
+      return name.includes(filterString) || nickName.includes(filterString);
+    },
   },
   {
     id: "Email",
@@ -45,7 +56,14 @@ export const memberColumns: ColumnDef<CommitteeMemberType>[] = [
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
-    filterFn: "includesStringSensitive",
+    filterFn: (row, _columnId, rawFilterValue) => {
+      const filterValue = z.array(objectId).safeParse(rawFilterValue);
+      if (!filterValue.success) return false;
+
+      const committeeId = row.original.committeeId;
+
+      return filterValue.data.includes(committeeId);
+    },
   },
   {
     id: "Post",
@@ -60,7 +78,7 @@ export const memberColumns: ColumnDef<CommitteeMemberType>[] = [
     id: "Behörigheter",
     accessorKey: "userRoles",
     header: ({ column }) => <DataTableColumnHeader column={column} />,
-    enableSorting: true,
+    enableSorting: false,
     enableHiding: true,
     enableResizing: true,
     filterFn: "arrIncludesSome",
