@@ -5,16 +5,20 @@ import DeleteTriggerButton from "~/components/buttons/delete-trigger-button";
 import EditTriggerButton from "~/components/buttons/edit-trigger-button";
 import DeleteDialog from "~/components/dialogs/delete-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
+import { env } from "~/env.mjs";
 import {
   useDeleteZenithMediaAsAuthed,
   useUpdateZenithMediaAsAuthed,
 } from "~/hooks/mutations/useMutateZenithMedia";
-import { handleUpdateZenithMediaFile } from "~/utils/sftp/handle-update-zenith-media-file";
+import { handleCreateZenithMediaFile } from "~/utils/sftp/handle-create-sftp-file";
+import { handleDeleteSftpFile } from "~/utils/sftp/handle-delete-sftp-file";
+import { handleRenameSftpFile } from "~/utils/sftp/handle-rename-sftp-file";
+import { createZenithMediaFilename } from "~/utils/string-utils";
 import type { ZenithMediaType } from "./zenith-media-columns";
 
 export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
   id,
-  ...values
+  ...currentValues
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -33,26 +37,50 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
             defaultValues={{
               media: {
                 file: undefined,
-                url: values.url,
+                url: currentValues.url,
               },
-              ...values,
+              ...currentValues,
             }}
             formType="update"
-            onSubmit={async (newValues) => {
+            onSubmit={async ({
+              coverImage,
+              media: { file: newFile, url: newUrl },
+              title: newTitle,
+              year,
+            }) => {
+              const oldUrl = currentValues.url;
+              const hasNewFile = newFile !== undefined;
+              const hasNewTitle = newTitle !== currentValues.title;
+
               const loadningToastId = toast.loading(
                 "Updaterar mediet.\n Detta kan ta en stund!",
               );
 
               try {
-                newValues.media.url = await handleUpdateZenithMediaFile({
-                  newFile: newValues.media.file,
-                  newTitle: newValues.title,
-                  oldTitle: values.title,
-                  oldUrl: values.url,
-                  newUrl: values.url,
-                });
+                if (
+                  (oldUrl.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL) &&
+                    hasNewFile) ||
+                  newUrl
+                ) {
+                  await handleDeleteSftpFile({ url: oldUrl }, true);
+                }
 
-                if (!newValues.media.url) {
+                if (hasNewFile) {
+                  newUrl = await handleCreateZenithMediaFile({
+                    file: newFile,
+                    title: newTitle,
+                  });
+                } else if (hasNewTitle) {
+                  newUrl = await handleRenameSftpFile({
+                    oldUrl: oldUrl,
+                    newFilename: createZenithMediaFilename({
+                      title: newTitle,
+                      filename: oldUrl,
+                    }),
+                  });
+                }
+
+                if (!newUrl) {
                   return toast.error(
                     "Något gick fel vid hantering av ny eller gammal media. Försök igen senare eller kontakta webbgruppen",
                   );
@@ -62,8 +90,10 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
 
                 updateZenithMedia({
                   id: id,
-                  url: newValues.media.url,
-                  ...newValues,
+                  url: newUrl,
+                  coverImage,
+                  title: newTitle,
+                  year,
                 });
               } catch (error) {
                 if (error instanceof Error) {
@@ -81,7 +111,7 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
         }
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        title={`Uppdatera ${values.title}`}
+        title={`Uppdatera ${currentValues.title}`}
         trigger={<EditTriggerButton />}
       />
       <DeleteDialog
