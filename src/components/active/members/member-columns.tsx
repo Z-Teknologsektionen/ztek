@@ -1,4 +1,3 @@
-import { AccountRoles } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
 import { z } from "zod";
 import BadgeCell from "~/components/columns/badge-cell";
@@ -6,6 +5,7 @@ import { DataTableColumnHeader } from "~/components/data-table/data-table-column
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
 import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import { type RouterOutputs } from "~/utils/api";
+import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 import { MemberRolesActions } from "./member-roles-actions";
 import { CommitteeMemberTableActions } from "./member-table-actions";
 
@@ -84,9 +84,9 @@ export const memberColumns: ColumnDef<CommitteeMemberType>[] = [
     filterFn: "arrIncludesSome",
     cell: ({ row }) => {
       const member = row.original;
-      if (member.userId === null || member.userRoles === undefined) {
+
+      if (member.userId === null || member.userRoles === undefined)
         return <BadgeCell>Inget konto</BadgeCell>;
-      }
 
       return (
         <div className="flex gap-1">
@@ -98,9 +98,7 @@ export const memberColumns: ColumnDef<CommitteeMemberType>[] = [
             member.userRoles.map((role) => (
               <BadgeCell
                 key={role}
-                variant={
-                  role === AccountRoles.ADMIN ? "destructive" : "outline"
-                }
+                variant={userHasAdminAccess([role]) ? "destructive" : "outline"}
               >
                 {role}
               </BadgeCell>
@@ -108,9 +106,7 @@ export const memberColumns: ColumnDef<CommitteeMemberType>[] = [
           ) : (
             <BadgeCell
               variant={
-                member.userRoles.includes(AccountRoles.ADMIN)
-                  ? "destructive"
-                  : "outline"
+                userHasAdminAccess(member.userRoles) ? "destructive" : "outline"
               }
             >
               {member.userRoles.length} roller

@@ -203,6 +203,7 @@ enum AccountRoles {
     MODIFY_PROGRAM_BOARD
     MODIFY_ZENITH_MEDIA
     ADMIN
+    SUPER_ADMIN
 }
 
 model VerificationToken {
