@@ -7,6 +7,7 @@ import { Button } from "~/components/ui/button";
 import { useCreateOldCommitteeAsActive } from "~/hooks/mutations/useMutateOldCommittee";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
+import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 import UpsertOldCommitteeForm from "./upsert-old-committee-form";
 
 interface OldCommitteeTableToolbarProps<TData> {
@@ -20,7 +21,7 @@ export const OldCommitteeTableToolbar = <TData,>({
   const [isFromOldOpen, setIsFromOldOpen] = useState(false);
   const { data: session } = useRequireAuth();
   const committeeId = session?.user.committeeId;
-  const isAdmin = session?.user.roles.includes("ADMIN") || false;
+  const isAdmin = userHasAdminAccess(session?.user.roles);
 
   const isFiltered = table.getState().columnFilters.length > 0;
   const committeeColumn = table.getColumn("Organ");
