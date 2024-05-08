@@ -24,11 +24,12 @@ const OldCommitteSection: FC<{
           åren. Tryck på de olika åren för att få mer information.
         </p>
       </div>
-      <div className="mt-4 grid grid-cols-1 place-items-center gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="mt-4 flex w-fit flex-row flex-wrap items-center justify-center gap-4">
         {oldCommittees.map((oldCommittee) => (
-          <div key={oldCommittee.id}>
-            <OldCommitteeCard {...oldCommittee} />
-          </div>
+          <OldCommitteeCard key={oldCommittee.id} {...oldCommittee} />
+        ))}
+        {Array.from({ length: 4 }).map((_, idx) => (
+          <div key={idx} aria-hidden="true" className="w-64" />
         ))}
       </div>
     </SectionWrapper>

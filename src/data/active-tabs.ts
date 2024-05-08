@@ -37,7 +37,7 @@ const rawActiveTabs: ActiveTabsProps[] = [
   },
   {
     name: "Pateter",
-    desc: "Det är kul att få sitt namn förevigat på sektionen och här kan man göra det. Du kan lägga till gamla år med en bild, logga och medlemmar om du vill. Det finns ingen begränsning på hur många du kan lägga år du kan lägga till, ju fler desto bättre. Om du inte har lagt till några pateter kommer sidan inte visas alls.",
+    desc: "Det är kul att få sitt namn förevigat på sektionen och här kan man göra det. Du kan lägga till gamla år med en bild, logga och medlemmar om du vill. Det finns ingen begränsning på hur många  år du kan lägga till, ju fler desto bättre. Om du inte har lagt till några pateter kommer sidan inte visas alls.",
     component: OldCommitteesTab,
     requiredRole: undefined,
   },

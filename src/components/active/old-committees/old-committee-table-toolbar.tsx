@@ -1,10 +1,10 @@
 import { Cross2Icon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
-import toast from "react-hot-toast";
 import { DataTableFacetedFilter } from "~/components/data-table/data-table-faceted-filter";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
+import { useCreateOldCommitteeAsActive } from "~/hooks/mutations/useMutateOldCommittee";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
@@ -17,11 +17,11 @@ interface OldCommitteeTableToolbarProps<TData> {
 export const OldCommitteeTableToolbar = <TData,>({
   table,
 }: OldCommitteeTableToolbarProps<TData>): JSX.Element => {
+  const [isNewOpen, setIsNewOpen] = useState(false);
+  const [isFromOldOpen, setIsFromOldOpen] = useState(false);
   const { data: session } = useRequireAuth();
+  const committeeId = session?.user.committeeId;
   const isAdmin = userHasAdminAccess(session?.user.roles);
-
-  const ctx = api.useUtils();
-  const [isOpen, setIsOpen] = useState(false);
 
   const isFiltered = table.getState().columnFilters.length > 0;
   const committeeColumn = table.getColumn("Organ");
@@ -29,27 +29,18 @@ export const OldCommitteeTableToolbar = <TData,>({
 
   const { data: oldCommittees } =
     api.oldCommittee.getManyByCommitteeIdAsActive.useQuery({
-      belongsToCommitteeId: session?.user.committeeId || "",
+      belongsToCommitteeId: committeeId || "",
       isAdmin: isAdmin,
     });
 
   const { mutate: createNewOldCommittee, isLoading: creatingNewOldCommittee } =
-    api.oldCommittee.createOldCommitteeAsActive.useMutation({
-      onMutate: () => toast.loading("Skapar ny patetgrupp..."),
-      onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-      onSuccess: ({ name: name }) => {
-        toast.success(`${name} har skapats!`);
-        void ctx.oldCommittee.invalidate();
-        setIsOpen(false);
-      },
-      onError: (error) => {
-        if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("Något gick fel. Försök igen senare");
-        }
-      },
+    useCreateOldCommitteeAsActive({
+      onSuccess: () => setIsNewOpen(false),
     });
+
+  const { data: activeCommittee } = api.committee.getOneByIdAsActive.useQuery({
+    id: committeeId || "",
+  });
 
   const committeeOptions = useMemo(
     () =>
@@ -69,9 +60,9 @@ export const OldCommitteeTableToolbar = <TData,>({
   const yearOptions = useMemo(
     () =>
       oldCommittees
-        ?.map(({ year }) => ({
-          label: year.toString(),
-          value: year,
+        ?.map(({ year: oldCommitteeYear }) => ({
+          label: oldCommitteeYear.toString(),
+          value: oldCommitteeYear,
         }))
         .filter(
           ({ value: filterValue }, index, self) =>
@@ -79,6 +70,21 @@ export const OldCommitteeTableToolbar = <TData,>({
         ) || [],
     [oldCommittees],
   );
+
+  let year = 0;
+  let formatedYear = "";
+  if (activeCommittee) {
+    year = activeCommittee?.updatedAt.getFullYear();
+    if (new Date(new Date().getFullYear(), 0, 1) < activeCommittee?.updatedAt) {
+      year -= 1;
+    }
+    formatedYear = `${year.toString().slice(2)}/${(year + 1)
+      .toString()
+      .slice(2)}`;
+    if (activeCommittee.electionPeriod === 2) {
+      formatedYear = year.toString().slice(2);
+    }
+  }
 
   return (
     <div className="overflow-x-auto">
@@ -108,16 +114,48 @@ export const OldCommitteeTableToolbar = <TData,>({
           )}
         </div>
         <div className="flex justify-end">
+          {activeCommittee && (
+            <UpsertDialog
+              form={
+                <UpsertOldCommitteeForm
+                  defaultValues={{
+                    name: `${activeCommittee.name} ${formatedYear}`,
+                    year: year,
+                    belongsToCommitteeId: activeCommittee.id,
+                    members: activeCommittee.members,
+                    logo: activeCommittee.image,
+                    image: "",
+                  }}
+                  formType="create"
+                  onSubmit={(values) => createNewOldCommittee(values)}
+                />
+              }
+              isOpen={isFromOldOpen}
+              setIsOpen={setIsFromOldOpen}
+              title="Nytt patetår"
+              trigger={
+                <Button
+                  className="ml-2 h-8 px-2 lg:px-3"
+                  disabled={creatingNewOldCommittee}
+                  size="lg"
+                  type="button"
+                  variant="outline"
+                >
+                  Lägg till från sittande
+                </Button>
+              }
+            />
+          )}
           <UpsertDialog
             form={
               <UpsertOldCommitteeForm
-                key={"new"}
+                key="new"
                 formType="create"
                 onSubmit={(values) => createNewOldCommittee(values)}
               />
             }
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
+            isOpen={isNewOpen}
+            setIsOpen={setIsNewOpen}
             title="Nytt patetår"
             trigger={
               <Button
