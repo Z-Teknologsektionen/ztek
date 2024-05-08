@@ -1,9 +1,8 @@
 import type { FC } from "react";
+import { MdEmail, MdPhone } from "react-icons/md";
 import { getCommitteeMemberByEmail } from "~/app/student/student-health/utils/get-committee-member-by-email";
 import CommitteeImage from "~/components/committees/committee-image";
 import SectionTitle from "~/components/layout/section-title";
-
-import { MdEmail, MdPhone } from "react-icons/md";
 import { Skeleton } from "~/components/ui/skeleton";
 
 const SAMO_EMAIL_KEY = "samo.ztyret@ztek.se";
