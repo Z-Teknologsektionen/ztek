@@ -10,7 +10,7 @@ import {
 import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
 import { courseData } from "~/data/course-data";
 
-const CoursesSection: FC = () => {
+export const CoursesSection: FC = () => {
   return (
     <SectionWrapper>
       <SectionTitle className="text-center">Kurser</SectionTitle>
@@ -90,5 +90,3 @@ const CoursesSection: FC = () => {
     </SectionWrapper>
   );
 };
-
-export default CoursesSection;

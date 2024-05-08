@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import type { FC } from "react";
-import CoursesSection from "./components/courses-section";
-import ProgramManagerSection from "./components/program-manager-section";
-import ReceptionSection from "./components/reception-section";
+import { CoursesSection } from "./components/courses-section";
+import { ProgramManagerSection } from "./components/program-manager-section";
+import { ReceptionSection } from "./components/reception-section";
 
 export const metadata: Metadata = {
   title: "Ny student",

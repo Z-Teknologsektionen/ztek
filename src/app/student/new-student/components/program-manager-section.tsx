@@ -7,7 +7,7 @@ import {
   ProgramManagerImageSkeleton,
 } from "./program-manager-image";
 
-const ProgramManagerSection: FC = () => {
+export const ProgramManagerSection: FC = () => {
   return (
     <SectionWrapper>
       <div className="grid grid-cols-3">
@@ -80,5 +80,3 @@ const ProgramManagerSection: FC = () => {
     </SectionWrapper>
   );
 };
-
-export default ProgramManagerSection;
