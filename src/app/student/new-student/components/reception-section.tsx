@@ -6,7 +6,7 @@ import SectionWrapper from "~/components/layout/section-wrapper";
 import { buttonVariants } from "~/components/ui/button";
 import { cn } from "~/utils/utils";
 
-const ReceptionSection: FC = () => {
+export const ReceptionSection: FC = () => {
   return (
     <SectionWrapper>
       <div className="grid grid-cols-3">
@@ -69,5 +69,3 @@ const ReceptionSection: FC = () => {
     </SectionWrapper>
   );
 };
-
-export default ReceptionSection;
