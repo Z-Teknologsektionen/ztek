@@ -90,12 +90,12 @@ export const oldCommitteeRouter = createTRPCRouter({
       }) => {
         return ctx.prisma.oldCommittee.create({
           data: {
+            belongsToCommitteeId,
             name,
             year,
             image,
             logo,
             members,
-            belongsToCommitteeId,
             updatedByEmail: ctx.session.user.email,
             createdByEmail: ctx.session.user.email,
           },

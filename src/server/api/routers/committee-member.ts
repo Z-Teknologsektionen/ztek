@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
@@ -11,6 +12,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
+import { canCurrentUserModifyTargetRoleUser } from "~/utils/can-user-edit-user";
 
 export const committeeMemberRouter = createTRPCRouter({
   getOneByEmail: publicProcedure
@@ -176,8 +178,39 @@ export const committeeMemberRouter = createTRPCRouter({
         id: objectId,
       }),
     )
-    .mutation(({ ctx, input: { id } }) => {
-      return ctx.prisma.committeeMember.delete({
+    .mutation(async ({ ctx: { prisma, session }, input: { id } }) => {
+      const member = await prisma.committeeMember
+        .findUniqueOrThrow({
+          where: {
+            id,
+          },
+          include: {
+            user: {
+              select: {
+                roles: true,
+              },
+            },
+          },
+        })
+        .catch(() => {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "Kunde inte hitta användaren du försökte ta bort",
+          });
+        });
+      if (
+        !canCurrentUserModifyTargetRoleUser(
+          session.user.roles,
+          member.user?.roles,
+        )
+      )
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message:
+            "Du får inte redigera denna medlem. Kontakta en användare med högre behövrighet än dig",
+        });
+
+      return prisma.committeeMember.delete({
         where: {
           id,
         },

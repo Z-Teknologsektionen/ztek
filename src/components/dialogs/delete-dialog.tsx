@@ -13,6 +13,7 @@ import {
 
 type DeleteDialogProps = {
   description?: string;
+  disabled?: boolean;
   onSubmit: () => void;
   primaryButtonText?: string;
   secondaryButtonText?: string;
@@ -27,11 +28,12 @@ const DeleteDialog: FC<DeleteDialogProps> = ({
   onSubmit,
   primaryButtonText = "Radera",
   secondaryButtonText = "Avbryt",
+  disabled,
 }) => {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <div>{trigger}</div>
+      <DialogTrigger className="group" disabled={disabled}>
+        {trigger}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

@@ -261,7 +261,7 @@ enum AccountRoles {
     MODIFY_PROGRAM_BOARD
     MODIFY_ZENITH_MEDIA
     ADMIN
-    MODIFY_ZALOONEN_BOOKING
+    SUPER_ADMIN
 }
 
 model VerificationToken {
