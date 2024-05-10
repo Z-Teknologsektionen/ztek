@@ -14,6 +14,7 @@ export const userRouter = createTRPCRouter({
         },
         data: {
           roles,
+          updatedByEmail: ctx.session.user.email,
         },
       });
     }),

@@ -46,6 +46,7 @@ export const committeeMemberRouter = createTRPCRouter({
           name,
           nickName,
           order,
+          updatedByEmail: ctx.session.user.email,
         },
       });
       return member;
@@ -110,6 +111,8 @@ export const committeeMemberRouter = createTRPCRouter({
             order,
             phone,
             userId: user?.id,
+            updatedByEmail: ctx.session.user.email,
+            createdByEmail: ctx.session.user.email,
           },
           select: {
             name: true,
@@ -162,6 +165,7 @@ export const committeeMemberRouter = createTRPCRouter({
             order,
             phone,
             userId: user?.id,
+            updatedByEmail: ctx.session.user.email,
           },
         });
       },

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
   createProgramBoardMemberSchema,
   updateProgramBoardMemberSchema,
@@ -61,6 +62,8 @@ export const programBoardRouter = createTRPCRouter({
             url,
             image,
             order,
+            updatedByEmail: ctx.session.user.email,
+            createdByEmail: ctx.session.user.email,
           },
         });
       },
@@ -79,6 +82,7 @@ export const programBoardRouter = createTRPCRouter({
             url,
             image,
             order,
+            updatedByEmail: ctx.session.user.email,
           },
         });
       },
@@ -86,7 +90,7 @@ export const programBoardRouter = createTRPCRouter({
   deleteOneAsAuthed: programBoardProcedure
     .input(
       z.object({
-        id: z.string().min(1),
+        id: objectId,
       }),
     )
     .mutation(({ ctx, input: { id } }) => {

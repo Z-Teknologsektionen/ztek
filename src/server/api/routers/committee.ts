@@ -169,6 +169,7 @@ export const committeeRouter = createTRPCRouter({
           description,
           image,
           socialLinks,
+          updatedByEmail: ctx.session.user.email,
         },
       });
     }),
@@ -204,6 +205,8 @@ export const committeeRouter = createTRPCRouter({
             documentId,
             committeeType,
             socialLinks,
+            updatedByEmail: ctx.session.user.email,
+            createdByEmail: ctx.session.user.email,
           },
           select: {
             name: true,
@@ -247,6 +250,7 @@ export const committeeRouter = createTRPCRouter({
             electionPeriod,
             documentId,
             socialLinks,
+            updatedByEmail: ctx.session.user.email,
           },
         });
       },

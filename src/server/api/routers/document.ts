@@ -83,6 +83,8 @@ export const documentRouter = createTRPCRouter({
           url: input.url,
           groupId: input.groupId,
           isPDF: input.isPDF,
+          updatedByEmail: ctx.session.user.email,
+          createdByEmail: ctx.session.user.email,
         },
       });
     }),
@@ -104,6 +106,7 @@ export const documentRouter = createTRPCRouter({
           url: input.url,
           groupId: input.groupId,
           isPDF: input.isPDF,
+          updatedByEmail: ctx.session.user.email,
         },
       });
     }),
@@ -152,6 +155,8 @@ export const documentRouter = createTRPCRouter({
         data: {
           name: input.name,
           extraText: input.extraText,
+          updatedByEmail: ctx.session.user.email,
+          createdByEmail: ctx.session.user.email,
         },
       });
     }),
@@ -169,6 +174,7 @@ export const documentRouter = createTRPCRouter({
         data: {
           name: input.name,
           extraText: input.extraText,
+          updatedByEmail: ctx.session.user.email,
         },
       });
     }),
