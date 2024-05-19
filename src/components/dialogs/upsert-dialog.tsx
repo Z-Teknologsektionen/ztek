@@ -10,6 +10,7 @@ import {
 
 type UpsertDialogProps = {
   description?: string;
+  disabled?: boolean;
   form: ReactNode;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
@@ -24,11 +25,12 @@ export const UpsertDialog: FC<UpsertDialogProps> = ({
   description = "",
   isOpen,
   setIsOpen,
+  disabled,
 }) => {
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
-      <DialogTrigger asChild>
-        <div>{trigger}</div>
+      <DialogTrigger className={"group"} disabled={disabled}>
+        {trigger}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

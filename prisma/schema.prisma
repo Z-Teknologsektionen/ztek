@@ -109,11 +109,10 @@ model CommitteeMember {
 model ZenithMedia {
     id String @id @default(auto()) @map("_id") @db.ObjectId
 
-    title String
-    year  Int
-    url   String  @unique
-    isPDF Boolean
-    image String
+    title      String
+    year       Int
+    url        String @unique
+    coverImage String @default("")
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -203,6 +202,7 @@ enum AccountRoles {
     MODIFY_PROGRAM_BOARD
     MODIFY_ZENITH_MEDIA
     ADMIN
+    SUPER_ADMIN
 }
 
 model VerificationToken {

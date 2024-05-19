@@ -1,5 +1,5 @@
 import { AccountRoles } from "@prisma/client";
-import { CheckIcon } from "@radix-ui/react-icons";
+import { CheckIcon, LockClosedIcon } from "@radix-ui/react-icons";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { PlusIcon } from "lucide-react";
 import type { ReactNode } from "react";
@@ -21,12 +21,14 @@ import {
 } from "~/components/ui/popover";
 import { Separator } from "~/components/ui/separator";
 import { useUpdateUserAsAuthed } from "~/hooks/mutations/useMutateUserAsAuthed";
+import { useRequireAuth } from "~/hooks/useRequireAuth";
+import { canCurrentUserModifyTargetRoleUser } from "~/utils/can-user-edit-user";
 import { cn } from "~/utils/utils";
 
-interface MemberRolesActionsProps {
+type MemberRolesActionsProps = {
   currentRoles?: AccountRoles[];
   userId: string;
-}
+};
 
 export const MemberRolesActions = ({
   userId,
@@ -48,10 +50,17 @@ export const MemberRolesActions = ({
     {},
   );
 
+  const { data: session } = useRequireAuth();
+
+  const userCanEdit = canCurrentUserModifyTargetRoleUser(
+    session?.user.roles,
+    currentRoles,
+  );
+
   return (
     <Popover>
-      <PopoverTrigger>
-        <BadgeCell className="p-1 hover:cursor-pointer hover:bg-blue-50">
+      <PopoverTrigger className="group" disabled={!userCanEdit || updatingUser}>
+        <BadgeCell className="p-1 hover:cursor-pointer hover:bg-blue-50 group-disabled:cursor-not-allowed group-disabled:opacity-50">
           <PlusIcon className="h-3 w-3" />
         </BadgeCell>
       </PopoverTrigger>
@@ -61,60 +70,69 @@ export const MemberRolesActions = ({
           <CommandList>
             <CommandEmpty>Inga resultat hittades.</CommandEmpty>
             <CommandGroup>
-              {Object.values(AccountRoles).map((option) => {
-                const isSelected = selectedValues.includes(option);
+              {Object.values(AccountRoles).map((selectedRole) => {
+                const canEdit = canCurrentUserModifyTargetRoleUser(
+                  session?.user.roles,
+                  [selectedRole],
+                );
+
+                const isSelected = selectedValues.includes(selectedRole);
+
                 return (
                   <CommandItem
-                    key={option}
-                    className={cn(
-                      updatingUser ? "cursor-not-allowed" : "cursor-pointer",
-                    )}
+                    key={selectedRole}
                     disabled={updatingUser}
                     onSelect={() => {
+                      if (!canEdit) return;
+
                       setSelectedValues((prev) =>
-                        prev.includes(option)
-                          ? prev.filter((role) => role !== option)
-                          : [...prev, option],
+                        prev.includes(selectedRole)
+                          ? prev.filter((role) => role !== selectedRole)
+                          : [...prev, selectedRole],
                       );
                     }}
                   >
-                    <div
-                      className={cn(
-                        "border-primary mr-2 flex h-4 w-4 items-center justify-center rounded-sm border",
-                        isSelected
-                          ? "bg-primary text-primary-foreground"
-                          : "opacity-50 [&_svg]:invisible",
-                      )}
-                    >
-                      <CheckIcon className="h-4 w-4" />
-                    </div>
-                    {<span>{option}</span>}
+                    {canEdit ? (
+                      <div
+                        className={cn(
+                          "border-primary mr-2 flex h-4 w-4 items-center justify-center rounded-sm border",
+                          isSelected
+                            ? "bg-primary text-primary-foreground"
+                            : "opacity-50 [&_svg]:invisible",
+                        )}
+                      >
+                        <CheckIcon className="h-4 w-4" />
+                      </div>
+                    ) : (
+                      <LockClosedIcon className="mr-2 h-4 w-4" />
+                    )}
+                    {<span>{selectedRole}</span>}
                   </CommandItem>
                 );
               })}
-              {valuesHasChanged && (
-                <div>
-                  <Separator className="mx-2 my-2" orientation="horizontal" />
-                  <div className="mx-auto my-2 flex items-center justify-center hover:bg-inherit">
-                    <PopoverClose>
-                      <Button
-                        className="h-6"
-                        onClick={() => {
-                          updateUser({
-                            id: userId,
-                            roles: selectedValues,
-                          });
-                        }}
-                        variant={"outline"}
-                      >
-                        Uppdatera
-                      </Button>
-                    </PopoverClose>
-                  </div>
-                </div>
-              )}
             </CommandGroup>
           </CommandList>
+          {valuesHasChanged && (
+            <div>
+              <Separator className="mx-2 my-2" orientation="horizontal" />
+              <div className="mx-auto my-2 flex items-center justify-center hover:bg-inherit">
+                <PopoverClose>
+                  <Button
+                    className="h-6"
+                    onClick={() => {
+                      updateUser({
+                        id: userId,
+                        roles: selectedValues,
+                      });
+                    }}
+                    variant={"outline"}
+                  >
+                    Uppdatera
+                  </Button>
+                </PopoverClose>
+              </div>
+            </div>
+          )}
         </Command>
       </PopoverContent>
     </Popover>
