@@ -13,19 +13,16 @@ import moment from "moment";
 import Link from "next/link";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 
-import { MdArrowBack, MdArrowForward } from "react-icons/md";
 import { useLocalStorage } from "usehooks-ts";
-import { Button } from "~/components/ui/button";
 
-import { Checkbox } from "~/components/ui/checkbox";
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { zaloonenBookingStatusColorClassnames } from "~/constants/zaloonen";
-import { useSendZaloonenBookingEmail } from "~/hooks/mutations/useMutateEmail";
 import { api } from "~/utils/api";
 import { cn } from "~/utils/utils";
 import { ActionRequiredBookingCard } from "./action-required-booking-card";
 import { BookingPopoverInfo } from "./booking-popover-info";
+import CalendarToolbar from "./calendar-toolbar";
 import { zaloonenBookingColumns } from "./zaloonen-booking-columns";
 import { ZaloonenBookingTableToolbar } from "./zaloonen-booking-table-toolbar";
 
@@ -57,8 +54,6 @@ const ZaloonenBookingTab: FC = () => {
   const { data: bookingInspectors } =
     api.zaloonen.getAllBookingInspectorsAsAuthed.useQuery();
 
-  const { mutate: sendEmail, isLoading: sendingEmail } =
-    useSendZaloonenBookingEmail({});
   if (isLoadingBookings) {
     return <SectionWrapper>Loading...</SectionWrapper>;
   }
@@ -70,12 +65,6 @@ const ZaloonenBookingTab: FC = () => {
   }
   moment.locale("sv");
   const localizer = momentLocalizer(moment);
-
-  // const approvedBookingsSorted = bookings
-  //   .filter(
-  //     (booking) => booking.bookingStatus === ZaloonenBookingStatus.APPROVED,
-  //   )
-  //   .sort((a, b) => (a.startDateTime > b.startDateTime ? 1 : -1));
 
   const actionRequiredBookings = bookings
     .filter((booking) => {
@@ -144,7 +133,11 @@ const ZaloonenBookingTab: FC = () => {
                   .map((booking) => (
                     <div key={booking.id} className="w-full px-4">
                       <div className="flex justify-between hover:cursor-pointer hover:font-bold">
-                        <Link className="truncate" href={`#${booking.id}`}>
+                        <Link
+                          className="truncate"
+                          href={`#${booking.id}`}
+                          onClick={() => setSelectedTab("table")}
+                        >
                           {booking.eventName}-{booking.organizerName}
                         </Link>
                         <p className="shrink-0">
@@ -170,6 +163,7 @@ const ZaloonenBookingTab: FC = () => {
             className=""
             defaultValue={selectedTab}
             onValueChange={setSelectedTab}
+            value={selectedTab}
           >
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="table">Lista</TabsTrigger>
@@ -210,126 +204,222 @@ const ZaloonenBookingTab: FC = () => {
                         {event.eventName}-{event.organizerName}
                       </div>
                     ),
-                    toolbar: (props) => {
-                      return (
-                        <div className="mb-4 grid grid-cols-3">
-                          <Button
-                            disabled={sendingEmail}
-                            onClick={() => sendEmail()}
-                          >
-                            Maila
-                          </Button>
-                          <div className="flex justify-start gap-2">
-                            {Object.values(ZaloonenBookingStatus).map(
-                              (status) => (
-                                <div
-                                  key={"checkbox-" + status}
-                                  className={cn(
-                                    "items-top flex flex-col items-center gap-y-2",
-                                  )}
-                                >
-                                  <div className="grid gap-1.5 leading-none">
-                                    <label
-                                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                      htmlFor={status}
-                                    >
-                                      {status}
-                                    </label>
-                                  </div>
-                                  <Checkbox
-                                    checked={selectedBookingStatuses.includes(
-                                      status,
-                                    )}
-                                    className={cn(
-                                      ``,
-                                      zaloonenBookingStatusColorClassnames[
-                                        status
-                                      ],
-                                    )}
-                                    id={status}
-                                    onCheckedChange={(checked) => {
-                                      if (checked) {
-                                        setSelectedBookingStatuses((prev) => [
-                                          ...prev,
-                                          status,
-                                        ]);
-                                      } else {
-                                        setSelectedBookingStatuses((prev) =>
-                                          prev.filter((s) => s !== status),
-                                        );
-                                      }
-                                    }}
-                                  />
-                                </div>
-                              ),
-                            )}
-                          </div>
-                          <div className="flex justify-center text-center text-lg">
-                            <MdArrowBack
-                              className="cursor-pointer"
-                              onClick={() => props.onNavigate("PREV")}
-                              size={20}
-                            />
-                            <p className="w-56 text-base font-medium capitalize  underline">
-                              {props.view === "month" &&
-                                moment(props.label)
-                                  .format("MMMM")
-                                  .toUpperCase()}
-                              {props.view === "week" && props.label}
-                              {props.view === "day" &&
-                                moment(props.label).format("ddd D MMMM")}
-                            </p>
-                            <MdArrowForward
-                              className="cursor-pointer"
-                              onClick={() => props.onNavigate("NEXT")}
-                              size={20}
-                            />
-                          </div>
-                          <div className="flex h-6 justify-end p-2">
-                            <Button
-                              className={cn(
-                                "mr-3 h-6",
-                                props.view === "day" ? "bg-slate-300" : "",
-                              )}
-                              onClick={() => props.onNavigate("TODAY")}
-                              variant={"outline"}
-                            >
-                              Idag
-                            </Button>
-                            <Button
-                              className={cn(
-                                "h-6 rounded-l-md rounded-r-none",
-                                props.view === "day" ? "bg-slate-300" : "",
-                              )}
-                              onClick={() => props.onView("day")}
-                              variant={"outline"}
-                            >
-                              Dag
-                            </Button>
-                            <Button
-                              className={cn(
-                                "h-6 rounded-none",
-                                props.view === "week" ? "bg-slate-300" : "",
-                              )}
-                              onClick={() => props.onView("week")}
-                              variant={"outline"}
-                            >
-                              Vecka
-                            </Button>
-                            <Button
-                              className={cn(
-                                "h-6 rounded-l-none rounded-r-md",
-                                props.view === "month" ? "bg-slate-300" : "",
-                              )}
-                              onClick={() => props.onView("month")}
-                              variant={"outline"}
-                            >
-                              Månad
-                            </Button>
-                          </div>
-                        </div>
-                      );
-                    },
+                    toolbar: (props) => (
+                      <CalendarToolbar
+                        label={props.label}
+                        onNavigate={props.onNavigate}
+                        onView={props.onView}
+                        selectedBookingStatuses={selectedBookingStatuses}
+                        setSelectedBookingStatuses={setSelectedBookingStatuses}
+                        view={props.view}
+                      />
+                    ),
+                    //   toolbar: (props) => {
+                    //     return (
+                    //       <div className="mb-4 grid grid-cols-3">
+                    //         <div className="flex justify-start gap-2">
+                    //           <Popover>
+                    //             <PopoverTrigger asChild>
+                    //               <Button
+                    //                 className="h-8 border-dashed"
+                    //                 size="sm"
+                    //                 variant="outline"
+                    //               >
+                    //                 <PlusCircledIcon className="mr-2 h-4 w-4" />
+                    //                 Filtrera på status
+                    //                 {selectedBookingStatuses.length > 0 && (
+                    //                   <>
+                    //                     <Separator
+                    //                       className="mx-2 h-4"
+                    //                       orientation="vertical"
+                    //                     />
+                    //                     <Badge
+                    //                       className="rounded-sm px-1 font-normal lg:hidden"
+                    //                       variant="secondary"
+                    //                     >
+                    //                       {selectedBookingStatuses.length}
+                    //                     </Badge>
+                    //                     <div className="hidden space-x-1 lg:flex">
+                    //                       {selectedBookingStatuses.length > 2 ? (
+                    //                         <Badge
+                    //                           className="rounded-sm px-1 font-normal"
+                    //                           variant="secondary"
+                    //                         >
+                    //                           {selectedBookingStatuses.length}{" "}
+                    //                           valda
+                    //                         </Badge>
+                    //                       ) : (
+                    //                         Object.values(ZaloonenBookingStatus)
+                    //                           .filter((option) =>
+                    //                             selectedBookingStatuses.includes(
+                    //                               option,
+                    //                             ),
+                    //                           )
+                    //                           .map((option) => (
+                    //                             <Badge
+                    //                               key={option}
+                    //                               className={`rounded-sm px-1 font-normal`}
+                    //                               // color={option.iconColor}
+                    //                               variant="secondary"
+                    //                             >
+                    //                               {option}
+                    //                             </Badge>
+                    //                           ))
+                    //                       )}
+                    //                     </div>
+                    //                   </>
+                    //                 )}
+                    //               </Button>
+                    //             </PopoverTrigger>
+                    //             <PopoverContent
+                    //               align="start"
+                    //               className="w-auto p-0"
+                    //             >
+                    //               <Command>
+                    //                 <CommandInput placeholder={"Sök"} />
+                    //                 <CommandList>
+                    //                   <CommandEmpty>
+                    //                     Inga resultat hittades.
+                    //                   </CommandEmpty>
+                    //                   <CommandGroup>
+                    //                     {Object.values(ZaloonenBookingStatus).map(
+                    //                       (option) => {
+                    //                         const isSelected =
+                    //                           selectedBookingStatuses.includes(
+                    //                             option,
+                    //                           );
+                    //                         return (
+                    //                           <CommandItem
+                    //                             key={option}
+                    //                             onSelect={() => {
+                    //                               if (isSelected) {
+                    //                                 setSelectedBookingStatuses(
+                    //                                   (prev) =>
+                    //                                     prev.filter(
+                    //                                       (s) => s !== option,
+                    //                                     ),
+                    //                                 );
+                    //                               } else {
+                    //                                 setSelectedBookingStatuses(
+                    //                                   (prev) => [...prev, option],
+                    //                                 );
+                    //                               }
+                    //                             }}
+                    //                           >
+                    //                             <div
+                    //                               className={cn(
+                    //                                 "border-primary mr-2 flex h-4 w-4 items-center justify-center rounded-sm border",
+                    //                                 isSelected
+                    //                                   ? "bg-primary text-primary-foreground"
+                    //                                   : "opacity-50 [&_svg]:invisible",
+                    //                               )}
+                    //                             >
+                    //                               <CheckIcon
+                    //                                 className={cn("h-4 w-4")}
+                    //                               />
+                    //                             </div>
+
+                    //                             <span>{option}</span>
+                    //                           </CommandItem>
+                    //                         );
+                    //                       },
+                    //                     )}
+                    //                   </CommandGroup>
+                    //                   {selectedBookingStatuses.length > 0 && (
+                    //                     <>
+                    //                       <CommandSeparator />
+                    //                       <CommandGroup>
+                    //                         <CommandItem
+                    //                           className="justify-center text-center"
+                    //                           onSelect={() => {
+                    //                             setSelectedBookingStatuses([]);
+                    //                           }}
+                    //                         >
+                    //                           Rensa filter
+                    //                         </CommandItem>
+                    //                       </CommandGroup>
+                    //                     </>
+                    //                   )}
+                    //                 </CommandList>
+                    //               </Command>
+                    //             </PopoverContent>
+                    //           </Popover>
+                    //           {selectedBookingStatuses.length > 0 && (
+                    //             <Button
+                    //               className="h-8 px-2 lg:px-3"
+                    //               onClick={() => setSelectedBookingStatuses([])}
+                    //               variant="outline"
+                    //             >
+                    //               Återställ
+                    //               <Cross2Icon className="ml-2 h-4 w-4" />
+                    //             </Button>
+                    //           )}
+                    //         </div>
+                    //         <div className="flex justify-center text-center text-lg">
+                    //           <MdArrowBack
+                    //             className="cursor-pointer"
+                    //             onClick={() => props.onNavigate("PREV")}
+                    //             size={20}
+                    //           />
+                    //           <p className="w-56 text-base font-medium capitalize  underline">
+                    //             {props.view === "month" &&
+                    //               moment(props.label)
+                    //                 .format("MMMM")
+                    //                 .toUpperCase()}
+                    //             {props.view === "week" && props.label}
+                    //             {props.view === "day" && props.label}
+                    //           </p>
+                    //           <MdArrowForward
+                    //             className="cursor-pointer"
+                    //             onClick={() => props.onNavigate("NEXT")}
+                    //             size={20}
+                    //           />
+                    //         </div>
+                    //         <div className="flex h-6 justify-end p-2">
+                    //           <Button
+                    //             className={cn(
+                    //               "mr-3 h-6",
+                    //               props.view === "day" ? "bg-slate-300" : "",
+                    //             )}
+                    //             onClick={() => props.onNavigate("TODAY")}
+                    //             variant={"outline"}
+                    //           >
+                    //             Idag
+                    //           </Button>
+                    //           <Button
+                    //             className={cn(
+                    //               "h-6 rounded-l-md rounded-r-none",
+                    //               props.view === "day" ? "bg-slate-300" : "",
+                    //             )}
+                    //             onClick={() => props.onView("day")}
+                    //             variant={"outline"}
+                    //           >
+                    //             Dag
+                    //           </Button>
+                    //           <Button
+                    //             className={cn(
+                    //               "h-6 rounded-none",
+                    //               props.view === "week" ? "bg-slate-300" : "",
+                    //             )}
+                    //             onClick={() => props.onView("week")}
+                    //             variant={"outline"}
+                    //           >
+                    //             Vecka
+                    //           </Button>
+                    //           <Button
+                    //             className={cn(
+                    //               "h-6 rounded-l-none rounded-r-md",
+                    //               props.view === "month" ? "bg-slate-300" : "",
+                    //             )}
+                    //             onClick={() => props.onView("month")}
+                    //             variant={"outline"}
+                    //           >
+                    //             Månad
+                    //           </Button>
+                    //         </div>
+                    //       </div>
+                    //     );
+                    //   },
                   }}
                   culture="sv"
                   dayLayoutAlgorithm={"overlap"}
@@ -366,15 +456,17 @@ const ZaloonenBookingTab: FC = () => {
                       },
                     };
                   }}
-                  events={bookings.filter((booking) =>
-                    selectedBookingStatuses.includes(booking.bookingStatus),
+                  events={bookings.filter(
+                    (booking) =>
+                      selectedBookingStatuses.includes(booking.bookingStatus) ||
+                      selectedBookingStatuses.length === 0,
                   )}
                   localizer={localizer}
                   onSelectEvent={setSelectedEvent}
                   scrollToTime={new Date("2021-09-01T17:00:00.000Z")}
-                  showMultiDayTimes={true}
+                  showMultiDayTimes={false}
                   startAccessor="startDateTime"
-                  style={{ height: 600 }}
+                  style={{ height: 800 }}
                 />
               </div>
             </TabsContent>
