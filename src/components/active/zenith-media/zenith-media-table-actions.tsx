@@ -57,26 +57,25 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
               );
 
               try {
-                if (
-                  (oldUrl.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL) &&
-                    hasNewFile) ||
-                  newUrl
-                ) {
-                  await handleDeleteSftpFile({ url: oldUrl }, true);
+                if (oldUrl.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)) {
+                  if (hasNewFile || newUrl !== oldUrl)
+                    await handleDeleteSftpFile({ url: oldUrl }, true);
+
+                  if (newUrl !== oldUrl && hasNewTitle) {
+                    newUrl = await handleRenameSftpFile({
+                      oldUrl: oldUrl,
+                      newFilename: createZenithMediaFilename({
+                        title: newTitle,
+                        filename: oldUrl,
+                      }),
+                    });
+                  }
                 }
 
                 if (hasNewFile) {
                   newUrl = await handleCreateZenithMediaFile({
                     file: newFile,
                     title: newTitle,
-                  });
-                } else if (hasNewTitle) {
-                  newUrl = await handleRenameSftpFile({
-                    oldUrl: oldUrl,
-                    newFilename: createZenithMediaFilename({
-                      title: newTitle,
-                      filename: oldUrl,
-                    }),
                   });
                 }
 
