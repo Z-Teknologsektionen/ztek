@@ -124,11 +124,10 @@ model CommitteeMember {
 model ZenithMedia {
     id String @id @default(auto()) @map("_id") @db.ObjectId
 
-    title String
-    year  Int
-    url   String
-    isPDF Boolean
-    image String
+    title      String
+    year       Int
+    url        String @unique
+    coverImage String @default("")
 
     updatedByEmail String?
     updatedBy      User?    @relation("updatedBy", fields: [updatedByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)

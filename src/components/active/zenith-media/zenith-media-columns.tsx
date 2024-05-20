@@ -1,8 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import BooleanCell from "~/components/columns/boolean-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
-import { type RouterOutputs } from "~/utils/api";
+import type { RouterOutputs } from "~/utils/api";
 import { ZenithMediaTableActions } from "./zenith-media-table-actions";
 
 export type ZenithMediaType = RouterOutputs["zenithMedia"]["getAllAsAuthed"][0];
@@ -34,16 +33,6 @@ export const zenithMediaColumns: ColumnDef<ZenithMediaType>[] = [
     enableHiding: true,
     enableResizing: true,
     filterFn: "inNumberRange",
-  },
-  {
-    id: "PDF?",
-    accessorKey: "isPDF",
-    header: ({ column }) => <DataTableColumnHeader column={column} />,
-    cell: ({ row }) => <BooleanCell value={row.original.isPDF} />,
-    enableSorting: true,
-    enableHiding: true,
-    enableResizing: true,
-    filterFn: "equals",
   },
   {
     id: "actions",

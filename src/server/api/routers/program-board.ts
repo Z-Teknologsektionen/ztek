@@ -27,19 +27,6 @@ export const programBoardRouter = createTRPCRouter({
       },
     });
   }),
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.programBoardMember.findMany({
-      select: {
-        name: true,
-        role: true,
-        phone: true,
-        email: true,
-        url: true,
-        image: true,
-        order: true,
-      },
-    });
-  }),
   getOneByRole: publicProcedure
     .input(z.object({ role: z.string().min(1) }))
     .query(({ ctx, input: { role } }) => {

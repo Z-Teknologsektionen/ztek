@@ -11,6 +11,16 @@ const server = z.object({
   GOOGLE_CLIENT_SECRET: z.string().min(1),
   NEXTAUTH_URL: z.string().url(),
   NEXTAUTH_SECRET: z.string().min(16),
+  SFTP_HOST: z.string(),
+  SFTP_PORT: z.coerce.number(),
+  SFTP_USER: z.string(),
+  SFTP_KEY: z
+    .string()
+    .regex(/^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/),
+  SFTP_BASE_PATH: z
+    .string()
+    .startsWith("/")
+    .regex(/^(\/[a-zA-Z0-9\.-]+)+$/),
 });
 
 /**
@@ -19,6 +29,7 @@ const server = z.object({
  */
 const client = z.object({
   // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+  NEXT_PUBLIC_SFTP_BASE_URL: z.string().startsWith("https://"),
 });
 
 /**
@@ -34,6 +45,12 @@ const processEnv = {
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+  SFTP_HOST: process.env.SFTP_HOST,
+  SFTP_PORT: process.env.SFTP_PORT,
+  SFTP_USER: process.env.SFTP_USER,
+  SFTP_KEY: process.env.SFTP_KEY,
+  SFTP_BASE_PATH: process.env.SFTP_BASE_PATH,
+  NEXT_PUBLIC_SFTP_BASE_URL: process.env.NEXT_PUBLIC_SFTP_BASE_URL,
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };
 
@@ -46,6 +63,7 @@ const merged = server.merge(client);
 /** @typedef {z.infer<typeof merged>} MergedOutput */
 /** @typedef {z.SafeParseReturnType<MergedInput, MergedOutput>} MergedSafeParseReturn */
 
+// @ts-ignore
 let env = /** @type {MergedOutput} */ (process.env);
 
 if (!!process.env.SKIP_ENV_VALIDATION == false) {
@@ -60,7 +78,7 @@ if (!!process.env.SKIP_ENV_VALIDATION == false) {
   if (parsed.success === false) {
     console.error(
       "❌ Invalid environment variables:",
-      parsed.error.flatten().fieldErrors
+      parsed.error.flatten().fieldErrors,
     );
     throw new Error("Invalid environment variables");
   }
@@ -74,7 +92,7 @@ if (!!process.env.SKIP_ENV_VALIDATION == false) {
         throw new Error(
           process.env.NODE_ENV === "production"
             ? "❌ Attempted to access a server-side environment variable on the client"
-            : `❌ Attempted to access server-side environment variable '${prop}' on the client`
+            : `❌ Attempted to access server-side environment variable '${prop}' on the client`,
         );
       return target[/** @type {keyof typeof target} */ (prop)];
     },
