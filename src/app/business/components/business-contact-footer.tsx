@@ -1,25 +1,16 @@
 import type { FC } from "react";
 import SectionTitle from "~/components/layout/section-title";
+import StyledLink from "~/components/layout/styled-link";
 
 const BusinessContactFooter: FC = () => {
   return (
-    <SectionTitle>
+    <SectionTitle className="mb-8 text-center">
       Intresserad? Kontakta oss på{" "}
-      <a
-        className="text-blue-500 hover:underline"
-        href="mailto:foretag@argz.se"
-      >
-        foretag@argz.se
-      </a>{" "}
+      <StyledLink href="mailto:foretag@argz.se">foretag@argz.se</StyledLink>{" "}
       eller gå in på vår hemsida{" "}
-      <a
-        className="text-blue-500 hover:underline"
-        href="https://www.argz.se/"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
+      <StyledLink href="https://www.argz.se/" target="_blank">
         ArgZ.se
-      </a>
+      </StyledLink>
     </SectionTitle>
   );
 };

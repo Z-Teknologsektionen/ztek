@@ -1,5 +1,5 @@
-import Image from "next/image";
 import type { FC } from "react";
+import ImageWithCredit from "~/components/layout/image-with-credit";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
 import StyledLink from "~/components/layout/styled-link";
@@ -28,18 +28,16 @@ const BusinessIntoSection: FC = () => {
         </StyledLink>
       </p>
       <br></br>
-      <div className="col-span-3">
-        <Image
-          alt="image"
-          className="rounded"
-          height={300}
-          src="/argz.jpg"
-          width={4000}
-        />
-        <div className="mt-2 text-center">
-          <p>Foto: Casper Lundberg/zFoto</p>
-        </div>
-      </div>
+      <ImageWithCredit
+        alt="image"
+        className="col-span-3 grid place-items-center"
+        height={500}
+        imageClassName="rounded"
+        photoCommittee="zFoto"
+        photographer="Casper Lundberg"
+        src="/argz.jpg"
+        width={750}
+      />
     </SectionWrapper>
   );
 };
