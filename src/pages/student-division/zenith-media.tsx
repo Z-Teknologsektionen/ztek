@@ -1,3 +1,4 @@
+import { TooltipProvider } from "@radix-ui/react-tooltip";
 import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,21 +11,18 @@ import { Skeleton } from "~/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
 import ssg from "~/server/api/helpers/ssg";
 import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
-import { openUrlAsPdf } from "~/utils/open-url-as-pdf";
 
 type IZenithMediaCard =
   RouterOutputs["zenithMedia"]["getAllByYear"][0]["mediaArray"][0];
 
 export const ZenithMediaCard: FC<IZenithMediaCard> = ({
-  image,
-  isPDF,
+  coverImage,
   title,
   url,
   year,
@@ -35,14 +33,14 @@ export const ZenithMediaCard: FC<IZenithMediaCard> = ({
         <TooltipTrigger asChild>
           <Link
             className="relative h-[187.5px] w-[125px]"
-            href={openUrlAsPdf({ url, isPDF })}
+            href={url}
             rel="noopener noreferrer"
             target="_blank"
           >
             <Image
               alt={`Omslagsbild till ${title}`}
               className="object-cover object-center"
-              src={image}
+              src={coverImage}
               unselectable="on"
               fill
               unoptimized

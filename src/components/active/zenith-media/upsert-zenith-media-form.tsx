@@ -1,24 +1,29 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import type { FC } from "react";
-import { useForm } from "react-hook-form";
-import type { z } from "zod";
-import FormFieldCheckbox from "~/components/forms/form-field-checkbox";
 import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldInputImage from "~/components/forms/form-field-input-image";
 import FormFieldInputNumber from "~/components/forms/form-field-input-number";
 import FormWrapper from "~/components/forms/form-wrapper";
+import TabsSelectFileAndUrl from "~/components/forms/tabs-select-file-and-url";
+
+import { ZENITH_MEDIA_ACCEPTED_MEDIA_TYPES } from "~/constants/sftp";
 import { MAX_4_DIGIT_YEAR, MIN_4_DIGIT_YEAR } from "~/constants/size-constants";
-import { createZenithMediaSchema } from "~/schemas/zenith-media";
+import { env } from "~/env.mjs";
+import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
+import { createZenithMediaClientSchema } from "~/schemas/zenith-media";
 import type { IUpsertForm } from "~/types/form-types";
 
-type UpsertZenithMediaFormProps = IUpsertForm<typeof createZenithMediaSchema>;
+type UpsertZenithMediaFormProps = IUpsertForm<
+  typeof createZenithMediaClientSchema
+>;
 
 const DEFAULT_VALUES: UpsertZenithMediaFormProps["defaultValues"] = {
-  isPDF: false,
   year: new Date().getFullYear(),
-  image: "",
+  coverImage: "",
   title: "",
-  url: "",
+  media: {
+    file: undefined,
+    url: undefined,
+  },
 };
 
 export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
@@ -26,8 +31,8 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
   onSubmit,
   formType,
 }) => {
-  const form = useForm<z.infer<typeof createZenithMediaSchema>>({
-    resolver: zodResolver(createZenithMediaSchema),
+  const form = useFormWithZodSchema({
+    schema: createZenithMediaClientSchema,
     defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
 
@@ -39,7 +44,6 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
       resetForm={() => form.reset()}
     >
       <FormFieldInput form={form} label="Titel" name="title" type="text" />
-      <FormFieldInput form={form} label="Url" name="url" type="url" />
       <FormFieldInputNumber
         form={form}
         label="År"
@@ -47,20 +51,34 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
         min={MIN_4_DIGIT_YEAR}
         name="year"
       />
-      <FormFieldCheckbox
-        description="Går länken till en PDF?"
-        form={form}
-        label="Typ av media"
-        name="isPDF"
-      />
+
       <FormFieldInputImage
         description="Omslagsbilden till mediet"
         form={form}
         label="Omslag"
         maxHeight={600}
         maxWidth={400}
-        name="image"
+        name="coverImage"
         quality={85}
+      />
+      <TabsSelectFileAndUrl
+        fileProps={{
+          accept: ZENITH_MEDIA_ACCEPTED_MEDIA_TYPES.join(", "),
+          title: "Ladda upp fil",
+          cardDescription:
+            "Du kan antingen ladda upp en pdf eller en bild fil.",
+          name: "media.file",
+          label: "Fil",
+        }}
+        form={form}
+        urlProps={{
+          label: "Url",
+          name: "media.url",
+          cardDescription:
+            "Om du har laddat up ert media till exempelvis youtube så kan ni länka till det här.",
+          fieldDescription: `Om länken börjar på "${env.NEXT_PUBLIC_SFTP_BASE_URL}" så är det en uppladdad fil! Byt tillbaka till "Ladda upp" om du vill ladda upp en ny fil`,
+          title: "Länka till media",
+        }}
       />
     </FormWrapper>
   );

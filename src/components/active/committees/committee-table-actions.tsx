@@ -4,14 +4,13 @@ import DeleteTriggerButton from "~/components/buttons/delete-trigger-button";
 import EditTriggerButton from "~/components/buttons/edit-trigger-button";
 import ActionDialog from "~/components/dialogs/action-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
-
 import {
   useDeleteCommitteeAsAuthed,
   useUpdateCommitteeAsAuthed,
 } from "~/hooks/mutations/useMutateCommittee";
-import type { CommitteeType } from "./committee-columns";
+import type { Committee } from "./committee-columns";
 
-export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
+export const CommitteeTableActions: FC<Committee> = ({ id, ...values }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: updateCommittee } = useUpdateCommitteeAsAuthed({
@@ -26,18 +25,7 @@ export const CommitteeTableActions: FC<CommitteeType> = ({ id, ...values }) => {
         form={
           <UpsertCommitteeForm
             key={id}
-            defaultValues={{
-              ...values,
-              socialLinks: values.socialLinks.map(
-                ({ iconVariant, order, url }) => ({
-                  iconAndUrl: {
-                    iconVariant,
-                    url,
-                  },
-                  order,
-                }),
-              ),
-            }}
+            defaultValues={values}
             formType="update"
             onSubmit={(updatedValues) =>
               updateCommittee({

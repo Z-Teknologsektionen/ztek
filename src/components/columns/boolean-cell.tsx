@@ -4,7 +4,7 @@ import { TABLE_ICON_SIZE } from "~/constants/size-constants";
 
 const BooleanCell: FC<{ value: boolean }> = ({ value }) => {
   return (
-    <div className="mx-2">
+    <div className="grid place-items-center">
       {value ? (
         <MdCheck className="fill-success" size={TABLE_ICON_SIZE} />
       ) : (

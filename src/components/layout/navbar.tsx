@@ -33,7 +33,6 @@ const Navbar: FC = () => {
                   width={100}
                 />
               </Link>
-              {/* Display the logo on smaller screens */}
               <div className="lg:hidden">
                 <Link href="/">
                   <Image

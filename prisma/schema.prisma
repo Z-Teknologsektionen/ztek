@@ -43,7 +43,7 @@ enum CommitteeType {
 type CommitteeSocialLink {
     url         String
     iconVariant IconEnum
-    order       Int      @default(100)
+    linkText    String?
 }
 
 enum IconEnum {
@@ -112,11 +112,10 @@ model CommitteeMember {
 model ZenithMedia {
     id String @id @default(auto()) @map("_id") @db.ObjectId
 
-    title String
-    year  Int
-    url   String  @unique
-    isPDF Boolean
-    image String
+    title      String
+    year       Int
+    url        String @unique
+    coverImage String @default("")
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

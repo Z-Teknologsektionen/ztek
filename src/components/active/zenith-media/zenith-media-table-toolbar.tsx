@@ -6,7 +6,8 @@ import { UpsertZenithMediaForm } from "~/components/active/zenith-media/upsert-z
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { api } from "~/utils/api";
+import { useCreateZenithMediaAsAuthed } from "~/hooks/mutations/useMutateZenithMedia";
+import { handleCreateZenithMediaFile } from "~/utils/sftp/handle-create-sftp-file";
 
 interface MemberTableToolbarProps<TData> {
   table: Table<TData>;
@@ -16,25 +17,11 @@ export const ZenithMediaTableToolbar = <TData,>({
   table,
 }: MemberTableToolbarProps<TData>): JSX.Element => {
   const isFiltered = table.getState().columnFilters.length > 0;
-  const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: createNewZenithMedia, isLoading: creatingNewZenithMedia } =
-    api.zenithMedia.createOneAsAuthed.useMutation({
-      onMutate: () => toast.loading("Skapar ny media..."),
-      onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),
-      onSuccess: () => {
-        setIsOpen(false);
-        toast.success("En ny media har skapats.");
-        void ctx.zenithMedia.invalidate();
-      },
-      onError: (error) => {
-        if (error.message) {
-          toast.error(error.message);
-        } else {
-          toast.error("Något gick fel. Försök igen senare");
-        }
-      },
+    useCreateZenithMediaAsAuthed({
+      onSuccess: () => setIsOpen(false),
     });
 
   const titleColumn = table.getColumn("Titel");
@@ -66,16 +53,50 @@ export const ZenithMediaTableToolbar = <TData,>({
           <UpsertDialog
             form={
               <UpsertZenithMediaForm
-                key={"new"}
-                defaultValues={{
-                  year: new Date().getFullYear(),
-                  isPDF: true,
-                  title: "",
-                  url: "",
-                  image: "",
-                }}
+                key="new"
                 formType="create"
-                onSubmit={(values) => createNewZenithMedia(values)}
+                onSubmit={async ({
+                  coverImage,
+                  media: { file: fileInput, url },
+                  title,
+                  year,
+                }) => {
+                  const loadningToastId = toast.loading(
+                    "Laddar upp media. Detta kan ta en stund!",
+                  );
+
+                  try {
+                    if (fileInput)
+                      url = await handleCreateZenithMediaFile({
+                        file: fileInput,
+                        title,
+                      });
+
+                    if (!url)
+                      return toast.error(
+                        "Något gick fel vid hantering av ny mediet. Försök igen senare eller kontakta webbgruppen",
+                      );
+
+                    toast.success("Mediet uppladdad!");
+
+                    return createNewZenithMedia({
+                      url,
+                      coverImage,
+                      title,
+                      year,
+                    });
+                  } catch (error) {
+                    if (error instanceof Error) {
+                      return toast.error(error.message);
+                    }
+
+                    toast.error(
+                      "Något gick fel. Försök igen senare eller kontakta webbgruppen",
+                    );
+                  } finally {
+                    toast.dismiss(loadningToastId);
+                  }
+                }}
               />
             }
             isOpen={isOpen}
@@ -83,6 +104,7 @@ export const ZenithMediaTableToolbar = <TData,>({
             title="Skapa ny media"
             trigger={
               <Button
+                className="ml-2 h-8 px-2 lg:px-3"
                 disabled={creatingNewZenithMedia}
                 size="lg"
                 type="button"

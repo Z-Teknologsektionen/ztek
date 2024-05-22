@@ -11,6 +11,16 @@ const server = z.object({
   GOOGLE_CLIENT_SECRET: z.string().min(1),
   NEXTAUTH_URL: z.string().url(),
   NEXTAUTH_SECRET: z.string().min(16),
+  SFTP_HOST: z.string(),
+  SFTP_PORT: z.coerce.number(),
+  SFTP_USER: z.string(),
+  SFTP_KEY: z
+    .string()
+    .regex(/^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/),
+  SFTP_BASE_PATH: z
+    .string()
+    .startsWith("/")
+    .regex(/^(\/[a-zA-Z0-9\.-]+)+$/),
   HASH_SALT: z.string().min(16),
   EMAIL_HOST: z.string(),
   EMAIL_PORT: z.string(),
@@ -24,6 +34,7 @@ const server = z.object({
  */
 const client = z.object({
   // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+  NEXT_PUBLIC_SFTP_BASE_URL: z.string().startsWith("https://"),
 });
 
 /**
@@ -39,6 +50,12 @@ const processEnv = {
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+  SFTP_HOST: process.env.SFTP_HOST,
+  SFTP_PORT: process.env.SFTP_PORT,
+  SFTP_USER: process.env.SFTP_USER,
+  SFTP_KEY: process.env.SFTP_KEY,
+  SFTP_BASE_PATH: process.env.SFTP_BASE_PATH,
+  NEXT_PUBLIC_SFTP_BASE_URL: process.env.NEXT_PUBLIC_SFTP_BASE_URL,
   HASH_SALT: process.env.HASH_SALT,
   EMAIL_HOST: process.env.EMAIL_HOST,
   EMAIL_PORT: process.env.EMAIL_PORT,
@@ -56,6 +73,7 @@ const merged = server.merge(client);
 /** @typedef {z.infer<typeof merged>} MergedOutput */
 /** @typedef {z.SafeParseReturnType<MergedInput, MergedOutput>} MergedSafeParseReturn */
 
+// @ts-ignore
 let env = /** @type {MergedOutput} */ (process.env);
 
 if (!!process.env.SKIP_ENV_VALIDATION == false) {

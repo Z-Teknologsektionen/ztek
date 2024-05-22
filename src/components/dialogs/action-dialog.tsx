@@ -15,6 +15,7 @@ import { cn } from "~/utils/utils";
 type ActionDialogProps = {
   classNameButton?: string;
   description?: string;
+  disabled?: boolean;
   onSubmit: () => void;
   primaryButtonText?: string;
   secondaryButtonText?: string;
@@ -36,13 +37,14 @@ const ActionDialog: FC<ActionDialogProps> = ({
   onSubmit,
   primaryButtonText = "Radera",
   secondaryButtonText = "Avbryt",
+  disabled,
   variant = "destructive",
   classNameButton = "",
 }) => {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <div>{trigger}</div>
+      <DialogTrigger className="group" disabled={disabled}>
+        {trigger}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

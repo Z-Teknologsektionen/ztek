@@ -153,6 +153,7 @@ export const committeeRouter = createTRPCRouter({
     return ctx.prisma.committee.findMany({
       select: {
         name: true,
+        id: true,
       },
       orderBy: [{ order: "desc" }],
     });
@@ -167,13 +168,7 @@ export const committeeRouter = createTRPCRouter({
         data: {
           description,
           image,
-          socialLinks: socialLinks?.map(
-            ({ iconAndUrl: { iconVariant, url }, order: socialLinkOrder }) => ({
-              iconVariant,
-              url,
-              order: socialLinkOrder,
-            }),
-          ),
+          socialLinks,
         },
       });
     }),
@@ -208,16 +203,7 @@ export const committeeRouter = createTRPCRouter({
             electionPeriod,
             documentId,
             committeeType,
-            socialLinks: socialLinks.map(
-              ({
-                iconAndUrl: { iconVariant, url },
-                order: socialLinkOrder,
-              }) => ({
-                iconVariant,
-                url,
-                order: socialLinkOrder,
-              }),
-            ),
+            socialLinks,
           },
           select: {
             name: true,
@@ -260,16 +246,7 @@ export const committeeRouter = createTRPCRouter({
             committeeType,
             electionPeriod,
             documentId,
-            socialLinks: socialLinks?.map(
-              ({
-                iconAndUrl: { iconVariant, url },
-                order: socialLinkOrder,
-              }) => ({
-                iconVariant,
-                url,
-                order: socialLinkOrder,
-              }),
-            ),
+            socialLinks,
           },
         });
       },

@@ -1,5 +1,6 @@
+import type { CommitteeType } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
-import BadgeCell from "~/components/columns/badge-cell";
+import { z } from "zod";
 import BooleanCell from "~/components/columns/boolean-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
@@ -9,9 +10,9 @@ import { getCommitteeTypeStringFromEnum } from "~/utils/get-committee-type-strin
 import { getSocialIconFromEnum } from "~/utils/get-social-from-enum";
 import { CommitteeTableActions } from "./committee-table-actions";
 
-export type CommitteeType = RouterOutputs["committee"]["getAllAsAuthed"][0];
+export type Committee = RouterOutputs["committee"]["getAllAsAuthed"][0];
 
-export const committeeColumns: ColumnDef<CommitteeType>[] = [
+export const committeeColumns: ColumnDef<Committee>[] = [
   {
     id: "Namn",
     accessorKey: "name",
@@ -34,7 +35,15 @@ export const committeeColumns: ColumnDef<CommitteeType>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
-    filterFn: "includesString",
+    filterFn: (row, _columnId, rawFilterValue) => {
+      const filterValue = z
+        .custom<CommitteeType>()
+        .array()
+        .safeParse(rawFilterValue);
+      if (!filterValue.success) return false;
+
+      return filterValue.data.includes(row.original.committeeType);
+    },
     cell: ({ row }) =>
       getCommitteeTypeStringFromEnum(row.original.committeeType, false),
   },
@@ -71,19 +80,15 @@ export const committeeColumns: ColumnDef<CommitteeType>[] = [
     enableHiding: true,
     cell: ({ row }) => {
       const socialLinks = row.original.socialLinks;
-      const hasSocialLinks = socialLinks.length > 0;
+
+      if (socialLinks.length === 0) return <BooleanCell value={false} />;
+
       return (
-        <div className="flex flex-row gap-1">
-          {hasSocialLinks ? (
-            <>
-              {socialLinks.map(({ iconVariant, url }) => {
-                const Icon = getSocialIconFromEnum(iconVariant);
-                return <Icon key={url} size={TABLE_ICON_SIZE} />;
-              })}
-            </>
-          ) : (
-            <BadgeCell>Inga sociala länkar</BadgeCell>
-          )}
+        <div className="flex flex-row items-center justify-center gap-1">
+          {socialLinks.map(({ iconVariant, url }) => {
+            const Icon = getSocialIconFromEnum(iconVariant);
+            return <Icon key={url} size={TABLE_ICON_SIZE} />;
+          })}
         </div>
       );
     },
@@ -92,18 +97,10 @@ export const committeeColumns: ColumnDef<CommitteeType>[] = [
     id: "actions",
     enableSorting: false,
     enableHiding: false,
-    header: ({ table }) => (
-      <div className="mr-0 flex justify-end">
-        <DataTableViewOptions table={table} />
-      </div>
-    ),
+    header: ({ table }) => <DataTableViewOptions table={table} />,
     cell: ({ row }) => {
       const committee = row.original;
-      return (
-        <div className="flex justify-center">
-          <CommitteeTableActions key={committee.id} {...committee} />
-        </div>
-      );
+      return <CommitteeTableActions key={committee.id} {...committee} />;
     },
   },
 ];
