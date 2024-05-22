@@ -7,19 +7,10 @@ import DeleteTriggerButton from "~/components/buttons/delete-trigger-button";
 import EditTriggerButton from "~/components/buttons/edit-trigger-button";
 import ActionDialog from "~/components/dialogs/action-dialog";
 import IconWithTooltip from "~/components/tooltips/icon-with-tooltip";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
-import {
-  useDeleteZaloonenBookingAsAuthed,
-  useUpdateZaloonenBookingStatusAsAuthed,
-} from "~/hooks/mutations/useMutateZaloonenBooking";
+
+import { MdEdit } from "react-icons/md";
+import IconNextToText from "~/components/layout/icon-next-to-text";
+import { useDeleteZaloonenBookingAsAuthed } from "~/hooks/mutations/useMutateZaloonenBooking";
 import { cn } from "~/utils/utils";
 import type { ZaloonenBookingType } from "./zaloonen-booking-columns";
 import { ZaloonenStatusBadge } from "./zaloonen-status-badge";
@@ -53,44 +44,27 @@ export const ZaloonenBookingStatusActions: FC<ZaloonenBookingType> = ({
   id,
   ...values
 }) => {
-  const { mutate: updateZaloonenBookingStatus } =
-    useUpdateZaloonenBookingStatusAsAuthed({});
+  // const { mutate: updateZaloonenBookingStatus } =
+  //   useUpdateZaloonenBookingStatusAsAuthed({});
+
+  //   onValueChange={(value) =>
+  //         updateZaloonenBookingStatus({
+  //           id,
+  //           bookingStatus: value as ZaloonenBookingStatus,
+  //         })
+  //       }
 
   return (
     <div className="flex w-fit flex-row gap-2">
-      <Select
-        defaultValue={values.bookingStatus ?? ""}
-        onValueChange={(value) =>
-          updateZaloonenBookingStatus({
-            id,
-            bookingStatus: value as ZaloonenBookingStatus,
-          })
-        }
-      >
-        <SelectTrigger className="h-6 bg-cardBackground">
-          <ZaloonenStatusBadge status={values.bookingStatus}>
-            <SelectValue placeholder="Status" />
-          </ZaloonenStatusBadge>
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            {values && (
-              <>
-                <SelectLabel>Status</SelectLabel>
-                {Object.values(ZaloonenBookingStatus).map((status) => {
-                  return (
-                    <SelectItem key={status} value={status}>
-                      <ZaloonenStatusBadge status={status}>
-                        {status}
-                      </ZaloonenStatusBadge>
-                    </SelectItem>
-                  );
-                })}
-              </>
-            )}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+      <ZaloonenStatusBadge status={values.bookingStatus}>
+        <IconNextToText
+          icon={MdEdit}
+          iconClassName="fill-white"
+          text={values.bookingStatus}
+          textFirst={true}
+          tooltipText="Ändra status"
+        />
+      </ZaloonenStatusBadge>
       {values.bookingStatus !== ZaloonenBookingStatus.DENIED &&
         values.bookingStatus !== ZaloonenBookingStatus.REQUESTED && (
           <div className="content-center">

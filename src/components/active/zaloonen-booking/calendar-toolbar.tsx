@@ -1,6 +1,7 @@
 import { ZaloonenBookingStatus } from "@prisma/client";
 import { CheckIcon, Cross2Icon, PlusCircledIcon } from "@radix-ui/react-icons";
 import moment from "moment";
+import type { ToolbarProps } from "react-big-calendar";
 import { MdArrowBack, MdArrowForward } from "react-icons/md";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
@@ -21,14 +22,10 @@ import {
 import { Separator } from "~/components/ui/separator";
 import { cn } from "~/utils/utils";
 
-interface CalendarToolbarProps {
-  label: string;
-  onNavigate: (action: string) => void;
-  onView: (view: string) => void;
-  selectedBookingStatuses: string[];
-  setSelectedBookingStatuses: (value: ZaloonenBookingStatus[]) => void;
-  view: string;
-}
+type CalendarToolbarProps = ToolbarProps & {
+  selectedBookingStatuses: ZaloonenBookingStatus[];
+  setSelectedBookingStatuses: (statuses: ZaloonenBookingStatus[]) => void;
+};
 
 const CalendarToolbar: React.FC<CalendarToolbarProps> = ({
   onNavigate,
