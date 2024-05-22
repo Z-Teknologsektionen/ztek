@@ -71,6 +71,12 @@ export interface IFormFieldFileInput<
   className?: string;
 }
 
+export interface IFormFieldInputDatetimeLocal<
+  TFieldValues extends FieldValues = FieldValues,
+> extends IFormFieldDefaults<TFieldValues> {
+  className?: string;
+}
+
 export interface IFormFieldInputNumber<
   TFieldValues extends FieldValues = FieldValues,
 > extends IFormFieldDefaults<TFieldValues> {

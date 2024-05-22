@@ -2,7 +2,7 @@ import { useState, type FC } from "react";
 import { UpsertDocumentGroupForm } from "~/components/active/documents/upsert-document-group-form";
 import DeleteTriggerButton from "~/components/buttons/delete-trigger-button";
 import EditTriggerButton from "~/components/buttons/edit-trigger-button";
-import DeleteDialog from "~/components/dialogs/delete-dialog";
+import ActionDialog from "~/components/dialogs/action-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import {
   useDeleteDocumentGroupAsAuthed,
@@ -43,7 +43,7 @@ export const DocumentGroupTableActions: FC<{
         title="Uppdatera dokument"
         trigger={<EditTriggerButton />}
       />
-      <DeleteDialog
+      <ActionDialog
         onSubmit={() => deleteDocumentGroup({ id })}
         trigger={<DeleteTriggerButton />}
       />

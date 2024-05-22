@@ -21,6 +21,11 @@ const server = z.object({
     .string()
     .startsWith("/")
     .regex(/^(\/[a-zA-Z0-9\.-]+)+$/),
+  HASH_SALT: z.string().min(16),
+  EMAIL_HOST: z.string(),
+  EMAIL_PORT: z.string(),
+  EMAIL_USER: z.string(),
+  EMAIL_PASS: z.string(),
 });
 
 /**
@@ -51,6 +56,11 @@ const processEnv = {
   SFTP_KEY: process.env.SFTP_KEY,
   SFTP_BASE_PATH: process.env.SFTP_BASE_PATH,
   NEXT_PUBLIC_SFTP_BASE_URL: process.env.NEXT_PUBLIC_SFTP_BASE_URL,
+  HASH_SALT: process.env.HASH_SALT,
+  EMAIL_HOST: process.env.EMAIL_HOST,
+  EMAIL_PORT: process.env.EMAIL_PORT,
+  EMAIL_USER: process.env.EMAIL_USER,
+  EMAIL_PASS: process.env.EMAIL_PASS,
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };
 

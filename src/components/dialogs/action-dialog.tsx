@@ -10,8 +10,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
+import { cn } from "~/utils/utils";
 
-type DeleteDialogProps = {
+type ActionDialogProps = {
+  classNameButton?: string;
   description?: string;
   disabled?: boolean;
   onSubmit: () => void;
@@ -19,9 +21,16 @@ type DeleteDialogProps = {
   secondaryButtonText?: string;
   title?: string;
   trigger: ReactNode;
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link";
 };
 
-const DeleteDialog: FC<DeleteDialogProps> = ({
+const ActionDialog: FC<ActionDialogProps> = ({
   trigger,
   description = "Denna ändringen går inte att ångra!",
   title = "Är du säker?",
@@ -29,6 +38,8 @@ const DeleteDialog: FC<DeleteDialogProps> = ({
   primaryButtonText = "Radera",
   secondaryButtonText = "Avbryt",
   disabled,
+  variant = "destructive",
+  classNameButton = "",
 }) => {
   return (
     <Dialog>
@@ -45,7 +56,11 @@ const DeleteDialog: FC<DeleteDialogProps> = ({
             <Button variant={"outline"}>{secondaryButtonText}</Button>
           </DialogClose>
           <DialogClose asChild>
-            <Button onClick={() => onSubmit()} variant={"destructive"}>
+            <Button
+              className={cn(classNameButton)}
+              onClick={() => onSubmit()}
+              variant={variant}
+            >
               {primaryButtonText}
             </Button>
           </DialogClose>
@@ -55,4 +70,4 @@ const DeleteDialog: FC<DeleteDialogProps> = ({
   );
 };
 
-export default DeleteDialog;
+export default ActionDialog;

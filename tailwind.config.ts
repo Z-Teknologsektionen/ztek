@@ -23,7 +23,7 @@ export default {
         zDarkGray: "#888888",
         zLightGray: "#BBBBBB",
         zWhite: "#EEEEEE",
-        waring: "#FFA500",
+        warning: "#FFA500",
         danger: "#FF0000",
         success: "#008000",
         cardBackground: "#F5F5F5",

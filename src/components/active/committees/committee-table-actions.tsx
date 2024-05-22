@@ -2,7 +2,7 @@ import { useState, type FC } from "react";
 import UpsertCommitteeForm from "~/components/active/committees/upsert-committee-form";
 import DeleteTriggerButton from "~/components/buttons/delete-trigger-button";
 import EditTriggerButton from "~/components/buttons/edit-trigger-button";
-import DeleteDialog from "~/components/dialogs/delete-dialog";
+import ActionDialog from "~/components/dialogs/action-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import {
   useDeleteCommitteeAsAuthed,
@@ -40,7 +40,7 @@ export const CommitteeTableActions: FC<Committee> = ({ id, ...values }) => {
         title="Uppdatera organ"
         trigger={<EditTriggerButton />}
       />
-      <DeleteDialog
+      <ActionDialog
         onSubmit={() => deleteMember({ id })}
         trigger={<DeleteTriggerButton />}
       />

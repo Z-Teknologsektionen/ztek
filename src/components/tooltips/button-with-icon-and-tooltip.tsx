@@ -11,7 +11,8 @@ import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
 import { cn } from "~/utils/utils";
 
 type ButtonWithIconAndTooltipProps = {
-  className?: string;
+  classNameButton?: string;
+  classNameIcon?: string;
   disabled?: boolean;
   icon: IconType;
   onClick?: MouseEventHandler<HTMLButtonElement>;
@@ -23,7 +24,8 @@ type ButtonWithIconAndTooltipProps = {
 const ButtonWithIconAndTooltip: FC<ButtonWithIconAndTooltipProps> = ({
   icon: Icon,
   tooltipText,
-  className = "",
+  classNameIcon = "",
+  classNameButton = "",
   size = 15,
   onClick,
   disabled,
@@ -34,14 +36,14 @@ const ButtonWithIconAndTooltip: FC<ButtonWithIconAndTooltipProps> = ({
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
-            className="border-slate-300"
+            className={cn("border-slate-300", classNameButton)}
             disabled={disabled}
             onClick={onClick}
             size={"icon"}
             type={type}
             variant="outline"
           >
-            <Icon className={cn("fill-zBlack", className)} size={size} />
+            <Icon className={cn("fill-zBlack", classNameIcon)} size={size} />
             <p className="sr-only">{tooltipText}</p>
           </Button>
         </TooltipTrigger>

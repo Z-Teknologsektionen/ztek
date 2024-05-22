@@ -36,9 +36,11 @@ export const DataTableFacetedFilter = <TData, TValue>({
   title,
   options,
 }: DataTableFacetedFilterProps<TData, TValue>): JSX.Element => {
-  const facets = column?.getFacetedUniqueValues();
+  if (!column) throw new Error("Kan inte hitta columnen");
+
+  const facets = column.getFacetedUniqueValues();
   const selectedValues = new Set(
-    column?.getFilterValue() as (string | number)[],
+    column.getFilterValue() as (string | number)[],
   );
 
   return (
@@ -47,7 +49,7 @@ export const DataTableFacetedFilter = <TData, TValue>({
         <Button className="h-8 border-dashed" size="sm" variant="outline">
           <PlusCircledIcon className="mr-2 h-4 w-4" />
           {title}
-          {selectedValues?.size > 0 && (
+          {selectedValues.size > 0 && (
             <>
               <Separator className="mx-2 h-4" orientation="vertical" />
               <Badge
@@ -101,7 +103,7 @@ export const DataTableFacetedFilter = <TData, TValue>({
                         selectedValues.add(option.value);
                       }
                       const filterValues = Array.from(selectedValues);
-                      column?.setFilterValue(
+                      column.setFilterValue(
                         filterValues.length ? filterValues : undefined,
                       );
                     }}
@@ -122,7 +124,7 @@ export const DataTableFacetedFilter = <TData, TValue>({
                       </div>
                     )}
                     <span>{option.label}</span>
-                    {facets?.get(option.value) && (
+                    {facets.get(option.value) && (
                       <span className="ml-auto flex h-4 w-4 items-center justify-center font-mono text-xs">
                         {facets.get(option.value)}
                       </span>
@@ -137,7 +139,7 @@ export const DataTableFacetedFilter = <TData, TValue>({
                 <CommandGroup>
                   <CommandItem
                     className="justify-center text-center"
-                    onSelect={() => column?.setFilterValue(undefined)}
+                    onSelect={() => column.setFilterValue(undefined)}
                   >
                     Rensa filter
                   </CommandItem>

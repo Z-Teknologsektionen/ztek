@@ -7,6 +7,7 @@ import ActiveStartTab from "~/components/active/home";
 import AdministerMembersTab from "~/components/active/members";
 import OldCommitteesTab from "~/components/active/old-committees";
 import ProgramBoardTab from "~/components/active/program-board";
+import ZaloonenBookingTab from "~/components/active/zaloonen-booking";
 import ZenithMediaTab from "~/components/active/zenith-media";
 
 export interface ActiveTabsProps {
@@ -70,6 +71,12 @@ const rawActiveTabs: ActiveTabsProps[] = [
     desc: "Här kan du ta bort eller lägga till Zeniths media som tidningar osv.",
     component: ZenithMediaTab,
     requiredRole: AccountRoles.MODIFY_ZENITH_MEDIA,
+  },
+  {
+    name: "Administera Zaloonens bokningar",
+    desc: "Här kan du hantera Zaloonens bokningar",
+    component: ZaloonenBookingTab,
+    requiredRole: AccountRoles.MODIFY_ZALOONEN_BOOKING,
   },
 ];
 

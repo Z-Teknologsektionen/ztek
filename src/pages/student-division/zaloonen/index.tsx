@@ -8,6 +8,7 @@ import SectionWrapper from "~/components/layout/section-wrapper";
 import StyledLink from "~/components/layout/styled-link";
 import { Accordion } from "~/components/ui/accordion";
 import { buttonVariants } from "~/components/ui/button";
+import UpsertZaloonenBookingFormSection from "~/components/zaloonen/upsert-zaloonen-booking-form";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 
@@ -84,10 +85,11 @@ const ZaloonenPage: NextPage = () => {
           <div>
             <SectionTitle>Bokningar</SectionTitle>
             <p className="mt-1 text-sm font-light">
-              Här är Zaloonens bokningskalender. Observera att formuläret bara
-              är en intresseanmälan.
+              Här är Zaloonens bokningskalender. Observera att formuläret nedan
+              bara är en intresseanmälan.
             </p>
           </div>
+          {/* TODO: Ta bort denna länk när testning klar */}
           <Link
             className={buttonVariants({
               className: "w-full bg-gray-200 uppercase sm:w-auto",
@@ -101,14 +103,15 @@ const ZaloonenPage: NextPage = () => {
             Boka Zaloonen!
           </Link>
         </div>
+        <iframe
+          className="mx-auto my-8 aspect-video h-[100vh] w-full overscroll-auto"
+          seamless={true}
+          src="https://embed.styledcalendar.com/#KwrikxxDh0q9078hGAzF"
+          style={{ overflow: "hidden" }}
+          title="zaloonenCal"
+        />
+        <UpsertZaloonenBookingFormSection formType="create" />
       </SectionWrapper>
-      <iframe
-        className="mx-auto -mt-8 mb-8 aspect-video h-[100vh] w-full max-w-3xl overscroll-auto"
-        seamless={true}
-        src="https://embed.styledcalendar.com/#KwrikxxDh0q9078hGAzF"
-        style={{ overflow: "hidden" }}
-        title="zaloonenCal"
-      />
     </>
   );
 };
