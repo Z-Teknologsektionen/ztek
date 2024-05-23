@@ -33,11 +33,11 @@ const BusinessIntoSection: FC = () => {
         alt="image"
         className="col-span-3 grid place-items-center"
         height={500}
-        imageClassName="rounded"
+        imageClassName="rounded max-w-3xl"
         photoCommittee="zFoto"
         photographer="Casper Lundberg"
         src="/argz.jpg"
-        width={750}
+        width={3000}
       />
     </SectionWrapper>
   );
