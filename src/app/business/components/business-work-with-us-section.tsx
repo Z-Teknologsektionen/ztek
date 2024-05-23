@@ -7,7 +7,9 @@ import SectionWrapper from "~/components/layout/section-wrapper";
 const BusinessWorkWithUsSection: FC = () => {
   return (
     <SectionWrapper>
-      <SectionTitle>Sammarbeta med oss!</SectionTitle>
+      <SectionTitle className="-mb-4" center>
+        Samarbeta med oss!
+      </SectionTitle>
       <p>
         Vi vill att ni ska få ut så mycket som möjligt som kan vara nytta till
         sektionens medlemmar i Automation och Mekatronik. Nedan följer förslag
@@ -74,10 +76,10 @@ const BusinessWorkWithUsSection: FC = () => {
           </SecondaryTitle>
           <p>
             ArgZ har möjlighet att sprida information genom flera olika typer av
-            medium. Här ingår, affischering, inlägg på Z-teknologsektionens
+            medium. Här ingår affischering, inlägg på Z-teknologsektionens
             facebooksida och mailutskick till alla studenter på
             z-teknologsektionen. Självklart finns det ytterligare möjligheter
-            för exponering! Hör gärna av er till os med egna förslag eller
+            för exponering! Hör gärna av er till oss med egna förslag eller
             annat.
           </p>
           <ul className="mt-2">

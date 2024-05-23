@@ -7,7 +7,9 @@ import StyledLink from "~/components/layout/styled-link";
 const BusinessIntoSection: FC = () => {
   return (
     <SectionWrapper>
-      <SectionTitle>Välkommen till ArgZ</SectionTitle>
+      <SectionTitle className="-mb-4" center>
+        Välkommen till ArgZ
+      </SectionTitle>
       <p>
         ArgZ är Automation och Mekatroniks arbetsmarknadsgrupp. För de flesta är
         studierna på Chalmers den sista anhalten innan steget ut i arbetslivet
@@ -27,7 +29,6 @@ const BusinessIntoSection: FC = () => {
           ArgZ.se
         </StyledLink>
       </p>
-      <br></br>
       <ImageWithCredit
         alt="image"
         className="col-span-3 grid place-items-center"
