@@ -100,6 +100,7 @@ const authOptions: NextAuthOptions = {
         },
         data: {
           userId: user.id,
+          updatedByEmail: null,
         },
       });
     },

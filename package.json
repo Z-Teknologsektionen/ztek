@@ -45,7 +45,7 @@
     "keen-slider": "^6.8.6",
     "lucide-react": "^0.320.0",
     "mongoose": "^7.6.3",
-    "next": "^13.5.6",
+    "next": "^14.2.3",
     "next-auth": "^4.24.3",
     "nextjs-node-loader": "^1.1.5",
     "react": "18.2.0",

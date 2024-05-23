@@ -30,7 +30,12 @@ model Committee {
     oldCommittee OldCommittee[]
     document     Document?         @relation(fields: [documentId], references: [id])
 
-    updatedAt DateTime @updatedAt
+    updatedByEmail String?
+    updatedBy      User?    @relation("updatedBy", fields: [updatedByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)
+    updatedAt      DateTime @updatedAt
+    createdByEmail String?
+    createdBy      User?    @relation("createdBy", fields: [createdByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)
+    createdAt      DateTime @default(now())
 }
 
 enum CommitteeType {
@@ -76,7 +81,12 @@ model OldCommittee {
 
     belongsToCommittee Committee @relation(fields: [belongsToCommitteeId], references: [id], onDelete: Restrict)
 
-    updatedAt DateTime @updatedAt
+    updatedByEmail String?
+    updatedBy      User?    @relation("updatedBy", fields: [updatedByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)
+    updatedAt      DateTime @updatedAt
+    createdByEmail String?
+    createdBy      User?    @relation("createdBy", fields: [createdByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)
+    createdAt      DateTime @default(now())
 }
 
 type OldMember {
@@ -101,9 +111,14 @@ model CommitteeMember {
     email String
 
     committee Committee @relation(fields: [committeeId], references: [id], onDelete: Restrict)
-    user      User?     @relation(fields: [userId], references: [id])
+    user      User?     @relation("userToCommitteeMember", fields: [userId], references: [id])
 
-    updatedAt DateTime @updatedAt
+    updatedByEmail String?
+    updatedBy      User?    @relation("updatedBy", fields: [updatedByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)
+    updatedAt      DateTime @updatedAt
+    createdByEmail String?
+    createdBy      User?    @relation("createdBy", fields: [createdByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)
+    createdAt      DateTime @default(now())
 }
 
 model ZenithMedia {
@@ -114,8 +129,12 @@ model ZenithMedia {
     url        String @unique
     coverImage String @default("")
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    updatedByEmail String?
+    updatedBy      User?    @relation("updatedBy", fields: [updatedByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)
+    updatedAt      DateTime @updatedAt
+    createdByEmail String?
+    createdBy      User?    @relation("createdBy", fields: [createdByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)
+    createdAt      DateTime @default(now())
 }
 
 model Document {
@@ -128,6 +147,13 @@ model Document {
 
     group              DocumentGroup @relation(fields: [groupId], references: [id], onDelete: Restrict)
     linkedToCommittees Committee[]
+
+    updatedByEmail String?
+    updatedBy      User?    @relation("updatedBy", fields: [updatedByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)
+    updatedAt      DateTime @updatedAt
+    createdByEmail String?
+    createdBy      User?    @relation("createdBy", fields: [createdByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)
+    createdAt      DateTime @default(now())
 }
 
 model DocumentGroup {
@@ -137,6 +163,13 @@ model DocumentGroup {
     extraText String @default("")
 
     Document Document[]
+
+    updatedByEmail String?
+    updatedBy      User?    @relation("updatedBy", fields: [updatedByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)
+    updatedAt      DateTime @updatedAt
+    createdByEmail String?
+    createdBy      User?    @relation("createdBy", fields: [createdByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)
+    createdAt      DateTime @default(now())
 }
 
 model ProgramBoardMember {
@@ -150,8 +183,12 @@ model ProgramBoardMember {
     role  String
     order Int    @default(0)
 
-    updatedAt DateTime @updatedAt
-    createdAt DateTime @default(now())
+    updatedByEmail String?
+    updatedBy      User?    @relation("updatedBy", fields: [updatedByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)
+    updatedAt      DateTime @updatedAt
+    createdByEmail String?
+    createdBy      User?    @relation("createdBy", fields: [createdByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)
+    createdAt      DateTime @default(now())
 }
 
 // Next Auth models
@@ -191,7 +228,28 @@ model User {
     sessions      Session[]
 
     roles            AccountRoles[]
-    committeeMembers CommitteeMember[]
+    committeeMembers CommitteeMember[] @relation("userToCommitteeMember")
+
+    committeesUpdated          Committee[]          @relation("updatedBy")
+    committeesCreated          Committee[]          @relation("createdBy")
+    oldCommitteesUpdated       OldCommittee[]       @relation("updatedBy")
+    oldCommitteesCreated       OldCommittee[]       @relation("createdBy")
+    committeeMembersUpdated    CommitteeMember[]    @relation("updatedBy")
+    committeeMembersCreated    CommitteeMember[]    @relation("createdBy")
+    zenithMediasUpdated        ZenithMedia[]        @relation("updatedBy")
+    zenithMediaCreated         ZenithMedia[]        @relation("createdBy")
+    documentsUpdated           Document[]           @relation("updatedBy")
+    documentsCreated           Document[]           @relation("createdBy")
+    documentGroupsUpdated      DocumentGroup[]      @relation("updatedBy")
+    documentGroupsCreated      DocumentGroup[]      @relation("createdBy")
+    programBoardMembersUpdated ProgramBoardMember[] @relation("updatedBy")
+    programBoardMembersCreated ProgramBoardMember[] @relation("createdBy")
+    usersUpdated               User[]               @relation("updatedBy")
+
+    updatedByEmail String?
+    updatedBy      User?    @relation("updatedBy", fields: [updatedByEmail], references: [email], onDelete: Restrict, onUpdate: Restrict)
+    updatedAt      DateTime @updatedAt
+    createdAt      DateTime @default(now())
 }
 
 enum AccountRoles {

@@ -49,6 +49,8 @@ export const zenithMediaRouter = createTRPCRouter({
           url: url,
           year: year,
           coverImage: coverImage,
+          updatedByEmail: ctx.session.user.email,
+          createdByEmail: ctx.session.user.email,
         },
       });
     }),
@@ -64,6 +66,7 @@ export const zenithMediaRouter = createTRPCRouter({
           url: url,
           year: year,
           coverImage: coverImage,
+          updatedByEmail: ctx.session.user.email,
         },
       });
     }),

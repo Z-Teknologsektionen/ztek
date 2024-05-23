@@ -23,6 +23,7 @@ export const userRouter = createTRPCRouter({
         },
         data: {
           roles,
+          updatedByEmail: session.user.email,
         },
       });
     }),

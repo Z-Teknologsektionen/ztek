@@ -96,6 +96,8 @@ export const oldCommitteeRouter = createTRPCRouter({
             image,
             logo,
             members,
+            updatedByEmail: ctx.session.user.email,
+            createdByEmail: ctx.session.user.email,
           },
         });
       },
@@ -117,16 +119,8 @@ export const oldCommitteeRouter = createTRPCRouter({
             image,
             logo,
             belongsToCommitteeId,
-            members: members
-              ? {
-                  set: members.map((member) => ({
-                    name: member.name,
-                    nickName: member.nickName,
-                    role: member.role,
-                    order: member.order,
-                  })),
-                }
-              : undefined,
+            members,
+            updatedByEmail: ctx.session.user.email,
           },
         });
       },
