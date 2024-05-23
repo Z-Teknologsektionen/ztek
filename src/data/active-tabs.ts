@@ -1,5 +1,7 @@
 import { AccountRoles } from "@prisma/client";
 import type { FC } from "react";
+import type { IconType } from "react-icons";
+import { FaHome } from "react-icons/fa";
 import AdministerCommitteesTab from "~/components/active/committees";
 import EditDocumentsTab from "~/components/active/documents";
 import EditCommitteeTab from "~/components/active/edit-committee";
@@ -12,6 +14,7 @@ import ZenithMediaTab from "~/components/active/zenith-media";
 export interface ActiveTabsProps {
   component: FC;
   desc?: string;
+  icon?: IconType;
   initialTab?: boolean;
   instructions?: string[];
   name: string;
@@ -24,14 +27,15 @@ export interface ActiveTabsProps {
  */
 const rawActiveTabs: ActiveTabsProps[] = [
   {
-    name: "Start",
+    name: "",
     desc: "",
     component: ActiveStartTab,
     requiredRole: undefined,
     initialTab: true,
+    icon: FaHome,
   },
   {
-    name: "Administera organet",
+    name: "Mitt organ",
     desc: "Här kan du som precis gått på byta namn på sittande och byta logga!",
     component: EditCommitteeTab,
   },
@@ -42,31 +46,31 @@ const rawActiveTabs: ActiveTabsProps[] = [
     requiredRole: undefined,
   },
   {
-    name: "Administera dokument",
+    name: "Dokument",
     desc: "Här kan du ta bort eller lägga till olika dokument.",
     component: EditDocumentsTab,
     requiredRole: AccountRoles.MODIFY_DOCUMENTS,
   },
   {
-    name: "Administrera medlemmar",
+    name: "Medlemmar",
     desc: "Här kan du lägga till, redigera eller ta bort medlemmar i olika organ.",
     component: AdministerMembersTab,
     requiredRole: AccountRoles.ORGANIZATION_MANAGEMENT,
   },
   {
-    name: "Administrera organ",
+    name: "Alla organ",
     desc: "Här kan du lägga till, redigera eller ta bort organ.",
     component: AdministerCommitteesTab,
     requiredRole: AccountRoles.ORGANIZATION_MANAGEMENT,
   },
   {
-    name: "Administrera programledningen",
+    name: "Programledningen",
     desc: "Här kan du lägga till, redigera eller ta bort någon i programledningen.",
     component: ProgramBoardTab,
     requiredRole: AccountRoles.MODIFY_PROGRAM_BOARD,
   },
   {
-    name: "Administera Zeniths media",
+    name: "Zeniths media",
     desc: "Här kan du ta bort eller lägga till Zeniths media som tidningar osv.",
     component: ZenithMediaTab,
     requiredRole: AccountRoles.MODIFY_ZENITH_MEDIA,

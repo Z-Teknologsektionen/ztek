@@ -60,13 +60,14 @@ const ActiveHomePage: NextPage = () => {
         </div>
         <ScrollArea className="w-full">
           <div className="flex justify-center space-x-2">
-            <TabsList className="h-12 min-w-max rounded-none rounded-b-2xl bg-zBlack py-6 text-white md:px-6 xl:px-4">
+            <TabsList className="h-12 min-w-max rounded-none rounded-b-2xl bg-zBlack/90 py-6 text-white md:px-6 xl:px-4">
               {availableTabs.map((tab) => (
                 <TabsTrigger
                   key={tab.name}
                   className="flex min-w-fit overflow-hidden truncate"
                   value={tab.name}
                 >
+                  {tab.icon && <tab.icon size={20} />}
                   {tab.name}
                 </TabsTrigger>
               ))}
