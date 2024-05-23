@@ -10,6 +10,6 @@ export const MIN_ORDER_NUMBER = 0;
 
 export const MAX_ORDER_NUMBER = 99;
 
-export const COMMITTEE_IMAGE_SIZE = 300;
+export const COMMITTEE_IMAGE_SIZE = 500;
 
 export const COMMITTEE_IMAGE_QUALITY = 95;

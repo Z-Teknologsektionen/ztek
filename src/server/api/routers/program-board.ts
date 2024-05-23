@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
   createProgramBoardMemberSchema,
   updateProgramBoardMemberSchema,
@@ -26,19 +27,6 @@ export const programBoardRouter = createTRPCRouter({
       },
     });
   }),
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.programBoardMember.findMany({
-      select: {
-        name: true,
-        role: true,
-        phone: true,
-        email: true,
-        url: true,
-        image: true,
-        order: true,
-      },
-    });
-  }),
   getOneByRole: publicProcedure
     .input(z.object({ role: z.string().min(1) }))
     .query(({ ctx, input: { role } }) => {
@@ -61,6 +49,8 @@ export const programBoardRouter = createTRPCRouter({
             url,
             image,
             order,
+            updatedByEmail: ctx.session.user.email,
+            createdByEmail: ctx.session.user.email,
           },
         });
       },
@@ -79,6 +69,7 @@ export const programBoardRouter = createTRPCRouter({
             url,
             image,
             order,
+            updatedByEmail: ctx.session.user.email,
           },
         });
       },
@@ -86,7 +77,7 @@ export const programBoardRouter = createTRPCRouter({
   deleteOneAsAuthed: programBoardProcedure
     .input(
       z.object({
-        id: z.string().min(1),
+        id: objectId,
       }),
     )
     .mutation(({ ctx, input: { id } }) => {

@@ -77,14 +77,12 @@ const authOptions: NextAuthOptions = {
           },
         },
       });
-      if (!committeeMember) {
-        return session;
-      }
+
       return {
         ...session,
         user: {
           ...session.user,
-          roles: committeeMember.user?.roles || [],
+          roles: committeeMember?.user?.roles || [],
           email: token.email,
           memberId: committeeMember?.id,
           committeeId: committeeMember?.committeeId,
@@ -100,6 +98,7 @@ const authOptions: NextAuthOptions = {
         },
         data: {
           userId: user.id,
+          updatedByEmail: null,
         },
       });
     },

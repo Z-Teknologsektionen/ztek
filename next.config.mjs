@@ -33,6 +33,18 @@ const config = {
       },
     ],
   },
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.node$/,
+      use: [
+        {
+          loader: "nextjs-node-loader",
+        },
+      ],
+    });
+    return config;
+  },
+
   async redirects() {
     // https://nextjs.org/docs/app/api-reference/next-config-js/redirects
     const oldRoutesRedirects = Object.entries(oldRoutesMap).map(

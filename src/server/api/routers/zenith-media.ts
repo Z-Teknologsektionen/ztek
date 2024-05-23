@@ -1,8 +1,9 @@
 import { z } from "zod";
+import { deleteFileFromSftpServer } from "~/app/api/sftp/utils/sftp-engine";
 import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
-  createZenithMediaSchema,
-  updateZenithMediaSchema,
+  createZenithMediaServerSchema,
+  updateZenithMediaServerSchema,
 } from "~/schemas/zenith-media";
 import {
   createTRPCRouter,
@@ -19,8 +20,7 @@ export const zenithMediaRouter = createTRPCRouter({
         title: true,
         year: true,
         url: true,
-        isPDF: true,
-        image: true,
+        coverImage: true,
       },
     });
 
@@ -41,39 +41,58 @@ export const zenithMediaRouter = createTRPCRouter({
     });
   }),
   createOneAsAuthed: zenithMediaProcedure
-    .input(createZenithMediaSchema)
-    .mutation(async ({ ctx, input: { isPDF, title, url, year, image } }) => {
+    .input(createZenithMediaServerSchema)
+    .mutation(async ({ ctx, input: { url, title, year, coverImage } }) => {
       return ctx.prisma.zenithMedia.create({
         data: {
           title: title,
-          isPDF: isPDF,
           url: url,
           year: year,
-          image: image,
+          coverImage: coverImage,
+          updatedByEmail: ctx.session.user.email,
+          createdByEmail: ctx.session.user.email,
         },
       });
     }),
   updateOneAsAuthed: zenithMediaProcedure
-    .input(updateZenithMediaSchema)
-    .mutation(
-      async ({ ctx, input: { id, isPDF, title, url, year, image } }) => {
-        return ctx.prisma.zenithMedia.update({
-          where: {
-            id: id,
-          },
-          data: {
-            isPDF: isPDF,
-            title: title,
-            url: url,
-            year: year,
-            image: image,
-          },
-        });
-      },
-    ),
+    .input(updateZenithMediaServerSchema)
+    .mutation(async ({ ctx, input: { id, title, url, year, coverImage } }) => {
+      return ctx.prisma.zenithMedia.update({
+        where: {
+          id: id,
+        },
+        data: {
+          title: title,
+          url: url,
+          year: year,
+          coverImage: coverImage,
+          updatedByEmail: ctx.session.user.email,
+        },
+      });
+    }),
   deleteOneAsAuthed: zenithMediaProcedure
     .input(z.object({ id: objectId }))
     .mutation(async ({ ctx, input: { id } }) => {
+      const fileUrl = await ctx.prisma.zenithMedia.findUnique({
+        where: { id: id },
+        select: { url: true },
+      });
+
+      if (!fileUrl) {
+        throw new Error("Media not found");
+      }
+
+      try {
+        await deleteFileFromSftpServer({ url: fileUrl.url });
+      } catch (error) {
+        if (error instanceof Error) {
+          if (error.message !== "Filen du ville radera kunde inte hittas!")
+            throw new Error(error.message);
+        } else {
+          throw new Error("Something went wrong when deleting the file.");
+        }
+      }
+
       return ctx.prisma.zenithMedia.delete({
         where: {
           id: id,

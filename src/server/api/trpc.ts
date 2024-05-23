@@ -33,6 +33,10 @@ import { AccountRoles } from "@prisma/client";
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
+import {
+  userHasAdminAccess,
+  userHasRequiredRole,
+} from "~/utils/user-has-correct-role";
 
 type CreateContextOptions = {
   session: Session | null;
@@ -108,14 +112,14 @@ export const createTRPCRouter = t.router;
 export const publicProcedure = t.procedure;
 
 /** Reusable middleware that enforces users are logged in before running the procedure. */
-const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
-  if (!ctx.session || !ctx.session.user) {
+const enforceUserIsAuthed = t.middleware(({ ctx: { session }, next }) => {
+  if (!session || !session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
   return next({
     ctx: {
       // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session.user },
+      session: { ...session, user: session.user },
     },
   });
 });
@@ -130,38 +134,31 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
  */
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
 
-const enforceUserIsAdmin = t.middleware(({ ctx, next }) => {
-  if (
-    !ctx.session ||
-    !ctx.session.user ||
-    !ctx.session.user.roles.includes(AccountRoles.ADMIN)
-  ) {
+const enforceUserIsAdmin = t.middleware(({ ctx: { session }, next }) => {
+  if (session === null || !userHasAdminAccess(session.user.roles)) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
   return next({
     ctx: {
       // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session.user },
+      session: { ...session, user: session.user },
     },
   });
 });
 
 const enforceUserHasRoleOrAdmin = (role: AccountRoles) =>
-  t.middleware(({ ctx, next }) => {
+  t.middleware(({ ctx: { session }, next }) => {
     // is signed in
-    if (!ctx.session || !ctx.session.user) {
+    if (!session || !session.user) {
       throw new TRPCError({ code: "FORBIDDEN" });
     }
     // has role or is admin
-    if (
-      !ctx.session.user.roles.includes(role) &&
-      !ctx.session.user.roles.includes(AccountRoles.ADMIN)
-    ) {
+    if (!userHasRequiredRole(session.user.roles, role)) {
       throw new TRPCError({ code: "UNAUTHORIZED" });
     }
     return next({
       ctx: {
-        session: { ...ctx.session, user: ctx.session.user },
+        session: { ...session, user: session.user },
       },
     });
   });

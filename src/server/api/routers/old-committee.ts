@@ -90,23 +90,14 @@ export const oldCommitteeRouter = createTRPCRouter({
       }) => {
         return ctx.prisma.oldCommittee.create({
           data: {
+            belongsToCommitteeId,
             name,
             year,
             image,
             logo,
-            members: {
-              set: members.map((member) => ({
-                name: member.name,
-                nickName: member.nickName,
-                role: member.role,
-                order: member.order,
-              })),
-            },
-            belongsToCommittee: {
-              connect: {
-                id: belongsToCommitteeId,
-              },
-            },
+            members,
+            updatedByEmail: ctx.session.user.email,
+            createdByEmail: ctx.session.user.email,
           },
         });
       },
@@ -128,16 +119,8 @@ export const oldCommitteeRouter = createTRPCRouter({
             image,
             logo,
             belongsToCommitteeId,
-            members: members
-              ? {
-                  set: members.map((member) => ({
-                    name: member.name,
-                    nickName: member.nickName,
-                    role: member.role,
-                    order: member.order,
-                  })),
-                }
-              : undefined,
+            members,
+            updatedByEmail: ctx.session.user.email,
           },
         });
       },

@@ -7,30 +7,6 @@ import {
 } from "~/server/api/trpc";
 
 export const documentRouter = createTRPCRouter({
-  getAllSortedByGroup: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.documentGroup.findMany({
-      where: {
-        Document: {
-          some: {
-            id: {
-              not: undefined,
-            },
-          },
-        },
-      },
-      select: {
-        name: true,
-        extraText: true,
-        Document: {
-          select: {
-            isPDF: true,
-            title: true,
-            url: true,
-          },
-        },
-      },
-    });
-  }),
   getAllGroupsAsAuthed: documentProcedure.query(async ({ ctx }) => {
     const groups = await ctx.prisma.documentGroup.findMany({
       select: {
@@ -83,6 +59,8 @@ export const documentRouter = createTRPCRouter({
           url: input.url,
           groupId: input.groupId,
           isPDF: input.isPDF,
+          updatedByEmail: ctx.session.user.email,
+          createdByEmail: ctx.session.user.email,
         },
       });
     }),
@@ -104,6 +82,7 @@ export const documentRouter = createTRPCRouter({
           url: input.url,
           groupId: input.groupId,
           isPDF: input.isPDF,
+          updatedByEmail: ctx.session.user.email,
         },
       });
     }),
@@ -152,6 +131,8 @@ export const documentRouter = createTRPCRouter({
         data: {
           name: input.name,
           extraText: input.extraText,
+          updatedByEmail: ctx.session.user.email,
+          createdByEmail: ctx.session.user.email,
         },
       });
     }),
@@ -169,6 +150,7 @@ export const documentRouter = createTRPCRouter({
         data: {
           name: input.name,
           extraText: input.extraText,
+          updatedByEmail: ctx.session.user.email,
         },
       });
     }),

@@ -1,16 +1,18 @@
 import Link from "next/link";
 import type { FC } from "react";
 import { Fragment } from "react";
+import type { getDocumentGroupsWithDocuments } from "~/app/documents/page";
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { buttonVariants } from "~/components/ui/button";
-import type { RouterOutputs } from "~/utils/api";
 import { openUrlAsPdf } from "~/utils/open-url-as-pdf";
 
-type DocumentGroup = RouterOutputs["document"]["getAllSortedByGroup"][0];
+type DocumentGroup = Awaited<
+  ReturnType<typeof getDocumentGroupsWithDocuments>
+>[0];
 type Document = DocumentGroup["Document"][0];
 
 const DocumentsAccordionItem: FC<{
