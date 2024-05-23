@@ -247,7 +247,7 @@ model User {
     usersUpdated               User[]               @relation("updatedBy")
 
     updatedByEmail String?
-    updatedBy      User?    @relation("updatedBy", fields: [updatedByEmail], references: [email], onDelete: Restrict, onUpdate: Restrict)
+    updatedBy      User?    @relation("updatedBy", fields: [updatedByEmail], references: [email], onDelete: NoAction, onUpdate: NoAction)
     updatedAt      DateTime @updatedAt
     createdAt      DateTime @default(now())
 }
