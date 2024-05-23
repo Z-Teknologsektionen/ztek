@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { FC } from "react";
 import { cn } from "~/utils/utils";
+
 type ImageWithCreditProps = {
   alt: string;
   className?: string;
