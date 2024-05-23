@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { FC } from "react";
-import DocumentsAccordionItem from "~/components/documents/documents-accordion-item";
+import DocumentsAccordionItem from "~/components/accordion/documents-accordion-item";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
 import { Accordion } from "~/components/ui/accordion";

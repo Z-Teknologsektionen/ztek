@@ -1,6 +1,6 @@
 import type { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
-import DocumentsAccordionItem from "~/components/documents/documents-accordion-item";
+import DocumentsAccordionItem from "~/components/accordion/documents-accordion-item";
 import HeadLayout from "~/components/layout/head-layout";
 import ImageWithCredit from "~/components/layout/image-with-credit";
 import SectionTitle from "~/components/layout/section-title";
