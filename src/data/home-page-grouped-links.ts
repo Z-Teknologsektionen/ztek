@@ -67,8 +67,8 @@ export const homePageGroupedLinks = [
     links: [
       { title: "Zaloonen", url: "/student-division/zaloonen" },
       {
-        title: "Activity@Z",
-        url: "https://www.facebook.com/groups/activityatz",
+        title: "Orbi",
+        url: "https://orbiapp.io/student",
       },
       {
         title: "Kårappen iOS",

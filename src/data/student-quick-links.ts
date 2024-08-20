@@ -3,7 +3,7 @@ import {
   MdAccountBalance,
   MdAnalytics,
   MdCalendarMonth,
-  MdFacebook,
+  MdInfo,
   MdMeetingRoom,
   MdReport,
   MdSchool,
@@ -48,9 +48,9 @@ export const studentQuickLinks: StudentQuickLinkType[] = [
     tooltip: "Här kan du anmäla dig till tentor och se dina resultat.",
   },
   {
-    icon: MdFacebook,
-    href: "https://www.facebook.com/groups/activityatz",
-    text: "Activity@Z",
+    icon: MdInfo,
+    href: "https://orbiapp.io/student",
+    text: "Orbi",
     tooltip: "Här kommer information om olika arrangemang på sektionen",
   },
   {

@@ -12,5 +12,5 @@ export const homePageSelectLinks: HomePageSelectLinkType[] = [
     title: "Ladok",
     url: "https://www.student.ladok.se/student/app/studentwebb/",
   },
-  { title: "Activity@Z", url: "https://www.facebook.com/groups/activityatz" },
+  { title: "Orbi", url: "https://orbiapp.io/student" },
 ];

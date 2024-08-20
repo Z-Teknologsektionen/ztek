@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { FC } from "react";
 import { Fragment } from "react";
-import type { getDocumentGroupsWithDocuments } from "~/app/documents/page";
+import type { getDocumentGroupsWithDocuments } from "~/app/documents/get-document-groups-with-documents";
 import {
   AccordionContent,
   AccordionItem,

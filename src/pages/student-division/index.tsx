@@ -241,12 +241,9 @@ const StudentDivision: NextPage = () => {
                 det egentligen att städa Gasquen eller hur många hamburgare
                 hinner man grilla på en timme? Alla dessa svar kan du få om du
                 azpar olika organ. Information om de olika azpningarna brukar
-                anslås i vår Facebookgrupp,{" "}
-                <StyledLink
-                  href={"https://www.facebook.com/groups/activityatz"}
-                  target="_blank"
-                >
-                  Activity@Z
+                anslås hos{" "}
+                <StyledLink href={"https://orbiapp.io/student"} target="_blank">
+                  Orbi
                 </StyledLink>
                 . Man kan azpa olika organ utan att söka till dem precis som man
                 kan söka de olika organen utan att ha azpat. Följande organ har
