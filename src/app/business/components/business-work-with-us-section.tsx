@@ -77,8 +77,8 @@ const BusinessWorkWithUsSection: FC = () => {
           <p>
             ArgZ har möjlighet att sprida information genom flera olika typer av
             medium. Här ingår affischering, inlägg på Z-teknologsektionens
-            facebooksida och mailutskick till alla studenter på
-            z-teknologsektionen. Självklart finns det ytterligare möjligheter
+            informationssida och mailutskick till alla studenter på
+            Z-teknologsektionen. Självklart finns det ytterligare möjligheter
             för exponering! Hör gärna av er till oss med egna förslag eller
             annat.
           </p>
