@@ -1,7 +1,12 @@
 import mongoose from "mongoose";
 import isMobilePhone from "validator/lib/isMobilePhone";
 import { z } from "zod";
-import { MAX_ORDER_NUMBER, MIN_ORDER_NUMBER } from "~/constants/committees";
+import {
+  MAX_ELECTION_PERIOD,
+  MAX_ORDER_NUMBER,
+  MIN_ELECTION_PERIOD,
+  MIN_ORDER_NUMBER,
+} from "~/constants/committees";
 import {
   MAX_SFTP_FILE_SIZE,
   MAX_SFTP_MB_SIZE,
@@ -129,3 +134,15 @@ export const sftpDir = z.enum(SFPT_DIRS, {
     message: `Ogiltigt directory. Måste vara ett av följande: "${SFPT_DIRS.join()}"`,
   }),
 });
+
+export const electionPeriod = standardNumber
+  .int("Måste vara ett heltal")
+  .nonnegative("Måste vara ett ickenegativt tal")
+  .min(
+    MIN_ELECTION_PERIOD,
+    `Måste vara ett nummer mellan ${MIN_ELECTION_PERIOD} och ${MAX_ELECTION_PERIOD}`,
+  )
+  .max(
+    MAX_ELECTION_PERIOD,
+    `Måste vara ett nummer mellan ${MIN_ELECTION_PERIOD} och ${MAX_ELECTION_PERIOD}`,
+  );
