@@ -73,7 +73,8 @@ export const ActionRequiredBookingCard: FC<BookingCardProps> = ({
     booking.startDateTime > dayjs().toDate() &&
     dayjs(booking.startDateTime).diff(dayjs(), "d") < 30;
 
-  const awaitingDepp = booking.bookingStatus === ZaloonenBookingStatus.ON_HOLD;
+  const awaitingPayment =
+    booking.bookingStatus === ZaloonenBookingStatus.ON_HOLD;
 
   return (
     <Card className="w-fit bg-white text-center">
@@ -87,7 +88,7 @@ export const ActionRequiredBookingCard: FC<BookingCardProps> = ({
             {assignInspectorRequired && "Välj avsynare"}
             {inspectionRequired && "Avsyning krävs"}
             {partyNoticeRequired && "Festanmäl bokning"}
-            {awaitingDepp && "Inväntar depp"}
+            {awaitingPayment && "Inväntar depp"}
           </Badge>
         </div>
       </CardHeader>

@@ -22,10 +22,8 @@ import { FaKitchenSet } from "react-icons/fa6";
 import { cn } from "~/utils/utils";
 import { BookingPopoverInfo } from "./booking-popover-info";
 import { PartyManagerPopoverInfo } from "./party-manager-popover-info";
-import {
-  ZaloonenBookingActions,
-  ZaloonenBookingStatusActions,
-} from "./zaloonen-booking-actions";
+import { ZaloonenBookingActions } from "./zaloonen-booking-actions";
+import { ZaloonenBookingStatusActions } from "./zaloonen-booking-status-actions";
 
 export type ZaloonenBookingType =
   RouterOutputs["zaloonen"]["getAllBookingsAsAuthed"][0];
@@ -60,9 +58,9 @@ export const zaloonenBookingColumns: ColumnDef<ZaloonenBookingType>[] = [
         className={cn("flex w-full flex-row justify-between gap-4")}
         id={row.original.id}
       >
-        <div className="flex max-w-32 gap-1">
+        <div className="max-w-32 flex gap-1">
           <BookingPopoverInfo booking={row.original} />
-          <div className="flex max-w-32 flex-col">
+          <div className="max-w-32 flex flex-col">
             <p className="truncate">{row.original.eventName}</p>
             <p className="truncate">{row.original.organizerName}</p>
           </div>
