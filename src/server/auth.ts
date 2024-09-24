@@ -1,6 +1,10 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import type { AccountRoles } from "@prisma/client";
-import type { GetServerSidePropsContext } from "next";
+import type {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+} from "next";
 import type { DefaultSession, NextAuthOptions, Session } from "next-auth";
 import { getServerSession } from "next-auth";
 import type { DefaultJWT } from "next-auth/jwt";
@@ -53,13 +57,7 @@ const authOptions: NextAuthOptions = {
     maxAge: 60 * 60 * 24, //1 dag
   },
   callbacks: {
-    jwt({ token, user }) {
-      if (user) {
-        return {
-          ...token,
-          email: user.email,
-        };
-      }
+    jwt({ token }) {
       return token;
     },
     session: async ({ session, token }) => {
@@ -106,9 +104,11 @@ const authOptions: NextAuthOptions = {
   secret: env.NEXTAUTH_SECRET,
 };
 
-export const getServerAuthSession = (ctx: {
-  req: GetServerSidePropsContext["req"];
-  res: GetServerSidePropsContext["res"];
-}): Promise<Session | null> => getServerSession(ctx.req, ctx.res, authOptions);
+export const getServerAuthSession = (
+  ctx:
+    | []
+    | [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]]
+    | [NextApiRequest, NextApiResponse] = [],
+): Promise<Session | null> => getServerSession(...ctx, authOptions);
 
 export default authOptions;
