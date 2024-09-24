@@ -102,6 +102,7 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
         }))}
         label="Invalsperioder"
         name="electionPeriods"
+        horizontal
       />
       <FormFieldInputNumber
         description="Används för att bestämma vilken ordning organet ska visas i"
