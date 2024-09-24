@@ -23,7 +23,6 @@ model Committee {
     role            String
     email           String        @unique
     order           Int
-    electionPeriod  Int           @default(1)
     electionPeriods Int[]
     committeeType   CommitteeType @default(COMMITTEE)
 
