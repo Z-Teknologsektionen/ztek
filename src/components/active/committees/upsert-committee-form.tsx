@@ -91,7 +91,7 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
         type="email"
       />
       <FormFieldMultiCheckbox
-        description="Vilka läsperioder har organet inval?"
+        description="Vilka läsperioder har organet inval? Om ingen period väljs kommer den fortfarande visas under organ men inte på en specifik invalsperiod"
         form={form}
         items={Array.from(
           { length: MAX_ELECTION_PERIOD - MIN_ELECTION_PERIOD + 1 },
