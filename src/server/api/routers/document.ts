@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
@@ -53,7 +54,7 @@ export const documentRouter = createTRPCRouter({
       }),
     )
     .mutation(({ ctx, input }) => {
-      return ctx.prisma.document.create({
+      const newDocument = ctx.prisma.document.create({
         data: {
           title: input.title,
           url: input.url,
@@ -63,6 +64,10 @@ export const documentRouter = createTRPCRouter({
           createdByEmail: ctx.session.user.email,
         },
       });
+
+      revalidateTag("documents");
+
+      return newDocument;
     }),
   updateOneAsAuthed: documentProcedure
     .input(
@@ -75,7 +80,7 @@ export const documentRouter = createTRPCRouter({
       }),
     )
     .mutation(({ ctx, input }) => {
-      return ctx.prisma.document.update({
+      const updatedDocument = ctx.prisma.document.update({
         where: { id: input.id },
         data: {
           title: input.title,
@@ -85,6 +90,10 @@ export const documentRouter = createTRPCRouter({
           updatedByEmail: ctx.session.user.email,
         },
       });
+
+      revalidateTag("documents");
+
+      return updatedDocument;
     }),
   deleteOneAsAuthed: documentProcedure
     .input(
@@ -93,11 +102,15 @@ export const documentRouter = createTRPCRouter({
       }),
     )
     .mutation(({ ctx, input }) => {
-      return ctx.prisma.document.delete({
+      const deletedDocument = ctx.prisma.document.delete({
         where: {
           id: input.id,
         },
       });
+
+      revalidateTag("documents");
+
+      return deletedDocument;
     }),
   getOneGroupByName: publicProcedure
     .input(z.object({ name: z.string().min(1) }))
@@ -127,7 +140,7 @@ export const documentRouter = createTRPCRouter({
       }),
     )
     .mutation(({ ctx, input }) => {
-      return ctx.prisma.documentGroup.create({
+      const newDocumentGroup = ctx.prisma.documentGroup.create({
         data: {
           name: input.name,
           extraText: input.extraText,
@@ -135,6 +148,10 @@ export const documentRouter = createTRPCRouter({
           createdByEmail: ctx.session.user.email,
         },
       });
+
+      revalidateTag("document-groups");
+
+      return newDocumentGroup;
     }),
   updateOneGroupAsAuthed: documentProcedure
     .input(
@@ -145,7 +162,7 @@ export const documentRouter = createTRPCRouter({
       }),
     )
     .mutation(({ ctx, input }) => {
-      return ctx.prisma.documentGroup.update({
+      const updatedDocumentGroup = ctx.prisma.documentGroup.update({
         where: { id: input.id },
         data: {
           name: input.name,
@@ -153,6 +170,10 @@ export const documentRouter = createTRPCRouter({
           updatedByEmail: ctx.session.user.email,
         },
       });
+
+      revalidateTag("document-groups");
+
+      return updatedDocumentGroup;
     }),
   deleteOneGroupAsAuthed: documentProcedure
     .input(
@@ -161,10 +182,14 @@ export const documentRouter = createTRPCRouter({
       }),
     )
     .mutation(({ ctx, input }) => {
-      return ctx.prisma.documentGroup.delete({
+      const deletedDocumentGroup = ctx.prisma.documentGroup.delete({
         where: {
           id: input.id,
         },
       });
+
+      revalidateTag("document-groups");
+
+      return deletedDocumentGroup;
     }),
 });
