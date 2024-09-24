@@ -12,8 +12,7 @@ const handler = async (req: Request) => {
     req,
     router: appRouter,
     createContext: () => ({
-      prisma: prisma,
-      // eslint-disable-next-line react-hooks/rules-of-hooks
+      prisma,
       session,
     }),
   });
