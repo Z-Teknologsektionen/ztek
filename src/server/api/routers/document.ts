@@ -124,6 +124,7 @@ export const documentRouter = createTRPCRouter({
           extraText: true,
           Document: {
             select: {
+              id: true,
               isPDF: true,
               title: true,
               url: true,
