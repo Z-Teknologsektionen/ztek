@@ -9,8 +9,8 @@ import FormWrapper from "~/components/forms/form-wrapper";
 import {
   COMMITTEE_IMAGE_QUALITY,
   COMMITTEE_IMAGE_SIZE,
-  MAX_ORDER_NUMBER,
-  MIN_ORDER_NUMBER,
+  MAX_COMMITTEE_ORDER_NUMBER,
+  MIN_COMMITTEE_ORDER_NUMBER,
 } from "~/constants/committees";
 import { createProgramBoardMemberSchema } from "~/schemas/program-board-member";
 import type { IUpsertForm } from "~/types/form-types";
@@ -22,7 +22,7 @@ type UpsertProgramBoardMemberFormProps = IUpsertForm<
 const DEFAULT_VALUES: UpsertProgramBoardMemberFormProps["defaultValues"] = {
   phone: "",
   image: "",
-  order: MIN_ORDER_NUMBER,
+  order: MIN_COMMITTEE_ORDER_NUMBER,
   email: "",
   name: "",
   role: "",
@@ -79,8 +79,8 @@ const UpsertProgramBoardMemberForm: FC<UpsertProgramBoardMemberFormProps> = ({
         description="Används för att bestämma vilken ordning personen ska visas i. Lägre värde visas till vänster."
         form={form}
         label="Ordning"
-        max={MAX_ORDER_NUMBER}
-        min={MIN_ORDER_NUMBER}
+        max={MAX_COMMITTEE_ORDER_NUMBER}
+        min={MIN_COMMITTEE_ORDER_NUMBER}
         name="order"
       />
       <FormFieldInputImage

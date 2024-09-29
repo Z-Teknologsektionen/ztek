@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
 import isMobilePhone from "validator/lib/isMobilePhone";
 import { z } from "zod";
-import { MAX_ORDER_NUMBER, MIN_ORDER_NUMBER } from "~/constants/committees";
+import {
+  MAX_COMMITTEE_ORDER_NUMBER,
+  MIN_COMMITTEE_ORDER_NUMBER,
+} from "~/constants/committees";
 import {
   MAX_SFTP_FILE_SIZE,
   MAX_SFTP_MB_SIZE,
@@ -45,12 +48,12 @@ export const datetimeString = standardString.datetime({
   message: "Otilllåtet datum/tidsformat",
 });
 
-export const orderNumber = standardNumber
-  .min(MIN_ORDER_NUMBER, {
-    message: `Måste vara ett tal större än eller lika med ${MIN_ORDER_NUMBER}`,
+export const committeeOrderNumber = standardNumber
+  .min(MIN_COMMITTEE_ORDER_NUMBER, {
+    message: `Måste vara ett tal större än eller lika med ${MIN_COMMITTEE_ORDER_NUMBER}`,
   })
-  .max(MAX_ORDER_NUMBER, {
-    message: `Måste vara ett tal mindre än eller lika med ${MAX_ORDER_NUMBER}`,
+  .max(MAX_COMMITTEE_ORDER_NUMBER, {
+    message: `Måste vara ett tal mindre än eller lika med ${MAX_COMMITTEE_ORDER_NUMBER}`,
   });
 
 export const emailString = standardString.email({ message: "Ogiltig epost" });

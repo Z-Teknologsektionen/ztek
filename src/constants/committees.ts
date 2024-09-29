@@ -6,10 +6,14 @@ export const MIN_ELECTION_PERIOD = 1;
 
 export const MAX_ELECTION_PERIOD = 4;
 
-export const MIN_ORDER_NUMBER = 0;
+export const MIN_COMMITTEE_ORDER_NUMBER = 0;
 
-export const MAX_ORDER_NUMBER = 99;
+export const MAX_COMMITTEE_ORDER_NUMBER = 99;
 
 export const COMMITTEE_IMAGE_SIZE = 500;
 
 export const COMMITTEE_IMAGE_QUALITY = 95;
+
+export const MIN_MEDIA_ORDER_NUMBER = 0;
+
+export const MAX_MEDIA_ORDER_NUMBER = 99;
