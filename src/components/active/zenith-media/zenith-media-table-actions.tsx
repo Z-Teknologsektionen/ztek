@@ -5,6 +5,7 @@ import DeleteTriggerButton from "~/components/buttons/delete-trigger-button";
 import EditTriggerButton from "~/components/buttons/edit-trigger-button";
 import DeleteDialog from "~/components/dialogs/delete-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
+import { MIN_MEDIA_ORDER_NUMBER } from "~/constants/zenith-media";
 import { env } from "~/env.mjs";
 import {
   useDeleteZenithMediaAsAuthed,
@@ -13,7 +14,7 @@ import {
 import { handleCreateZenithMediaFile } from "~/utils/sftp/handle-create-sftp-file";
 import { handleDeleteSftpFile } from "~/utils/sftp/handle-delete-sftp-file";
 import { handleRenameSftpFile } from "~/utils/sftp/handle-rename-sftp-file";
-import { createZenithMediaFilename } from "~/utils/string-utils";
+import { updateZenithMediaFilename } from "~/utils/string-utils";
 import type { ZenithMediaType } from "./zenith-media-columns";
 
 export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
@@ -47,10 +48,10 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
               media: { file: newFile, url: newUrl },
               title: newTitle,
               year,
+              order,
             }) => {
               const oldUrl = currentValues.url;
               const hasNewFile = newFile !== undefined;
-              const hasNewTitle = newTitle !== currentValues.title;
 
               const loadningToastId = toast.loading(
                 "Updaterar mediet.\n Detta kan ta en stund!",
@@ -58,16 +59,20 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
 
               try {
                 if (oldUrl.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)) {
-                  if (hasNewFile || newUrl !== oldUrl)
-                    await handleDeleteSftpFile({ url: oldUrl }, true);
+                  const oldFilename = oldUrl.split("/").pop() || "";
+                  const newFilename = updateZenithMediaFilename({
+                    title: newTitle,
+                    oldFilename,
+                    order: order || MIN_MEDIA_ORDER_NUMBER,
+                    year,
+                  });
 
-                  if (newUrl !== oldUrl && hasNewTitle) {
+                  if (hasNewFile || newUrl !== oldUrl) {
+                    await handleDeleteSftpFile({ url: oldUrl }, true);
+                  } else if (oldFilename !== newFilename) {
                     newUrl = await handleRenameSftpFile({
                       oldUrl: oldUrl,
-                      newFilename: createZenithMediaFilename({
-                        title: newTitle,
-                        filename: oldUrl,
-                      }),
+                      newFilename,
                     });
                   }
                 }
@@ -76,6 +81,8 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
                   newUrl = await handleCreateZenithMediaFile({
                     file: newFile,
                     title: newTitle,
+                    order: order || MIN_MEDIA_ORDER_NUMBER,
+                    year,
                   });
                 }
 
@@ -93,6 +100,7 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
                   coverImage,
                   title: newTitle,
                   year,
+                  order,
                 });
               } catch (error) {
                 if (error instanceof Error) {

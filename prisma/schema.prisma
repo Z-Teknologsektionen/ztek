@@ -126,6 +126,7 @@ model ZenithMedia {
 
     title      String
     year       Int
+    order      Int? // Can be set to non null when all media has order number
     url        String @unique
     coverImage String @default("")
 

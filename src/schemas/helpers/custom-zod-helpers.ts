@@ -11,6 +11,10 @@ import {
   SFPT_DIRS,
   SFTP_ACCEPTED_MEDIA_TYPES,
 } from "~/constants/sftp";
+import {
+  MAX_MEDIA_ORDER_NUMBER,
+  MIN_MEDIA_ORDER_NUMBER,
+} from "~/constants/zenith-media";
 import { env } from "~/env.mjs";
 import type { SFTPMediaType } from "~/types/sftp-types";
 
@@ -54,6 +58,14 @@ export const committeeOrderNumber = standardNumber
   })
   .max(MAX_COMMITTEE_ORDER_NUMBER, {
     message: `Måste vara ett tal mindre än eller lika med ${MAX_COMMITTEE_ORDER_NUMBER}`,
+  });
+
+export const mediaOrderNumber = standardNumber
+  .min(MIN_MEDIA_ORDER_NUMBER, {
+    message: `Måste vara ett tal större än eller lika med ${MIN_MEDIA_ORDER_NUMBER}`,
+  })
+  .max(MAX_MEDIA_ORDER_NUMBER, {
+    message: `Måste vara ett tal mindre än eller lika med ${MAX_MEDIA_ORDER_NUMBER}`,
   });
 
 export const emailString = standardString.email({ message: "Ogiltig epost" });
@@ -118,7 +130,10 @@ export const sftpFilename = standardString.regex(
 );
 
 export const sftpFile = z
-  .custom<File>()
+  .custom<File>(
+    (input) => input instanceof File,
+    "Ogiltig input. Behöver vara en fil",
+  )
   .refine((file) => {
     return file.size <= MAX_SFTP_FILE_SIZE;
   }, `Filen får inte vara större än ${MAX_SFTP_MB_SIZE}MB. Kontakta Webbgruppen om du behöver ladda upp större grejer.`)
@@ -129,6 +144,8 @@ export const sftpFile = z
 
 export const sftpDir = z.enum(SFPT_DIRS, {
   errorMap: () => ({
-    message: `Ogiltigt directory. Måste vara ett av följande: "${SFPT_DIRS.join()}"`,
+    message: `Ogiltigt directory. Måste vara ett av följande: "${SFPT_DIRS.join(
+      ", ",
+    )}"`,
   }),
 });
