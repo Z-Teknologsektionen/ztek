@@ -19,12 +19,12 @@ model Committee {
     image       String                @default("")
     socialLinks CommitteeSocialLink[]
 
-    slug           String        @unique
-    role           String
-    email          String        @unique
-    order          Int
-    electionPeriod Int           @default(1)
-    committeeType  CommitteeType @default(COMMITTEE)
+    slug            String        @unique
+    role            String
+    email           String        @unique
+    order           Int
+    electionPeriods Int[]
+    committeeType   CommitteeType @default(COMMITTEE)
 
     members      CommitteeMember[]
     oldCommittee OldCommittee[]
