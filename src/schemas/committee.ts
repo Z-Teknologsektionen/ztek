@@ -4,10 +4,10 @@ import {
   MAX_DESCRIPTION_TEXT_LENGTH,
   MAX_ELECTION_PERIOD,
   MAX_NUMER_OF_SOCIAL_LINKS,
-  MIN_ELECTION_PERIOD,
 } from "~/constants/committees";
 import {
   base64WebPImageString,
+  electionPeriod,
   emailString,
   emptyString,
   httpsUrlString,
@@ -16,7 +16,6 @@ import {
   orderNumber,
   relativePathString,
   slugString,
-  standardNumber,
   standardString,
 } from "~/schemas/helpers/custom-zod-helpers";
 
@@ -94,15 +93,11 @@ export const createCommitteeSchema = upsertCommitteeBaseSchema.extend({
   role: nonEmptyString,
   email: emailString,
   order: orderNumber,
-  electionPeriod: standardNumber
-    .min(
-      MIN_ELECTION_PERIOD,
-      `Måste vara ett nummer mellan ${MIN_ELECTION_PERIOD} och ${MAX_ELECTION_PERIOD}`,
-    )
-    .max(
-      MAX_ELECTION_PERIOD,
-      `Måste vara ett nummer mellan ${MIN_ELECTION_PERIOD} och ${MAX_ELECTION_PERIOD}`,
-    ),
+  electionPeriods: electionPeriod
+    .array()
+    .min(0)
+    .max(MAX_ELECTION_PERIOD)
+    .transform((arr) => arr.sort((a, b) => a - b)),
 });
 
 export const updateCommitteeSchema = createCommitteeSchema
