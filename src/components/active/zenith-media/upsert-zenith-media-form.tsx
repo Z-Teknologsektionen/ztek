@@ -4,9 +4,12 @@ import FormFieldInputImage from "~/components/forms/form-field-input-image";
 import FormFieldInputNumber from "~/components/forms/form-field-input-number";
 import FormWrapper from "~/components/forms/form-wrapper";
 import TabsSelectFileAndUrl from "~/components/forms/tabs-select-file-and-url";
-
 import { ZENITH_MEDIA_ACCEPTED_MEDIA_TYPES } from "~/constants/sftp";
 import { MAX_4_DIGIT_YEAR, MIN_4_DIGIT_YEAR } from "~/constants/size-constants";
+import {
+  MAX_MEDIA_ORDER_NUMBER,
+  MIN_MEDIA_ORDER_NUMBER,
+} from "~/constants/zenith-media";
 import { env } from "~/env.mjs";
 import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
 import { createZenithMediaClientSchema } from "~/schemas/zenith-media";
@@ -18,6 +21,7 @@ type UpsertZenithMediaFormProps = IUpsertForm<
 
 const DEFAULT_VALUES: UpsertZenithMediaFormProps["defaultValues"] = {
   year: new Date().getFullYear(),
+  order: MIN_MEDIA_ORDER_NUMBER,
   coverImage: "",
   title: "",
   media: {
@@ -51,7 +55,14 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
         min={MIN_4_DIGIT_YEAR}
         name="year"
       />
-
+      <FormFieldInputNumber
+        description="Används för att sortera årets tidningar"
+        form={form}
+        label="Ordning"
+        max={MAX_MEDIA_ORDER_NUMBER}
+        min={MIN_MEDIA_ORDER_NUMBER}
+        name="order"
+      />
       <FormFieldInputImage
         description="Omslagsbilden till mediet"
         form={form}

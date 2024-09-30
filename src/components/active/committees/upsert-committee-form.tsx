@@ -13,10 +13,10 @@ import FormWrapper from "~/components/forms/form-wrapper";
 import {
   COMMITTEE_IMAGE_QUALITY,
   COMMITTEE_IMAGE_SIZE,
+  MAX_COMMITTEE_ORDER_NUMBER,
   MAX_ELECTION_PERIOD,
-  MAX_ORDER_NUMBER,
+  MIN_COMMITTEE_ORDER_NUMBER,
   MIN_ELECTION_PERIOD,
-  MIN_ORDER_NUMBER,
 } from "~/constants/committees";
 import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
 import { createCommitteeSchema } from "~/schemas/committee";
@@ -31,7 +31,7 @@ export type UpsertCommitteeFormValues = z.infer<typeof createCommitteeSchema>;
 
 const DEFAULT_VALUES: UpsertCommitteeFormProps["defaultValues"] = {
   electionPeriods: [],
-  order: MIN_ORDER_NUMBER,
+  order: MIN_COMMITTEE_ORDER_NUMBER,
   socialLinks: [],
   committeeType: "" as "COMMITTEE", // Magi för att få typescript nöjd utan att stätta ett default värde
   image: "",
@@ -108,8 +108,8 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
         description="Används för att bestämma vilken ordning organet ska visas i"
         form={form}
         label="Ordning"
-        max={MAX_ORDER_NUMBER}
-        min={MIN_ORDER_NUMBER}
+        max={MAX_COMMITTEE_ORDER_NUMBER}
+        min={MIN_COMMITTEE_ORDER_NUMBER}
         name="order"
       />
       <FormFieldInputImage

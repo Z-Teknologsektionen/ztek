@@ -6,6 +6,7 @@ import { UpsertZenithMediaForm } from "~/components/active/zenith-media/upsert-z
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { MIN_MEDIA_ORDER_NUMBER } from "~/constants/zenith-media";
 import { useCreateZenithMediaAsAuthed } from "~/hooks/mutations/useMutateZenithMedia";
 import { handleCreateZenithMediaFile } from "~/utils/sftp/handle-create-sftp-file";
 
@@ -60,6 +61,7 @@ export const ZenithMediaTableToolbar = <TData,>({
                   media: { file: fileInput, url },
                   title,
                   year,
+                  order,
                 }) => {
                   const loadningToastId = toast.loading(
                     "Laddar upp media. Detta kan ta en stund!",
@@ -70,6 +72,8 @@ export const ZenithMediaTableToolbar = <TData,>({
                       url = await handleCreateZenithMediaFile({
                         file: fileInput,
                         title,
+                        order: order || MIN_MEDIA_ORDER_NUMBER,
+                        year,
                       });
 
                     if (!url)
@@ -84,6 +88,7 @@ export const ZenithMediaTableToolbar = <TData,>({
                       coverImage,
                       title,
                       year,
+                      order,
                     });
                   } catch (error) {
                     if (error instanceof Error) {

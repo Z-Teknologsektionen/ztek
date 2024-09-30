@@ -1,12 +1,12 @@
 import { z } from "zod";
 import {
   base64WebPImageString,
+  committeeOrderNumber,
   emailString,
   emptyString,
   httpsUrlString,
   nonEmptyString,
   objectId,
-  orderNumber,
   phoneNumberString,
 } from "~/schemas/helpers/custom-zod-helpers";
 
@@ -17,7 +17,7 @@ export const createProgramBoardMemberSchema = z.object({
   email: emailString,
   url: httpsUrlString,
   image: base64WebPImageString.or(emptyString),
-  order: orderNumber,
+  order: committeeOrderNumber,
 });
 
 export const updateProgramBoardMemberSchema = createProgramBoardMemberSchema

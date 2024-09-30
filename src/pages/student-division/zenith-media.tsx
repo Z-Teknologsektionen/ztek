@@ -31,18 +31,14 @@ export const ZenithMediaCard: FC<IZenithMediaCard> = ({
     <TooltipProvider delayDuration={TOOLTIP_DELAY_MS}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Link
-            className="relative h-[187.5px] w-[125px]"
-            href={url}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
+          <Link href={url} rel="noopener noreferrer" target="_blank">
             <Image
               alt={`Omslagsbild till ${title}`}
-              className="object-cover object-center"
+              className="h-[187.5px] w-full object-contain object-center"
+              height={187.5}
               src={coverImage}
               unselectable="on"
-              fill
+              width={125}
               unoptimized
             />
           </Link>

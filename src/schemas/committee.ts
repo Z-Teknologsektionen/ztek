@@ -7,13 +7,13 @@ import {
 } from "~/constants/committees";
 import {
   base64WebPImageString,
+  committeeOrderNumber,
   electionPeriod,
   emailString,
   emptyString,
   httpsUrlString,
   nonEmptyString,
   objectId,
-  orderNumber,
   relativePathString,
   slugString,
   standardString,
@@ -92,7 +92,7 @@ export const createCommitteeSchema = upsertCommitteeBaseSchema.extend({
   slug: slugString,
   role: nonEmptyString,
   email: emailString,
-  order: orderNumber,
+  order: committeeOrderNumber,
   electionPeriods: electionPeriod
     .array()
     .min(0)

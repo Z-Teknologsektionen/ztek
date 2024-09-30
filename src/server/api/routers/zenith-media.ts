@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { deleteFileFromSftpServer } from "~/app/api/sftp/utils/sftp-engine";
+import { MIN_MEDIA_ORDER_NUMBER } from "~/constants/zenith-media";
 import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
   createZenithMediaServerSchema,
@@ -42,34 +43,40 @@ export const zenithMediaRouter = createTRPCRouter({
   }),
   createOneAsAuthed: zenithMediaProcedure
     .input(createZenithMediaServerSchema)
-    .mutation(async ({ ctx, input: { url, title, year, coverImage } }) => {
-      return ctx.prisma.zenithMedia.create({
-        data: {
-          title: title,
-          url: url,
-          year: year,
-          coverImage: coverImage,
-          updatedByEmail: ctx.session.user.email,
-          createdByEmail: ctx.session.user.email,
-        },
-      });
-    }),
+    .mutation(
+      async ({ ctx, input: { url, title, year, coverImage, order } }) => {
+        return ctx.prisma.zenithMedia.create({
+          data: {
+            title: title,
+            url: url,
+            year: year,
+            order: order,
+            coverImage: coverImage,
+            updatedByEmail: ctx.session.user.email,
+            createdByEmail: ctx.session.user.email,
+          },
+        });
+      },
+    ),
   updateOneAsAuthed: zenithMediaProcedure
     .input(updateZenithMediaServerSchema)
-    .mutation(async ({ ctx, input: { id, title, url, year, coverImage } }) => {
-      return ctx.prisma.zenithMedia.update({
-        where: {
-          id: id,
-        },
-        data: {
-          title: title,
-          url: url,
-          year: year,
-          coverImage: coverImage,
-          updatedByEmail: ctx.session.user.email,
-        },
-      });
-    }),
+    .mutation(
+      async ({ ctx, input: { id, title, url, year, coverImage, order } }) => {
+        return ctx.prisma.zenithMedia.update({
+          where: {
+            id: id,
+          },
+          data: {
+            title: title,
+            url: url,
+            year: year,
+            order: order || MIN_MEDIA_ORDER_NUMBER,
+            coverImage: coverImage,
+            updatedByEmail: ctx.session.user.email,
+          },
+        });
+      },
+    ),
   deleteOneAsAuthed: zenithMediaProcedure
     .input(z.object({ id: objectId }))
     .mutation(async ({ ctx, input: { id } }) => {
