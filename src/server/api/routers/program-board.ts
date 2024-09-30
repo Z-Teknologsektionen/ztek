@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
@@ -39,8 +40,11 @@ export const programBoardRouter = createTRPCRouter({
   createOneAsAuthed: programBoardProcedure
     .input(createProgramBoardMemberSchema)
     .mutation(
-      ({ ctx, input: { name, role, phone, email, url, image, order } }) => {
-        return ctx.prisma.programBoardMember.create({
+      async ({
+        ctx,
+        input: { name, role, phone, email, url, image, order },
+      }) => {
+        const newBoardMember = await ctx.prisma.programBoardMember.create({
           data: {
             name,
             role,
@@ -53,13 +57,20 @@ export const programBoardRouter = createTRPCRouter({
             createdByEmail: ctx.session.user.email,
           },
         });
+
+        revalidateTag("boardProgramMembers");
+
+        return newBoardMember;
       },
     ),
   updateOneAsAuthed: programBoardProcedure
     .input(updateProgramBoardMemberSchema)
     .mutation(
-      ({ ctx, input: { id, name, role, phone, email, url, image, order } }) => {
-        return ctx.prisma.programBoardMember.update({
+      async ({
+        ctx,
+        input: { id, name, role, phone, email, url, image, order },
+      }) => {
+        const updatedBoardMember = await ctx.prisma.programBoardMember.update({
           where: { id },
           data: {
             name,
@@ -72,6 +83,10 @@ export const programBoardRouter = createTRPCRouter({
             updatedByEmail: ctx.session.user.email,
           },
         });
+
+        revalidateTag("boardProgramMembers");
+
+        return updatedBoardMember;
       },
     ),
   deleteOneAsAuthed: programBoardProcedure
@@ -80,9 +95,13 @@ export const programBoardRouter = createTRPCRouter({
         id: objectId,
       }),
     )
-    .mutation(({ ctx, input: { id } }) => {
-      return ctx.prisma.programBoardMember.delete({
+    .mutation(async ({ ctx, input: { id } }) => {
+      const deletedBoardMember = await ctx.prisma.programBoardMember.delete({
         where: { id },
       });
+
+      revalidateTag("boardProgramMembers");
+
+      return deletedBoardMember;
     }),
 });
