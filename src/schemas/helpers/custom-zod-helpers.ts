@@ -3,7 +3,9 @@ import isMobilePhone from "validator/lib/isMobilePhone";
 import { z } from "zod";
 import {
   MAX_COMMITTEE_ORDER_NUMBER,
+  MAX_ELECTION_PERIOD,
   MIN_COMMITTEE_ORDER_NUMBER,
+  MIN_ELECTION_PERIOD,
 } from "~/constants/committees";
 import {
   MAX_SFTP_FILE_SIZE,
@@ -149,3 +151,15 @@ export const sftpDir = z.enum(SFPT_DIRS, {
     )}"`,
   }),
 });
+
+export const electionPeriod = standardNumber
+  .int("Måste vara ett heltal")
+  .nonnegative("Måste vara ett ickenegativt tal")
+  .min(
+    MIN_ELECTION_PERIOD,
+    `Måste vara ett nummer mellan ${MIN_ELECTION_PERIOD} och ${MAX_ELECTION_PERIOD}`,
+  )
+  .max(
+    MAX_ELECTION_PERIOD,
+    `Måste vara ett nummer mellan ${MIN_ELECTION_PERIOD} och ${MAX_ELECTION_PERIOD}`,
+  );

@@ -268,7 +268,9 @@ const StudentDivision: NextPage = () => {
                   >
                     <SecondaryTitle>Läsperiod {num}</SecondaryTitle>
                     {committeeData
-                      ?.filter((c) => c.electionPeriod === num)
+                      ?.filter((committee) =>
+                        committee.electionPeriods.includes(num),
+                      )
                       .map((committee) => (
                         <Link
                           key={`${num}${committee.name}`}
