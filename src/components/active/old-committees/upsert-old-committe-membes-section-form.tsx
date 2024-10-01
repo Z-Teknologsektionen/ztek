@@ -8,7 +8,10 @@ import FormFieldInputNumber from "~/components/forms/form-field-input-number";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
-import { MAX_ORDER_NUMBER, MIN_ORDER_NUMBER } from "~/constants/committees";
+import {
+  MAX_COMMITTEE_ORDER_NUMBER,
+  MIN_COMMITTEE_ORDER_NUMBER,
+} from "~/constants/committees";
 import type { UpsertOldCommitteeFormValues } from "./upsert-old-committee-form";
 
 type UpsertOldCommitteeMembersFormSectionProps = {
@@ -68,8 +71,8 @@ const UpsertOldCommitteeMembersFormSection: FC<
             <FormFieldInputNumber
               form={form}
               label="Ordning"
-              max={MAX_ORDER_NUMBER}
-              min={MIN_ORDER_NUMBER}
+              max={MAX_COMMITTEE_ORDER_NUMBER}
+              min={MIN_COMMITTEE_ORDER_NUMBER}
               name={`members.${index}.order`}
             />
           </div>

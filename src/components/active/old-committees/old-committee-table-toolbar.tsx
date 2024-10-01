@@ -81,7 +81,7 @@ export const OldCommitteeTableToolbar = <TData,>({
     formatedYear = `${year.toString().slice(2)}/${(year + 1)
       .toString()
       .slice(2)}`;
-    if (activeCommittee.electionPeriod === 2) {
+    if (activeCommittee.electionPeriods.includes(2)) {
       formatedYear = year.toString().slice(2);
     }
   }

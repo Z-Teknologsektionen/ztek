@@ -6,16 +6,17 @@ import FormFieldCombobox from "~/components/forms/form-field-combobox";
 import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldInputImage from "~/components/forms/form-field-input-image";
 import FormFieldInputNumber from "~/components/forms/form-field-input-number";
+import { FormFieldMultiCheckbox } from "~/components/forms/form-field-multi-checkbox";
 import FormFieldSelect from "~/components/forms/form-field-select";
 import FormFieldTextArea from "~/components/forms/form-field-textarea";
 import FormWrapper from "~/components/forms/form-wrapper";
 import {
   COMMITTEE_IMAGE_QUALITY,
   COMMITTEE_IMAGE_SIZE,
+  MAX_COMMITTEE_ORDER_NUMBER,
   MAX_ELECTION_PERIOD,
-  MAX_ORDER_NUMBER,
+  MIN_COMMITTEE_ORDER_NUMBER,
   MIN_ELECTION_PERIOD,
-  MIN_ORDER_NUMBER,
 } from "~/constants/committees";
 import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
 import { createCommitteeSchema } from "~/schemas/committee";
@@ -29,8 +30,8 @@ export type UpsertCommitteeFormProps = IUpsertForm<
 export type UpsertCommitteeFormValues = z.infer<typeof createCommitteeSchema>;
 
 const DEFAULT_VALUES: UpsertCommitteeFormProps["defaultValues"] = {
-  electionPeriod: MIN_ELECTION_PERIOD,
-  order: MIN_ORDER_NUMBER,
+  electionPeriods: [],
+  order: MIN_COMMITTEE_ORDER_NUMBER,
   socialLinks: [],
   committeeType: "" as "COMMITTEE", // Magi för att få typescript nöjd utan att stätta ett default värde
   image: "",
@@ -89,19 +90,26 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
         placeholder="lucky@ztek.se"
         type="email"
       />
-      <FormFieldInputNumber
+      <FormFieldMultiCheckbox
+        description="Vilka läsperioder har organet inval? Om ingen period väljs kommer den fortfarande visas under organ men inte på en specifik invalsperiod"
         form={form}
-        label="Invalsperiod"
-        max={MAX_ELECTION_PERIOD}
-        min={MIN_ELECTION_PERIOD}
-        name="electionPeriod"
+        items={Array.from(
+          { length: MAX_ELECTION_PERIOD - MIN_ELECTION_PERIOD + 1 },
+          (_, i) => MIN_ELECTION_PERIOD + i,
+        ).map((number) => ({
+          label: `Läsperiod ${number.toString()}`,
+          value: number,
+        }))}
+        label="Invalsperioder"
+        name="electionPeriods"
+        horizontal
       />
       <FormFieldInputNumber
         description="Används för att bestämma vilken ordning organet ska visas i"
         form={form}
         label="Ordning"
-        max={MAX_ORDER_NUMBER}
-        min={MIN_ORDER_NUMBER}
+        max={MAX_COMMITTEE_ORDER_NUMBER}
+        min={MIN_COMMITTEE_ORDER_NUMBER}
         name="order"
       />
       <FormFieldInputImage

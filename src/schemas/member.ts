@@ -1,11 +1,11 @@
 import { z } from "zod";
 import {
   base64WebPImageString,
+  committeeOrderNumber,
   emailString,
   emptyString,
   nonEmptyString,
   objectId,
-  orderNumber,
   phoneNumberString,
   standardString,
 } from "~/schemas/helpers/custom-zod-helpers";
@@ -14,7 +14,7 @@ export const upsertMemberBaseSchema = z.object({
   name: standardString,
   nickName: standardString,
   image: base64WebPImageString.or(emptyString),
-  order: orderNumber,
+  order: committeeOrderNumber,
   phone: phoneNumberString.or(emptyString),
 });
 

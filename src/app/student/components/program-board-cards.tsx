@@ -2,22 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
 import { MdEmail, MdInfo } from "react-icons/md";
+import { getProgramBoard } from "~/app/student/utils/get-program-board-member-by-role";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import { Skeleton } from "~/components/ui/skeleton";
-import { prisma } from "~/server/db";
 
 export const ProgramBoardCards: FC = async () => {
-  const programBoardMembers = await prisma.programBoardMember.findMany({
-    select: {
-      name: true,
-      role: true,
-      phone: true,
-      email: true,
-      url: true,
-      image: true,
-      order: true,
-    },
-  });
+  const programBoardMembers = await getProgramBoard();
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">

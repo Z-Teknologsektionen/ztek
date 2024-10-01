@@ -4,6 +4,7 @@ import {
   base64WebPImageString,
   emptyString,
   httpsUrlString,
+  mediaOrderNumber,
   nonEmptyString,
   objectId,
   sftpFile,
@@ -13,6 +14,7 @@ import {
 export const zenithMediaBaseSchema = z.object({
   title: nonEmptyString,
   year: validYearPastOrCurrent,
+  order: mediaOrderNumber.nullable(),
   coverImage: base64WebPImageString,
 });
 

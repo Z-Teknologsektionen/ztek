@@ -49,7 +49,8 @@ export const committeeColumns: ColumnDef<Committee>[] = [
   },
   {
     id: "Har inval i LP",
-    accessorKey: "electionPeriod",
+    accessorKey: "electionPeriods",
+    cell: ({ row }) => row.original.electionPeriods.join(", "),
     header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
     enableHiding: true,
