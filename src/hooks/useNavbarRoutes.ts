@@ -1,36 +1,64 @@
 import { useSession } from "next-auth/react";
+import type { NavbarLink } from "~/types/navbar-types";
 
-type NavbarRouteType = {
-  href: string;
-  name: string;
-  target: "_self" | "_blank";
-};
-
-const navbarRoutes: NavbarRouteType[] = [
-  { name: "Student", href: "/student", target: "_self" },
+const navbarRoutes: NavbarLink[] = [
   {
-    name: "Zaloonen",
+    label: "Student",
+    href: "/student",
+    subLinks: [
+      {
+        label: "Studiesocialt stöd",
+        href: "/student/student-health",
+      },
+      {
+        label: "Söka Z",
+        href: "/student/new-student",
+      },
+    ],
+  },
+  {
+    label: "Zaloonen",
     href: "/student-division/zaloonen",
-    target: "_self",
   },
-  { name: "Dokument", href: "/documents", target: "_self" },
-  { name: "Sektionen", href: "/student-division", target: "_self" },
   {
-    name: "Sektionsorgan",
-    href: "/student-division/committees",
-    target: "_self",
+    label: "Dokument",
+    href: "/documents",
   },
-  { name: "För Företag", href: "/business", target: "_self" },
-  { name: "Bilder", href: "https://zfoto.ztek.se", target: "_blank" },
+  {
+    label: "Sektionen",
+    href: "/student-division",
+  },
+  {
+    label: "Sektions organ",
+    href: "/student-division/committees",
+  },
+  {
+    label: "För företag",
+    href: "/business",
+  },
+  {
+    label: "Media",
+    subLinks: [
+      {
+        label: "zFotos bilder",
+        href: "https://zfoto.ztek.se",
+        newPage: true,
+      },
+      {
+        label: "Zeniths media",
+        href: "/student-division/zenith-media",
+      },
+    ],
+  },
 ];
 
-export const useNavbarRoutes = (): NavbarRouteType[] => {
+export const useNavbarRoutes = (): NavbarLink[] => {
   const { status } = useSession();
 
   if (status === "authenticated")
     return [
       ...navbarRoutes,
-      { name: "Aktiv", href: "/active", target: "_self" },
+      { label: "Aktiv", href: "/active", newPage: false },
     ];
 
   return navbarRoutes;
