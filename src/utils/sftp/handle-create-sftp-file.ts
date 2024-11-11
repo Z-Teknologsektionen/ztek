@@ -9,7 +9,9 @@ import { createZenithMediaFilename } from "~/utils/string-utils";
 
 type HandleCreateZenithMediaFileProps = {
   file: File;
+  order: number;
   title: string;
+  year: number;
 };
 
 export const handleCreateSftpFile = async (
@@ -34,8 +36,15 @@ export const handleCreateSftpFile = async (
 export const handleCreateZenithMediaFile = async ({
   file,
   title,
+  order,
+  year,
 }: HandleCreateZenithMediaFileProps): Promise<string> => {
-  const filename = createZenithMediaFilename({ title, filename: file.name });
+  const filename = createZenithMediaFilename({
+    title,
+    filename: file.name,
+    order,
+    year,
+  });
 
   return await handleCreateSftpFile({
     dir: "media",

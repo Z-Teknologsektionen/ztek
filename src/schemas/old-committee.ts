@@ -1,10 +1,10 @@
 import { z } from "zod";
 import {
   base64WebPImageString,
+  committeeOrderNumber,
   emptyString,
   nonEmptyString,
   objectId,
-  orderNumber,
   standardString,
   validYearPastOrCurrent,
 } from "~/schemas/helpers/custom-zod-helpers";
@@ -14,7 +14,7 @@ const committeeNameWithYearRegEx = /^[a-zA-Z]+ (\d\d|\d\d\/\d\d)$/;
 const oldCommitteeMemberSchema = z.object({
   name: nonEmptyString,
   nickName: standardString,
-  order: orderNumber,
+  order: committeeOrderNumber,
   role: standardString,
 });
 

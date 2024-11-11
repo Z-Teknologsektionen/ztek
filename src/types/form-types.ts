@@ -83,3 +83,13 @@ export interface IFormFieldTextArea<
 > extends IFormFieldDefaults<TFieldValues> {
   className?: string;
 }
+
+export interface IFormFieldMultiCheckbox<
+  TFieldValues extends FieldValues = FieldValues,
+> extends IFormFieldDefaults<TFieldValues> {
+  horizontal?: boolean;
+  items: {
+    label: string;
+    value: string | number;
+  }[];
+}

@@ -31,13 +31,13 @@ const BusinessIntoSection: FC = () => {
       </p>
       <ImageWithCredit
         alt="image"
-        className="col-span-3 grid place-items-center"
+        className="col-span-3 mx-auto grid max-w-3xl place-items-center"
         height={500}
-        imageClassName="rounded max-w-3xl"
+        imageClassName="rounded max-w-full"
         photoCommittee="zFoto"
         photographer="Dennis Holmström"
         src="/argz.jpg"
-        width={3000}
+        width={750}
       />
     </SectionWrapper>
   );
