@@ -1,4 +1,6 @@
-import type { LinkGroupItem, LinkItem, NavbarLink } from "~/types/navbar-types";
+import type { NavbarItem, NavbarItemWithSublinks } from "~/types/navbar-types";
 
-export const checkIfNavbarItem = (item: NavbarLink): item is LinkItem =>
-  (item as LinkGroupItem).subLinks === undefined;
+export const checkIfNavbarSubItem = (
+  item: NavbarItem,
+): item is NavbarItemWithSublinks =>
+  (item as NavbarItemWithSublinks).sublinks !== undefined;

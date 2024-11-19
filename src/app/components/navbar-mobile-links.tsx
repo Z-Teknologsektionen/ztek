@@ -1,16 +1,22 @@
 import { Menu } from "lucide-react";
 import Link from "next/link";
-import type { FC } from "react";
+import { Fragment, type FC } from "react";
 import { Button, buttonVariants } from "~/components/ui/button";
 import { ScrollArea } from "~/components/ui/scroll-area";
-import { Separator } from "~/components/ui/separator";
-import { Sheet, SheetContent, SheetTrigger } from "~/components/ui/sheet";
-import type { NavbarLink } from "~/types/navbar-types";
-import { checkIfNavbarItem } from "~/utils/check-if-navbar-item";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "~/components/ui/sheet";
+import type { NavbarItem } from "~/types/navbar-types";
+import { checkIfNavbarSubItem } from "~/utils/check-if-navbar-item";
 import { cn } from "~/utils/utils";
 
 export const NavbarMobileLinks: FC<{
-  linkItems: NavbarLink[];
+  linkItems: NavbarItem[];
   pathname: string;
 }> = ({ linkItems, pathname }) => {
   return (
@@ -21,20 +27,28 @@ export const NavbarMobileLinks: FC<{
         </Button>
       </SheetTrigger>
       <SheetContent>
-        <ScrollArea className="h-full">
+        <SheetHeader>
+          <SheetTitle className="sr-only">Navigationsfält</SheetTitle>
+          <SheetDescription className="sr-only">
+            Navigationsfält som används för att navigera hemsidan på mobila
+            enheter
+          </SheetDescription>
+        </SheetHeader>
+        <ScrollArea className="mt-4 h-full">
           <div className="flex w-fit flex-col">
             {linkItems.map((link) => {
-              if (checkIfNavbarItem(link)) {
+              if (!checkIfNavbarSubItem(link)) {
                 return (
                   <Link
                     key={link.href}
                     className={cn(
                       buttonVariants({
-                        size: "lg",
-                        variant: "ghost",
+                        size: "default",
+                        variant: "link",
                       }),
                       "w-fit",
-                      link.href === pathname && "bg-slate-100 text-slate-900",
+                      link.href === pathname &&
+                        "bg-slate-200/60 hover:bg-slate-200/80",
                     )}
                     href={link.href}
                     referrerPolicy={link.newPage ? "no-referrer" : undefined}
@@ -45,35 +59,16 @@ export const NavbarMobileLinks: FC<{
                 );
               } else {
                 return (
-                  <>
-                    {link.href !== undefined ? (
-                      <Link
-                        key={link.href}
-                        className={buttonVariants({
-                          size: "lg",
-                          variant: "ghost",
-                          className: "w-fit",
-                        })}
-                        href={link.href}
-                        referrerPolicy={
-                          link.newPage ? "no-referrer" : undefined
-                        }
-                        target={link.newPage ? "_blank" : "_self"}
-                      >
-                        {link.label}
-                      </Link>
-                    ) : (
-                      <span className="inline-flex h-11 items-center px-8 text-sm font-medium">
-                        {link.label}
-                      </span>
-                    )}
-                    <Separator />
-                    {link.subLinks.map((sublink) => (
+                  <Fragment key={link.label}>
+                    <span className="-mb-2 inline-flex h-11 items-center px-4 text-sm font-medium">
+                      {link.label}
+                    </span>
+                    {link.sublinks.map((sublink) => (
                       <Link
                         key={sublink.href}
                         className={buttonVariants({
                           size: "default",
-                          variant: "ghost",
+                          variant: "link",
                           className: "ml-8 w-fit font-normal",
                         })}
                         href={sublink.href}
@@ -85,7 +80,7 @@ export const NavbarMobileLinks: FC<{
                         {sublink.label}
                       </Link>
                     ))}
-                  </>
+                  </Fragment>
                 );
               }
             })}

@@ -46,16 +46,16 @@ const navigationMenuTriggerStyle = cva(
 const NavigationMenuTrigger = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Trigger> & {
-    showChevron?: boolean;
+    hideChevron?: boolean;
   }
->(({ className, showChevron = false, children, ...props }, ref) => (
+>(({ className, hideChevron = false, children, ...props }, ref) => (
   <NavigationMenuPrimitive.Trigger
     ref={ref}
     className={cn(navigationMenuTriggerStyle(), "group", className)}
     {...props}
   >
     {children}
-    {!showChevron && (
+    {!hideChevron && (
       <>
         {""}
         <ChevronDown
@@ -121,7 +121,7 @@ const NavigationMenuIndicator = React.forwardRef<
 NavigationMenuIndicator.displayName =
   NavigationMenuPrimitive.Indicator.displayName;
 
-const NavigationMenuTemp = React.forwardRef<
+const NavigationMenuWithCenterdContent = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root>
 >(({ className, children, ...props }, ref) => {
@@ -175,7 +175,7 @@ const NavigationMenuTemp = React.forwardRef<
     </NavigationMenuPrimitive.Root>
   );
 });
-NavigationMenu.displayName = "NavigationMenuTemp";
+NavigationMenu.displayName = "NavigationMenuWithCenterdContent";
 
 export {
   NavigationMenu,
@@ -184,8 +184,8 @@ export {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTemp,
   NavigationMenuTrigger,
   NavigationMenuViewport,
+  NavigationMenuWithCenterdContent,
   navigationMenuTriggerStyle,
 };

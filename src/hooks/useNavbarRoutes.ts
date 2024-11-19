@@ -1,11 +1,14 @@
 import { useSession } from "next-auth/react";
-import type { NavbarLink } from "~/types/navbar-types";
+import type { NavbarItem } from "~/types/navbar-types";
 
-const navbarRoutes: NavbarLink[] = [
+const navbarRoutes: NavbarItem[] = [
   {
     label: "Student",
-    href: "/student",
-    subLinks: [
+    sublinks: [
+      {
+        href: "/student",
+        label: "Information",
+      },
       {
         label: "Studiesocialt stöd",
         href: "/student/student-health",
@@ -17,20 +20,25 @@ const navbarRoutes: NavbarLink[] = [
     ],
   },
   {
-    label: "Zaloonen",
-    href: "/student-division/zaloonen",
-  },
-  {
-    label: "Dokument",
-    href: "/documents",
-  },
-  {
     label: "Sektionen",
-    href: "/student-division",
-  },
-  {
-    label: "Sektions organ",
-    href: "/student-division/committees",
+    sublinks: [
+      {
+        href: "/student-division",
+        label: "Information",
+      },
+      {
+        label: "Zaloonen",
+        href: "/student-division/zaloonen",
+      },
+      {
+        label: "Dokument",
+        href: "/documents",
+      },
+      {
+        label: "Sektionsorgan",
+        href: "/student-division/committees",
+      },
+    ],
   },
   {
     label: "För företag",
@@ -38,7 +46,7 @@ const navbarRoutes: NavbarLink[] = [
   },
   {
     label: "Media",
-    subLinks: [
+    sublinks: [
       {
         label: "zFotos bilder",
         href: "https://zfoto.ztek.se",
@@ -52,7 +60,7 @@ const navbarRoutes: NavbarLink[] = [
   },
 ];
 
-export const useNavbarRoutes = (): NavbarLink[] => {
+export const useNavbarRoutes = (): NavbarItem[] => {
   const { status } = useSession();
 
   if (status === "authenticated")

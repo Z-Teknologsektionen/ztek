@@ -1,14 +1,20 @@
-export type LinkGroupItem = {
-  href?: string;
+export type NavbarItem = NavbarItemOnlyLink | NavbarItemWithSublinks;
+
+export type NavbarItemOnlyLink = {
+  href: string;
   label: string;
   newPage?: boolean;
-  subLinks: LinkItem[];
+  subLinks?: never;
+};
+export type NavbarItemWithSublinks = {
+  href?: never;
+  label: string;
+  newPage?: never;
+  sublinks: NavbarSubItem[];
 };
 
-export type LinkItem = {
+export type NavbarSubItem = {
   href: string;
   label: string;
   newPage?: boolean;
 };
-
-export type NavbarLink = LinkGroupItem | LinkItem;
