@@ -17,7 +17,7 @@ const HomePageHeroSection: FC = () => {
                   Välkommen till Automation och Mekatronik på Chalmers tekniska
                   högskola!
                 </div>
-                <div className="text-balance col-start-1 row-start-5 text-sm md:col-start-1 md:row-start-2 md:text-base xl:text-xl">
+                <div className="col-start-1 row-start-5 text-balance text-sm md:col-start-1 md:row-start-2 md:text-base xl:text-xl">
                   Z-teknologsektionen, eller Z som programmet kallas, är
                   civilingengörsprogrammet på Chalmers som beskrivs som länken
                   mellan maskin-, elektro och datateknik.
