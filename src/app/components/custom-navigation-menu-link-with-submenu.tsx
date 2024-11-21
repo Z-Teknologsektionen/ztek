@@ -20,7 +20,7 @@ export const CustomNavigationMenuLinkWithSubmenu: FC<
         {label}
       </NavigationMenuTrigger>
       <NavigationMenuContent className="bg-slate-100 shadow-lg">
-        <div className="flex w-[200px] flex-col items-center justify-center gap-1 p-2">
+        <div className="flex w-fit flex-col items-center justify-center gap-1 p-2">
           {sublinks.map((sublink) => {
             return (
               <Fragment key={sublink.href}>
