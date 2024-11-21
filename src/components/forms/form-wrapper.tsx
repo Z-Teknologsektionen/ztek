@@ -31,7 +31,7 @@ const FormWrapper = <TData extends FieldValues>({
         /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
         onSubmit={form.handleSubmit(onValid, onInvalid)}
       >
-        <ScrollArea className="h-96 ">
+        <ScrollArea className="h-96">
           <div className="space-y-4 p-1">{children}</div>
         </ScrollArea>
         <DialogFooter>

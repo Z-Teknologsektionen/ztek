@@ -19,7 +19,7 @@ export const DataTableViewOptions = <TData,>({
 }: DataTableViewOptionsProps<TData>): JSX.Element => (
   <DropdownMenu>
     <DropdownMenuTrigger asChild>
-      <Button className="ml-auto flex h-8 " size="sm" variant="outline">
+      <Button className="ml-auto flex h-8" size="sm" variant="outline">
         <MixerHorizontalIcon className="mr-2 h-4 w-4" />
       </Button>
     </DropdownMenuTrigger>

@@ -32,7 +32,7 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
   });
   return (
     <div className="sticky top-2">
-      <Card className="flex flex-col content-center items-center bg-cardBackground text-center ">
+      <Card className="flex flex-col content-center items-center bg-cardBackground text-center">
         <div className="self-end">
           <UpsertDialog
             description="Du som aktiv kan inte uppdatera alla fält, så som du vill ändra något mer än detta måste du kontakta Webbgruppen"

@@ -56,7 +56,7 @@ const OldCommitteeCard: FC<
                 </>
               )}
               <p className="text-center italic">{name}s medlemmar</p>
-              <div className="flex w-fit flex-col gap-1 ">
+              <div className="flex w-fit flex-col gap-1">
                 {members.map((member, index) => (
                   <div key={index} className="rounded border p-2">
                     <h3 className="text-sm font-medium leading-none">
