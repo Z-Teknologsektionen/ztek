@@ -38,7 +38,7 @@ export const committeeMemberRouter = createTRPCRouter({
     }),
   updateMemberAsActive: protectedProcedure
     .input(updateMemberAsActiveSchema)
-    .mutation(({ ctx, input: { id, name, nickName, image, order } }) => {
+    .mutation(({ ctx, input: { id, name, nickName, image, order, phone } }) => {
       const member = ctx.prisma.committeeMember.update({
         where: {
           id,
@@ -47,6 +47,7 @@ export const committeeMemberRouter = createTRPCRouter({
           image,
           name,
           nickName,
+          phone,
           order,
           updatedByEmail: ctx.session.user.email,
         },
