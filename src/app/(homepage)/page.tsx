@@ -12,7 +12,7 @@ const HomePage: FC = () => {
   return (
     <>
       <HomePageHeroSection />
-      <div className="relative">
+      <div className="relative mt-12 sm:mt-14 md:mt-8">
         <div className="absolute h-[5vh] w-full md:h-[10vh] xl:h-[15vh]">
           <Image
             alt="Lucky luke"
