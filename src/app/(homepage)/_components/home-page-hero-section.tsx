@@ -16,7 +16,7 @@ export const HomePageHeroSection: FC = () => {
           som länken mellan maskin-, elektro och datateknik.
         </p>
       </div>
-      <div className="flex flex-col gap-2 md:row-span-3">
+      <div className="flex flex-col gap-4 md:row-span-3 md:gap-2">
         <HomePageHeroCarousel />
         <HomePageHeroLinks />
       </div>
