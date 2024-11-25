@@ -1,17 +1,19 @@
 import type { FC } from "react";
+import { getOldCommitteeByCommitteeId } from "~/app/student-division/committees/[slug]/_utils/get-old-committes-by-committee-id";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
-import { api } from "~/utils/api";
-import OldCommitteeCard from "./old-committee-card";
+import { OldCommitteeCard } from "./old-committee-card";
 
-const OldCommitteSection: FC<{
+type OldCommitteSectionProps = {
   committeeId: string;
   committeeName: string;
-}> = ({ committeeId, committeeName }) => {
-  const { data: oldCommittees } =
-    api.oldCommittee.getManyByCommitteeId.useQuery({
-      belongsToCommitteeId: committeeId,
-    });
+};
+
+export const OldCommitteSection: FC<OldCommitteSectionProps> = async ({
+  committeeId,
+  committeeName,
+}) => {
+  const oldCommittees = await getOldCommitteeByCommitteeId(committeeId);
 
   if (!oldCommittees || oldCommittees.length === 0) return null;
 
@@ -35,5 +37,3 @@ const OldCommitteSection: FC<{
     </SectionWrapper>
   );
 };
-
-export default OldCommitteSection;

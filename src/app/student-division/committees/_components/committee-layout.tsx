@@ -1,22 +1,29 @@
+import type { CommitteeType } from "@prisma/client";
 import Link from "next/link";
 import type { FC } from "react";
-import CommitteeImage from "~/components/committees/committee-image";
+import { CommitteeImage } from "~/components/committees/committee-image";
 import {
   Card,
   CardContent,
   CardDescription,
   CardTitle,
 } from "~/components/ui/card";
-import type { RouterOutputs } from "~/utils/api";
 
-interface ICommitteeLayout {
-  committees: RouterOutputs["committee"]["getAll"] | undefined;
-}
+type CommitteeLayoutProps = {
+  committees: {
+    committeeType: CommitteeType;
+    electionPeriods: number[];
+    image: string;
+    name: string;
+    role: string;
+    slug: string;
+  }[];
+};
 
-const CommitteeLayout: FC<ICommitteeLayout> = ({ committees }) => {
+export const CommitteesLayout: FC<CommitteeLayoutProps> = ({ committees }) => {
   return (
     <div className="mx-4 grid grid-cols-12 gap-4">
-      {committees?.map(({ name, slug, image, role }) => (
+      {committees.map(({ name, slug, image, role }) => (
         <Link
           key={slug}
           className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3"
@@ -36,5 +43,3 @@ const CommitteeLayout: FC<ICommitteeLayout> = ({ committees }) => {
     </div>
   );
 };
-
-export default CommitteeLayout;
