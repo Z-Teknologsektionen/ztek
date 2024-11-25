@@ -7,7 +7,7 @@ const navbarRoutes: NavbarItem[] = [
     sublinks: [
       {
         href: "/student",
-        label: "Information",
+        label: "Om Sektionen",
       },
       {
         label: "Studiesocialt stöd",
@@ -24,7 +24,7 @@ const navbarRoutes: NavbarItem[] = [
     sublinks: [
       {
         href: "/student-division",
-        label: "Information",
+        label: "Student på Z",
       },
       {
         label: "Zaloonen",
