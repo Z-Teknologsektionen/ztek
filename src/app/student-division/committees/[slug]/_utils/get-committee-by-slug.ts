@@ -56,5 +56,5 @@ export const getCommitteeBySlug = unstable_cache(
     return committee;
   },
   ["getCommitteeBySlug"],
-  { tags: ["committee"], revalidate: false },
+  { tags: ["committee", "committeeMembers"], revalidate: false },
 );

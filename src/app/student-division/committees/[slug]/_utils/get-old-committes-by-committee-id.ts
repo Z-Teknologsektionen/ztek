@@ -3,7 +3,7 @@ import { prisma } from "~/server/db";
 
 export const getOldCommitteeByCommitteeId = unstable_cache(
   async (belongsToCommitteeId: string) => {
-    const committee = await prisma.oldCommittee.findMany({
+    const oldCommittees = await prisma.oldCommittee.findMany({
       where: {
         belongsToCommitteeId,
       },
@@ -25,8 +25,11 @@ export const getOldCommitteeByCommitteeId = unstable_cache(
       orderBy: [{ year: "desc" }],
     });
 
-    return committee;
+    return oldCommittees;
   },
   ["getOldCommitteeByCommitteeId"],
-  { tags: ["committee", "oldCommittee"], revalidate: false },
+  {
+    tags: ["committee", "oldCommittee"],
+    revalidate: false,
+  },
 );
