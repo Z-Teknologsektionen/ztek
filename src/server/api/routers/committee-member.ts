@@ -1,4 +1,5 @@
 import { TRPCError } from "@trpc/server";
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
@@ -39,7 +40,7 @@ export const committeeMemberRouter = createTRPCRouter({
   updateMemberAsActive: protectedProcedure
     .input(updateMemberAsActiveSchema)
     .mutation(({ ctx, input: { id, name, nickName, image, order, phone } }) => {
-      const member = ctx.prisma.committeeMember.update({
+      const updatedMember = ctx.prisma.committeeMember.update({
         where: {
           id,
         },
@@ -52,7 +53,10 @@ export const committeeMemberRouter = createTRPCRouter({
           updatedByEmail: ctx.session.user.email,
         },
       });
-      return member;
+
+      revalidateTag("committeeMembers");
+
+      return updatedMember;
     }),
   getCommitteeMembersAsAuthed: organizationManagementProcedure
     .input(
@@ -104,7 +108,7 @@ export const committeeMemberRouter = createTRPCRouter({
           },
         });
 
-        return ctx.prisma.committeeMember.create({
+        const createdMember = await ctx.prisma.committeeMember.create({
           data: {
             email,
             role,
@@ -126,6 +130,10 @@ export const committeeMemberRouter = createTRPCRouter({
             },
           },
         });
+
+        revalidateTag("committeeMembers");
+
+        return createdMember;
       },
     ),
   updateMemberAsAuthed: organizationManagementProcedure
@@ -154,7 +162,7 @@ export const committeeMemberRouter = createTRPCRouter({
           },
         });
 
-        return ctx.prisma.committeeMember.update({
+        const updatedMember = await ctx.prisma.committeeMember.update({
           where: {
             id,
           },
@@ -171,6 +179,10 @@ export const committeeMemberRouter = createTRPCRouter({
             updatedByEmail: ctx.session.user.email,
           },
         });
+
+        revalidateTag("committeeMembers");
+
+        return updatedMember;
       },
     ),
   deleteMemberAsAuthed: organizationManagementProcedure
@@ -211,10 +223,14 @@ export const committeeMemberRouter = createTRPCRouter({
             "Du får inte redigera denna medlem. Kontakta en användare med högre behövrighet än dig",
         });
 
-      return prisma.committeeMember.delete({
+      const deletedMember = await prisma.committeeMember.delete({
         where: {
           id,
         },
       });
+
+      revalidateTag("committeeMembers");
+
+      return deletedMember;
     }),
 });

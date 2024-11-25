@@ -181,7 +181,8 @@ const config = {
     "check-file/folder-naming-convention": [
       "error",
       {
-        "!(.github|.next|.vscode|node_modules)/*/": "KEBAB_CASE", // All folders should be KEBAB_CASE
+        "**/src/app/**/": "NEXT_JS_APP_ROUTER_CASE",
+        "!(.github|.next|.vscode|node_modules|src/app)/**/": "KEBAB_CASE", // All folders should be KEBAB_CASE
       },
     ],
     "no-relative-import-paths/no-relative-import-paths": [
