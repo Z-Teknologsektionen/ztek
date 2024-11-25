@@ -4,7 +4,7 @@ import { useState, type FC } from "react";
 import { FaFile } from "react-icons/fa";
 import { MdEdit, MdUpdate } from "react-icons/md";
 import UpsertCommitteeAsActiveForm from "~/components/active/edit-committee/upsert-committee-as-active-form";
-import CommitteeSocialIcon from "~/components/committees/committee-social-icon";
+import { CommitteeSocialIcon } from "~/components/committees/committee-social-icon";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import IconNextToText from "~/components/layout/icon-next-to-text";
 import IconWithTooltip from "~/components/tooltips/icon-with-tooltip";

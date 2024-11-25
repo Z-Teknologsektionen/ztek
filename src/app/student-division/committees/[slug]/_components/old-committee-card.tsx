@@ -1,6 +1,8 @@
+"use client";
+
 import type { FC } from "react";
 import { useState } from "react";
-import CommitteeImage from "~/components/committees/committee-image";
+import { CommitteeImage } from "~/components/committees/committee-image";
 import {
   Accordion,
   AccordionContent,
@@ -10,11 +12,26 @@ import {
 import { Avatar, AvatarImage } from "~/components/ui/avatar";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Separator } from "~/components/ui/separator";
-import type { RouterOutputs } from "~/utils/api";
+import { OldCommitteeCardMembers } from "./old-committee-card-members";
 
-const OldCommitteeCard: FC<
-  RouterOutputs["oldCommittee"]["getManyByCommitteeId"][0]
-> = ({ name, image, logo, members }) => {
+type OldCommitteeCardProps = {
+  image: string;
+  logo: string;
+  members: {
+    name: string;
+    nickName: string;
+    order: number;
+    role: string;
+  }[];
+  name: string;
+};
+
+export const OldCommitteeCard: FC<OldCommitteeCardProps> = ({
+  name,
+  image,
+  logo,
+  members,
+}) => {
   const [activeAccordion, setActiveAccordion] = useState("image");
 
   return (
@@ -30,9 +47,11 @@ const OldCommitteeCard: FC<
       <AccordionItem className="border-none" value="image">
         <AccordionContent>
           <CommitteeImage
-            alt={image ? "Gruppbild på medlemmarna" : "Logga"}
+            alt={
+              image ? `Gruppbild på medlemmarna i ${name}` : `Logga på ${name}`
+            }
             className="object-contain"
-            filename={image || logo || ""}
+            filename={image || logo}
           />
         </AccordionContent>
       </AccordionItem>
@@ -56,22 +75,7 @@ const OldCommitteeCard: FC<
                 </>
               )}
               <p className="text-center italic">{name}s medlemmar</p>
-              <div className="flex w-fit flex-col gap-1">
-                {members.map((member, index) => (
-                  <div key={index} className="rounded border p-2">
-                    <h3 className="text-sm font-medium leading-none">
-                      {member.nickName || member.name}
-                    </h3>
-                    {member.nickName !== "" && (
-                      <p className="text-xs leading-none">{member.name}</p>
-                    )}
-
-                    <p className="text-xs italic leading-none">
-                      {member.role || "Ledamot"}
-                    </p>
-                  </div>
-                ))}
-              </div>
+              <OldCommitteeCardMembers members={members} />
             </div>
           </ScrollArea>
         </AccordionContent>
@@ -79,5 +83,3 @@ const OldCommitteeCard: FC<
     </Accordion>
   );
 };
-
-export default OldCommitteeCard;
