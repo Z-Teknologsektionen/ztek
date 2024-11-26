@@ -33,7 +33,7 @@ const UpsertOldCommitteeMembersFormSection: FC<
         <div key={field.id}>
           <Separator className="my-4" />
           <div className="flex w-full items-center justify-between">
-            <h2 className="font-medium ">Medlem {index + 1}</h2>
+            <h2 className="font-medium">Medlem {index + 1}</h2>
             <Button
               className="mr-4 h-6 content-center text-sm"
               onClick={() => {

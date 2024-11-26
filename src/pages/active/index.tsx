@@ -54,7 +54,7 @@ const ActiveHomePage: NextPage = () => {
       >
         <div className="w-full bg-zBlack">
           <Separator
-            className="mx-auto my-0 h-1 w-[10%] rounded-md bg-zDarkGray "
+            className="mx-auto my-0 h-1 w-[10%] rounded-md bg-zDarkGray"
             color="white"
           />
         </div>
