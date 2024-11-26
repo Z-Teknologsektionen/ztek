@@ -22,9 +22,13 @@ export const SectionWithItemAndText: FC<SectionWithItemAndTextProps> = ({
   itemContent,
   title,
   children,
+  ...rest
 }) => {
   return (
-    <SectionWrapper className="group grid gap-y-8 space-y-0 lg:grid-cols-3 lg:gap-x-20">
+    <SectionWrapper
+      className="group grid gap-y-8 space-y-0 lg:grid-cols-3 lg:gap-x-20"
+      {...rest}
+    >
       <div className="lg:col-span-2 group-odd:lg:order-2 group-even:lg:order-1">
         <SectionTitle className="mb-4">{title}</SectionTitle>
         {textContent}
