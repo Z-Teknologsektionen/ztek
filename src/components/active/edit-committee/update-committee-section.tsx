@@ -4,7 +4,7 @@ import { useState, type FC } from "react";
 import { FaFile } from "react-icons/fa";
 import { MdEdit, MdUpdate } from "react-icons/md";
 import UpsertCommitteeAsActiveForm from "~/components/active/edit-committee/upsert-committee-as-active-form";
-import CommitteeSocialIcon from "~/components/committees/committee-social-icon";
+import { CommitteeSocialIcon } from "~/components/committees/committee-social-icon";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import IconNextToText from "~/components/layout/icon-next-to-text";
 import IconWithTooltip from "~/components/tooltips/icon-with-tooltip";
@@ -32,7 +32,7 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
   });
   return (
     <div className="sticky top-2">
-      <Card className="flex flex-col content-center items-center bg-cardBackground text-center ">
+      <Card className="flex flex-col content-center items-center bg-cardBackground text-center">
         <div className="self-end">
           <UpsertDialog
             description="Du som aktiv kan inte uppdatera alla fält, så som du vill ändra något mer än detta måste du kontakta Webbgruppen"

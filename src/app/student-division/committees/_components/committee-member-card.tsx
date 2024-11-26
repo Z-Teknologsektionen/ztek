@@ -1,11 +1,24 @@
 import { type FC } from "react";
 import { AiOutlineMail, AiOutlinePhone } from "react-icons/ai";
-import CommitteeImage from "~/components/committees/committee-image";
-import { type RouterOutputs } from "~/utils/api";
+import { CommitteeImage } from "~/components/committees/committee-image";
 
-const CommitteeMemberCard: FC<
-  RouterOutputs["committee"]["getOneBySlug"]["members"][0]
-> = ({ email, image, name, nickName, phone, role }) => (
+type CommitteeMemberCardProps = {
+  email: string;
+  image: string;
+  name: string;
+  nickName: string;
+  phone: string;
+  role: string;
+};
+
+export const CommitteeMemberCard: FC<CommitteeMemberCardProps> = ({
+  email,
+  image,
+  name,
+  nickName,
+  phone,
+  role,
+}) => (
   <div className="flex h-full max-w-xs justify-center rounded-lg px-2 py-4 shadow">
     <div className="space-y-4">
       <CommitteeImage
@@ -40,5 +53,3 @@ const CommitteeMemberCard: FC<
     </div>
   </div>
 );
-
-export default CommitteeMemberCard;

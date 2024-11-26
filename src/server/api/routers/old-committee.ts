@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import {
   objectId,
@@ -84,11 +85,11 @@ export const oldCommitteeRouter = createTRPCRouter({
   createOldCommitteeAsActive: protectedProcedure
     .input(createOldCommitteeSchema)
     .mutation(
-      ({
+      async ({
         ctx,
         input: { name, year, image, logo, members, belongsToCommitteeId },
       }) => {
-        return ctx.prisma.oldCommittee.create({
+        const createdOldCommittee = await ctx.prisma.oldCommittee.create({
           data: {
             belongsToCommitteeId,
             name,
@@ -100,16 +101,20 @@ export const oldCommitteeRouter = createTRPCRouter({
             createdByEmail: ctx.session.user.email,
           },
         });
+
+        revalidateTag("oldCommittee");
+
+        return createdOldCommittee;
       },
     ),
   updateOneAsActive: protectedProcedure
     .input(updateOldCommitteeSchema)
     .mutation(
-      ({
+      async ({
         ctx,
         input: { id, name, year, image, logo, belongsToCommitteeId, members },
       }) => {
-        return ctx.prisma.oldCommittee.update({
+        const updatedOldCommittee = await ctx.prisma.oldCommittee.update({
           where: {
             id,
           },
@@ -123,6 +128,10 @@ export const oldCommitteeRouter = createTRPCRouter({
             updatedByEmail: ctx.session.user.email,
           },
         });
+
+        revalidateTag("oldCommittee");
+
+        return updatedOldCommittee;
       },
     ),
   deleteOneAsActive: protectedProcedure
@@ -131,11 +140,15 @@ export const oldCommitteeRouter = createTRPCRouter({
         id: objectId,
       }),
     )
-    .mutation(({ ctx, input: { id } }) => {
-      return ctx.prisma.oldCommittee.delete({
+    .mutation(async ({ ctx, input: { id } }) => {
+      const deletedOldCommittee = await ctx.prisma.oldCommittee.delete({
         where: {
           id,
         },
       });
+
+      revalidateTag("oldCommittee");
+
+      return deletedOldCommittee;
     }),
 });

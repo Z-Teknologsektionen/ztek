@@ -45,7 +45,7 @@ export const StudentHealthSection: FC = () => {
           <p className="mt-4 text-center">Kårens hemsida om studenthälsa</p>
         </div>
       </div>
-      <div className="grid grid-cols-1 justify-items-center py-2 sm:grid-cols-2  md:grid-cols-3">
+      <div className="grid grid-cols-1 justify-items-center py-2 sm:grid-cols-2 md:grid-cols-3">
         <div className="col-span-1">
           <SecondaryTitle>Trygg på Chalmers</SecondaryTitle>
           <ul className="mt-6">

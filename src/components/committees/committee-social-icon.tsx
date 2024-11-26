@@ -19,7 +19,7 @@ type CommitteeSocialIconProps = {
   url: string;
 };
 
-const CommitteeSocialIcon: FC<CommitteeSocialIconProps> = ({
+export const CommitteeSocialIcon: FC<CommitteeSocialIconProps> = ({
   iconVariant,
   url,
   linkText,
@@ -50,5 +50,3 @@ const CommitteeSocialIcon: FC<CommitteeSocialIconProps> = ({
     </TooltipProvider>
   );
 };
-
-export default CommitteeSocialIcon;

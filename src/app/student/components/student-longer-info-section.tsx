@@ -8,7 +8,7 @@ export const StudentLongerInfoSection: FC = () => {
   return (
     <SectionWrapper>
       <div className="grid grid-cols-3 gap-x-10 gap-y-4">
-        <div className="col-span-3 md:col-span-2 ">
+        <div className="col-span-3 md:col-span-2">
           <SectionTitle className="mb-4">Student</SectionTitle>
           <p>
             Som student på Chalmers och Z-programmet finns det många olika
