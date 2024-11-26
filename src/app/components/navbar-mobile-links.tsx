@@ -1,6 +1,8 @@
+"use client";
+
 import { Menu } from "lucide-react";
 import Link from "next/link";
-import { Fragment, type FC } from "react";
+import { Fragment, useState, type FC } from "react";
 import { Button, buttonVariants } from "~/components/ui/button";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import {
@@ -19,8 +21,10 @@ export const NavbarMobileLinks: FC<{
   linkItems: NavbarItem[];
   pathname: string;
 }> = ({ linkItems, pathname }) => {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Sheet>
+    <Sheet onOpenChange={setOpen} open={open}>
       <SheetTrigger className="dark" asChild>
         <Button className="lg:hidden" variant="ghost">
           <Menu />
@@ -51,6 +55,7 @@ export const NavbarMobileLinks: FC<{
                         "bg-slate-200/60 hover:bg-slate-200/80",
                     )}
                     href={link.href}
+                    onClick={() => setOpen(false)}
                     referrerPolicy={link.newPage ? "no-referrer" : undefined}
                     target={link.newPage ? "_blank" : "_self"}
                   >
@@ -72,6 +77,7 @@ export const NavbarMobileLinks: FC<{
                           className: "ml-8 w-fit font-normal",
                         })}
                         href={sublink.href}
+                        onClick={() => setOpen(false)}
                         referrerPolicy={
                           sublink.newPage ? "no-referrer" : undefined
                         }
