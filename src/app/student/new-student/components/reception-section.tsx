@@ -44,12 +44,12 @@ export const ReceptionSection: FC = () => {
               </p>
               <Link
                 className={cn(
-                  buttonVariants({ variant: "outline" }),
+                  buttonVariants({ variant: "outline", size: "mini" }),
                   "mx-auto mt-4 block",
                 )}
                 href="https://www.znollk.se/"
                 referrerPolicy="no-referrer"
-                target="_blank"
+                target="_parent"
               >
                 Antagen
               </Link>
