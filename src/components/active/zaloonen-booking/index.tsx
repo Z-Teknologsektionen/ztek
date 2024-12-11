@@ -1,4 +1,3 @@
-import type { ZaloonenBooking } from "@prisma/client";
 import { AccountRoles, ZaloonenBookingStatus } from "@prisma/client";
 import dayjs from "dayjs";
 import "moment/locale/sv";
@@ -18,16 +17,22 @@ import IconWithTooltip from "~/components/tooltips/icon-with-tooltip";
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { zaloonenBookingStatusColorClassnames } from "~/constants/zaloonen";
+import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
 import { cn } from "~/utils/utils";
 import { ActionRequiredBookingCard } from "./action-required-booking-card";
+import { zaloonenBookingColumns } from "./all-bookings/zaloonen-booking-columns";
 import { BookingPopoverInfo } from "./booking-popover-info";
-import CalendarToolbar from "./calendar-toolbar";
-import { zaloonenBookingColumns } from "./zaloonen-booking-columns";
+import CalendarToolbar from "./calendar/calendar-toolbar";
 import { ZaloonenBookingTableToolbar } from "./zaloonen-booking-table-toolbar";
 
 import { FaBuildingCircleExclamation } from "react-icons/fa6";
-import ZaloonenScreeningTab from "./zaloonen-screenings";
+import ZaloonenRequestedBookings from "./requested-bookings/zaloonen-requested-bookings";
+import ZaloonenScreeningTab from "./screenings/zaloonen-screenings";
+
+export type ZaloonenBooking =
+  RouterOutputs["zaloonen"]["getAllBookingsAsAuthed"][0];
+
 const ZaloonenBookingTab: FC = () => {
   const [selectedEvent, setSelectedEvent] = useState<ZaloonenBooking | null>(
     null,
@@ -57,7 +62,7 @@ const ZaloonenBookingTab: FC = () => {
     api.zaloonen.getAllBookingInspectorsAsAuthed.useQuery();
 
   if (isLoadingBookings) {
-    return <SectionWrapper>Loading...</SectionWrapper>;
+    return <SectionWrapper>Laddar...</SectionWrapper>;
   }
   if (isBookingError) {
     return <SectionWrapper>Error</SectionWrapper>;
@@ -76,8 +81,7 @@ const ZaloonenBookingTab: FC = () => {
         dayjs(booking.startDateTime).diff(dayjs(), "d") < 30;
 
       const isRequested =
-        booking.bookingStatus === ZaloonenBookingStatus.REQUESTED &&
-        isWithin30Days;
+        booking.bookingStatus === ZaloonenBookingStatus.REQUESTED;
       const isApprovedButNoInspector =
         booking.bookingStatus === ZaloonenBookingStatus.APPROVED &&
         !booking.bookingInspectorId &&
@@ -100,7 +104,6 @@ const ZaloonenBookingTab: FC = () => {
       );
     })
     .sort((a, b) => (a.startDateTime > b.startDateTime ? 1 : -1));
-
   return (
     <RoleWrapper accountRole={AccountRoles.MODIFY_ZALOONEN_BOOKING}>
       <SectionWrapper className="pt-2">
@@ -113,13 +116,30 @@ const ZaloonenBookingTab: FC = () => {
           <TabsList className="grid w-full grid-cols-5">
             {/* TODO: Lägg till najs INFO om de finns t.ex. avsyningar att administrera */}
             <TabsTrigger value="overview">Överblick</TabsTrigger>
-            <TabsTrigger value="requested">Bokningsförfrågningar</TabsTrigger>
-            <TabsTrigger value="screenings">Avsyningar</TabsTrigger>
+            <TabsTrigger value="requested">
+              Bokningsförfrågningar -{" "}
+              {
+                bookings.filter(
+                  (b) => b.bookingStatus === ZaloonenBookingStatus.REQUESTED,
+                ).length
+              }
+            </TabsTrigger>
+            <TabsTrigger value="screenings">
+              Avsyningar & Festanmälan
+            </TabsTrigger>
             <TabsTrigger value="allBookings">Alla bokningar</TabsTrigger>
             <TabsTrigger value="calendar">Kalender</TabsTrigger>
           </TabsList>
           <TabsContent value="screenings">
             <ZaloonenScreeningTab bookings={bookings} />
+          </TabsContent>
+
+          <TabsContent value="requested">
+            <ZaloonenRequestedBookings
+              bookings={bookings}
+              isBookingError={isBookingError}
+              isBookingLoading={isLoadingBookings}
+            />
           </TabsContent>
           <TabsContent value="overview">
             <div className="min-h-80 grid grid-cols-6 gap-3">

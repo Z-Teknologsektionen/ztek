@@ -7,7 +7,7 @@ import {
 } from "~/components/ui/popover";
 import { TABLE_ICON_SIZE } from "~/constants/size-constants";
 import { cn } from "~/utils/utils";
-import type { ZaloonenBookingType } from "./zaloonen-booking-columns";
+import type { ZaloonenBookingType } from "./all-bookings/zaloonen-booking-columns";
 
 type PartyManagerPopoverInfoProps = {
   booking: ZaloonenBookingType;

@@ -53,14 +53,14 @@ export const ActionRequiredBookingCard: FC<BookingCardProps> = ({
     mutate: sendZaloonenPartyNotice,
     isLoading: sendingZaloonenPartyNotice,
   } = useSendZaloonenPartyNoticeAsAuthed({});
+
   const isInspected =
     booking.bookingStatus === ZaloonenBookingStatus.COMPLETED ||
     booking.bookingStatus === ZaloonenBookingStatus.ON_HOLD;
 
   const partyNoticeRequired =
     booking.bookingStatus === ZaloonenBookingStatus.APPROVED &&
-    !booking.partyNoticeSent &&
-    booking.startDateTime > dayjs().toDate();
+    !booking.partyNoticeSent;
 
   const inspectionRequired =
     booking.bookingStatus === ZaloonenBookingStatus.APPROVED &&

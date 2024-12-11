@@ -209,7 +209,7 @@ export const zaloonenRouter = createTRPCRouter({
     }),
   getAllBookingsAsAuthed: zaloonenProcedure.query(
     async ({ ctx: { prisma } }) => {
-      return await prisma.zaloonenBooking.findMany({
+      const bookings = await prisma.zaloonenBooking.findMany({
         include: {
           updatedBy: {
             select: {
@@ -220,6 +220,25 @@ export const zaloonenRouter = createTRPCRouter({
           },
         },
       });
+
+      const updatedBookings = bookings.map((booking) => {
+        const overlaps = bookings.filter((otherBooking) => {
+          if (booking.id === otherBooking.id) return false;
+          return (
+            (booking.startDateTime <= otherBooking.endDateTime &&
+              booking.startDateTime >= otherBooking.startDateTime) ||
+            (booking.endDateTime <= otherBooking.endDateTime &&
+              booking.endDateTime >= otherBooking.startDateTime) ||
+            (booking.startDateTime <= otherBooking.startDateTime &&
+              booking.endDateTime >= otherBooking.endDateTime &&
+              booking.bookingStatus !== ZaloonenBookingStatus.DENIED)
+          );
+        });
+        // .map((overlappingBooking) => overlappingBooking.id);
+        return { ...booking, overlaps };
+      });
+
+      return updatedBookings;
     },
   ),
 

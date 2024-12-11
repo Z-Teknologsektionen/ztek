@@ -6,7 +6,7 @@ import EditTriggerButton from "~/components/buttons/edit-trigger-button";
 import ActionDialog from "~/components/dialogs/action-dialog";
 
 import { useDeleteZaloonenBookingAsAuthed } from "~/hooks/mutations/useMutateZaloonenBooking";
-import type { ZaloonenBookingType } from "./zaloonen-booking-columns";
+import type { ZaloonenBookingType } from "./all-bookings/zaloonen-booking-columns";
 
 export const ZaloonenBookingActions: FC<ZaloonenBookingType> = ({
   id,

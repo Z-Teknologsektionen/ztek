@@ -13,7 +13,7 @@ import {
   getZaloonenBookingNameFromType,
 } from "~/utils/get-zaloonen-info-from-enum";
 import { cn } from "~/utils/utils";
-import type { ZaloonenBookingType } from "./zaloonen-booking-columns";
+import type { ZaloonenBookingType } from "./all-bookings/zaloonen-booking-columns";
 
 type BookingPopoverInfoProps = {
   booking: ZaloonenBookingType;
@@ -67,6 +67,24 @@ export const BookingPopoverInfo: FC<BookingPopoverInfoProps> = ({
               href={`mailto:${booking.organizerEmail}`}
             >
               {booking.organizerEmail}
+            </a>
+          </p>
+          <p className="font-medium underline">Festansvarig:</p>
+          <p>
+            {booking.partyManagerName}{" "}
+            <a
+              className="text-blue-400 underline underline-offset-1"
+              href={`tel:${booking.partyManagerPhone}`}
+            >
+              {booking.partyManagerPhone}
+            </a>
+          </p>
+          <p>
+            <a
+              className="text-blue-400 underline underline-offset-1"
+              href={`mailto:${booking.partyManagerEmail}`}
+            >
+              {booking.partyManagerEmail}
             </a>
           </p>
         </div>

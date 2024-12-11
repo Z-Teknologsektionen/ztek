@@ -14,7 +14,7 @@ import { cn } from "~/utils/utils";
 
 type ActionDialogProps = {
   classNameButton?: string;
-  description?: string;
+  description?: string | JSX.Element;
   disabled?: boolean;
   onSubmit: () => void;
   primaryButtonText?: string;

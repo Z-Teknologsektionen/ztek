@@ -19,10 +19,10 @@ import { type RouterOutputs } from "~/utils/api";
 
 import moment from "moment";
 import { FaKitchenSet } from "react-icons/fa6";
+import { BookingPopoverInfo } from "~/components/active/zaloonen-booking/booking-popover-info";
+import { PartyManagerPopoverInfo } from "~/components/active/zaloonen-booking/party-manager-popover-info";
+import { ZaloonenBookingActions } from "~/components/active/zaloonen-booking/zaloonen-booking-actions";
 import { cn } from "~/utils/utils";
-import { BookingPopoverInfo } from "./booking-popover-info";
-import { PartyManagerPopoverInfo } from "./party-manager-popover-info";
-import { ZaloonenBookingActions } from "./zaloonen-booking-actions";
 import { ZaloonenBookingStatusActions } from "./zaloonen-booking-status-actions";
 
 export type ZaloonenBookingType =

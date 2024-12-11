@@ -1,6 +1,8 @@
 import type {
   ColumnDef,
   ColumnFiltersState,
+  CoreRow,
+  ExpandedState,
   SortingState,
   Table as TableType,
   VisibilityState,
@@ -29,10 +31,13 @@ import {
 import { DataTablePagination } from "./data-table-pagination";
 
 interface AdvancedDataTableProps<TData, TValue> {
+  collapsibleComponent?: ComponentType<{ row: CoreRow<TData> }>;
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   error?: boolean;
+  initialColumnFiltersState?: ColumnFiltersState;
   initialSortingState?: SortingState;
+  initialVisibilityState?: VisibilityState;
   loading?: boolean;
   pageSize?: number;
   toolbar?: ComponentType<{ table: TableType<TData> }>;
@@ -45,16 +50,24 @@ export const AdvancedDataTable = <TData, TValue>({
   loading,
   error,
   toolbar: Toolbar,
+  collapsibleComponent: CollapsibleComponent,
   usePagination = true,
   initialSortingState = [],
+  initialColumnFiltersState = [],
+  initialVisibilityState = {},
   pageSize = 20,
 }: AdvancedDataTableProps<TData, TValue>): ReactNode => {
   const [rowSelection, setRowSelection] = useState({});
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+    initialVisibilityState,
+  );
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
+    initialColumnFiltersState,
+  );
   const [sorting, setSorting] = useState<SortingState>(initialSortingState);
-
+  const [expanded, setExpanded] = useState<ExpandedState>({});
   const table = useReactTable({
+    getRowCanExpand: () => true,
     data,
     columns,
     state: {
@@ -62,6 +75,7 @@ export const AdvancedDataTable = <TData, TValue>({
       columnVisibility,
       rowSelection,
       columnFilters,
+      expanded,
     },
     initialState: {
       pagination: {
@@ -73,6 +87,7 @@ export const AdvancedDataTable = <TData, TValue>({
     // debugColumns: true,
     columnResizeMode: "onEnd",
     enableRowSelection: true,
+    onExpandedChange: setExpanded,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -96,7 +111,7 @@ export const AdvancedDataTable = <TData, TValue>({
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
-                      key={header.id}
+                      key={header.id + "hd"}
                       colSpan={header.colSpan}
                       style={{
                         width: header.getSize(),
@@ -152,19 +167,28 @@ export const AdvancedDataTable = <TData, TValue>({
               !error &&
               (table.getRowModel().rows?.length !== 0 ? (
                 table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id} width={cell.column.getSize()}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
+                  <>
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id} width={cell.column.getSize()}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                    {row.getIsExpanded() && (
+                      <TableRow>
+                        <TableCell colSpan={row.getAllCells().length}>
+                          <CollapsibleComponent row={row} />
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </>
                 ))
               ) : (
                 <TableRow>
