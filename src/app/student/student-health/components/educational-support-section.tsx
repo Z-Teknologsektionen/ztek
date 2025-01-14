@@ -4,16 +4,16 @@ import { MdEmail, MdInfo } from "react-icons/md";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
 
-export const FunkaSection: FC = () => {
+export const EducationalSupportSection: FC = () => {
   return (
     <SectionWrapper>
       <div className="grid grid-cols-3 py-8">
         <div className="col-span-3 md:col-span-2 md:pl-20">
           <SectionTitle className="break-words pb-4">
-            Pedagogiskt stöd för dig med funktionsnedsättning
+            Riktat pedagogiskt stöd för dig med funktionsnedsättning
           </SectionTitle>
           <p>
-            FUNKA på Chalmers erbjuder pedagogiskt stöd för studenter med
+            Chalmers erbjuder riktat pedagogiskt stöd för studenter med
             funktionsnedsättning. De erbjuder olika typer av stöd för att
             underlätta dina studier. Dessa stöd inkluderar bland annat extra tid
             på tentor, anteckningsstöd, tekniska hjälpmedel och anpassade
@@ -39,7 +39,7 @@ export const FunkaSection: FC = () => {
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                Mer information om pedagogiskt stöd
+                Mer information om riktat pedagogiskt stöd
               </a>
             </li>
           </ul>
@@ -51,14 +51,14 @@ export const FunkaSection: FC = () => {
             target="_blank"
           >
             <Image
-              alt="Funka"
+              alt="Riktat pedagogiskt stöd"
               className="rounded"
               height={400}
-              src="/funka-logo-pattern-8.png"
+              src="/riktat-pedagogiskt-stod.png"
               width={400}
             />
           </a>
-          <p className="text-center">Funka på Chalmers</p>
+          <p className="text-center">Riktat pedagogiskt stöd på Chalmers</p>
         </div>
       </div>
     </SectionWrapper>
