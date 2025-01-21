@@ -14,10 +14,11 @@ model Committee {
     id         String  @id @default(auto()) @map("_id") @db.ObjectId
     documentId String? @db.ObjectId
 
-    name        String
-    description String
-    image       String                @default("")
-    socialLinks CommitteeSocialLink[]
+    name             String
+    description      String
+    image            String                @default("")
+    socialLinks      CommitteeSocialLink[]
+    showOldCommittee Boolean               @default(true)
 
     slug            String        @unique
     role            String

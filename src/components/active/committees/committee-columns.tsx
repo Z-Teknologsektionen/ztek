@@ -64,7 +64,6 @@ export const committeeColumns: ColumnDef<Committee>[] = [
     enableHiding: true,
     filterFn: "inNumberRange",
   },
-
   {
     id: "Har dokument",
     accessorKey: "documentId",
@@ -72,6 +71,14 @@ export const committeeColumns: ColumnDef<Committee>[] = [
     enableSorting: false,
     enableHiding: true,
     cell: ({ row }) => <BooleanCell value={row.original.documentId !== null} />,
+  },
+  {
+    id: "Visar patethimmel",
+    accessorKey: "showOldCommittee",
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    enableSorting: false,
+    enableHiding: true,
+    cell: ({ row }) => <BooleanCell value={row.original.showOldCommittee} />,
   },
   {
     id: "Sociala länkar",

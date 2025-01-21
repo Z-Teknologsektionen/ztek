@@ -41,11 +41,13 @@ const CommitteePage: FC<CommitteePageParams> = async ({ params: { slug } }) => {
   return (
     <>
       <ActiveCommitteeSection {...committee} />
-      <OldCommitteSection
-        key={committee.id}
-        committeeId={committee.id}
-        committeeName={committee.name}
-      />
+      {committee.showOldCommittee && (
+        <OldCommitteSection
+          key={committee.id}
+          committeeId={committee.id}
+          committeeName={committee.name}
+        />
+      )}
     </>
   );
 };
