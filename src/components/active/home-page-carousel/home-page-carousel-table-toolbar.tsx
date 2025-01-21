@@ -5,6 +5,7 @@ import { DataTableFacetedFilter } from "~/components/data-table/data-table-facet
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { visibilityStates } from "~/constants/home-page-carousel";
+import { useCreateCarouselAsActive } from "~/hooks/mutations/useMutateHomePageCarousel";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
 import { getCarusellStatusName } from "~/utils/get-carusell-status";
@@ -44,6 +45,10 @@ export const HomePageCarouselTableToolbar = <TData,>({
     [oldCommittees],
   );
 
+  const { mutate: createItem } = useCreateCarouselAsActive({
+    onSuccess: () => setIsNewOpen(false),
+  });
+
   return (
     <div className="overflow-x-auto">
       <div className="flex items-center justify-between">
@@ -79,7 +84,7 @@ export const HomePageCarouselTableToolbar = <TData,>({
             form={
               <UpsertHomePageCarouselForm
                 formType="create"
-                onSubmit={(values) => console.log(values)}
+                onSubmit={(values) => createItem(values)}
               />
             }
             isOpen={isNewOpen}

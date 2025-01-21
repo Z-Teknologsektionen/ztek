@@ -14,17 +14,9 @@ import {
 
 export const HomePageHeroCarousel: FC<{
   items: {
-    committeeId: string;
-    createdAt: Date;
-    createdByEmail: string | null;
-    endDateTime: Date | null;
     id: string;
     imageUrl: string;
-    importedFromId: string | null;
     linkToUrl: string | null;
-    startDateTime: Date | null;
-    updatedAt: Date;
-    updatedByEmail: string | null;
   }[];
 }> = ({ items }) => {
   const autoplayPlugin = Autoplay({

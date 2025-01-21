@@ -3,6 +3,35 @@ import toast from "react-hot-toast";
 import type { UseMutationHookProps } from "~/types/mutation-hook-types";
 import { api } from "~/utils/api";
 
+export const useCreateCarouselAsActive = ({
+  onError,
+  onSettled,
+  onSuccess,
+}: UseMutationHookProps) => {
+  const ctx = api.useUtils();
+
+  return api.homePageCarousel.createOneAsActive.useMutation({
+    onMutate: () => toast.loading("Skapar karusellen..."),
+    onSettled: async (_, __, ___, toastId) => {
+      toast.dismiss(toastId);
+      await ctx.homePageCarousel.invalidate();
+      onSettled?.();
+    },
+    onSuccess: () => {
+      toast.success("Karusellen har skapats");
+      onSuccess?.();
+    },
+    onError: (error) => {
+      if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error("Något gick fel. Försök igen senare");
+      }
+      onError?.();
+    },
+  });
+};
+
 export const useUpdateCarouselAsActive = ({
   onError,
   onSettled,
