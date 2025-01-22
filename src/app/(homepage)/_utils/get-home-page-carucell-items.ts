@@ -34,5 +34,5 @@ export const getHomePageCarucellItems = unstable_cache(
       },
     }),
   undefined,
-  { revalidate: false, tags: ["home-page-carucell"] },
+  { revalidate: 60 * 60, tags: ["home-page-carucell"] },
 );
