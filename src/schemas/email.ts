@@ -12,5 +12,5 @@ export const sendEmailSchema = z.object({
     .max(10, "Du kan inte specificiera så många personer"),
   sender: emailString.optional(),
   subject: nonEmptyString,
-  cc: emailString.array().max(1).optional(),
+  cc: emailString.optional(),
 });

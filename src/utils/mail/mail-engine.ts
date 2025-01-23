@@ -21,22 +21,20 @@ export const sendEmail = async ({
   cc,
   sender,
 }: SendEmailProps): Promise<void> => {
+  // Verify your transporter
   try {
-    // Verify your transporter
     await transporter.verify();
-
-    const mailOptions = {
-      from: sender || '"ZTEK.SE" <noreply@ztek.se>',
-      to: recipients.join(", "),
-      subject,
-      text: message,
-      cc,
-    };
-
-    const info = await transporter.sendMail(mailOptions);
-
-    console.log(`Message sent: ${info.messageId}`);
   } catch (error) {
-    console.log(error);
+    throw new Error("Unable to connect with the email engine");
   }
+
+  const mailOptions = {
+    from: sender || '"ZTEK.SE" <noreply@ztek.se>',
+    to: recipients.join(", "),
+    subject,
+    text: message,
+    cc,
+  };
+
+  await transporter.sendMail(mailOptions);
 };
