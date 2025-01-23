@@ -6,14 +6,17 @@ import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldTextArea from "~/components/forms/form-field-textarea";
 import FormWrapper from "~/components/forms/form-wrapper";
 
-import { upsertContactFormSchema } from "~/schemas/contact-form";
+import { sendEmailSchema } from "~/schemas/email";
 import type { IUpsertForm } from "~/types/form-types";
 
-type UpsertContactFormProps = IUpsertForm<typeof upsertContactFormSchema>;
+type UpsertContactFormProps = IUpsertForm<typeof sendEmailSchema>;
 
 const DEFAULT_VALUES: UpsertContactFormProps["defaultValues"] = {
-  email: "",
+  recipients: ["webbgruppen@ztek.se"],
   message: "",
+  subject: "Kontakt - ztek.se",
+  cc: [],
+  sender: "noreply@ztek.se",
 };
 
 export const UpsertContactForm: FC<UpsertContactFormProps> = ({
@@ -21,8 +24,8 @@ export const UpsertContactForm: FC<UpsertContactFormProps> = ({
   onSubmit,
   formType,
 }) => {
-  const form = useForm<z.infer<typeof upsertContactFormSchema>>({
-    resolver: zodResolver(upsertContactFormSchema),
+  const form = useForm<z.infer<typeof sendEmailSchema>>({
+    resolver: zodResolver(sendEmailSchema),
     defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
 
@@ -34,9 +37,10 @@ export const UpsertContactForm: FC<UpsertContactFormProps> = ({
       resetForm={() => form.reset()}
     >
       <FormFieldInput
+        description="Din email"
         form={form}
         label="Epost"
-        name="email"
+        name="cc"
         placeholder="lucky@ztek.se"
         type="email"
       />

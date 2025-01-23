@@ -6,12 +6,17 @@ import Link from "next/link";
 import { useState, type FC } from "react";
 import { MdBusiness, MdEmail, MdOutlineHouse } from "react-icons/md";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
+import { useSendEmail } from "~/hooks/mutations/useMutateEmail";
 import { useFooterQuickLinks } from "~/hooks/useFooterQuickLinks";
 import { UpsertContactForm } from "./upsert-contact-form";
 
 const Footer: FC = () => {
   const footerQuickLinks = useFooterQuickLinks();
   const [isOpen, setIsOpen] = useState(false);
+
+  const { mutate: sendEmail } = useSendEmail({
+    onSuccess: () => setIsOpen(false),
+  });
 
   return (
     <footer className="bg-zBlack pb-2 pt-8 text-zWhite">
@@ -92,8 +97,7 @@ const Footer: FC = () => {
                 key={"new"}
                 formType="create"
                 onSubmit={(values) => {
-                  setIsOpen(false);
-                  console.log(values);
+                  sendEmail(values);
                 }}
               />
             }
