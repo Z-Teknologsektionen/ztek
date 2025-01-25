@@ -18,6 +18,7 @@ export const getCommitteeBySlug = unstable_cache(
         image: true,
         electionPeriods: true,
         socialLinks: true,
+        showOldCommittee: true,
         document: {
           select: {
             url: true,

@@ -11,9 +11,14 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "~/components/ui/carousel";
-import { homePageCarouselImageUrls } from "~/data/home-page-carousel-image-urls";
 
-export const HomePageHeroCarousel: FC = () => {
+export const HomePageHeroCarousel: FC<{
+  items: {
+    id: string;
+    imageUrl: string;
+    linkToUrl: string | null;
+  }[];
+}> = ({ items }) => {
   const autoplayPlugin = Autoplay({
     playOnInit: true,
     delay: 5000,
@@ -30,7 +35,7 @@ export const HomePageHeroCarousel: FC = () => {
       plugins={[autoplayPlugin]}
     >
       <CarouselContent className="-ml-0 aspect-video">
-        {homePageCarouselImageUrls.map((imageUrl) => (
+        {items.map(({ imageUrl }) => (
           <CarouselItem key={imageUrl} className="pl-0">
             <Image
               alt="Bild i karusell på hemskärmen"
