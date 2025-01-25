@@ -60,7 +60,7 @@
     "react-icons": "^4.11.0",
     "react-image-file-resizer": "^0.4.8",
     "react-spinners": "^0.13.8",
-    "ssh2-sftp-client": "^10.0.3",
+    "ssh2-sftp-client": "^11.0.0",
     "superjson": "^2.2.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
@@ -73,7 +73,7 @@
     "@types/nodemailer": "^6.4.17",
     "@types/react": "^18.2.33",
     "@types/react-dom": "^18.2.14",
-    "@types/ssh2-sftp-client": "^9.0.3",
+    "@types/ssh2-sftp-client": "^9.0.4",
     "@types/validator": "^13.11.5",
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
@@ -95,6 +95,9 @@
     "tailwindcss": "^3.4.15",
     "tailwindcss-3d": "^1.0.7",
     "typescript": "^5.6.3"
+  },
+  "browser": {
+    "crypto": false
   },
   "ct3aMetadata": {
     "initVersion": "7.10.2"

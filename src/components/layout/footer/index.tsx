@@ -92,6 +92,7 @@ const Footer: FC = () => {
             Hemsidan är utvecklad av Webbgruppen, sektionens viktigaste organ.
           </p>
           <UpsertDialog
+            description="Skriv din fråga här så svarar vi så snart vi kan. En kopia kommer också skickas till dig."
             form={
               <UpsertContactForm
                 key={"new"}
@@ -103,7 +104,7 @@ const Footer: FC = () => {
             }
             isOpen={isOpen}
             setIsOpen={setIsOpen}
-            title="Skapa nytt meddelande"
+            title="Kontakta Webbgruppen"
             trigger={
               <p className="m-0 cursor-pointer font-semibold hover:underline">
                 Kontakta oss!

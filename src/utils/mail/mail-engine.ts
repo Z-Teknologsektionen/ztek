@@ -22,7 +22,11 @@ export const sendEmail = async ({
   sender,
 }: SendEmailProps): Promise<void> => {
   // Verify your transporter
-  await transporter.verify();
+  try {
+    await transporter.verify();
+  } catch (error) {
+    throw new Error("Unable to connect with the email engine");
+  }
 
   const mailOptions = {
     from: sender || '"ZTEK.SE" <noreply@ztek.se>',
