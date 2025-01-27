@@ -45,10 +45,11 @@ export const ReceptionSection: FC = () => {
               <Link
                 className={cn(
                   buttonVariants({ variant: "outline" }),
-                  "mx-auto mt-4 block",
+                  "mx-auto mt-4 block w-fit",
                 )}
                 href="https://www.znollk.se/"
                 referrerPolicy="no-referrer"
+                rel="noopener noreferrer"
                 target="_blank"
               >
                 Antagen
