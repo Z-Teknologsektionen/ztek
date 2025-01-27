@@ -46,7 +46,7 @@ const UpsertCommitteeAsActiveForm: FC<UpsertCommitteeAsActiveFormProps> = ({
       <FormFieldCheckbox
         description="Här kan du toggla av och på patethimlen"
         form={form}
-        label="Visa patet himmel"
+        label="Visa patethimmel"
         name="showOldCommittee"
       />
     </FormWrapper>
