@@ -56,12 +56,12 @@ export interface IFormFieldCombobox<TFieldValues extends FieldValues>
 export interface IFormFieldInputImage<
   TFieldValues extends FieldValues = FieldValues,
 > extends IFormFieldDefaults<TFieldValues> {
-  className?: string;
-  containImage?: boolean;
+  circularCrop?: boolean;
+  freeCrop?: boolean;
   maxHeight: number;
   maxWidth: number;
   quality: number;
-  rounded?: boolean;
+  ruleOfThirds?: boolean;
 }
 
 export interface IFormFieldFileInput<
