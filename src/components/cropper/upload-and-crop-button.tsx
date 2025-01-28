@@ -105,10 +105,10 @@ export const UploadAndCropButton: FC<UploadAndCropButtonProps> = ({
             {isFileTooLarge
               ? "File is too large"
               : isDragReject
-              ? "Filen accepteras inte, försök med en annan fil"
-              : isDragActive && isDragAccept
-              ? "Släpp för att ladda upp"
-              : "Släpp fil eller klicka"}
+                ? "Filen accepteras inte, försök med en annan fil"
+                : isDragActive && isDragAccept
+                  ? "Släpp för att ladda upp"
+                  : "Släpp fil eller klicka"}
           </p>
         </Button>
       </div>
