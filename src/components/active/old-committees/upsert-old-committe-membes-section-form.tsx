@@ -7,6 +7,7 @@ import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldInputNumber from "~/components/forms/form-field-input-number";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import { Button } from "~/components/ui/button";
+import { FormField, FormItem, FormMessage } from "~/components/ui/form";
 import { Separator } from "~/components/ui/separator";
 import {
   MAX_COMMITTEE_ORDER_NUMBER,
@@ -96,6 +97,15 @@ const UpsertOldCommitteeMembersFormSection: FC<
         <MdAdd className="mt-0.5" />
         Ny medlem
       </Button>
+      <FormField
+        control={form.control}
+        name={"members.root" as "members"} // För att få rätt error meddelanden från zod
+        render={() => (
+          <FormItem>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </div>
   );
 };
