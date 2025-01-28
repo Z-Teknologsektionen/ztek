@@ -108,6 +108,7 @@ export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
         maxWidth={COMMITTEE_IMAGE_SIZE}
         name="image"
         quality={COMMITTEE_IMAGE_QUALITY}
+        ruleOfThirds
       />
     </FormWrapper>
   );

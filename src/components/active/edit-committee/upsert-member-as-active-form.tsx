@@ -67,6 +67,7 @@ export const UpsertMemberAsActiveForm: FC<UpdateMemberAsActiveProps> = ({
         maxWidth={COMMITTEE_IMAGE_SIZE}
         name="image"
         quality={COMMITTEE_IMAGE_QUALITY}
+        ruleOfThirds
       />
     </FormWrapper>
   );

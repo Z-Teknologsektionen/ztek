@@ -99,7 +99,8 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
         maxWidth={COMMITTEE_IMAGE_SIZE}
         name="image"
         quality={COMMITTEE_IMAGE_QUALITY}
-        containImage
+        freeCrop
+        ruleOfThirds
       />
       <FormFieldInputImage
         description="Förlsagsvis logga. Om du anger enbart denna bild så kommer den visas både på omslaget och ovanför medlemmarna"
@@ -109,8 +110,7 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
         maxWidth={COMMITTEE_IMAGE_SIZE}
         name="logo"
         quality={COMMITTEE_IMAGE_QUALITY}
-        containImage
-        rounded
+        circularCrop
       />
     </FormWrapper>
   );
