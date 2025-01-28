@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "checkJs": true,
     "skipLibCheck": true,
@@ -22,9 +18,8 @@
     "noUncheckedIndexedAccess": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": [
-        "./src/*"
-      ]
+      "~/*": ["./src/*"],
+      "crypto": ["node_modules/crypto-js"] // https://stackoverflow.com/questions/54162297/module-not-found-error-cant-resolve-crypto
     },
     "plugins": [
       {
@@ -41,7 +36,5 @@
     "**/*.mjs",
     ".next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

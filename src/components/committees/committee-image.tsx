@@ -6,7 +6,7 @@ interface ICommitteeImage extends Omit<ImageProps, "src"> {
   filename: string | null | undefined;
 }
 
-const CommitteeImage: FC<ICommitteeImage> = ({
+export const CommitteeImage: FC<ICommitteeImage> = ({
   filename,
   alt,
   className = "",
@@ -34,5 +34,3 @@ const CommitteeImage: FC<ICommitteeImage> = ({
     />
   );
 };
-
-export default CommitteeImage;

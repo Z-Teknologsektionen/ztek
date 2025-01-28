@@ -1,36 +1,72 @@
 import { useSession } from "next-auth/react";
+import type { NavbarItem } from "~/types/navbar-types";
 
-type NavbarRouteType = {
-  href: string;
-  name: string;
-  target: "_self" | "_blank";
-};
-
-const navbarRoutes: NavbarRouteType[] = [
-  { name: "Student", href: "/student", target: "_self" },
+const navbarRoutes: NavbarItem[] = [
   {
-    name: "Zaloonen",
-    href: "/student-division/zaloonen",
-    target: "_self",
+    label: "Student",
+    sublinks: [
+      {
+        href: "/student",
+        label: "Om Sektionen",
+      },
+      {
+        label: "Studiesocialt stöd",
+        href: "/student/student-health",
+      },
+      {
+        label: "Söka Z",
+        href: "/student/new-student",
+      },
+    ],
   },
-  { name: "Dokument", href: "/documents", target: "_self" },
-  { name: "Sektionen", href: "/student-division", target: "_self" },
   {
-    name: "Sektionsorgan",
-    href: "/student-division/committees",
-    target: "_self",
+    label: "Sektionen",
+    sublinks: [
+      {
+        href: "/student-division",
+        label: "Student på Z",
+      },
+      {
+        label: "Zaloonen",
+        href: "/student-division/zaloonen",
+      },
+      {
+        label: "Dokument",
+        href: "/documents",
+      },
+      {
+        label: "Sektionsorgan",
+        href: "/student-division/committees",
+      },
+    ],
   },
-  { name: "För Företag", href: "/business", target: "_self" },
-  { name: "Bilder", href: "https://zfoto.ztek.se", target: "_blank" },
+  {
+    label: "För företag",
+    href: "/business",
+  },
+  {
+    label: "Media",
+    sublinks: [
+      {
+        label: "zFotos bilder",
+        href: "https://zfoto.ztek.se",
+        newPage: true,
+      },
+      {
+        label: "Zeniths media",
+        href: "/student-division/zenith-media",
+      },
+    ],
+  },
 ];
 
-export const useNavbarRoutes = (): NavbarRouteType[] => {
+export const useNavbarRoutes = (): NavbarItem[] => {
   const { status } = useSession();
 
   if (status === "authenticated")
     return [
       ...navbarRoutes,
-      { name: "Aktiv", href: "/active", target: "_self" },
+      { label: "Aktiv", href: "/active", newPage: false },
     ];
 
   return navbarRoutes;

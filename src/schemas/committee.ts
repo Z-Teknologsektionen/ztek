@@ -16,6 +16,7 @@ import {
   objectId,
   relativePathString,
   slugString,
+  standardBoolean,
   standardString,
 } from "~/schemas/helpers/custom-zod-helpers";
 
@@ -71,6 +72,7 @@ export const upsertCommitteeBaseSchema = z.object({
       `Får inte vara mer än ${MAX_DESCRIPTION_TEXT_LENGTH.toString()} tecken`,
     ),
   socialLinks: z.array(socialIconSchema).max(MAX_NUMER_OF_SOCIAL_LINKS),
+  showOldCommittee: standardBoolean,
 });
 
 export const updateCommitteeAsActiveSchema = upsertCommitteeBaseSchema

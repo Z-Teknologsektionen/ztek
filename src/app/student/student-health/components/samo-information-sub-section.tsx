@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { MdEmail, MdPhone } from "react-icons/md";
 import { getCommitteeMemberByEmail } from "~/app/student/student-health/utils/get-committee-member-by-email";
-import CommitteeImage from "~/components/committees/committee-image";
+import { CommitteeImage } from "~/components/committees/committee-image";
 import SectionTitle from "~/components/layout/section-title";
 import { Skeleton } from "~/components/ui/skeleton";
 
@@ -64,7 +64,7 @@ export const SamoInformationSubSection: FC = async () => {
 export const SamoInformationSubSectionSkeleton: FC = () => (
   <div className="!mt-0 grid grid-cols-3 py-8">
     <div className="order-last col-span-3 m-auto mt-4 lg:order-last lg:col-span-1 lg:mt-0">
-      <Skeleton className="mx-auto h-64 w-64 rounded " />
+      <Skeleton className="mx-auto h-64 w-64 rounded" />
       <Skeleton className="h-6 w-full" />
     </div>
     <div className="col-span-3 md:col-span-2">

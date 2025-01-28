@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import UpsertCommitteeSocialLinksSection from "~/components/committees/upsert-committe/upsert-committee-social-links-section";
+import FormFieldCheckbox from "~/components/forms/form-field-checkbox";
 import FormFieldInputImage from "~/components/forms/form-field-input-image";
 import FormFieldTextArea from "~/components/forms/form-field-textarea";
 import FormWrapper from "~/components/forms/form-wrapper";
@@ -43,6 +44,12 @@ const UpsertCommitteeAsActiveForm: FC<UpsertCommitteeAsActiveFormProps> = ({
       />
       <FormFieldTextArea form={form} label="Beskrivning" name="description" />
       <UpsertCommitteeSocialLinksSection />
+      <FormFieldCheckbox
+        description="Här kan du toggla av och på patethimlen"
+        form={form}
+        label="Visa patet himmel"
+        name="showOldCommittee"
+      />
     </FormWrapper>
   );
 };

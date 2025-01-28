@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import {
   createCommitteeSchema,
@@ -102,6 +103,7 @@ export const committeeRouter = createTRPCRouter({
           socialLinks: true,
           role: true,
           document: true,
+          showOldCommittee: true,
           members: {
             orderBy: {
               order: "desc",
@@ -136,6 +138,7 @@ export const committeeRouter = createTRPCRouter({
         role: true,
         socialLinks: true,
         documentId: true,
+        showOldCommittee: true,
         _count: {
           select: {
             members: true,
@@ -160,23 +163,29 @@ export const committeeRouter = createTRPCRouter({
   }),
   updateCommitteeAsActive: protectedProcedure
     .input(updateCommitteeAsActiveSchema)
-    .mutation(({ ctx, input: { id, description, image, socialLinks } }) => {
-      return ctx.prisma.committee.update({
-        where: {
-          id,
-        },
-        data: {
-          description,
-          image,
-          socialLinks,
-          updatedByEmail: ctx.session.user.email,
-        },
-      });
-    }),
+    .mutation(
+      async ({ ctx, input: { id, description, image, socialLinks } }) => {
+        const updatedCommittee = await ctx.prisma.committee.update({
+          where: {
+            id,
+          },
+          data: {
+            description,
+            image,
+            socialLinks,
+            updatedByEmail: ctx.session.user.email,
+          },
+        });
+
+        revalidateTag("committee");
+
+        return updatedCommittee;
+      },
+    ),
   createCommitteeAsAuthed: organizationManagementProcedure
     .input(createCommitteeSchema)
     .mutation(
-      ({
+      async ({
         ctx,
         input: {
           description,
@@ -190,9 +199,10 @@ export const committeeRouter = createTRPCRouter({
           socialLinks,
           documentId,
           committeeType,
+          showOldCommittee,
         },
       }) => {
-        return ctx.prisma.committee.create({
+        const createdCommittee = await ctx.prisma.committee.create({
           data: {
             description,
             email,
@@ -205,6 +215,7 @@ export const committeeRouter = createTRPCRouter({
             documentId,
             committeeType,
             socialLinks,
+            showOldCommittee,
             updatedByEmail: ctx.session.user.email,
             createdByEmail: ctx.session.user.email,
           },
@@ -212,12 +223,16 @@ export const committeeRouter = createTRPCRouter({
             name: true,
           },
         });
+
+        revalidateTag("committee");
+
+        return createdCommittee;
       },
     ),
   updateCommitteeAsAuthed: organizationManagementProcedure
     .input(updateCommitteeSchema)
     .mutation(
-      ({
+      async ({
         ctx,
         input: {
           id,
@@ -232,9 +247,10 @@ export const committeeRouter = createTRPCRouter({
           electionPeriods,
           socialLinks,
           documentId,
+          showOldCommittee,
         },
       }) => {
-        return ctx.prisma.committee.update({
+        const updatedCommittee = await ctx.prisma.committee.update({
           where: {
             id,
           },
@@ -250,9 +266,14 @@ export const committeeRouter = createTRPCRouter({
             electionPeriods,
             documentId,
             socialLinks,
+            showOldCommittee,
             updatedByEmail: ctx.session.user.email,
           },
         });
+
+        revalidateTag("committee");
+
+        return updatedCommittee;
       },
     ),
   deleteCommitteeAsAuthed: organizationManagementProcedure
@@ -261,11 +282,15 @@ export const committeeRouter = createTRPCRouter({
         id: objectId,
       }),
     )
-    .mutation(({ ctx, input: { id } }) => {
-      return ctx.prisma.committee.delete({
+    .mutation(async ({ ctx, input: { id } }) => {
+      const deletedCommittee = await ctx.prisma.committee.delete({
         where: {
           id,
         },
       });
+
+      revalidateTag("committee");
+
+      return deletedCommittee;
     }),
 });
