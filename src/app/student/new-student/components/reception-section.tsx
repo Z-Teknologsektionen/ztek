@@ -3,6 +3,7 @@ import type { FC } from "react";
 import ImageWithCredit from "~/components/layout/image-with-credit";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
+import StyledLink from "~/components/layout/styled-link";
 import { buttonVariants } from "~/components/ui/button";
 import { cn } from "~/utils/utils";
 
@@ -31,9 +32,14 @@ export const ReceptionSection: FC = () => {
                 Samling på Götaplatsen första dagen
               </h3>
               <p>
-                Första dagen, 15 augusti 2023, är det samling på Götaplatsen.
-                Efter en festlig välkomstceremoni tågar alla tillsammans upp
-                till Chalmers campus. Därefter börjar mottagningen.
+                Första dagen är det samling på Götaplatsen. Efter en festlig
+                välkomstceremoni tågar alla tillsammans upp till Chalmers
+                campus. Därefter börjar mottagningen. Håll utkik i brevlådan för
+                ditt antagningsbesked eller gå in på{" "}
+                <StyledLink href={"https://www.chalmers.se/utbildning/"}>
+                  Chalmers hemsida
+                </StyledLink>{" "}
+                för att se när terminen börjar.
               </p>
             </div>
             <div className="border-gradient col-span-2 rounded-lg md:col-span-1">
