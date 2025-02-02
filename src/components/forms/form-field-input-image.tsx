@@ -62,6 +62,7 @@ const FormFieldInputImage = <TFieldValues extends FieldValues>({
               />
               <Button
                 className="absolute top-0 h-6 w-6 rounded-full -translate-x-1/2 -translate-y-1/2"
+                onClick={() => setValue("")}
                 size="icon"
                 style={{ left: `calc(50% + ${scaledWidth / 2}px)` }}
                 variant="destructive"
