@@ -121,6 +121,7 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
         maxWidth={COMMITTEE_IMAGE_SIZE}
         name="image"
         quality={COMMITTEE_IMAGE_QUALITY}
+        ruleOfThirds
       />
       <FormFieldCombobox
         description="Hittar du inte rätt dokument? Du kan lägga till fler dokument som administratör."

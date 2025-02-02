@@ -40,6 +40,7 @@ const UpsertCommitteeAsActiveForm: FC<UpsertCommitteeAsActiveFormProps> = ({
         maxWidth={COMMITTEE_IMAGE_SIZE}
         name="image"
         quality={COMMITTEE_IMAGE_QUALITY}
+        ruleOfThirds
       />
       <FormFieldTextArea form={form} label="Beskrivning" name="description" />
       <UpsertCommitteeSocialLinksSection />
