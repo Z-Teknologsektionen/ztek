@@ -57,8 +57,9 @@ const UpsertHomePageCarouselForm: FC<UpsertHomePageCarouselFormProps> = ({
       resetForm={() => form.reset()}
     >
       <FormFieldInput
+        description="Bilden kommer beskäras till 16:9."
         form={form}
-        label="Bild länk"
+        label="Bildlänk"
         name="imageUrl"
         type="url"
       />
@@ -82,13 +83,13 @@ const UpsertHomePageCarouselForm: FC<UpsertHomePageCarouselFormProps> = ({
       <FormFieldInputDatetimeLocal
         description="När du vill att bilden ska börja visas i karusellen. Om inget väljs kommer den visas direkt."
         form={form}
-        label="Start datum"
+        label="Startdatum"
         name="startDateTime"
       />
       <FormFieldInputDatetimeLocal
-        description="När du vill att bilden ska sluta visas i karusellen. Om inget väljs kommer den visas föralltid."
+        description="När du vill att bilden ska sluta visas i karusellen. Om inget väljs kommer den visas för alltid."
         form={form}
-        label="Slut datum"
+        label="Slutdatum"
         name="endDateTime"
       />
     </FormWrapper>
