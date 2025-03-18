@@ -30,10 +30,14 @@ const FormFieldInputDatetimeLocal = <TFieldValues extends FieldValues>({
               {...field}
               onChange={(event) => {
                 const value = event.target.value;
-                field.onChange(value !== "" ? value + ":00.000Z" : "");
+                field.onChange(
+                  value !== "" ? new Date(value).toISOString() : "",
+                );
               }}
               type="datetime-local"
-              value={(form.getValues(name) || "").slice(0, -8)}
+              value={new Date(form.getValues(name) || "")
+                .toISOString()
+                .slice(0, -8)}
             />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}

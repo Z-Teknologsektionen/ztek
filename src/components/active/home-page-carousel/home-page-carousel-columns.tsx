@@ -58,7 +58,7 @@ export const homePageCarouselColumns: ColumnDef<HomePageCarouselItemType>[] = [
 
       if (date === null) return <BooleanCell value={false} />;
 
-      return dayjs.utc(date).format("YYYY-MM-DD HH:mm");
+      return dayjs(date).format("YYYY-MM-DD HH:mm");
     },
     enableSorting: true,
     enableHiding: true,
@@ -74,7 +74,7 @@ export const homePageCarouselColumns: ColumnDef<HomePageCarouselItemType>[] = [
 
       if (date === null) return <BooleanCell value={false} />;
 
-      return dayjs.utc(date).format("YYYY-MM-DD HH:mm");
+      return dayjs(date).format("YYYY-MM-DD HH:mm");
     },
     enableSorting: true,
     enableHiding: true,
