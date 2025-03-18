@@ -8,9 +8,9 @@ import { HomePageCarouselTableToolbar } from "./home-page-carousel-table-toolbar
 
 const HomePageCarouselTab: FC = () => {
   const {
-    data: caruselItems,
-    isError: isErrorCaruselItems,
-    isLoading: isLoadingCaruselItems,
+    data: carouselItems,
+    isError: isErrorCarouselItems,
+    isLoading: isLoadingCarouselItems,
   } = api.homePageCarousel.getManyByCommitteeIdAsActive.useQuery();
 
   return (
@@ -18,9 +18,9 @@ const HomePageCarouselTab: FC = () => {
       <SectionWrapper>
         <AdvancedDataTable
           columns={homePageCarouselColumns}
-          data={caruselItems || []}
-          error={isErrorCaruselItems}
-          loading={isLoadingCaruselItems}
+          data={carouselItems || []}
+          error={isErrorCarouselItems}
+          loading={isLoadingCarouselItems}
           toolbar={HomePageCarouselTableToolbar}
         />
       </SectionWrapper>

@@ -8,13 +8,13 @@ import FormFieldSelect from "~/components/forms/form-field-select";
 import FormWrapper from "~/components/forms/form-wrapper";
 
 import { useRequireAuth } from "~/hooks/useRequireAuth";
-import { createHomePageCarucellSchema } from "~/schemas/home-page-carousel";
+import { createHomePageCarouselSchema } from "~/schemas/home-page-carousel";
 import type { IUpsertForm } from "~/types/form-types";
 import { api } from "~/utils/api";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 
 type UpsertHomePageCarouselFormProps = IUpsertForm<
-  typeof createHomePageCarucellSchema
+  typeof createHomePageCarouselSchema
 >;
 
 const DEFAULT_VALUES: UpsertHomePageCarouselFormProps["defaultValues"] = {
@@ -40,8 +40,8 @@ const UpsertHomePageCarouselForm: FC<UpsertHomePageCarouselFormProps> = ({
       })) || []
     : [];
 
-  const form = useForm<z.infer<typeof createHomePageCarucellSchema>>({
-    resolver: zodResolver(createHomePageCarucellSchema),
+  const form = useForm<z.infer<typeof createHomePageCarouselSchema>>({
+    resolver: zodResolver(createHomePageCarouselSchema),
     defaultValues: {
       ...DEFAULT_VALUES,
       committeeId: session?.user.committeeId || "unknown",

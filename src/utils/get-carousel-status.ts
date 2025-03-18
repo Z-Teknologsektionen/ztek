@@ -1,6 +1,6 @@
 import type { visibilityStates } from "~/constants/home-page-carousel";
 
-export const getCarusellStatusName = (
+export const getCarouselStatusName = (
   status: (typeof visibilityStates)[number],
 ): string => {
   switch (status) {
@@ -13,7 +13,7 @@ export const getCarusellStatusName = (
   }
 };
 
-export const getCarusellStatusFromDates = ({
+export const getCarouselStatusFromDates = ({
   endDateTime,
   startDateTime,
 }: {

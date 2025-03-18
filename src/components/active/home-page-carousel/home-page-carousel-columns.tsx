@@ -9,7 +9,7 @@ import { visibilityStates } from "~/constants/home-page-carousel";
 import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import { type RouterOutputs } from "~/utils/api";
 import { dayjs } from "~/utils/dayjs";
-import { getCarusellStatusFromDates } from "~/utils/get-carusell-status";
+import { getCarouselStatusFromDates } from "~/utils/get-carousel-status";
 import { HomePageCarouselTableActions } from "./home-page-carousel-table-actions";
 
 export type HomePageCarouselItemType =
@@ -86,7 +86,7 @@ export const homePageCarouselColumns: ColumnDef<HomePageCarouselItemType>[] = [
     accessorKey: "isShown",
     header: ({ column }) => <DataTableColumnHeader column={column} />,
     cell: ({ row }) => {
-      const status = getCarusellStatusFromDates(row.original);
+      const status = getCarouselStatusFromDates(row.original);
 
       if (status === "scheduled")
         return <BadgeCell variant="outline">Schemalagd</BadgeCell>;
@@ -106,7 +106,7 @@ export const homePageCarouselColumns: ColumnDef<HomePageCarouselItemType>[] = [
         .safeParse(rawFilterValue);
       if (!filterValue.success) return false;
 
-      const currentValue = getCarusellStatusFromDates(row.original);
+      const currentValue = getCarouselStatusFromDates(row.original);
 
       return filterValue.data.includes(currentValue);
     },

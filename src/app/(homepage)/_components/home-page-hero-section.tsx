@@ -1,11 +1,11 @@
 import { type FC } from "react";
-import { getHomePageCarucellItems } from "~/app/(homepage)/_utils/get-home-page-carucell-items";
+import { getHomePageCarouselItems } from "~/app/(homepage)/_utils/get-home-page-carousel-items";
 import { HomePageHeroCarousel } from "./home-page-hero-carousel";
 import { HomePageHeroLinks } from "./home-page-hero-links";
 import { HomePageHeroSponsors } from "./home-page-hero-sponsors";
 
 export const HomePageHeroSection: FC = async () => {
-  const carucellItems = await getHomePageCarucellItems();
+  const carouselItems = await getHomePageCarouselItems();
 
   return (
     <div className="mx-auto mt-4 flex max-w-7xl flex-col gap-4 px-6 py-4 md:grid md:grid-cols-2 md:gap-8 md:px-4 xl:px-2 2xl:px-0">
@@ -22,7 +22,7 @@ export const HomePageHeroSection: FC = async () => {
         </p>
       </div>
       <div className="flex flex-col gap-4 md:row-span-3 md:gap-2">
-        <HomePageHeroCarousel items={carucellItems} />
+        <HomePageHeroCarousel items={carouselItems} />
         <HomePageHeroLinks />
       </div>
       <HomePageHeroSponsors />

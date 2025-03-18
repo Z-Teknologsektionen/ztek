@@ -8,7 +8,7 @@ import { visibilityStates } from "~/constants/home-page-carousel";
 import { useCreateCarouselAsActive } from "~/hooks/mutations/useMutateHomePageCarousel";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
-import { getCarusellStatusName } from "~/utils/get-carusell-status";
+import { getCarouselStatusName } from "~/utils/get-carousel-status";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 import UpsertHomePageCarouselForm from "./upsert-home-page-carousel-form";
 
@@ -64,7 +64,7 @@ export const HomePageCarouselTableToolbar = <TData,>({
             column={isVisibleColumn}
             options={visibilityStates.map((state) => ({
               value: state,
-              label: getCarusellStatusName(state),
+              label: getCarouselStatusName(state),
             }))}
             title="Filtera på synlighet"
           />

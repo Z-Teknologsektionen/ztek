@@ -6,7 +6,7 @@ import {
   objectId,
 } from "./helpers/custom-zod-helpers";
 
-const homePageCarucellBaseSchema = z.object({
+const homePageCarouselBaseSchema = z.object({
   imageUrl: httpsUrlString,
   linkToUrl: httpsUrlString.or(emptyString.transform(() => null)).nullable(),
   committeeId: objectId,
@@ -14,8 +14,8 @@ const homePageCarucellBaseSchema = z.object({
   endDateTime: datetimeString.nullable(),
 });
 
-export const createHomePageCarucellSchema = homePageCarucellBaseSchema;
+export const createHomePageCarouselSchema = homePageCarouselBaseSchema;
 
-export const updateHomePageCarucellSchema = createHomePageCarucellSchema
+export const updateHomePageCarouselSchema = createHomePageCarouselSchema
   .partial()
   .extend({ id: objectId });
