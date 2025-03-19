@@ -17,6 +17,10 @@ const FormFieldInputDatetimeLocal = <TFieldValues extends FieldValues>({
   disabled,
   form,
 }: IFormFieldInputDatetimeLocal<TFieldValues>): JSX.Element => {
+  const formattedValue = form.getValues(name)
+    ? new Date(form.getValues(name)).toISOString().slice(0, -8)
+    : "";
+
   return (
     <FormField
       control={form.control}
@@ -35,9 +39,7 @@ const FormFieldInputDatetimeLocal = <TFieldValues extends FieldValues>({
                 );
               }}
               type="datetime-local"
-              value={new Date(form.getValues(name) || "")
-                .toISOString()
-                .slice(0, -8)}
+              value={formattedValue}
             />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
