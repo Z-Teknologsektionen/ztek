@@ -5,12 +5,14 @@ import type {
   SubmitHandler,
   UseFormReturn,
 } from "react-hook-form";
-import type { z } from "zod";
+import type { input, output, ZodEffects, ZodObject, ZodRawShape } from "zod";
 
-export interface IUpsertForm<schema extends z.ZodObject<z.ZodRawShape>> {
-  defaultValues?: z.input<schema>;
+export interface IUpsertForm<
+  schema extends ZodObject<ZodRawShape> | ZodEffects<ZodObject<ZodRawShape>>,
+> {
+  defaultValues?: input<schema>;
   formType: "create" | "update";
-  onSubmit: SubmitHandler<z.output<schema>>;
+  onSubmit: SubmitHandler<output<schema>>;
 }
 
 export interface IFormFieldDefaults<
