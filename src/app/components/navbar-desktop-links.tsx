@@ -1,7 +1,7 @@
 import { type FC } from "react";
 import {
   NavigationMenuList,
-  NavigationMenuWithCenterdContent,
+  NavigationMenuWithCentredContent,
 } from "~/components/ui/navigation-menu";
 import type { NavbarItem } from "~/types/navbar-types";
 import { checkIfNavbarSubItem } from "~/utils/check-if-navbar-item";
@@ -18,7 +18,7 @@ export const NavbarDesktopLinks: FC<NavbarDesktopLinksProps> = ({
   linkItems,
 }) => {
   return (
-    <NavigationMenuWithCenterdContent className="hidden lg:flex">
+    <NavigationMenuWithCentredContent className="hidden lg:flex">
       <NavigationMenuList className="flex items-center justify-center">
         {linkItems.map((link) => {
           if (!checkIfNavbarSubItem(link)) {
@@ -42,6 +42,6 @@ export const NavbarDesktopLinks: FC<NavbarDesktopLinksProps> = ({
           }
         })}
       </NavigationMenuList>
-    </NavigationMenuWithCenterdContent>
+    </NavigationMenuWithCentredContent>
   );
 };

@@ -67,9 +67,9 @@ export const getZenithMediaFilename = ({
   uploadDateString: string;
   year: number;
 }): string => {
-  const formatedTitle = slugifyString(title);
-  const formatedOrder = order.toString().padStart(3, "0");
+  const formattedTitle = slugifyString(title);
+  const formattedOrder = order.toString().padStart(3, "0");
 
   // Format: {uploadDate}-{title}-{year}-{order}
-  return `${uploadDateString}-${formatedTitle}-${year}-${formatedOrder}.${fileExtension}`;
+  return `${uploadDateString}-${formattedTitle}-${year}-${formattedOrder}.${fileExtension}`;
 };

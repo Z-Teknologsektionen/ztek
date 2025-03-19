@@ -2,7 +2,7 @@
   /*courseName: Kursnamn
     points: Antal HP för kursen
     followUp: Om det är en kurs som gått en tidigare LP. GRUDAT LP3 har followUp:false medan GRUDAT LP4 har followup:true
-    url: Urlen till kursens på chalmers hemsidas*/
+    url: Url till kursens på Chalmers hemsida*/
 }
 export const courseData = {
   "Årskurs 1": {
@@ -110,7 +110,7 @@ export const courseData = {
     ],
     "Läsperiod 2": [
       {
-        courseName: "Datastruktuer och algoritmer",
+        courseName: "Datastrukturer och algoritmer",
         points: 6,
         followUp: false,
         url: "https://www.chalmers.se/utbildning/dina-studier/hitta-kurs-och-programplaner/kursplaner/DAT525/",

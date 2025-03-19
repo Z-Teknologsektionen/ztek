@@ -32,10 +32,10 @@ export const StudentLongerInfoSection: FC = () => {
         </div>
         <div className="col-span-full mx-auto md:col-span-1">
           <ImageWithCredit
-            alt="Bild på zäta-studenter"
+            alt="Bild på Z-studenter"
             height={800}
             photoCommittee="zFoto"
-            photographer="Casper Ludberg"
+            photographer="Casper Lundberg"
             src="/z_student.jpg"
             width={800}
           />

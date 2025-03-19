@@ -29,16 +29,16 @@ const CommitteesPage: FC = async () => {
         frågor. För att läsa mer om de olika organen kan du klicka på dem nedan.
       </div>
       {Object.values(CommitteeType).map((committeeType) => {
-        const filterdCommitteesByType = committees?.filter((committee) => {
+        const filteredCommitteesByType = committees?.filter((committee) => {
           return committee.committeeType === committeeType;
         });
-        if (filterdCommitteesByType?.length === 0) return null;
+        if (filteredCommitteesByType?.length === 0) return null;
         return (
           <div key={committeeType}>
             <SecondaryTitle className="mb-4" center>
               {getCommitteeTypeStringFromEnum(committeeType, true)}
             </SecondaryTitle>
-            <CommitteesLayout committees={filterdCommitteesByType} />
+            <CommitteesLayout committees={filteredCommitteesByType} />
           </div>
         );
       })}

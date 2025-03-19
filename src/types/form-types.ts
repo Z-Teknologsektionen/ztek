@@ -23,7 +23,7 @@ export interface IFormFieldDefaults<
   name: Path<TFieldValues>;
 }
 
-export interface IFormFieldMapableDefaults<TFieldValues extends FieldValues>
+export interface IFormFieldMappableDefaults<TFieldValues extends FieldValues>
   extends IFormFieldDefaults<TFieldValues> {
   options: { label: string; value: string }[];
   placeholder: string;
@@ -43,14 +43,14 @@ export interface IFormFieldCheckbox<
 }
 
 export interface IFormFieldSelect<TFieldValues extends FieldValues>
-  extends IFormFieldMapableDefaults<TFieldValues> {
+  extends IFormFieldMappableDefaults<TFieldValues> {
   scrollArea?: boolean;
 }
 
 export interface IFormFieldCombobox<TFieldValues extends FieldValues>
-  extends IFormFieldMapableDefaults<TFieldValues> {
+  extends IFormFieldMappableDefaults<TFieldValues> {
   noResultsText: string;
-  serchText: string;
+  searchText: string;
 }
 
 export interface IFormFieldInputImage<

@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { useFieldArray } from "react-hook-form";
-
 import { MdAdd } from "react-icons/md";
 import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldInputNumber from "~/components/forms/form-field-input-number";
