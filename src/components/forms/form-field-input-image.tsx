@@ -1,6 +1,8 @@
+import { X } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import type { FieldValues, Path, PathValue } from "react-hook-form";
+import { UploadAndCropButton } from "~/components/cropper/upload-and-crop-button";
 import { Button } from "~/components/ui/button";
 import {
   FormControl,
@@ -10,9 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
 import type { IFormFieldInputImage } from "~/types/form-types";
-import { getBase64WebPStringFromFileInput } from "~/utils/get-base64-webp-string-from-file-input";
 import { cn } from "~/utils/utils";
 
 const FormFieldInputImage = <TFieldValues extends FieldValues>({
@@ -23,10 +23,10 @@ const FormFieldInputImage = <TFieldValues extends FieldValues>({
   maxHeight,
   maxWidth,
   quality,
-  containImage = false,
   form,
-  className,
-  rounded,
+  circularCrop = false,
+  ruleOfThirds = false,
+  freeCrop = false,
 }: IFormFieldInputImage<TFieldValues>): JSX.Element => {
   const [image, setImage] = useState<string>(form.getValues(name));
 
@@ -47,52 +47,43 @@ const FormFieldInputImage = <TFieldValues extends FieldValues>({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           {image !== "" && (
-            <Image
-              alt="preview of image"
-              className={cn(
-                "mx-auto object-center",
-                containImage ? "object-contain" : "object-cover",
-                rounded && "rounded-full",
-                "text-transparent",
-                "after:relative after:-top-6 after:z-10 after:grid after:h-full after:max-h-64 after:min-h-[8rem] after:w-full after:place-content-center after:truncate after:text-center after:text-xl after:text-black after:content-['Ladda_upp_bild']",
-              )}
-              height={maxHeight}
-              quality={quality}
-              src={image}
-              style={{ height: scaledHeight, width: scaledWidth }}
-              width={maxWidth}
-            />
-          )}
-          <FormControl>
-            <div className="flex w-auto gap-2">
-              <Input
-                {...field}
-                accept="image/*"
+            <div className="relative">
+              <Image
+                alt="preview of image"
                 className={cn(
-                  "text-transparent hover:cursor-pointer",
-                  className,
+                  "mx-auto object-contain object-center",
+                  circularCrop && "rounded-full",
                 )}
-                onChange={(event) => {
-                  getBase64WebPStringFromFileInput({
-                    event,
-                    maxHeight,
-                    maxWidth,
-                    quality,
-                  })
-                    .then((val) => setValue(val))
-                    .catch(() => setValue(""));
-                }}
-                type="file"
-                value={""}
+                height={maxHeight}
+                quality={quality}
+                src={image}
+                style={{ height: scaledHeight, width: scaledWidth }}
+                width={maxWidth}
               />
               <Button
+                className="absolute top-0 h-6 w-6 rounded-full -translate-x-1/2 -translate-y-1/2"
                 onClick={() => setValue("")}
-                type="button"
-                variant="ghost"
+                size="icon"
+                style={{ left: `calc(50% + ${scaledWidth / 2}px)` }}
+                variant="destructive"
               >
-                Rensa bild
+                <X className="h-4 w-4" />
+                <span className="sr-only">Radera bild</span>
               </Button>
             </div>
+          )}
+          <FormControl>
+            <UploadAndCropButton
+              accept={{ "image/*": [] }}
+              circularCrop={circularCrop}
+              disabled={field.disabled}
+              finalHeight={maxHeight}
+              finalWidth={maxWidth}
+              freeCrop={freeCrop}
+              onComplete={setValue}
+              quality={quality}
+              ruleOfThirds={ruleOfThirds}
+            />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />

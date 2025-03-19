@@ -30,6 +30,7 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
   const { mutate: updateCommitteeAsActive } = useUpdateCommitteeAsActive({
     onSuccess: () => setIsOpen(false),
   });
+
   return (
     <div className="sticky top-2">
       <Card className="flex flex-col content-center items-center bg-cardBackground text-center">

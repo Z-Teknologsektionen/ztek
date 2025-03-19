@@ -15,7 +15,7 @@ const DEFAULT_VALUES: UpsertContactFormProps["defaultValues"] = {
   recipients: ["webbgruppen@ztek.se"],
   message: "",
   subject: "Kontakt - ztek.se",
-  cc: [],
+  cc: "",
   sender: "noreply@ztek.se",
 };
 
@@ -37,9 +37,8 @@ export const UpsertContactForm: FC<UpsertContactFormProps> = ({
       resetForm={() => form.reset()}
     >
       <FormFieldInput
-        description="Din email"
         form={form}
-        label="Epost"
+        label="Din mail"
         name="cc"
         placeholder="lucky@ztek.se"
         type="email"
