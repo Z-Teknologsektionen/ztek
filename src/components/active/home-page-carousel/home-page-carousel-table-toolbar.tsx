@@ -96,8 +96,9 @@ export const HomePageCarouselTableToolbar = <TData,>({
                 size="lg"
                 type="button"
                 variant="outline"
+                asChild
               >
-                Lägg till
+                <div>Lägg till</div>
               </Button>
             }
           />
