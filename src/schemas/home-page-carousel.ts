@@ -6,6 +6,20 @@ import {
   objectId,
 } from "./helpers/custom-zod-helpers";
 
+const endDateAfterStartDate = ({
+  endDateTime,
+  startDateTime,
+}: {
+  endDateTime?: string | null;
+  startDateTime?: string | null;
+}): boolean => {
+  if (startDateTime && endDateTime) {
+    return new Date(endDateTime) > new Date(startDateTime);
+  }
+
+  return true;
+};
+
 const homePageCarouselBaseSchema = z.object({
   imageUrl: httpsUrlString,
   linkToUrl: httpsUrlString.or(emptyString.transform(() => null)).nullable(),
@@ -14,8 +28,18 @@ const homePageCarouselBaseSchema = z.object({
   endDateTime: datetimeString.nullable(),
 });
 
-export const createHomePageCarouselSchema = homePageCarouselBaseSchema;
+export const createHomePageCarouselSchema = homePageCarouselBaseSchema.refine(
+  endDateAfterStartDate,
+  {
+    message: "Slutdatum måste vara efter startdatum",
+    path: ["endDateTime"],
+  },
+);
 
-export const updateHomePageCarouselSchema = createHomePageCarouselSchema
+export const updateHomePageCarouselSchema = homePageCarouselBaseSchema
   .partial()
-  .extend({ id: objectId });
+  .extend({ id: objectId })
+  .refine(endDateAfterStartDate, {
+    message: "Slutdatum måste vara efter startdatum",
+    path: ["endDateTime"],
+  });
