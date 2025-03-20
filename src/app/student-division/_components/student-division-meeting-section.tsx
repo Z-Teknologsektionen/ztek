@@ -15,12 +15,12 @@ import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
 const DOCUMENTGROUP_KEY = "Mallar för sektionsmötet";
 
 const StudentDivisionMeetingDocuments: FC = async () => {
-  const documents = await getOneDocumentGroupByName(DOCUMENTGROUP_KEY);
+  const documentGroup = await getOneDocumentGroupByName(DOCUMENTGROUP_KEY);
 
   return (
     <div className="mr-2 grid grid-cols-4">
-      {documents &&
-        documents.Document.map((document) => (
+      {documentGroup &&
+        documentGroup.documents.map((document) => (
           <div key={document.title} className="col-span-1 mx-2 mb-2 truncate">
             <TooltipProvider delayDuration={TOOLTIP_DELAY_MS}>
               <Tooltip>

@@ -3,7 +3,11 @@ import { prisma } from "~/server/db";
 
 export const getOneDocumentGroupByName = unstable_cache(
   async (name: string) => {
-    const documentGroup = await prisma.documentGroup.findUniqueOrThrow({
+    const {
+      Document: documents,
+      extraText,
+      name: groupName,
+    } = await prisma.documentGroup.findUniqueOrThrow({
       where: {
         name,
       },
@@ -21,7 +25,7 @@ export const getOneDocumentGroupByName = unstable_cache(
       },
     });
 
-    return documentGroup;
+    return { documents, extraText, name: groupName };
   },
   undefined,
   {
