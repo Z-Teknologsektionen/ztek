@@ -1,15 +1,15 @@
-import type { NextPage } from "next";
 import Link from "next/link";
+import type { FC } from "react";
 import { Button } from "~/components/ui/button";
 
-const UnauthorizedPage: NextPage = () => {
+const UnauthorizedPage: FC = () => {
   return (
     <>
-      <div className="grid flex-grow place-items-center">
+      <div className="grid flex-grow place-items-center py-16">
         <section className="flex flex-col items-center gap-12">
           <h1 className="text-5xl">Obehörig</h1>
           <p className="text-bala max-w-2xl text-center text-xl">
-            Du är inloggad, men du har inte den berhörigheten som krävs för att
+            Du är inloggad, men du har inte den behörigheten som krävs för att
             se denna sida.
           </p>
           <Button variant="link" asChild>
