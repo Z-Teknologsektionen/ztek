@@ -10,6 +10,10 @@ const navbarRoutes: NavbarItem[] = [
         label: "Om Sektionen",
       },
       {
+        label: "Mentorskapsprogram",
+        href: "https://www.argz.se/mentorskapsprogram/",
+      },
+      {
         label: "Studiesocialt stöd",
         href: "/student/student-health",
       },
