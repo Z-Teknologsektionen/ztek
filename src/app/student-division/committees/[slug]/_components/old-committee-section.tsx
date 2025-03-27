@@ -1,15 +1,15 @@
 import type { FC } from "react";
-import { getOldCommitteeByCommitteeId } from "~/app/student-division/committees/[slug]/_utils/get-old-committes-by-committee-id";
+import { getOldCommitteeByCommitteeId } from "~/app/student-division/committees/[slug]/_utils/get-old-committees-by-committee-id";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
 import { OldCommitteeCard } from "./old-committee-card";
 
-type OldCommitteSectionProps = {
+type OldCommitteeSectionProps = {
   committeeId: string;
   committeeName: string;
 };
 
-export const OldCommitteSection: FC<OldCommitteSectionProps> = async ({
+export const OldCommitteeSection: FC<OldCommitteeSectionProps> = async ({
   committeeId,
   committeeName,
 }) => {

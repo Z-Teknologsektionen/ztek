@@ -11,11 +11,11 @@ import { buttonVariants } from "~/components/ui/button";
 import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 
-const DOCUMENTGROUP_KEY = "Dokument för Zaloonen";
+const DOCUMENT_GROUP_KEY = "Dokument för Zaloonen";
 
 const ZaloonenPage: NextPage = () => {
   const { data, isLoading, isError } = api.document.getOneGroupByName.useQuery({
-    name: DOCUMENTGROUP_KEY,
+    name: DOCUMENT_GROUP_KEY,
   });
 
   return (
@@ -116,7 +116,7 @@ const ZaloonenPage: NextPage = () => {
 export default ZaloonenPage;
 
 export const getStaticProps: GetStaticProps = async () => {
-  await ssg.document.getOneGroupByName.prefetch({ name: DOCUMENTGROUP_KEY });
+  await ssg.document.getOneGroupByName.prefetch({ name: DOCUMENT_GROUP_KEY });
   return {
     props: {
       trpcState: ssg.dehydrate(),

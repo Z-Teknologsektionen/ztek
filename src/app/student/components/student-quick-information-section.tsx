@@ -24,8 +24,8 @@ export const StudentQuickInformationSection: FC = () => {
           <div className="pb-4">
             <SecondaryTitle center>Söka Z?</SecondaryTitle>
             <p className="mx-4">
-              Funderar du på om Z är rätt pogram för dig? Klicka här isåfall för
-              att läsa mer om programmet och vad du kan förvänta dig!
+              Funderar du på om Z är rätt program för dig? Klicka här i så fall
+              för att läsa mer om programmet och vad du kan förvänta dig!
             </p>
           </div>
           <CenteredButtonWithLink href="/student/new-student">

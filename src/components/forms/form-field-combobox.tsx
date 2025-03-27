@@ -33,7 +33,7 @@ const FormFieldCombobox = <TFieldValues extends FieldValues>({
   description,
   placeholder,
   disabled,
-  serchText,
+  searchText,
   noResultsText,
   resetButton,
 }: IFormFieldCombobox<TFieldValues>): React.JSX.Element => {
@@ -67,7 +67,7 @@ const FormFieldCombobox = <TFieldValues extends FieldValues>({
               </PopoverTrigger>
               <PopoverContent side="bottom" sideOffset={4}>
                 <Command>
-                  <CommandInput placeholder={serchText} />
+                  <CommandInput placeholder={searchText} />
                   <ScrollArea className="h-48">
                     <CommandEmpty>{noResultsText}</CommandEmpty>
                     <CommandGroup>

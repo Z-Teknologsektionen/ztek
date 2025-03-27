@@ -12,10 +12,10 @@ import {
 } from "~/components/ui/tooltip";
 import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
 
-const DOCUMENTGROUP_KEY = "Mallar för sektionsmötet";
+const DOCUMENT_GROUP_KEY = "Mallar för sektionsmötet";
 
 const StudentDivisionMeetingDocuments: FC = async () => {
-  const documents = await getOneDocumentGroupByName(DOCUMENTGROUP_KEY);
+  const documents = await getOneDocumentGroupByName(DOCUMENT_GROUP_KEY);
 
   return (
     <div className="mr-2 grid grid-cols-4">
@@ -69,7 +69,7 @@ export const StudentDivisionMeetingSection: FC = () => {
           medlemmar är inbjudna till alla sektionsmöten och man uppmuntras
           starkt att gå på dessa. Alla beslut som tas på sektionsmötet är
           demokratiska där allas röst väger lika tungt. Finns det något du vill
-          ändra på eller tycker du att sektionen saknar något? Isåfall kan du
+          ändra på eller tycker du att sektionen saknar något? I så fall kan du
           skriva en motion till sektionsmötet och skicka den till{" "}
           <StyledLink href="mailto:ztyret@ztek.se">ztyret@ztek.se</StyledLink>{" "}
           senast 7 dagar innan sektionsmötet. Det går också att skriva en{" "}

@@ -63,7 +63,7 @@ export const ZenithMediaTableToolbar = <TData,>({
                   year,
                   order,
                 }) => {
-                  const loadningToastId = toast.loading(
+                  const loadingToastId = toast.loading(
                     "Laddar upp media. Detta kan ta en stund!",
                   );
 
@@ -99,7 +99,7 @@ export const ZenithMediaTableToolbar = <TData,>({
                       "Något gick fel. Försök igen senare eller kontakta webbgruppen",
                     );
                   } finally {
-                    toast.dismiss(loadningToastId);
+                    toast.dismiss(loadingToastId);
                   }
                 }}
               />

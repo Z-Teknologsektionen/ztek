@@ -35,10 +35,9 @@ export const StudentDivisionCommitteesSection: FC = async () => {
           Det är sektionsmötet som bestämmer vilka som får sitta i vilka organ.
           Till sektionens hjälp finns valberedningen som anslår nomineringar
           innan varje sektionsmöte. Valberedningen finns till för att
-          säkerhetsställa att alla sökande söker på lika villkor. Att bli
-          nominerad till en post är inte det samma som att bli invald. En eller
-          flera personer kan väljas in i ett organ utan att ha blivit
-          nominerade.
+          säkerställa att alla sökande söker på lika villkor. Att bli nominerad
+          till en post är inte det samma som att bli invald. En eller flera
+          personer kan väljas in i ett organ utan att ha blivit nominerade.
           <br />
           <br />
           Inför varje sektionsmöte så brukar en azpning hållas. Detta är ett

@@ -69,7 +69,7 @@ enum IconEnum {
     CAMERA
     QUESTIONMARK
     HOME
-    DOCUEMNT
+    DOCUMENT     @map("DOCUEMNT") // Old typo, map to previous spelling
 }
 
 model OldCommittee {

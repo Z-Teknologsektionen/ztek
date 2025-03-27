@@ -48,7 +48,7 @@ export const UpsertDocumentForm: FC<UpsertDocumentFormProps> = ({
         name="isPDF"
       />
       <FormFieldSelect
-        description={`Om du inte hittar en grupp som passar kan du skapa en ny fliken "Administera dokument".`}
+        description={`Om du inte hittar en grupp som passar kan du skapa en ny fliken "Dokument".`}
         form={form}
         label="Dokumentgrupp"
         name="groupId"
