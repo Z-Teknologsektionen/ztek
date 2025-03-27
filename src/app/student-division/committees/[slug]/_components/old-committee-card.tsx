@@ -10,6 +10,12 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { Avatar, AvatarImage } from "~/components/ui/avatar";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "~/components/ui/dialog";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Separator } from "~/components/ui/separator";
 import { OldCommitteeCardMembers } from "./old-committee-card-members";
@@ -46,13 +52,35 @@ export const OldCommitteeCard: FC<OldCommitteeCardProps> = ({
     >
       <AccordionItem className="border-none" value="image">
         <AccordionContent>
-          <CommitteeImage
-            alt={
-              image ? `Gruppbild på medlemmarna i ${name}` : `Logga på ${name}`
-            }
-            className="object-contain"
-            filename={image || logo}
-          />
+          <Dialog>
+            <DialogTrigger>
+              <CommitteeImage
+                alt={
+                  image
+                    ? `Gruppbild på medlemmarna i ${name}`
+                    : `Logga på ${name}`
+                }
+                className="object-contain"
+                filename={image || logo}
+              />
+            </DialogTrigger>
+            <DialogContent>
+              <DialogTitle>
+                {image
+                  ? `Gruppbild på medlemmarna i ${name}`
+                  : `Logga på ${name}`}
+              </DialogTitle>
+              <CommitteeImage
+                alt={
+                  image
+                    ? `Gruppbild på medlemmarna i ${name}`
+                    : `Logga på ${name}`
+                }
+                className="h-auto w-full object-contain"
+                filename={image || logo}
+              />
+            </DialogContent>
+          </Dialog>
         </AccordionContent>
       </AccordionItem>
       <AccordionItem className="border-none" value="members">
@@ -63,16 +91,28 @@ export const OldCommitteeCard: FC<OldCommitteeCardProps> = ({
           <ScrollArea className="h-64 px-2">
             <div className="flex flex-col items-center gap-2">
               {logo && (
-                <>
-                  <Avatar className="mx-auto h-16 w-16">
-                    <AvatarImage
-                      alt="Logga"
-                      className="object-contain object-center"
-                      src={logo}
-                    />
-                  </Avatar>
-                  <Separator className="mx-auto w-4/5 bg-zLightGray" />
-                </>
+                <Dialog>
+                  <DialogTrigger>
+                    <Avatar className="mx-auto h-16 w-16">
+                      <AvatarImage
+                        alt="Logga"
+                        className="object-contain object-center"
+                        src={logo}
+                      />
+                    </Avatar>
+                    <Separator className="mx-auto w-4/5 bg-zLightGray" />
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogTitle>{name}</DialogTitle>
+                    <Avatar className="mx-auto h-auto w-full">
+                      <AvatarImage
+                        alt="Logga"
+                        className="object-contain object-center"
+                        src={logo}
+                      />
+                    </Avatar>
+                  </DialogContent>
+                </Dialog>
               )}
               <p className="text-center italic">{name}s medlemmar</p>
               <OldCommitteeCardMembers members={members} />
