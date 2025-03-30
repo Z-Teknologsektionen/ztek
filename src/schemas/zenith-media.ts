@@ -15,7 +15,8 @@ export const zenithMediaBaseSchema = z.object({
   title: nonEmptyString,
   year: validYearPastOrCurrent,
   order: mediaOrderNumber.nullable(),
-  coverImage: base64WebPImageString,
+  coverImage: base64WebPImageString.or(emptyString).or(httpsUrlString),
+  coverImageFile: sftpFile.optional().nullable(),
 });
 
 export const createZenithMediaClientSchema = zenithMediaBaseSchema.extend({

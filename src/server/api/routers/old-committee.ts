@@ -1,5 +1,7 @@
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
+import { deleteFileFromSftpServer } from "~/app/api/sftp/utils/sftp-engine";
+import { env } from "~/env.mjs";
 import {
   objectId,
   standardBoolean,
@@ -146,6 +148,28 @@ export const oldCommitteeRouter = createTRPCRouter({
           id,
         },
       });
+
+      // Check if it has images and delete them
+      if (
+        deletedOldCommittee.image &&
+        deletedOldCommittee.image.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)
+      ) {
+        try {
+          await deleteFileFromSftpServer({ url: deletedOldCommittee.image });
+        } catch (error) {
+          console.error("Failed to delete old committee image:", error);
+        }
+      }
+      if (
+        deletedOldCommittee.logo &&
+        deletedOldCommittee.logo.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)
+      ) {
+        try {
+          await deleteFileFromSftpServer({ url: deletedOldCommittee.logo });
+        } catch (error) {
+          console.error("Failed to delete old committee logo:", error);
+        }
+      }
 
       revalidateTag("oldCommittee");
 

@@ -1,6 +1,8 @@
 import { TRPCError } from "@trpc/server";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
+import { deleteFileFromSftpServer } from "~/app/api/sftp/utils/sftp-engine";
+import { env } from "~/env.mjs";
 import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
   createMemberSchema,
@@ -228,6 +230,20 @@ export const committeeMemberRouter = createTRPCRouter({
           id,
         },
       });
+
+      // Delete the image on SFTP if it exists
+      if (
+        deletedMember.image &&
+        deletedMember.image.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)
+      ) {
+        try {
+          deleteFileFromSftpServer({
+            url: deletedMember.image,
+          });
+        } catch (error) {
+          console.error("Failed to delete image from SFTP:", error);
+        }
+      }
 
       revalidateTag("committeeMembers");
 

@@ -1,3 +1,4 @@
+"use server";
 import SFTPClient from "ssh2-sftp-client";
 import type {
   DeleteFileFromSftpServerProps,
@@ -28,7 +29,6 @@ export const uploadFileToSftpServer = async ({
 
   try {
     await sftp.connect(sftpConfig);
-
     const fileExists = await sftp.exists(newFilePath);
     if (fileExists && !overwrite) {
       throw new Error(
@@ -40,7 +40,6 @@ export const uploadFileToSftpServer = async ({
     if (!newFolderPathExists) {
       await sftp.mkdir(newFolderPath, true);
     }
-
     await sftp.put(input, newFilePath, sftpOptions);
 
     return getUrlFromPath(newFilePath);

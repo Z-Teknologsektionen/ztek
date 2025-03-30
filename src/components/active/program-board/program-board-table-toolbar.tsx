@@ -7,6 +7,8 @@ import UpsertProgramBoardMemberForm from "~/components/active/program-board/upse
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
+import { imageOperations } from "~/utils/sftp/handle-image-forms";
+import { slugifyString } from "~/utils/string-utils";
 
 interface ProgramBoardTableToolbarProps<TData> {
   table: Table<TData>;
@@ -50,7 +52,25 @@ export const ProgramBoardTableToolbar = <TData,>({
               <UpsertProgramBoardMemberForm
                 key={"new"}
                 formType="create"
-                onSubmit={(values) => createNewProgramBoardMember(values)}
+                onSubmit={async ({ role, imageFile, image, ...values }) => {
+                  const imageResult = await imageOperations.processImageChanges(
+                    {
+                      newImageFile: imageFile,
+                      currentImageUrl: image,
+                      oldImageUrl: "",
+                      entityName: slugifyString(role),
+                    },
+                  );
+
+                  if (!imageResult.success) {
+                    return;
+                  }
+                  createNewProgramBoardMember({
+                    image: imageResult.data || "",
+                    role,
+                    ...values,
+                  });
+                }}
               />
             }
             isOpen={isOpen}

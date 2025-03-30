@@ -59,7 +59,8 @@ export const UpsertMemberAsActiveForm: FC<UpdateMemberAsActiveProps> = ({
         label="Bild (valfri)"
         maxHeight={COMMITTEE_IMAGE_SIZE}
         maxWidth={COMMITTEE_IMAGE_SIZE}
-        name="image"
+        name="imageFile"
+        imageFieldName="image"
         quality={COMMITTEE_IMAGE_QUALITY}
         ruleOfThirds
       />

@@ -31,6 +31,14 @@ const config = {
         protocol: "https",
         hostname: "zfoto.ztek.se",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.ztek.se",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn-test.ztek.se",
+      },
     ],
   },
   webpack: (config) => {
