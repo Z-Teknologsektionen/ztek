@@ -35,11 +35,11 @@ const UpsertCommitteeAsActiveForm: FC<UpsertCommitteeAsActiveFormProps> = ({
     >
       <FormFieldInputImage
         form={form}
+        imageFieldName="image"
         label="Bild (valfri)"
         maxHeight={COMMITTEE_IMAGE_SIZE}
         maxWidth={COMMITTEE_IMAGE_SIZE}
         name="imageFile"
-        imageFieldName="image"
         quality={COMMITTEE_IMAGE_QUALITY}
         ruleOfThirds
       />

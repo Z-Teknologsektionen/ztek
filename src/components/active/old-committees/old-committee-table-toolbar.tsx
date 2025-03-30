@@ -131,7 +131,6 @@ export const OldCommitteeTableToolbar = <TData,>({
                   formType="create"
                   onSubmit={async ({
                     name,
-                    year,
                     image,
                     imageFile,
                     logo,
@@ -143,7 +142,7 @@ export const OldCommitteeTableToolbar = <TData,>({
                         newImageFile: imageFile,
                         currentImageUrl: image,
                         oldImageUrl: "",
-                        entityName: slugifyString(name + year),
+                        entityName: slugifyString(name),
                       });
 
                     const logoResult =
@@ -151,7 +150,7 @@ export const OldCommitteeTableToolbar = <TData,>({
                         newImageFile: logoFile,
                         currentImageUrl: logo,
                         oldImageUrl: "",
-                        entityName: slugifyString(name + year + "logo"),
+                        entityName: slugifyString(name + "logo"),
                       });
 
                     if (!imageResult.success || !logoResult.success) {
@@ -159,7 +158,6 @@ export const OldCommitteeTableToolbar = <TData,>({
                     }
                     createNewOldCommittee({
                       name,
-                      year,
                       logo: logoResult.data || "",
                       image: imageResult.data || "",
                       ...rest,
@@ -190,7 +188,6 @@ export const OldCommitteeTableToolbar = <TData,>({
                 formType="create"
                 onSubmit={async ({
                   name,
-                  year,
                   image,
                   imageFile,
                   logo,
@@ -202,7 +199,7 @@ export const OldCommitteeTableToolbar = <TData,>({
                       newImageFile: imageFile,
                       currentImageUrl: image,
                       oldImageUrl: "",
-                      entityName: slugifyString(name + year),
+                      entityName: slugifyString(name),
                     },
                   );
 
@@ -210,7 +207,7 @@ export const OldCommitteeTableToolbar = <TData,>({
                     newImageFile: logoFile,
                     currentImageUrl: logo,
                     oldImageUrl: "",
-                    entityName: slugifyString(name + year + "logo"),
+                    entityName: slugifyString(name + "logo"),
                   });
 
                   if (!imageResult.success || !logoResult.success) {
@@ -218,7 +215,6 @@ export const OldCommitteeTableToolbar = <TData,>({
                   }
                   createNewOldCommittee({
                     name,
-                    year,
                     logo: logoResult.data || "",
                     image: imageResult.data || "",
                     ...rest,

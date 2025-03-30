@@ -67,11 +67,11 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
       <FormFieldInputImage
         description="Omslagsbilden till mediet"
         form={form}
+        imageFieldName="coverImage"
         label="Omslag"
         maxHeight={600}
         maxWidth={400}
         name="coverImageFile"
-        imageFieldName="coverImage"
         quality={85}
       />
       <TabsSelectFileAndUrl

@@ -237,7 +237,7 @@ export const committeeMemberRouter = createTRPCRouter({
         deletedMember.image.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)
       ) {
         try {
-          deleteFileFromSftpServer({
+          await deleteFileFromSftpServer({
             url: deletedMember.image,
           });
         } catch (error) {
