@@ -32,6 +32,7 @@ const config = {
         hostname: "zfoto.ztek.se",
       },
     ],
+    domains: ["lundbergphoto.com", "page-dholmstrom.vercel.app"],
   },
   webpack: (config) => {
     config.module.rules.push({

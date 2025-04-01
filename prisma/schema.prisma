@@ -215,6 +215,50 @@ model HomePageCarucellItem {
     createdAt      DateTime @default(now())
 }
 
+model Course {
+    id          String  @id @default(auto()) @map("_id") @db.ObjectId
+    name        String
+    description String?
+    code        String  @unique
+    credits     Float
+    year        Int[] //Hur gör vi om den är valbar?
+    courseId    Int //Number chalmers uses to identify the course, different from code
+    studyPeriod Int[]
+
+    documents CourseDocument[]
+
+    examiner        String
+    examinationType String //Kanske enum i framtiden
+
+    //Dubbelkolla om NoAction är rätt att sätta här
+    successorId String? @unique @db.ObjectId
+    successor   Course? @relation("CourseHistory", fields: [successorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    predecessor Course? @relation("CourseHistory")
+
+    updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+}
+
+model CourseDocument {
+    id       String @id @default(auto()) @map("_id") @db.ObjectId
+    courseId String @db.ObjectId
+    Course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+    name         String
+    url          String
+    type         CourseDocumentTypes
+    numDownloads Int                 @default(0)
+
+    createdAt DateTime @default(now())
+}
+
+enum CourseDocumentTypes {
+    EXAM
+    DUGGA
+    LECTURE
+    OTHER
+}
+
 // Next Auth models
 model Account {
     id                String  @id @default(auto()) @map("_id") @db.ObjectId
@@ -282,6 +326,7 @@ enum AccountRoles {
     ZALOONEN
     CREATE_POST
     ORGANIZATION_MANAGEMENT
+    MODIFY_COURSES
     MODIFY_DOCUMENTS
     MODIFY_PROGRAM_BOARD
     MODIFY_ZENITH_MEDIA

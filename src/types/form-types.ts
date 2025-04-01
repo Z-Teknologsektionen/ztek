@@ -25,7 +25,7 @@ export interface IFormFieldDefaults<
 
 export interface IFormFieldMapableDefaults<TFieldValues extends FieldValues>
   extends IFormFieldDefaults<TFieldValues> {
-  options: { label: string; value: string }[];
+  options: { label: string; value: string | number }[];
   placeholder: string;
   resetButton?: boolean;
 }
@@ -53,6 +53,11 @@ export interface IFormFieldCombobox<TFieldValues extends FieldValues>
   serchText: string;
 }
 
+export interface IFormFieldMultiCombobox<TFieldValues extends FieldValues>
+  extends IFormFieldMapableDefaults<TFieldValues> {
+  noResultsText: string;
+  serchText: string;
+}
 export interface IFormFieldInputImage<
   TFieldValues extends FieldValues = FieldValues,
 > extends IFormFieldDefaults<TFieldValues> {

@@ -8,7 +8,6 @@ import {
 import {
   base64WebPImageString,
   committeeOrderNumber,
-  electionPeriod,
   emailString,
   emptyString,
   httpsUrlString,
@@ -18,6 +17,7 @@ import {
   slugString,
   standardBoolean,
   standardString,
+  studyPeriod,
 } from "~/schemas/helpers/custom-zod-helpers";
 
 export const socialIconSchema = z
@@ -95,7 +95,7 @@ export const createCommitteeSchema = upsertCommitteeBaseSchema.extend({
   role: nonEmptyString,
   email: emailString,
   order: committeeOrderNumber,
-  electionPeriods: electionPeriod
+  electionPeriods: studyPeriod
     .array()
     .min(0)
     .max(MAX_ELECTION_PERIOD)

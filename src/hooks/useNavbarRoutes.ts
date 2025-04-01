@@ -14,6 +14,10 @@ const navbarRoutes: NavbarItem[] = [
         href: "/student/student-health",
       },
       {
+        label: "Kurser",
+        href: "/student/courses",
+      },
+      {
         label: "Söka Z",
         href: "/student/new-student",
       },

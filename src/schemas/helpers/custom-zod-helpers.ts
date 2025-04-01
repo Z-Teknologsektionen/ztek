@@ -152,7 +152,7 @@ export const sftpDir = z.enum(SFPT_DIRS, {
   }),
 });
 
-export const electionPeriod = standardNumber
+export const studyPeriod = standardNumber
   .int("Måste vara ett heltal")
   .nonnegative("Måste vara ett ickenegativt tal")
   .min(
@@ -163,3 +163,13 @@ export const electionPeriod = standardNumber
     MAX_ELECTION_PERIOD,
     `Måste vara ett nummer mellan ${MIN_ELECTION_PERIOD} och ${MAX_ELECTION_PERIOD}`,
   );
+
+export const courseCodeString = z.string().regex(/^[A-Z]{3}\d{3}$/, {
+  message:
+    "Kurskoden måste följa följande regler: Tre stora bokstäver följt av tre siffror (e.g., ABC123). Kontakta webbgruppen om detta inte stämmer. ",
+});
+
+export const studyYear = standardNumber
+  .int("Måste vara ett heltal")
+  .min(1)
+  .max(5);

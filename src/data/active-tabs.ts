@@ -3,6 +3,7 @@ import type { FC } from "react";
 import type { IconType } from "react-icons";
 import { FaHome } from "react-icons/fa";
 import AdministerCommitteesTab from "~/components/active/committees";
+import AdministerCoursesTab from "~/components/active/courses";
 import EditDocumentsTab from "~/components/active/documents";
 import EditCommitteeTab from "~/components/active/edit-committee";
 import ActiveStartTab from "~/components/active/home";
@@ -69,6 +70,12 @@ const rawActiveTabs: ActiveTabsProps[] = [
     desc: "Här kan du lägga till, redigera eller ta bort organ.",
     component: AdministerCommitteesTab,
     requiredRole: AccountRoles.ORGANIZATION_MANAGEMENT,
+  },
+  {
+    name: "Kurser",
+    desc: "Administera alla kurser vi har i databasen. Du kan lägga till och ta bort kurser, dokument och annan metadata.",
+    component: AdministerCoursesTab,
+    requiredRole: AccountRoles.MODIFY_COURSES,
   },
   {
     name: "Programledningen",
