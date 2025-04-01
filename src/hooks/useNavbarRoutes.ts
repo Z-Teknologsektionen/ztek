@@ -17,6 +17,11 @@ const navbarRoutes: NavbarItem[] = [
         label: "Söka Z",
         href: "/student/new-student",
       },
+      {
+        label: "Mentorskapsprogram",
+        href: "https://www.argz.se/mentorskapsprogram/",
+        newPage: true,
+      },
     ],
   },
   {
