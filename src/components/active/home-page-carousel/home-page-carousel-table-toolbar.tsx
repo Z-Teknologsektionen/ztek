@@ -66,7 +66,7 @@ export const HomePageCarouselTableToolbar = <TData,>({
               value: state,
               label: getCarouselStatusName(state),
             }))}
-            title="Filtera på synlighet"
+            title="Filtrera på synlighet"
           />
           {isFiltered && (
             <Button

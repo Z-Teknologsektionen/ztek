@@ -50,7 +50,7 @@ export const getSocialIconFromEnum = (type: IconEnum): IconType => {
       return FaQuestionCircle;
     case "HOME":
       return FaHouse;
-    case "DOCUEMNT":
+    case "DOCUMENT":
       return FaFile;
   }
 };
@@ -85,7 +85,7 @@ export const getSocialNameFromEnum = (type: IconEnum): string => {
       return "Frågetecken";
     case "HOME":
       return "Hem";
-    case "DOCUEMNT":
+    case "DOCUMENT":
       return "Dokument";
   }
 };

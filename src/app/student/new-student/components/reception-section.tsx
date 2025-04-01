@@ -21,10 +21,10 @@ export const ReceptionSection: FC = () => {
             viktigaste är att du närmar dig denna period med en positiv
             inställning och är redo att njuta av varje stund! Det är normalt att
             känna nervositet inför mottagningen, men kom ihåg att du inte är
-            ensam. Mottagningskommiten och deras phaddrar kommer göra sitt bästa
-            för att se till att din mottagning blir fantastisk, men det är du
-            som formar din egen upplevelse. Så kom med ett öppet sinne och var
-            redo att ha roligt!
+            ensam. Mottagningskommittén och deras phaddrar kommer göra sitt
+            bästa för att se till att din mottagning blir fantastisk, men det är
+            du som formar din egen upplevelse. Så kom med ett öppet sinne och
+            var redo att ha roligt!
           </p>
           <div className="mr-0 mt-8 grid grid-cols-2 gap-8 md:mr-2">
             <div className="border-gradient col-span-2 rounded-lg md:col-span-1">

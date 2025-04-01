@@ -45,7 +45,7 @@ export const StudentDivisionConstructionSection: FC = () => {
           Sektionen regleras stadgan, reglementet och andra styrdokument. För
           att uppdatera reglementet måste en proposition eller motion röstas
           igenom på ett sektionsmöte. Vid ändringar av stadga måste motionen
-          eller propositionen röstas igeom på två sektionsmöten i följd.
+          eller propositionen röstas igenom på två sektionsmöten i följd.
           Sektionens olika styrdokument hittar du{" "}
           <Link
             className="text-blue-600 hover:text-blue-800 hover:underline"

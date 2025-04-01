@@ -53,8 +53,8 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
               const oldUrl = currentValues.url;
               const hasNewFile = newFile !== undefined;
 
-              const loadningToastId = toast.loading(
-                "Updaterar mediet.\n Detta kan ta en stund!",
+              const loadingToastId = toast.loading(
+                "Uppdaterar mediet.\n Detta kan ta en stund!",
               );
 
               try {
@@ -111,7 +111,7 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
                   "Något gick fel. Försök igen senare eller kontakta webbgruppen",
                 );
               } finally {
-                toast.dismiss(loadningToastId);
+                toast.dismiss(loadingToastId);
               }
             }}
           />

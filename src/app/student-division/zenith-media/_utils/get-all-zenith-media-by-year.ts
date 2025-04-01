@@ -16,14 +16,14 @@ export const getAllZenithMediaByYear = unstable_cache(
 
     const years = [...new Set(rawMedia.map((media) => media.year))];
 
-    const formatedData = years.map((year) => {
+    const formattedData = years.map((year) => {
       return {
         mediaArray: rawMedia.filter((media) => media.year === year),
         year: year,
       };
     });
 
-    return formatedData;
+    return formattedData;
   },
   undefined,
   { revalidate: false, tags: ["zenithMedia"] },

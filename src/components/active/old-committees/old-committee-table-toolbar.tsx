@@ -72,17 +72,17 @@ export const OldCommitteeTableToolbar = <TData,>({
   );
 
   let year = 0;
-  let formatedYear = "";
+  let formattedYear = "";
   if (activeCommittee) {
     year = activeCommittee?.updatedAt.getFullYear();
     if (new Date(new Date().getFullYear(), 0, 1) < activeCommittee?.updatedAt) {
       year -= 1;
     }
-    formatedYear = `${year.toString().slice(2)}/${(year + 1)
+    formattedYear = `${year.toString().slice(2)}/${(year + 1)
       .toString()
       .slice(2)}`;
     if (activeCommittee.electionPeriods.includes(2)) {
-      formatedYear = year.toString().slice(2);
+      formattedYear = year.toString().slice(2);
     }
   }
 
@@ -119,7 +119,7 @@ export const OldCommitteeTableToolbar = <TData,>({
               form={
                 <UpsertOldCommitteeForm
                   defaultValues={{
-                    name: `${activeCommittee.name} ${formatedYear}`,
+                    name: `${activeCommittee.name} ${formattedYear}`,
                     year: year,
                     belongsToCommitteeId: activeCommittee.id,
                     members: activeCommittee.members,

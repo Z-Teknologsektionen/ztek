@@ -11,7 +11,7 @@ export const useCreateOldCommitteeAsActive = ({
   const ctx = api.useUtils();
 
   return api.oldCommittee.createOldCommitteeAsActive.useMutation({
-    onMutate: () => toast.loading("Skapar ny patetgrupp..."),
+    onMutate: () => toast.loading("Skapar ny patetorgan..."),
     onSettled: (_, __, ___, toastId) => {
       toast.dismiss(toastId);
       onSettled?.();
@@ -32,7 +32,7 @@ export const useCreateOldCommitteeAsActive = ({
   });
 };
 
-export const useUpdateOldCommitteAsAuthed = ({
+export const useUpdateOldCommitteeAsAuthed = ({
   onError,
   onSettled,
   onSuccess,
@@ -61,7 +61,7 @@ export const useUpdateOldCommitteAsAuthed = ({
   });
 };
 
-export const useDeleteOldCommitteAsAuthed = ({
+export const useDeleteOldCommitteeAsAuthed = ({
   onError,
   onSettled,
   onSuccess,

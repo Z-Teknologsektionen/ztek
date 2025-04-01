@@ -39,7 +39,7 @@ export const studentQuickLinks: StudentQuickLinkType[] = [
     icon: MdAnalytics,
     href: "https://stats.ftek.se/",
     text: "Tentastatistik",
-    tooltip: "Här kan du se tentastatestik för de flesta kurser på Chalmers.",
+    tooltip: "Här kan du se tentastatistik för de flesta kurser på Chalmers.",
   },
   {
     icon: MdAccountBalance,
