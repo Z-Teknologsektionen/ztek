@@ -40,6 +40,11 @@ export const OldCommitteeCard: FC<OldCommitteeCardProps> = ({
 }) => {
   const [activeAccordion, setActiveAccordion] = useState("image");
 
+  const shownImage = image || logo;
+  const shouldShowImage = shownImage !== "";
+  const shownImageTitle = image
+    ? `Gruppbild på medlemmarna i ${name}`
+    : `${name} - Logga`;
   return (
     <Accordion
       className="flex h-full w-64 flex-col justify-center rounded-lg border p-3"
@@ -53,31 +58,21 @@ export const OldCommitteeCard: FC<OldCommitteeCardProps> = ({
       <AccordionItem className="border-none" value="image">
         <AccordionContent>
           <Dialog>
-            <DialogTrigger>
+            <DialogTrigger disabled={!shouldShowImage}>
               <CommitteeImage
-                alt={
-                  image
-                    ? `Gruppbild på medlemmarna i ${name}`
-                    : `Logga på ${name}`
-                }
+                alt={shownImageTitle}
                 className="object-contain"
-                filename={image || logo}
+                filename={shownImage}
               />
             </DialogTrigger>
             <DialogContent>
-              <DialogTitle>
-                {image
-                  ? `Gruppbild på medlemmarna i ${name}`
-                  : `Logga på ${name}`}
-              </DialogTitle>
+              <DialogTitle>{shownImageTitle}</DialogTitle>
               <CommitteeImage
-                alt={
-                  image
-                    ? `Gruppbild på medlemmarna i ${name}`
-                    : `Logga på ${name}`
-                }
+                alt={shownImageTitle}
                 className="h-auto w-full object-contain"
-                filename={image || logo}
+                filename={shownImage}
+                height={750}
+                width={750}
               />
             </DialogContent>
           </Dialog>
@@ -92,7 +87,7 @@ export const OldCommitteeCard: FC<OldCommitteeCardProps> = ({
             <div className="flex flex-col items-center gap-2">
               {logo && (
                 <Dialog>
-                  <DialogTrigger>
+                  <DialogTrigger disabled={logo === ""}>
                     <Avatar className="mx-auto h-16 w-16">
                       <AvatarImage
                         alt="Logga"
