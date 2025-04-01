@@ -31,7 +31,7 @@ model Committee {
     oldCommittee OldCommittee[]
     document     Document?         @relation(fields: [documentId], references: [id])
 
-    homePageCarucellItems HomePageCarucellItem[]
+    homePageCarouselItems HomePageCarouselItem[]
 
     updatedByEmail String?
     updatedBy      User?    @relation("updatedBy", fields: [updatedByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)
@@ -195,7 +195,7 @@ model ProgramBoardMember {
     createdAt      DateTime @default(now())
 }
 
-model HomePageCarucellItem {
+model HomePageCarouselItem {
     id String @id @default(auto()) @map("_id") @db.ObjectId
 
     imageUrl  String
@@ -268,8 +268,8 @@ model User {
     documentGroupsCreated        DocumentGroup[]        @relation("createdBy")
     programBoardMembersUpdated   ProgramBoardMember[]   @relation("updatedBy")
     programBoardMembersCreated   ProgramBoardMember[]   @relation("createdBy")
-    homePageCarucellItemsUpdated HomePageCarucellItem[] @relation("updatedBy")
-    homePageCarucellItemsCreated HomePageCarucellItem[] @relation("createdBy")
+    homePageCarouselItemsUpdated HomePageCarouselItem[] @relation("updatedBy")
+    homePageCarouselItemsCreated HomePageCarouselItem[] @relation("createdBy")
     usersUpdated                 User[]                 @relation("updatedBy")
 
     updatedByEmail String?

@@ -18,7 +18,10 @@ export const NavbarDesktopLinks: FC<NavbarDesktopLinksProps> = ({
   linkItems,
 }) => {
   return (
-    <NavigationMenuWithCentredContent className="hidden lg:flex">
+    <NavigationMenuWithCentredContent
+      className="hidden lg:flex"
+      delayDuration={100}
+    >
       <NavigationMenuList className="flex items-center justify-center">
         {linkItems.map((link) => {
           if (!checkIfNavbarSubItem(link)) {

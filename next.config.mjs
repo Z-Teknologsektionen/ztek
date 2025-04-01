@@ -29,7 +29,7 @@ const config = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "zfoto.ztek.se",
+        hostname: "*.ztek.se",
       },
       {
         protocol: "https",
