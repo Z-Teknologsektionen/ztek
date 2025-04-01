@@ -2,15 +2,15 @@ import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
-  createHomePageCarucellSchema,
-  updateHomePageCarucellSchema,
+  createHomePageCarouselSchema,
+  updateHomePageCarouselSchema,
 } from "~/schemas/home-page-carousel";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 
 export const homePageCarouselRouter = createTRPCRouter({
   getManyByCommitteeIdAsActive: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.homePageCarucellItem.findMany({
+    return ctx.prisma.homePageCarouselItem.findMany({
       where: {
         committeeId: userHasAdminAccess(ctx.session.user.roles)
           ? undefined
@@ -27,13 +27,13 @@ export const homePageCarouselRouter = createTRPCRouter({
     });
   }),
   createOneAsActive: protectedProcedure
-    .input(createHomePageCarucellSchema)
+    .input(createHomePageCarouselSchema)
     .mutation(
       async ({
         ctx,
         input: { committeeId, endDateTime, imageUrl, linkToUrl, startDateTime },
       }) => {
-        const createdItem = await ctx.prisma.homePageCarucellItem.create({
+        const createdItem = await ctx.prisma.homePageCarouselItem.create({
           data: {
             committeeId,
             imageUrl,
@@ -45,13 +45,13 @@ export const homePageCarouselRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("home-page-carucell");
+        revalidateTag("home-page-carousel");
 
         return createdItem;
       },
     ),
   updateOneAsActive: protectedProcedure
-    .input(updateHomePageCarucellSchema)
+    .input(updateHomePageCarouselSchema)
     .mutation(
       async ({
         ctx,
@@ -64,7 +64,7 @@ export const homePageCarouselRouter = createTRPCRouter({
           startDateTime,
         },
       }) => {
-        const updatedItem = await ctx.prisma.homePageCarucellItem.update({
+        const updatedItem = await ctx.prisma.homePageCarouselItem.update({
           where: {
             id,
           },
@@ -78,7 +78,7 @@ export const homePageCarouselRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("home-page-carucell");
+        revalidateTag("home-page-carousel");
 
         return updatedItem;
       },
@@ -90,13 +90,13 @@ export const homePageCarouselRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input: { id } }) => {
-      const deletedItem = await ctx.prisma.homePageCarucellItem.delete({
+      const deletedItem = await ctx.prisma.homePageCarouselItem.delete({
         where: {
           id,
         },
       });
 
-      revalidateTag("home-page-carucell");
+      revalidateTag("home-page-carousel");
 
       return deletedItem;
     }),

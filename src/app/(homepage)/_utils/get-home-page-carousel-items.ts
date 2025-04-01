@@ -1,9 +1,9 @@
 import { unstable_cache } from "next/cache";
 import { prisma } from "~/server/db";
 
-export const getHomePageCarucellItems = unstable_cache(
+export const getHomePageCarouselItems = unstable_cache(
   async () =>
-    await prisma.homePageCarucellItem.findMany({
+    await prisma.homePageCarouselItem.findMany({
       where: {
         AND: [
           {
@@ -34,5 +34,5 @@ export const getHomePageCarucellItems = unstable_cache(
       },
     }),
   undefined,
-  { revalidate: 60 * 60, tags: ["home-page-carucell"] },
+  { revalidate: 60 * 60, tags: ["home-page-carousel"] },
 );

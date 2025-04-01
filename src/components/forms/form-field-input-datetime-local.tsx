@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { FieldValues } from "react-hook-form";
 import {
   FormControl,
@@ -9,6 +10,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import type { IFormFieldInputDatetimeLocal } from "~/types/form-types";
+import { dayjs } from "~/utils/dayjs";
 
 const FormFieldInputDatetimeLocal = <TFieldValues extends FieldValues>({
   label,
@@ -17,6 +19,12 @@ const FormFieldInputDatetimeLocal = <TFieldValues extends FieldValues>({
   disabled,
   form,
 }: IFormFieldInputDatetimeLocal<TFieldValues>): JSX.Element => {
+  const [formattedValue, setFormattedValue] = useState(
+    form.getValues(name)
+      ? dayjs(form.getValues(name)).format("YYYY-MM-DDTHH:mm")
+      : "",
+  );
+
   return (
     <FormField
       control={form.control}
@@ -30,10 +38,13 @@ const FormFieldInputDatetimeLocal = <TFieldValues extends FieldValues>({
               {...field}
               onChange={(event) => {
                 const value = event.target.value;
-                field.onChange(value !== "" ? value + ":00.000Z" : "");
+                setFormattedValue(value);
+                field.onChange(
+                  value !== "" ? new Date(value).toISOString() : "",
+                );
               }}
               type="datetime-local"
-              value={(form.getValues(name) || "").slice(0, -8)}
+              value={formattedValue}
             />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}

@@ -1,20 +1,45 @@
 import { z } from "zod";
 import {
   datetimeString,
+  emptyString,
   httpsUrlString,
   objectId,
 } from "./helpers/custom-zod-helpers";
 
-const homePageCarucellBaseSchema = z.object({
+const endDateAfterStartDate = ({
+  endDateTime,
+  startDateTime,
+}: {
+  endDateTime?: string | null;
+  startDateTime?: string | null;
+}): boolean => {
+  if (startDateTime && endDateTime) {
+    return new Date(endDateTime) > new Date(startDateTime);
+  }
+
+  return true;
+};
+
+const homePageCarouselBaseSchema = z.object({
   imageUrl: httpsUrlString,
-  linkToUrl: httpsUrlString.nullable(),
+  linkToUrl: httpsUrlString.or(emptyString.transform(() => null)).nullable(),
   committeeId: objectId,
   startDateTime: datetimeString.nullable(),
   endDateTime: datetimeString.nullable(),
 });
 
-export const createHomePageCarucellSchema = homePageCarucellBaseSchema;
+export const createHomePageCarouselSchema = homePageCarouselBaseSchema.refine(
+  endDateAfterStartDate,
+  {
+    message: "Slutdatum måste vara efter startdatum",
+    path: ["endDateTime"],
+  },
+);
 
-export const updateHomePageCarucellSchema = createHomePageCarucellSchema
+export const updateHomePageCarouselSchema = homePageCarouselBaseSchema
   .partial()
-  .extend({ id: objectId });
+  .extend({ id: objectId })
+  .refine(endDateAfterStartDate, {
+    message: "Slutdatum måste vara efter startdatum",
+    path: ["endDateTime"],
+  });
