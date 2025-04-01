@@ -27,12 +27,12 @@ export const HomePageCarouselTableToolbar = <TData,>({
   const committeeColumn = table.getColumn("Organ");
   const isVisibleColumn = table.getColumn("Visas");
 
-  const { data: oldCommittees } =
+  const { data: committees } =
     api.homePageCarousel.getManyByCommitteeIdAsActive.useQuery();
 
   const committeeOptions = useMemo(
     () =>
-      oldCommittees
+      committees
         ?.map(({ committee }) => ({
           label: committee.name,
           value: committee.id,
@@ -42,7 +42,7 @@ export const HomePageCarouselTableToolbar = <TData,>({
             self.findIndex(({ value }) => filterValue === value) === index,
         ) || [],
 
-    [oldCommittees],
+    [committees],
   );
 
   const { mutate: createItem } = useCreateCarouselAsActive({
