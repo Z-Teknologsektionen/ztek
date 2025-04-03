@@ -12,6 +12,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "~/components/ui/carousel";
+import {
+  CAROUSEL_IMAGE_HEIGHT,
+  CAROUSEL_IMAGE_QUALITY,
+  CAROUSEL_IMAGE_WIDTH,
+} from "~/constants/home-page-carousel";
 
 export const HomePageHeroCarousel: FC<{
   items: {
@@ -48,11 +53,10 @@ export const HomePageHeroCarousel: FC<{
                   <Image
                     alt="Bild i karusell på hemskärmen"
                     className="h-full w-full object-cover object-center"
-                    height={450}
-                    quality={95}
+                    height={CAROUSEL_IMAGE_HEIGHT}
+                    quality={CAROUSEL_IMAGE_QUALITY}
                     src={imageUrl}
-                    width={750}
-                    unoptimized
+                    width={CAROUSEL_IMAGE_WIDTH}
                   />
                 </Link>
               </CarouselItem>
@@ -64,11 +68,10 @@ export const HomePageHeroCarousel: FC<{
               <Image
                 alt="Bild i karusell på hemskärmen"
                 className="h-full w-full object-cover object-center"
-                height={450}
-                quality={95}
+                height={CAROUSEL_IMAGE_HEIGHT}
+                quality={CAROUSEL_IMAGE_QUALITY}
                 src={imageUrl}
-                width={750}
-                unoptimized
+                width={CAROUSEL_IMAGE_WIDTH}
               />
             </CarouselItem>
           );

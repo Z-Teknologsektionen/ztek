@@ -101,7 +101,7 @@ export const programBoardRouter = createTRPCRouter({
         where: { id },
       });
 
-      // Delete image if it exists
+      // Delete image if it exists. It will always be an image on our ftp server.
       if (deletedBoardMember.image) {
         await deleteFileFromSftpServer({ url: deletedBoardMember.image });
       }

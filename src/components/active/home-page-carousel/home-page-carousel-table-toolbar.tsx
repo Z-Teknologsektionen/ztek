@@ -9,6 +9,7 @@ import { useCreateCarouselAsActive } from "~/hooks/mutations/useMutateHomePageCa
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
 import { getCarouselStatusName } from "~/utils/get-carousel-status";
+import { imageOperations } from "~/utils/sftp/handle-image-forms";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 import UpsertHomePageCarouselForm from "./upsert-home-page-carousel-form";
 
@@ -84,7 +85,24 @@ export const HomePageCarouselTableToolbar = <TData,>({
             form={
               <UpsertHomePageCarouselForm
                 formType="create"
-                onSubmit={(values) => createItem(values)}
+                onSubmit={async ({ imageUrl, imageFile, ...rest }) => {
+                  const imageResult = await imageOperations.processImageChanges(
+                    {
+                      newImageFile: imageFile,
+                      currentImageUrl: imageUrl,
+                      oldImageUrl: "",
+                      entityName: "carousel",
+                    },
+                  );
+
+                  if (!imageResult.success) {
+                    return;
+                  }
+                  createItem({
+                    imageUrl: imageResult.data || "",
+                    ...rest,
+                  });
+                }}
               />
             }
             isOpen={isNewOpen}
