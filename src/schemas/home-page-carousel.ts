@@ -4,6 +4,7 @@ import {
   emptyString,
   httpsUrlString,
   objectId,
+  sftpFile,
 } from "./helpers/custom-zod-helpers";
 
 const endDateAfterStartDate = ({
@@ -26,6 +27,7 @@ const homePageCarouselBaseSchema = z.object({
   committeeId: objectId,
   startDateTime: datetimeString.nullable(),
   endDateTime: datetimeString.nullable(),
+  imageFile: sftpFile.optional().nullable(),
 });
 
 export const createHomePageCarouselSchema = homePageCarouselBaseSchema.refine(

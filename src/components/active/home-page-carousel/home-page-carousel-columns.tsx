@@ -26,10 +26,11 @@ export const homePageCarouselColumns: ColumnDef<HomePageCarouselItemType>[] = [
     cell: ({ row }) => (
       <Image
         alt={`Bild från ${row.original.committee.name}`}
-        height={100}
+        height={1080}
         src={row.original.imageUrl}
-        width={150}
-        unoptimized
+        width={1920}
+
+        // unoptimized
       />
     ),
   },

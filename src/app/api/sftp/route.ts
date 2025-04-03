@@ -1,3 +1,4 @@
+"use server";
 import { NextResponse, type NextRequest } from "next/server";
 import {
   NextResponseServerError,
@@ -32,7 +33,6 @@ export async function POST(request: NextRequest): NextSFTPAPIResponseWithUrl {
       input: buffer,
       ...result.data,
     });
-
     return NextResponse.json({ success: true, url });
   } catch (error) {
     return NextResponseServerError();

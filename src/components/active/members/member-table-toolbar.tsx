@@ -9,6 +9,8 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { useCreateMemberAsAuthed } from "~/hooks/mutations/useMutateMember";
 import { api } from "~/utils/api";
+import { imageOperations } from "~/utils/sftp/handle-image-forms";
+import { slugifyString } from "~/utils/string-utils";
 
 interface MemberTableToolbarProps<TData> {
   table: Table<TData>;
@@ -83,7 +85,32 @@ export const MemberTableToolbar = <TData,>({
               <UpsertMemberForm
                 key={"new"}
                 formType="create"
-                onSubmit={(values) => createNewUser(values)}
+                onSubmit={async ({
+                  role,
+                  committeeId,
+                  imageFile,
+                  image,
+                  ...values
+                }) => {
+                  const imageResult = await imageOperations.processImageChanges(
+                    {
+                      newImageFile: imageFile,
+                      currentImageUrl: image,
+                      oldImageUrl: "",
+                      entityName: slugifyString(committeeId + role),
+                    },
+                  );
+
+                  if (!imageResult.success) {
+                    return;
+                  }
+                  createNewUser({
+                    image: imageResult.data || "",
+                    committeeId,
+                    role,
+                    ...values,
+                  });
+                }}
               />
             }
             isOpen={isOpen}

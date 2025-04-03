@@ -5,7 +5,7 @@ import type { SFTPMediaType } from "~/types/sftp-types";
 export const MAX_SFTP_MB_SIZE = 4;
 export const MAX_SFTP_FILE_SIZE = MAX_SFTP_MB_SIZE * 1024 * 1024;
 
-export const SFPT_DIRS = ["media"] as const;
+export const SFPT_DIRS = ["media", "images"] as const;
 
 // Här definieras alla filtyper som är okej att ladda upp till SFTP servern
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types

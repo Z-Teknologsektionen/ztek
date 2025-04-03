@@ -60,6 +60,7 @@ export interface IFormFieldInputImage<
 > extends IFormFieldDefaults<TFieldValues> {
   circularCrop?: boolean;
   freeCrop?: boolean;
+  imageFieldName?: Path<TFieldValues>;
   maxHeight: number;
   maxWidth: number;
   quality: number;

@@ -5,7 +5,6 @@ import type { Accept } from "react-dropzone";
 import { useDropzone } from "react-dropzone";
 import toast from "react-hot-toast";
 import { Button } from "~/components/ui/button";
-import { getBase64FromFile } from "~/utils/get-base64-from-file";
 import { cn } from "~/utils/utils";
 import { CropImageDialog } from "./crop-image-dialog";
 
@@ -17,8 +16,7 @@ type UploadAndCropButtonProps = {
   finalWidth: number;
   freeCrop: boolean;
   maxSize?: number;
-  onComplete: (base64: string) => void;
-  quality: number;
+  onComplete: (file: File) => void;
   ruleOfThirds: boolean;
 };
 
@@ -26,7 +24,6 @@ export const UploadAndCropButton: FC<UploadAndCropButtonProps> = ({
   accept,
   finalHeight,
   finalWidth,
-  quality,
   onComplete,
   maxSize = 1024 * 1024 * 50, // 50 MB
   circularCrop,
@@ -34,7 +31,7 @@ export const UploadAndCropButton: FC<UploadAndCropButtonProps> = ({
   freeCrop,
   disabled,
 }) => {
-  const [initialSrc, setInitialSrc] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [open, setOpen] = useState<boolean>(false);
 
   const {
@@ -53,24 +50,13 @@ export const UploadAndCropButton: FC<UploadAndCropButtonProps> = ({
     onDrop: (acceptedFiles) => {
       if (fileRejections.length > 0 || !acceptedFiles[0]) {
         toast.error(`Kunde inte ladda upp filen. Försök igen!`);
-        setInitialSrc(null);
+        setSelectedFile(null);
         return;
       }
 
-      getBase64FromFile(acceptedFiles[0], {
-        minHeight: finalHeight,
-        minWidth: finalWidth,
-      })
-        .then((src) => {
-          setInitialSrc(src);
-          setOpen(true);
-        })
-        .catch((e) => {
-          if (typeof e === "string") toast.error(e);
-          else toast.error(`Kunde inte ladda upp filen. Försök igen!`);
-
-          setInitialSrc(null);
-        });
+      const file = acceptedFiles[0];
+      setSelectedFile(file);
+      setOpen(true);
     },
   });
 
@@ -112,24 +98,23 @@ export const UploadAndCropButton: FC<UploadAndCropButtonProps> = ({
           </p>
         </Button>
       </div>
-      {initialSrc && (
+      {selectedFile && (
         <CropImageDialog
           circularCrop={circularCrop}
           finalHeight={finalHeight}
           finalWidth={finalWidth}
           freeCrop={freeCrop}
           onCancel={() => {
-            setInitialSrc(null);
+            setSelectedFile(null);
           }}
-          onComplete={(base64) => {
-            setInitialSrc(null);
-            onComplete(base64);
+          onComplete={(croppedFile) => {
+            setSelectedFile(null);
+            onComplete(croppedFile);
           }}
           open={open}
-          quality={quality}
           ruleOfThirds={ruleOfThirds}
           setOpen={setOpen}
-          src={initialSrc}
+          src={URL.createObjectURL(selectedFile)}
         />
       )}
     </>

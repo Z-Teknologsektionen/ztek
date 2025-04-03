@@ -20,6 +20,7 @@ import {
 import { Separator } from "~/components/ui/separator";
 import { useUpdateCommitteeAsActive } from "~/hooks/mutations/useMutateCommittee";
 import type { RouterOutputs } from "~/utils/api";
+import { imageOperations } from "~/utils/sftp/handle-image-forms";
 
 type CommitteeProps = {
   committee: RouterOutputs["committee"]["getOneByIdAsActive"];
@@ -42,12 +43,25 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
                 key={committee.id}
                 defaultValues={committee}
                 formType="update"
-                onSubmit={(updatedValues) =>
+                onSubmit={async ({ image, imageFile, ...updatedValues }) => {
+                  const imageResult = await imageOperations.processImageChanges(
+                    {
+                      newImageFile: imageFile,
+                      currentImageUrl: image,
+                      oldImageUrl: committee.image,
+                      entityName: committee.slug,
+                    },
+                  );
+
+                  if (!imageResult.success) {
+                    return;
+                  }
                   updateCommitteeAsActive({
-                    ...updatedValues,
                     id: committee.id,
-                  })
-                }
+                    image: imageResult.data,
+                    ...updatedValues,
+                  });
+                }}
               />
             }
             isOpen={isOpen}

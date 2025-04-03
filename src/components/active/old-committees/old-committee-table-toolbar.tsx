@@ -7,6 +7,8 @@ import { Button } from "~/components/ui/button";
 import { useCreateOldCommitteeAsActive } from "~/hooks/mutations/useMutateOldCommittee";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
+import { imageOperations } from "~/utils/sftp/handle-image-forms";
+import { slugifyString } from "~/utils/string-utils";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 import UpsertOldCommitteeForm from "./upsert-old-committee-form";
 
@@ -127,7 +129,40 @@ export const OldCommitteeTableToolbar = <TData,>({
                     image: "",
                   }}
                   formType="create"
-                  onSubmit={(values) => createNewOldCommittee(values)}
+                  onSubmit={async ({
+                    name,
+                    image,
+                    imageFile,
+                    logo,
+                    logoFile,
+                    ...rest
+                  }) => {
+                    const imageResult =
+                      await imageOperations.processImageChanges({
+                        newImageFile: imageFile,
+                        currentImageUrl: image,
+                        oldImageUrl: "",
+                        entityName: slugifyString(name),
+                      });
+
+                    const logoResult =
+                      await imageOperations.processImageChanges({
+                        newImageFile: logoFile,
+                        currentImageUrl: logo,
+                        oldImageUrl: "",
+                        entityName: slugifyString(name + "logo"),
+                      });
+
+                    if (!imageResult.success || !logoResult.success) {
+                      return;
+                    }
+                    createNewOldCommittee({
+                      name,
+                      logo: logoResult.data || "",
+                      image: imageResult.data || "",
+                      ...rest,
+                    });
+                  }}
                 />
               }
               isOpen={isFromOldOpen}
@@ -151,7 +186,40 @@ export const OldCommitteeTableToolbar = <TData,>({
               <UpsertOldCommitteeForm
                 key="new"
                 formType="create"
-                onSubmit={(values) => createNewOldCommittee(values)}
+                onSubmit={async ({
+                  name,
+                  image,
+                  imageFile,
+                  logo,
+                  logoFile,
+                  ...rest
+                }) => {
+                  const imageResult = await imageOperations.processImageChanges(
+                    {
+                      newImageFile: imageFile,
+                      currentImageUrl: image,
+                      oldImageUrl: "",
+                      entityName: slugifyString(name),
+                    },
+                  );
+
+                  const logoResult = await imageOperations.processImageChanges({
+                    newImageFile: logoFile,
+                    currentImageUrl: logo,
+                    oldImageUrl: "",
+                    entityName: slugifyString(name + "logo"),
+                  });
+
+                  if (!imageResult.success || !logoResult.success) {
+                    return;
+                  }
+                  createNewOldCommittee({
+                    name,
+                    logo: logoResult.data || "",
+                    image: imageResult.data || "",
+                    ...rest,
+                  });
+                }}
               />
             }
             isOpen={isNewOpen}

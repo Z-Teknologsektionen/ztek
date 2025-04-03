@@ -7,6 +7,7 @@ import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { useCreateCommitteeAsAuthed } from "~/hooks/mutations/useMutateCommittee";
 import { getCommitteeTypeStringFromEnum } from "~/utils/get-committee-type-string-from-enum";
+import { imageOperations } from "~/utils/sftp/handle-image-forms";
 
 interface CommitteeTableToolbarProps<TData> {
   table: Table<TData>;
@@ -52,7 +53,26 @@ export const CommitteeTableToolbar = <TData,>({
               <UpsertCommitteeForm
                 key={"new"}
                 formType="create"
-                onSubmit={(values) => createNewCommittee(values)}
+                onSubmit={async ({ name, image, slug, imageFile, ...rest }) => {
+                  const imageResult = await imageOperations.processImageChanges(
+                    {
+                      newImageFile: imageFile,
+                      currentImageUrl: image,
+                      oldImageUrl: "",
+                      entityName: slug,
+                    },
+                  );
+
+                  if (!imageResult.success) {
+                    return;
+                  }
+                  createNewCommittee({
+                    name,
+                    slug,
+                    image: imageResult.data || "",
+                    ...rest,
+                  });
+                }}
               />
             }
             isOpen={isOpen}
