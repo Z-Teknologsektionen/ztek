@@ -9,7 +9,7 @@ import {
   validYearPastOrCurrent,
 } from "~/schemas/helpers/custom-zod-helpers";
 
-const committeeNameWithYearRegEx = /^[a-zA-Z]+ (\d\d|\d\d\/\d\d)$/;
+const committeeNameWithYearRegEx = /^\p{L}+ (\d\d|\d\d(\/|-)\d\d)$/u;
 
 const oldCommitteeMemberSchema = z.object({
   name: nonEmptyString,
@@ -21,7 +21,7 @@ const oldCommitteeMemberSchema = z.object({
 export const createOldCommitteeSchema = z.object({
   name: nonEmptyString.regex(
     committeeNameWithYearRegEx,
-    'Måste vara på formen "Organ 22" eller "Organ 22/23"',
+    'Måste vara på formen "Organ 22", "Organ 22/23" eller "Organ 22-24"',
   ),
   year: validYearPastOrCurrent,
   image: base64WebPImageString.or(emptyString),
