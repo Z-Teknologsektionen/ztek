@@ -14,6 +14,12 @@ type CommitteeMemberCardProps = {
   role: string;
 };
 
+type Rotation = {
+  x: number,
+  y: number,
+  magnitude: number
+}
+
 export const CommitteeMemberCard: FC<CommitteeMemberCardProps> = ({
   email,
   image,
@@ -24,9 +30,9 @@ export const CommitteeMemberCard: FC<CommitteeMemberCardProps> = ({
 }) => { 
   
   //state
-  const defaultRotation = {x: 0, y: 0, magnitude: 0};
-  const [ rotation, setRotation ] = useState(defaultRotation);
-  const [ rotationTarget, setRotationTarget ] = useState(defaultRotation);
+  const defaultPosition = {x: 0, y: 0};
+  const [ cursor, setCursor] = useState(defaultPosition);
+  const [ cursorGhost, setCursorGhost] = useState(defaultPosition);
   const [ prevTimestamp, setTimestamp ] = useState(0);
   var animationFrameRef: MutableRefObject<number|undefined> = useRef();
 
@@ -43,7 +49,7 @@ export const CommitteeMemberCard: FC<CommitteeMemberCardProps> = ({
   //HANDLER: Hover with mouse or stylus
   const handleMouseMove: MouseEventHandler<HTMLDivElement> = (e) => {
     const cursor = cardLocalPos({x: e.clientX, y: e.clientY}, e.currentTarget);
-    setRotationTarget(calcRotation(cursor));
+    setCursor(cursor);
   }
 
   //HANDLER: Press and hold with finger or stylus
@@ -52,7 +58,7 @@ export const CommitteeMemberCard: FC<CommitteeMemberCardProps> = ({
     if (touch) {
       const cursor = cardLocalPos({x: touch.clientX, y: touch.clientY}, e.currentTarget)
       cursor.y = cursor.x**3;   //y not inputable on mobile devices due to scroll interference, calculate as function of x instead
-      setRotationTarget(calcRotation(cursor));
+     setCursor(cursor);
     }
   }
 
@@ -62,33 +68,24 @@ export const CommitteeMemberCard: FC<CommitteeMemberCardProps> = ({
     const deltaTime = timestamp - prevTimestamp;
     setTimestamp(timestamp)
 
-    //
+    const regulatorFactor = -0.1;
+    const cursorDelta = {
+      x: cursor.x - cursorGhost.x,
+      y: cursor.y - cursorGhost.y
+    };
+    const newCursorGhost = { 
+      x: cursorGhost.x + cursorDelta.x * exp(regulatorFactor*deltaTime),
+      y: cursorGhost.y + cursorDelta.y * exp(regulatorFactor*deltaTime)
+    };
 
-    const magRegulatorFactor = -0.;
-    const deltaMagnitude = rotationTarget.magnitude - rotation.magnitude;
-    const newMagnitude   = rotation.magnitude + deltaMagnitude * exp(magRegulatorFactor*deltaTime);
-
-    const axisAngleRegulatorFactor = -0.2;
-    const currentAngle = atan2(rotation.y, rotation.x)
-    const targetAngle  = atan2(rotationTarget.y, rotationTarget.x)
-    const deltaAngle   = targetAngle - currentAngle;
-    const newAngle     = currentAngle + deltaAngle * exp(axisAngleRegulatorFactor*deltaTime)
-
-    if (rotationTarget.magnitude != 0)
-      console.log({targetMag: rotationTarget.magnitude, mag: rotation.magnitude, deltaMagnitude});
-
-    setRotation({
-      x: cos(newAngle),
-      y: sin(newAngle), 
-      magnitude: newMagnitude
-    });
+    setCursorGhost(newCursorGhost);
   }
 
   /**
    * @param cursor - cursor pos in local card coords
    * @returns suitable rotation for card
    */
-  const calcRotation = (cursor: {x: number, y: number}): typeof defaultRotation => {
+  const calcRotation = (cursor: {x: number, y: number}): Rotation => {
     const angleCoefficient = 30;
     const maxAngle = 40;
     const angle = min(maxAngle, angleCoefficient * sqrt(cursor.x**2 + cursor.y**2));
@@ -120,18 +117,18 @@ export const CommitteeMemberCard: FC<CommitteeMemberCardProps> = ({
     return cardCenteredPos;
   }
 
-  
+  const rotation = calcRotation(cursorGhost)
 
   return (
     <div className="flex h-full perspective-origin-center perspective-1000">
       <div 
         className={"max-w-xs justify-center rounded-lg px-2 py-4 shadow border-2 transform-style-3d"}
-        style={{transform: `rotate3d(${rotation.x}, ${rotation.y}, 0, ${rotation.magnitude}deg)`}} 
-        onMouseMove={handleMouseMove}
-        onTouchMove={handleTouchMove}
-        onMouseLeave={() => {setRotationTarget(defaultRotation)}}
-        onTouchEnd={() => {setRotationTarget(defaultRotation)}}
-        onTouchCancel={() => {setRotationTarget(defaultRotation)}}  
+        style         = { {transform: `rotate3d(${rotation.x}, ${rotation.y}, 0, ${rotation.magnitude}deg)`} } 
+        onMouseMove   = { handleMouseMove }
+        onTouchMove   = { handleTouchMove }
+        onMouseLeave  = { () => {setCursor(defaultPosition)} }
+        onTouchEnd    = { () => {setCursor(defaultPosition)} }
+        onTouchCancel = { () => {setCursor(defaultPosition)} }  
       >
         
         <div className="space-y-4">
