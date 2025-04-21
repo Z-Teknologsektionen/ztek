@@ -1,8 +1,9 @@
 
 "use client";
-import { MouseEventHandler, Touch, TouchEventHandler, useState, type FC } from "react";
+import { MouseEventHandler, MutableRefObject, Touch, TouchEventHandler, useEffect, useRef, useState, type FC } from "react";
 import { AiOutlineMail, AiOutlinePhone } from "react-icons/ai";
 import { CommitteeImage } from "~/components/committees/committee-image";
+const { atan2, sin, cos, exp, sqrt, min } = Math;
 
 type CommitteeMemberCardProps = {
   email: string;
@@ -23,39 +24,100 @@ export const CommitteeMemberCard: FC<CommitteeMemberCardProps> = ({
 }) => { 
   
   //state
-  const defaultRoatation = {x: 0, y: 0, magnitude: 0};
-  const [ rotation, setRotation ] = useState(defaultRoatation);
-  
-  const interact = (clientX: number, clientY: number, target: Element): void => {
-    
-    //card
-    const cardRect = target.getBoundingClientRect();        
-    const cardRadius = Math.sqrt(cardRect.height**2 + cardRect.width**2)/2;   
+  const defaultRotation = {x: 0, y: 0, magnitude: 0};
+  const [ rotation, setRotation ] = useState(defaultRotation);
+  const [ rotationTarget, setRotationTarget ] = useState(defaultRotation);
+  const [ prevTimestamp, setTimestamp ] = useState(0);
+  var animationFrameRef: MutableRefObject<number|undefined> = useRef();
 
-    //cursor
-    var cursorPos = {                                       //card-relative (centered)
-      x: clientX - (cardRect.left + cardRect.right)/2,
-      y: clientY - (cardRect.top  + cardRect.bottom)/2
+  //mounting setup
+  useEffect(()=>{
+    const animate = (timestamp: DOMHighResTimeStamp): void => {
+      update(timestamp);
+      animationFrameRef.current = requestAnimationFrame(animate);
     };
-    [cursorPos.x, cursorPos.y] = [cursorPos.x, cursorPos.y].map((i) => { return i / cardRadius; }) as [x: number, y: number]; //scale cursor pos to card
+    animationFrameRef.current = requestAnimationFrame(animate);
+    return () => {if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);}
+  });
 
-    //elevation angle
-    const maxAngle = 30;
-    const angle = maxAngle * Math.sqrt(cursorPos.x**2 + cursorPos.y**2);
-    if (angle>2*maxAngle) console.log(cursorPos);
+  //HANDLER: Hover with mouse or stylus
+  const handleMouseMove: MouseEventHandler<HTMLDivElement> = (e) => {
+    const cursor = cardLocalPos({x: e.clientX, y: e.clientY}, e.currentTarget);
+    setRotationTarget(calcRotation(cursor));
+  }
+
+  //HANDLER: Press and hold with finger or stylus
+  const handleTouchMove: TouchEventHandler<HTMLDivElement> = (e) => {
+    const touch: Touch|undefined = e.targetTouches[0]; //discard other fingers
+    if (touch) {
+      const cursor = cardLocalPos({x: touch.clientX, y: touch.clientY}, e.currentTarget)
+      cursor.y = cursor.x**3;   //y not inputable on mobile devices due to scroll interference, calculate as function of x instead
+      setRotationTarget(calcRotation(cursor));
+    }
+  }
+
+  //Animate
+  const update = (timestamp: DOMHighResTimeStamp): void => {
+
+    const deltaTime = timestamp - prevTimestamp;
+    setTimestamp(timestamp)
+
+    //
+
+    const magRegulatorFactor = -0.;
+    const deltaMagnitude = rotationTarget.magnitude - rotation.magnitude;
+    const newMagnitude   = rotation.magnitude + deltaMagnitude * exp(magRegulatorFactor*deltaTime);
+
+    const axisAngleRegulatorFactor = -0.2;
+    const currentAngle = atan2(rotation.y, rotation.x)
+    const targetAngle  = atan2(rotationTarget.y, rotationTarget.x)
+    const deltaAngle   = targetAngle - currentAngle;
+    const newAngle     = currentAngle + deltaAngle * exp(axisAngleRegulatorFactor*deltaTime)
+
+    if (rotationTarget.magnitude != 0)
+      console.log({targetMag: rotationTarget.magnitude, mag: rotation.magnitude, deltaMagnitude});
+
+    setRotation({
+      x: cos(newAngle),
+      y: sin(newAngle), 
+      magnitude: newMagnitude
+    });
+  }
+
+  /**
+   * @param cursor - cursor pos in local card coords
+   * @returns suitable rotation for card
+   */
+  const calcRotation = (cursor: {x: number, y: number}): typeof defaultRotation => {
+    const angleCoefficient = 30;
+    const maxAngle = 40;
+    const angle = min(maxAngle, angleCoefficient * sqrt(cursor.x**2 + cursor.y**2));
+    return {x: cursor.y, y: cursor.x *-1, magnitude: angle};
+  }
+
+  /**
+   * Translates coordinates to coord system of a card
+   * @param clientAreaPos - browser client area position in px
+   * @param targetedCard - card to translate coords to
+   * @returns coords where: origin is center of card, 1 unit is largest radius of card
+   */
+  const cardLocalPos = (clientAreaPos: {x: number, y: number}, targetedCard: HTMLDivElement): {x: number, y:number} => {
     
-    setRotation({x: cursorPos.y, y: cursorPos.x *-1, magnitude: angle});
-  }
+    //card size
+    const cardRect = targetedCard.getBoundingClientRect();        
+    const cardRadius = Math.sqrt(cardRect.height**2 + cardRect.width**2)/2;
 
-  //Hover with mouse or stylus
-  const handleMouseMove: MouseEventHandler<Element> = (e) => {
-    interact(e.clientX, e.clientY, e.currentTarget);
-  }
+    //translate coords 
+    var cardCenteredPos = {                                      
+      x: clientAreaPos.x - (cardRect.left + cardRect.right)/2,
+      y: clientAreaPos.y - (cardRect.top  + cardRect.bottom)/2
+    };
 
-  //Press and hold with finger or stylus
-  const handleTouchMove: TouchEventHandler<Element> = (e) => {
-    const touch: Touch|undefined = e.targetTouches[0];  //discard but the first finger, or "first sylus???"... nvm
-    if (touch) interact(touch.clientX, touch.clientY, e.currentTarget);
+    //scale coords
+    [cardCenteredPos.x, cardCenteredPos.y] = 
+      [cardCenteredPos.x, cardCenteredPos.y].map((i) => { return i / cardRadius; }) as [x: number, y: number];
+    
+    return cardCenteredPos;
   }
 
   
@@ -65,9 +127,11 @@ export const CommitteeMemberCard: FC<CommitteeMemberCardProps> = ({
       <div 
         className={"max-w-xs justify-center rounded-lg px-2 py-4 shadow border-2 transform-style-3d"}
         style={{transform: `rotate3d(${rotation.x}, ${rotation.y}, 0, ${rotation.magnitude}deg)`}} 
-        onMouseMove={handleMouseMove}                           //mouse only
-        onTouchMove={handleTouchMove}                           //touch only
-        onPointerLeave={() => {setRotation(defaultRoatation)}}  //any pointing device
+        onMouseMove={handleMouseMove}
+        onTouchMove={handleTouchMove}
+        onMouseLeave={() => {setRotationTarget(defaultRotation)}}
+        onTouchEnd={() => {setRotationTarget(defaultRotation)}}
+        onTouchCancel={() => {setRotationTarget(defaultRotation)}}  
       >
         
         <div className="space-y-4">
