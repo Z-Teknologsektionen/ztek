@@ -9,7 +9,7 @@ export const updateUserRolesSchema = z.object({
     .array()
     .max(
       Object.values(AccountRoles).length,
-      "Du kan inte ge fler användar roller än vad det finns roller. Kontrolera att det inte finns några dubbletter",
+      "Du kan inte ge fler användarroller än vad det finns roller. Kontrollera att det inte finns några dubbletter",
     )
     .refine(
       (roles) =>

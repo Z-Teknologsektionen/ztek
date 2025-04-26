@@ -14,10 +14,11 @@ model Committee {
     id         String  @id @default(auto()) @map("_id") @db.ObjectId
     documentId String? @db.ObjectId
 
-    name        String
-    description String
-    image       String                @default("")
-    socialLinks CommitteeSocialLink[]
+    name             String
+    description      String
+    image            String                @default("")
+    socialLinks      CommitteeSocialLink[]
+    showOldCommittee Boolean               @default(true)
 
     slug            String        @unique
     role            String
@@ -29,6 +30,8 @@ model Committee {
     members      CommitteeMember[]
     oldCommittee OldCommittee[]
     document     Document?         @relation(fields: [documentId], references: [id])
+
+    homePageCarouselItems HomePageCarouselItem[]
 
     updatedByEmail String?
     updatedBy      User?    @relation("updatedBy", fields: [updatedByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)
@@ -66,7 +69,7 @@ enum IconEnum {
     CAMERA
     QUESTIONMARK
     HOME
-    DOCUEMNT
+    DOCUMENT     @map("DOCUEMNT") // Old typo, map to previous spelling
 }
 
 model OldCommittee {
@@ -192,6 +195,26 @@ model ProgramBoardMember {
     createdAt      DateTime @default(now())
 }
 
+model HomePageCarouselItem {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    imageUrl  String
+    linkToUrl String?
+
+    startDateTime DateTime?
+    endDateTime   DateTime?
+
+    committeeId String    @db.ObjectId
+    committee   Committee @relation(fields: [committeeId], references: [id])
+
+    updatedByEmail String?
+    updatedBy      User?    @relation("updatedBy", fields: [updatedByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)
+    updatedAt      DateTime @updatedAt
+    createdByEmail String?
+    createdBy      User?    @relation("createdBy", fields: [createdByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)
+    createdAt      DateTime @default(now())
+}
+
 // Next Auth models
 model Account {
     id                String  @id @default(auto()) @map("_id") @db.ObjectId
@@ -231,21 +254,23 @@ model User {
     roles            AccountRoles[]
     committeeMembers CommitteeMember[] @relation("userToCommitteeMember")
 
-    committeesUpdated          Committee[]          @relation("updatedBy")
-    committeesCreated          Committee[]          @relation("createdBy")
-    oldCommitteesUpdated       OldCommittee[]       @relation("updatedBy")
-    oldCommitteesCreated       OldCommittee[]       @relation("createdBy")
-    committeeMembersUpdated    CommitteeMember[]    @relation("updatedBy")
-    committeeMembersCreated    CommitteeMember[]    @relation("createdBy")
-    zenithMediasUpdated        ZenithMedia[]        @relation("updatedBy")
-    zenithMediaCreated         ZenithMedia[]        @relation("createdBy")
-    documentsUpdated           Document[]           @relation("updatedBy")
-    documentsCreated           Document[]           @relation("createdBy")
-    documentGroupsUpdated      DocumentGroup[]      @relation("updatedBy")
-    documentGroupsCreated      DocumentGroup[]      @relation("createdBy")
-    programBoardMembersUpdated ProgramBoardMember[] @relation("updatedBy")
-    programBoardMembersCreated ProgramBoardMember[] @relation("createdBy")
-    usersUpdated               User[]               @relation("updatedBy")
+    committeesUpdated            Committee[]            @relation("updatedBy")
+    committeesCreated            Committee[]            @relation("createdBy")
+    oldCommitteesUpdated         OldCommittee[]         @relation("updatedBy")
+    oldCommitteesCreated         OldCommittee[]         @relation("createdBy")
+    committeeMembersUpdated      CommitteeMember[]      @relation("updatedBy")
+    committeeMembersCreated      CommitteeMember[]      @relation("createdBy")
+    zenithMediasUpdated          ZenithMedia[]          @relation("updatedBy")
+    zenithMediaCreated           ZenithMedia[]          @relation("createdBy")
+    documentsUpdated             Document[]             @relation("updatedBy")
+    documentsCreated             Document[]             @relation("createdBy")
+    documentGroupsUpdated        DocumentGroup[]        @relation("updatedBy")
+    documentGroupsCreated        DocumentGroup[]        @relation("createdBy")
+    programBoardMembersUpdated   ProgramBoardMember[]   @relation("updatedBy")
+    programBoardMembersCreated   ProgramBoardMember[]   @relation("createdBy")
+    homePageCarouselItemsUpdated HomePageCarouselItem[] @relation("updatedBy")
+    homePageCarouselItemsCreated HomePageCarouselItem[] @relation("createdBy")
+    usersUpdated                 User[]                 @relation("updatedBy")
 
     updatedByEmail String?
     updatedBy      User?    @relation("updatedBy", fields: [updatedByEmail], references: [email], onDelete: NoAction, onUpdate: NoAction)
@@ -261,6 +286,7 @@ enum AccountRoles {
     MODIFY_PROGRAM_BOARD
     MODIFY_ZENITH_MEDIA
     MODIFY_ZALOONEN_BOOKING
+    MODIFY_HOMEPAGE_CAROUSEL
     ADMIN
     SUPER_ADMIN
 }

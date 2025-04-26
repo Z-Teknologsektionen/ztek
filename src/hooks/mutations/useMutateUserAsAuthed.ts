@@ -17,7 +17,7 @@ export const useUpdateUserAsAuthed = ({
       onSettled?.();
     },
     onSuccess: async ({ roles }) => {
-      toast.success(`Följade behörigheter har satts: ${roles.join(", ")}`);
+      toast.success(`Följande behörigheter har satts: ${roles.join(", ")}`);
       await ctx.user.invalidate();
       await ctx.member.invalidate();
       onSuccess?.();

@@ -103,6 +103,7 @@ export const committeeRouter = createTRPCRouter({
           socialLinks: true,
           role: true,
           document: true,
+          showOldCommittee: true,
           members: {
             orderBy: {
               order: "desc",
@@ -137,6 +138,7 @@ export const committeeRouter = createTRPCRouter({
         role: true,
         socialLinks: true,
         documentId: true,
+        showOldCommittee: true,
         _count: {
           select: {
             members: true,
@@ -197,6 +199,7 @@ export const committeeRouter = createTRPCRouter({
           socialLinks,
           documentId,
           committeeType,
+          showOldCommittee,
         },
       }) => {
         const createdCommittee = await ctx.prisma.committee.create({
@@ -212,6 +215,7 @@ export const committeeRouter = createTRPCRouter({
             documentId,
             committeeType,
             socialLinks,
+            showOldCommittee,
             updatedByEmail: ctx.session.user.email,
             createdByEmail: ctx.session.user.email,
           },
@@ -243,6 +247,7 @@ export const committeeRouter = createTRPCRouter({
           electionPeriods,
           socialLinks,
           documentId,
+          showOldCommittee,
         },
       }) => {
         const updatedCommittee = await ctx.prisma.committee.update({
@@ -261,6 +266,7 @@ export const committeeRouter = createTRPCRouter({
             electionPeriods,
             documentId,
             socialLinks,
+            showOldCommittee,
             updatedByEmail: ctx.session.user.email,
           },
         });

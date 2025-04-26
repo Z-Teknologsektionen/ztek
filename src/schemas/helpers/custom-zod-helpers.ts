@@ -51,7 +51,7 @@ export const objectId = standardString.refine((val) => {
 export const datetimeString = standardString.datetime({
   precision: 3,
   offset: false,
-  message: "Otilllåtet datum/tidsformat",
+  message: "Otillåtet datum/tidsformat",
 });
 
 export const committeeOrderNumber = standardNumber
@@ -81,8 +81,8 @@ export const base64WebPImageString = standardString
     message: "Måste vara en base64 sträng med typ webp",
   })
   .refine((val) => {
-    const formatedVal = val.replace("data:image/webp;base64,", "");
-    return base64Regex.test(formatedVal);
+    const formattedVal = val.replace("data:image/webp;base64,", "");
+    return base64Regex.test(formattedVal);
   }, "Inte giltig base64 sträng");
 
 export const phoneNumberString = standardString.refine(
@@ -103,8 +103,8 @@ export const httpsUrlString = standardString
 
 export const validYear = standardNumber
   .int("Måste vara ett heltal")
-  .min(1000, "Årtalet måste vara ett 4 siffrigt tal")
-  .max(9999, "Årtalet måste vara ett 4 siffrigt tal");
+  .min(1000, "Årtalet måste vara ett fyrsiffrigt tal")
+  .max(9999, "Årtalet måste vara ett fyrsiffrigt tal");
 
 export const validYearPastOrCurrent = validYear.refine(
   (val) => val <= new Date().getFullYear(),

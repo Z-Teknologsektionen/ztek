@@ -1,7 +1,8 @@
 import { CommitteeType } from "@prisma/client";
 import type { FC } from "react";
 import type { z } from "zod";
-import UpsertCommitteeSocialLinksSection from "~/components/committees/upsert-committe/upsert-committee-social-links-section";
+import UpsertCommitteeSocialLinksSection from "~/components/committees/upsert-committee/upsert-committee-social-links-section";
+import FormFieldCheckbox from "~/components/forms/form-field-checkbox";
 import FormFieldCombobox from "~/components/forms/form-field-combobox";
 import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldInputImage from "~/components/forms/form-field-input-image";
@@ -41,6 +42,7 @@ const DEFAULT_VALUES: UpsertCommitteeFormProps["defaultValues"] = {
   slug: "",
   name: "",
   documentId: "",
+  showOldCommittee: true,
 };
 
 const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
@@ -119,6 +121,7 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
         maxWidth={COMMITTEE_IMAGE_SIZE}
         name="image"
         quality={COMMITTEE_IMAGE_QUALITY}
+        ruleOfThirds
       />
       <FormFieldCombobox
         description="Hittar du inte rätt dokument? Du kan lägga till fler dokument som administratör."
@@ -133,10 +136,16 @@ const UpsertCommitteeForm: FC<UpsertCommitteeFormProps> = ({
           })) || []
         }
         placeholder="Välj dokument"
-        serchText="Sök efter document"
+        searchText="Sök efter document"
         resetButton
       />
       <UpsertCommitteeSocialLinksSection />
+      <FormFieldCheckbox
+        description="Här kan du växla av och på patethimlen"
+        form={form}
+        label="Visa patethimmel"
+        name="showOldCommittee"
+      />
     </FormWrapper>
   );
 };

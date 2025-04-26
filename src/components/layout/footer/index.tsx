@@ -3,12 +3,20 @@
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import { MdBusiness, MdEmail, MdOutlineHouse } from "react-icons/md";
+import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
+import { useSendEmail } from "~/hooks/mutations/useMutateEmail";
 import { useFooterQuickLinks } from "~/hooks/useFooterQuickLinks";
+import { UpsertContactForm } from "./upsert-contact-form";
 
 const Footer: FC = () => {
   const footerQuickLinks = useFooterQuickLinks();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const { mutate: sendEmail } = useSendEmail({
+    onSuccess: () => setIsOpen(false),
+  });
 
   return (
     <footer className="bg-zBlack pb-2 pt-8 text-zWhite">
@@ -83,9 +91,26 @@ const Footer: FC = () => {
           <p>
             Hemsidan är utvecklad av Webbgruppen, sektionens viktigaste organ.
           </p>
-          <a className="m-0 hover:underline" href="mailto:webbgruppen@ztek.se">
-            webbgruppen@ztek.se
-          </a>
+          <UpsertDialog
+            description="Skriv din fråga här så svarar vi så snart vi kan. En kopia kommer också skickas till dig."
+            form={
+              <UpsertContactForm
+                key={"new"}
+                formType="create"
+                onSubmit={(values) => {
+                  sendEmail(values);
+                }}
+              />
+            }
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            title="Kontakta Webbgruppen"
+            trigger={
+              <p className="m-0 cursor-pointer font-semibold hover:underline">
+                Kontakta oss!
+              </p>
+            }
+          />
         </div>
       </div>
     </footer>

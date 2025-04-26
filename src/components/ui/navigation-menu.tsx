@@ -121,7 +121,7 @@ const NavigationMenuIndicator = React.forwardRef<
 NavigationMenuIndicator.displayName =
   NavigationMenuPrimitive.Indicator.displayName;
 
-const NavigationMenuWithCenterdContent = React.forwardRef<
+const NavigationMenuWithCentredContent = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root>
 >(({ className, children, ...props }, ref) => {
@@ -175,7 +175,7 @@ const NavigationMenuWithCenterdContent = React.forwardRef<
     </NavigationMenuPrimitive.Root>
   );
 });
-NavigationMenu.displayName = "NavigationMenuWithCenterdContent";
+NavigationMenu.displayName = "NavigationMenuWithCentredContent";
 
 export {
   NavigationMenu,
@@ -185,7 +185,7 @@ export {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuViewport,
-  NavigationMenuWithCenterdContent,
   navigationMenuTriggerStyle,
+  NavigationMenuViewport,
+  NavigationMenuWithCentredContent,
 };

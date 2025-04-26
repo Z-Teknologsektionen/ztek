@@ -4,8 +4,8 @@ import EditTriggerButton from "~/components/buttons/edit-trigger-button";
 import DeleteDialog from "~/components/dialogs/delete-dialog";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import {
-  useDeleteOldCommitteAsAuthed,
-  useUpdateOldCommitteAsAuthed,
+  useDeleteOldCommitteeAsAuthed,
+  useUpdateOldCommitteeAsAuthed,
 } from "~/hooks/mutations/useMutateOldCommittee";
 import type { OldCommitteeType } from "./old-committee-columns";
 import UpsertOldCommitteeForm from "./upsert-old-committee-form";
@@ -16,11 +16,11 @@ export const OldCommitteeTableActions: FC<OldCommitteeType> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: updateOldCommittee } = useUpdateOldCommitteAsAuthed({
+  const { mutate: updateOldCommittee } = useUpdateOldCommitteeAsAuthed({
     onSuccess: () => setIsOpen(false),
   });
 
-  const { mutate: deleteOldCommittee } = useDeleteOldCommitteAsAuthed({});
+  const { mutate: deleteOldCommittee } = useDeleteOldCommitteeAsAuthed({});
 
   return (
     <div className="flex justify-end">

@@ -3,6 +3,7 @@ import type { FC } from "react";
 import ImageWithCredit from "~/components/layout/image-with-credit";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
+import StyledLink from "~/components/layout/styled-link";
 import { buttonVariants } from "~/components/ui/button";
 import { cn } from "~/utils/utils";
 
@@ -20,10 +21,10 @@ export const ReceptionSection: FC = () => {
             viktigaste är att du närmar dig denna period med en positiv
             inställning och är redo att njuta av varje stund! Det är normalt att
             känna nervositet inför mottagningen, men kom ihåg att du inte är
-            ensam. Mottagningskommiten och deras phaddrar kommer göra sitt bästa
-            för att se till att din mottagning blir fantastisk, men det är du
-            som formar din egen upplevelse. Så kom med ett öppet sinne och var
-            redo att ha roligt!
+            ensam. Mottagningskommittén och deras phaddrar kommer göra sitt
+            bästa för att se till att din mottagning blir fantastisk, men det är
+            du som formar din egen upplevelse. Så kom med ett öppet sinne och
+            var redo att ha roligt!
           </p>
           <div className="mr-0 mt-8 grid grid-cols-2 gap-8 md:mr-2">
             <div className="border-gradient col-span-2 rounded-lg md:col-span-1">
@@ -31,9 +32,14 @@ export const ReceptionSection: FC = () => {
                 Samling på Götaplatsen första dagen
               </h3>
               <p>
-                Första dagen, 15 augusti 2023, är det samling på Götaplatsen.
-                Efter en festlig välkomstceremoni tågar alla tillsammans upp
-                till Chalmers campus. Därefter börjar mottagningen.
+                Första dagen är det samling på Götaplatsen. Efter en festlig
+                välkomstceremoni tågar alla tillsammans upp till Chalmers
+                campus. Därefter börjar mottagningen. Håll utkik i brevlådan för
+                ditt antagningsbesked eller gå in på{" "}
+                <StyledLink href={"https://www.chalmers.se/utbildning/"}>
+                  Chalmers hemsida
+                </StyledLink>{" "}
+                för att se när terminen börjar.
               </p>
             </div>
             <div className="border-gradient col-span-2 rounded-lg md:col-span-1">
@@ -45,10 +51,11 @@ export const ReceptionSection: FC = () => {
               <Link
                 className={cn(
                   buttonVariants({ variant: "outline" }),
-                  "mx-auto mt-4 block",
+                  "mx-auto mt-4 block w-fit",
                 )}
                 href="https://www.znollk.se/"
                 referrerPolicy="no-referrer"
+                rel="noopener noreferrer"
                 target="_blank"
               >
                 Antagen

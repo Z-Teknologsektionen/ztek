@@ -20,7 +20,7 @@ export const CoursesSection: FC = () => {
         Automation & Mekatronik fokuserar på grundläggande ämnen som matematik,
         programmering och fysik. Under det andra året introduceras kärnkurser
         inom automation, reglerteknik och elektronik. Det tredje året markerar
-        en fördjupning genom avancerade kurser inom mekatronik, realtidsystem
+        en fördjupning genom avancerade kurser inom mekatronik, realtidssystem
         och instrumentering. Under detta år får studenten välja kurser som
         passar deras intressen, och under våren genomförs kandidatarbete. Efter
         dessa tre år väljer studenterna ett masterprogram för ytterligare

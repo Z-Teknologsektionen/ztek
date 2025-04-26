@@ -1,6 +1,6 @@
 import { type FC } from "react";
 import HeadLayout from "~/components/layout/head-layout";
-import LoadningSpinner from "~/components/layout/loadning-spinner";
+import LoadingSpinner from "~/components/layout/loading-spinner";
 import RoleWrapper from "~/components/layout/role-wrapper";
 import SectionWrapper from "~/components/layout/section-wrapper";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
@@ -28,7 +28,7 @@ const EditCommitteePage: FC = () => {
     <RoleWrapper accountRole={undefined}>
       <HeadLayout title="Redigera medlemmar" />
       <SectionWrapper>
-        {isLoadingCommittee && <LoadningSpinner />}
+        {isLoadingCommittee && <LoadingSpinner />}
         {hasData && !committee && <MissingCommitteeSection />}
         {showStandardViews && (
           <div className="grid grid-cols-6">

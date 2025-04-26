@@ -48,7 +48,7 @@ export const ActiveCommitteeSection: FC<ActiveCommitteeSectionProps> = (
           ))}
           {committee.document && (
             <CommitteeSocialIcon
-              iconVariant="DOCUEMNT"
+              iconVariant="DOCUMENT"
               url={openUrlAsPdf({
                 url: committee.document.url,
                 isPDF: committee.document.isPDF,

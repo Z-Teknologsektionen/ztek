@@ -154,7 +154,7 @@ const config = {
         tsx: "never",
       },
     ],
-    "check-file/no-index": "off", // Tilllåt index.{ts,tsx, js, jsx} filer
+    "check-file/no-index": "off", // Tillåt index.{ts,tsx, js, jsx} filer
     "check-file/filename-blocklist": [
       "error",
       {
@@ -172,7 +172,7 @@ const config = {
     "check-file/filename-naming-convention": [
       "error",
       {
-        "**/src/!(hooks|pages)/**/*.{js,ts,jsx,tsx}": "KEBAB_CASE", // All files in src exept inside hooks and pages folder should be KEBAB_CASE
+        "**/src/!(hooks|pages)/**/*.{js,ts,jsx,tsx}": "KEBAB_CASE", // All files in src except inside hooks and pages folder should be KEBAB_CASE
         "**/src/hooks/**/use*.{js,ts}": "CAMEL_CASE", // All hooks should start with use
         "**/src/pages/**/!(_document|_app|[[a-z]*])*.{ts,tsx}": "KEBAB_CASE", // All files inside of pages should be KEBAB_CASE excluding  _app, _documents and files with hard brakets around
         "**/(public|prisma)/**/*": "KEBAB_CASE", // Files in public and

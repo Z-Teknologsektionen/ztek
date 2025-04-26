@@ -36,8 +36,8 @@ export type DeleteFileFromSftpServerProps = z.output<
 
 export type SFTPResponseBody = z.input<typeof sftpAPISuccessResponseSchema>;
 
-export type SFTPErrprResponseBody = z.input<typeof sftpAPIErrorResponseSchema>;
+export type SFTPErrorResponseBody = z.input<typeof sftpAPIErrorResponseSchema>;
 
 export type NextSFTPAPIResponseWithUrl = Promise<
-  NextResponse<SFTPResponseBody | SFTPErrprResponseBody>
+  NextResponse<SFTPResponseBody | SFTPErrorResponseBody>
 >;

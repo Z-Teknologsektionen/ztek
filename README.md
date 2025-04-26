@@ -97,7 +97,7 @@ A typical Next.js project has a specific file structure. Here's a brief overview
 
 The `src/pages/` directory is the heart of a Next.js application. Each file in this directory corresponds to a route in your application. These files import and use components from the `src/components/` directory or any other directory you choose to structure your components in.
 
-```
+```txt
 src
 ├── pages
 │   ├── active
@@ -119,11 +119,11 @@ The page rendered when you visit `ztek.se/student-division` is rendered from the
 
 #### Dynamic routes
 
-Sometimes we don't know the route, as it might depend on a name defined in some database. In this project this happens for committees at `src/pages/student-division/committees/[slug]`. Here the brackets indicate that the route is dynamic and the slug of the committee is used to display a specific commitee. Each committee has the same layout, but the text and images are changed based on the api call which uses the slug to get data.
+Sometimes we don't know the route, as it might depend on a name defined in some database. In this project this happens for committees at `src/pages/student-division/committees/[slug]`. Here the brackets indicate that the route is dynamic and the slug of the committee is used to display a specific committee. Each committee has the same layout, but the text and images are changed based on the api call which uses the slug to get data.
 
 #### Using different components
 
-The different routes are mainly built with different components such as the `<SectionWrapper>` component. This component is used to wrap the different sections of the website and is used to keep the same layout across the different routes. Looking at the component, we can see that it has different margins for different screensizes, making the website nice both for computers and phones. This component should be wrapped around every different page.
+The different routes are mainly built with different components such as the `<SectionWrapper>` component. This component is used to wrap the different sections of the website and is used to keep the same layout across the different routes. Looking at the component, we can see that it has different margins for different screen sizes, making the website nice both for computers and phones. This component should be wrapped around every different page.
 
 ```tsx
 import {
@@ -202,7 +202,7 @@ const SectionTitle: FC<PropsWithChildren<ISectionTitle>> = ({
 export default SectionTitle;
 ```
 
-It's a simple component, but by using `<Sectiontitle>` instead of writing this code every time, we can keep the same layout across the different routes and change it easily if we want to. This is a good example of how to use components to keep the same layout across the different routes and keeps the code clean and easy to read. This also keeps the code in the routes short, for example in `src/pages/student-division/index.tsx`:
+It's a simple component, but by using `<SectionTitle>` instead of writing this code every time, we can keep the same layout across the different routes and change it easily if we want to. This is a good example of how to use components to keep the same layout across the different routes and keeps the code clean and easy to read. This also keeps the code in the routes short, for example in `src/pages/student-division/index.tsx`:
 
 ```tsx
 import { CommitteeType } from "@prisma/client";
@@ -238,16 +238,16 @@ const Home: NextPage = () => {
           </div>
 
           {Object.values(CommitteeType).map((committeeType) => {
-            const filterdCommitteesByType = committees?.filter((committee) => {
+            const filteredCommitteesByType = committees?.filter((committee) => {
               return committee.committeeType === committeeType;
             });
-            if (filterdCommitteesByType?.length === 0) return null;
+            if (filteredCommitteesByType?.length === 0) return null;
             return (
               <div key={committeeType}>
                 <SecondaryTitle className="mb-4" center>
                   {getCommitteeTypeStringFromEnum(committeeType, true)}
                 </SecondaryTitle>
-                <CommitteeLayout committees={filterdCommitteesByType} />
+                <CommitteeLayout committees={filteredCommitteesByType} />
               </div>
             );
           })}
@@ -353,7 +353,7 @@ const {
 />;
 ```
 
-In this example the data is fetched from the api and the data is used to display a table. The `api` object is used to fetch the data from the api with the `useQuery` method. The `data` property will not be available until all data is loaded and while it's loading the `isLoading` property will be set to true. The `isError` property is set to true if an error is thrown while quering the database.
+In this example the data is fetched from the api and the data is used to display a table. The `api` object is used to fetch the data from the api with the `useQuery` method. The `data` property will not be available until all data is loaded and while it's loading the `isLoading` property will be set to true. The `isError` property is set to true if an error is thrown while querying the database.
 
 ##### NextAuth.js
 

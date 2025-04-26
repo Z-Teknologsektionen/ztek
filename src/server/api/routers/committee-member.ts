@@ -220,7 +220,7 @@ export const committeeMemberRouter = createTRPCRouter({
         throw new TRPCError({
           code: "FORBIDDEN",
           message:
-            "Du får inte redigera denna medlem. Kontakta en användare med högre behövrighet än dig",
+            "Du får inte redigera denna medlem. Kontakta en användare med högre behörighet än dig",
         });
 
       const deletedMember = await prisma.committeeMember.delete({

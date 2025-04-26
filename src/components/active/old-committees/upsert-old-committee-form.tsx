@@ -17,7 +17,7 @@ import { createOldCommitteeSchema } from "~/schemas/old-committee";
 import type { IUpsertForm } from "~/types/form-types";
 import { api } from "~/utils/api";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
-import UpsertOldCommitteeMembersFormSection from "./upsert-old-committe-membes-section-form";
+import UpsertOldCommitteeMembersFormSection from "./upsert-old-committee-members-section-form";
 
 type UpsertOldCommitteeFormProps = IUpsertForm<typeof createOldCommitteeSchema>;
 
@@ -99,18 +99,18 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
         maxWidth={COMMITTEE_IMAGE_SIZE}
         name="image"
         quality={COMMITTEE_IMAGE_QUALITY}
-        containImage
+        freeCrop
+        ruleOfThirds
       />
       <FormFieldInputImage
-        description="Förlsagsvis logga. Om du anger enbart denna bild så kommer den visas både på omslaget och ovanför medlemmarna"
+        description="Förslagsvis logga. Om du anger enbart denna bild så kommer den visas både på omslaget och ovanför medlemmarna"
         form={form}
         label="Sekundär bild (valfri)"
         maxHeight={COMMITTEE_IMAGE_SIZE}
         maxWidth={COMMITTEE_IMAGE_SIZE}
         name="logo"
         quality={COMMITTEE_IMAGE_QUALITY}
-        containImage
-        rounded
+        circularCrop
       />
     </FormWrapper>
   );

@@ -5,13 +5,13 @@ import { Skeleton } from "~/components/ui/skeleton";
 import { ZenithMediaCard } from "./zenith-media-card";
 
 export const ZenithMediaGrid: FC = async () => {
-  const zenihMedia = await getAllZenithMediaByYear();
+  const zenithMedia = await getAllZenithMediaByYear();
 
   return (
     <>
-      {zenihMedia &&
-        zenihMedia.length > 0 &&
-        zenihMedia.map(({ year, mediaArray }) => (
+      {zenithMedia &&
+        zenithMedia.length > 0 &&
+        zenithMedia.map(({ year, mediaArray }) => (
           <div key={year} className="space-y-4">
             <SecondaryTitle>{year}</SecondaryTitle>
             <div className="flex flex-row flex-wrap gap-4">

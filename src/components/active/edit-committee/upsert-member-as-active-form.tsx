@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import { type FC } from "react";
 import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldInputImage from "~/components/forms/form-field-input-image";
@@ -14,10 +12,6 @@ import {
 import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
 import { upsertMemberBaseSchema } from "~/schemas/member";
 import type { IUpsertForm } from "~/types/form-types";
-import localeObject from "~/utils/dayjs";
-
-dayjs.extend(relativeTime);
-dayjs.locale(localeObject);
 
 type UpdateMemberAsActiveProps = IUpsertForm<typeof upsertMemberBaseSchema>;
 
@@ -67,6 +61,7 @@ export const UpsertMemberAsActiveForm: FC<UpdateMemberAsActiveProps> = ({
         maxWidth={COMMITTEE_IMAGE_SIZE}
         name="image"
         quality={COMMITTEE_IMAGE_QUALITY}
+        ruleOfThirds
       />
     </FormWrapper>
   );

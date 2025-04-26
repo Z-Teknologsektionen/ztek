@@ -5,12 +5,14 @@ import type {
   SubmitHandler,
   UseFormReturn,
 } from "react-hook-form";
-import type { z } from "zod";
+import type { input, output, ZodEffects, ZodObject, ZodRawShape } from "zod";
 
-export interface IUpsertForm<schema extends z.ZodObject<z.ZodRawShape>> {
-  defaultValues?: z.input<schema>;
+export interface IUpsertForm<
+  schema extends ZodObject<ZodRawShape> | ZodEffects<ZodObject<ZodRawShape>>,
+> {
+  defaultValues?: input<schema>;
   formType: "create" | "update";
-  onSubmit: SubmitHandler<z.output<schema>>;
+  onSubmit: SubmitHandler<output<schema>>;
 }
 
 export interface IFormFieldDefaults<
@@ -23,7 +25,7 @@ export interface IFormFieldDefaults<
   name: Path<TFieldValues>;
 }
 
-export interface IFormFieldMapableDefaults<TFieldValues extends FieldValues>
+export interface IFormFieldMappableDefaults<TFieldValues extends FieldValues>
   extends IFormFieldDefaults<TFieldValues> {
   options: { label: string; value: string }[];
   placeholder: string;
@@ -43,31 +45,37 @@ export interface IFormFieldCheckbox<
 }
 
 export interface IFormFieldSelect<TFieldValues extends FieldValues>
-  extends IFormFieldMapableDefaults<TFieldValues> {
+  extends IFormFieldMappableDefaults<TFieldValues> {
   scrollArea?: boolean;
 }
 
 export interface IFormFieldCombobox<TFieldValues extends FieldValues>
-  extends IFormFieldMapableDefaults<TFieldValues> {
+  extends IFormFieldMappableDefaults<TFieldValues> {
   noResultsText: string;
-  serchText: string;
+  searchText: string;
 }
 
 export interface IFormFieldInputImage<
   TFieldValues extends FieldValues = FieldValues,
 > extends IFormFieldDefaults<TFieldValues> {
-  className?: string;
-  containImage?: boolean;
+  circularCrop?: boolean;
+  freeCrop?: boolean;
   maxHeight: number;
   maxWidth: number;
   quality: number;
-  rounded?: boolean;
+  ruleOfThirds?: boolean;
 }
 
 export interface IFormFieldFileInput<
   TFieldValues extends FieldValues = FieldValues,
 > extends IFormFieldDefaults<TFieldValues> {
   accept: string;
+  className?: string;
+}
+
+export interface IFormFieldInputDatetimeLocal<
+  TFieldValues extends FieldValues = FieldValues,
+> extends IFormFieldDefaults<TFieldValues> {
   className?: string;
 }
 
