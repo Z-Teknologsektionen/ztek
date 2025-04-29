@@ -34,53 +34,69 @@ export const CommitteeMemberCard: FC<CommitteeMemberCardProps> = ({
   phone,
   role,
 }) => {
+  //behavioral constants
+  const defaultPosition = { x: 0, y: 0 }; // logical cursor position when not hovering card
+  const animationDuration = 1000; // duration after last interaction until animation is turned off for performance
+
   //state
-  const defaultPosition = { x: 0, y: 0 };
   const [cursorCurrent, setCursorCurrent] = useState(defaultPosition);
   const [cursorGhost, setCursorGhost] = useState(defaultPosition);
-  const [previousTimestamp, setNextTimestamp] = useState(0);
+
+  //animation state
+  const [animating, setAnimating] = useState(false);
+  const [lastFrameTime, setLastFrameTime] = useState(0);
+  const [lastInteractedTime, setLastInteractedTime] = useState(0);
   const animationFrameRef: MutableRefObject<number | undefined> = useRef();
 
-  //mounting setup
+  //animation
+  const animate = (now: DOMHighResTimeStamp): void => {
+    //RUNS AT: Conditionally at an arbitrary fixed duration past render. Will cause new render.
+    updateGhost(now - lastFrameTime);
+    setLastFrameTime(now);
+    if (now - lastInteractedTime > animationDuration) setAnimating(false);
+  };
   useEffect(() => {
-    const animate = (timestamp: DOMHighResTimeStamp): void => {
-      update(timestamp);
+    //RUNS AT: After every render
+    if (animating) {
       animationFrameRef.current = requestAnimationFrame(animate);
-    };
-    animationFrameRef.current = requestAnimationFrame(animate);
+    } else if (animationFrameRef.current !== undefined) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = undefined;
+    }
+
     return () => {
-      if (animationFrameRef.current)
+      if (animationFrameRef.current !== undefined) {
         cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = undefined;
+      }
     };
   });
 
   //HANDLER: Hover with mouse or stylus
   const handleMouseMove: MouseEventHandler<HTMLDivElement> = (e) => {
-    const cursor = cardLocalPos(
-      { x: e.clientX, y: e.clientY },
-      e.currentTarget,
-    );
+    const cursor = localizePos({ x: e.clientX, y: e.clientY }, e.currentTarget);
     setCursorCurrent(cursor);
+    setAnimating(true);
+    setLastInteractedTime(lastFrameTime);
   };
 
   //HANDLER: Press and hold with finger or stylus
   const handleTouchMove: TouchEventHandler<HTMLDivElement> = (e) => {
     const touch: Touch | undefined = e.targetTouches[0]; //discard other fingers
     if (touch) {
-      const cursor = cardLocalPos(
+      const cursor = localizePos(
         { x: touch.clientX, y: touch.clientY },
         e.currentTarget,
       );
       cursor.y = cursor.x ** 3; //y not inputable on mobile devices due to scroll interference, calculate as function of x instead
       setCursorCurrent(cursor);
+      setAnimating(true);
+      setLastInteractedTime(lastFrameTime);
     }
   };
 
-  //Animate
-  const update = (timestamp: DOMHighResTimeStamp): void => {
-    const deltaTime = timestamp - previousTimestamp;
-    setNextTimestamp(timestamp);
-
+  //linearly interpolate cursor
+  const updateGhost = (deltaTime: DOMHighResTimeStamp): void => {
     const regulatorFactor = -0.1;
     const cursorDelta = {
       x: cursorCurrent.x - cursorGhost.x,
@@ -106,7 +122,7 @@ export const CommitteeMemberCard: FC<CommitteeMemberCardProps> = ({
   };
 
   // Card local pos from global (aka browser viewport) pos
-  const cardLocalPos = (
+  const localizePos = (
     clientAreaPos: { x: number; y: number },
     targetedCard: HTMLDivElement,
   ): { x: number; y: number } => {
