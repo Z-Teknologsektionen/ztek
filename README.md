@@ -36,7 +36,13 @@ To be able to access the github repository, you need to be a member of the organ
 Finally, install the project's dependencies with the following command:
 
 ```sh
-npm install or npm i
+npm install
+```
+
+or
+
+```sh
+npm i
 ```
 
 and run the project with
