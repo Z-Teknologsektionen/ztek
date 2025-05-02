@@ -3,7 +3,6 @@ import type { FC } from "react";
 import { AiOutlineMail, AiOutlinePhone } from "react-icons/ai";
 import { CommitteeImage } from "~/components/committees/committee-image";
 import { TiltAnimationContainer } from "~/components/layout/tilt-animation-container";
-const { exp, sqrt, min } = Math;
 
 type CommitteeMemberCardProps = {
   email: string;
