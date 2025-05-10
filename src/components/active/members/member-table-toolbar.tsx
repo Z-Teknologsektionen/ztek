@@ -105,7 +105,7 @@ export const MemberTableToolbar = <TData,>({
                     return;
                   }
                   createNewUser({
-                    image: imageResult.data || "",
+                    image: imageResult.data,
                     committeeId,
                     role,
                     ...values,

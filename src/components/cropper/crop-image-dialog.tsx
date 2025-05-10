@@ -136,19 +136,23 @@ export const CropImageDialog: FC<CropImageDialogProps> = ({
                 return;
               }
 
-              const resizedFile = new File([resizedBlob], "resized-image.png", {
-                type: resizedBlob.type,
-              });
+              const resizedFile = new File(
+                [resizedBlob],
+                "resized-image.webp",
+                {
+                  type: resizedBlob.type,
+                },
+              );
               onComplete(resizedFile);
             },
-            "image/png",
+            "image/webp",
             1.0,
           );
         };
 
         tempImg.src = URL.createObjectURL(blob);
       },
-      "image/png",
+      "image/webp",
       1.0,
     );
   }, [crop, onCancel, onComplete, finalHeight, finalWidth]);

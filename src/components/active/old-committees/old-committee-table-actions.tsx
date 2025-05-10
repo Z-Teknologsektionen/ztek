@@ -45,25 +45,29 @@ export const OldCommitteeTableActions: FC<OldCommitteeType> = ({
                 newImageFile: imageFile,
                 currentImageUrl: image,
                 oldImageUrl: "",
-                entityName: slugifyString(name + year),
+                entityName: slugifyString(`${name}-${year}-group`),
               });
+
+              if (!imageResult.success) {
+                return;
+              }
 
               const logoResult = await imageOperations.processImageChanges({
                 newImageFile: logoFile,
                 currentImageUrl: logo,
                 oldImageUrl: "",
-                entityName: slugifyString(name + year + "logo"),
+                entityName: slugifyString(`${name}-${year}-group`),
               });
 
-              if (!imageResult.success || !logoResult.success) {
+              if (!logoResult.success) {
                 return;
               }
               updateOldCommittee({
                 id: id,
                 name,
                 year,
-                logo: logoResult.data || "",
-                image: imageResult.data || "",
+                logo: logoResult.data,
+                image: imageResult.data,
                 ...rest,
               });
             }}

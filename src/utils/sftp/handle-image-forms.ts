@@ -3,11 +3,15 @@ import { env } from "~/env.mjs";
 import { handleCreateSftpFile } from "~/utils/sftp/handle-create-sftp-file";
 import { handleDeleteSftpFile } from "~/utils/sftp/handle-delete-sftp-file";
 
-type ImageOperationResult<T> = {
-  data?: T;
-  error?: string;
-  success: boolean;
-};
+type ImageOperationResult<T> =
+  | {
+      data: T;
+      success: boolean;
+    }
+  | {
+      error: string;
+      success: false;
+    };
 
 /**
  * Handles all image operations
@@ -126,11 +130,11 @@ export const imageOperations = {
     oldImageUrl,
     entityName,
   }: {
-    currentImageUrl?: string;
+    currentImageUrl: string;
     entityName: string;
     newImageFile?: File | null;
     oldImageUrl?: string;
-  }): Promise<ImageOperationResult<string | undefined>> => {
+  }): Promise<ImageOperationResult<string>> => {
     try {
       // Case 1: New image being uploaded
       if (newImageFile) {
@@ -148,7 +152,7 @@ export const imageOperations = {
       }
 
       // Case 2: Image being removed
-      else if ((!currentImageUrl || currentImageUrl === "") && oldImageUrl) {
+      else if (currentImageUrl === "" && oldImageUrl) {
         const result = await imageOperations.removeImage({
           imageUrl: oldImageUrl,
         });

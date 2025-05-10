@@ -4,18 +4,18 @@ import {
   committeeOrderNumber,
   emailString,
   emptyString,
-  httpsUrlString,
   nonEmptyString,
   objectId,
   phoneNumberString,
   sftpFile,
+  sftpUrl,
   standardString,
 } from "~/schemas/helpers/custom-zod-helpers";
 
 export const upsertMemberBaseSchema = z.object({
   name: standardString,
   nickName: standardString,
-  image: base64WebPImageString.or(emptyString).or(httpsUrlString),
+  image: base64WebPImageString.or(emptyString).or(sftpUrl),
   order: committeeOrderNumber,
   phone: phoneNumberString.or(emptyString),
   imageFile: sftpFile.optional().nullable(),

@@ -3,10 +3,10 @@ import {
   base64WebPImageString,
   committeeOrderNumber,
   emptyString,
-  httpsUrlString,
   nonEmptyString,
   objectId,
   sftpFile,
+  sftpUrl,
   standardString,
   validYearPastOrCurrent,
 } from "~/schemas/helpers/custom-zod-helpers";
@@ -26,9 +26,9 @@ export const createOldCommitteeSchema = z.object({
     'Måste vara på formen "Organ 22" eller "Organ 22/23"',
   ),
   year: validYearPastOrCurrent,
-  image: base64WebPImageString.or(emptyString).or(httpsUrlString),
+  image: base64WebPImageString.or(emptyString).or(sftpUrl),
   imageFile: sftpFile.optional().nullable(),
-  logo: base64WebPImageString.or(emptyString).or(httpsUrlString),
+  logo: base64WebPImageString.or(emptyString).or(sftpUrl),
   logoFile: sftpFile.optional().nullable(),
   members: oldCommitteeMemberSchema
     .array()

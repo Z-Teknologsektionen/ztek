@@ -73,18 +73,18 @@ export const OldCommitteeTableToolbar = <TData,>({
     [oldCommittees],
   );
 
-  let year = 0;
+  let committeeYear = 0;
   let formattedYear = "";
   if (activeCommittee) {
-    year = activeCommittee?.updatedAt.getFullYear();
+    committeeYear = activeCommittee?.updatedAt.getFullYear();
     if (new Date(new Date().getFullYear(), 0, 1) < activeCommittee?.updatedAt) {
-      year -= 1;
+      committeeYear -= 1;
     }
-    formattedYear = `${year.toString().slice(2)}/${(year + 1)
+    formattedYear = `${committeeYear.toString().slice(2)}/${(committeeYear + 1)
       .toString()
       .slice(2)}`;
     if (activeCommittee.electionPeriods.includes(2)) {
-      formattedYear = year.toString().slice(2);
+      formattedYear = committeeYear.toString().slice(2);
     }
   }
 
@@ -122,7 +122,7 @@ export const OldCommitteeTableToolbar = <TData,>({
                 <UpsertOldCommitteeForm
                   defaultValues={{
                     name: `${activeCommittee.name} ${formattedYear}`,
-                    year: year,
+                    year: committeeYear,
                     belongsToCommitteeId: activeCommittee.id,
                     members: activeCommittee.members,
                     logo: activeCommittee.image,
@@ -135,6 +135,7 @@ export const OldCommitteeTableToolbar = <TData,>({
                     imageFile,
                     logo,
                     logoFile,
+                    year,
                     ...rest
                   }) => {
                     const imageResult =
@@ -142,24 +143,28 @@ export const OldCommitteeTableToolbar = <TData,>({
                         newImageFile: imageFile,
                         currentImageUrl: image,
                         oldImageUrl: "",
-                        entityName: slugifyString(name),
+                        entityName: slugifyString(`${name}-${year}-group`),
                       });
+                    if (!imageResult.success) {
+                      return;
+                    }
 
                     const logoResult =
                       await imageOperations.processImageChanges({
                         newImageFile: logoFile,
                         currentImageUrl: logo,
                         oldImageUrl: "",
-                        entityName: slugifyString(name + "logo"),
+                        entityName: slugifyString(`${name}-${year}-logo`),
                       });
 
-                    if (!imageResult.success || !logoResult.success) {
+                    if (!logoResult.success) {
                       return;
                     }
                     createNewOldCommittee({
                       name,
-                      logo: logoResult.data || "",
-                      image: imageResult.data || "",
+                      logo: logoResult.data,
+                      image: imageResult.data,
+                      year,
                       ...rest,
                     });
                   }}
@@ -192,6 +197,7 @@ export const OldCommitteeTableToolbar = <TData,>({
                   imageFile,
                   logo,
                   logoFile,
+                  year,
                   ...rest
                 }) => {
                   const imageResult = await imageOperations.processImageChanges(
@@ -199,24 +205,29 @@ export const OldCommitteeTableToolbar = <TData,>({
                       newImageFile: imageFile,
                       currentImageUrl: image,
                       oldImageUrl: "",
-                      entityName: slugifyString(name),
+                      entityName: slugifyString(`${name}-${year}-group`),
                     },
                   );
+
+                  if (!imageResult.success) {
+                    return;
+                  }
 
                   const logoResult = await imageOperations.processImageChanges({
                     newImageFile: logoFile,
                     currentImageUrl: logo,
                     oldImageUrl: "",
-                    entityName: slugifyString(name + "logo"),
+                    entityName: slugifyString(`${name}-${year}-logo`),
                   });
 
-                  if (!imageResult.success || !logoResult.success) {
+                  if (!logoResult.success) {
                     return;
                   }
                   createNewOldCommittee({
                     name,
-                    logo: logoResult.data || "",
-                    image: imageResult.data || "",
+                    logo: logoResult.data,
+                    image: imageResult.data,
+                    year,
                     ...rest,
                   });
                 }}

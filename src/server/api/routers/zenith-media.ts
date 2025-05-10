@@ -99,26 +99,19 @@ export const zenithMediaRouter = createTRPCRouter({
         throw new Error("Media not found");
       }
 
-      if (fileUrl.url.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)) {
-        try {
-          await deleteFileFromSftpServer({ url: fileUrl.url });
-        } catch (error) {
-          if (error instanceof Error) {
-            if (error.message !== "Filen du ville radera kunde inte hittas!")
-              throw new Error(error.message);
-          } else {
-            throw new Error("Something went wrong when deleting the file.");
-          }
-        }
-      }
-
       const deletedMedia = await ctx.prisma.zenithMedia.delete({
         where: {
           id: id,
         },
       });
 
-      // Delete image if it exists
+      // Delete images if it exists
+      if (
+        fileUrl.url &&
+        fileUrl.url.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)
+      ) {
+        await deleteFileFromSftpServer({ url: fileUrl.url });
+      }
       if (
         deletedMedia.coverImage &&
         deletedMedia.coverImage.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)

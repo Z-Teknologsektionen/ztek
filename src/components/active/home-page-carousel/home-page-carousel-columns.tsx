@@ -5,7 +5,11 @@ import BadgeCell from "~/components/columns/badge-cell";
 import BooleanCell from "~/components/columns/boolean-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
-import { visibilityStates } from "~/constants/home-page-carousel";
+import {
+  CAROUSEL_IMAGE_HEIGHT,
+  CAROUSEL_IMAGE_WIDTH,
+  visibilityStates,
+} from "~/constants/home-page-carousel";
 import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import { type RouterOutputs } from "~/utils/api";
 import { dayjs } from "~/utils/dayjs";
@@ -26,11 +30,9 @@ export const homePageCarouselColumns: ColumnDef<HomePageCarouselItemType>[] = [
     cell: ({ row }) => (
       <Image
         alt={`Bild från ${row.original.committee.name}`}
-        height={1080}
+        height={CAROUSEL_IMAGE_HEIGHT}
         src={row.original.imageUrl}
-        width={1920}
-
-        // unoptimized
+        width={CAROUSEL_IMAGE_WIDTH}
       />
     ),
   },

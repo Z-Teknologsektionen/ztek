@@ -69,7 +69,7 @@ export const CommitteeTableToolbar = <TData,>({
                   createNewCommittee({
                     name,
                     slug,
-                    image: imageResult.data || "",
+                    image: imageResult.data,
                     ...rest,
                   });
                 }}

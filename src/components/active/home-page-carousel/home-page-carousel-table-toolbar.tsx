@@ -28,12 +28,12 @@ export const HomePageCarouselTableToolbar = <TData,>({
   const committeeColumn = table.getColumn("Organ");
   const isVisibleColumn = table.getColumn("Visas");
 
-  const { data: committees } =
+  const { data: carouselItems } =
     api.homePageCarousel.getManyByCommitteeIdAsActive.useQuery();
 
   const committeeOptions = useMemo(
     () =>
-      committees
+      carouselItems
         ?.map(({ committee }) => ({
           label: committee.name,
           value: committee.id,
@@ -43,7 +43,7 @@ export const HomePageCarouselTableToolbar = <TData,>({
             self.findIndex(({ value }) => filterValue === value) === index,
         ) || [],
 
-    [committees],
+    [carouselItems],
   );
 
   const { mutate: createItem } = useCreateCarouselAsActive({
@@ -99,7 +99,7 @@ export const HomePageCarouselTableToolbar = <TData,>({
                     return;
                   }
                   createItem({
-                    imageUrl: imageResult.data || "",
+                    imageUrl: imageResult.data,
                     ...rest,
                   });
                 }}
