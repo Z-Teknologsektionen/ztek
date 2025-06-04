@@ -109,7 +109,7 @@ const config = {
       "error",
       { namedComponents: "arrow-function" },
     ],
-    "react/hook-use-state": "error",
+    "react/hook-use-state": "off",
     "react-hooks/exhaustive-deps": "error",
     "react/jsx-filename-extension": ["error", { extensions: [".tsx"] }],
     "react/jsx-no-bind": "off",
