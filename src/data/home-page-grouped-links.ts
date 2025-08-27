@@ -8,7 +8,7 @@ export type HomePageGroupedLinksType = {
   title: string;
 }[];
 
-export const homePageGroupedLinks = [
+export const homePageGroupedLinks: HomePageGroupedLinksType = [
   {
     title: "Studier",
     links: [
@@ -34,19 +34,19 @@ export const homePageGroupedLinks = [
       },
       {
         title: "Boka Grupprum",
-        url: "https://cloud.timeedit.net/chalmers/web/b1",
+        url: "https://cloud.timeedit.net/chalmers/web/student/",
       },
       {
         title: "Schema TKAUT-1",
-        url: "https://cloud.timeedit.net/chalmers/web/public/ri1Y93ygZ05ZZQQ1X65v7Y015Q42x4956g580YQQ697.html",
+        url: "https://cloud.timeedit.net/chalmers/web/public/ri1Q7Y4QQ57Z07Q602464693501W6Z69000y.html",
       },
       {
         title: "Schema TKAUT-2",
-        url: "https://cloud.timeedit.net/chalmers/web/public/ri1Y93ygZ05ZZQQ1X65v7Y085Q42x4956g580YQQ677.html",
+        url: "https://cloud.timeedit.net/chalmers/web/public/ri1Q7Y4QQ57Z07Q102464693508W6Z69000y.html",
       },
       {
         title: "Schema TKAUT-3",
-        url: "https://cloud.timeedit.net/chalmers/web/public/ri1Y93ygZ05ZZQQ1X65v7Y075Q42x4956g580YQQ687.html",
+        url: "https://cloud.timeedit.net/chalmers/web/public/ri1Q7Y4QQ57Z07Q202464693507W6Z69000y.html",
       },
       {
         title: "Timeedit",
