@@ -15,6 +15,8 @@ import {
   nonEmptyString,
   objectId,
   relativePathString,
+  sftpFile,
+  sftpUrl,
   slugString,
   standardBoolean,
   standardString,
@@ -64,7 +66,8 @@ export const socialIconSchema = z
   );
 
 export const upsertCommitteeBaseSchema = z.object({
-  image: base64WebPImageString.or(emptyString),
+  //Backwards compatibility for base64, but we should only use urls in the future
+  image: base64WebPImageString.or(emptyString).or(sftpUrl),
   description: standardString
     .min(1, "Måste vara minst 1 tecken")
     .max(
@@ -73,6 +76,7 @@ export const upsertCommitteeBaseSchema = z.object({
     ),
   socialLinks: z.array(socialIconSchema).max(MAX_NUMER_OF_SOCIAL_LINKS),
   showOldCommittee: standardBoolean,
+  imageFile: sftpFile.optional().nullable(),
 });
 
 export const updateCommitteeAsActiveSchema = upsertCommitteeBaseSchema

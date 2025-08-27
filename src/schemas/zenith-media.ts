@@ -8,6 +8,7 @@ import {
   nonEmptyString,
   objectId,
   sftpFile,
+  sftpUrl,
   validYearPastOrCurrent,
 } from "~/schemas/helpers/custom-zod-helpers";
 
@@ -15,7 +16,8 @@ export const zenithMediaBaseSchema = z.object({
   title: nonEmptyString,
   year: validYearPastOrCurrent,
   order: mediaOrderNumber.nullable(),
-  coverImage: base64WebPImageString,
+  coverImage: base64WebPImageString.or(emptyString).or(sftpUrl),
+  coverImageFile: sftpFile.optional().nullable(),
 });
 
 export const createZenithMediaClientSchema = zenithMediaBaseSchema.extend({

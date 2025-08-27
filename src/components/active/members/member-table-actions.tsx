@@ -10,6 +10,8 @@ import {
 } from "~/hooks/mutations/useMutateMember";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { canCurrentUserModifyTargetRoleUser } from "~/utils/can-user-edit-user";
+import { imageOperations } from "~/utils/sftp/handle-image-forms";
+import { slugifyString } from "~/utils/string-utils";
 import type { CommitteeMemberType } from "./member-columns";
 
 export const CommitteeMemberTableActions: FC<CommitteeMemberType> = ({
@@ -40,12 +42,31 @@ export const CommitteeMemberTableActions: FC<CommitteeMemberType> = ({
             key={id}
             defaultValues={values}
             formType="update"
-            onSubmit={(updatesValues) =>
+            onSubmit={async ({
+              role,
+              committeeId,
+              imageFile,
+              image,
+              ...updatedValues
+            }) => {
+              const imageResult = await imageOperations.processImageChanges({
+                newImageFile: imageFile,
+                currentImageUrl: image,
+                oldImageUrl: values.image,
+                entityName: slugifyString(committeeId + role),
+              });
+
+              if (!imageResult.success) {
+                return;
+              }
               updateMember({
                 id: id,
-                ...updatesValues,
-              })
-            }
+                image: imageResult.data || "",
+                committeeId,
+                role,
+                ...updatedValues,
+              });
+            }}
           />
         }
         isOpen={isOpen}

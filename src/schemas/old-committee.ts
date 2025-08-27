@@ -5,6 +5,8 @@ import {
   emptyString,
   nonEmptyString,
   objectId,
+  sftpFile,
+  sftpUrl,
   standardString,
   validYearPastOrCurrent,
 } from "~/schemas/helpers/custom-zod-helpers";
@@ -24,8 +26,10 @@ export const createOldCommitteeSchema = z.object({
     'Måste vara på formen "Organ 22", "Organ 22/23" eller "Organ 22-24"',
   ),
   year: validYearPastOrCurrent,
-  image: base64WebPImageString.or(emptyString),
-  logo: base64WebPImageString.or(emptyString),
+  image: base64WebPImageString.or(emptyString).or(sftpUrl),
+  imageFile: sftpFile.optional().nullable(),
+  logo: base64WebPImageString.or(emptyString).or(sftpUrl),
+  logoFile: sftpFile.optional().nullable(),
   members: oldCommitteeMemberSchema
     .array()
     .min(1, "Måste vara minst en sittande i ett patetorgan"),

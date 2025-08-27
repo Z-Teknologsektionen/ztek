@@ -9,6 +9,8 @@ import { Input } from "~/components/ui/input";
 import { MIN_MEDIA_ORDER_NUMBER } from "~/constants/zenith-media";
 import { useCreateZenithMediaAsAuthed } from "~/hooks/mutations/useMutateZenithMedia";
 import { handleCreateZenithMediaFile } from "~/utils/sftp/handle-create-sftp-file";
+import { imageOperations } from "~/utils/sftp/handle-image-forms";
+import { slugifyString } from "~/utils/string-utils";
 
 interface MemberTableToolbarProps<TData> {
   table: Table<TData>;
@@ -58,6 +60,7 @@ export const ZenithMediaTableToolbar = <TData,>({
                 formType="create"
                 onSubmit={async ({
                   coverImage,
+                  coverImageFile,
                   media: { file: fileInput, url },
                   title,
                   year,
@@ -66,6 +69,18 @@ export const ZenithMediaTableToolbar = <TData,>({
                   const loadingToastId = toast.loading(
                     "Laddar upp media. Detta kan ta en stund!",
                   );
+
+                  const imageResult = await imageOperations.processImageChanges(
+                    {
+                      newImageFile: coverImageFile,
+                      currentImageUrl: coverImage,
+                      oldImageUrl: "",
+                      entityName: slugifyString(title + "cover"),
+                    },
+                  );
+                  if (!imageResult.success) {
+                    return;
+                  }
 
                   try {
                     if (fileInput)
@@ -85,7 +100,7 @@ export const ZenithMediaTableToolbar = <TData,>({
 
                     return createNewZenithMedia({
                       url,
-                      coverImage,
+                      coverImage: imageResult.data || "",
                       title,
                       year,
                       order,
