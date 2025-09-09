@@ -31,11 +31,19 @@ export const homePageCarouselRouter = createTRPCRouter({
     .mutation(
       async ({
         ctx,
-        input: { committeeId, endDateTime, imageUrl, linkToUrl, startDateTime },
+        input: {
+          committeeId,
+          endDateTime,
+          imageCredit,
+          imageUrl,
+          linkToUrl,
+          startDateTime,
+        },
       }) => {
         const createdItem = await ctx.prisma.homePageCarouselItem.create({
           data: {
             committeeId,
+            imageCredit,
             imageUrl,
             linkToUrl,
             startDateTime,
@@ -59,6 +67,7 @@ export const homePageCarouselRouter = createTRPCRouter({
           id,
           committeeId,
           endDateTime,
+          imageCredit,
           imageUrl,
           linkToUrl,
           startDateTime,
@@ -71,6 +80,7 @@ export const homePageCarouselRouter = createTRPCRouter({
           data: {
             committeeId,
             imageUrl,
+            imageCredit,
             linkToUrl,
             startDateTime,
             endDateTime,

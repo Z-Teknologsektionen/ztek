@@ -21,6 +21,10 @@ const endDateAfterStartDate = ({
 };
 
 const homePageCarouselBaseSchema = z.object({
+  imageCredit: z
+    .string()
+    .or(emptyString.transform(() => null))
+    .nullable(),
   imageUrl: httpsUrlString,
   linkToUrl: httpsUrlString.or(emptyString.transform(() => null)).nullable(),
   committeeId: objectId,
