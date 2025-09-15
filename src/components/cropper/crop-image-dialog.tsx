@@ -20,7 +20,6 @@ import {
   DialogTitle,
 } from "~/components/ui/dialog";
 
-import { getDataURLForCropedImage } from "~/utils/get-data-url-for-croped-image";
 import { SelectCropRadioGroup } from "./select-crop-radio-group";
 
 type CropImageDialogProps = {
@@ -29,9 +28,8 @@ type CropImageDialogProps = {
   finalWidth: number;
   freeCrop: boolean;
   onCancel?: () => void;
-  onComplete: (base64: string) => void;
+  onComplete: (file: File) => void;
   open: boolean;
-  quality: number;
   ruleOfThirds: boolean;
   setOpen: (open: boolean) => void;
   src: string;
@@ -42,7 +40,6 @@ export const CropImageDialog: FC<CropImageDialogProps> = ({
   finalWidth,
   onCancel,
   onComplete,
-  quality,
   src,
   open,
   setOpen,
@@ -69,22 +66,96 @@ export const CropImageDialog: FC<CropImageDialogProps> = ({
       return;
     }
 
-    const dataUrl = getDataURLForCropedImage({
-      image: imgRef.current,
-      canvas: previewCanvasRef.current,
-      crop: convertToPixelCrop(
-        crop,
-        imgRef.current.width,
-        imgRef.current.height,
-      ),
-      width: finalWidth,
-      height: finalHeight,
-      quality,
-      freeCrop,
-    });
+    const canvas = previewCanvasRef.current;
+    const context = canvas.getContext("2d");
 
-    onComplete(dataUrl);
-  }, [crop, finalHeight, finalWidth, onCancel, onComplete, quality, freeCrop]);
+    if (!context) {
+      toast.error("Kunde inte bearbeta bilden. Försök igen!");
+      onCancel?.();
+      return;
+    }
+
+    const image = imgRef.current;
+    const pixelCrop = convertToPixelCrop(crop, image.width, image.height);
+
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+
+    // Calculate the dimensions in the original image's resolution
+    const cropX = pixelCrop.x * scaleX;
+    const cropY = pixelCrop.y * scaleY;
+    const cropWidth = pixelCrop.width * scaleX;
+    const cropHeight = pixelCrop.height * scaleY;
+
+    canvas.width = cropWidth;
+    canvas.height = cropHeight;
+
+    // Draw only the cropped portion at original resolution
+    context.drawImage(
+      image,
+      cropX,
+      cropY,
+      cropWidth,
+      cropHeight,
+      0,
+      0,
+      cropWidth,
+      cropHeight,
+    );
+
+    canvas.toBlob(
+      (blob) => {
+        if (!blob) {
+          toast.error("Kunde inte skapa filen. Försök igen!");
+          onCancel?.();
+          return;
+        }
+
+        // Create a new canvas for resizing
+        const resizeCanvas = document.createElement("canvas");
+        resizeCanvas.width = finalWidth;
+        resizeCanvas.height = finalHeight;
+        const resizeContext = resizeCanvas.getContext("2d");
+
+        if (!resizeContext) {
+          toast.error("Kunde inte bearbeta bilden. Försök igen!");
+          onCancel?.();
+          return;
+        }
+
+        // Create a temporary image from the blob
+        const tempImg = new Image();
+        tempImg.onload = () => {
+          resizeContext.drawImage(tempImg, 0, 0, finalWidth, finalHeight);
+
+          resizeCanvas.toBlob(
+            (resizedBlob) => {
+              if (!resizedBlob) {
+                toast.error("Kunde inte skapa filen. Försök igen!");
+                onCancel?.();
+                return;
+              }
+
+              const resizedFile = new File(
+                [resizedBlob],
+                "resized-image.webp",
+                {
+                  type: resizedBlob.type,
+                },
+              );
+              onComplete(resizedFile);
+            },
+            "image/webp",
+            1.0,
+          );
+        };
+
+        tempImg.src = URL.createObjectURL(blob);
+      },
+      "image/webp",
+      1.0,
+    );
+  }, [crop, onCancel, onComplete, finalHeight, finalWidth]);
 
   const imageScale = imgRef.current
     ? imgRef.current?.height / imgRef.current?.naturalHeight

@@ -19,6 +19,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Separator } from "~/components/ui/separator";
 import { useUpdateMemberAsActive } from "~/hooks/mutations/useMutateMember";
 import type { RouterOutputs } from "~/utils/api";
+import { imageOperations } from "~/utils/sftp/handle-image-forms";
+import { slugifyString } from "~/utils/string-utils";
 import { cn } from "~/utils/utils";
 
 type CommitteeMemberProps = {
@@ -49,12 +51,23 @@ export const UpdateCommitteeMemberSection: FC<CommitteeMemberProps> = ({
             <UpsertMemberAsActiveForm
               defaultValues={member}
               formType="update"
-              onSubmit={(updatedValues) =>
+              onSubmit={async ({ image, imageFile, ...updatedValues }) => {
+                const imageResult = await imageOperations.processImageChanges({
+                  newImageFile: imageFile,
+                  currentImageUrl: image,
+                  oldImageUrl: member.image,
+                  entityName: slugifyString(member.role),
+                });
+
+                if (!imageResult.success) {
+                  return;
+                }
                 updateMemberAsActive({
-                  ...updatedValues,
                   id: member.id,
-                })
-              }
+                  image: imageResult.data || "",
+                  ...updatedValues,
+                });
+              }}
             />
           }
           isOpen={isOpen}

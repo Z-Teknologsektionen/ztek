@@ -7,6 +7,8 @@ import { Button } from "~/components/ui/button";
 import { useCreateOldCommitteeAsActive } from "~/hooks/mutations/useMutateOldCommittee";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
+import { imageOperations } from "~/utils/sftp/handle-image-forms";
+import { slugifyString } from "~/utils/string-utils";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 import UpsertOldCommitteeForm from "./upsert-old-committee-form";
 
@@ -71,18 +73,18 @@ export const OldCommitteeTableToolbar = <TData,>({
     [oldCommittees],
   );
 
-  let year = 0;
+  let committeeYear = 0;
   let formattedYear = "";
   if (activeCommittee) {
-    year = activeCommittee?.updatedAt.getFullYear();
+    committeeYear = activeCommittee?.updatedAt.getFullYear();
     if (new Date(new Date().getFullYear(), 0, 1) < activeCommittee?.updatedAt) {
-      year -= 1;
+      committeeYear -= 1;
     }
-    formattedYear = `${year.toString().slice(2)}/${(year + 1)
+    formattedYear = `${committeeYear.toString().slice(2)}/${(committeeYear + 1)
       .toString()
       .slice(2)}`;
     if (activeCommittee.electionPeriods.includes(2)) {
-      formattedYear = year.toString().slice(2);
+      formattedYear = committeeYear.toString().slice(2);
     }
   }
 
@@ -120,14 +122,52 @@ export const OldCommitteeTableToolbar = <TData,>({
                 <UpsertOldCommitteeForm
                   defaultValues={{
                     name: `${activeCommittee.name} ${formattedYear}`,
-                    year: year,
+                    year: committeeYear,
                     belongsToCommitteeId: activeCommittee.id,
                     members: activeCommittee.members,
                     logo: activeCommittee.image,
                     image: "",
                   }}
                   formType="create"
-                  onSubmit={(values) => createNewOldCommittee(values)}
+                  onSubmit={async ({
+                    name,
+                    image,
+                    imageFile,
+                    logo,
+                    logoFile,
+                    year,
+                    ...rest
+                  }) => {
+                    const imageResult =
+                      await imageOperations.processImageChanges({
+                        newImageFile: imageFile,
+                        currentImageUrl: image,
+                        oldImageUrl: "",
+                        entityName: slugifyString(`${name}-${year}-group`),
+                      });
+                    if (!imageResult.success) {
+                      return;
+                    }
+
+                    const logoResult =
+                      await imageOperations.processImageChanges({
+                        newImageFile: logoFile,
+                        currentImageUrl: logo,
+                        oldImageUrl: "",
+                        entityName: slugifyString(`${name}-${year}-logo`),
+                      });
+
+                    if (!logoResult.success) {
+                      return;
+                    }
+                    createNewOldCommittee({
+                      name,
+                      logo: logoResult.data,
+                      image: imageResult.data,
+                      year,
+                      ...rest,
+                    });
+                  }}
                 />
               }
               isOpen={isFromOldOpen}
@@ -151,7 +191,46 @@ export const OldCommitteeTableToolbar = <TData,>({
               <UpsertOldCommitteeForm
                 key="new"
                 formType="create"
-                onSubmit={(values) => createNewOldCommittee(values)}
+                onSubmit={async ({
+                  name,
+                  image,
+                  imageFile,
+                  logo,
+                  logoFile,
+                  year,
+                  ...rest
+                }) => {
+                  const imageResult = await imageOperations.processImageChanges(
+                    {
+                      newImageFile: imageFile,
+                      currentImageUrl: image,
+                      oldImageUrl: "",
+                      entityName: slugifyString(`${name}-${year}-group`),
+                    },
+                  );
+
+                  if (!imageResult.success) {
+                    return;
+                  }
+
+                  const logoResult = await imageOperations.processImageChanges({
+                    newImageFile: logoFile,
+                    currentImageUrl: logo,
+                    oldImageUrl: "",
+                    entityName: slugifyString(`${name}-${year}-logo`),
+                  });
+
+                  if (!logoResult.success) {
+                    return;
+                  }
+                  createNewOldCommittee({
+                    name,
+                    logo: logoResult.data,
+                    image: imageResult.data,
+                    year,
+                    ...rest,
+                  });
+                }}
               />
             }
             isOpen={isNewOpen}

@@ -8,6 +8,8 @@ import {
   useDeleteProgramBoardMemberAsAuthed,
   useUpdateProgramBoardMemberAsAuthed,
 } from "~/hooks/mutations/useMutateProgramBoardMember";
+import { imageOperations } from "~/utils/sftp/handle-image-forms";
+import { slugifyString } from "~/utils/string-utils";
 import type { ProgramBoardType } from "./program-board-columns";
 
 export const ProgramBoardMemberTableActions: FC<ProgramBoardType> = ({
@@ -34,12 +36,24 @@ export const ProgramBoardMemberTableActions: FC<ProgramBoardType> = ({
             key={id}
             defaultValues={values}
             formType="update"
-            onSubmit={(updatesValues) =>
+            onSubmit={async ({ role, imageFile, image, ...updatesValues }) => {
+              const imageResult = await imageOperations.processImageChanges({
+                newImageFile: imageFile,
+                currentImageUrl: image,
+                oldImageUrl: values.image,
+                entityName: slugifyString(role),
+              });
+
+              if (!imageResult.success) {
+                return;
+              }
               updateProgramBoardMember({
                 id: id,
+                image: imageResult.data,
+                role,
                 ...updatesValues,
-              })
-            }
+              });
+            }}
           />
         }
         isOpen={isOpen}
