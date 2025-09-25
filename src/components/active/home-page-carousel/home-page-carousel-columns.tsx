@@ -34,6 +34,16 @@ export const homePageCarouselColumns: ColumnDef<HomePageCarouselItemType>[] = [
     ),
   },
   {
+    id: "Fotograf",
+    accessorKey: "imageCredit",
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    enableSorting: true,
+    enableHiding: true,
+    enableResizing: true,
+    cell: ({ row }) =>
+      row.original.imageCredit || <BooleanCell value={false} />,
+  },
+  {
     id: "Organ",
     accessorKey: "committee.name",
     header: ({ column }) => <DataTableColumnHeader column={column} />,
