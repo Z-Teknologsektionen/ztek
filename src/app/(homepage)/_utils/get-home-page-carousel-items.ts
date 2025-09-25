@@ -32,6 +32,12 @@ export const getHomePageCarouselItems = unstable_cache(
           },
         ],
       },
+      select: {
+        id: true,
+        imageCredit: true,
+        imageUrl: true,
+        linkToUrl: true,
+      },
     }),
   undefined,
   { revalidate: 60 * 60, tags: ["home-page-carousel"] },
