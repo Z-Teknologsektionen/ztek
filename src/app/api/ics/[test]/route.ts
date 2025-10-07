@@ -8,29 +8,49 @@ export async function GET(
 ): Promise<Response> {
   //
 
-  //get timeedit calendar
+  var timeeditResponse: Response;
   const timeeditRequest: Request = new Request(
     `https://cloud.timeedit.net/chalmers/web/public/ri6y7YQQu9QZnZQ18Z44beZ35680Q.ics`,
+    //`https://cloud.timeedit.net/chalmers/web/public/${params.test}.ics`,
+    //`https://translate.google.com/BOB?sl=en&tl=sv&op=translate`,
   );
-  const timeeditResponse: Response = await fetch(timeeditRequest);
+
+  //poll TimeEdit
+  try {
+    timeeditResponse = await fetch(timeeditRequest);
+  } catch (error) {
+    return new Response("TimeEdit networking error", { status: 504 });
+  }
 
   //checks
-  //TODO: ADD MORE CHECKS!!
-  if (timeeditResponse.body === null) return Response.error();
+  if (!timeeditResponse.ok)
+    return new Response(
+      timeeditResponse.status === 404
+        ? "TimeEdit calendar not found"
+        : "Unexpected behaviour from TimeEdit",
+      { status: 502 },
+    );
+  const timeeditResponseContentType =
+    timeeditResponse.headers.get("Content-Type"); //read the HTTP header
+  if (
+    timeeditResponseContentType &&
+    timeeditResponseContentType?.indexOf("text/calendar") !== -1
+  )
+    return new Response("TimeEdit answered with non-calendar data", {
+      status: 502,
+    });
+  if (timeeditResponse.body === null)
+    return new Response("TimeEdit answered without calendar data", {
+      status: 502,
+    });
 
   //make response
-  const scheduleResponse: Response = new Response(
-    simplifySchedule(timeeditResponse.body),
-    {
-      headers: {
-        "Content-Type": "text/calendar; charset=utf-8",
-        "Content-Disposition": `attachment; filename="schedule.ics"`,
-      },
+  return new Response(simplifySchedule(await timeeditResponse.text()), {
+    headers: {
+      "Content-Type": "text/calendar; charset=utf-8",
+      "Content-Disposition": `attachment; filename="${params.test}.ics"`,
     },
-  );
-
-  //return
-  return scheduleResponse;
+  });
 }
 
 //https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream/ReadableStream
