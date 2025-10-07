@@ -4,6 +4,18 @@
 
 import { convertIcsCalendar, generateIcsCalendar, IcsCalendar } from "ts-ics";
 
+/**
+ * Fields embedded in VEVENT property values of typical (as of 2025) Chalmers' TimeEdit .ics Calendars.
+ * For example:
+ * ```
+ * SUMMARY:Kurs kod: LMT212_50_HT25_67120. Kurs namn: Mekani
+ *  k\, fortsättningskurs\, Kurs kod: MMS216_40_HT25_47133
+ *  . Kurs namn: Mekanik 2\, Activity: Datorövning\, Activ
+ *  ity: Räknestuga\, Klass kod: TKAUT-2. Klass namn: Auto
+ *  mation och mekatronik\, Klass kod: TIMEL-2. Klass namn
+ *  : Mekatronik
+ * ```
+ */
 enum EventFields {
   CourseCode = "Kurs kod: ",
   CourseName = "Kurs namn: ",
@@ -16,8 +28,38 @@ enum EventFields {
   MapURI = "Kartlänk: ", //Or MURI for short, but that'd be confusing
 }
 
-const parseInfo = (text: string, output: Map<EventFields, string[]>): void => {
-  throw Error("NOT IMPLEMENTED");
+/**
+ * Parses poorly delimited key-value pairs where:
+ *  - keys are members of the `EventFields` string enum
+ *  - values are arbitrary strings, which do not contain any keys
+ * @param text - Text to parse.
+ * @param out - Map where parsed values are to be added. Keys need not exist upon call.
+ */
+const parseInfo = (text: string, out: Map<EventFields, string[]>): void => {
+  // let's do the O(text.length) complexity linear search!!
+
+  const keyAt = (key: EventFields, position: number): boolean => {
+    throw new Error("Not implemented");
+  };
+  let currentKey: EventFields | null = null; // key whose value is being parsed
+  let startIndex: number = 0; // start index of value
+  let index: number = 0; // index at which to look for next key (aka end of current value)
+  while (index < text.length) {
+    for (const nextKey of Object.values(EventFields)) {
+      if (keyAt(nextKey, index)) {
+        const value: string = text.substring(startIndex, index);
+        currentKey &&
+          (out.get(currentKey) === undefined
+            ? out.set(currentKey, [value])
+            : out.get(currentKey)!.push(currentKey)); //          // append currently parsed value onto mapped list
+        currentKey = nextKey; //                                  // set new key
+        startIndex = index + currentKey.length; //                // new value begins right after new key
+        index = startIndex - 1; //                                // continue scanning at startIndex
+        break;
+      }
+    }
+    index++;
+  }
 };
 
 const constructLocation = (info: Map<EventFields, string[]>): string => {
