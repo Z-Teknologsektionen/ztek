@@ -44,6 +44,8 @@ export async function GET(
       status: 502,
     });
 
+  //TODO: check fail to edit schedule
+
   //make response
   return new Response(simplifySchedule(await timeeditResponse.text()), {
     headers: {
