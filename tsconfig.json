@@ -21,6 +21,7 @@
       "~/*": ["./src/*"],
       "crypto": ["node_modules/crypto-js"] // https://stackoverflow.com/questions/54162297/module-not-found-error-cant-resolve-crypto
     },
+    "sourceMap": true,
     "plugins": [
       {
         "name": "next"
