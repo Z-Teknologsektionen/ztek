@@ -1,8 +1,8 @@
-//THIS PACKAGE CAN PARSE (and even has a nicer API for doing so), NEVERTHELESS CAN NOT GENERATE. DO NOT USE.
-//import type { ICS } from "@filecage/ical";
-//import { parseString } from "@filecage/ical/parser";
-
-import { convertIcsCalendar, generateIcsCalendar, IcsCalendar } from "ts-ics";
+import {
+  convertIcsCalendar,
+  generateIcsCalendar,
+  type IcsCalendar,
+} from "ts-ics";
 import { Multimap } from "~/utils/multimap";
 
 /**
@@ -18,14 +18,14 @@ import { Multimap } from "~/utils/multimap";
  * ```
  */
 enum EventFields {
-  CourseCode = "Kurs kod: ",
-  CourseName = "Kurs namn: ",
-  ClassCode = "Klass kod: ",
-  ClassName = "Klass namn: ",
   Activity = "Activity: ",
-  Facility = "Lokalnamn: ", // Facility = room + ✨✨
   Campus = "Campus: ",
   ComputerCount = "Antal datorer: ",
+  ClassCode = "Klass kod: ",
+  ClassName = "Klass namn: ",
+  CourseCode = "Kurs kod: ",
+  CourseName = "Kurs namn: ",
+  Facility = "Lokalnamn: ", // Facility = room + ✨✨
   MapURI = "Kartlänk: ", //Or MURI for short, but that'd be confusing
 }
 

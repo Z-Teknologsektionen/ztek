@@ -6,7 +6,7 @@ export async function GET(
 ): Promise<Response> {
   //
 
-  var timeeditResponse: Response;
+  let timeeditResponse: Response;
   const timeeditRequest: Request = new Request(
     `https://cloud.timeedit.net/chalmers/web/public/ri6y7YQQu9QZnZQ18Z44beZ35680Q.ics`,
     //`https://cloud.timeedit.net/chalmers/web/public/${params.test}.ics`,
