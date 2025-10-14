@@ -1,5 +1,3 @@
-//
-
 import simplifySchedule from "./simplify-schedule";
 
 export async function GET(
@@ -34,11 +32,15 @@ export async function GET(
     timeeditResponse.headers.get("Content-Type"); //read the HTTP header
   if (
     timeeditResponseContentType &&
-    timeeditResponseContentType?.indexOf("text/calendar") !== -1
-  )
-    return new Response("TimeEdit answered with non-calendar data", {
-      status: 502,
-    });
+    timeeditResponseContentType?.indexOf("text/calendar") === -1
+  ) {
+    return new Response(
+      `TimeEdit answered with non-calendar content: "${timeeditResponseContentType}"`,
+      {
+        status: 502,
+      },
+    );
+  }
   if (timeeditResponse.body === null)
     return new Response("TimeEdit answered without calendar data", {
       status: 502,
