@@ -1,4 +1,3 @@
-import { debug } from "console";
 import {
   convertIcsCalendar,
   generateIcsCalendar,
@@ -8,7 +7,8 @@ import { Multimap } from "~/utils/multimap";
 
 /**
  * Fields embedded in VEVENT property values of typical (as of 2025) Chalmers' TimeEdit .ics Calendars.
- * For example:
+ *
+ * Unparsed example of SUMMARY property:
  * ```
  * SUMMARY:Kurs kod: LMT212_50_HT25_67120. Kurs namn: Mekani
  *  k\, fortsättningskurs\, Kurs kod: MMS216_40_HT25_47133
@@ -30,6 +30,30 @@ enum EventFields {
   MapURI = "Kartlänk", //Or MURI for short, but that'd be confusing
   Title = "Titel",
 }
+
+const simplifySchedule = (input: string): { icsCal: string; name: string } => {
+  const vCalendar: IcsCalendar = convertIcsCalendar(undefined, input); //only first VCALENDAR block in file will be considered (library limitation)(also apparently this is de-facto standard)
+  for (const vEvent of vCalendar.events || []) {
+    // edit each VEVENT of the calendar
+
+    // parsed data
+    const eventInfo = new Multimap<EventFields, string>();
+
+    // parse
+    parseInfo(vEvent.summary, eventInfo);
+    parseInfo(vEvent.location || "", eventInfo);
+
+    // overwrite with new
+    vEvent.location = constructLocation(eventInfo);
+    vEvent.summary = constructSummary(eventInfo);
+    vEvent.description = constructDescription(eventInfo);
+  }
+
+  return {
+    icsCal: generateIcsCalendar(vCalendar),
+    name: `Ztek_edited_${vCalendar.name || "TimeEdit_Calendar"}`,
+  };
+};
 
 /**
  * Parses poorly delimited key-value pairs where:
@@ -53,18 +77,19 @@ const parseInfo = (text: string, out: Multimap<EventFields, string>): void => {
     return true;
   };
 
-  while (index < text.length) {
+  while (index <= text.length) {
+    // index is for 1: exclusive upper bound for `value` substring, 2: position (inclusive lower) at which to look for next key
     value = text
-      .substring(startIndex, index + 1) // inclusive upper bound
+      .substring(startIndex, index)
       .replace(/^[,.\s]+|[,.\s]+$/gu, ""); // regex is for trimming
 
     for (const nextKey of Object.values(EventFields)) {
       // check each key
       if (keyAt(nextKey, index)) {
-        currentKey && out.add(currentKey, value); //    // append currently parsed value onto mapped list
-        currentKey = nextKey; //                        // set new key
-        startIndex = index + `${currentKey}: `.length; /// new value begins right after new key
-        index = startIndex - 1; //                      // continue scanning at startIndex
+        currentKey && out.add(currentKey, value); //   // append currently parsed value onto mapped list
+        currentKey = nextKey; //                       // set new key
+        startIndex = index + `${currentKey}: `.length; // new value begins right after new key
+        index = startIndex - 1; //                     // continue scanning at startIndex
         break;
       }
     }
@@ -74,9 +99,6 @@ const parseInfo = (text: string, out: Multimap<EventFields, string>): void => {
 
   // add last value
   currentKey && out.add(currentKey, value);
-
-  //DEBUG
-  debug(out);
 };
 
 const constructLocation = (info: Multimap<EventFields, string>): string => {
@@ -116,30 +138,6 @@ const constructSummary = (info: Multimap<EventFields, string>): string => {
 
 const constructDescription = (info: Multimap<EventFields, string>): string => {
   return [...info.getUnique(EventFields.CourseName)].join(", ");
-};
-
-const simplifySchedule = (input: string): { icsCal: string; name: string } => {
-  const vCalendar: IcsCalendar = convertIcsCalendar(undefined, input); //only first VCALENDAR block in file will be considered (library limitation)(also apparently this is de-facto standard)
-  for (const vEvent of vCalendar.events || []) {
-    // edit each VEVENT of the calendar
-
-    // parsed data
-    const eventInfo = new Multimap<EventFields, string>();
-
-    // parse
-    parseInfo(vEvent.summary, eventInfo);
-    parseInfo(vEvent.location || "", eventInfo);
-
-    // overwrite with new
-    vEvent.location = constructLocation(eventInfo);
-    vEvent.summary = constructSummary(eventInfo);
-    vEvent.description = constructDescription(eventInfo);
-  }
-
-  return {
-    icsCal: generateIcsCalendar(vCalendar),
-    name: `Ztek_edited_${vCalendar.name || ""}`,
-  };
 };
 
 export default simplifySchedule;

@@ -1,5 +1,7 @@
 import simplifySchedule from "./simplify-schedule";
-import { titleField } from "./testfile";
+
+//DEBUG
+//import { titleField } from "./testfile";
 
 export async function GET(
   scheduleRequest: Request,
@@ -52,8 +54,8 @@ export async function GET(
   try {
     ({ icsCal, name: calName } = simplifySchedule(
       //DEBUG
-      titleField,
-      //await timeeditResponse.text(),
+      //titleField,
+      await timeeditResponse.text(),
     ));
   } catch (error) {
     return new Response(
