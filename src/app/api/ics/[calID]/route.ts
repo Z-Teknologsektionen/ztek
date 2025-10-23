@@ -1,8 +1,5 @@
 import simplifySchedule from "./simplify-schedule";
 
-//DEBUG
-//import { titleField } from "./testfile";
-
 export async function GET(
   scheduleRequest: Request,
   { params }: { params: { calID: string } },
@@ -12,7 +9,6 @@ export async function GET(
   let timeeditResponse: Response;
   const timeeditRequest: Request = new Request(
     `https://cloud.timeedit.net/chalmers/web/public/${params.calID}.ics`,
-    //`https://cloud.timeedit.net/chalmers/web/public/ri1Q7YYQQZ7Z87Q1Qy4fYvX35f8o0Zc.ics`,
   );
 
   //poll TimeEdit
@@ -53,8 +49,6 @@ export async function GET(
   let calName: string;
   try {
     ({ icsCal, name: calName } = simplifySchedule(
-      //DEBUG
-      //titleField,
       await timeeditResponse.text(),
     ));
   } catch (error) {
