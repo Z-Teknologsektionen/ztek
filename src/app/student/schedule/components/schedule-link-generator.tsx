@@ -3,7 +3,7 @@ import { useState, type FC } from "react";
 import CopyButton from "./copy-button";
 import LabeledInput from "./labeled-input";
 
-const ScheduleLinkGenerator: FC<{}> = () => {
+const ScheduleLinkGenerator: FC = () => {
   const [input, setInput] = useState<string>(""); // hook for storing content of input field
 
   const calIDExtractReg: RegExp =
@@ -17,16 +17,16 @@ const ScheduleLinkGenerator: FC<{}> = () => {
   return (
     <div>
       <LabeledInput
-        title="Klistra in TimeEdit-länk här"
-        value={input}
-        onChange={(e) => {
-          setInput(e.target.value);
-        }}
         errorMsg={
           input && !calID
             ? "Länken är inte en TimeEdit-länk med .ics-ändelse"
             : null
         }
+        onChange={(e) => {
+          setInput(e.target.value);
+        }}
+        title="Klistra in TimeEdit-länk här"
+        value={input}
       />
 
       <LabeledInput title="Genererad ztek-länk" value={output} readOnly>

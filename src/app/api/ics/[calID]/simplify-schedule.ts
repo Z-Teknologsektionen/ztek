@@ -18,12 +18,14 @@ import { Multimap } from "~/utils/multimap";
  *  : Mekatronik
  * ```
  */
+
+// eslint-disable-next-line no-shadow
 enum EventFields {
   Activity = "Activity",
   Campus = "Campus",
-  ComputerCount = "Antal datorer",
   ClassCode = "Klass kod",
   ClassName = "Klass namn",
+  ComputerCount = "Antal datorer",
   CourseCode = "Kurs kod",
   CourseName = "Kurs namn",
   Facility = "Lokalnamn", // Facility = room + ✨✨

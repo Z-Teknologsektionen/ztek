@@ -5,7 +5,7 @@ import { Label } from "~/components/ui/label";
 import CopyButton from "./copy-button";
 import ScheduleLinkGenerator from "./schedule-link-generator";
 
-const ScheduleLinkGeneratorSection: FC<{}> = () => {
+const ScheduleLinkGeneratorSection: FC = () => {
   return (
     <SectionWrapper>
       <SectionTitle>Generera en kalenderprenumerationslänk</SectionTitle>

@@ -1,10 +1,11 @@
 "use client";
-import { MouseEvent, useEffect, useRef, useState, type FC } from "react";
+import type { FC, MouseEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import BooleanCell from "~/components/columns/boolean-cell";
 import { Button } from "~/components/ui/button";
 
-const CopyButton: FC<{ value: string; timeout?: number }> = ({
+const CopyButton: FC<{ timeout?: number; value: string }> = ({
   value,
   timeout = 2000,
 }) => {
@@ -16,13 +17,14 @@ const CopyButton: FC<{ value: string; timeout?: number }> = ({
     setCopied(false);
     timerIdRef.current && clearTimeout(timerIdRef.current);
   };
-  const copyButtonHandler = (e: MouseEvent): void => {
+
+  const copyButtonHandler = (_: MouseEvent): void => {
     if (value) {
       reset();
       setCopied(true);
       timerIdRef.current = setTimeout(reset, timeout);
 
-      navigator.clipboard.writeText(value);
+      navigator.clipboard.writeText(value).catch(reset);
     }
   };
 
