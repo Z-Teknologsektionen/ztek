@@ -32,15 +32,15 @@ const SubscriptionInstructionsSection: FC = () => {
               Leta fram ditt schema (om du inte vet vilken klass du år i, går du
               troligen i TKAUT-1)
             </li>
-            <li>Tryck på "Prenumerera" i det övre verktygsfältet</li>
+            <li>Tryck på &quot;Prenumerera&quot; i det övre verktygsfältet</li>
             <li>Kopiera länken i popup-fönstret</li>
           </ol>
         </div>
         <Image
+          alt="Instruktioner för kalenderprenumeration"
+          height={531}
           src="/TimeEdit_instructions.png"
           width={689}
-          height={531}
-          alt="Instruktioner för kalenderprenumeration"
         />
       </div>
 
@@ -57,18 +57,22 @@ const SubscriptionInstructionsSection: FC = () => {
                 Google kalender
               </StyledLink>
             </li>
-            <li>Tryck på "+" under "Andra kalendrar" i sidopanelen</li>
-            <li>Välj "Från webbadress" i menyn</li>
             <li>
-              Klistra in en prenumerationslänk i fältet "Kalenderns webbadress"
+              Tryck på &quot;+&quot; under &quot;Andra kalendrar&quot; i
+              sidopanelen
             </li>
-            <li>Tryck "Lägg till kalender"</li>
+            <li>Välj &quot;Från webbadress&quot; i menyn</li>
+            <li>
+              Klistra in en prenumerationslänk i fältet &quot;Kalenderns
+              webbadress&quot;
+            </li>
+            <li>Tryck &quot;Lägg till kalender&quot;</li>
           </ol>
         </div>
         <Image
-          src="/GCal_instructions.png"
           alt="Instruktioner för kalenderprenumeration"
           height={853}
+          src="/GCal_instructions.png"
           width={840}
         />
       </div>
