@@ -1,7 +1,8 @@
 "use client";
 import { useState, type FC } from "react";
-import CopyButton from "./copy-button";
-import LabeledInput from "./labeled-input";
+
+import CopyButton from "~/components/ui/copy-button";
+import LabeledInput from "~/components/ui/labeled-input";
 
 const ScheduleLinkGenerator: FC = () => {
   const [input, setInput] = useState<string>(""); // hook for storing content of input field

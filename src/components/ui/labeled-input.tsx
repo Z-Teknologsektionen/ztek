@@ -12,6 +12,10 @@ export interface LabeledInputProps extends InputProps {
   title: string;
 }
 
+/**
+ * Input field with title label & error label
+ * child nodes take space from the right of the input (useful for buttons)
+ */
 const LabeledInput: FC<LabeledInputProps> = ({
   title,
   errorMsg,

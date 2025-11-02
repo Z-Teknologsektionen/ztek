@@ -1,8 +1,10 @@
 import { type FC } from "react";
+
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
+import CopyButton from "~/components/ui/copy-button";
 import { Label } from "~/components/ui/label";
-import CopyButton from "./copy-button";
+
 import ScheduleLinkGenerator from "./schedule-link-generator";
 
 const ScheduleLinkGeneratorSection: FC = () => {

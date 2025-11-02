@@ -5,6 +5,9 @@ import { useEffect, useRef, useState } from "react";
 import BooleanCell from "~/components/columns/boolean-cell";
 import { Button } from "~/components/ui/button";
 
+/**
+ * Button for copying a string value to user's clipboard
+ */
 const CopyButton: FC<{ timeout?: number; value: string }> = ({
   value,
   timeout = 2000,
