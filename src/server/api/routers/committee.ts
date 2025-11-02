@@ -164,7 +164,10 @@ export const committeeRouter = createTRPCRouter({
   updateCommitteeAsActive: protectedProcedure
     .input(updateCommitteeAsActiveSchema)
     .mutation(
-      async ({ ctx, input: { id, description, image, socialLinks } }) => {
+      async ({
+        ctx,
+        input: { id, description, image, socialLinks, showOldCommittee },
+      }) => {
         const updatedCommittee = await ctx.prisma.committee.update({
           where: {
             id,
@@ -174,6 +177,7 @@ export const committeeRouter = createTRPCRouter({
             image,
             socialLinks,
             updatedByEmail: ctx.session.user.email,
+            showOldCommittee,
           },
         });
 
