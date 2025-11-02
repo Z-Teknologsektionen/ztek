@@ -163,123 +163,56 @@ export const committeeRouter = createTRPCRouter({
   }),
   updateCommitteeAsActive: protectedProcedure
     .input(updateCommitteeAsActiveSchema)
-    .mutation(
-      async ({
-        ctx,
-        input: { id, description, image, socialLinks, showOldCommittee },
-      }) => {
-        const updatedCommittee = await ctx.prisma.committee.update({
-          where: {
-            id,
-          },
-          data: {
-            description,
-            image,
-            socialLinks,
-            updatedByEmail: ctx.session.user.email,
-            showOldCommittee,
-          },
-        });
+    .mutation(async ({ ctx, input }) => {
+      const updatedCommittee = await ctx.prisma.committee.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          ...input,
+          updatedByEmail: ctx.session.user.email,
+        },
+      });
 
-        revalidateTag("committee");
+      revalidateTag("committee");
 
-        return updatedCommittee;
-      },
-    ),
+      return updatedCommittee;
+    }),
   createCommitteeAsAuthed: organizationManagementProcedure
     .input(createCommitteeSchema)
-    .mutation(
-      async ({
-        ctx,
-        input: {
-          description,
-          email,
-          name,
-          order,
-          role,
-          slug,
-          image,
-          electionPeriods,
-          socialLinks,
-          documentId,
-          committeeType,
-          showOldCommittee,
+    .mutation(async ({ ctx, input }) => {
+      const createdCommittee = await ctx.prisma.committee.create({
+        data: {
+          ...input,
+          updatedByEmail: ctx.session.user.email,
+          createdByEmail: ctx.session.user.email,
         },
-      }) => {
-        const createdCommittee = await ctx.prisma.committee.create({
-          data: {
-            description,
-            email,
-            image,
-            name,
-            order,
-            role,
-            slug,
-            electionPeriods,
-            documentId,
-            committeeType,
-            socialLinks,
-            showOldCommittee,
-            updatedByEmail: ctx.session.user.email,
-            createdByEmail: ctx.session.user.email,
-          },
-          select: {
-            name: true,
-          },
-        });
+        select: {
+          name: true,
+        },
+      });
 
-        revalidateTag("committee");
+      revalidateTag("committee");
 
-        return createdCommittee;
-      },
-    ),
+      return createdCommittee;
+    }),
   updateCommitteeAsAuthed: organizationManagementProcedure
     .input(updateCommitteeSchema)
-    .mutation(
-      async ({
-        ctx,
-        input: {
-          id,
-          description,
-          email,
-          committeeType,
-          name,
-          order,
-          role,
-          slug,
-          image,
-          electionPeriods,
-          socialLinks,
-          documentId,
-          showOldCommittee,
+    .mutation(async ({ ctx, input }) => {
+      const updatedCommittee = await ctx.prisma.committee.update({
+        where: {
+          id: input.id,
         },
-      }) => {
-        const updatedCommittee = await ctx.prisma.committee.update({
-          where: {
-            id,
-          },
-          data: {
-            description,
-            email,
-            image,
-            name,
-            order,
-            role,
-            slug,
-            committeeType,
-            electionPeriods,
-            documentId,
-            socialLinks,
-            showOldCommittee,
-            updatedByEmail: ctx.session.user.email,
-          },
-        });
+        data: {
+          ...input,
+          updatedByEmail: ctx.session.user.email,
+        },
+      });
 
-        revalidateTag("committee");
+      revalidateTag("committee");
 
-        return updatedCommittee;
-      },
-    ),
+      return updatedCommittee;
+    }),
   deleteCommitteeAsAuthed: organizationManagementProcedure
     .input(
       z.object({
