@@ -14,7 +14,7 @@ const ScheduleLinkGeneratorSection: FC = () => {
       <p>
         Kalendern som kan prenumereras på från TimeEdit kan vara något svårläst.
         För att Z-teknologer ska få det lättare att läsa sina kalendrar finns
-        ett API på för att förenkla kalendrar från Chalmers TimeEdit.
+        ett API för att förenkla kalendrar från Chalmers TimeEdit.
       </p>
       <p>
         Tyvärr finns inget som tyder på att TimeEdit-kalendrarna från Chalmers
