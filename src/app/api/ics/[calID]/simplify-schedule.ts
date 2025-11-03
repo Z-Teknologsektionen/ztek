@@ -28,8 +28,9 @@ enum EventFields {
   ComputerCount = "Antal datorer",
   CourseCode = "Kurs kod",
   CourseName = "Kurs namn",
-  Facility = "Lokalnamn", // Facility = room + ✨✨
-  MapURI = "Kartlänk", //Or MURI for short, but that'd be confusing
+  Facility = "Lokalnamn" /*   Facility = room + ✨✨                     */,
+  Initial = "" /*             Substring found before first key (special)  */,
+  MapURI = "Kartlänk" /*      Or MURI for short, but that'd be confusing  */,
   Title = "Titel",
 }
 
@@ -65,13 +66,15 @@ const simplifySchedule = (input: string): { icsCal: string; name: string } => {
  * @param out - Map where parsed values are to be added. Keys need not exist upon call.
  */
 const parseInfo = (text: string, out: Multimap<EventFields, string>): void => {
-  let currentKey: EventFields | null = null; // key whose value is being parsed
+  let currentKey: EventFields = EventFields.Initial; // key whose value is being parsed
   let startIndex: number = 0; // start index of value
   let index: number = 0; // index at which to look for next key (aka end of current value)
   let value: string = ""; // value found so far (since end of the current key)
 
   const keyAt = (key: EventFields, position: number): boolean => {
     const fullKey = `${key}: `; // full string to search for (includes key-value separator)
+
+    if (key == EventFields.Initial) return false; // initial key is used only as initial value and can not be found later in the string
     for (let offset: number = 0; offset < fullKey.length; offset++) {
       if (position + offset >= text.length) return false;
       if (fullKey[offset] !== text[position + offset]) return false;
@@ -85,10 +88,10 @@ const parseInfo = (text: string, out: Multimap<EventFields, string>): void => {
       .substring(startIndex, index)
       .replace(/^[,.\s]+|[,.\s]+$/gu, ""); // regex is for trimming
 
+    // check each key
     for (const nextKey of Object.values(EventFields)) {
-      // check each key
       if (keyAt(nextKey, index)) {
-        currentKey && out.add(currentKey, value); //   // append currently parsed value onto mapped list
+        if (value != "") out.add(currentKey, value); //// append currently parsed value onto mapped list
         currentKey = nextKey; //                       // set new key
         startIndex = index + `${currentKey}: `.length; // new value begins right after new key
         index = startIndex - 1; //                     // continue scanning at startIndex
@@ -100,9 +103,8 @@ const parseInfo = (text: string, out: Multimap<EventFields, string>): void => {
   }
 
   // add last value
-  currentKey && out.add(currentKey, value);
+  if (value != "") out.add(currentKey, value);
 };
-
 const constructLocation = (info: Multimap<EventFields, string>): string => {
   const facilities: string[] = info.get(EventFields.Facility) || [];
   const mapLinks: string[] = info.get(EventFields.MapURI) || [];
@@ -123,16 +125,13 @@ const constructLocation = (info: Multimap<EventFields, string>): string => {
 };
 
 const constructSummary = (info: Multimap<EventFields, string>): string => {
-  const courseCodes: string[] = [];
-
-  for (const courseCode of info.getUnique(EventFields.CourseCode)) {
-    courseCodes.push(courseCode.substring(0, 6)); //only the first 6 chars in a course code is relevant
-  }
-
   return [
-    [...info.getUnique(EventFields.Title)].join(", "),
-    courseCodes.join(", "),
+    [...info.getUnique(EventFields.Initial)].join(", "),
+    [...info.getUnique(EventFields.CourseCode)]
+      .map((value: string): string => value.substring(0, 6))
+      .join(", "),
     [...info.getUnique(EventFields.Activity)].join(", "),
+    [...info.getUnique(EventFields.Title)].join(", "),
   ]
     .filter((value: string): boolean => value !== "")
     .join("\n");
