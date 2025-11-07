@@ -23,6 +23,7 @@ type UpsertHomePageCarouselFormProps = IUpsertForm<
 >;
 
 const DEFAULT_VALUES: UpsertHomePageCarouselFormProps["defaultValues"] = {
+  imageCredit: "",
   committeeId: "",
   endDateTime: null,
   imageUrl: "",
@@ -71,6 +72,13 @@ const UpsertHomePageCarouselForm: FC<UpsertHomePageCarouselFormProps> = ({
         name="imageFile"
         quality={COMMITTEE_IMAGE_QUALITY}
         ruleOfThirds
+      />
+      <FormFieldInput
+        description='zFoto brukar vilja nämnas på formatet "{namn}/zfoto"'
+        form={form}
+        label="Fotograf (valfri)"
+        name="imageCredit"
+        type="text"
       />
       <FormFieldInput
         description="Om bilen klickas på kommer denna länk öppnas"

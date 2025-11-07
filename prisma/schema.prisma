@@ -198,8 +198,9 @@ model ProgramBoardMember {
 model HomePageCarouselItem {
     id String @id @default(auto()) @map("_id") @db.ObjectId
 
-    imageUrl  String
-    linkToUrl String?
+    imageCredit String?
+    imageUrl    String
+    linkToUrl   String?
 
     startDateTime DateTime?
     endDateTime   DateTime?

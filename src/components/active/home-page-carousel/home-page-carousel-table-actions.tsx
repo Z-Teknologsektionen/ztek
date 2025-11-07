@@ -37,6 +37,7 @@ export const HomePageCarouselTableActions: FC<HomePageCarouselItemType> = ({
                 : null,
               imageUrl: values.imageUrl,
               linkToUrl: values.linkToUrl,
+              imageCredit: values.imageCredit,
             }}
             formType="update"
             onSubmit={async ({ imageUrl, imageFile, ...rest }) => {
