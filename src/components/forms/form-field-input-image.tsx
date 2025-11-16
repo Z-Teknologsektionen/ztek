@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { FieldValues, Path, PathValue } from "react-hook-form";
 import { UploadAndCropButton } from "~/components/cropper/upload-and-crop-button";
 import { Button } from "~/components/ui/button";
@@ -24,18 +24,53 @@ const FormFieldInputImage = <TFieldValues extends FieldValues>({
   maxWidth,
   quality,
   form,
+  imageFieldName,
   circularCrop = false,
   ruleOfThirds = false,
   freeCrop = false,
 }: IFormFieldInputImage<TFieldValues>): JSX.Element => {
-  const [image, setImage] = useState<string>(form.getValues(name));
+  const initialImage = form.getValues(imageFieldName as Path<TFieldValues>);
+
+  // Track both the displayed image and whether it was explicitly removed
+  const [displayedImage, setDisplayedImage] = useState<File | string | null>(
+    initialImage || null,
+  );
 
   const scaledHeight = 200;
   const scaledWidth = (scaledHeight * maxWidth) / maxHeight;
 
-  const setValue = (value: string): void => {
-    setImage(value);
-    form.setValue(name, value as PathValue<TFieldValues, Path<TFieldValues>>);
+  useEffect(() => {
+    const subscription = form.watch(() => {
+      const currentImageFile = form.getValues(name);
+      const currentImage = form.getValues(imageFieldName as Path<TFieldValues>);
+
+      if (!currentImageFile && currentImage === initialImage) {
+        setDisplayedImage(initialImage || null);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [form, initialImage, imageFieldName, name]);
+
+  const handleImageChange = (file: File | null): void => {
+    // Update the file field
+    form.setValue(name, file as PathValue<TFieldValues, Path<TFieldValues>>);
+
+    // If removing image, also clear the image field
+    if (file === null) {
+      form.setValue(
+        imageFieldName as Path<TFieldValues>,
+        "" as PathValue<TFieldValues, Path<TFieldValues>>,
+      );
+    }
+    setDisplayedImage(file);
+  };
+
+  const getImageSrc = (): string => {
+    if (displayedImage instanceof File) {
+      return URL.createObjectURL(displayedImage);
+    }
+    return displayedImage || "";
   };
 
   return (
@@ -46,7 +81,7 @@ const FormFieldInputImage = <TFieldValues extends FieldValues>({
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          {image !== "" && (
+          {displayedImage && (
             <div className="relative">
               <Image
                 alt="preview of image"
@@ -56,13 +91,13 @@ const FormFieldInputImage = <TFieldValues extends FieldValues>({
                 )}
                 height={maxHeight}
                 quality={quality}
-                src={image}
+                src={getImageSrc()}
                 style={{ height: scaledHeight, width: scaledWidth }}
                 width={maxWidth}
               />
               <Button
                 className="absolute top-0 h-6 w-6 rounded-full -translate-x-1/2 -translate-y-1/2"
-                onClick={() => setValue("")}
+                onClick={() => handleImageChange(null)}
                 size="icon"
                 style={{ left: `calc(50% + ${scaledWidth / 2}px)` }}
                 variant="destructive"
@@ -80,8 +115,7 @@ const FormFieldInputImage = <TFieldValues extends FieldValues>({
               finalHeight={maxHeight}
               finalWidth={maxWidth}
               freeCrop={freeCrop}
-              onComplete={setValue}
-              quality={quality}
+              onComplete={handleImageChange}
               ruleOfThirds={ruleOfThirds}
             />
           </FormControl>

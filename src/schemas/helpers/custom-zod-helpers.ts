@@ -100,7 +100,6 @@ export const emptyString = z.literal("");
 export const httpsUrlString = standardString
   .url("Måste vara en URL")
   .startsWith("https://", "Måste vara en säker https länk");
-
 export const validYear = standardNumber
   .int("Måste vara ett heltal")
   .min(1000, "Årtalet måste vara ett fyrsiffrigt tal")

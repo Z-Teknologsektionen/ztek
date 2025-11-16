@@ -7,6 +7,7 @@ import {
   useDeleteCarouselAsActive,
   useUpdateCarouselAsActive,
 } from "~/hooks/mutations/useMutateHomePageCarousel";
+import { imageOperations } from "~/utils/sftp/handle-image-forms";
 import type { HomePageCarouselItemType } from "./home-page-carousel-columns";
 import UpsertHomePageCarouselForm from "./upsert-home-page-carousel-form";
 
@@ -39,7 +40,23 @@ export const HomePageCarouselTableActions: FC<HomePageCarouselItemType> = ({
               imageCredit: values.imageCredit,
             }}
             formType="update"
-            onSubmit={(newValues) => updateItem({ id, ...newValues })}
+            onSubmit={async ({ imageUrl, imageFile, ...rest }) => {
+              const imageResult = await imageOperations.processImageChanges({
+                newImageFile: imageFile,
+                currentImageUrl: imageUrl,
+                oldImageUrl: values.imageUrl,
+                entityName: "carousel",
+              });
+
+              if (!imageResult.success) {
+                return;
+              }
+              updateItem({
+                id,
+                imageUrl: imageResult.data || "",
+                ...rest,
+              });
+            }}
           />
         }
         isOpen={isOpen}

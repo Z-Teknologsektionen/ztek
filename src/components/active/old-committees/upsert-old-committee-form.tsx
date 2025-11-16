@@ -28,7 +28,9 @@ export type UpsertOldCommitteeFormValues = z.infer<
 const DEFAULT_VALUES: UpsertOldCommitteeFormProps["defaultValues"] = {
   year: new Date().getFullYear(),
   logo: "",
+  logoFile: undefined,
   image: "",
+  imageFile: undefined,
   members: [],
   name: "",
   belongsToCommitteeId: "",
@@ -94,10 +96,11 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
       <FormFieldInputImage
         description="Förslagsvis gruppbild. Om du anger enbart denna bild så kommer den enbart visas på omslaget"
         form={form}
+        imageFieldName="image"
         label="Primär bild (valfri)"
         maxHeight={COMMITTEE_IMAGE_SIZE}
         maxWidth={COMMITTEE_IMAGE_SIZE}
-        name="image"
+        name="imageFile"
         quality={COMMITTEE_IMAGE_QUALITY}
         freeCrop
         ruleOfThirds
@@ -105,10 +108,11 @@ const UpsertOldCommitteeForm: FC<UpsertOldCommitteeFormProps> = ({
       <FormFieldInputImage
         description="Förslagsvis logga. Om du anger enbart denna bild så kommer den visas både på omslaget och ovanför medlemmarna"
         form={form}
+        imageFieldName="logo"
         label="Sekundär bild (valfri)"
         maxHeight={COMMITTEE_IMAGE_SIZE}
         maxWidth={COMMITTEE_IMAGE_SIZE}
-        name="logo"
+        name="logoFile"
         quality={COMMITTEE_IMAGE_QUALITY}
         circularCrop
       />

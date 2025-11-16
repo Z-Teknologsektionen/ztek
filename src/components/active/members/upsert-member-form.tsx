@@ -28,6 +28,7 @@ const DEFAULT_VALUES: UpsertMemberFormProps["defaultValues"] = {
   email: "",
   role: "",
   committeeId: "",
+  imageFile: undefined,
 };
 
 export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
@@ -103,10 +104,11 @@ export const UpsertMemberForm: FC<UpsertMemberFormProps> = ({
       />
       <FormFieldInputImage
         form={form}
+        imageFieldName="image"
         label="Bild (valfri)"
         maxHeight={COMMITTEE_IMAGE_SIZE}
         maxWidth={COMMITTEE_IMAGE_SIZE}
-        name="image"
+        name="imageFile"
         quality={COMMITTEE_IMAGE_QUALITY}
         ruleOfThirds
       />

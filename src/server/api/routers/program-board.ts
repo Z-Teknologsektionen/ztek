@@ -1,5 +1,6 @@
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
+import { deleteFileFromSftpServer } from "~/app/api/sftp/utils/sftp-engine";
 import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
   createProgramBoardMemberSchema,
@@ -99,6 +100,11 @@ export const programBoardRouter = createTRPCRouter({
       const deletedBoardMember = await ctx.prisma.programBoardMember.delete({
         where: { id },
       });
+
+      // Delete image if it exists. It will always be an image on our ftp server.
+      if (deletedBoardMember.image) {
+        await deleteFileFromSftpServer({ url: deletedBoardMember.image });
+      }
 
       revalidateTag("boardProgramMembers");
 

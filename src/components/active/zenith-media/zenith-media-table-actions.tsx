@@ -13,8 +13,9 @@ import {
 } from "~/hooks/mutations/useMutateZenithMedia";
 import { handleCreateZenithMediaFile } from "~/utils/sftp/handle-create-sftp-file";
 import { handleDeleteSftpFile } from "~/utils/sftp/handle-delete-sftp-file";
+import { imageOperations } from "~/utils/sftp/handle-image-forms";
 import { handleRenameSftpFile } from "~/utils/sftp/handle-rename-sftp-file";
-import { updateZenithMediaFilename } from "~/utils/string-utils";
+import { slugifyString, updateZenithMediaFilename } from "~/utils/string-utils";
 import type { ZenithMediaType } from "./zenith-media-columns";
 
 export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
@@ -45,6 +46,7 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
             formType="update"
             onSubmit={async ({
               coverImage,
+              coverImageFile,
               media: { file: newFile, url: newUrl },
               title: newTitle,
               year,
@@ -52,6 +54,16 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
             }) => {
               const oldUrl = currentValues.url;
               const hasNewFile = newFile !== undefined;
+
+              const imageResult = await imageOperations.processImageChanges({
+                newImageFile: coverImageFile,
+                currentImageUrl: coverImage,
+                oldImageUrl: currentValues.coverImage,
+                entityName: slugifyString(newTitle + "cover"),
+              });
+              if (!imageResult.success) {
+                return;
+              }
 
               const loadingToastId = toast.loading(
                 "Uppdaterar mediet.\n Detta kan ta en stund!",
@@ -97,7 +109,7 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
                 updateZenithMedia({
                   id: id,
                   url: newUrl,
-                  coverImage,
+                  coverImage: imageResult.data,
                   title: newTitle,
                   year,
                   order,

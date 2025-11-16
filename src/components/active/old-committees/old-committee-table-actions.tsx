@@ -7,6 +7,8 @@ import {
   useDeleteOldCommitteeAsAuthed,
   useUpdateOldCommitteeAsAuthed,
 } from "~/hooks/mutations/useMutateOldCommittee";
+import { imageOperations } from "~/utils/sftp/handle-image-forms";
+import { slugifyString } from "~/utils/string-utils";
 import type { OldCommitteeType } from "./old-committee-columns";
 import UpsertOldCommitteeForm from "./upsert-old-committee-form";
 
@@ -30,12 +32,45 @@ export const OldCommitteeTableActions: FC<OldCommitteeType> = ({
             key={id}
             defaultValues={values}
             formType="update"
-            onSubmit={(updatedValues) =>
+            onSubmit={async ({
+              name,
+              year,
+              image,
+              imageFile,
+              logo,
+              logoFile,
+              ...rest
+            }) => {
+              const imageResult = await imageOperations.processImageChanges({
+                newImageFile: imageFile,
+                currentImageUrl: image,
+                oldImageUrl: "",
+                entityName: slugifyString(`${name}-${year}-group`),
+              });
+
+              if (!imageResult.success) {
+                return;
+              }
+
+              const logoResult = await imageOperations.processImageChanges({
+                newImageFile: logoFile,
+                currentImageUrl: logo,
+                oldImageUrl: "",
+                entityName: slugifyString(`${name}-${year}-group`),
+              });
+
+              if (!logoResult.success) {
+                return;
+              }
               updateOldCommittee({
                 id: id,
-                ...updatedValues,
-              })
-            }
+                name,
+                year,
+                logo: logoResult.data,
+                image: imageResult.data,
+                ...rest,
+              });
+            }}
           />
         }
         isOpen={isOpen}
