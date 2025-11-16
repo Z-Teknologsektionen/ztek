@@ -5,5 +5,5 @@ export type HomePageSponsorType = {
 };
 
 export const homePageSponsors: HomePageSponsorType[] = [
-  { company: "Cpac", img: "/cpac.png", href: "https://cpacsystems.se/" },
+  { company: "Cpac", img: "/cpac.svg", href: "https://cpacsystems.se/" },
 ];
