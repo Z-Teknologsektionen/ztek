@@ -61,8 +61,13 @@ const UpsertHomePageCarouselForm: FC<UpsertHomePageCarouselFormProps> = ({
       form={form}
       formType={formType}
       onValid={onSubmit}
+      onInvalid={(formValues) =>
+        //DEBUG
+        console.log("Form validation errors:", formValues)
+      }
       resetForm={() => form.reset()}
     >
+      {/* DEBUG */ console.log("hi there") + ""}
       <FormFieldInputImage
         form={form}
         imageFieldName="imageUrl"
