@@ -86,6 +86,7 @@ export const HomePageCarouselTableToolbar = <TData,>({
               <UpsertHomePageCarouselForm
                 formType="create"
                 onSubmit={async ({ imageUrl, imageFile, ...rest }) => {
+                  // upload image to sftp and get url
                   const imageResult = await imageOperations.processImageChanges(
                     {
                       newImageFile: imageFile,
@@ -98,6 +99,8 @@ export const HomePageCarouselTableToolbar = <TData,>({
                   if (!imageResult.success) {
                     return;
                   }
+
+                  // upload non-image data to db
                   createItem({
                     imageUrl: imageResult.data,
                     ...rest,

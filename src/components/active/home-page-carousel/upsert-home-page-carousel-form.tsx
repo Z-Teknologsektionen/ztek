@@ -52,7 +52,7 @@ const UpsertHomePageCarouselForm: FC<UpsertHomePageCarouselFormProps> = ({
     defaultValues: {
       ...DEFAULT_VALUES,
       committeeId: session?.user.committeeId || "unknown",
-      ...defaultValues,
+      ...defaultValues, //imageFile (usually) not supplied, imageUrl is enough to display an image.
     },
   });
 

@@ -27,7 +27,7 @@ const homePageCarouselBaseSchema = z.object({
     .string()
     .or(emptyString.transform(() => null))
     .nullable(),
-  imageUrl: sftpUrl,
+  imageUrl: sftpUrl.or(emptyString),
   linkToUrl: httpsUrlString.or(emptyString.transform(() => null)).nullable(),
   committeeId: objectId,
   startDateTime: datetimeString.nullable(),
@@ -35,17 +35,25 @@ const homePageCarouselBaseSchema = z.object({
   imageFile: sftpFile.optional().nullable(),
 });
 
-export const createHomePageCarouselSchema = homePageCarouselBaseSchema.refine(
-  endDateAfterStartDate,
-  {
+export const createHomePageCarouselSchema = homePageCarouselBaseSchema
+  .refine(({ imageUrl, imageFile }) => imageUrl !== "" || imageFile, {
+    // imageUrl OR imageFile is required
+    message: "En bild måste anges",
+    path: ["imageFile"],
+  })
+  .refine(endDateAfterStartDate, {
     message: "Slutdatum måste vara efter startdatum",
     path: ["endDateTime"],
-  },
-);
+  });
 
 export const updateHomePageCarouselSchema = homePageCarouselBaseSchema
   .partial()
   .extend({ id: objectId })
+  .refine(({ imageUrl, imageFile }) => imageUrl !== "" || imageFile, {
+    // imageUrl OR imageFile is required
+    message: "Bild saknas",
+    path: ["imageFile"],
+  })
   .refine(endDateAfterStartDate, {
     message: "Slutdatum måste vara efter startdatum",
     path: ["endDateTime"],

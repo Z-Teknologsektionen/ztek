@@ -41,6 +41,7 @@ export const HomePageCarouselTableActions: FC<HomePageCarouselItemType> = ({
             }}
             formType="update"
             onSubmit={async ({ imageUrl, imageFile, ...rest }) => {
+              // upload (and remove old) image to sftp and get url
               const imageResult = await imageOperations.processImageChanges({
                 newImageFile: imageFile,
                 currentImageUrl: imageUrl,
@@ -51,6 +52,8 @@ export const HomePageCarouselTableActions: FC<HomePageCarouselItemType> = ({
               if (!imageResult.success) {
                 return;
               }
+
+              // upload non-image data to db
               updateItem({
                 id,
                 imageUrl: imageResult.data || "",
@@ -65,7 +68,17 @@ export const HomePageCarouselTableActions: FC<HomePageCarouselItemType> = ({
         trigger={<EditTriggerButton />}
       />
       <DeleteDialog
-        onSubmit={() => deleteItem({ id })}
+        onSubmit={() => {
+          //remove from sftp
+          imageOperations
+            .removeImage({
+              imageUrl: values.imageUrl,
+            })
+            .catch(() => {}); //fail silently (clutter sftp server in worst case scenario)
+
+          //remove from db
+          deleteItem({ id });
+        }}
         trigger={<DeleteTriggerButton />}
       />
     </div>
