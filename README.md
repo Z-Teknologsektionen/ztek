@@ -25,6 +25,14 @@ Before you can run this project, you need to have the following installed:
 
 - Git: You will need Git to clone the project's repository. You can download it from the [official Git website](https://git-scm.com/).
 
+Furthermore, the following VS Code extensions are recommended:
+
+- [Prisma](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma)
+- [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- [Prettier ESLint](https://marketplace.visualstudio.com/items?itemName=rvest.vs-code-prettier-eslint)
+
+### Launching for debugging
+
 After installing the prerequisites, you can clone the project's repository with the following command:
 
 ```sh
@@ -33,23 +41,8 @@ git clone https://github.com/Z-Teknologsektionen/ztek.git
 
 To be able to access the github repository, you need to be a member of the organization Z-Teknologsektionen. If you are not a member, you can request access from Ztyret.
 
-Finally, install the project's dependencies with the following command:
-
-```sh
-npm install
-```
-
-or
-
-```sh
-npm i
-```
-
-and run the project with
-
-```sh
-npm run dev
-```
+Install the project's dependencies with the command `npm install` or `npm i`
+and run the project with `npm run dev`.
 
 The application might return an error when connecting to the database because no valid environment file is present. Look at `.env.example` and create a copy of it. Rename it to `.env` and fill it with the correct values. For more information, see [this link](https://www.prisma.io/docs/reference/database-reference/connection-urls#env).
 
