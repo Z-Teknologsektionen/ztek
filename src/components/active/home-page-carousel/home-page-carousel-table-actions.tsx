@@ -68,7 +68,17 @@ export const HomePageCarouselTableActions: FC<HomePageCarouselItemType> = ({
         trigger={<EditTriggerButton />}
       />
       <DeleteDialog
-        onSubmit={() => deleteItem({ id })}
+        onSubmit={() => {
+          //remove from sftp
+          imageOperations
+            .removeImage({
+              imageUrl: values.imageUrl,
+            })
+            .catch(() => {}); //fail silently (clutter sftp server in worst case scenario)
+
+          //remove from db
+          deleteItem({ id });
+        }}
         trigger={<DeleteTriggerButton />}
       />
     </div>
