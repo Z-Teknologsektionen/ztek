@@ -86,7 +86,7 @@ const FormFieldInputImage = <TFieldValues extends FieldValues>({
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          {displayedImage && (
+          {displayedImage ? (
             <div className="relative">
               <Image
                 alt="preview of image"
@@ -111,19 +111,20 @@ const FormFieldInputImage = <TFieldValues extends FieldValues>({
                 <span className="sr-only">Radera bild</span>
               </Button>
             </div>
+          ) : (
+            <FormControl>
+              <UploadAndCropButton
+                accept={{ "image/*": [] }}
+                circularCrop={circularCrop}
+                disabled={field.disabled}
+                finalHeight={maxHeight}
+                finalWidth={maxWidth}
+                freeCrop={freeCrop}
+                onComplete={handleImageChange}
+                ruleOfThirds={ruleOfThirds}
+              />
+            </FormControl>
           )}
-          <FormControl>
-            <UploadAndCropButton
-              accept={{ "image/*": [] }}
-              circularCrop={circularCrop}
-              disabled={field.disabled}
-              finalHeight={maxHeight}
-              finalWidth={maxWidth}
-              freeCrop={freeCrop}
-              onComplete={handleImageChange}
-              ruleOfThirds={ruleOfThirds}
-            />
-          </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />
         </FormItem>
