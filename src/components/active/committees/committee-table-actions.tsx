@@ -8,6 +8,7 @@ import {
   useDeleteCommitteeAsAuthed,
   useUpdateCommitteeAsAuthed,
 } from "~/hooks/mutations/useMutateCommittee";
+import { imageOperations } from "~/utils/sftp/handle-image-forms";
 import type { Committee } from "./committee-columns";
 
 export const CommitteeTableActions: FC<Committee> = ({ id, ...values }) => {
@@ -17,7 +18,7 @@ export const CommitteeTableActions: FC<Committee> = ({ id, ...values }) => {
     onSuccess: () => setIsOpen(false),
   });
 
-  const { mutate: deleteMember } = useDeleteCommitteeAsAuthed({});
+  const { mutate: deleteCommittee } = useDeleteCommitteeAsAuthed({});
 
   return (
     <div className="flex justify-end">
@@ -27,12 +28,24 @@ export const CommitteeTableActions: FC<Committee> = ({ id, ...values }) => {
             key={id}
             defaultValues={values}
             formType="update"
-            onSubmit={(updatedValues) =>
+            onSubmit={async ({ image, slug, imageFile, ...rest }) => {
+              const imageResult = await imageOperations.processImageChanges({
+                newImageFile: imageFile,
+                currentImageUrl: image,
+                oldImageUrl: values.image,
+                entityName: slug,
+              });
+
+              if (!imageResult.success) {
+                return;
+              }
               updateCommittee({
-                id: id,
-                ...updatedValues,
-              })
-            }
+                id,
+                slug,
+                image: imageResult.data,
+                ...rest,
+              });
+            }}
           />
         }
         isOpen={isOpen}
@@ -41,7 +54,7 @@ export const CommitteeTableActions: FC<Committee> = ({ id, ...values }) => {
         trigger={<EditTriggerButton />}
       />
       <DeleteDialog
-        onSubmit={() => deleteMember({ id })}
+        onSubmit={() => deleteCommittee({ id })}
         trigger={<DeleteTriggerButton />}
       />
     </div>

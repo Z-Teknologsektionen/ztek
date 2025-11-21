@@ -8,6 +8,8 @@ import {
   nonEmptyString,
   objectId,
   phoneNumberString,
+  sftpFile,
+  sftpUrl,
 } from "~/schemas/helpers/custom-zod-helpers";
 
 export const createProgramBoardMemberSchema = z.object({
@@ -16,7 +18,8 @@ export const createProgramBoardMemberSchema = z.object({
   phone: phoneNumberString.or(emptyString),
   email: emailString,
   url: httpsUrlString,
-  image: base64WebPImageString.or(emptyString),
+  image: base64WebPImageString.or(emptyString).or(sftpUrl),
+  imageFile: sftpFile.optional().nullable(),
   order: committeeOrderNumber,
 });
 

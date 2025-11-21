@@ -27,6 +27,7 @@ const DEFAULT_VALUES: UpsertProgramBoardMemberFormProps["defaultValues"] = {
   name: "",
   role: "",
   url: "",
+  imageFile: undefined,
 };
 
 const UpsertProgramBoardMemberForm: FC<UpsertProgramBoardMemberFormProps> = ({
@@ -85,10 +86,11 @@ const UpsertProgramBoardMemberForm: FC<UpsertProgramBoardMemberFormProps> = ({
       />
       <FormFieldInputImage
         form={form}
+        imageFieldName="image"
         label="Bild (valfri)"
         maxHeight={COMMITTEE_IMAGE_SIZE}
         maxWidth={COMMITTEE_IMAGE_SIZE}
-        name="image"
+        name="imageFile"
         quality={COMMITTEE_IMAGE_QUALITY}
         circularCrop
         ruleOfThirds

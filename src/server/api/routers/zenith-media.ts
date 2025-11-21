@@ -2,6 +2,7 @@ import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { deleteFileFromSftpServer } from "~/app/api/sftp/utils/sftp-engine";
 import { MIN_MEDIA_ORDER_NUMBER } from "~/constants/zenith-media";
+import { env } from "~/env.mjs";
 import { objectId } from "~/schemas/helpers/custom-zod-helpers";
 import {
   createZenithMediaServerSchema,
@@ -98,22 +99,25 @@ export const zenithMediaRouter = createTRPCRouter({
         throw new Error("Media not found");
       }
 
-      try {
-        await deleteFileFromSftpServer({ url: fileUrl.url });
-      } catch (error) {
-        if (error instanceof Error) {
-          if (error.message !== "Filen du ville radera kunde inte hittas!")
-            throw new Error(error.message);
-        } else {
-          throw new Error("Something went wrong when deleting the file.");
-        }
-      }
-
       const deletedMedia = await ctx.prisma.zenithMedia.delete({
         where: {
           id: id,
         },
       });
+
+      // Delete images if it exists
+      if (
+        fileUrl.url &&
+        fileUrl.url.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)
+      ) {
+        await deleteFileFromSftpServer({ url: fileUrl.url });
+      }
+      if (
+        deletedMedia.coverImage &&
+        deletedMedia.coverImage.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)
+      ) {
+        await deleteFileFromSftpServer({ url: deletedMedia.coverImage });
+      }
 
       revalidateTag("zenithMedia");
 

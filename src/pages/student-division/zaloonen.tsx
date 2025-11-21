@@ -1,4 +1,4 @@
-import type { GetStaticProps, NextPage } from "next";
+import type { NextPage } from "next";
 import Link from "next/link";
 import DocumentsAccordionItem from "~/components/accordion/documents-accordion-item";
 import HeadLayout from "~/components/layout/head-layout";
@@ -8,7 +8,6 @@ import SectionWrapper from "~/components/layout/section-wrapper";
 import StyledLink from "~/components/layout/styled-link";
 import { Accordion } from "~/components/ui/accordion";
 import { buttonVariants } from "~/components/ui/button";
-import ssg from "~/server/api/helpers/ssg";
 import { api } from "~/utils/api";
 
 const DOCUMENT_GROUP_KEY = "Dokument för Zaloonen";
@@ -115,12 +114,12 @@ const ZaloonenPage: NextPage = () => {
 
 export default ZaloonenPage;
 
-export const getStaticProps: GetStaticProps = async () => {
-  await ssg.document.getOneGroupByName.prefetch({ name: DOCUMENT_GROUP_KEY });
-  return {
-    props: {
-      trpcState: ssg.dehydrate(),
-    },
-    revalidate: 1,
-  };
-};
+// export const getStaticProps: GetStaticProps = async () => {
+//   await ssg.document.getOneGroupByName.prefetch({ name: DOCUMENT_GROUP_KEY });
+//   return {
+//     props: {
+//       trpcState: ssg.dehydrate(),
+//     },
+//     revalidate: 1,
+//   };
+// };

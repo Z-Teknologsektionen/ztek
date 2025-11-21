@@ -26,12 +26,21 @@ export const homePageCarouselColumns: ColumnDef<HomePageCarouselItemType>[] = [
     cell: ({ row }) => (
       <Image
         alt={`Bild från ${row.original.committee.name}`}
-        height={100}
+        height={200}
         src={row.original.imageUrl}
-        width={150}
-        unoptimized
+        width={300}
       />
     ),
+  },
+  {
+    id: "Fotograf",
+    accessorKey: "imageCredit",
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    enableSorting: true,
+    enableHiding: true,
+    enableResizing: true,
+    cell: ({ row }) =>
+      row.original.imageCredit || <BooleanCell value={false} />,
   },
   {
     id: "Organ",
