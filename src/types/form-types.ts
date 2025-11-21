@@ -8,7 +8,10 @@ import type {
 import type { input, output, ZodEffects, ZodObject, ZodRawShape } from "zod";
 
 export interface IUpsertForm<
-  schema extends ZodObject<ZodRawShape> | ZodEffects<ZodObject<ZodRawShape>>,
+  schema extends
+    | ZodObject<ZodRawShape>
+    | ZodEffects<ZodObject<ZodRawShape>>
+    | ZodEffects<ZodEffects<ZodObject<ZodRawShape>>>,
 > {
   defaultValues?: input<schema>;
   formType: "create" | "update";
