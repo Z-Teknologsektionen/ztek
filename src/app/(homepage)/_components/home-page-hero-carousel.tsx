@@ -35,10 +35,7 @@ export const HomePageHeroCarousel: FC<{
   return (
     <Carousel
       className="relative h-fit overflow-hidden rounded-xl"
-      opts={{
-        align: "center",
-        loop: true,
-      }}
+      opts={{ align: "center", loop: true }}
       plugins={[autoplayPlugin]}
     >
       <CarouselContent className="-ml-0 aspect-video">
@@ -48,15 +45,14 @@ export const HomePageHeroCarousel: FC<{
               <Image
                 alt="Bild i karusell på hemskärmen"
                 className="absolute h-full w-full object-cover object-center"
-                height={450}
-                quality={95}
+                height={CAROUSEL_IMAGE_HEIGHT}
+                quality={CAROUSEL_IMAGE_QUALITY}
                 src={imageUrl}
-                width={750}
-                unoptimized
+                width={CAROUSEL_IMAGE_WIDTH}
               />
               {imageCredit != null && imageCredit != "" ? (
                 <div className="absolute bottom-2 right-2 m-2 rounded-md border-2 bg-zBlack p-2 font-bold text-zWhite">
-                  <p>Foto: {imageCredit ? imageCredit : "DEBUG DEFAULT"}</p>
+                  <p>Foto: {imageCredit}</p>
                 </div>
               ) : null}
             </div>
@@ -70,14 +66,7 @@ export const HomePageHeroCarousel: FC<{
                   referrerPolicy="no-referrer"
                   target="_blank"
                 >
-                  <Image
-                    alt="Bild i karusell på hemskärmen"
-                    className="h-full w-full object-cover object-center"
-                    height={CAROUSEL_IMAGE_HEIGHT}
-                    quality={CAROUSEL_IMAGE_QUALITY}
-                    src={imageUrl}
-                    width={CAROUSEL_IMAGE_WIDTH}
-                  />
+                  {captionedImage}
                 </Link>
               </CarouselItem>
             );
@@ -88,19 +77,6 @@ export const HomePageHeroCarousel: FC<{
               </CarouselItem>
             );
           }
-
-          return (
-            <CarouselItem key={id} className="pl-0">
-              <Image
-                alt="Bild i karusell på hemskärmen"
-                className="h-full w-full object-cover object-center"
-                height={CAROUSEL_IMAGE_HEIGHT}
-                quality={CAROUSEL_IMAGE_QUALITY}
-                src={imageUrl}
-                width={CAROUSEL_IMAGE_WIDTH}
-              />
-            </CarouselItem>
-          );
         })}
       </CarouselContent>
       <CarouselPrevious
