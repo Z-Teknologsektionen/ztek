@@ -15,6 +15,11 @@ import {
 import type { IFormFieldInputImage } from "~/types/form-types";
 import { cn } from "~/utils/utils";
 
+/**
+ * @description Form input which displays an image by either URL or by locally supplied file, and enables user to supply a file (but not to revert back to displaying by url).
+ * @param name - name of form field for image file. Form field is only changed when user supplies (or removes) an image, even if an image is displayed by url.
+ * @param imageFieldName - name of form field for image URL. Form field is `""` when image is removed, otherwise unchanged. This to create distinction from unchanged form with imageUrl.
+ */
 const FormFieldInputImage = <TFieldValues extends FieldValues>({
   label,
   description,

@@ -52,7 +52,7 @@ const UpsertHomePageCarouselForm: FC<UpsertHomePageCarouselFormProps> = ({
     defaultValues: {
       ...DEFAULT_VALUES,
       committeeId: session?.user.committeeId || "unknown",
-      ...defaultValues,
+      ...defaultValues, //imageFile (usually) not supplied, imageUrl is enough to display an image.
     },
   });
 
@@ -61,13 +61,8 @@ const UpsertHomePageCarouselForm: FC<UpsertHomePageCarouselFormProps> = ({
       form={form}
       formType={formType}
       onValid={onSubmit}
-      onInvalid={(formValues) =>
-        //DEBUG
-        console.log("Form validation errors:", formValues)
-      }
       resetForm={() => form.reset()}
     >
-      {/* DEBUG */ console.log("hi there") + ""}
       <FormFieldInputImage
         form={form}
         imageFieldName="imageUrl"
