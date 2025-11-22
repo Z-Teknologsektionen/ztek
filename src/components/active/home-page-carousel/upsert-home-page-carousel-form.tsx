@@ -4,8 +4,14 @@ import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import FormFieldInput from "~/components/forms/form-field-input";
 import FormFieldInputDatetimeLocal from "~/components/forms/form-field-input-datetime-local";
+import FormFieldInputImage from "~/components/forms/form-field-input-image";
 import FormFieldSelect from "~/components/forms/form-field-select";
 import FormWrapper from "~/components/forms/form-wrapper";
+import { COMMITTEE_IMAGE_QUALITY } from "~/constants/committees";
+import {
+  CAROUSEL_IMAGE_HEIGHT,
+  CAROUSEL_IMAGE_WIDTH,
+} from "~/constants/home-page-carousel";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { createHomePageCarouselSchema } from "~/schemas/home-page-carousel";
 import type { IUpsertForm } from "~/types/form-types";
@@ -23,6 +29,7 @@ const DEFAULT_VALUES: UpsertHomePageCarouselFormProps["defaultValues"] = {
   imageUrl: "",
   linkToUrl: "",
   startDateTime: null,
+  imageFile: undefined,
 };
 
 const UpsertHomePageCarouselForm: FC<UpsertHomePageCarouselFormProps> = ({
@@ -45,7 +52,7 @@ const UpsertHomePageCarouselForm: FC<UpsertHomePageCarouselFormProps> = ({
     defaultValues: {
       ...DEFAULT_VALUES,
       committeeId: session?.user.committeeId || "unknown",
-      ...defaultValues,
+      ...defaultValues, //imageFile (usually) not supplied, imageUrl is enough to display an image.
     },
   });
 
@@ -56,12 +63,15 @@ const UpsertHomePageCarouselForm: FC<UpsertHomePageCarouselFormProps> = ({
       onValid={onSubmit}
       resetForm={() => form.reset()}
     >
-      <FormFieldInput
-        description="Bilden kommer beskäras till 16:9."
+      <FormFieldInputImage
         form={form}
-        label="Bildlänk"
-        name="imageUrl"
-        type="url"
+        imageFieldName="imageUrl"
+        label="Bild"
+        maxHeight={CAROUSEL_IMAGE_HEIGHT}
+        maxWidth={CAROUSEL_IMAGE_WIDTH}
+        name="imageFile"
+        quality={COMMITTEE_IMAGE_QUALITY}
+        ruleOfThirds
       />
       <FormFieldInput
         description='zFoto brukar vilja nämnas på formatet "{namn}/zfoto"'

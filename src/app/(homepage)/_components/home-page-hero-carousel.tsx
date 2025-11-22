@@ -12,6 +12,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "~/components/ui/carousel";
+import {
+  CAROUSEL_IMAGE_HEIGHT,
+  CAROUSEL_IMAGE_QUALITY,
+  CAROUSEL_IMAGE_WIDTH,
+} from "~/constants/home-page-carousel";
 
 export const HomePageHeroCarousel: FC<{
   items: {
@@ -30,10 +35,7 @@ export const HomePageHeroCarousel: FC<{
   return (
     <Carousel
       className="relative h-fit overflow-hidden rounded-xl"
-      opts={{
-        align: "center",
-        loop: true,
-      }}
+      opts={{ align: "center", loop: true }}
       plugins={[autoplayPlugin]}
     >
       <CarouselContent className="-ml-0 aspect-video">
@@ -43,15 +45,14 @@ export const HomePageHeroCarousel: FC<{
               <Image
                 alt="Bild i karusell på hemskärmen"
                 className="absolute h-full w-full object-cover object-center"
-                height={450}
-                quality={95}
+                height={CAROUSEL_IMAGE_HEIGHT}
+                quality={CAROUSEL_IMAGE_QUALITY}
                 src={imageUrl}
-                width={750}
-                unoptimized
+                width={CAROUSEL_IMAGE_WIDTH}
               />
               {imageCredit != null && imageCredit != "" ? (
                 <div className="absolute bottom-2 right-2 m-2 rounded-md border-2 bg-zBlack p-2 font-bold text-zWhite">
-                  <p>Foto: {imageCredit ? imageCredit : "DEBUG DEFAULT"}</p>
+                  <p>Foto: {imageCredit}</p>
                 </div>
               ) : null}
             </div>

@@ -1,5 +1,8 @@
+import { TRPCError } from "@trpc/server";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
+import { deleteFileFromSftpServer } from "~/app/api/sftp/utils/sftp-engine";
+import { env } from "~/env.mjs";
 import {
   createCommitteeSchema,
   updateCommitteeAsActiveSchema,
@@ -97,6 +100,7 @@ export const committeeRouter = createTRPCRouter({
           description: true,
           email: true,
           image: true,
+          slug: true,
           id: true,
           electionPeriods: true,
           updatedAt: true,
@@ -164,7 +168,10 @@ export const committeeRouter = createTRPCRouter({
   updateCommitteeAsActive: protectedProcedure
     .input(updateCommitteeAsActiveSchema)
     .mutation(
-      async ({ ctx, input: { id, description, image, socialLinks } }) => {
+      async ({
+        ctx,
+        input: { id, description, image, socialLinks, showOldCommittee },
+      }) => {
         const updatedCommittee = await ctx.prisma.committee.update({
           where: {
             id,
@@ -174,6 +181,7 @@ export const committeeRouter = createTRPCRouter({
             image,
             socialLinks,
             updatedByEmail: ctx.session.user.email,
+            showOldCommittee,
           },
         });
 
@@ -283,11 +291,33 @@ export const committeeRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input: { id } }) => {
+      // Check if committee has members
+      const committeeMembers = await ctx.prisma.committeeMember.findMany({
+        where: {
+          committeeId: id,
+        },
+      });
+      if (committeeMembers.length > 0) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message:
+            "Du får inte ta bort kommittén eftersom den har medlemmar kopplade till sig. Ta bort medlemmarna först.",
+        });
+      }
+
       const deletedCommittee = await ctx.prisma.committee.delete({
         where: {
           id,
         },
       });
+
+      // Delete image if it exists
+      if (
+        deletedCommittee.image &&
+        deletedCommittee.image.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL)
+      ) {
+        await deleteFileFromSftpServer({ url: deletedCommittee.image });
+      }
 
       revalidateTag("committee");
 
