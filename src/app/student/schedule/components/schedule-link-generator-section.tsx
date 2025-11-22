@@ -34,17 +34,17 @@ const ScheduleLinkGeneratorSection: FC = () => {
         <div className="flex grow-[1] flex-row items-center justify-center gap-4 md:flex-col">
           <Label>
             <p className="py-1">TKAUT-1</p>
-            <CopyButton value="http://localhost:5000/api/ics/ri6y7YQQu9QZnZQ18Z40beZ35685Q" />
+            <CopyButton value="https://ztek.se/api/ics/ri6otYf5Z1fZYZQ6Zn4fe9j35116yQ5QdQ8cQYWQuZ7b3XQ5lm7Zo820860A4kD349E58F7E5721m8Z4F1Dt3oEEQ8476834F6D35E25" />
           </Label>
 
           <Label>
             <p className="py-1">TKAUT-2</p>
-            <CopyButton value="http://localhost:5000/api/ics/ri6y7YQQu9QZnZQ18Z40beZ35685Q" />
+            <CopyButton value="https://ztek.se/api/ics/ri6otYf5Z1fZYZQ1Zn4fe9j35186yQ5QdQ8cQYWQuZ7b3XQ5lm7Zo8E0B1044k5D49C5879C5720mDZ4348t8o58Q8976371057C47588" />
           </Label>
 
           <Label>
             <p className="py-1">TKAUT-3</p>
-            <CopyButton value="http://localhost:5000/api/ics/ri6y7YQQu9QZnZQ18Z40beZ35685Q" />
+            <CopyButton value="https://ztek.se/api/ics/ri6otYf5Z1fZYZQ2Zn4fe9j35176yQ5QdQ8cQYWQuZ7b3XQ5lm7Zo81069034k084939817E4729m8Z4105tCoABQ8C76AF7002E690C7" />
           </Label>
         </div>
       </div>
