@@ -22,7 +22,7 @@ export const NavbarDesktopLinks: FC<NavbarDesktopLinksProps> = ({
     // (seems radix UI don't want u to disable this)
     <NavigationMenuWithCentredContent
       className="hidden lg:flex"
-      delayDuration={1e20}
+      delayDuration={800}
       skipDelayDuration={0}
     >
       <NavigationMenuList className="flex items-center justify-center">
