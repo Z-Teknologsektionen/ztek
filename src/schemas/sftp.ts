@@ -7,7 +7,7 @@ import {
   standardBoolean,
   standardString,
   stringToBoolean,
-} from "./helpers/custom-zod-helpers";
+} from "./helpers/common-zod-helpers";
 
 export const sftpUploadNewFileSchema = z.object({
   file: sftpFile,

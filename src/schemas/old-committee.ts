@@ -9,7 +9,7 @@ import {
   sftpUrl,
   standardString,
   validYearPastOrCurrent,
-} from "~/schemas/helpers/custom-zod-helpers";
+} from "~/schemas/helpers/common-zod-helpers";
 
 const committeeNameWithYearRegEx = /^\p{L}+ (\d\d|\d\d(\/|-)\d\d)$/u;
 

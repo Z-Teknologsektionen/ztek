@@ -10,7 +10,7 @@ import {
   phoneNumberString,
   sftpFile,
   sftpUrl,
-} from "~/schemas/helpers/custom-zod-helpers";
+} from "~/schemas/helpers/common-zod-helpers";
 
 export const createProgramBoardMemberSchema = z.object({
   name: nonEmptyString,

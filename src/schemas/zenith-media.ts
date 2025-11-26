@@ -10,7 +10,7 @@ import {
   sftpFile,
   sftpUrl,
   validYearPastOrCurrent,
-} from "~/schemas/helpers/custom-zod-helpers";
+} from "~/schemas/helpers/common-zod-helpers";
 
 export const zenithMediaBaseSchema = z.object({
   title: nonEmptyString,

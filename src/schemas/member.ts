@@ -10,7 +10,7 @@ import {
   sftpFile,
   sftpUrl,
   standardString,
-} from "~/schemas/helpers/custom-zod-helpers";
+} from "~/schemas/helpers/common-zod-helpers";
 
 export const upsertMemberBaseSchema = z.object({
   name: standardString,
