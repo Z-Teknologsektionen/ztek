@@ -3,7 +3,7 @@ import { z } from "zod";
 import { deleteFileFromSftpServer } from "~/app/api/sftp/utils/sftp-engine";
 import { MIN_MEDIA_ORDER_NUMBER } from "~/constants/zenith-media";
 import { env } from "~/env.mjs";
-import { objectId } from "~/schemas/helpers/custom-zod-helpers";
+import { objectId } from "~/schemas/helpers/common-zod-helpers";
 import {
   createZenithMediaServerSchema,
   updateZenithMediaServerSchema,

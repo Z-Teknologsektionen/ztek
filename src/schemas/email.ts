@@ -2,7 +2,7 @@ import { z } from "zod";
 import {
   emailString,
   nonEmptyString,
-} from "~/schemas/helpers/custom-zod-helpers";
+} from "~/schemas/helpers/common-zod-helpers";
 
 export const sendEmailSchema = z.object({
   message: nonEmptyString,

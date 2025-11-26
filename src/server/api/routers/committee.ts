@@ -8,7 +8,7 @@ import {
   updateCommitteeAsActiveSchema,
   updateCommitteeSchema,
 } from "~/schemas/committee";
-import { objectId, slugString } from "~/schemas/helpers/custom-zod-helpers";
+import { objectId, slugString } from "~/schemas/helpers/common-zod-helpers";
 import {
   createTRPCRouter,
   organizationManagementProcedure,

@@ -5,7 +5,7 @@ import { env } from "~/env.mjs";
 import {
   objectId,
   standardBoolean,
-} from "~/schemas/helpers/custom-zod-helpers";
+} from "~/schemas/helpers/common-zod-helpers";
 import {
   createOldCommitteeSchema,
   updateOldCommitteeSchema,

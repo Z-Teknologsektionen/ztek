@@ -7,16 +7,15 @@ import {
   mediaOrderNumber,
   nonEmptyString,
   objectId,
-  sftpFile,
-  sftpUrl,
-  validYearPastOrCurrent,
-} from "~/schemas/helpers/custom-zod-helpers";
+} from "~/schemas/helpers/common-zod-helpers";
+import { sftpFile, sftpUrl } from "./helpers/sftp-zod-helpers";
+import { validYearPastOrCurrent } from "./helpers/time-zod-helpers";
 
 export const zenithMediaBaseSchema = z.object({
   title: nonEmptyString,
   year: validYearPastOrCurrent,
   order: mediaOrderNumber.nullable(),
-  coverImage: base64WebPImageString.or(emptyString).or(sftpUrl),
+  coverImage: base64WebPImageString.or(emptyString).or(sftpUrl), //base64 may be removed at some point in the future
   coverImageFile: sftpFile.optional().nullable(),
 });
 
