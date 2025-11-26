@@ -52,9 +52,11 @@ const simplifySchedule = (input: string): { icsCal: string; name: string } => {
     vEvent.description = constructDescription(eventInfo);
   }
 
+  //rename and return
+  vCalendar.name = `ZtekPostProcessed-${vCalendar.name || "TimeEdit-Calendar"}`;
   return {
     icsCal: generateIcsCalendar(vCalendar),
-    name: `ZtekPostProcessed-${vCalendar.name || "TimeEdit-Calendar"}`,
+    name: vCalendar.name,
   };
 };
 
