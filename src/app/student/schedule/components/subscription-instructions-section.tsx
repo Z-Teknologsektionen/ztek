@@ -47,7 +47,7 @@ const SubscriptionInstructionsSection: FC = () => {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <div className="order-last col-span-1 space-y-4 lg:order-first lg:col-span-2">
           <p>
-            För att få Google-kalender att prenumerera på en kalender, kan
+            För att få Google kalender att prenumerera på en kalender, kan
             följande göras i webbgränssnittet:
           </p>
           <ol className="list-decimal pl-6">
@@ -69,8 +69,8 @@ const SubscriptionInstructionsSection: FC = () => {
             <li>Tryck &quot;Lägg till kalender&quot;</li>
           </ol>
           <p>
-            För att få din prenumererade kalender att visas i
-            Google-kalenderappen, kan följande göras:
+            För att få din prenumererade kalender att visas i Google
+            kalenderappen, kan följande göras:
           </p>
           <ol className="mt-2 list-decimal pl-6">
             <li>Öppna sidopanelen</li>

@@ -10,7 +10,7 @@ import ScheduleLinkGenerator from "./schedule-link-generator";
 const ScheduleLinkGeneratorSection: FC = () => {
   return (
     <SectionWrapper>
-      <SectionTitle>Generera en kalenderprenumerationslänk</SectionTitle>
+      <SectionTitle>Modifiera din kalenderprenumeration</SectionTitle>
       <p>
         Kalendern som kan prenumereras på från TimeEdit kan vara något svårläst.
         För att Z-teknologer ska få det lättare att läsa sina kalendrar finns
