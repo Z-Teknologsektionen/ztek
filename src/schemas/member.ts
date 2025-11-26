@@ -7,10 +7,9 @@ import {
   nonEmptyString,
   objectId,
   phoneNumberString,
-  sftpFile,
-  sftpUrl,
   standardString,
 } from "~/schemas/helpers/common-zod-helpers";
+import { sftpFile, sftpUrl } from "./helpers/sftp-zod-helpers";
 
 export const upsertMemberBaseSchema = z.object({
   name: standardString,

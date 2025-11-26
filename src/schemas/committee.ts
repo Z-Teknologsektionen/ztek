@@ -15,12 +15,11 @@ import {
   nonEmptyString,
   objectId,
   relativePathString,
-  sftpFile,
-  sftpUrl,
   slugString,
   standardBoolean,
   standardString,
 } from "~/schemas/helpers/common-zod-helpers";
+import { sftpFile, sftpUrl } from "./helpers/sftp-zod-helpers";
 
 export const socialIconSchema = z
   .object({

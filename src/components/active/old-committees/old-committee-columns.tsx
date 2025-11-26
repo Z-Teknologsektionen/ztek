@@ -4,7 +4,8 @@ import BadgeCell from "~/components/columns/badge-cell";
 import BooleanCell from "~/components/columns/boolean-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
-import { objectId, validYear } from "~/schemas/helpers/common-zod-helpers";
+import { objectId } from "~/schemas/helpers/common-zod-helpers";
+import { validYear } from "~/schemas/helpers/time-zod-helpers";
 import { type RouterOutputs } from "~/utils/api";
 import { OldCommitteeTableActions } from "./old-committee-table-actions";
 
