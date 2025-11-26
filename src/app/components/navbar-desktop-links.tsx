@@ -18,9 +18,12 @@ export const NavbarDesktopLinks: FC<NavbarDesktopLinksProps> = ({
   linkItems,
 }) => {
   return (
+    //disable expand on hover by setting `delayDuration` high
+    // (seems radix UI don't want u to disable this)
     <NavigationMenuWithCentredContent
       className="hidden lg:flex"
-      delayDuration={100}
+      delayDuration={800}
+      skipDelayDuration={0}
     >
       <NavigationMenuList className="flex items-center justify-center">
         {linkItems.map((link) => {
