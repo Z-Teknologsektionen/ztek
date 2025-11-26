@@ -53,7 +53,7 @@ const SubscriptionInstructionsSection: FC = () => {
           <ol className="mt-2 list-decimal pl-6">
             <li>
               Gå till{" "}
-              <StyledLink href={"calendar.google.com"}>
+              <StyledLink href={"https://calendar.google.com"}>
                 Google kalender
               </StyledLink>
             </li>

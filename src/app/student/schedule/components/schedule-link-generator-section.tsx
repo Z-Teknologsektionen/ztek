@@ -1,8 +1,8 @@
 import { type FC } from "react";
 
+import CopyButton from "~/components/buttons/copy-button";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
-import CopyButton from "~/components/ui/copy-button";
 import { Label } from "~/components/ui/label";
 
 import ScheduleLinkGenerator from "./schedule-link-generator";
