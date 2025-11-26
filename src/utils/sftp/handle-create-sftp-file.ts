@@ -19,6 +19,7 @@ export const handleCreateSftpFile = async (
 ): Promise<string> => {
   return await axios
     .post("/api/sftp", body, {
+      //apparently `body` should be of type FormData for multipart HTTP POSTs, but it usually works anyway (if it breaks in the future u know why)
       headers: { "Content-Type": "multipart/form-data" },
     })
     .then((res) => sftpAPISuccessResponseSchema.parse(res.data))
