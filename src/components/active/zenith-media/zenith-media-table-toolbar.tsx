@@ -65,6 +65,8 @@ export const ZenithMediaTableToolbar = <TData,>({
                   title,
                   year,
                   order,
+                  startDateTime,
+                  endDateTime,
                 }) => {
                   const loadingToastId = toast.loading(
                     "Laddar upp media. Detta kan ta en stund!",
@@ -104,6 +106,8 @@ export const ZenithMediaTableToolbar = <TData,>({
                       title,
                       year,
                       order,
+                      startDateTime,
+                      endDateTime,
                     });
                   } catch (error) {
                     if (error instanceof Error) {
