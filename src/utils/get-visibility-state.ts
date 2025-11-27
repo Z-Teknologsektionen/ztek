@@ -1,6 +1,7 @@
-import type { visibilityStates } from "~/constants/home-page-carousel";
+/** @description enum for (often time-dependent) visibility of media items such as Zenith media or Carousel items */
+export const visibilityStates = ["scheduled", "visible", "passed"] as const;
 
-export const getCarouselStatusName = (
+export const getVisibilityStateName = (
   status: (typeof visibilityStates)[number],
 ): string => {
   switch (status) {
@@ -13,7 +14,7 @@ export const getCarouselStatusName = (
   }
 };
 
-export const getCarouselStatusFromDates = ({
+export const getVisibilityState = ({
   endDateTime,
   startDateTime,
 }: {
@@ -21,8 +22,6 @@ export const getCarouselStatusFromDates = ({
   startDateTime: Date | null;
 }): (typeof visibilityStates)[number] => {
   if (startDateTime !== null && startDateTime > new Date()) return "scheduled";
-
   if (endDateTime !== null && endDateTime < new Date()) return "passed";
-
   return "visible";
 };

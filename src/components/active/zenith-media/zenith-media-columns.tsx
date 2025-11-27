@@ -4,10 +4,12 @@ import BadgeCell from "~/components/columns/badge-cell";
 import BooleanCell from "~/components/columns/boolean-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
-import { visibilityStates } from "~/constants/home-page-carousel";
 import type { RouterOutputs } from "~/utils/api";
 import { dayjs } from "~/utils/dayjs";
-import { getCarouselStatusFromDates } from "~/utils/get-carousel-status";
+import {
+  getVisibilityState,
+  visibilityStates,
+} from "~/utils/get-visibility-state";
 import { ZenithMediaTableActions } from "./zenith-media-table-actions";
 
 export type ZenithMediaType = RouterOutputs["zenithMedia"]["getAllAsAuthed"][0];
@@ -77,12 +79,12 @@ export const zenithMediaColumns: ColumnDef<ZenithMediaType>[] = [
     accessorKey: "isShown",
     header: ({ column }) => <DataTableColumnHeader column={column} />,
     cell: ({ row }) => {
-      const status = getCarouselStatusFromDates(row.original);
+      const visibility = getVisibilityState(row.original);
 
-      if (status === "scheduled")
+      if (visibility === "scheduled")
         return <BadgeCell variant="outline">Schemalagd</BadgeCell>;
 
-      if (status === "passed")
+      if (visibility === "passed")
         return <BadgeCell variant="destructive">Utgången</BadgeCell>;
 
       return <BadgeCell variant="productive">Visas</BadgeCell>;
@@ -97,7 +99,7 @@ export const zenithMediaColumns: ColumnDef<ZenithMediaType>[] = [
         .safeParse(rawFilterValue);
       if (!filterValue.success) return false;
 
-      const currentValue = getCarouselStatusFromDates(row.original);
+      const currentValue = getVisibilityState(row.original);
 
       return filterValue.data.includes(currentValue);
     },
