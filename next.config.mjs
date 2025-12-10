@@ -24,7 +24,6 @@ const config = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  swcMinify: true,
   images: {
     remotePatterns: [
       {
