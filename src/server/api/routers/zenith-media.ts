@@ -59,7 +59,7 @@ export const zenithMediaRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("zenithMedia", "max");
+        revalidateTag("zenithMedia");
 
         return createdMedia;
       },
@@ -82,7 +82,7 @@ export const zenithMediaRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("zenithMedia", "max");
+        revalidateTag("zenithMedia");
 
         return updatedMedia;
       },
@@ -119,7 +119,7 @@ export const zenithMediaRouter = createTRPCRouter({
         await deleteFileFromSftpServer({ url: deletedMedia.coverImage });
       }
 
-      revalidateTag("zenithMedia", "max");
+      revalidateTag("zenithMedia");
 
       return deletedMedia;
     }),

@@ -185,7 +185,7 @@ export const committeeRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("committee", "max");
+        revalidateTag("committee");
 
         return updatedCommittee;
       },
@@ -232,7 +232,7 @@ export const committeeRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("committee", "max");
+        revalidateTag("committee");
 
         return createdCommittee;
       },
@@ -279,7 +279,7 @@ export const committeeRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("committee", "max");
+        revalidateTag("committee");
 
         return updatedCommittee;
       },
@@ -319,7 +319,7 @@ export const committeeRouter = createTRPCRouter({
         await deleteFileFromSftpServer({ url: deletedCommittee.image });
       }
 
-      revalidateTag("committee", "max");
+      revalidateTag("committee");
 
       return deletedCommittee;
     }),

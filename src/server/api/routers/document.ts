@@ -65,7 +65,7 @@ export const documentRouter = createTRPCRouter({
         },
       });
 
-      revalidateTag("documents", "max");
+      revalidateTag("documents");
 
       return newDocument;
     }),
@@ -91,7 +91,7 @@ export const documentRouter = createTRPCRouter({
         },
       });
 
-      revalidateTag("documents", "max");
+      revalidateTag("documents");
 
       return updatedDocument;
     }),
@@ -108,7 +108,7 @@ export const documentRouter = createTRPCRouter({
         },
       });
 
-      revalidateTag("documents", "max");
+      revalidateTag("documents");
 
       return deletedDocument;
     }),
@@ -150,7 +150,7 @@ export const documentRouter = createTRPCRouter({
         },
       });
 
-      revalidateTag("document-groups", "max");
+      revalidateTag("document-groups");
 
       return newDocumentGroup;
     }),
@@ -172,7 +172,7 @@ export const documentRouter = createTRPCRouter({
         },
       });
 
-      revalidateTag("document-groups", "max");
+      revalidateTag("document-groups");
 
       return updatedDocumentGroup;
     }),
@@ -189,7 +189,7 @@ export const documentRouter = createTRPCRouter({
         },
       });
 
-      revalidateTag("document-groups", "max");
+      revalidateTag("document-groups");
 
       return deletedDocumentGroup;
     }),

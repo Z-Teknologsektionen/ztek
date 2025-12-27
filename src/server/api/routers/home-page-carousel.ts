@@ -53,7 +53,7 @@ export const homePageCarouselRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("home-page-carousel", "max");
+        revalidateTag("home-page-carousel");
 
         return createdItem;
       },
@@ -88,7 +88,7 @@ export const homePageCarouselRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("home-page-carousel", "max");
+        revalidateTag("home-page-carousel");
 
         return updatedItem;
       },
@@ -106,7 +106,7 @@ export const homePageCarouselRouter = createTRPCRouter({
         },
       });
 
-      revalidateTag("home-page-carousel", "max");
+      revalidateTag("home-page-carousel");
 
       return deletedItem;
     }),
