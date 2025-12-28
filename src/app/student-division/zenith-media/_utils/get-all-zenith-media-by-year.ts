@@ -1,7 +1,7 @@
 import { unstable_cache } from "next/cache";
 import { prisma } from "~/server/db";
 
-export const getAllZenithMediaByYear = unstable_cache(
+export const getVisibleZenithMediaByYear = unstable_cache(
   async () => {
     const rawMedia = await prisma.zenithMedia.findMany({
       orderBy: { year: "desc" },
@@ -11,6 +11,36 @@ export const getAllZenithMediaByYear = unstable_cache(
         year: true,
         url: true,
         coverImage: true,
+        startDateTime: true,
+        endDateTime: true,
+      },
+      where: {
+        AND: [
+          {
+            OR: [
+              {
+                endDateTime: {
+                  gte: new Date(),
+                },
+              },
+              {
+                endDateTime: null,
+              },
+            ],
+          },
+          {
+            OR: [
+              {
+                startDateTime: {
+                  lte: new Date(),
+                },
+              },
+              {
+                startDateTime: null,
+              },
+            ],
+          },
+        ],
       },
     });
 

@@ -34,7 +34,7 @@ export const zenithMediaColumns: ColumnDef<ZenithMediaType>[] = [
     filterFn: "includesString",
   },
   {
-    id: "År",
+    id: "Utgivningsår",
     accessorKey: "year",
     header: ({ column }) => <DataTableColumnHeader column={column} />,
     enableSorting: true,
@@ -81,6 +81,7 @@ export const zenithMediaColumns: ColumnDef<ZenithMediaType>[] = [
     cell: ({ row }) => {
       const visibility = getVisibilityState(row.original);
 
+      //TODO: use the existing getVisibilityStateName function
       if (visibility === "scheduled")
         return <BadgeCell variant="outline">Schemalagd</BadgeCell>;
 
