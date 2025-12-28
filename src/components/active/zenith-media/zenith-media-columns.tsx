@@ -8,6 +8,7 @@ import type { RouterOutputs } from "~/utils/api";
 import { dayjs } from "~/utils/dayjs";
 import {
   getVisibilityState,
+  getVisibilityStateName,
   visibilityStates,
 } from "~/utils/get-visibility-state";
 import { ZenithMediaTableActions } from "./zenith-media-table-actions";
@@ -80,15 +81,19 @@ export const zenithMediaColumns: ColumnDef<ZenithMediaType>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} />,
     cell: ({ row }) => {
       const visibility = getVisibilityState(row.original);
-
-      //TODO: use the existing getVisibilityStateName function
-      if (visibility === "scheduled")
-        return <BadgeCell variant="outline">Schemalagd</BadgeCell>;
-
-      if (visibility === "passed")
-        return <BadgeCell variant="destructive">Utgången</BadgeCell>;
-
-      return <BadgeCell variant="productive">Visas</BadgeCell>;
+      return (
+        <BadgeCell
+          variant={
+            visibility === "scheduled"
+              ? "outline"
+              : visibility === "passed"
+                ? "destructive"
+                : "productive"
+          }
+        >
+          {getVisibilityStateName(visibility)}
+        </BadgeCell>
+      );
     },
     enableSorting: true,
     enableHiding: true,

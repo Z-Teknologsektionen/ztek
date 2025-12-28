@@ -1,6 +1,10 @@
 /** @description enum for (often time-dependent) visibility of media items such as Zenith media or Carousel items */
 export const visibilityStates = ["scheduled", "visible", "passed"] as const;
 
+/**
+ * @param status - visibility state, as returned by `getVisibilityState`.
+ * @returns User-readable name of a visibility state
+ * */
 export const getVisibilityStateName = (
   status: (typeof visibilityStates)[number],
 ): string => {
