@@ -56,7 +56,7 @@ export const committeeMemberRouter = createTRPCRouter({
         },
       });
 
-      revalidateTag("committeeMembers");
+      revalidateTag("committeeMembers", "max");
 
       return updatedMember;
     }),
@@ -133,7 +133,7 @@ export const committeeMemberRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("committeeMembers");
+        revalidateTag("committeeMembers", "max");
 
         return createdMember;
       },
@@ -182,7 +182,7 @@ export const committeeMemberRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("committeeMembers");
+        revalidateTag("committeeMembers", "max");
 
         return updatedMember;
       },
@@ -245,7 +245,7 @@ export const committeeMemberRouter = createTRPCRouter({
         }
       }
 
-      revalidateTag("committeeMembers");
+      revalidateTag("committeeMembers", "max");
 
       return deletedMember;
     }),

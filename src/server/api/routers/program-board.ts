@@ -59,7 +59,7 @@ export const programBoardRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("boardProgramMembers");
+        revalidateTag("boardProgramMembers", "max");
 
         return newBoardMember;
       },
@@ -85,7 +85,7 @@ export const programBoardRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("boardProgramMembers");
+        revalidateTag("boardProgramMembers", "max");
 
         return updatedBoardMember;
       },
@@ -106,7 +106,7 @@ export const programBoardRouter = createTRPCRouter({
         await deleteFileFromSftpServer({ url: deletedBoardMember.image });
       }
 
-      revalidateTag("boardProgramMembers");
+      revalidateTag("boardProgramMembers", "max");
 
       return deletedBoardMember;
     }),
