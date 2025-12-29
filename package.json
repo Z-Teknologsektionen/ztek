@@ -81,7 +81,7 @@
     "@types/eslint": "^8.56.2",
     "@types/node": "^20.8.9",
     "@types/nodemailer": "^6.4.17",
-    "@types/react": "^18.2.33",
+    "@types/react": "^19.2.2",
     "@types/react-dom": "^18.2.14",
     "@types/ssh2-sftp-client": "^9.0.4",
     "@types/validator": "^13.11.5",
