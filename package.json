@@ -9,7 +9,8 @@
     "build": "next build --webpack",
     "dev": "next dev -p 5000 --webpack",
     "postinstall": "prisma generate",
-    "lint": "eslint ./src",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
     "start": "next start -p 5000",
     "typecheck": "tsc --noEmit"
   },
