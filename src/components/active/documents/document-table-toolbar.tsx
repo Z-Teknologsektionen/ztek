@@ -1,4 +1,5 @@
 import type { Table } from "@tanstack/react-table";
+import type { JSX } from "react";
 import { useState } from "react";
 import { UpsertDocumentForm } from "~/components/active/documents/upsert-document-form";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
@@ -15,7 +16,7 @@ export const DocumentTableToolbar = <TData,>({
 }: DocumentTableToolbarProps<TData>): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: createNewDocument, isLoading: creatingNewDocument } =
+  const { mutate: createNewDocument, isPending: creatingNewDocument } =
     useCreateDocumentAsAuthed({
       onSuccess: () => setIsOpen(false),
     });

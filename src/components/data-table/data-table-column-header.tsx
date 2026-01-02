@@ -5,7 +5,7 @@ import {
   EyeNoneIcon,
 } from "@radix-ui/react-icons";
 import type { Column } from "@tanstack/react-table";
-import type { HTMLAttributes } from "react";
+import type { HTMLAttributes, ReactElement } from "react";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -26,7 +26,7 @@ export const DataTableColumnHeader = <TData, TValue>({
   column,
   title = column.id,
   className,
-}: DataTableColumnHeaderProps<TData, TValue>): JSX.Element => {
+}: DataTableColumnHeaderProps<TData, TValue>): ReactElement => {
   if (!column.getCanSort()) {
     return <div className={cn(className)}>{title}</div>;
   }
