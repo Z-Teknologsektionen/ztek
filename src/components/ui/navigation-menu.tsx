@@ -166,9 +166,7 @@ const NavigationMenuWithCentredContent = React.forwardRef<
       <NavigationMenuPrimitive.Indicator
         className={cn(
           "top-full z-[1] flex h-1.5 items-end justify-center overflow-hidden data-[state=visible]:animate-in data-[state=hidden]:animate-out data-[state=hidden]:fade-out data-[state=visible]:fade-in",
-          className,
         )}
-        {...props}
       >
         <div className="relative top-[60%] h-2 w-2 rounded-tl-sm bg-slate-200 shadow-md rotate-45 dark:bg-zBlack" />
       </NavigationMenuPrimitive.Indicator>
