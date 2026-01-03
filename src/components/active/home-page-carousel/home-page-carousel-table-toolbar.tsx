@@ -4,11 +4,13 @@ import { useMemo, useState } from "react";
 import { DataTableFacetedFilter } from "~/components/data-table/data-table-faceted-filter";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
-import { visibilityStates } from "~/constants/home-page-carousel";
 import { useCreateCarouselAsActive } from "~/hooks/mutations/useMutateHomePageCarousel";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
-import { getCarouselStatusName } from "~/utils/get-carousel-status";
+import {
+  getVisibilityStateName,
+  visibilityStates,
+} from "~/utils/get-visibility-state";
 import { imageOperations } from "~/utils/sftp/handle-image-forms";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 import UpsertHomePageCarouselForm from "./upsert-home-page-carousel-form";
@@ -65,7 +67,7 @@ export const HomePageCarouselTableToolbar = <TData,>({
             column={isVisibleColumn}
             options={visibilityStates.map((state) => ({
               value: state,
-              label: getCarouselStatusName(state),
+              label: getVisibilityStateName(state),
             }))}
             title="Filtrera på synlighet"
           />

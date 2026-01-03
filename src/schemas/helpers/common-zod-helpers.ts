@@ -6,26 +6,19 @@ import {
   MIN_COMMITTEE_ORDER_NUMBER,
   MIN_ELECTION_PERIOD,
 } from "~/constants/committees";
-import {
-  MAX_SFTP_FILE_SIZE,
-  MAX_SFTP_MB_SIZE,
-  SFPT_DIRS,
-  SFTP_ACCEPTED_MEDIA_TYPES,
-} from "~/constants/sftp";
+
 import {
   MAX_MEDIA_ORDER_NUMBER,
   MIN_MEDIA_ORDER_NUMBER,
 } from "~/constants/zenith-media";
-import { env } from "~/env.mjs";
-import type { SFTPMediaType } from "~/types/sftp-types";
 
+const slugRegex = /^[a-z]+(?:-[a-z]+)*$/;
 export const base64Regex =
   /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
 
-const slugRegex = /^[a-z]+(?:-[a-z]+)*$/;
+//standard types
 
-const filenameRegExp = /^[a-zA-Z0-9-]{3,100}\.[a-zA-Z0-9]{1,5}$/;
-
+export const emptyString = z.literal("");
 export const standardString = z
   .string({
     required_error: "Obligatoriskt fält",
@@ -48,11 +41,7 @@ export const objectId = standardString.regex(
   "Ogiltigt objectId",
 );
 
-export const datetimeString = standardString.datetime({
-  precision: 3,
-  offset: false,
-  message: "Otillåtet datum/tidsformat",
-});
+// less standard types
 
 export const committeeOrderNumber = standardNumber
   .min(MIN_COMMITTEE_ORDER_NUMBER, {
@@ -92,23 +81,12 @@ export const phoneNumberString = standardString.refine(
 
 export const slugString = standardString.refine(
   (val) => slugRegex.test(val),
-  `Otillåten sträng, får bara innehålla småbokstäver och - men inte sluta på -. Använder följande regexp "${slugRegex}"`,
+  `Otillåten sträng, får bara innehålla småbokstäver och "-" men inte sluta på "-". Använder följande RegExp "${slugRegex}"`,
 );
-
-export const emptyString = z.literal("");
 
 export const httpsUrlString = standardString
   .url("Måste vara en URL")
   .startsWith("https://", "Måste vara en säker https länk");
-export const validYear = standardNumber
-  .int("Måste vara ett heltal")
-  .min(1000, "Årtalet måste vara ett fyrsiffrigt tal")
-  .max(9999, "Årtalet måste vara ett fyrsiffrigt tal");
-
-export const validYearPastOrCurrent = validYear.refine(
-  (val) => val <= new Date().getFullYear(),
-  "Årtalet får inte vara ett framtida årtal",
-);
 
 export const relativePathString = standardString.startsWith("/");
 
@@ -116,40 +94,9 @@ export const stringToBoolean = standardString
   .transform((str) => str.toLowerCase())
   .refine(
     (str) => str === "true" || str === "false",
-    `Ogiltig sträng måste vara "true" eller "false"`,
+    `Ogiltig sträng, måste vara "true" eller "false"`,
   )
   .transform((str) => str.toLowerCase() === "true");
-
-export const sftpUrl = httpsUrlString.refine(
-  (str) => str.startsWith(env.NEXT_PUBLIC_SFTP_BASE_URL),
-  `Måste börja på ${env.NEXT_PUBLIC_SFTP_BASE_URL}`,
-);
-
-export const sftpFilename = standardString.regex(
-  filenameRegExp,
-  `Ogiltigt filnamn. Använder följande regex: ${filenameRegExp}`,
-);
-
-export const sftpFile = z
-  .custom<File>(
-    (input) => input instanceof File,
-    "Ogiltig input. Behöver vara en fil",
-  )
-  .refine((file) => {
-    return file.size <= MAX_SFTP_FILE_SIZE;
-  }, `Filen får inte vara större än ${MAX_SFTP_MB_SIZE}MB. Kontakta Webbgruppen om du behöver ladda upp större grejer.`)
-  .refine(
-    (file) => SFTP_ACCEPTED_MEDIA_TYPES.includes(file.type as SFTPMediaType),
-    "Inte en godkänd filtyp. Kontakta webbgruppen om du behöver ladda upp den här filtypen.",
-  );
-
-export const sftpDir = z.enum(SFPT_DIRS, {
-  errorMap: () => ({
-    message: `Ogiltigt directory. Måste vara ett av följande: "${SFPT_DIRS.join(
-      ", ",
-    )}"`,
-  }),
-});
 
 export const electionPeriod = standardNumber
   .int("Måste vara ett heltal")
