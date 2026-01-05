@@ -104,7 +104,7 @@ export const oldCommitteeRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("oldCommittee");
+        revalidateTag("oldCommittee", "max");
 
         return createdOldCommittee;
       },
@@ -131,7 +131,7 @@ export const oldCommitteeRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("oldCommittee");
+        revalidateTag("oldCommittee", "max");
 
         return updatedOldCommittee;
       },
@@ -171,7 +171,7 @@ export const oldCommitteeRouter = createTRPCRouter({
         }
       }
 
-      revalidateTag("oldCommittee");
+      revalidateTag("oldCommittee", "max");
 
       return deletedOldCommittee;
     }),

@@ -23,9 +23,9 @@ export const TrpcProvider: FC<PropsWithChildren> = ({ children }) => {
         }),
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
+          transformer: superjson,
         }),
       ],
-      transformer: superjson,
     }),
   );
 
