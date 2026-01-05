@@ -1,3 +1,7 @@
 *.mjs
 
+#why is this here?
 /src/components/ui
+
+#automatically generated file (don't lint)
+next-env.d.ts

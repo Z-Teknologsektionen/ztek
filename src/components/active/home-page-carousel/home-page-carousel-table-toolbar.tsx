@@ -1,5 +1,6 @@
 import { Cross2Icon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
+import type { JSX } from "react";
 import { useMemo, useState } from "react";
 import { DataTableFacetedFilter } from "~/components/data-table/data-table-faceted-filter";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";

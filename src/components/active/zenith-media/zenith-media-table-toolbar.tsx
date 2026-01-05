@@ -1,6 +1,6 @@
 import { Cross2Icon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
-import { useState } from "react";
+import { type ReactElement, useState } from "react";
 import toast from "react-hot-toast";
 import { UpsertZenithMediaForm } from "~/components/active/zenith-media/upsert-zenith-media-form";
 import { DataTableFacetedFilter } from "~/components/data-table/data-table-faceted-filter";
@@ -23,11 +23,11 @@ interface MemberTableToolbarProps<TData> {
 
 export const ZenithMediaTableToolbar = <TData,>({
   table,
-}: MemberTableToolbarProps<TData>): JSX.Element => {
+}: MemberTableToolbarProps<TData>): ReactElement => {
   const isFiltered = table.getState().columnFilters.length > 0;
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: createNewZenithMedia, isLoading: creatingNewZenithMedia } =
+  const { mutate: createNewZenithMedia, isPending: creatingNewZenithMedia } =
     useCreateZenithMediaAsAuthed({
       onSuccess: () => setIsOpen(false),
     });
