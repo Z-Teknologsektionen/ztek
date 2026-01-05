@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import isMobilePhone from "validator/lib/isMobilePhone";
 import { z } from "zod";
 import {
@@ -37,9 +36,10 @@ export const standardBoolean = z.boolean({
   invalid_type_error: "Måste vara en bool",
 });
 
-export const objectId = standardString.refine((val) => {
-  return mongoose.Types.ObjectId.isValid(val);
-}, "Ogiltigt objectId");
+export const objectId = standardString.regex(
+  /^[0-9a-fA-F]{24}$/,
+  "Ogiltigt objectId",
+);
 
 // less standard types
 

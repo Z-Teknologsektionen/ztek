@@ -52,7 +52,6 @@
     "framer-motion": "^11.0.20",
     "keen-slider": "^6.8.6",
     "lucide-react": "^0.562.0",
-    "mongoose": "^7.6.3",
     "next": "^16.0.10",
     "next-auth": "^4.24.13",
     "nextjs-node-loader": "^1.1.5",
