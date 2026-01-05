@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
 import Image from "next/image";
+import type { JSX } from "react";
 import { useEffect, useState } from "react";
 import type { FieldValues, Path, PathValue } from "react-hook-form";
 import { UploadAndCropButton } from "~/components/cropper/upload-and-crop-button";

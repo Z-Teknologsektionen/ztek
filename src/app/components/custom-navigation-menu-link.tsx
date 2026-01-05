@@ -14,22 +14,21 @@ export const CustomNavigationMenuLink: FC<
   }
 > = ({ href, label, pathname, newPage }) => (
   <NavigationMenuItem className="dark">
-    <Link
-      href={href}
-      referrerPolicy={newPage ? "no-referrer" : undefined}
-      target={newPage ? "_blank" : "_self"}
-      legacyBehavior
-      passHref
+    <NavigationMenuLink
+      active={pathname == href}
+      className={cn(
+        navigationMenuTriggerStyle(),
+        "border-0 dark:bg-transparent",
+      )}
+      asChild
     >
-      <NavigationMenuLink
-        active={pathname == href}
-        className={cn(
-          navigationMenuTriggerStyle(),
-          "border-0 dark:bg-transparent",
-        )}
+      <Link
+        href={href}
+        referrerPolicy={newPage ? "no-referrer" : undefined}
+        target={newPage ? "_blank" : "_self"}
       >
         {label}
-      </NavigationMenuLink>
-    </Link>
+      </Link>
+    </NavigationMenuLink>
   </NavigationMenuItem>
 );

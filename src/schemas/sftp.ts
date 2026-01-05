@@ -1,13 +1,15 @@
 import { z } from "zod";
 import {
+  standardBoolean,
+  standardString,
+  stringToBoolean,
+} from "./helpers/common-zod-helpers";
+import {
   sftpDir,
   sftpFile,
   sftpFilename,
   sftpUrl,
-  standardBoolean,
-  standardString,
-  stringToBoolean,
-} from "./helpers/custom-zod-helpers";
+} from "./helpers/sftp-zod-helpers";
 
 export const sftpUploadNewFileSchema = z.object({
   file: sftpFile,

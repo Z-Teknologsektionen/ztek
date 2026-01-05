@@ -3,7 +3,7 @@ import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { deleteFileFromSftpServer } from "~/app/api/sftp/utils/sftp-engine";
 import { env } from "~/env.mjs";
-import { objectId } from "~/schemas/helpers/custom-zod-helpers";
+import { objectId } from "~/schemas/helpers/common-zod-helpers";
 import {
   createMemberSchema,
   updateMemberAsActiveSchema,
@@ -56,7 +56,7 @@ export const committeeMemberRouter = createTRPCRouter({
         },
       });
 
-      revalidateTag("committeeMembers");
+      revalidateTag("committeeMembers", "max");
 
       return updatedMember;
     }),
@@ -133,7 +133,7 @@ export const committeeMemberRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("committeeMembers");
+        revalidateTag("committeeMembers", "max");
 
         return createdMember;
       },
@@ -182,7 +182,7 @@ export const committeeMemberRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("committeeMembers");
+        revalidateTag("committeeMembers", "max");
 
         return updatedMember;
       },
@@ -245,7 +245,7 @@ export const committeeMemberRouter = createTRPCRouter({
         }
       }
 
-      revalidateTag("committeeMembers");
+      revalidateTag("committeeMembers", "max");
 
       return deletedMember;
     }),
