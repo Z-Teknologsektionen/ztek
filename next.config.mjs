@@ -21,6 +21,7 @@ const config = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  //allowed image sources (will not be blocked by Next.js)
   images: {
     remotePatterns: [
       {

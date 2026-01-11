@@ -11,6 +11,7 @@ export const handleDeleteSftpFile = async (
   ignoreAllErrors: boolean = false,
 ): Promise<boolean> => {
   return await axios
+    // promise will be rejected on HTTP errors
     .delete("/api/sftp", {
       data: body,
       headers: {

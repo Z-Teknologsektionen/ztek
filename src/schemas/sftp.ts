@@ -10,7 +10,9 @@ import {
   sftpFilename,
   sftpUrl,
 } from "./helpers/sftp-zod-helpers";
+// This file contains Zod schemas for SFTP api
 
+// Schemas for parsing (client --> server) requests
 export const sftpUploadNewFileSchema = z.object({
   file: sftpFile,
   dir: sftpDir,
@@ -32,6 +34,8 @@ export const sftpDeleteFileSchema = z.object({
   url: sftpUrl,
 });
 
+// Schemas for parsing (server --> client) responses
+// client expects success if HTTP status is 2xx and error if not
 export const sftpAPISuccessResponseSchema = z.object({
   url: sftpUrl,
   success: standardBoolean,
