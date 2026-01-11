@@ -1,5 +1,6 @@
 "use server";
 import SFTPClient from "ssh2-sftp-client";
+import { SftpAPIError } from "~/schemas/sftp";
 import type {
   DeleteFileFromSftpServerProps,
   RenameFileOnSftpServerProps,
@@ -12,8 +13,6 @@ import {
   sftpConfig,
   sftpOptions,
 } from "./sftp-helpers";
-
-const CUSTOM_ERROR_MESSAGE_PREFIX = "Custom:" as const;
 
 export const uploadFileToSftpServer = async ({
   input,
@@ -28,39 +27,44 @@ export const uploadFileToSftpServer = async ({
   const newFilePath = `${newFolderPath}/${filename}`;
 
   try {
+    // connect, check file non-existance
     await sftp.connect(sftpConfig);
     const fileExists = await sftp.exists(newFilePath);
     if (fileExists && !overwrite) {
       console.error(
         `Upload failed: File already exists at ${newFilePath} and overwrite=false`,
       );
-      throw new Error(
-        `${CUSTOM_ERROR_MESSAGE_PREFIX} Fil med filnamnet: ${filename} finns redan!`,
+      throw new SftpAPIError(
+        "FILE_EXISTS",
+        `Fil med filnamnet ${filename} finns redan!`,
       );
     }
 
+    // write folder, write file
     const newFolderPathExists = await sftp.exists(newFolderPath);
     if (!newFolderPathExists) {
       await sftp.mkdir(newFolderPath, true);
     }
     await sftp.put(input, newFilePath, sftpOptions);
 
+    // return URL
     const resultUrl = getUrlFromPath(newFilePath);
     return resultUrl;
   } catch (error) {
     console.error(`SFTP upload error:`, error);
-    if (error instanceof Error) {
-      if (error.message.startsWith(CUSTOM_ERROR_MESSAGE_PREFIX)) {
-        const customMessage = error.message.replace(
-          CUSTOM_ERROR_MESSAGE_PREFIX,
-          "",
-        );
-        console.error(`Custom SFTP error: ${customMessage}`);
-        throw new Error(customMessage);
-      }
+
+    // custom error
+    if (error instanceof SftpAPIError) {
+      console.error(`Custom SFTP error: ${error.message}`);
+      throw error;
     }
+
+    // unknown error
     console.error(`Unknown SFTP upload error for file: ${filename}`);
-    throw new Error("Okänt fel! Kunde inte ladda upp filen.");
+    throw new SftpAPIError(
+      "UNEXPECTED_ERROR",
+      "Okänt fel! Kunde inte ladda upp filen.",
+    );
   } finally {
     await sftp.end();
   }
@@ -77,58 +81,65 @@ export const renameFileOnSftpServer = async ({
   const newFilePath = `${newFolderPath}/${newFilename}`;
 
   try {
+    // connect, make target folder
     await sftp.connect(sftpConfig);
-
     const newFolderPathExists = await sftp.exists(newFolderPath);
     if (!newFolderPathExists) {
       await sftp.mkdir(newFolderPath, true);
     }
 
+    // check non-existance
     const fileExists = await sftp.exists(newFilePath);
     if (fileExists) {
       console.error(
         `Rename failed: Target file already exists at ${newFilePath}`,
       );
-      throw new Error(
-        `${CUSTOM_ERROR_MESSAGE_PREFIX}Fil med filnamnet: ${newFilename} finns redan!`,
+      throw new SftpAPIError(
+        "FILE_EXISTS",
+        `Fil med filnamnet: ${newFilename} finns redan!`,
       );
     }
 
+    // rename and return
     await sftp.rename(oldFilePath, newFilePath);
-
     const resultUrl = getUrlFromPath(newFilePath);
     return resultUrl;
   } catch (error) {
     console.error(`SFTP rename error:`, error);
-    if (error instanceof Error) {
-      if (error.message.startsWith(CUSTOM_ERROR_MESSAGE_PREFIX)) {
-        const customMessage = error.message.replace(
-          CUSTOM_ERROR_MESSAGE_PREFIX,
-          "",
-        );
-        console.error(`Custom SFTP error: ${customMessage}`);
-        throw new Error(customMessage);
-      }
 
+    // custom error
+    if (error instanceof SftpAPIError) {
+      console.error(`Custom SFTP error: ${error.message}`);
+      throw error;
+    }
+
+    // known error
+    else if (error instanceof Error) {
       switch (error.message) {
         case `_rename: No such file From: ${oldFilePath}`:
           console.error(`Source file not found: ${oldFilePath}`);
-          throw new Error("Filen du ville byta namn på kunde inte hittas!");
+          throw new SftpAPIError(
+            "FILE_NOT_FOUND",
+            "Filen du ville byta namn på kunde inte hittas!",
+          );
 
         case `_rename: Failure From: ${oldFilePath} To: ${newFilePath}`:
           console.error(
             `Rename failure, likely duplicate file: ${newFilePath}`,
           );
-          throw new Error(
+          throw new SftpAPIError(
+            "UNEXPECTED_ERROR",
             "Kunde inte byta namn på filen! Förmodligen finns redan en fil med samma namn.",
           );
-        case `Fil med filnamnet: ${newFilename} finns redan!`:
-          console.error(`Target filename already exists: ${newFilename}`);
-          throw new Error(`Fil med filnamnet: ${newFilename} finns redan!`);
       }
     }
+
+    // unknown error
     console.error(`Unknown SFTP rename error for file: ${oldFilePath}`);
-    throw new Error("Okänt fel! Kunde inte byta namn på filen.");
+    throw new SftpAPIError(
+      "UNEXPECTED_ERROR",
+      "Okänt fel! Kunde inte byta namn på filen.",
+    );
   } finally {
     await sftp.end();
   }
@@ -142,28 +153,36 @@ export const deleteFileFromSftpServer = async ({
   const filePath = getPathFromUrl(url);
 
   try {
+    // connect, delete
     await sftp.connect(sftpConfig);
     await sftp.delete(filePath);
   } catch (error) {
     console.error(`SFTP delete error:`, error);
-    if (error instanceof Error) {
-      if (error.message.startsWith(CUSTOM_ERROR_MESSAGE_PREFIX)) {
-        const customMessage = error.message.replace(
-          CUSTOM_ERROR_MESSAGE_PREFIX,
-          "",
-        );
-        console.error(`Custom SFTP error: ${customMessage}`);
-        throw new Error(customMessage);
-      }
 
+    // custom error
+    if (error instanceof SftpAPIError) {
+      console.error(`Custom SFTP error: ${error.message}`);
+      throw error;
+    }
+
+    // known error
+    else if (error instanceof Error) {
       switch (error.message) {
         case `delete: No such file ${filePath}`:
           console.error(`File to delete not found: ${filePath}`);
-          throw new Error("Filen du ville radera kunde inte hittas!");
+          throw new SftpAPIError(
+            "FILE_NOT_FOUND",
+            "Filen du ville radera kunde inte hittas!",
+          );
       }
     }
+
+    // unknown error
     console.error(`Unknown SFTP delete error for file: ${filePath}`);
-    throw new Error("Okänt fel! Kunde inte radera filen.");
+    throw new SftpAPIError(
+      "UNEXPECTED_ERROR",
+      "Okänt fel! Kunde inte radera filen.",
+    );
   } finally {
     await sftp.end();
   }

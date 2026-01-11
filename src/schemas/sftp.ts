@@ -13,14 +13,16 @@ import {
 // This file contains Zod schemas for SFTP api
 
 //Helpers
-const sftpAPIErrorCode = z.enum([
+const sftpAPIErrorCodeSchema = z.enum([
+  "FILE_EXISTS",
   "FILE_NOT_FOUND",
-  "FILE_NOT_ON_SERVER",
+  "FILE_NOT_ON_SERVER" /* an operation was requested for a URI not on the server */,
   "UNEXPECTED_ERROR",
 ]);
-class SftpAPIError extends Error {
-  code: z.infer<typeof sftpAPIErrorCode>;
-  constructor(message: string, code: z.infer<typeof sftpAPIErrorCode>) {
+export type SftpAPIErrorCode = z.infer<typeof sftpAPIErrorCodeSchema>;
+export class SftpAPIError extends Error {
+  code: SftpAPIErrorCode;
+  constructor(code: z.infer<typeof sftpAPIErrorCodeSchema>, message: string) {
     super(message);
     this.code = code;
   }
@@ -61,5 +63,5 @@ export const sftpAPISuccessResponseSchema = z.object({
 
 export const sftpAPIErrorResponseSchema = z.object({
   success: z.literal(false),
-  error: z.object({ code: sftpAPIErrorCode, message: standardString }),
+  error: z.object({ code: sftpAPIErrorCodeSchema, message: standardString }),
 });
