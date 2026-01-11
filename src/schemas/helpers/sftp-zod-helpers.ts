@@ -5,6 +5,7 @@ import {
   MAX_SFTP_MB_SIZE,
   SFPT_DIRS,
   SFTP_ACCEPTED_MEDIA_TYPES,
+  SFTP_API_ERROR_CODES,
 } from "~/constants/sftp";
 
 import { env } from "~/env.mjs";
@@ -43,3 +44,5 @@ export const sftpDir = z.enum(SFPT_DIRS, {
     )}"`,
   }),
 });
+
+export const sftpAPIErrorCode = z.enum(SFTP_API_ERROR_CODES);

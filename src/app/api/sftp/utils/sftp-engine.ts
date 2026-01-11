@@ -1,6 +1,5 @@
 "use server";
 import SFTPClient from "ssh2-sftp-client";
-import { SftpAPIError } from "~/schemas/sftp";
 import type {
   DeleteFileFromSftpServerProps,
   RenameFileOnSftpServerProps,
@@ -10,6 +9,7 @@ import {
   createNewSFTPPath,
   getPathFromUrl,
   getUrlFromPath,
+  SftpAPIError,
   sftpConfig,
   sftpOptions,
 } from "./sftp-helpers";
@@ -35,7 +35,7 @@ export const uploadFileToSftpServer = async ({
         `Upload failed: File already exists at ${newFilePath} and overwrite=false`,
       );
       throw new SftpAPIError(
-        "FILE_EXISTS",
+        "SERVER_ERR__FILE_EXISTS",
         `Fil med filnamnet ${filename} finns redan!`,
       );
     }
@@ -62,7 +62,7 @@ export const uploadFileToSftpServer = async ({
     // unknown error
     console.error(`Unknown SFTP upload error for file: ${filename}`);
     throw new SftpAPIError(
-      "UNEXPECTED_ERROR",
+      "SERVER_ERR__UNEXPECTED_ERROR",
       "Okänt fel! Kunde inte ladda upp filen.",
     );
   } finally {
@@ -95,7 +95,7 @@ export const renameFileOnSftpServer = async ({
         `Rename failed: Target file already exists at ${newFilePath}`,
       );
       throw new SftpAPIError(
-        "FILE_EXISTS",
+        "SERVER_ERR__FILE_EXISTS",
         `Fil med filnamnet: ${newFilename} finns redan!`,
       );
     }
@@ -119,7 +119,7 @@ export const renameFileOnSftpServer = async ({
         case `_rename: No such file From: ${oldFilePath}`:
           console.error(`Source file not found: ${oldFilePath}`);
           throw new SftpAPIError(
-            "FILE_NOT_FOUND",
+            "SERVER_ERR__FILE_NOT_FOUND",
             "Filen du ville byta namn på kunde inte hittas!",
           );
 
@@ -128,7 +128,7 @@ export const renameFileOnSftpServer = async ({
             `Rename failure, likely duplicate file: ${newFilePath}`,
           );
           throw new SftpAPIError(
-            "UNEXPECTED_ERROR",
+            "SERVER_ERR__UNEXPECTED_ERROR",
             "Kunde inte byta namn på filen! Förmodligen finns redan en fil med samma namn.",
           );
       }
@@ -137,7 +137,7 @@ export const renameFileOnSftpServer = async ({
     // unknown error
     console.error(`Unknown SFTP rename error for file: ${oldFilePath}`);
     throw new SftpAPIError(
-      "UNEXPECTED_ERROR",
+      "SERVER_ERR__UNEXPECTED_ERROR",
       "Okänt fel! Kunde inte byta namn på filen.",
     );
   } finally {
@@ -171,7 +171,7 @@ export const deleteFileFromSftpServer = async ({
         case `delete: No such file ${filePath}`:
           console.error(`File to delete not found: ${filePath}`);
           throw new SftpAPIError(
-            "FILE_NOT_FOUND",
+            "SERVER_ERR__FILE_NOT_FOUND",
             "Filen du ville radera kunde inte hittas!",
           );
       }
@@ -180,7 +180,7 @@ export const deleteFileFromSftpServer = async ({
     // unknown error
     console.error(`Unknown SFTP delete error for file: ${filePath}`);
     throw new SftpAPIError(
-      "UNEXPECTED_ERROR",
+      "SERVER_ERR__UNEXPECTED_ERROR",
       "Okänt fel! Kunde inte radera filen.",
     );
   } finally {

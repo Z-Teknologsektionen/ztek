@@ -1,6 +1,9 @@
+import { NextResponse } from "next/server";
 import type { ConnectOptions, TransferOptions } from "ssh2-sftp-client";
+import { ZodError } from "zod";
 import { env } from "~/env.mjs";
-import type { SFTPDir } from "~/types/sftp-types";
+import type { SftpAPIErrorCode, SFTPDir } from "~/types/sftp-types";
+import { SFTPErrorResponseBody } from "~/types/sftp-types";
 
 const basePath = env.SFTP_BASE_PATH;
 const baseUrl = env.NEXT_PUBLIC_SFTP_BASE_URL;
@@ -35,4 +38,47 @@ export const sftpOptions: TransferOptions = {
   readStreamOptions: {
     autoClose: true, // automatically close the read stream when finished
   },
+};
+
+export const flattenZodError = (error: ZodError): string => {
+  return error.issues
+    .map(({ path, message }) => `${path.join(".")}: ${message}`)
+    .join(", ");
+};
+
+export class SftpAPIError extends Error {
+  code: SftpAPIErrorCode;
+  constructor(code: SftpAPIErrorCode, message: string) {
+    super(message);
+    this.code = code;
+  }
+
+  // serialize only message and error code when sending to client. Do not leak stack trace.
+  toJSON(): { message: string; code: SftpAPIErrorCode } {
+    return { message: this.message, code: this.code };
+  }
+}
+
+export const makeSftpAPIErrorResponse = (
+  error: SftpAPIError | unknown,
+): NextResponse<SFTPErrorResponseBody> => {
+  // force `SftpAPIError`
+  const sftpError =
+    error instanceof SftpAPIError
+      ? error
+      : new SftpAPIError(
+          "SERVER_ERR__UNEXPECTED_ERROR",
+          "Unexpected server error.",
+        );
+
+  // serialize the error and create response
+  return NextResponse.json(
+    {
+      success: false,
+      error: sftpError.toJSON(),
+    },
+    {
+      status: sftpError.code.startsWith("CLIENT_ERR_") ? 400 : 500,
+    },
+  );
 };

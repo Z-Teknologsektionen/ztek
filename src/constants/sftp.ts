@@ -26,3 +26,11 @@ export const ZENITH_MEDIA_ACCEPTED_MEDIA_TYPES = [
   "image/png",
   "image/webp",
 ] satisfies SFTPMediaType[];
+
+export const SFTP_API_ERROR_CODES = [
+  "SERVER_ERR__FILE_EXISTS",
+  "SERVER_ERR__FILE_NOT_FOUND",
+  "CLIENT_ERR__FILE_NOT_ON_SERVER" /* an operation was requested for a URI not on the server */,
+  "CLIENT_ERR__INVALID_REQUEST",
+  "SERVER_ERR__UNEXPECTED_ERROR",
+] as const;

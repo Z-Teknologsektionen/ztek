@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import type { ZodError } from "zod";
 import type { SFTPErrorResponseBody } from "~/types/sftp-types";
 
+// REMOVE THIS COMMENT BEFORE MERGE:
+// these are quite generic functions but currently only used in SFTP api
+// remove this file if not needed in SFTP api
+
 export const NextResponseZODError = (
   error: ZodError,
 ): NextResponse<SFTPErrorResponseBody> => {

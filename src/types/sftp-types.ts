@@ -1,6 +1,10 @@
 import type { NextResponse } from "next/server";
 import type { z } from "zod";
-import type { SFPT_DIRS, SFTP_ACCEPTED_MEDIA_TYPES } from "~/constants/sftp";
+import type {
+  SFPT_DIRS,
+  SFTP_ACCEPTED_MEDIA_TYPES,
+  SFTP_API_ERROR_CODES,
+} from "~/constants/sftp";
 import type {
   sftpAPIErrorResponseSchema,
   sftpAPISuccessResponseSchema,
@@ -41,3 +45,5 @@ export type SFTPErrorResponseBody = z.input<typeof sftpAPIErrorResponseSchema>;
 export type NextSFTPAPIResponseWithUrl = Promise<
   NextResponse<SFTPResponseBody | SFTPErrorResponseBody>
 >;
+
+export type SftpAPIErrorCode = (typeof SFTP_API_ERROR_CODES)[number];
