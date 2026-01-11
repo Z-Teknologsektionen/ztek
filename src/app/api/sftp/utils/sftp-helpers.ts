@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import type { ConnectOptions, TransferOptions } from "ssh2-sftp-client";
+import type { z } from "zod";
 import { ZodError } from "zod";
 import { env } from "~/env.mjs";
 import type { SftpAPIErrorCode, SFTPDir } from "~/types/sftp-types";
@@ -58,6 +59,45 @@ export class SftpAPIError extends Error {
     return { message: this.message, code: this.code };
   }
 }
+
+export const parseSftpAPIRequest = async <TInput, TOutput, TCheck>({
+  request,
+  schema,
+  checkIfFileOnServerSchema,
+  formData = false,
+}: {
+  formData?: boolean;
+  request: NextRequest;
+  schema: z.ZodType<TOutput, z.ZodTypeDef, TInput>;
+  checkIfFileOnServerSchema?: z.ZodType<TCheck>;
+}): Promise<TOutput> => {
+  // Parse JSON
+  let body: unknown;
+  try {
+    body = formData
+      ? Object.fromEntries(await request.formData())
+      : await request.json();
+  } catch (error) {
+    throw new SftpAPIError(
+      "CLIENT_ERR__INVALID_REQUEST",
+      `Ogiltig HTTP-förfrågan: Request body is not valid JSON.`,
+    );
+  }
+  // Parse object
+  const result = schema.safeParse(body);
+  if (!result.success) {
+    throw checkIfFileOnServerSchema?.safeParse(body).success
+      ? new SftpAPIError(
+          "CLIENT_ERR__FILE_NOT_ON_SERVER",
+          `Given URL pekar inte på servern`,
+        )
+      : new SftpAPIError(
+          "CLIENT_ERR__INVALID_REQUEST",
+          `Ogiltig HTTP-förfrågan: ${flattenZodError(result.error)}`,
+        );
+  }
+  return result.data;
+};
 
 export const makeSftpAPIErrorResponse = (
   error: SftpAPIError | unknown,

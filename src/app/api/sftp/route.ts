@@ -14,30 +14,25 @@ import {
   uploadFileToSftpServer,
 } from "./utils/sftp-engine";
 import {
-  flattenZodError,
   makeSftpAPIErrorResponse,
-  SftpAPIError,
+  parseSftpAPIRequest,
 } from "./utils/sftp-helpers";
 
 export async function POST(request: NextRequest): NextSFTPAPIResponseWithUrl {
   try {
     // parse request
-    const parsedRequest = sftpUploadNewFileSchema.safeParse(
-      Object.fromEntries(await request.formData()),
-    );
-    if (!parsedRequest.success) {
-      throw new SftpAPIError(
-        "CLIENT_ERR__INVALID_REQUEST",
-        `Ogiltig HTTP-förfrågan:\n ${flattenZodError(parsedRequest.error)}`,
-      );
-    }
+    const parsedRequest = await parseSftpAPIRequest({
+      request,
+      schema: sftpUploadNewFileSchema,
+      formData: true,
+    });
 
     // upload file
-    const bytes = await parsedRequest.data.file.arrayBuffer();
+    const bytes = await parsedRequest.file.arrayBuffer();
     const buffer = Buffer.from(bytes);
     const url = await uploadFileToSftpServer({
       input: buffer,
-      ...parsedRequest.data,
+      ...parsedRequest,
     });
 
     // answer
@@ -50,22 +45,14 @@ export async function POST(request: NextRequest): NextSFTPAPIResponseWithUrl {
 export async function PUT(request: NextRequest): NextSFTPAPIResponseWithUrl {
   try {
     // parse request
-    const body = await request.json();
-    const parsedRequest = sftpRenameFileSchema.safeParse(body);
-    if (!parsedRequest.success) {
-      throw sftpRenameFileCheckIfOnServerSchema.safeParse(body).success
-        ? new SftpAPIError(
-            "CLIENT_ERR__FILE_NOT_ON_SERVER",
-            `Given URL pekar inte på servern`,
-          )
-        : new SftpAPIError(
-            "CLIENT_ERR__INVALID_REQUEST",
-            `Ogiltig HTTP-förfrågan:\n ${flattenZodError(parsedRequest.error)}`,
-          );
-    }
+    const parsedRequest = await parseSftpAPIRequest({
+      request,
+      schema: sftpRenameFileSchema,
+      checkIfFileOnServerSchema: sftpRenameFileCheckIfOnServerSchema,
+    });
 
     // rename file
-    const url = await renameFileOnSftpServer(parsedRequest.data);
+    const url = await renameFileOnSftpServer(parsedRequest);
 
     // answer
     return NextResponse.json({ success: true, url });
@@ -76,28 +63,20 @@ export async function PUT(request: NextRequest): NextSFTPAPIResponseWithUrl {
 
 export async function DELETE(request: NextRequest): NextSFTPAPIResponseWithUrl {
   try {
-    // parse request
-    const body = await request.json();
-    const parsedRequest = sftpDeleteFileSchema.safeParse(body);
-    if (!parsedRequest.success) {
-      throw sftpDeleteFileCheckIfOnServerSchema.safeParse(body).success
-        ? new SftpAPIError(
-            "CLIENT_ERR__FILE_NOT_ON_SERVER",
-            `Given URL pekar inte på servern`,
-          )
-        : new SftpAPIError(
-            "CLIENT_ERR__INVALID_REQUEST",
-            `Ogiltig HTTP-förfrågan:\n ${flattenZodError(parsedRequest.error)}`,
-          );
-    }
+    // parse
+    const parsedRequest = await parseSftpAPIRequest({
+      request,
+      schema: sftpDeleteFileSchema,
+      checkIfFileOnServerSchema: sftpDeleteFileCheckIfOnServerSchema,
+    });
 
     // delete file
-    await deleteFileFromSftpServer(parsedRequest.data);
+    await deleteFileFromSftpServer(parsedRequest);
 
     // answer
     return NextResponse.json({
       success: true,
-      url: parsedRequest.data.url,
+      url: parsedRequest.url,
     });
   } catch (error) {
     return makeSftpAPIErrorResponse(error);
