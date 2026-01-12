@@ -1,7 +1,7 @@
 "use client";
 import { useState, type FC } from "react";
 
-import CopyButton from "~/components/buttons/copy-button";
+import CopyButton from "~/components/ui/copy-button";
 import LabeledInput from "~/components/ui/labeled-input";
 
 const ScheduleLinkGenerator: FC = () => {

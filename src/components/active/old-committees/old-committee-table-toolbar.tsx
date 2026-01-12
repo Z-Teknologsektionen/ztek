@@ -1,6 +1,6 @@
 import { Cross2Icon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
-import { type ReactElement, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { DataTableFacetedFilter } from "~/components/data-table/data-table-faceted-filter";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
@@ -18,7 +18,7 @@ interface OldCommitteeTableToolbarProps<TData> {
 
 export const OldCommitteeTableToolbar = <TData,>({
   table,
-}: OldCommitteeTableToolbarProps<TData>): ReactElement => {
+}: OldCommitteeTableToolbarProps<TData>): JSX.Element => {
   const [isNewOpen, setIsNewOpen] = useState(false);
   const [isFromOldOpen, setIsFromOldOpen] = useState(false);
   const { data: session } = useRequireAuth();
@@ -35,7 +35,7 @@ export const OldCommitteeTableToolbar = <TData,>({
       isAdmin: isAdmin,
     });
 
-  const { mutate: createNewOldCommittee, isPending: creatingNewOldCommittee } =
+  const { mutate: createNewOldCommittee, isLoading: creatingNewOldCommittee } =
     useCreateOldCommitteeAsActive({
       onSuccess: () => setIsNewOpen(false),
     });

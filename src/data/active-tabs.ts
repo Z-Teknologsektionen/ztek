@@ -50,7 +50,7 @@ const rawActiveTabs: ActiveTabsProps[] = [
     name: "Karusell",
     desc: "Här kan du skapa och redigera bilder i karusellen på hemskärmen",
     component: HomePageCarouselTab,
-    requiredRole: AccountRoles.MODIFY_HOMEPAGE_CAROUSEL,
+    requiredRole: AccountRoles.ADMIN,
   },
   {
     name: "Dokument",

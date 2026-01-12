@@ -2,13 +2,13 @@ import simplifySchedule from "./simplify-schedule";
 
 export async function GET(
   scheduleRequest: Request,
-  { params }: { params: Promise<{ calID: string }> },
+  { params }: { params: { calID: string } },
 ): Promise<Response> {
   //
 
   let timeeditResponse: Response;
   const timeeditRequest: Request = new Request(
-    `https://cloud.timeedit.net/chalmers/web/public/${(await params).calID}.ics`,
+    `https://cloud.timeedit.net/chalmers/web/public/${params.calID}.ics`,
   );
 
   //poll TimeEdit

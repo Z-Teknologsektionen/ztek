@@ -8,8 +8,9 @@ import {
   nonEmptyString,
   objectId,
   phoneNumberString,
-} from "~/schemas/helpers/common-zod-helpers";
-import { sftpFile, sftpUrl } from "./helpers/sftp-zod-helpers";
+  sftpFile,
+  sftpUrl,
+} from "~/schemas/helpers/custom-zod-helpers";
 
 export const createProgramBoardMemberSchema = z.object({
   name: nonEmptyString,

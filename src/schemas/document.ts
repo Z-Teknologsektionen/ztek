@@ -5,7 +5,7 @@ import {
   objectId,
   standardBoolean,
   standardString,
-} from "~/schemas/helpers/common-zod-helpers";
+} from "~/schemas/helpers/custom-zod-helpers";
 
 export const createDocumentSchema = z.object({
   title: nonEmptyString,

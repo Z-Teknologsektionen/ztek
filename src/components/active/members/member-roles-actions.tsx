@@ -46,7 +46,7 @@ export const MemberRolesActions = ({
     [currentRoles, selectedValues],
   );
 
-  const { mutate: updateUser, isPending: updatingUser } = useUpdateUserAsAuthed(
+  const { mutate: updateUser, isLoading: updatingUser } = useUpdateUserAsAuthed(
     {},
   );
 

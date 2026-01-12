@@ -1,18 +1,13 @@
 import { Cross2Icon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
-import { type ReactElement, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { UpsertZenithMediaForm } from "~/components/active/zenith-media/upsert-zenith-media-form";
-import { DataTableFacetedFilter } from "~/components/data-table/data-table-faceted-filter";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { MIN_MEDIA_ORDER_NUMBER } from "~/constants/zenith-media";
 import { useCreateZenithMediaAsAuthed } from "~/hooks/mutations/useMutateZenithMedia";
-import {
-  getVisibilityStateName,
-  visibilityStates,
-} from "~/utils/get-visibility-state";
 import { handleCreateZenithMediaFile } from "~/utils/sftp/handle-create-sftp-file";
 import { imageOperations } from "~/utils/sftp/handle-image-forms";
 import { slugifyString } from "~/utils/string-utils";
@@ -23,11 +18,11 @@ interface MemberTableToolbarProps<TData> {
 
 export const ZenithMediaTableToolbar = <TData,>({
   table,
-}: MemberTableToolbarProps<TData>): ReactElement => {
+}: MemberTableToolbarProps<TData>): JSX.Element => {
   const isFiltered = table.getState().columnFilters.length > 0;
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: createNewZenithMedia, isPending: creatingNewZenithMedia } =
+  const { mutate: createNewZenithMedia, isLoading: creatingNewZenithMedia } =
     useCreateZenithMediaAsAuthed({
       onSuccess: () => setIsOpen(false),
     });
@@ -44,14 +39,6 @@ export const ZenithMediaTableToolbar = <TData,>({
               titleColumn?.setFilterValue(event.target.value)
             }
             placeholder="Filtrera på titel..."
-          />
-          <DataTableFacetedFilter
-            column={table.getColumn("Visas")}
-            options={visibilityStates.map((state) => ({
-              value: state,
-              label: getVisibilityStateName(state),
-            }))}
-            title="Filtrera på synlighet"
           />
 
           {isFiltered && (
@@ -78,8 +65,6 @@ export const ZenithMediaTableToolbar = <TData,>({
                   title,
                   year,
                   order,
-                  startDateTime,
-                  endDateTime,
                 }) => {
                   const loadingToastId = toast.loading(
                     "Laddar upp media. Detta kan ta en stund!",
@@ -119,8 +104,6 @@ export const ZenithMediaTableToolbar = <TData,>({
                       title,
                       year,
                       order,
-                      startDateTime,
-                      endDateTime,
                     });
                   } catch (error) {
                     if (error instanceof Error) {

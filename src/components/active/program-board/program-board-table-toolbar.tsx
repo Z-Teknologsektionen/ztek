@@ -1,7 +1,7 @@
 "use client";
 
 import type { Table } from "@tanstack/react-table";
-import { type ReactElement, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import UpsertProgramBoardMemberForm from "~/components/active/program-board/upsert-program-board-form";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
@@ -17,13 +17,13 @@ interface ProgramBoardTableToolbarProps<TData> {
 export const ProgramBoardTableToolbar = <TData,>({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
   table,
-}: ProgramBoardTableToolbarProps<TData>): ReactElement => {
+}: ProgramBoardTableToolbarProps<TData>): JSX.Element => {
   const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState(false);
 
   const {
     mutate: createNewProgramBoardMember,
-    isPending: creatingNewProgramBoardMember,
+    isLoading: creatingNewProgramBoardMember,
   } = api.programBoard.createOneAsAuthed.useMutation({
     onMutate: () => toast.loading("Skapar nytt organ..."),
     onSettled: (_, __, ___, toastId) => toast.dismiss(toastId),

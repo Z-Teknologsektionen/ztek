@@ -1,5 +1,4 @@
 import type { Table } from "@tanstack/react-table";
-import type { JSX } from "react";
 import { useState } from "react";
 import { UpsertDocumentGroupForm } from "~/components/active/documents/upsert-document-group-form";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
@@ -17,7 +16,7 @@ export const DocumentGroupTableToolbar = <TData,>({
 
   const {
     mutate: createNewDocumentGroup,
-    isPending: creatingNewDocumentGroup,
+    isLoading: creatingNewDocumentGroup,
   } = useCreateDocumentGroupAsAuthed({ onSuccess: () => setIsOpen(false) });
 
   return (

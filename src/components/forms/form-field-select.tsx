@@ -1,4 +1,3 @@
-import type { JSX } from "react";
 import type { FieldValues, Path, PathValue } from "react-hook-form";
 import { Button } from "~/components/ui/button";
 import {

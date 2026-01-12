@@ -1,6 +1,6 @@
 import { CheckIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import type { Column } from "@tanstack/react-table";
-import type { ComponentType, ReactElement } from "react";
+import type { ComponentType } from "react";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import {
@@ -35,7 +35,7 @@ export const DataTableFacetedFilter = <TData, TValue>({
   column,
   title,
   options,
-}: DataTableFacetedFilterProps<TData, TValue>): ReactElement => {
+}: DataTableFacetedFilterProps<TData, TValue>): JSX.Element => {
   const facets = column?.getFacetedUniqueValues();
   const selectedValues = new Set(
     column?.getFilterValue() as (string | number)[],

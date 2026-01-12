@@ -15,11 +15,11 @@ const SubscriptionInstructionsSection: FC = () => {
       </p>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <div className="order-last col-span-1 space-y-4 lg:order-last lg:col-span-2">
+        <div className="order-last col-span-1 lg:order-last lg:col-span-2">
           <p>
             För att få en prenumerationslänk från TimeEdit, kan följande göras:
           </p>
-          <ol className="list-decimal pl-6">
+          <ol className="mt-2 list-decimal pl-6">
             <li>
               Gå till{" "}
               <StyledLink
@@ -45,15 +45,15 @@ const SubscriptionInstructionsSection: FC = () => {
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <div className="order-last col-span-1 space-y-4 lg:order-first lg:col-span-2">
+        <div className="order-last col-span-1 lg:order-first lg:col-span-2">
           <p>
-            För att få Google kalender att prenumerera på en kalender, kan
+            För att få din Google-kalender att prenumerera på en kalender, kan
             följande göras i webbgränssnittet:
           </p>
-          <ol className="list-decimal pl-6">
+          <ol className="mt-2 list-decimal pl-6">
             <li>
               Gå till{" "}
-              <StyledLink href={"https://calendar.google.com"}>
+              <StyledLink href={"calendar.google.com"}>
                 Google kalender
               </StyledLink>
             </li>
@@ -67,16 +67,6 @@ const SubscriptionInstructionsSection: FC = () => {
               webbadress&quot;
             </li>
             <li>Tryck &quot;Lägg till kalender&quot;</li>
-          </ol>
-          <p>
-            För att få din prenumererade kalender att visas i Google
-            kalenderappen, kan följande göras:
-          </p>
-          <ol className="mt-2 list-decimal pl-6">
-            <li>Öppna sidopanelen</li>
-            <li>Välj &quot;Settings&quot; längst ned</li>
-            <li>Välj kalendern du nyss lade till genom webbgränssittet</li>
-            <li>Slå på alternativet &quot;Sync&quot;</li>
           </ol>
         </div>
         <Image

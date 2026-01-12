@@ -8,7 +8,7 @@ import {
   updateCommitteeAsActiveSchema,
   updateCommitteeSchema,
 } from "~/schemas/committee";
-import { objectId, slugString } from "~/schemas/helpers/common-zod-helpers";
+import { objectId, slugString } from "~/schemas/helpers/custom-zod-helpers";
 import {
   createTRPCRouter,
   organizationManagementProcedure,
@@ -185,7 +185,7 @@ export const committeeRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("committee", "max");
+        revalidateTag("committee");
 
         return updatedCommittee;
       },
@@ -232,7 +232,7 @@ export const committeeRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("committee", "max");
+        revalidateTag("committee");
 
         return createdCommittee;
       },
@@ -279,7 +279,7 @@ export const committeeRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("committee", "max");
+        revalidateTag("committee");
 
         return updatedCommittee;
       },
@@ -319,7 +319,7 @@ export const committeeRouter = createTRPCRouter({
         await deleteFileFromSftpServer({ url: deletedCommittee.image });
       }
 
-      revalidateTag("committee", "max");
+      revalidateTag("committee");
 
       return deletedCommittee;
     }),

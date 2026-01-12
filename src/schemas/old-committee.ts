@@ -5,10 +5,11 @@ import {
   emptyString,
   nonEmptyString,
   objectId,
+  sftpFile,
+  sftpUrl,
   standardString,
-} from "~/schemas/helpers/common-zod-helpers";
-import { sftpFile, sftpUrl } from "./helpers/sftp-zod-helpers";
-import { validYearPastOrCurrent } from "./helpers/time-zod-helpers";
+  validYearPastOrCurrent,
+} from "~/schemas/helpers/custom-zod-helpers";
 
 const committeeNameWithYearRegEx = /^\p{L}+ (\d\d|\d\d(\/|-)\d\d)$/u;
 

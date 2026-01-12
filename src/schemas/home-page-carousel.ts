@@ -1,15 +1,26 @@
 import { z } from "zod";
 import {
+  datetimeString,
   emptyString,
   httpsUrlString,
   objectId,
-} from "./helpers/common-zod-helpers";
-import { sftpFile, sftpUrl } from "./helpers/sftp-zod-helpers";
-import {
-  dateTimeIntervalCheck,
-  dateTimeIntervalError,
-  datetimeString,
-} from "./helpers/time-zod-helpers";
+  sftpFile,
+  sftpUrl,
+} from "./helpers/custom-zod-helpers";
+
+const endDateAfterStartDate = ({
+  endDateTime,
+  startDateTime,
+}: {
+  endDateTime?: string | null;
+  startDateTime?: string | null;
+}): boolean => {
+  if (startDateTime && endDateTime) {
+    return new Date(endDateTime) > new Date(startDateTime);
+  }
+
+  return true;
+};
 
 const homePageCarouselBaseSchema = z.object({
   imageCredit: z
@@ -30,7 +41,10 @@ export const createHomePageCarouselSchema = homePageCarouselBaseSchema
     message: "En bild måste anges",
     path: ["imageFile"],
   })
-  .refine(dateTimeIntervalCheck, dateTimeIntervalError);
+  .refine(endDateAfterStartDate, {
+    message: "Slutdatum måste vara efter startdatum",
+    path: ["endDateTime"],
+  });
 
 export const updateHomePageCarouselSchema = homePageCarouselBaseSchema
   .partial()
@@ -40,4 +54,7 @@ export const updateHomePageCarouselSchema = homePageCarouselBaseSchema
     message: "Bild saknas",
     path: ["imageFile"],
   })
-  .refine(dateTimeIntervalCheck, dateTimeIntervalError);
+  .refine(endDateAfterStartDate, {
+    message: "Slutdatum måste vara efter startdatum",
+    path: ["endDateTime"],
+  });

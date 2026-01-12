@@ -1,4 +1,3 @@
-import type { JSX } from "react";
 import type { FieldValues } from "react-hook-form";
 import {
   FormControl,

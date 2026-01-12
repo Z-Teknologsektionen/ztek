@@ -1,17 +1,14 @@
 import { Cross2Icon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
-import type { JSX } from "react";
 import { useMemo, useState } from "react";
 import { DataTableFacetedFilter } from "~/components/data-table/data-table-faceted-filter";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
+import { visibilityStates } from "~/constants/home-page-carousel";
 import { useCreateCarouselAsActive } from "~/hooks/mutations/useMutateHomePageCarousel";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { api } from "~/utils/api";
-import {
-  getVisibilityStateName,
-  visibilityStates,
-} from "~/utils/get-visibility-state";
+import { getCarouselStatusName } from "~/utils/get-carousel-status";
 import { imageOperations } from "~/utils/sftp/handle-image-forms";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 import UpsertHomePageCarouselForm from "./upsert-home-page-carousel-form";
@@ -68,7 +65,7 @@ export const HomePageCarouselTableToolbar = <TData,>({
             column={isVisibleColumn}
             options={visibilityStates.map((state) => ({
               value: state,
-              label: getVisibilityStateName(state),
+              label: getCarouselStatusName(state),
             }))}
             title="Filtrera på synlighet"
           />
