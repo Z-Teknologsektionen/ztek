@@ -37,11 +37,17 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
           <UpsertZenithMediaForm
             key={id}
             defaultValues={{
+              ...currentValues,
               media: {
                 file: undefined,
                 url: currentValues.url,
               },
-              ...currentValues,
+              endDateTime: currentValues.endDateTime
+                ? new Date(currentValues.endDateTime).toISOString()
+                : null,
+              startDateTime: currentValues.startDateTime
+                ? new Date(currentValues.startDateTime).toISOString()
+                : null,
             }}
             formType="update"
             onSubmit={async ({
@@ -51,6 +57,8 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
               title: newTitle,
               year,
               order,
+              startDateTime,
+              endDateTime,
             }) => {
               const oldUrl = currentValues.url;
               const hasNewFile = newFile !== undefined;
@@ -113,6 +121,8 @@ export const ZenithMediaTableActions: FC<ZenithMediaType> = ({
                   title: newTitle,
                   year,
                   order,
+                  startDateTime,
+                  endDateTime,
                 });
               } catch (error) {
                 if (error instanceof Error) {

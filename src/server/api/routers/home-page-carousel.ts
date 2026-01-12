@@ -1,6 +1,6 @@
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
-import { objectId } from "~/schemas/helpers/custom-zod-helpers";
+import { objectId } from "~/schemas/helpers/common-zod-helpers";
 import {
   createHomePageCarouselSchema,
   updateHomePageCarouselSchema,
@@ -53,7 +53,7 @@ export const homePageCarouselRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("home-page-carousel");
+        revalidateTag("home-page-carousel", "max");
 
         return createdItem;
       },
@@ -88,7 +88,7 @@ export const homePageCarouselRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("home-page-carousel");
+        revalidateTag("home-page-carousel", "max");
 
         return updatedItem;
       },
@@ -106,7 +106,7 @@ export const homePageCarouselRouter = createTRPCRouter({
         },
       });
 
-      revalidateTag("home-page-carousel");
+      revalidateTag("home-page-carousel", "max");
 
       return deletedItem;
     }),

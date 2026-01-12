@@ -5,7 +5,7 @@ import { env } from "~/env.mjs";
 import {
   objectId,
   standardBoolean,
-} from "~/schemas/helpers/custom-zod-helpers";
+} from "~/schemas/helpers/common-zod-helpers";
 import {
   createOldCommitteeSchema,
   updateOldCommitteeSchema,
@@ -104,7 +104,7 @@ export const oldCommitteeRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("oldCommittee");
+        revalidateTag("oldCommittee", "max");
 
         return createdOldCommittee;
       },
@@ -131,7 +131,7 @@ export const oldCommitteeRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("oldCommittee");
+        revalidateTag("oldCommittee", "max");
 
         return updatedOldCommittee;
       },
@@ -171,7 +171,7 @@ export const oldCommitteeRouter = createTRPCRouter({
         }
       }
 
-      revalidateTag("oldCommittee");
+      revalidateTag("oldCommittee", "max");
 
       return deletedOldCommittee;
     }),

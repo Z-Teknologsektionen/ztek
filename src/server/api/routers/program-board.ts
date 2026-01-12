@@ -1,7 +1,7 @@
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { deleteFileFromSftpServer } from "~/app/api/sftp/utils/sftp-engine";
-import { objectId } from "~/schemas/helpers/custom-zod-helpers";
+import { objectId } from "~/schemas/helpers/common-zod-helpers";
 import {
   createProgramBoardMemberSchema,
   updateProgramBoardMemberSchema,
@@ -59,7 +59,7 @@ export const programBoardRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("boardProgramMembers");
+        revalidateTag("boardProgramMembers", "max");
 
         return newBoardMember;
       },
@@ -85,7 +85,7 @@ export const programBoardRouter = createTRPCRouter({
           },
         });
 
-        revalidateTag("boardProgramMembers");
+        revalidateTag("boardProgramMembers", "max");
 
         return updatedBoardMember;
       },
@@ -106,7 +106,7 @@ export const programBoardRouter = createTRPCRouter({
         await deleteFileFromSftpServer({ url: deletedBoardMember.image });
       }
 
-      revalidateTag("boardProgramMembers");
+      revalidateTag("boardProgramMembers", "max");
 
       return deletedBoardMember;
     }),
