@@ -1,7 +1,7 @@
 import { type FC } from "react";
 import { FooterContactSection } from "./footer-contact-section";
 import { FooterQuickLinks } from "./footer-quick-links";
-import { FooterStudentkarLogo } from "./footer-studentkar";
+import { FooterStudentkar } from "./footer-studentkar";
 import { FooterZtyretInfo } from "./footer-ztyret-info";
 
 const Footer: FC = () => {
@@ -10,7 +10,7 @@ const Footer: FC = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap justify-between px-4 md:px-6 lg:px-8">
           <FooterZtyretInfo />
-          <FooterStudentkarLogo />
+          <FooterStudentkar />
           <FooterQuickLinks />
         </div>
         <FooterContactSection />

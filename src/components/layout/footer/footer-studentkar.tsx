@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { FC } from "react";
 
-export const FooterStudentkarLogo: FC = () => {
+export const FooterStudentkar: FC = () => {
   return (
     <div className="flex w-full flex-col items-center md:w-1/3">
       <h3 className="text-center text-lg font-semibold">En del av</h3>
