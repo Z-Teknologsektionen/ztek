@@ -6,8 +6,12 @@ const navbarRoutes: NavbarItem[] = [
     label: "Student",
     sublinks: [
       {
-        label: "Om Sektionen",
+        label: "Om Programmet",
         href: "/student",
+      },
+      {
+        label: "Söka Z",
+        href: "/student/new-student",
       },
       {
         label: "Schema",
@@ -16,10 +20,6 @@ const navbarRoutes: NavbarItem[] = [
       {
         label: "Studiesocialt stöd",
         href: "/student/student-health",
-      },
-      {
-        label: "Söka Z",
-        href: "/student/new-student",
       },
       {
         label: "Mentorskapsprogram",
@@ -32,8 +32,8 @@ const navbarRoutes: NavbarItem[] = [
     label: "Sektionen",
     sublinks: [
       {
+        label: "Om sektionen",
         href: "/student-division",
-        label: "Student på Z",
       },
       {
         label: "Zaloonen",

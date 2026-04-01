@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import FormFieldInput from "~/components/forms/form-field-input";
+import FormFieldInputDatetimeLocal from "~/components/forms/form-field-input-datetime-local";
 import FormFieldInputImage from "~/components/forms/form-field-input-image";
 import FormFieldInputNumber from "~/components/forms/form-field-input-number";
 import FormWrapper from "~/components/forms/form-wrapper";
@@ -29,6 +30,8 @@ const DEFAULT_VALUES: UpsertZenithMediaFormProps["defaultValues"] = {
     file: undefined,
     url: undefined,
   },
+  startDateTime: null,
+  endDateTime: null,
 };
 
 export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
@@ -63,6 +66,18 @@ export const UpsertZenithMediaForm: FC<UpsertZenithMediaFormProps> = ({
         max={MAX_MEDIA_ORDER_NUMBER}
         min={MIN_MEDIA_ORDER_NUMBER}
         name="order"
+      />
+      <FormFieldInputDatetimeLocal
+        description="När du vill att mediet ska börja visas. Om inget väljs kommer den visas direkt."
+        form={form}
+        label="Startdatum"
+        name="startDateTime"
+      />
+      <FormFieldInputDatetimeLocal
+        description="När du vill att mediet ska sluta visas. Om inget väljs kommer den visas för alltid."
+        form={form}
+        label="Slutdatum"
+        name="endDateTime"
       />
       <FormFieldInputImage
         description="Omslagsbilden till mediet"

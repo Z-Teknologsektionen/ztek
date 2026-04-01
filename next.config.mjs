@@ -21,10 +21,6 @@ const config = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  swcMinify: true,
   images: {
     remotePatterns: [
       {
@@ -33,18 +29,14 @@ const config = {
       },
     ],
   },
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.node$/,
-      use: [
-        {
-          loader: "nextjs-node-loader",
-        },
-      ],
-    });
-    return config;
-  },
-
+  /**
+   * Some packages cannot be bundled, because they contain precompiled code.
+   * (bundling is preprocessing source before sending to client, to make it smaller)
+   * These are always Node.js-only (server-side) packages.
+   * Adding them to this list will prevent Turbopack from trying to bundle them.
+   */
+  serverExternalPackages: ["ssh2", "ssh2-sftp-client"],
+  turbopack: {},
   async redirects() {
     // https://nextjs.org/docs/app/api-reference/next-config-js/redirects
     const oldRoutesRedirects = Object.entries(oldRoutesMap).map(

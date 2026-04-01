@@ -3,7 +3,7 @@ import { z } from "zod";
 import { deleteFileFromSftpServer } from "~/app/api/sftp/utils/sftp-engine";
 import { MIN_MEDIA_ORDER_NUMBER } from "~/constants/zenith-media";
 import { env } from "~/env.mjs";
-import { objectId } from "~/schemas/helpers/custom-zod-helpers";
+import { objectId } from "~/schemas/helpers/common-zod-helpers";
 import {
   createZenithMediaServerSchema,
   updateZenithMediaServerSchema,
@@ -24,6 +24,8 @@ export const zenithMediaRouter = createTRPCRouter({
         year: true,
         url: true,
         coverImage: true,
+        startDateTime: true,
+        endDateTime: true,
       },
     });
 
@@ -46,7 +48,18 @@ export const zenithMediaRouter = createTRPCRouter({
   createOneAsAuthed: zenithMediaProcedure
     .input(createZenithMediaServerSchema)
     .mutation(
-      async ({ ctx, input: { url, title, year, coverImage, order } }) => {
+      async ({
+        ctx,
+        input: {
+          url,
+          title,
+          year,
+          coverImage,
+          order,
+          startDateTime,
+          endDateTime,
+        },
+      }) => {
         const createdMedia = await ctx.prisma.zenithMedia.create({
           data: {
             title: title,
@@ -54,12 +67,14 @@ export const zenithMediaRouter = createTRPCRouter({
             year: year,
             order: order,
             coverImage: coverImage,
+            startDateTime: startDateTime,
+            endDateTime: endDateTime,
             updatedByEmail: ctx.session.user.email,
             createdByEmail: ctx.session.user.email,
           },
         });
 
-        revalidateTag("zenithMedia");
+        revalidateTag("zenithMedia", "max");
 
         return createdMedia;
       },
@@ -67,7 +82,19 @@ export const zenithMediaRouter = createTRPCRouter({
   updateOneAsAuthed: zenithMediaProcedure
     .input(updateZenithMediaServerSchema)
     .mutation(
-      async ({ ctx, input: { id, title, url, year, coverImage, order } }) => {
+      async ({
+        ctx,
+        input: {
+          id,
+          title,
+          url,
+          year,
+          coverImage,
+          order,
+          startDateTime,
+          endDateTime,
+        },
+      }) => {
         const updatedMedia = await ctx.prisma.zenithMedia.update({
           where: {
             id: id,
@@ -77,12 +104,14 @@ export const zenithMediaRouter = createTRPCRouter({
             url: url,
             year: year,
             order: order || MIN_MEDIA_ORDER_NUMBER,
+            startDateTime: startDateTime,
+            endDateTime: endDateTime,
             coverImage: coverImage,
             updatedByEmail: ctx.session.user.email,
           },
         });
 
-        revalidateTag("zenithMedia");
+        revalidateTag("zenithMedia", "max");
 
         return updatedMedia;
       },
@@ -119,7 +148,7 @@ export const zenithMediaRouter = createTRPCRouter({
         await deleteFileFromSftpServer({ url: deletedMedia.coverImage });
       }
 
-      revalidateTag("zenithMedia");
+      revalidateTag("zenithMedia", "max");
 
       return deletedMedia;
     }),

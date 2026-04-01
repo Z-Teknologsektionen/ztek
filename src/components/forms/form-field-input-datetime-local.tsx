@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { type JSX, useState } from "react";
 import type { FieldValues } from "react-hook-form";
 import {
   FormControl,

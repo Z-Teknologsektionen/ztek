@@ -1,7 +1,7 @@
 import { AccountRoles } from "@prisma/client";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
-import { useState } from "react";
+import { type ReactElement, useState } from "react";
 import { UpsertMemberForm } from "~/components/active/members/upsert-member-form";
 import { DataTableFacetedFilter } from "~/components/data-table/data-table-faceted-filter";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
@@ -18,13 +18,13 @@ interface MemberTableToolbarProps<TData> {
 
 export const MemberTableToolbar = <TData,>({
   table,
-}: MemberTableToolbarProps<TData>): JSX.Element => {
+}: MemberTableToolbarProps<TData>): ReactElement => {
   const isFiltered = table.getState().columnFilters.length > 0;
   const { data: committees } =
     api.committee.getAllCommitteeNamesAsActive.useQuery();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: createNewUser, isLoading: creatingNewUser } =
+  const { mutate: createNewUser, isPending: creatingNewUser } =
     useCreateMemberAsAuthed({
       onSuccess: () => setIsOpen(false),
     });

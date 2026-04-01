@@ -2,8 +2,8 @@
 import type {
   FC,
   MouseEventHandler,
-  MutableRefObject,
   PropsWithChildren,
+  RefObject,
   Touch,
   TouchEventHandler,
 } from "react";
@@ -33,7 +33,7 @@ export const TiltAnimationContainer: FC<TiltAnimationContainerProps> = ({
   const [animating, setAnimating] = useState(false);
   const [lastFrameTime, setLastFrameTime] = useState(0);
   const [lastInteractedTime, setLastInteractedTime] = useState(0);
-  const animationFrameRef: MutableRefObject<number | undefined> = useRef();
+  const animationFrameRef: RefObject<number | undefined> = useRef(undefined);
 
   //animation
   const animate = (now: DOMHighResTimeStamp): void => {

@@ -6,10 +6,10 @@ import StyledLink from "~/components/layout/styled-link";
 const TimeEditIntroductionSection: FC = () => {
   return (
     <SectionWrapper>
-      <SectionTitle>Schemat finns på TimeEdit</SectionTitle>
+      <SectionTitle>TimeEdit</SectionTitle>
       <p>
         Schemat för Z-teknologer, och teknologer på Chalmers i allmännhet, finns
-        på{" "}
+        i kalendern på{" "}
         <StyledLink href="https://cloud.timeedit.net/chalmers/web/public/">
           TimeEdit
         </StyledLink>

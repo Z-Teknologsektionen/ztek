@@ -141,7 +141,7 @@ const config = {
     "prettier/prettier": [
       "error",
       {
-        endOfLine: "auto",
+        endOfLine: "lf", //tillåt inte CRLF, då Git blir förvirrad närän man råkar byta mellan LF och CRLF
       },
     ],
     "import/extensions": [

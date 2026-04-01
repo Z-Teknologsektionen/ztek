@@ -1,11 +1,11 @@
 import type { FC } from "react";
-import { getAllZenithMediaByYear } from "~/app/student-division/zenith-media/_utils/get-all-zenith-media-by-year";
+import { getVisibleZenithMediaByYear } from "~/app/student-division/zenith-media/_utils/get-all-zenith-media-by-year";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import { Skeleton } from "~/components/ui/skeleton";
 import { ZenithMediaCard } from "./zenith-media-card";
 
 export const ZenithMediaGrid: FC = async () => {
-  const zenithMedia = await getAllZenithMediaByYear();
+  const zenithMedia = await getVisibleZenithMediaByYear();
 
   return (
     <>

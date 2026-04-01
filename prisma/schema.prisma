@@ -133,6 +133,9 @@ model ZenithMedia {
     url        String @unique
     coverImage String @default("")
 
+    startDateTime DateTime?
+    endDateTime   DateTime?
+
     updatedByEmail String?
     updatedBy      User?    @relation("updatedBy", fields: [updatedByEmail], references: [email], onDelete: SetNull, onUpdate: Cascade)
     updatedAt      DateTime @updatedAt

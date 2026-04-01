@@ -1,6 +1,7 @@
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { MixerHorizontalIcon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
+import type { ReactElement } from "react";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -16,7 +17,7 @@ interface DataTableViewOptionsProps<TData> {
 
 export const DataTableViewOptions = <TData,>({
   table,
-}: DataTableViewOptionsProps<TData>): JSX.Element => (
+}: DataTableViewOptionsProps<TData>): ReactElement => (
   <DropdownMenu>
     <DropdownMenuTrigger asChild>
       <Button className="ml-auto flex h-8" size="sm" variant="outline">

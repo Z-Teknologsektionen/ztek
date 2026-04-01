@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <html className="scroll-smooth" lang="se">
+    <html className="scroll-smooth" lang="sv">
       <body>
         <Analytics mode="auto" />
         <SpeedInsights />

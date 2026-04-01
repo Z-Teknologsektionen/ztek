@@ -5,11 +5,14 @@ import BadgeCell from "~/components/columns/badge-cell";
 import BooleanCell from "~/components/columns/boolean-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
-import { visibilityStates } from "~/constants/home-page-carousel";
-import { objectId } from "~/schemas/helpers/custom-zod-helpers";
+import { objectId } from "~/schemas/helpers/common-zod-helpers";
 import { type RouterOutputs } from "~/utils/api";
 import { dayjs } from "~/utils/dayjs";
-import { getCarouselStatusFromDates } from "~/utils/get-carousel-status";
+import {
+  getVisibilityState,
+  getVisibilityStateName,
+  visibilityStates,
+} from "~/utils/get-visibility-state";
 import { HomePageCarouselTableActions } from "./home-page-carousel-table-actions";
 
 export type HomePageCarouselItemType =
@@ -95,15 +98,20 @@ export const homePageCarouselColumns: ColumnDef<HomePageCarouselItemType>[] = [
     accessorKey: "isShown",
     header: ({ column }) => <DataTableColumnHeader column={column} />,
     cell: ({ row }) => {
-      const status = getCarouselStatusFromDates(row.original);
-
-      if (status === "scheduled")
-        return <BadgeCell variant="outline">Schemalagd</BadgeCell>;
-
-      if (status === "passed")
-        return <BadgeCell variant="destructive">Utgången</BadgeCell>;
-
-      return <BadgeCell variant="productive">Visas</BadgeCell>;
+      const visibility = getVisibilityState(row.original);
+      return (
+        <BadgeCell
+          variant={
+            visibility === "scheduled"
+              ? "outline"
+              : visibility === "passed"
+                ? "destructive"
+                : "productive"
+          }
+        >
+          {getVisibilityStateName(visibility)}
+        </BadgeCell>
+      );
     },
     enableSorting: true,
     enableHiding: true,
@@ -115,7 +123,7 @@ export const homePageCarouselColumns: ColumnDef<HomePageCarouselItemType>[] = [
         .safeParse(rawFilterValue);
       if (!filterValue.success) return false;
 
-      const currentValue = getCarouselStatusFromDates(row.original);
+      const currentValue = getVisibilityState(row.original);
 
       return filterValue.data.includes(currentValue);
     },
