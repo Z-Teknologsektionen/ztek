@@ -7,7 +7,7 @@ import { OldCommitteeSection } from "./_components/old-committee-section";
 import { getCommitteeBySlug } from "./_utils/get-committee-by-slug";
 
 type CommitteePageParams = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 export const generateStaticParams = async (): Promise<
@@ -25,8 +25,9 @@ export const generateStaticParams = async (): Promise<
 };
 
 export const generateMetadata = async ({
-  params: { slug },
+  params,
 }: CommitteePageParams): Promise<Metadata> => {
+  const { slug } = await params;
   const committee = await getCommitteeBySlug(slug);
 
   return {
@@ -35,7 +36,10 @@ export const generateMetadata = async ({
   };
 };
 
-const CommitteePage: FC<CommitteePageParams> = async ({ params: { slug } }) => {
+const CommitteePage: FC<CommitteePageParams> = async ({
+  params,
+}: CommitteePageParams) => {
+  const { slug } = await params;
   const committee = await getCommitteeBySlug(slug).catch(() => notFound());
 
   return (
