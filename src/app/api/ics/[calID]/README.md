@@ -86,6 +86,12 @@ END:VEVENT
 ## principle of operation
 
 ### route.ts
+This file contains the route handler (aka entry point of what'll be executed when GET request is recieved). Upon recieving a GET request, it will:
+1.  Send another GET request to TimeEdit
+2.  Check it doesn't recieve an error response.
+1.  Call `simplifySchedule` (see below) with the recieved calendar.
+1.  Respond with the simplified schedule.
+
 ### simplify-schedule.ts
 Calendar rewriting is implemented in the `simplifySchedule` method.
 
