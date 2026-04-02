@@ -5,71 +5,6 @@ import {
 } from "ts-ics";
 import { Multimap } from "~/utils/multimap";
 
-/*
- * VEVENT properties' string values of typical (as of 2025) Chalmers' TimeEdit .ics Calendars
- * do contain key-value pairs with a non-standard formatting (aka they follow no standard)
- *
- * Example of VEVENT block from a calendar file from 2026:
- * ```
- * BEGIN:VEVENT
- * DTSTART:20260331T060000Z
- * DTEND:20260331T074500Z
- * UID:77261-569704435-0@timeedit.com
- * DTSTAMP:20260401T193446Z
- * LAST-MODIFIED:20260401T193446Z
- * URL:https://maps.chalmers.se/#2be8826b-4ccf-4a71-a421-5840b2d408c8
- * SUMMARY:Course code: EDA488_40_VT26_47111. Course name: Maski
- *  norienterad programmering\, Title: Grupp A\, B\, Activity:
- *   Simulering\, Class code: TKAUT-2. Name: Automation och me
- *  katronik
- * LOCATION:Room: SB-D080. Map link: https://maps.chalmers.se/#2be88
- *  26b-4ccf-4a71-a421-5840b2d408c8. Computer: 62. Campus: Johanne
- *  berg
- * DESCRIPTION:ID 77261
- * END:VEVENT
- * ```
- *
- * in the case above the .ics parser will be able to distinct (for example) the SUMMARY
- * property, but will not be able to parse any of the arbitrary key-value
- * pairs embedded in the values of the SUMMARY property.
- *
- * Example from 2025:
- * ```
- * SUMMARY:Kurs kod: LMT212_50_HT25_67120. Kurs namn: Mekani
- *  k\, fortsättningskurs\, Kurs kod: MMS216_40_HT25_47133
- *  . Kurs namn: Mekanik 2\, Activity: Datorövning\, Activ
- *  ity: Räknestuga\, Klass kod: TKAUT-2. Klass namn: Auto
- *  mation och mekatronik\, Klass kod: TIMEL-2. Klass namn
- *  : Mekatronik
- * ```
- */
-
-const simplifySchedule = (input: string): { icsCal: string; name: string } => {
-  const vCalendar: IcsCalendar = convertIcsCalendar(undefined, input); //only first VCALENDAR block in file will be considered (library limitation)(also apparently this is de-facto standard)
-  for (const vEvent of vCalendar.events || []) {
-    // edit each VEVENT of the calendar
-
-    // parsed data
-    const eventInfo = new Multimap<EventFields, string>();
-
-    // parse
-    parseInfo(vEvent.summary, eventInfo);
-    parseInfo(vEvent.location || "", eventInfo);
-
-    // overwrite with new
-    vEvent.location = constructLocation(eventInfo);
-    vEvent.summary = constructSummary(eventInfo);
-    vEvent.description = constructDescription(eventInfo);
-  }
-
-  //rename and return
-  vCalendar.name = `ZtekPostProcessed-${vCalendar.name || "TimeEdit-Calendar"}`;
-  return {
-    icsCal: generateIcsCalendar(vCalendar),
-    name: vCalendar.name,
-  };
-};
-
 /**
  * Fields embedded in VEVENT properties' string values of typical (as of 2025) Chalmers' TimeEdit .ics Calendars.
  * "Fields" in this context refer to an enum abstraction of the actual strings that may be used as keys.
@@ -109,6 +44,7 @@ const knownKeys: Map<string, EventFields> = new Map<string, EventFields>([
 
   ["Antal datorer", EventFields.ComputerCount],
   ["Computer", EventFields.ComputerCount],
+  ["Computers", EventFields.ComputerCount],
 
   ["Kurs kod", EventFields.CourseCode],
   ["Course code", EventFields.CourseCode],
@@ -125,6 +61,37 @@ const knownKeys: Map<string, EventFields> = new Map<string, EventFields>([
   ["Titel", EventFields.Title],
   ["Title", EventFields.Title],
 ]);
+
+/**
+ * Edits a typical .ics schedule from Chalmers' Timeedit, to make it less cluttered.
+ * @param input - The contents of an .ics file, as a string
+ * @returns The new .ics file (still a string), and a recommended filename
+ */
+const simplifySchedule = (input: string): { icsCal: string; name: string } => {
+  const vCalendar: IcsCalendar = convertIcsCalendar(undefined, input); //only first VCALENDAR block in file will be considered (library limitation)(also apparently this is de-facto standard)
+  for (const vEvent of vCalendar.events || []) {
+    // edit each VEVENT of the calendar
+
+    // parsed data
+    const eventInfo = new Multimap<EventFields, string>();
+
+    // parse
+    parseInfo(vEvent.summary, eventInfo);
+    parseInfo(vEvent.location || "", eventInfo);
+
+    // overwrite with new
+    vEvent.location = constructLocation(eventInfo);
+    vEvent.summary = constructSummary(eventInfo);
+    vEvent.description = constructDescription(eventInfo);
+  }
+
+  //rename and return
+  vCalendar.name = `ZtekPostProcessed-${vCalendar.name || "TimeEdit-Calendar"}`;
+  return {
+    icsCal: generateIcsCalendar(vCalendar),
+    name: vCalendar.name,
+  };
+};
 
 /**
  * Parses poorly delimited key-value pairs where:
@@ -175,6 +142,7 @@ const parseInfo = (text: string, out: Multimap<EventFields, string>): void => {
   // add last value
   if (value != "") out.add(currentKey, value);
 };
+
 const constructLocation = (info: Multimap<EventFields, string>): string => {
   const facilities: string[] = info.get(EventFields.Facility) || [];
   const mapLinks: string[] = info.get(EventFields.MapURI) || [];
