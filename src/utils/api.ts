@@ -4,11 +4,8 @@
  *
  * We also create a few inference helpers for input and output types.
  */
-import { httpBatchLink, loggerLink } from "@trpc/client";
-import { createTRPCNext } from "@trpc/next";
 import { createTRPCReact } from "@trpc/react-query";
 import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
-import superjson from "superjson";
 
 import { type AppRouter } from "~/server/api/root";
 
@@ -18,45 +15,7 @@ export const getBaseUrl = (): string => {
   return `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
 };
 
-export const apiApp = createTRPCReact<AppRouter>({});
-
-/** A set of type-safe react-query hooks for your tRPC API. */
-export const api = createTRPCNext<AppRouter>({
-  transformer: superjson,
-  config: () => {
-    return {
-      /**
-       * Links used to determine request flow from client to server.
-       *
-       * @see https://trpc.io/docs/links
-       */
-      links: [
-        loggerLink({
-          enabled: (opts) =>
-            process.env.NODE_ENV === "development" ||
-            (opts.direction === "down" && opts.result instanceof Error),
-        }),
-        httpBatchLink({
-          url: `${getBaseUrl()}/api/trpc`,
-          transformer: superjson,
-        }),
-      ],
-      queryClientConfig: {
-        defaultOptions: {
-          queries: {
-            refetchOnWindowFocus: false,
-          },
-        },
-      },
-    };
-  },
-  /**
-   * Whether tRPC should await queries when server rendering pages.
-   *
-   * @see https://trpc.io/docs/nextjs#ssr-boolean-default-false
-   */
-  ssr: false,
-});
+export const api = createTRPCReact<AppRouter>();
 
 /**
  * Inference helper for inputs.
@@ -71,3 +30,42 @@ export type RouterInputs = inferRouterInputs<AppRouter>;
  * @example type HelloOutput = RouterOutputs['example']['hello']
  */
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
+
+//REMOVE THIS????
+// /** A set of type-safe react-query hooks for your tRPC API. */
+// export const api = createTRPCNext<AppRouter>({
+//   transformer: superjson,
+//   config: () => {
+//     return {
+//       /**
+//        * Links used to determine request flow from client to server.
+//        *
+//        * @see https://trpc.io/docs/links
+//        */
+//       links: [
+//         loggerLink({
+//           enabled: (opts) =>
+//             process.env.NODE_ENV === "development" ||
+//             (opts.direction === "down" && opts.result instanceof Error),
+//         }),
+//         httpBatchLink({
+//           url: `${getBaseUrl()}/api/trpc`,
+//           transformer: superjson,
+//         }),
+//       ],
+//       queryClientConfig: {
+//         defaultOptions: {
+//           queries: {
+//             refetchOnWindowFocus: false,
+//           },
+//         },
+//       },
+//     };
+//   },
+//   /**
+//    * Whether tRPC should await queries when server rendering pages.
+//    *
+//    * @see https://trpc.io/docs/nextjs#ssr-boolean-default-false
+//    */
+//   ssr: false,
+// });
