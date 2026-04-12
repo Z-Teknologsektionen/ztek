@@ -1,7 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
-import { type RouterOutputs } from "~/utils/api";
+import { type RouterOutputs } from "~/utils/trpc/api";
 import { DocumentGroupTableActions } from "./document-group-table-actions";
 
 type DocumentGroupType = RouterOutputs["document"]["getAllGroupsAsAuthed"][0];

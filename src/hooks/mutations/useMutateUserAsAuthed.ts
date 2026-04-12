@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import toast from "react-hot-toast";
 import type { UseMutationHookProps } from "~/types/mutation-hook-types";
-import { api } from "~/utils/api";
+import { api } from "~/utils/trpc/api";
 
 export const useUpdateUserAsAuthed = ({
   onError,

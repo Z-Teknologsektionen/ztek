@@ -7,12 +7,12 @@ import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { useCreateCarouselAsActive } from "~/hooks/mutations/useMutateHomePageCarousel";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
-import { api } from "~/utils/api";
 import {
   getVisibilityStateName,
   visibilityStates,
 } from "~/utils/get-visibility-state";
 import { imageOperations } from "~/utils/sftp/handle-image-forms";
+import { api } from "~/utils/trpc/api";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 import UpsertHomePageCarouselForm from "./upsert-home-page-carousel-form";
 

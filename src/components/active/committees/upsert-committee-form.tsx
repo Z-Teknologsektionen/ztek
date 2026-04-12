@@ -22,8 +22,8 @@ import {
 import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
 import { createCommitteeSchema } from "~/schemas/committee";
 import type { IUpsertForm } from "~/types/form-types";
-import { api } from "~/utils/api";
 import { getCommitteeTypeStringFromEnum } from "~/utils/get-committee-type-string-from-enum";
+import { api } from "~/utils/trpc/api";
 
 export type UpsertCommitteeFormProps = IUpsertForm<
   typeof createCommitteeSchema

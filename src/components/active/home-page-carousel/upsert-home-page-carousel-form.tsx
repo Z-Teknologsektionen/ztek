@@ -15,7 +15,7 @@ import {
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { createHomePageCarouselSchema } from "~/schemas/home-page-carousel";
 import type { IUpsertForm } from "~/types/form-types";
-import { api } from "~/utils/api";
+import { api } from "~/utils/trpc/api";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 
 type UpsertHomePageCarouselFormProps = IUpsertForm<

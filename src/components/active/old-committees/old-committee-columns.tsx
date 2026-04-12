@@ -6,7 +6,7 @@ import { DataTableColumnHeader } from "~/components/data-table/data-table-column
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
 import { objectId } from "~/schemas/helpers/common-zod-helpers";
 import { validYear } from "~/schemas/helpers/time-zod-helpers";
-import { type RouterOutputs } from "~/utils/api";
+import { type RouterOutputs } from "~/utils/trpc/api";
 import { OldCommitteeTableActions } from "./old-committee-table-actions";
 
 export type OldCommitteeType =

@@ -4,7 +4,7 @@ import BadgeCell from "~/components/columns/badge-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
 import { objectId } from "~/schemas/helpers/common-zod-helpers";
-import { type RouterOutputs } from "~/utils/api";
+import { type RouterOutputs } from "~/utils/trpc/api";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 import { MemberRolesActions } from "./member-roles-actions";
 import { CommitteeMemberTableActions } from "./member-table-actions";

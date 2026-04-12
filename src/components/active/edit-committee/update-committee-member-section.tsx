@@ -18,9 +18,9 @@ import IconWithTooltip from "~/components/tooltips/icon-with-tooltip";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Separator } from "~/components/ui/separator";
 import { useUpdateMemberAsActive } from "~/hooks/mutations/useMutateMember";
-import type { RouterOutputs } from "~/utils/api";
 import { imageOperations } from "~/utils/sftp/handle-image-forms";
 import { slugifyString } from "~/utils/string-utils";
+import type { RouterOutputs } from "~/utils/trpc/api";
 import { cn } from "~/utils/utils";
 
 type CommitteeMemberProps = {

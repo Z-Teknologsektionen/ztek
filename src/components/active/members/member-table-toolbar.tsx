@@ -8,9 +8,9 @@ import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { useCreateMemberAsAuthed } from "~/hooks/mutations/useMutateMember";
-import { api } from "~/utils/api";
 import { imageOperations } from "~/utils/sftp/handle-image-forms";
 import { slugifyString } from "~/utils/string-utils";
+import { api } from "~/utils/trpc/api";
 
 interface MemberTableToolbarProps<TData> {
   table: Table<TData>;

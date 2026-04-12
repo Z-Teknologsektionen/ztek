@@ -2,8 +2,8 @@
 import toast from "react-hot-toast";
 import { env } from "~/env.mjs";
 import type { UseMutationHookProps } from "~/types/mutation-hook-types";
-import { api } from "~/utils/api";
 import { handleDeleteSftpFile } from "~/utils/sftp/handle-delete-sftp-file";
+import { api } from "~/utils/trpc/api";
 
 export const useCreateZenithMediaAsAuthed = ({
   onError,

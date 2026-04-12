@@ -6,9 +6,9 @@ import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { useCreateOldCommitteeAsActive } from "~/hooks/mutations/useMutateOldCommittee";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
-import { api } from "~/utils/api";
 import { imageOperations } from "~/utils/sftp/handle-image-forms";
 import { slugifyString } from "~/utils/string-utils";
+import { api } from "~/utils/trpc/api";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 import UpsertOldCommitteeForm from "./upsert-old-committee-form";
 

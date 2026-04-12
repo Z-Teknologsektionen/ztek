@@ -19,8 +19,8 @@ import {
 } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
 import { useUpdateCommitteeAsActive } from "~/hooks/mutations/useMutateCommittee";
-import type { RouterOutputs } from "~/utils/api";
 import { imageOperations } from "~/utils/sftp/handle-image-forms";
+import type { RouterOutputs } from "~/utils/trpc/api";
 
 type CommitteeProps = {
   committee: RouterOutputs["committee"]["getOneByIdAsActive"];

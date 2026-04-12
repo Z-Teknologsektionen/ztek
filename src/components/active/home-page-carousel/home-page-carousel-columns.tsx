@@ -6,13 +6,13 @@ import BooleanCell from "~/components/columns/boolean-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
 import { objectId } from "~/schemas/helpers/common-zod-helpers";
-import { type RouterOutputs } from "~/utils/api";
 import { dayjs } from "~/utils/dayjs";
 import {
   getVisibilityState,
   getVisibilityStateName,
   visibilityStates,
 } from "~/utils/get-visibility-state";
+import { type RouterOutputs } from "~/utils/trpc/api";
 import { HomePageCarouselTableActions } from "./home-page-carousel-table-actions";
 
 export type HomePageCarouselItemType =
