@@ -22,10 +22,10 @@ declare module "next-auth" {
   // eslint-disable-next-line @typescript-eslint/no-shadow, no-shadow
   interface Session extends DefaultSession {
     user: DefaultSession["user"] & {
-      committeeId?: string;
+      committeeId: string;
       email: string;
       id: string;
-      memberId?: string;
+      memberId: string;
       name: string;
       picture: string;
       roles: AccountRoles[];
@@ -67,7 +67,7 @@ const authOptions: NextAuthOptions = {
       return token;
     },
     session: async ({ session, token }) => {
-      const committeeMember = await prisma.committeeMember.findFirst({
+      const committeeMember = await prisma.committeeMember.findFirstOrThrow({
         where: {
           email: token.email,
         },
@@ -88,8 +88,8 @@ const authOptions: NextAuthOptions = {
           ...session.user,
           roles: committeeMember?.user?.roles || [],
           email: token.email,
-          memberId: committeeMember?.id,
-          committeeId: committeeMember?.committeeId,
+          memberId: committeeMember.id,
+          committeeId: committeeMember.committeeId,
         },
       };
     },

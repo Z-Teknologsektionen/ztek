@@ -1,3 +1,4 @@
+import { AccountRoles } from "@prisma/client";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { objectId } from "~/schemas/helpers/common-zod-helpers";
@@ -5,12 +6,31 @@ import {
   createHomePageCarouselSchema,
   updateHomePageCarouselSchema,
 } from "~/schemas/home-page-carousel";
-import { trpc } from "~/server/trpc/init";
-import { protectedProcedure } from "~/server/trpc/procedure-builders";
+import { trpc, TRPCContext } from "~/server/trpc/init";
+import {
+  committeeProcedure,
+  enforceRoleOrAdmin,
+  protectedProcedure,
+} from "~/server/trpc/procedure-builders";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 
+const carouselItemProcedure = protectedProcedure.use(
+  enforceRoleOrAdmin(AccountRoles.MODIFY_HOMEPAGE_CAROUSEL),
+);
+
+const carouselItemOwnerProcedure = committeeProcedure(
+  async (ctx: TRPCContext, id: string) => {
+    const item = await ctx.prisma.homePageCarouselItem.findUnique({
+      where: { id },
+      select: { committeeId: true },
+    });
+    return item?.committeeId || null;
+  },
+).use(enforceRoleOrAdmin(AccountRoles.MODIFY_HOMEPAGE_CAROUSEL));
+
+//router
 export const homePageCarouselRouter = trpc.router({
-  getManyByCommitteeIdAsActive: protectedProcedure.query(({ ctx }) => {
+  getManyByCommitteeIdAsActive: carouselItemProcedure.query(({ ctx }) => {
     return ctx.prisma.homePageCarouselItem.findMany({
       where: {
         committeeId: userHasAdminAccess(ctx.session.user.roles)
@@ -27,11 +47,14 @@ export const homePageCarouselRouter = trpc.router({
       },
     });
   }),
-  createOneAsActive: protectedProcedure
+  createOneAsActive: carouselItemProcedure
     .input(createHomePageCarouselSchema)
     .mutation(
       async ({
         ctx,
+        ctx: {
+          session: { user },
+        },
         input: {
           committeeId,
           endDateTime,
@@ -43,7 +66,9 @@ export const homePageCarouselRouter = trpc.router({
       }) => {
         const createdItem = await ctx.prisma.homePageCarouselItem.create({
           data: {
-            committeeId,
+            committeeId: userHasAdminAccess(user.roles)
+              ? committeeId
+              : user.committeeId,
             imageCredit,
             imageUrl,
             linkToUrl,
@@ -59,7 +84,7 @@ export const homePageCarouselRouter = trpc.router({
         return createdItem;
       },
     ),
-  updateOneAsActive: protectedProcedure
+  updateOneAsActive: carouselItemOwnerProcedure
     .input(updateHomePageCarouselSchema)
     .mutation(
       async ({
@@ -94,7 +119,8 @@ export const homePageCarouselRouter = trpc.router({
         return updatedItem;
       },
     ),
-  deleteOneAsActive: protectedProcedure
+  deleteOneAsActive: carouselItemOwnerProcedure
+    .use(enforceRoleOrAdmin(AccountRoles.MODIFY_HOMEPAGE_CAROUSEL))
     .input(
       z.object({
         id: objectId,

@@ -12,8 +12,8 @@ import {
 } from "~/schemas/member";
 import { trpc } from "~/server/trpc/init";
 import {
+  committeeProcedure,
   enforceRole,
-  organizationManagementProcedure,
   protectedProcedure,
   publicProcedure,
 } from "~/server/trpc/procedure-builders";
@@ -41,7 +41,7 @@ export const committeeMemberRouter = trpc.router({
         },
       });
     }),
-  updateMemberAsActive: protectedProcedure
+  updateMemberAsActive: committeeProcedure
     .input(updateMemberAsActiveSchema)
     .mutation(({ ctx, input: { id, name, nickName, image, order, phone } }) => {
       const updatedMember = ctx.prisma.committeeMember.update({
@@ -97,7 +97,8 @@ export const committeeMemberRouter = trpc.router({
         committeeId: committee.id,
       }));
     }),
-  createMemberAsAuthed: organizationManagementProcedure
+  createMemberAsAuthed: protectedProcedure
+    .use(enforceRole(AccountRoles.ORGANIZATION_MANAGEMENT))
     .input(createMemberSchema)
     .mutation(
       async ({
@@ -141,7 +142,8 @@ export const committeeMemberRouter = trpc.router({
         return createdMember;
       },
     ),
-  updateMemberAsAuthed: organizationManagementProcedure
+  updateMemberAsAuthed: protectedProcedure
+    .use(enforceRole(AccountRoles.ORGANIZATION_MANAGEMENT))
     .input(updateMemberSchema)
     .mutation(
       async ({
@@ -190,7 +192,8 @@ export const committeeMemberRouter = trpc.router({
         return updatedMember;
       },
     ),
-  deleteMemberAsAuthed: organizationManagementProcedure
+  deleteMemberAsAuthed: protectedProcedure
+    .use(enforceRole(AccountRoles.ORGANIZATION_MANAGEMENT))
     .input(
       z.object({
         id: objectId,
