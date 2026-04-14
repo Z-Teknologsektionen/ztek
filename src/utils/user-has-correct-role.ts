@@ -10,7 +10,8 @@ export const userHasRequiredRole = (
   return (
     requiredRole === undefined ||
     userRoles.includes(requiredRole) ||
-    userRoles.includes(AccountRoles.ADMIN) ||
+    (userRoles.includes(AccountRoles.ADMIN) &&
+      requiredRole !== AccountRoles.SUPER_ADMIN) ||
     userRoles.includes(AccountRoles.SUPER_ADMIN)
   );
 };

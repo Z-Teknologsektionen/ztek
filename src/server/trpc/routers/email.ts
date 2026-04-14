@@ -1,8 +1,9 @@
 import { sendEmailSchema } from "~/schemas/email";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { trpc } from "~/server/trpc/init";
+import { publicProcedure } from "~/server/trpc/procedure-builders";
 import { sendEmail } from "~/utils/mail/mail-engine";
 
-export const emailRouter = createTRPCRouter({
+export const emailRouter = trpc.router({
   sendEmail: publicProcedure
     .input(sendEmailSchema)
     .mutation(async ({ input }) => {

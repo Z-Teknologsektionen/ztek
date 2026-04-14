@@ -1,13 +1,13 @@
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { objectId } from "~/schemas/helpers/common-zod-helpers";
+import { trpc } from "~/server/trpc/init";
 import {
-  createTRPCRouter,
   documentProcedure,
   publicProcedure,
-} from "~/server/api/trpc";
+} from "~/server/trpc/procedure-builders";
 
-export const documentRouter = createTRPCRouter({
+export const documentRouter = trpc.router({
   getAllGroupsAsAuthed: documentProcedure.query(async ({ ctx }) => {
     const groups = await ctx.prisma.documentGroup.findMany({
       select: {

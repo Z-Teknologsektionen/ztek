@@ -10,13 +10,13 @@ import {
   createOldCommitteeSchema,
   updateOldCommitteeSchema,
 } from "~/schemas/old-committee";
+import { trpc } from "~/server/trpc/init";
 import {
-  createTRPCRouter,
   protectedProcedure,
   publicProcedure,
-} from "~/server/api/trpc";
+} from "~/server/trpc/procedure-builders";
 
-export const oldCommitteeRouter = createTRPCRouter({
+export const oldCommitteeRouter = trpc.router({
   getManyByCommitteeId: publicProcedure
     .input(
       z.object({

@@ -6,13 +6,13 @@ import {
   createProgramBoardMemberSchema,
   updateProgramBoardMemberSchema,
 } from "~/schemas/program-board-member";
+import { trpc } from "~/server/trpc/init";
 import {
-  createTRPCRouter,
   programBoardProcedure,
   publicProcedure,
-} from "~/server/api/trpc";
+} from "~/server/trpc/procedure-builders";
 
-export const programBoardRouter = createTRPCRouter({
+export const programBoardRouter = trpc.router({
   getAllAsAuthed: programBoardProcedure.query(({ ctx }) => {
     return ctx.prisma.programBoardMember.findMany({
       select: {

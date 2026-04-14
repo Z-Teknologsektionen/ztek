@@ -5,10 +5,11 @@ import {
   createHomePageCarouselSchema,
   updateHomePageCarouselSchema,
 } from "~/schemas/home-page-carousel";
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { trpc } from "~/server/trpc/init";
+import { protectedProcedure } from "~/server/trpc/procedure-builders";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 
-export const homePageCarouselRouter = createTRPCRouter({
+export const homePageCarouselRouter = trpc.router({
   getManyByCommitteeIdAsActive: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.homePageCarouselItem.findMany({
       where: {

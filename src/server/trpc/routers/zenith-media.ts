@@ -12,7 +12,7 @@ import {
   createTRPCRouter,
   publicProcedure,
   zenithMediaProcedure,
-} from "~/server/api/trpc";
+} from "~/server/trpc/init";
 
 export const zenithMediaRouter = createTRPCRouter({
   getAllByYear: publicProcedure.query(async ({ ctx }) => {

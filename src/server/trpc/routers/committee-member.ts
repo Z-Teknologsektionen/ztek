@@ -1,3 +1,4 @@
+import { AccountRoles } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
@@ -9,15 +10,16 @@ import {
   updateMemberAsActiveSchema,
   updateMemberSchema,
 } from "~/schemas/member";
+import { trpc } from "~/server/trpc/init";
 import {
-  createTRPCRouter,
+  enforceRole,
   organizationManagementProcedure,
   protectedProcedure,
   publicProcedure,
-} from "~/server/api/trpc";
+} from "~/server/trpc/procedure-builders";
 import { canCurrentUserModifyTargetRoleUser } from "~/utils/can-user-edit-user";
 
-export const committeeMemberRouter = createTRPCRouter({
+export const committeeMemberRouter = trpc.router({
   getOneByEmail: publicProcedure
     .input(
       z.object({
@@ -60,7 +62,8 @@ export const committeeMemberRouter = createTRPCRouter({
 
       return updatedMember;
     }),
-  getCommitteeMembersAsAuthed: organizationManagementProcedure
+  getCommitteeMembersAsAuthed: protectedProcedure
+    .use(enforceRole(AccountRoles.ORGANIZATION_MANAGEMENT))
     .input(
       z
         .object({

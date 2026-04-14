@@ -9,14 +9,14 @@ import {
   updateCommitteeSchema,
 } from "~/schemas/committee";
 import { objectId, slugString } from "~/schemas/helpers/common-zod-helpers";
+import { trpc } from "~/server/trpc/init";
 import {
-  createTRPCRouter,
   organizationManagementProcedure,
   protectedProcedure,
   publicProcedure,
-} from "~/server/api/trpc";
+} from "~/server/trpc/procedure-builders";
 
-export const committeeRouter = createTRPCRouter({
+export const committeeRouter = trpc.router({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.committee.findMany({
       orderBy: [{ order: "desc" }],
