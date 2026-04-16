@@ -2,14 +2,14 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import { useState, type FC } from "react";
 import {
-    MdAccountBox,
-    MdBadge,
-    MdCancel,
-    MdCheck,
-    MdEdit,
-    MdEmail,
-    MdPhone,
-    MdUpdate,
+  MdAccountBox,
+  MdBadge,
+  MdCancel,
+  MdCheck,
+  MdEdit,
+  MdEmail,
+  MdPhone,
+  MdUpdate,
 } from "react-icons/md";
 import { UpsertMemberAsActiveForm } from "~/components/active/edit-committee/upsert-member-as-active-form";
 import { UpsertDialog } from "~/components/dialogs/upsert-dialog";

@@ -8,10 +8,10 @@ import FormFieldInputNumber from "~/components/forms/form-field-input-number";
 import FormFieldSelect from "~/components/forms/form-field-select";
 import FormWrapper from "~/components/forms/form-wrapper";
 import {
-    COMMITTEE_IMAGE_QUALITY,
-    COMMITTEE_IMAGE_SIZE,
-    MAX_COMMITTEE_ORDER_NUMBER,
-    MIN_COMMITTEE_ORDER_NUMBER,
+  COMMITTEE_IMAGE_QUALITY,
+  COMMITTEE_IMAGE_SIZE,
+  MAX_COMMITTEE_ORDER_NUMBER,
+  MIN_COMMITTEE_ORDER_NUMBER,
 } from "~/constants/committees";
 import { createMemberSchema } from "~/schemas/member";
 import type { IUpsertForm } from "~/types/form-types";

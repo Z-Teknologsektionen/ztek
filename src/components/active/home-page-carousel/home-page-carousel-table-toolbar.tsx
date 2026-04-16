@@ -8,8 +8,8 @@ import { Button } from "~/components/ui/button";
 import { useCreateCarouselAsActive } from "~/hooks/mutations/useMutateHomePageCarousel";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import {
-    getVisibilityStateName,
-    visibilityStates,
+  getVisibilityStateName,
+  visibilityStates,
 } from "~/utils/get-visibility-state";
 import { imageOperations } from "~/utils/sftp/handle-image-forms";
 import { api } from "~/utils/trpc/api";

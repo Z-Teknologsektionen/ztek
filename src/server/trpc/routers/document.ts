@@ -2,9 +2,9 @@ import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { objectId } from "~/schemas/helpers/common-zod-helpers";
 import {
-    createTRPCRouter,
-    documentProcedure,
-    publicProcedure,
+  createTRPCRouter,
+  documentProcedure,
+  publicProcedure,
 } from "~/server/trpc/init";
 
 export const documentRouter = createTRPCRouter({

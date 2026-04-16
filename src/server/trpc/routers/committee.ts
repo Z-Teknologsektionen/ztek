@@ -4,16 +4,16 @@ import { z } from "zod";
 import { deleteFileFromSftpServer } from "~/app/api/sftp/utils/sftp-engine";
 import { env } from "~/env.mjs";
 import {
-    createCommitteeSchema,
-    updateCommitteeAsActiveSchema,
-    updateCommitteeSchema,
+  createCommitteeSchema,
+  updateCommitteeAsActiveSchema,
+  updateCommitteeSchema,
 } from "~/schemas/committee";
 import { objectId, slugString } from "~/schemas/helpers/common-zod-helpers";
 import {
-    createTRPCRouter,
-    organizationManagementProcedure,
-    protectedProcedure,
-    publicProcedure,
+  createTRPCRouter,
+  organizationManagementProcedure,
+  protectedProcedure,
+  publicProcedure,
 } from "~/server/trpc/init";
 
 export const committeeRouter = createTRPCRouter({

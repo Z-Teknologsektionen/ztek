@@ -5,13 +5,13 @@ import { MIN_MEDIA_ORDER_NUMBER } from "~/constants/zenith-media";
 import { env } from "~/env.mjs";
 import { objectId } from "~/schemas/helpers/common-zod-helpers";
 import {
-    createZenithMediaServerSchema,
-    updateZenithMediaServerSchema,
+  createZenithMediaServerSchema,
+  updateZenithMediaServerSchema,
 } from "~/schemas/zenith-media";
 import {
-    createTRPCRouter,
-    publicProcedure,
-    zenithMediaProcedure,
+  createTRPCRouter,
+  publicProcedure,
+  zenithMediaProcedure,
 } from "~/server/trpc/init";
 
 export const zenithMediaRouter = createTRPCRouter({

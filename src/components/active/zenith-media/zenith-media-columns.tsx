@@ -6,9 +6,9 @@ import { DataTableColumnHeader } from "~/components/data-table/data-table-column
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
 import { dayjs } from "~/utils/dayjs";
 import {
-    getVisibilityState,
-    getVisibilityStateName,
-    visibilityStates,
+  getVisibilityState,
+  getVisibilityStateName,
+  visibilityStates,
 } from "~/utils/get-visibility-state";
 import type { RouterOutputs } from "~/utils/trpc/api";
 import { ZenithMediaTableActions } from "./zenith-media-table-actions";

@@ -8,9 +8,9 @@ import { DataTableViewOptions } from "~/components/data-table/data-table-view-op
 import { objectId } from "~/schemas/helpers/common-zod-helpers";
 import { dayjs } from "~/utils/dayjs";
 import {
-    getVisibilityState,
-    getVisibilityStateName,
-    visibilityStates,
+  getVisibilityState,
+  getVisibilityStateName,
+  visibilityStates,
 } from "~/utils/get-visibility-state";
 import { type RouterOutputs } from "~/utils/trpc/api";
 import { HomePageCarouselTableActions } from "./home-page-carousel-table-actions";

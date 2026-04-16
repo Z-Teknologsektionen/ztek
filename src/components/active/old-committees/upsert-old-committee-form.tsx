@@ -8,8 +8,8 @@ import FormFieldInputNumber from "~/components/forms/form-field-input-number";
 import FormFieldSelect from "~/components/forms/form-field-select";
 import FormWrapper from "~/components/forms/form-wrapper";
 import {
-    COMMITTEE_IMAGE_QUALITY,
-    COMMITTEE_IMAGE_SIZE,
+  COMMITTEE_IMAGE_QUALITY,
+  COMMITTEE_IMAGE_SIZE,
 } from "~/constants/committees";
 import { MAX_4_DIGIT_YEAR, MIN_4_DIGIT_YEAR } from "~/constants/size-constants";
 import { useRequireAuth } from "~/hooks/useRequireAuth";

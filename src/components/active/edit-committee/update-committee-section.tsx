@@ -10,12 +10,12 @@ import IconNextToText from "~/components/layout/icon-next-to-text";
 import IconWithTooltip from "~/components/tooltips/icon-with-tooltip";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
 import { useUpdateCommitteeAsActive } from "~/hooks/mutations/useMutateCommittee";
