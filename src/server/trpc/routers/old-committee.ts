@@ -3,18 +3,18 @@ import { z } from "zod";
 import { deleteFileFromSftpServer } from "~/app/api/sftp/utils/sftp-engine";
 import { env } from "~/env.mjs";
 import {
-  objectId,
-  standardBoolean,
+    objectId,
+    standardBoolean,
 } from "~/schemas/helpers/common-zod-helpers";
 import {
-  createOldCommitteeSchema,
-  updateOldCommitteeSchema,
+    createOldCommitteeSchema,
+    updateOldCommitteeSchema,
 } from "~/schemas/old-committee";
 import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+    createTRPCRouter,
+    protectedProcedure,
+    publicProcedure,
+} from "~/server/trpc/init";
 
 export const oldCommitteeRouter = createTRPCRouter({
   getManyByCommitteeId: publicProcedure

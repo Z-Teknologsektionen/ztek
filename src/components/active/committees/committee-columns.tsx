@@ -5,9 +5,9 @@ import BooleanCell from "~/components/columns/boolean-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
 import { TABLE_ICON_SIZE } from "~/constants/size-constants";
-import { type RouterOutputs } from "~/utils/api";
 import { getCommitteeTypeStringFromEnum } from "~/utils/get-committee-type-string-from-enum";
 import { getSocialIconFromEnum } from "~/utils/get-social-from-enum";
+import { type RouterOutputs } from "~/utils/trpc/api";
 import { CommitteeTableActions } from "./committee-table-actions";
 
 export type Committee = RouterOutputs["committee"]["getAllAsAuthed"][0];

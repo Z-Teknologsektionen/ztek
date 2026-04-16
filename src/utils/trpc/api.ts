@@ -10,7 +10,7 @@ import { createTRPCReact } from "@trpc/react-query";
 import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 import superjson from "superjson";
 
-import { type AppRouter } from "~/server/api/root";
+import { type AppRouter } from "~/server/trpc/root";
 
 export const getBaseUrl = (): string => {
   if (typeof window !== "undefined") return ""; // browser should use relative url

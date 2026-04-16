@@ -5,16 +5,16 @@ import { deleteFileFromSftpServer } from "~/app/api/sftp/utils/sftp-engine";
 import { env } from "~/env.mjs";
 import { objectId } from "~/schemas/helpers/common-zod-helpers";
 import {
-  createMemberSchema,
-  updateMemberAsActiveSchema,
-  updateMemberSchema,
+    createMemberSchema,
+    updateMemberAsActiveSchema,
+    updateMemberSchema,
 } from "~/schemas/member";
 import {
-  createTRPCRouter,
-  organizationManagementProcedure,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+    createTRPCRouter,
+    organizationManagementProcedure,
+    protectedProcedure,
+    publicProcedure,
+} from "~/server/trpc/init";
 import { canCurrentUserModifyTargetRoleUser } from "~/utils/can-user-edit-user";
 
 export const committeeMemberRouter = createTRPCRouter({

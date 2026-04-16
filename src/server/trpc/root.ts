@@ -1,4 +1,4 @@
-import { createTRPCRouter } from "~/server/api/trpc";
+import { createTRPCRouter } from "~/server/trpc/init";
 import { committeeRouter } from "./routers/committee";
 import { committeeMemberRouter } from "./routers/committee-member";
 import { documentRouter } from "./routers/document";

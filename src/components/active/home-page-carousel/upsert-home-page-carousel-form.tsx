@@ -9,13 +9,13 @@ import FormFieldSelect from "~/components/forms/form-field-select";
 import FormWrapper from "~/components/forms/form-wrapper";
 import { COMMITTEE_IMAGE_QUALITY } from "~/constants/committees";
 import {
-  CAROUSEL_IMAGE_HEIGHT,
-  CAROUSEL_IMAGE_WIDTH,
+    CAROUSEL_IMAGE_HEIGHT,
+    CAROUSEL_IMAGE_WIDTH,
 } from "~/constants/home-page-carousel";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { createHomePageCarouselSchema } from "~/schemas/home-page-carousel";
 import type { IUpsertForm } from "~/types/form-types";
-import { api } from "~/utils/api";
+import { api } from "~/utils/trpc/api";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 
 type UpsertHomePageCarouselFormProps = IUpsertForm<

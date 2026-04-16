@@ -5,7 +5,7 @@ import { httpBatchLink, loggerLink } from "@trpc/client";
 import type { FC, PropsWithChildren } from "react";
 import { useState } from "react";
 import superjson from "superjson";
-import { apiApp, getBaseUrl } from "~/utils/api";
+import { apiApp, getBaseUrl } from "~/utils/trpc/api";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 5 * 1000 } },

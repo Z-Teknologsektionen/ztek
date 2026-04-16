@@ -6,7 +6,7 @@ import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
 import StyledLink from "~/components/layout/styled-link";
 import { Accordion } from "~/components/ui/accordion";
-import { api } from "~/utils/api";
+import { api } from "~/utils/trpc/api";
 
 const DOCUMENT_GROUP_KEY = "Dokument för Zaloonen";
 

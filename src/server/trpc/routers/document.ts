@@ -2,10 +2,10 @@ import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { objectId } from "~/schemas/helpers/common-zod-helpers";
 import {
-  createTRPCRouter,
-  documentProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+    createTRPCRouter,
+    documentProcedure,
+    publicProcedure,
+} from "~/server/trpc/init";
 
 export const documentRouter = createTRPCRouter({
   getAllGroupsAsAuthed: documentProcedure.query(async ({ ctx }) => {

@@ -12,18 +12,18 @@ import FormFieldSelect from "~/components/forms/form-field-select";
 import FormFieldTextArea from "~/components/forms/form-field-textarea";
 import FormWrapper from "~/components/forms/form-wrapper";
 import {
-  COMMITTEE_IMAGE_QUALITY,
-  COMMITTEE_IMAGE_SIZE,
-  MAX_COMMITTEE_ORDER_NUMBER,
-  MAX_ELECTION_PERIOD,
-  MIN_COMMITTEE_ORDER_NUMBER,
-  MIN_ELECTION_PERIOD,
+    COMMITTEE_IMAGE_QUALITY,
+    COMMITTEE_IMAGE_SIZE,
+    MAX_COMMITTEE_ORDER_NUMBER,
+    MAX_ELECTION_PERIOD,
+    MIN_COMMITTEE_ORDER_NUMBER,
+    MIN_ELECTION_PERIOD,
 } from "~/constants/committees";
 import { useFormWithZodSchema } from "~/hooks/useFormWithZodSchema";
 import { createCommitteeSchema } from "~/schemas/committee";
 import type { IUpsertForm } from "~/types/form-types";
-import { api } from "~/utils/api";
 import { getCommitteeTypeStringFromEnum } from "~/utils/get-committee-type-string-from-enum";
+import { api } from "~/utils/trpc/api";
 
 export type UpsertCommitteeFormProps = IUpsertForm<
   typeof createCommitteeSchema

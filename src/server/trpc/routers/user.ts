@@ -1,9 +1,9 @@
 import { TRPCError } from "@trpc/server";
 import { updateUserRolesSchema } from "~/schemas/user";
 import {
-  createTRPCRouter,
-  organizationManagementProcedure,
-} from "~/server/api/trpc";
+    createTRPCRouter,
+    organizationManagementProcedure,
+} from "~/server/trpc/init";
 import { canCurrentUserModifyTargetRoleUser } from "~/utils/can-user-edit-user";
 
 export const userRouter = createTRPCRouter({

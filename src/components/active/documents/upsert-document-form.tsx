@@ -8,7 +8,7 @@ import FormFieldSelect from "~/components/forms/form-field-select";
 import FormWrapper from "~/components/forms/form-wrapper";
 import { createDocumentSchema } from "~/schemas/document";
 import type { IUpsertForm } from "~/types/form-types";
-import { api } from "~/utils/api";
+import { api } from "~/utils/trpc/api";
 
 type UpsertDocumentFormProps = IUpsertForm<typeof createDocumentSchema>;
 

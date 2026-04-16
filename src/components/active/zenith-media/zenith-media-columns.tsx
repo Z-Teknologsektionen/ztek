@@ -4,13 +4,13 @@ import BadgeCell from "~/components/columns/badge-cell";
 import BooleanCell from "~/components/columns/boolean-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
-import type { RouterOutputs } from "~/utils/api";
 import { dayjs } from "~/utils/dayjs";
 import {
-  getVisibilityState,
-  getVisibilityStateName,
-  visibilityStates,
+    getVisibilityState,
+    getVisibilityStateName,
+    visibilityStates,
 } from "~/utils/get-visibility-state";
+import type { RouterOutputs } from "~/utils/trpc/api";
 import { ZenithMediaTableActions } from "./zenith-media-table-actions";
 
 export type ZenithMediaType = RouterOutputs["zenithMedia"]["getAllAsAuthed"][0];

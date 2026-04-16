@@ -1,5 +1,5 @@
 import { sendEmailSchema } from "~/schemas/email";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, publicProcedure } from "~/server/trpc/init";
 import { sendEmail } from "~/utils/mail/mail-engine";
 
 export const emailRouter = createTRPCRouter({
