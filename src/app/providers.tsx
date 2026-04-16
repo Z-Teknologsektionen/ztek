@@ -12,4 +12,7 @@ const RootProviders: FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
+// NOTE:
+// Pages router (removal pending) does not use RootProviders component, though it logically should
+
 export default RootProviders;

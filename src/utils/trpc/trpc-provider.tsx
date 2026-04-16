@@ -5,16 +5,17 @@ import { httpBatchLink, loggerLink } from "@trpc/client";
 import type { FC, PropsWithChildren } from "react";
 import { useState } from "react";
 import superjson from "superjson";
-import { apiApp, getBaseUrl } from "~/utils/trpc/api";
+import { api, getBaseUrl } from "./api";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 5 * 1000 } },
 });
 
 export const TrpcProvider: FC<PropsWithChildren> = ({ children }) => {
-  // eslint-disable-next-line react/hook-use-state, @typescript-eslint/no-unsafe-assignment
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const [trpcClient] = useState(() =>
-    apiApp.createClient({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,  @typescript-eslint/no-unsafe-call,  @typescript-eslint/no-unsafe-return
+    api.createClient({
       links: [
         loggerLink({
           enabled: (opts) =>
@@ -30,8 +31,9 @@ export const TrpcProvider: FC<PropsWithChildren> = ({ children }) => {
   );
 
   return (
-    <apiApp.Provider client={trpcClient} queryClient={queryClient}>
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    <api.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </apiApp.Provider>
+    </api.Provider>
   );
 };
