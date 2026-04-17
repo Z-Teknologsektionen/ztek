@@ -20,7 +20,7 @@ import {
 import { Separator } from "~/components/ui/separator";
 import { useUpdateCommitteeAsActive } from "~/hooks/mutations/useMutateCommittee";
 import { imageOperations } from "~/utils/sftp/handle-image-forms";
-import type { RouterOutputs } from "~/utils/trpc/api";
+import type { RouterOutputs } from "~/utils/trpc-client/api";
 
 type CommitteeProps = {
   committee: RouterOutputs["committee"]["getOneByIdAsActive"];

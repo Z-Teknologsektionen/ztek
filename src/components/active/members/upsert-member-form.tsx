@@ -15,7 +15,7 @@ import {
 } from "~/constants/committees";
 import { createMemberSchema } from "~/schemas/member";
 import type { IUpsertForm } from "~/types/form-types";
-import { api } from "~/utils/trpc/api";
+import { api } from "~/utils/trpc-client/api";
 
 type UpsertMemberFormProps = IUpsertForm<typeof createMemberSchema>;
 

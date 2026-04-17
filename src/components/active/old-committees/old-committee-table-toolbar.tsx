@@ -8,7 +8,7 @@ import { useCreateOldCommitteeAsActive } from "~/hooks/mutations/useMutateOldCom
 import { useRequireAuth } from "~/hooks/useRequireAuth";
 import { imageOperations } from "~/utils/sftp/handle-image-forms";
 import { slugifyString } from "~/utils/string-utils";
-import { api } from "~/utils/trpc/api";
+import { api } from "~/utils/trpc-client/api";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 import UpsertOldCommitteeForm from "./upsert-old-committee-form";
 

@@ -2,7 +2,7 @@
 
 import { SessionProvider } from "next-auth/react";
 import type { FC, PropsWithChildren } from "react";
-import { TrpcProvider } from "~/utils/trpc/trpc-provider";
+import { TrpcProvider } from "~/utils/trpc-client/trpc-provider";
 
 const RootProviders: FC<PropsWithChildren> = ({ children }) => {
   return (

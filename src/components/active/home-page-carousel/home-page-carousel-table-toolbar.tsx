@@ -12,7 +12,7 @@ import {
   visibilityStates,
 } from "~/utils/get-visibility-state";
 import { imageOperations } from "~/utils/sftp/handle-image-forms";
-import { api } from "~/utils/trpc/api";
+import { api } from "~/utils/trpc-client/api";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 import UpsertHomePageCarouselForm from "./upsert-home-page-carousel-form";
 

@@ -2,7 +2,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import BooleanCell from "~/components/columns/boolean-cell";
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header";
 import { DataTableViewOptions } from "~/components/data-table/data-table-view-options";
-import { type RouterOutputs } from "~/utils/trpc/api";
+import { type RouterOutputs } from "~/utils/trpc-client/api";
 import { DocumentTableActions } from "./document-table-actions";
 
 export type DocumentType = RouterOutputs["document"]["getAllAsAuthed"][0];

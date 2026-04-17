@@ -12,7 +12,7 @@ import {
   getVisibilityStateName,
   visibilityStates,
 } from "~/utils/get-visibility-state";
-import { type RouterOutputs } from "~/utils/trpc/api";
+import { type RouterOutputs } from "~/utils/trpc-client/api";
 import { HomePageCarouselTableActions } from "./home-page-carousel-table-actions";
 
 export type HomePageCarouselItemType =

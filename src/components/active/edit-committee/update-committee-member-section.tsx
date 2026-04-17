@@ -20,7 +20,7 @@ import { Separator } from "~/components/ui/separator";
 import { useUpdateMemberAsActive } from "~/hooks/mutations/useMutateMember";
 import { imageOperations } from "~/utils/sftp/handle-image-forms";
 import { slugifyString } from "~/utils/string-utils";
-import type { RouterOutputs } from "~/utils/trpc/api";
+import type { RouterOutputs } from "~/utils/trpc-client/api";
 import { cn } from "~/utils/utils";
 
 type CommitteeMemberProps = {

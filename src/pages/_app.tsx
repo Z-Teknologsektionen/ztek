@@ -8,7 +8,7 @@ import Footer from "~/components/layout/footer";
 import HeadLayout from "~/components/layout/head-layout";
 import Navbar from "~/components/layout/navbar";
 import "~/styles/globals.css";
-import { TrpcProvider } from "~/utils/trpc/trpc-provider";
+import { TrpcProvider } from "~/utils/trpc-client/trpc-provider";
 
 const MyApp: AppType<{
   session: Session;

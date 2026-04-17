@@ -10,7 +10,7 @@ import { Input } from "~/components/ui/input";
 import { useCreateMemberAsAuthed } from "~/hooks/mutations/useMutateMember";
 import { imageOperations } from "~/utils/sftp/handle-image-forms";
 import { slugifyString } from "~/utils/string-utils";
-import { api } from "~/utils/trpc/api";
+import { api } from "~/utils/trpc-client/api";
 
 interface MemberTableToolbarProps<TData> {
   table: Table<TData>;

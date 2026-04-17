@@ -3,7 +3,7 @@ import type { FC } from "react";
 import { AdvancedDataTable } from "~/components/data-table/advanced-data-table";
 import RoleWrapper from "~/components/layout/role-wrapper";
 import SectionWrapper from "~/components/layout/section-wrapper";
-import { api } from "~/utils/trpc/api";
+import { api } from "~/utils/trpc-client/api";
 import { programBoardColumns } from "./program-board-columns";
 import { ProgramBoardTableToolbar } from "./program-board-table-toolbar";
 

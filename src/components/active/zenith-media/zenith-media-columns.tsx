@@ -10,7 +10,7 @@ import {
   getVisibilityStateName,
   visibilityStates,
 } from "~/utils/get-visibility-state";
-import type { RouterOutputs } from "~/utils/trpc/api";
+import type { RouterOutputs } from "~/utils/trpc-client/api";
 import { ZenithMediaTableActions } from "./zenith-media-table-actions";
 
 export type ZenithMediaType = RouterOutputs["zenithMedia"]["getAllAsAuthed"][0];

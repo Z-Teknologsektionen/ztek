@@ -7,7 +7,7 @@ import { DataTableViewOptions } from "~/components/data-table/data-table-view-op
 import { TABLE_ICON_SIZE } from "~/constants/size-constants";
 import { getCommitteeTypeStringFromEnum } from "~/utils/get-committee-type-string-from-enum";
 import { getSocialIconFromEnum } from "~/utils/get-social-from-enum";
-import { type RouterOutputs } from "~/utils/trpc/api";
+import { type RouterOutputs } from "~/utils/trpc-client/api";
 import { CommitteeTableActions } from "./committee-table-actions";
 
 export type Committee = RouterOutputs["committee"]["getAllAsAuthed"][0];

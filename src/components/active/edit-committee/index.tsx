@@ -4,7 +4,7 @@ import LoadingSpinner from "~/components/layout/loading-spinner";
 import RoleWrapper from "~/components/layout/role-wrapper";
 import SectionWrapper from "~/components/layout/section-wrapper";
 import { useRequireAuth } from "~/hooks/useRequireAuth";
-import { api } from "~/utils/trpc/api";
+import { api } from "~/utils/trpc-client/api";
 import MissingCommitteeSection from "./missing-committee-section";
 import { UpdateCommitteeMemberSection } from "./update-committee-member-section";
 import { UpdateCommitteeSection } from "./update-committee-section";

@@ -8,7 +8,7 @@ import { UpsertDialog } from "~/components/dialogs/upsert-dialog";
 import { Button } from "~/components/ui/button";
 import { imageOperations } from "~/utils/sftp/handle-image-forms";
 import { slugifyString } from "~/utils/string-utils";
-import { api } from "~/utils/trpc/api";
+import { api } from "~/utils/trpc-client/api";
 
 interface ProgramBoardTableToolbarProps<TData> {
   table: Table<TData>;
