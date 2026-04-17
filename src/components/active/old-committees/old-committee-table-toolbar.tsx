@@ -32,7 +32,6 @@ export const OldCommitteeTableToolbar = <TData,>({
   const { data: oldCommittees } =
     api.oldCommittee.getManyByCommitteeIdAsActive.useQuery({
       belongsToCommitteeId: committeeId || "",
-      isAdmin: isAdmin,
     });
 
   const { mutate: createNewOldCommittee, isPending: creatingNewOldCommittee } =

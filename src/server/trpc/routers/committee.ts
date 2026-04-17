@@ -1,3 +1,4 @@
+import { AccountRoles } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
@@ -9,14 +10,25 @@ import {
   updateCommitteeSchema,
 } from "~/schemas/committee";
 import { objectId, slugString } from "~/schemas/helpers/common-zod-helpers";
+import { trpc, type TRPCContext } from "../init";
 import {
-  createTRPCRouter,
-  organizationManagementProcedure,
+  committeeProcedure,
+  enforceRoleOrAdmin,
   protectedProcedure,
   publicProcedure,
-} from "~/server/trpc/init";
+} from "../procedure-builders";
 
-export const committeeRouter = createTRPCRouter({
+// may edit any committee
+const organizationManagementProcedure = protectedProcedure.use(
+  enforceRoleOrAdmin(AccountRoles.ORGANIZATION_MANAGEMENT),
+);
+
+// may edit your committee
+const activeProcedure = committeeProcedure(
+  async (_: TRPCContext, id: string) => id,
+);
+
+export const committeeRouter = trpc.router({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.committee.findMany({
       orderBy: [{ order: "desc" }],
@@ -165,7 +177,7 @@ export const committeeRouter = createTRPCRouter({
       orderBy: [{ order: "desc" }],
     });
   }),
-  updateCommitteeAsActive: protectedProcedure
+  updateCommitteeAsActive: activeProcedure
     .input(updateCommitteeAsActiveSchema)
     .mutation(
       async ({

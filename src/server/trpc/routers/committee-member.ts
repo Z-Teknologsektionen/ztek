@@ -9,15 +9,35 @@ import {
   updateMemberAsActiveSchema,
   updateMemberSchema,
 } from "~/schemas/member";
-import {
-  createTRPCRouter,
-  organizationManagementProcedure,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/trpc/init";
-import { canCurrentUserModifyTargetRoleUser } from "~/utils/can-user-edit-user";
 
-export const committeeMemberRouter = createTRPCRouter({
+import { canCurrentUserModifyTargetRoleUser } from "~/utils/can-user-edit-user";
+import { trpc, TRPCContext } from "../init";
+import { publicProcedure } from "../procedure-builders";
+
+import { AccountRoles } from "@prisma/client";
+import {
+  committeeProcedure,
+  enforceRoleOrAdmin,
+  protectedProcedure,
+} from "../procedure-builders";
+
+// u may edit any committee's member
+const organizationManagementProcedure = protectedProcedure.use(
+  enforceRoleOrAdmin(AccountRoles.ORGANIZATION_MANAGEMENT),
+);
+
+// u may edit only ur committee's members
+const activeProcedure = committeeProcedure(
+  async (ctx: TRPCContext, id: string) => {
+    const item = await ctx.prisma.committeeMember.findUnique({
+      where: { id },
+      select: { committeeId: true },
+    });
+    return item?.committeeId || null;
+  },
+);
+
+export const committeeMemberRouter = trpc.router({
   getOneByEmail: publicProcedure
     .input(
       z.object({
@@ -39,7 +59,7 @@ export const committeeMemberRouter = createTRPCRouter({
         },
       });
     }),
-  updateMemberAsActive: protectedProcedure
+  updateMemberAsActive: activeProcedure
     .input(updateMemberAsActiveSchema)
     .mutation(({ ctx, input: { id, name, nickName, image, order, phone } }) => {
       const updatedMember = ctx.prisma.committeeMember.update({
@@ -155,6 +175,7 @@ export const committeeMemberRouter = createTRPCRouter({
           image,
         },
       }) => {
+        // lookup user (bc u want user.id) by email
         const user = await ctx.prisma.user.findUnique({
           where: {
             email: email,
@@ -163,7 +184,7 @@ export const committeeMemberRouter = createTRPCRouter({
             id: true,
           },
         });
-
+        // main operation
         const updatedMember = await ctx.prisma.committeeMember.update({
           where: {
             id,

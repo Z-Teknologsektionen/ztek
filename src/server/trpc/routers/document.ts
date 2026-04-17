@@ -1,14 +1,20 @@
+import { AccountRoles } from "@prisma/client";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { objectId } from "~/schemas/helpers/common-zod-helpers";
+import { trpc } from "~/server/trpc/init";
 import {
-  createTRPCRouter,
-  documentProcedure,
+  enforceRoleOrAdmin,
+  protectedProcedure,
   publicProcedure,
-} from "~/server/trpc/init";
+} from "../procedure-builders";
 
-export const documentRouter = createTRPCRouter({
-  getAllGroupsAsAuthed: documentProcedure.query(async ({ ctx }) => {
+const documentManagementProcedure = protectedProcedure.use(
+  enforceRoleOrAdmin(AccountRoles.MODIFY_DOCUMENTS),
+);
+
+export const documentRouter = trpc.router({
+  getAllGroupsAsAuthed: documentManagementProcedure.query(async ({ ctx }) => {
     const groups = await ctx.prisma.documentGroup.findMany({
       select: {
         id: true,
@@ -23,7 +29,7 @@ export const documentRouter = createTRPCRouter({
       ...rest,
     }));
   }),
-  getAllAsAuthed: documentProcedure.query(async ({ ctx }) => {
+  getAllAsAuthed: documentManagementProcedure.query(async ({ ctx }) => {
     const documents = ctx.prisma.document.findMany({
       select: {
         group: {
@@ -44,7 +50,7 @@ export const documentRouter = createTRPCRouter({
     }));
   }),
 
-  createOneAsAuthed: documentProcedure
+  createOneAsAuthed: documentManagementProcedure
     .input(
       z.object({
         title: z.string().min(1),
@@ -69,7 +75,7 @@ export const documentRouter = createTRPCRouter({
 
       return newDocument;
     }),
-  updateOneAsAuthed: documentProcedure
+  updateOneAsAuthed: documentManagementProcedure
     .input(
       z.object({
         id: objectId,
@@ -95,7 +101,7 @@ export const documentRouter = createTRPCRouter({
 
       return updatedDocument;
     }),
-  deleteOneAsAuthed: documentProcedure
+  deleteOneAsAuthed: documentManagementProcedure
     .input(
       z.object({
         id: objectId,
@@ -133,7 +139,7 @@ export const documentRouter = createTRPCRouter({
         },
       });
     }),
-  createOneGroupAsAuthed: documentProcedure
+  createOneGroupAsAuthed: documentManagementProcedure
     .input(
       z.object({
         name: z.string().min(1),
@@ -154,7 +160,7 @@ export const documentRouter = createTRPCRouter({
 
       return newDocumentGroup;
     }),
-  updateOneGroupAsAuthed: documentProcedure
+  updateOneGroupAsAuthed: documentManagementProcedure
     .input(
       z.object({
         id: objectId,
@@ -176,7 +182,7 @@ export const documentRouter = createTRPCRouter({
 
       return updatedDocumentGroup;
     }),
-  deleteOneGroupAsAuthed: documentProcedure
+  deleteOneGroupAsAuthed: documentManagementProcedure
     .input(
       z.object({
         id: objectId,

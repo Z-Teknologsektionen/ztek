@@ -1,3 +1,5 @@
+import { AccountRoles } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { objectId } from "~/schemas/helpers/common-zod-helpers";
@@ -5,16 +7,35 @@ import {
   createHomePageCarouselSchema,
   updateHomePageCarouselSchema,
 } from "~/schemas/home-page-carousel";
-import { createTRPCRouter, protectedProcedure } from "~/server/trpc/init";
+import { trpc, TRPCContext } from "~/server/trpc/init";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
+import {
+  committeeProcedure,
+  enforceRoleOrAdmin,
+  protectedProcedure,
+} from "../procedure-builders";
 
-export const homePageCarouselRouter = createTRPCRouter({
-  getManyByCommitteeIdAsActive: protectedProcedure.query(({ ctx }) => {
+const carouselItemProcedure = protectedProcedure.use(
+  enforceRoleOrAdmin(AccountRoles.MODIFY_HOMEPAGE_CAROUSEL),
+);
+
+const carouselItemOwnerProcedure = committeeProcedure(
+  async (ctx: TRPCContext, id: string) => {
+    const item = await ctx.prisma.homePageCarouselItem.findUnique({
+      where: { id },
+      select: { committeeId: true },
+    });
+    return item?.committeeId || null;
+  },
+).use(enforceRoleOrAdmin(AccountRoles.MODIFY_HOMEPAGE_CAROUSEL));
+
+export const homePageCarouselRouter = trpc.router({
+  getManyByCommitteeIdAsActive: carouselItemProcedure.query(({ ctx }) => {
     return ctx.prisma.homePageCarouselItem.findMany({
       where: {
-        committeeId: userHasAdminAccess(ctx.session.user.roles)
-          ? undefined
-          : ctx.session.user.committeeId,
+        committeeId: userHasAdminAccess(ctx.session.user.roles) // if admin
+          ? undefined // get all
+          : ctx.session.user.committeeId, // else get yours
       },
       include: {
         committee: {
@@ -26,11 +47,14 @@ export const homePageCarouselRouter = createTRPCRouter({
       },
     });
   }),
-  createOneAsActive: protectedProcedure
+  createOneAsActive: carouselItemProcedure
     .input(createHomePageCarouselSchema)
     .mutation(
       async ({
         ctx,
+        ctx: {
+          session: { user },
+        },
         input: {
           committeeId,
           endDateTime,
@@ -40,6 +64,11 @@ export const homePageCarouselRouter = createTRPCRouter({
           startDateTime,
         },
       }) => {
+        // ownership check (could not be implemented with `committeeProcedure` for yet nonexistent db entry)
+        if (!userHasAdminAccess(user.roles) && committeeId !== user.committeeId)
+          throw new TRPCError({ code: "FORBIDDEN" });
+
+        // db operation
         const createdItem = await ctx.prisma.homePageCarouselItem.create({
           data: {
             committeeId,
@@ -48,8 +77,8 @@ export const homePageCarouselRouter = createTRPCRouter({
             linkToUrl,
             startDateTime,
             endDateTime,
-            updatedByEmail: ctx.session.user.email,
-            createdByEmail: ctx.session.user.email,
+            updatedByEmail: user.email,
+            createdByEmail: user.email,
           },
         });
 
@@ -58,7 +87,7 @@ export const homePageCarouselRouter = createTRPCRouter({
         return createdItem;
       },
     ),
-  updateOneAsActive: protectedProcedure
+  updateOneAsActive: carouselItemOwnerProcedure
     .input(updateHomePageCarouselSchema)
     .mutation(
       async ({
@@ -93,7 +122,7 @@ export const homePageCarouselRouter = createTRPCRouter({
         return updatedItem;
       },
     ),
-  deleteOneAsActive: protectedProcedure
+  deleteOneAsActive: carouselItemOwnerProcedure
     .input(
       z.object({
         id: objectId,

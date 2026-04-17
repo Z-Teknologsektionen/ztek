@@ -1,3 +1,4 @@
+import { AccountRoles } from "@prisma/client";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { deleteFileFromSftpServer } from "~/app/api/sftp/utils/sftp-engine";
@@ -6,13 +7,18 @@ import {
   createProgramBoardMemberSchema,
   updateProgramBoardMemberSchema,
 } from "~/schemas/program-board-member";
+import { trpc } from "~/server/trpc/init";
 import {
-  createTRPCRouter,
-  programBoardProcedure,
+  enforceRoleOrAdmin,
+  protectedProcedure,
   publicProcedure,
-} from "~/server/trpc/init";
+} from "../procedure-builders";
 
-export const programBoardRouter = createTRPCRouter({
+const programBoardProcedure = protectedProcedure.use(
+  enforceRoleOrAdmin(AccountRoles.MODIFY_PROGRAM_BOARD),
+);
+
+export const programBoardRouter = trpc.router({
   getAllAsAuthed: programBoardProcedure.query(({ ctx }) => {
     return ctx.prisma.programBoardMember.findMany({
       select: {

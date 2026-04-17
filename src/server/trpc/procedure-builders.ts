@@ -11,11 +11,11 @@ import { trpc } from "./init";
 
 const enforceSignedIn = trpc.middleware(({ ctx: { session }, next }) => {
   if (!session || !session.user) {
-    throw new TRPCError({ code: "FORBIDDEN" });
+    throw new TRPCError({ code: "UNAUTHORIZED" });
   }
   return next({
     ctx: {
-      // infers the `session` as non-nullable
+      // infers `session` as non-nullable
       session: { ...session, user: session.user },
     },
   });
@@ -29,15 +29,15 @@ export const enforceRoleOrAdmin = (role: AccountRoles) =>
   trpc.middleware(({ ctx: { session }, next }) => {
     // is signed in
     if (!session || !session.user) {
-      throw new TRPCError({ code: "FORBIDDEN" });
+      throw new TRPCError({ code: "UNAUTHORIZED" });
     }
     // has role or is admin
     if (!userHasRequiredRole(session.user.roles, role)) {
-      throw new TRPCError({ code: "UNAUTHORIZED" });
+      throw new TRPCError({ code: "FORBIDDEN" });
     }
     return next({
       ctx: {
-        // infers the `session` as non-nullable
+        // infers `session` as non-nullable
         session: { ...session, user: session.user },
       },
     });
@@ -51,11 +51,11 @@ export const protectedProcedure = trpc.procedure.use(enforceSignedIn);
 
 /**
  * Authorized to mutate ONLY your (by `CommitteeId`) db entries. Procedure input MUST contain `id`.
- * @param getCommitteeId - function who must return the `committeeId` of db entry, given its `id` and the tRPC context.
+ * @param getOwnerCommitteeId - function who must return the `committeeId` of the owning committee of a db entry (or return `null` if not found), given its `id` and the tRPC context.
  * @returns a `ProcedureBuilder<...>`.
  */
 export const committeeProcedure = (
-  getCommitteeId: (ctx: TRPCContext, id: string) => Promise<string | null>,
+  getOwnerCommitteeId: (ctx: TRPCContext, id: string) => Promise<string | null>,
 ) => {
   return protectedProcedure
     .input(z.object({ id: objectId }))
@@ -64,10 +64,10 @@ export const committeeProcedure = (
 
       // admins skip checks
       if (!userHasAdminAccess(usr.roles)) {
-        const committeeId = await getCommitteeId(ctx, input.id); // get owner of db entry (using use case supplied function)
+        const committeeId = await getOwnerCommitteeId(ctx, input.id); // get owner of db entry (using use case supplied function)
         if (committeeId === null) throw new TRPCError({ code: "NOT_FOUND" });
         if (committeeId !== usr.committeeId)
-          throw new TRPCError({ code: "UNAUTHORIZED" }); // if owner is not your committee, fail check
+          throw new TRPCError({ code: "FORBIDDEN" }); // if owner is not your committee, fail check
       }
       return next();
     });

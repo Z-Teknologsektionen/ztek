@@ -1,3 +1,4 @@
+import { AccountRoles } from "@prisma/client";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { deleteFileFromSftpServer } from "~/app/api/sftp/utils/sftp-engine";
@@ -8,13 +9,18 @@ import {
   createZenithMediaServerSchema,
   updateZenithMediaServerSchema,
 } from "~/schemas/zenith-media";
+import { trpc } from "~/server/trpc/init";
 import {
-  createTRPCRouter,
+  enforceRoleOrAdmin,
+  protectedProcedure,
   publicProcedure,
-  zenithMediaProcedure,
-} from "~/server/trpc/init";
+} from "../procedure-builders";
 
-export const zenithMediaRouter = createTRPCRouter({
+const zenithMediaProcedure = protectedProcedure.use(
+  enforceRoleOrAdmin(AccountRoles.MODIFY_ZENITH_MEDIA),
+);
+
+export const zenithMediaRouter = trpc.router({
   getAllByYear: publicProcedure.query(async ({ ctx }) => {
     const rawMedia = await ctx.prisma.zenithMedia.findMany({
       orderBy: { year: "desc" },

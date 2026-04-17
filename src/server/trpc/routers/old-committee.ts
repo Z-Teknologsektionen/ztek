@@ -1,22 +1,40 @@
+import { AccountRoles } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { deleteFileFromSftpServer } from "~/app/api/sftp/utils/sftp-engine";
 import { env } from "~/env.mjs";
-import {
-  objectId,
-  standardBoolean,
-} from "~/schemas/helpers/common-zod-helpers";
+import { objectId } from "~/schemas/helpers/common-zod-helpers";
 import {
   createOldCommitteeSchema,
   updateOldCommitteeSchema,
 } from "~/schemas/old-committee";
+import { trpc, TRPCContext } from "~/server/trpc/init";
+import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 import {
-  createTRPCRouter,
+  committeeProcedure,
+  enforceRoleOrAdmin,
   protectedProcedure,
   publicProcedure,
-} from "~/server/trpc/init";
+} from "../procedure-builders";
 
-export const oldCommitteeRouter = createTRPCRouter({
+// u may edit any committee's old instances
+const organizationManagementProcedure = protectedProcedure.use(
+  enforceRoleOrAdmin(AccountRoles.ORGANIZATION_MANAGEMENT),
+);
+
+// u may edit only ur committee's old instances
+const activeProcedure = committeeProcedure(
+  async (ctx: TRPCContext, id: string) => {
+    const item = await ctx.prisma.oldCommittee.findUnique({
+      where: { id },
+      select: { belongsToCommitteeId: true },
+    });
+    return item?.belongsToCommitteeId || null;
+  },
+);
+
+export const oldCommitteeRouter = trpc.router({
   getManyByCommitteeId: publicProcedure
     .input(
       z.object({
@@ -50,13 +68,14 @@ export const oldCommitteeRouter = createTRPCRouter({
     .input(
       z.object({
         belongsToCommitteeId: objectId,
-        isAdmin: standardBoolean,
       }),
     )
-    .query(({ ctx, input: { belongsToCommitteeId, isAdmin } }) => {
+    .query(({ ctx, input: { belongsToCommitteeId } }) => {
       return ctx.prisma.oldCommittee.findMany({
         where: {
-          belongsToCommitteeId: isAdmin ? undefined : belongsToCommitteeId,
+          belongsToCommitteeId: userHasAdminAccess(ctx.session.user.roles)
+            ? undefined // admins retrieve ALL old committees, despite the procedure name
+            : belongsToCommitteeId, // else retrieve only requested
         },
         select: {
           id: true,
@@ -89,8 +108,19 @@ export const oldCommitteeRouter = createTRPCRouter({
     .mutation(
       async ({
         ctx,
+        ctx: {
+          session: { user },
+        },
         input: { name, year, image, logo, members, belongsToCommitteeId },
       }) => {
+        // ownership check (could not be implemented with `committeeProcedure` for yet nonexistent db entry)
+        if (
+          !userHasAdminAccess(user.roles) &&
+          belongsToCommitteeId !== user.committeeId
+        )
+          throw new TRPCError({ code: "FORBIDDEN" });
+
+        // db operation
         const createdOldCommittee = await ctx.prisma.oldCommittee.create({
           data: {
             belongsToCommitteeId,
@@ -109,7 +139,7 @@ export const oldCommitteeRouter = createTRPCRouter({
         return createdOldCommittee;
       },
     ),
-  updateOneAsActive: protectedProcedure
+  updateOneAsActive: activeProcedure
     .input(updateOldCommitteeSchema)
     .mutation(
       async ({
@@ -136,7 +166,7 @@ export const oldCommitteeRouter = createTRPCRouter({
         return updatedOldCommittee;
       },
     ),
-  deleteOneAsActive: protectedProcedure
+  deleteOneAsActive: activeProcedure
     .input(
       z.object({
         id: objectId,
