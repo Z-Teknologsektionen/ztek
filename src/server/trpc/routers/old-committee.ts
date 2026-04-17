@@ -1,4 +1,3 @@
-import { AccountRoles } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
@@ -9,19 +8,13 @@ import {
   createOldCommitteeSchema,
   updateOldCommitteeSchema,
 } from "~/schemas/old-committee";
-import { trpc, TRPCContext } from "~/server/trpc/init";
-import { userHasAdminAccess } from "~/utils/user-has-correct-role";
+import { trpc, type TRPCContext } from "~/server/trpc/init";
 import {
   committeeProcedure,
-  enforceRoleOrAdmin,
   protectedProcedure,
   publicProcedure,
-} from "../procedure-builders";
-
-// u may edit any committee's old instances
-const organizationManagementProcedure = protectedProcedure.use(
-  enforceRoleOrAdmin(AccountRoles.ORGANIZATION_MANAGEMENT),
-);
+} from "~/server/trpc/procedure-builders";
+import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 
 // u may edit only ur committee's old instances
 const activeProcedure = committeeProcedure(

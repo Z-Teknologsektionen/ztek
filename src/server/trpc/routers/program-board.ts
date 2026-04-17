@@ -12,7 +12,7 @@ import {
   enforceRoleOrAdmin,
   protectedProcedure,
   publicProcedure,
-} from "../procedure-builders";
+} from "~/server/trpc/procedure-builders";
 
 const programBoardProcedure = protectedProcedure.use(
   enforceRoleOrAdmin(AccountRoles.MODIFY_PROGRAM_BOARD),

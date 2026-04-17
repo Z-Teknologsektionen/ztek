@@ -11,15 +11,16 @@ import {
 } from "~/schemas/member";
 
 import { canCurrentUserModifyTargetRoleUser } from "~/utils/can-user-edit-user";
-import { trpc, TRPCContext } from "../init";
-import { publicProcedure } from "../procedure-builders";
-
-import { AccountRoles } from "@prisma/client";
+import type { TRPCContext } from "~/server/trpc/init";
+import { trpc } from "~/server/trpc/init";
 import {
+  publicProcedure,
   committeeProcedure,
   enforceRoleOrAdmin,
   protectedProcedure,
-} from "../procedure-builders";
+} from "~/server/trpc/procedure-builders";
+
+import { AccountRoles } from "@prisma/client";
 
 // u may edit any committee's member
 const organizationManagementProcedure = protectedProcedure.use(

@@ -10,13 +10,13 @@ import {
   updateCommitteeSchema,
 } from "~/schemas/committee";
 import { objectId, slugString } from "~/schemas/helpers/common-zod-helpers";
-import { trpc, type TRPCContext } from "../init";
+import { trpc, type TRPCContext } from "~/server/trpc/init";
 import {
   committeeProcedure,
   enforceRoleOrAdmin,
   protectedProcedure,
   publicProcedure,
-} from "../procedure-builders";
+} from "~/server/trpc/procedure-builders";
 
 // may edit any committee
 const organizationManagementProcedure = protectedProcedure.use(
@@ -24,8 +24,8 @@ const organizationManagementProcedure = protectedProcedure.use(
 );
 
 // may edit your committee
-const activeProcedure = committeeProcedure(
-  async (_: TRPCContext, id: string) => id,
+const activeProcedure = committeeProcedure((_: TRPCContext, id: string) =>
+  Promise.resolve(id),
 );
 
 export const committeeRouter = trpc.router({

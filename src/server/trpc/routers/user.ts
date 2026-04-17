@@ -3,7 +3,10 @@ import { TRPCError } from "@trpc/server";
 import { updateUserRolesSchema } from "~/schemas/user";
 import { trpc } from "~/server/trpc/init";
 import { canCurrentUserModifyTargetRoleUser } from "~/utils/can-user-edit-user";
-import { enforceRoleOrAdmin, protectedProcedure } from "../procedure-builders";
+import {
+  enforceRoleOrAdmin,
+  protectedProcedure,
+} from "~/server/trpc/procedure-builders";
 
 const organizationManagementProcedure = protectedProcedure.use(
   enforceRoleOrAdmin(AccountRoles.ORGANIZATION_MANAGEMENT),

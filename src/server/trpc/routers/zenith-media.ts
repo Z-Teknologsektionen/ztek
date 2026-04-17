@@ -14,7 +14,7 @@ import {
   enforceRoleOrAdmin,
   protectedProcedure,
   publicProcedure,
-} from "../procedure-builders";
+} from "~/server/trpc/procedure-builders";
 
 const zenithMediaProcedure = protectedProcedure.use(
   enforceRoleOrAdmin(AccountRoles.MODIFY_ZENITH_MEDIA),

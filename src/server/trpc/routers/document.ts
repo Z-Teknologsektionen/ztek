@@ -7,7 +7,7 @@ import {
   enforceRoleOrAdmin,
   protectedProcedure,
   publicProcedure,
-} from "../procedure-builders";
+} from "~/server/trpc/procedure-builders";
 
 const documentManagementProcedure = protectedProcedure.use(
   enforceRoleOrAdmin(AccountRoles.MODIFY_DOCUMENTS),

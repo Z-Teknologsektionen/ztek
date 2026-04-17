@@ -7,13 +7,14 @@ import {
   createHomePageCarouselSchema,
   updateHomePageCarouselSchema,
 } from "~/schemas/home-page-carousel";
-import { trpc, TRPCContext } from "~/server/trpc/init";
+import type { TRPCContext } from "~/server/trpc/init";
+import { trpc } from "~/server/trpc/init";
 import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 import {
   committeeProcedure,
   enforceRoleOrAdmin,
   protectedProcedure,
-} from "../procedure-builders";
+} from "~/server/trpc/procedure-builders";
 
 const carouselItemProcedure = protectedProcedure.use(
   enforceRoleOrAdmin(AccountRoles.MODIFY_HOMEPAGE_CAROUSEL),
