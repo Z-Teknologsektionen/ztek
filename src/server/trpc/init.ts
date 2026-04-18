@@ -9,45 +9,19 @@ import { ZodError } from "zod";
 import { getServerAuthSession } from "~/server/auth";
 import { prisma } from "~/server/db";
 
-type CreateContextOptions = {
-  session: Session | null;
+/** Type of tRPC context, which will be accessible to all procedures */
+export type TRPCContext = { session: Session | null; prisma: typeof prisma };
+
+/** Creates a context from the headers used to request the procedure */
+export const createTRPCContext = async ({
+  req,
+  res,
+}: CreateNextContextOptions): Promise<TRPCContext> => {
+  const session = await getServerAuthSession([req, res]); // Get the session from the server using the getServerSession wrapper function
+  return { session, prisma };
 };
 
-/**
- * This helper generates the "internals" for a tRPC context. If you need to use it, you can export
- * it from here.
- *
- * Examples of things you may need it for:
- * - testing, so we don't have to mock Next.js' req/res
- * - tRPC's `createSSGHelpers`, where we don't have req/res
- *
- * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
- */
-const createInnerTRPCContext = (opts: CreateContextOptions) => ({
-  session: opts.session,
-  prisma,
-});
-
-/**
- * This is the actual context you will use in your router. It will be used to process every request
- * that goes through your tRPC endpoint.
- *
- * @see https://trpc.io/docs/context
- */
-export const createTRPCContext = async (opts: CreateNextContextOptions) => {
-  const { req, res } = opts;
-
-  // Get the session from the server using the getServerSession wrapper function
-  const session = await getServerAuthSession([req, res]);
-
-  return createInnerTRPCContext({
-    session,
-  });
-};
-
-export type TRPCContext = Awaited<ReturnType<typeof createInnerTRPCContext>>;
-
-/** tRPC root object, whose properties are the source of all other tRPC related objects */
+/** tRPC root object, whose properties are the source of all other tRPC related objects (except for tRPC client)*/
 export const trpc = initTRPC.context<TRPCContext>().create({
   transformer: superjson,
   errorFormatter({ shape, error }) {
