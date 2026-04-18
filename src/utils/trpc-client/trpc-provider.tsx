@@ -5,11 +5,17 @@ import { httpBatchLink, loggerLink } from "@trpc/client";
 import type { FC, PropsWithChildren } from "react";
 import { useState } from "react";
 import superjson from "superjson";
-import { api, getBaseUrl } from "./api";
+import { api } from "./api";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 5 * 1000 } },
 });
+
+const getBaseUrl = (): string => {
+  if (typeof window !== "undefined") return ""; // browser should use relative url
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
+  return `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
+};
 
 export const TrpcProvider: FC<PropsWithChildren> = ({ children }) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
