@@ -1,13 +1,16 @@
 import Image from "next/image";
 import type { FC } from "react";
-import { getProgramBoardMemberByRole } from "~/app/student/utils/get-program-board-member-by-role";
 import StyledLink from "~/components/layout/styled-link";
 import { Skeleton } from "~/components/ui/skeleton";
+import { cached } from "~/utils/server-side-cache";
+import { caller } from "~/utils/trpc-client/caller";
 
 const PROGRAMANSVARIG_KEY = "Programansvarig";
 
 export const ProgramManagerImage: FC = async () => {
-  const programManager = await getProgramBoardMemberByRole(PROGRAMANSVARIG_KEY);
+  const programManager = await cached(caller.programBoard.getOneByRole, [
+    "boardProgramMembers",
+  ])({ role: PROGRAMANSVARIG_KEY });
 
   if (!programManager) {
     return (

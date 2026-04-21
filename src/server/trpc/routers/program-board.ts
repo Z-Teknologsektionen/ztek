@@ -19,6 +19,38 @@ const programBoardProcedure = protectedProcedure.use(
 );
 
 export const programBoardRouter = trpc.router({
+  getOneByRole: publicProcedure
+    .input(z.object({ role: z.string().min(1) }))
+    .query(({ ctx, input: { role } }) => {
+      return ctx.prisma.programBoardMember.findFirstOrThrow({
+        where: {
+          role,
+        },
+        select: {
+          name: true,
+          email: true,
+          image: true,
+          phone: true,
+          role: true,
+          url: true,
+        },
+      });
+    }),
+  getAll: publicProcedure.query(({ ctx }) =>
+    ctx.prisma.programBoardMember.findMany({
+      select: {
+        name: true,
+        role: true,
+        phone: true,
+        email: true,
+        url: true,
+        image: true,
+        order: true,
+      },
+    }),
+  ),
+
+  // authed procedures
   getAllAsAuthed: programBoardProcedure.query(({ ctx }) => {
     return ctx.prisma.programBoardMember.findMany({
       select: {
@@ -35,15 +67,6 @@ export const programBoardRouter = trpc.router({
       },
     });
   }),
-  getOneByRole: publicProcedure
-    .input(z.object({ role: z.string().min(1) }))
-    .query(({ ctx, input: { role } }) => {
-      return ctx.prisma.programBoardMember.findFirstOrThrow({
-        where: {
-          role,
-        },
-      });
-    }),
   createOneAsAuthed: programBoardProcedure
     .input(createProgramBoardMemberSchema)
     .mutation(

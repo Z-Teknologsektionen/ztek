@@ -13,10 +13,10 @@ export const metadata: Metadata = {
 };
 
 const DocumentsPage: FC = async () => {
-  const documentGroups = await cached(
-    () => caller.document.getAllNonEmpty(),
-    ["documents", "document-groups"],
-  );
+  const documentGroups = await cached(caller.document.getAllNonEmpty, [
+    "documents",
+    "document-groups",
+  ])();
 
   return (
     <SectionWrapper>

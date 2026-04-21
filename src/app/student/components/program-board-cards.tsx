@@ -2,12 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
 import { MdEmail, MdInfo } from "react-icons/md";
-import { getProgramBoard } from "~/app/student/utils/get-program-board-member-by-role";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import { Skeleton } from "~/components/ui/skeleton";
+import { cached } from "~/utils/server-side-cache";
+import { caller } from "~/utils/trpc-client/caller";
 
 export const ProgramBoardCards: FC = async () => {
-  const programBoardMembers = await getProgramBoard();
+  const programBoardMembers = await cached(caller.programBoard.getAll, [
+    "boardProgramMembers",
+  ])();
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
