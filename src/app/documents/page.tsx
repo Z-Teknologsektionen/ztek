@@ -4,7 +4,8 @@ import DocumentsAccordionItem from "~/components/accordion/documents-accordion-i
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
 import { Accordion } from "~/components/ui/accordion";
-import { getDocumentGroupsWithDocuments } from "./get-document-groups-with-documents";
+import { cached } from "~/utils/server-side-cache";
+import { caller } from "~/utils/trpc-client/caller";
 
 export const metadata: Metadata = {
   title: "Dokument",
@@ -12,7 +13,10 @@ export const metadata: Metadata = {
 };
 
 const DocumentsPage: FC = async () => {
-  const documentGroups = await getDocumentGroupsWithDocuments();
+  const documentGroups = await cached(
+    () => caller.document.getAllNonEmpty(),
+    ["documents", "document-groups"],
+  );
 
   return (
     <SectionWrapper>

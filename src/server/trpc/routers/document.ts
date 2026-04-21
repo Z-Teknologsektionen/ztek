@@ -14,21 +14,56 @@ const documentManagementProcedure = protectedProcedure.use(
 );
 
 export const documentRouter = trpc.router({
-  getAllGroupsAsAuthed: documentManagementProcedure.query(async ({ ctx }) => {
-    const groups = await ctx.prisma.documentGroup.findMany({
+  //public queries
+  getAllNonEmpty: publicProcedure.query(async ({ ctx }) => {
+    return ctx.prisma.documentGroup.findMany({
+      where: {
+        Document: {
+          some: {
+            id: {
+              not: undefined,
+            },
+          },
+        },
+      },
       select: {
         id: true,
         name: true,
         extraText: true,
-        _count: { select: { Document: true } },
-        Document: true,
+        Document: {
+          select: {
+            id: true,
+            isPDF: true,
+            title: true,
+            url: true,
+          },
+        },
       },
     });
-    return groups.map(({ _count: { Document: documentCount }, ...rest }) => ({
-      documentCount,
-      ...rest,
-    }));
   }),
+  getOneGroupByName: publicProcedure
+    .input(z.object({ name: z.string().min(1) }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.documentGroup.findUniqueOrThrow({
+        where: {
+          name: input.name,
+        },
+        select: {
+          name: true,
+          extraText: true,
+          Document: {
+            select: {
+              id: true,
+              isPDF: true,
+              title: true,
+              url: true,
+            },
+          },
+        },
+      });
+    }),
+
+  // authed document procedures
   getAllAsAuthed: documentManagementProcedure.query(async ({ ctx }) => {
     const documents = ctx.prisma.document.findMany({
       select: {
@@ -49,7 +84,6 @@ export const documentRouter = trpc.router({
       ...rest,
     }));
   }),
-
   createOneAsAuthed: documentManagementProcedure
     .input(
       z.object({
@@ -118,27 +152,23 @@ export const documentRouter = trpc.router({
 
       return deletedDocument;
     }),
-  getOneGroupByName: publicProcedure
-    .input(z.object({ name: z.string().min(1) }))
-    .query(({ ctx, input }) => {
-      return ctx.prisma.documentGroup.findUniqueOrThrow({
-        where: {
-          name: input.name,
-        },
-        select: {
-          name: true,
-          extraText: true,
-          Document: {
-            select: {
-              id: true,
-              isPDF: true,
-              title: true,
-              url: true,
-            },
-          },
-        },
-      });
-    }),
+
+  // authed group procedures
+  getAllGroupsAsAuthed: documentManagementProcedure.query(async ({ ctx }) => {
+    const groups = await ctx.prisma.documentGroup.findMany({
+      select: {
+        id: true,
+        name: true,
+        extraText: true,
+        _count: { select: { Document: true } },
+        Document: true,
+      },
+    });
+    return groups.map(({ _count: { Document: documentCount }, ...rest }) => ({
+      documentCount,
+      ...rest,
+    }));
+  }),
   createOneGroupAsAuthed: documentManagementProcedure
     .input(
       z.object({
