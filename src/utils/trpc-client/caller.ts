@@ -1,6 +1,6 @@
 import { getServerAuthSession } from "~/server/auth";
 import { prisma } from "~/server/db";
-import { TRPCContext } from "~/server/trpc/init";
+import type { TRPCContext } from "~/server/trpc/init";
 import { appRouter } from "~/server/trpc/root";
 
 const createContext = async (): Promise<TRPCContext> => ({

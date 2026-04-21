@@ -5,10 +5,10 @@ import { initTRPC } from "@trpc/server";
 import { type Session } from "next-auth";
 import superjson from "superjson";
 import { ZodError } from "zod";
-import { prisma } from "~/server/db";
+import type { prisma } from "~/server/db";
 
 /** Type of tRPC context, which will be accessible to all procedures */
-export type TRPCContext = { session: Session | null; prisma: typeof prisma };
+export type TRPCContext = { prisma: typeof prisma; session: Session | null };
 
 /** tRPC root object, whose properties are the source of all other tRPC related objects (except for tRPC client)*/
 export const trpc = initTRPC.context<TRPCContext>().create({
