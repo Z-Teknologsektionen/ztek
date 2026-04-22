@@ -5,15 +5,16 @@ import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
 import { getCommitteeTypeStringFromEnum } from "~/utils/get-committee-type-string-from-enum";
+import { cached } from "~/utils/server-side-cache";
+import { caller } from "~/utils/trpc-client/caller";
 import { CommitteesLayout } from "./_components/committee-layout";
-import { getAllCommittees } from "./_utils/get-all-committees";
 
 export const metadata: Metadata = {
   title: "Organ",
 };
 
 const CommitteesPage: FC = async () => {
-  const committees = await getAllCommittees();
+  const committees = await cached(caller.committee.getAll, ["committee"])();
 
   return (
     <SectionWrapper>

@@ -9,12 +9,13 @@ import {
 } from "~/schemas/home-page-carousel";
 import type { TRPCContext } from "~/server/trpc/init";
 import { trpc } from "~/server/trpc/init";
-import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 import {
   committeeProcedure,
   enforceRoleOrAdmin,
   protectedProcedure,
+  publicProcedure,
 } from "~/server/trpc/procedure-builders";
+import { userHasAdminAccess } from "~/utils/user-has-correct-role";
 
 const carouselItemProcedure = protectedProcedure.use(
   enforceRoleOrAdmin(AccountRoles.MODIFY_HOMEPAGE_CAROUSEL),
@@ -31,6 +32,48 @@ const carouselItemOwnerProcedure = committeeProcedure(
 ).use(enforceRoleOrAdmin(AccountRoles.MODIFY_HOMEPAGE_CAROUSEL));
 
 export const homePageCarouselRouter = trpc.router({
+  // public getter
+  getAllVisible: publicProcedure.query(
+    async ({ ctx }) =>
+      await ctx.prisma.homePageCarouselItem.findMany({
+        where: {
+          AND: [
+            {
+              OR: [
+                {
+                  endDateTime: {
+                    gte: new Date(),
+                  },
+                },
+                {
+                  endDateTime: null,
+                },
+              ],
+            },
+            {
+              OR: [
+                {
+                  startDateTime: {
+                    lte: new Date(),
+                  },
+                },
+                {
+                  startDateTime: null,
+                },
+              ],
+            },
+          ],
+        },
+        select: {
+          id: true,
+          imageCredit: true,
+          imageUrl: true,
+          linkToUrl: true,
+        },
+      }),
+  ),
+
+  // logged in
   getManyByCommitteeIdAsActive: carouselItemProcedure.query(({ ctx }) => {
     return ctx.prisma.homePageCarouselItem.findMany({
       where: {

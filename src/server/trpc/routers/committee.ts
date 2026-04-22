@@ -29,6 +29,7 @@ const activeProcedure = committeeProcedure((_: TRPCContext, id: string) =>
 );
 
 export const committeeRouter = trpc.router({
+  // public procedures
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.committee.findMany({
       orderBy: [{ order: "desc" }],
@@ -39,6 +40,7 @@ export const committeeRouter = trpc.router({
         slug: true,
         image: true,
         electionPeriods: true,
+        showOldCommittee: true,
       },
     });
   }),
@@ -61,6 +63,7 @@ export const committeeRouter = trpc.router({
           image: true,
           electionPeriods: true,
           socialLinks: true,
+          showOldCommittee: true,
           document: {
             select: {
               url: true,
@@ -96,6 +99,8 @@ export const committeeRouter = trpc.router({
         },
       });
     }),
+
+  // active/authed procedures
   getOneByIdAsActive: protectedProcedure
     .input(
       z.object({

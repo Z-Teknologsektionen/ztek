@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { FC } from "react";
-import { getAllCommittees } from "~/app/student-division/committees/_utils/get-all-committees";
+import { cached } from "~/utils/server-side-cache";
+import { caller } from "~/utils/trpc-client/caller";
 import { ActiveCommitteeSection } from "./_components/active-committee-section";
 import { OldCommitteeSection } from "./_components/old-committee-section";
-import { getCommitteeBySlug } from "./_utils/get-committee-by-slug";
 
 type CommitteePageParams = {
   params: Promise<{ slug: string }>;
@@ -17,7 +17,7 @@ export const generateStaticParams = async (): Promise<
     };
   }[]
 > => {
-  const committees = await getAllCommittees();
+  const committees = await cached(caller.committee.getAll, ["committee"])();
   const slugs = committees.map((c) => {
     return { params: { slug: c.slug } };
   });
@@ -28,7 +28,9 @@ export const generateMetadata = async ({
   params,
 }: CommitteePageParams): Promise<Metadata> => {
   const { slug } = await params;
-  const committee = await getCommitteeBySlug(slug);
+  const committee = await cached(caller.committee.getOneBySlug, ["committee"])({
+    slug,
+  });
 
   return {
     title: committee.name,
@@ -40,7 +42,9 @@ const CommitteePage: FC<CommitteePageParams> = async ({
   params,
 }: CommitteePageParams) => {
   const { slug } = await params;
-  const committee = await getCommitteeBySlug(slug).catch(() => notFound());
+  const committee = await cached(caller.committee.getOneBySlug, ["committee"])({
+    slug,
+  }).catch(() => notFound());
 
   return (
     <>

@@ -1,11 +1,14 @@
 import { type FC } from "react";
-import { getHomePageCarouselItems } from "~/app/(homepage)/_utils/get-home-page-carousel-items";
+import { cached } from "~/utils/server-side-cache";
+import { caller } from "~/utils/trpc-client/caller";
 import { HomePageHeroCarousel } from "./home-page-hero-carousel";
 import { HomePageHeroLinks } from "./home-page-hero-links";
 import { HomePageHeroSponsors } from "./home-page-hero-sponsors";
 
 export const HomePageHeroSection: FC = async () => {
-  const carouselItems = await getHomePageCarouselItems();
+  const carouselItems = await cached(caller.homePageCarousel.getAllVisible, [
+    "home-page-carousel",
+  ])();
 
   return (
     <div className="mx-auto mt-4 flex max-w-7xl flex-col gap-4 px-6 py-4 md:grid md:grid-cols-2 md:gap-8 md:px-4 xl:px-2 2xl:px-0">

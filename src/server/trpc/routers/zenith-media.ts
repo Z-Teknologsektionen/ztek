@@ -21,7 +21,7 @@ const zenithMediaProcedure = protectedProcedure.use(
 );
 
 export const zenithMediaRouter = trpc.router({
-  getAllByYear: publicProcedure.query(async ({ ctx }) => {
+  getAllVisibleGroupedByYear: publicProcedure.query(async ({ ctx }) => {
     const rawMedia = await ctx.prisma.zenithMedia.findMany({
       orderBy: { year: "desc" },
       select: {
@@ -32,6 +32,34 @@ export const zenithMediaRouter = trpc.router({
         coverImage: true,
         startDateTime: true,
         endDateTime: true,
+      },
+      where: {
+        AND: [
+          {
+            OR: [
+              {
+                endDateTime: {
+                  gte: new Date(),
+                },
+              },
+              {
+                endDateTime: null,
+              },
+            ],
+          },
+          {
+            OR: [
+              {
+                startDateTime: {
+                  lte: new Date(),
+                },
+              },
+              {
+                startDateTime: null,
+              },
+            ],
+          },
+        ],
       },
     });
 
@@ -46,6 +74,8 @@ export const zenithMediaRouter = trpc.router({
 
     return formattedData;
   }),
+
+  // authed procedures
   getAllAsAuthed: zenithMediaProcedure.query(async ({ ctx }) => {
     return ctx.prisma.zenithMedia.findMany({
       orderBy: { createdAt: "desc" },

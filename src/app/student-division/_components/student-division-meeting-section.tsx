@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense, type FC } from "react";
-import { getOneDocumentGroupByName } from "~/app/student-division/_utils/get-one-document-group-by-name";
 import { SectionWithItemAndText } from "~/components/layout/section-with-item-and-text";
 import StyledLink from "~/components/layout/styled-link";
 import {
@@ -11,11 +10,16 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
+import { cached } from "~/utils/server-side-cache";
+import { caller } from "~/utils/trpc-client/caller";
 
 const DOCUMENT_GROUP_KEY = "Mallar för sektionsmötet";
 
 const StudentDivisionMeetingDocuments: FC = async () => {
-  const documents = await getOneDocumentGroupByName(DOCUMENT_GROUP_KEY);
+  const documents = await cached(caller.document.getOneGroupByName, [
+    "documents",
+    "document-groups",
+  ])({ name: DOCUMENT_GROUP_KEY });
 
   return (
     <div className="mr-2 grid grid-cols-4">
