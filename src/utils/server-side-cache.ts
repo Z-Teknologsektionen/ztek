@@ -7,12 +7,12 @@ import { unstable_cache } from "next/cache";
  * @returns a promise for the return value of the function
  * @see https://nextjs.org/docs/app/api-reference/functions/unstable_cache
  */
-export const cached = <TArgs extends unknown[], TReturn extends unknown>(
+export const cached = <TArgs extends unknown[], TReturn>(
   func: (...args: TArgs) => Promise<TReturn>,
   tags: string[] | undefined,
 ): ((...args: TArgs) => Promise<TReturn>) => {
   return unstable_cache(func, ["kool af cached function :3"], {
-    revalidate: false,
+    revalidate: 60 * 60 * 24, // if not invalidated, revalidate cache every day
     tags,
   });
 };

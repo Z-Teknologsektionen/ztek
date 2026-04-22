@@ -1,4 +1,4 @@
-import { inferRouterOutputs } from "@trpc/server";
+import type { inferRouterOutputs } from "@trpc/server";
 import Link from "next/link";
 import type { FC } from "react";
 import { Fragment } from "react";
@@ -11,7 +11,8 @@ import { buttonVariants } from "~/components/ui/button";
 import type { AppRouter } from "~/server/trpc/root";
 import { openUrlAsPdf } from "~/utils/open-url-as-pdf";
 
-type DocumentGroup = inferRouterOutputs<AppRouter>["document"]["getAllNonEmpty"][number];
+type DocumentGroup =
+  inferRouterOutputs<AppRouter>["document"]["getAllNonEmpty"][number];
 type Document = DocumentGroup["Document"][number];
 
 const DocumentsAccordionItem: FC<{
