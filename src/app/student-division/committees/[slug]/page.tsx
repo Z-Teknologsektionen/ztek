@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { cacheTag } from "next/cache";
 import { notFound } from "next/navigation";
 import type { FC } from "react";
+import type { RouterOutputs } from "~/utils/trpc-client/api";
 import { cacheableCaller } from "~/utils/trpc-client/caller";
 import { ActiveCommitteeSection } from "./_components/active-committee-section";
 import { OldCommitteeSection } from "./_components/old-committee-section";
@@ -11,12 +12,16 @@ type CommitteePageParams = {
 };
 
 // cached tRPC helpers
-const getCommitteeBySlug = async (slug: string) => {
+const getCommitteeBySlug = async (
+  slug: string,
+): Promise<RouterOutputs["committee"]["getOneBySlug"]> => {
   "use cache";
   cacheTag("committee");
   return await cacheableCaller.committee.getOneBySlug({ slug });
 };
-const getAllCommittees = async () => {
+const getAllCommittees = async (): Promise<
+  RouterOutputs["committee"]["getAll"]
+> => {
   "use cache";
   cacheTag("committee");
   return await cacheableCaller.committee.getAll();

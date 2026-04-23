@@ -7,11 +7,11 @@ const createSessionedContext = async (): Promise<TRPCContext> => ({
   session: await getServerAuthSession(),
   prisma: prisma,
 });
-const createPublicContext = async (): Promise<TRPCContext> => ({
+const createPublicContext = (): TRPCContext => ({
   session: null,
   prisma: prisma,
 });
 
 // server side trpc entry points
 export const caller = appRouter.createCaller(createSessionedContext);
-export const cacheableCaller = appRouter.createCaller(createPublicContext);
+export const cacheableCaller = appRouter.createCaller(createPublicContext); // may be used in functions marked with "use cache" directive
