@@ -2,7 +2,7 @@
 
 ## What is a hook
 
-Hooks are functions which return a stateful value inside a `FunctionComponent`, or inside another hook. By naming convention these should ALWAYS begin with the "use" prefix. The concept of hooks is defined by React. An introduction may be found [here](https://react.dev/learn#using-hooks), and API reference [here](https://react.dev/reference/react/hooks)
+Hooks are functions which return a stateful (aka it's kept between `FunctionComponent` calls) value inside a `FunctionComponent`, or inside another hook. By naming convention these should ALWAYS begin with the "use" prefix. The concept of hooks is defined by React. An introduction may be found [here](https://react.dev/learn#using-hooks), and API reference [here](https://react.dev/reference/react/hooks)
 
 ## What's in this directory
 

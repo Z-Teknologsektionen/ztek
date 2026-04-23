@@ -37,7 +37,7 @@ Refer to the newest [Zod documentation](https://zod.dev) for usage and meaning o
 
 - ### Inputs to tRPC procedures
 
-  Schemas are used as input validators for tRPC [procedures](https://trpc.io/docs/server/procedures). This validation is done both on the client-side (to not need to send requests that'd obviously be rejected), and later on server-side (because u can't ever trust the client 💔).
+  Schemas are used as input validators for tRPC [procedures](https://trpc.io/docs/server/procedures). This validation is done on server-side (because u can't ever trust the client 💔).
 
   This will look something like the following example. Two tRPC procedures are defined. In the first case `getOneByEmail`, the Zod schema is defined inline. In the second case `updateMemberAsActive`, the Zod schema is imported.
 
