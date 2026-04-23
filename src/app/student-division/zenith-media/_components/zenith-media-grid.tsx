@@ -1,15 +1,16 @@
+import { cacheTag } from "next/cache";
 import type { FC } from "react";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import { Skeleton } from "~/components/ui/skeleton";
-import { cached } from "~/utils/server-side-cache";
-import { caller } from "~/utils/trpc-client/caller";
+import { cacheableCaller } from "~/utils/trpc-client/caller";
 import { ZenithMediaCard } from "./zenith-media-card";
 
 export const ZenithMediaGrid: FC = async () => {
-  const zenithMedia = await cached(
-    caller.zenithMedia.getAllVisibleGroupedByYear,
-    ["zenithMedia"],
-  )();
+  const zenithMedia = await (async () => {
+    "use cache";
+    cacheTag("zenithMedia");
+    return await cacheableCaller.zenithMedia.getAllVisibleGroupedByYear();
+  })();
 
   return (
     <>

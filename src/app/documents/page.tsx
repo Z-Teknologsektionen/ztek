@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
+import { cacheTag } from "next/cache";
 import type { FC } from "react";
 import DocumentsAccordionItem from "~/components/accordion/documents-accordion-item";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
 import { Accordion } from "~/components/ui/accordion";
-import { cached } from "~/utils/server-side-cache";
-import { caller } from "~/utils/trpc-client/caller";
+import { cacheableCaller } from "~/utils/trpc-client/caller";
 
 export const metadata: Metadata = {
   title: "Dokument",
@@ -13,10 +13,12 @@ export const metadata: Metadata = {
 };
 
 const DocumentsPage: FC = async () => {
-  const documentGroups = await cached(caller.document.getAllNonEmpty, [
-    "documents",
-    "document-groups",
-  ])();
+  const documentGroups = await (async () => {
+    "use cache";
+    cacheTag("documents");
+    cacheTag("document-groups");
+    return await cacheableCaller.document.getAllNonEmpty();
+  })();
 
   return (
     <SectionWrapper>

@@ -1,15 +1,19 @@
+import { cacheTag } from "next/cache";
 import type { FC } from "react";
 import { MdEmail, MdInfo } from "react-icons/md";
 import SecondaryTitle from "~/components/layout/secondary-title";
-import { cached } from "~/utils/server-side-cache";
-import { caller } from "~/utils/trpc-client/caller";
+import { cacheableCaller } from "~/utils/trpc-client/caller";
 
 const STUDENT_COUNSELOR_ROLE = "Studievägledare";
 
 export const StudentCounselorCard: FC = async () => {
-  const studentCounselor = await cached(caller.programBoard.getOneByRole, [
-    "boardProgramMembers",
-  ])({ role: STUDENT_COUNSELOR_ROLE });
+  const studentCounselor = await (async () => {
+    "use cache";
+    cacheTag("boardProgramMembers");
+    return await cacheableCaller.programBoard.getOneByRole({
+      role: STUDENT_COUNSELOR_ROLE,
+    });
+  })();
 
   if (!studentCounselor) return null;
 

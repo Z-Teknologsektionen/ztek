@@ -1,16 +1,18 @@
+import { cacheTag } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
 import { MdEmail, MdInfo } from "react-icons/md";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import { Skeleton } from "~/components/ui/skeleton";
-import { cached } from "~/utils/server-side-cache";
-import { caller } from "~/utils/trpc-client/caller";
+import { cacheableCaller } from "~/utils/trpc-client/caller";
 
 export const ProgramBoardCards: FC = async () => {
-  const programBoardMembers = await cached(caller.programBoard.getAll, [
-    "boardProgramMembers",
-  ])();
+  const programBoardMembers = await (async () => {
+    "use cache";
+    cacheTag("boardProgramMembers");
+    return await cacheableCaller.programBoard.getAll();
+  })();
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">

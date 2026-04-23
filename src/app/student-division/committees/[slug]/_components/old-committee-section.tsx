@@ -1,8 +1,8 @@
+import { cacheTag } from "next/cache";
 import type { FC } from "react";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
-import { cached } from "~/utils/server-side-cache";
-import { caller } from "~/utils/trpc-client/caller";
+import { cacheableCaller } from "~/utils/trpc-client/caller";
 import { OldCommitteeCard } from "./old-committee-card";
 
 type OldCommitteeSectionProps = {
@@ -14,10 +14,14 @@ export const OldCommitteeSection: FC<OldCommitteeSectionProps> = async ({
   committeeId,
   committeeName,
 }) => {
-  const oldCommittees = await cached(caller.oldCommittee.getManyByCommitteeId, [
-    "committee",
-    "oldCommittee",
-  ])({ belongsToCommitteeId: committeeId });
+  const oldCommittees = await (async () => {
+    "use cache";
+    cacheTag("committee");
+    cacheTag("oldCommittee");
+    return await cacheableCaller.oldCommittee.getManyByCommitteeId({
+      belongsToCommitteeId: committeeId,
+    });
+  })();
 
   if (!oldCommittees || oldCommittees.length === 0) return null;
 

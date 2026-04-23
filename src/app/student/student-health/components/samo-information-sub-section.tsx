@@ -1,17 +1,21 @@
-import type { FC } from "react";
+import { cacheTag } from "next/cache";
+import { type FC } from "react";
 import { MdEmail, MdPhone } from "react-icons/md";
 import { CommitteeImage } from "~/components/committees/committee-image";
 import SectionTitle from "~/components/layout/section-title";
 import { Skeleton } from "~/components/ui/skeleton";
-import { cached } from "~/utils/server-side-cache";
-import { caller } from "~/utils/trpc-client/caller";
+import { cacheableCaller } from "~/utils/trpc-client/caller";
 
 const SAMO_EMAIL_KEY = "samo.ztyret@ztek.se";
 
 export const SamoInformationSubSection: FC = async () => {
-  const samo = await cached(caller.member.getOneByEmail, ["committeeMembers"])({
-    email: SAMO_EMAIL_KEY,
-  });
+  const samo = await (async () => {
+    "use cache";
+    cacheTag("committeeMembers");
+    return await cacheableCaller.member.getOneByEmail({
+      email: SAMO_EMAIL_KEY,
+    });
+  })();
 
   return (
     <div className="grid grid-cols-3 py-8">
