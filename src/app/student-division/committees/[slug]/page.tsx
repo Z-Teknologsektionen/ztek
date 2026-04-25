@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { cacheTag } from "next/cache";
 import { notFound } from "next/navigation";
-import type { FC } from "react";
+import { Suspense, type FC } from "react";
 import type { RouterOutputs } from "~/utils/trpc-client/api";
 import { cacheableCaller } from "~/utils/trpc-client/caller";
 import { ActiveCommitteeSection } from "./_components/active-committee-section";
@@ -74,4 +74,13 @@ const CommitteePage: FC<CommitteePageParams> = async ({
   );
 };
 
-export default CommitteePage;
+// DONT ASK: it would not build otherwise
+const CommitteePageWrapper: FC<CommitteePageParams> = ({
+  params,
+}: CommitteePageParams) => (
+  <Suspense>
+    <CommitteePage params={params} />
+  </Suspense>
+);
+
+export default CommitteePageWrapper;
