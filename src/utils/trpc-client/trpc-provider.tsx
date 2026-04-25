@@ -29,7 +29,7 @@ export const TrpcProvider: FC<PropsWithChildren> = ({ children }) => {
             (opts.direction === "down" && opts.result instanceof Error),
         }),
         httpBatchLink({
-          url: `${getBaseUrl()}/api/trpc`,
+          url: `${getBaseUrl()}/api/trpc` /* tRPC server adaptor path */,
           transformer: superjson,
         }),
       ],
