@@ -19,6 +19,7 @@ export const StudentDivisionCommitteesSection: FC = async () => {
           height={250}
           src="/zarmy.png"
           width={300}
+          unoptimized
         />
       }
       textContent={

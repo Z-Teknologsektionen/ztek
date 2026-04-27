@@ -17,7 +17,13 @@ const Navbar: FC = () => {
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <Link className="relative block size-16 lg:size-24" href="/">
-                <Image alt="Logo" className="z-50" src="/logo.png" fill />
+                <Image
+                  alt="Logo"
+                  className="z-50"
+                  src="/logo.png"
+                  fill
+                  unoptimized
+                />
               </Link>
             </div>
             <div className="hidden xl:block">

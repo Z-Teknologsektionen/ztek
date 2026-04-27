@@ -53,6 +53,7 @@ export const FormFieldFileInput = <TFieldValues extends FieldValues>({
                     height={200}
                     src={previewUrl}
                     width={300}
+                    unoptimized
                   />
                 ))}
 

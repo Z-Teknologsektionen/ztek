@@ -40,6 +40,7 @@ export const StudentHealthSection: FC = () => {
               height={500}
               src="/feeling_safe_student_union.png"
               width={500}
+              unoptimized
             />
           </Link>
           <p className="mt-4 text-center">Kårens hemsida om studenthälsa</p>

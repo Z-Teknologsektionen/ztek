@@ -18,6 +18,7 @@ export const HomePageHeroSponsors: FC = () => (
           height={200}
           src={sponsor.img}
           width={300}
+          unoptimized
         />
       </Link>
     ))}

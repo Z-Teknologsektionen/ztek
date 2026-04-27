@@ -56,6 +56,7 @@ export const EducationalSupportSection: FC = () => {
               height={400}
               src="/riktat-pedagogiskt-stod.png"
               width={400}
+              unoptimized
             />
           </a>
           <p className="text-center">Riktat pedagogiskt stöd på Chalmers</p>

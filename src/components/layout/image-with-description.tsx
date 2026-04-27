@@ -22,7 +22,7 @@ const ImageWithDescription: FC<ImageWithDescriptionProps> = ({
 }) => {
   return (
     <div className={cn("flex flex-col items-center", className)}>
-      <Image alt={alt} height={height} src={src} width={width} />
+      <Image alt={alt} height={height} src={src} width={width} unoptimized />
       <p className={cn("mt-0 text-center", descriptionClassName)}>
         {description}
       </p>
