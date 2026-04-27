@@ -5,7 +5,6 @@ type FooterQuickLinksType = {
   href: string;
   text: string;
 };
-[];
 
 const footerQuickLinks: FooterQuickLinksType[] = [
   {
