@@ -86,7 +86,13 @@ export const UpdateCommitteeMemberSection: FC<CommitteeMemberProps> = ({
       <Avatar className="h-20 w-20 pt-0 sm:h-40 sm:w-40">
         <AvatarImage className="object-cover" src={member?.image} />
         <AvatarFallback className="bg-inherit" asChild>
-          <Image alt={member.name} height={300} src="/logo.png" width={300} />
+          <Image
+            alt={member.name}
+            height={300}
+            src="/logo.png"
+            width={300}
+            unoptimized
+          />
         </AvatarFallback>
       </Avatar>
       {member.name ? (

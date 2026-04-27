@@ -31,6 +31,7 @@ const ImageWithCredit: FC<ImageWithCreditProps> = ({
         height={height}
         src={src}
         width={width}
+        unoptimized
       />
       <p className="mt-2 text-center">
         Foto: {photographer}/{photoCommittee}

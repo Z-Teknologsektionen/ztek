@@ -86,6 +86,7 @@ export const UpdateCommitteeSection: FC<CommitteeProps> = ({ committee }) => {
                 height={300}
                 src="/logo.png"
                 width={300}
+                unoptimized
               />
             </AvatarFallback>
           </Avatar>

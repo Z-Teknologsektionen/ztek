@@ -20,6 +20,7 @@ const HomePage: FC = () => {
             height={1080}
             src="/lucky_horizontal.png"
             width={1920}
+            unoptimized
           />
         </div>
         <HomePageLinksSection />

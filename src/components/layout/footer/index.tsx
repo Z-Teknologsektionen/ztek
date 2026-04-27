@@ -60,6 +60,7 @@ const Footer: FC = () => {
                 height={300}
                 src="/CHS-standard-RGB-white.png"
                 width={300}
+                unoptimized
               />
             </a>
           </div>

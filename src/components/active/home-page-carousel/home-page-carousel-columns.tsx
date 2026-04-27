@@ -32,6 +32,7 @@ export const homePageCarouselColumns: ColumnDef<HomePageCarouselItemType>[] = [
         height={200}
         src={row.original.imageUrl}
         width={300}
+        unoptimized
       />
     ),
   },

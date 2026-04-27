@@ -25,6 +25,7 @@ export const ProgramManagerImage: FC = async () => {
         height={400}
         src={programManager?.image ? programManager.image : "/logo.png"}
         width={400}
+        unoptimized
       />
       <div className="mt-2 text-center">
         <p>
