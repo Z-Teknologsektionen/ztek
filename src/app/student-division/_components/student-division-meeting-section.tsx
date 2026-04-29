@@ -35,6 +35,7 @@ const StudentDivisionMeetingDocuments: FC = async () => {
                       height={100}
                       src="/document_stack.svg"
                       width={100}
+                      unoptimized
                     />
                     <p className="truncate">{document.title}</p>
                   </Link>

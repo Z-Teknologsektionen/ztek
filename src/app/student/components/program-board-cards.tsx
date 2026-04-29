@@ -20,6 +20,7 @@ export const ProgramBoardCards: FC = async () => {
             height={200}
             src={person.image ? person.image : "/logo.png"}
             width={200}
+            unoptimized
           />
           <p className="text-lg font-semibold">{person.name}</p>
           <ul className="ml-3 mt-2">

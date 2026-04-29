@@ -41,6 +41,7 @@ const SubscriptionInstructionsSection: FC = () => {
           height={531}
           src="/TimeEdit_instructions.png"
           width={689}
+          unoptimized
         />
       </div>
 
@@ -84,6 +85,7 @@ const SubscriptionInstructionsSection: FC = () => {
           height={853}
           src="/GCal_instructions.png"
           width={840}
+          unoptimized
         />
       </div>
     </SectionWrapper>

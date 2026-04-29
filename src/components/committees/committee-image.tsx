@@ -30,6 +30,7 @@ export const CommitteeImage: FC<ICommitteeImage> = ({
       quality={quality}
       src={src}
       width={width}
+      unoptimized
       {...rest}
     />
   );

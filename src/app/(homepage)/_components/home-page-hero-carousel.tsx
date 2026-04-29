@@ -49,6 +49,7 @@ export const HomePageHeroCarousel: FC<{
                 quality={CAROUSEL_IMAGE_QUALITY}
                 src={imageUrl}
                 width={CAROUSEL_IMAGE_WIDTH}
+                unoptimized
               />
               {imageCredit != null && imageCredit != "" ? (
                 <div className="absolute bottom-2 right-2 m-2 rounded-md border-2 bg-zBlack p-2 font-bold text-zWhite">

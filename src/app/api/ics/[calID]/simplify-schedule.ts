@@ -32,14 +32,17 @@ enum EventFields {
  * Do not remove outdated keys, unless u have a reason. (plz)
  */
 const knownKeys: Map<string, EventFields> = new Map<string, EventFields>([
+  ["Aktivitet", EventFields.Activity],
   ["Activity", EventFields.Activity],
 
   ["Campus", EventFields.Campus],
 
   ["Klass kod", EventFields.ClassCode],
+  ["Klasskod", EventFields.ClassCode],
   ["Class code", EventFields.ClassCode],
 
   ["Klass namn", EventFields.ClassName],
+  ["Klassnamn", EventFields.ClassName],
   ["Name", EventFields.ClassName],
 
   ["Antal datorer", EventFields.ComputerCount],
@@ -47,9 +50,11 @@ const knownKeys: Map<string, EventFields> = new Map<string, EventFields>([
   ["Computers", EventFields.ComputerCount],
 
   ["Kurs kod", EventFields.CourseCode],
+  ["Kurskod", EventFields.CourseCode],
   ["Course code", EventFields.CourseCode],
 
   ["Kurs namn", EventFields.CourseName],
+  ["Kursnamn", EventFields.CourseName],
   ["Course name", EventFields.CourseName],
 
   ["Lokalnamn", EventFields.Facility],
