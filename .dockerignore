@@ -1,7 +1,10 @@
+
+# these are not required in docker image
 node_modules
 .vscode
 .next
 .git
 
+# these must not leak into the image (the image will be publicly avalible)
 .env
 *.env
