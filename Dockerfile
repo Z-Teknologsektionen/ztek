@@ -6,8 +6,9 @@
 # create image like
 # sudo docker build -t <insertNameHere>:latest .
 #
-# containerize like
-# sudo docker run -d -p 5000:5000 --env-file .env <insertNameHere>
+# containerize
+# sudo docker run -it -p 5000:5000 --env-file .env <insertNameHere>
+# FOR THIS CONTEXT, ENV FILE MUST HAVE UNENQUOTED VALUES!
 
 # ***************************************************
 
