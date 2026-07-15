@@ -5,12 +5,13 @@ export type HomePageSelectLinkType = {
 
 export const homePageSelectLinks: HomePageSelectLinkType[] = [
   {
-    title: "Canvas",
-    url: "https://canla.portal.chalmers.se/canvaslogin/discovery.html?v=1",
+    title: "Zaloonen",
+    url: "/student-division/zaloonen",
   },
   {
-    title: "Ladok",
-    url: "https://www.student.ladok.se/student/app/studentwebb/",
+    title: "Sektionsorgan",
+    url: "/student-division/committees",
   },
-  { title: "Orbi", url: "https://orbiapp.io/student" },
+  { title: "Logga in", 
+    url: "/active" },
 ];
