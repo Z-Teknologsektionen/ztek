@@ -13,26 +13,36 @@ const Navbar: FC = () => {
   const pathname = usePathname() || "";
 
   return (
-    <nav className="z-10 mt-8 bg-zBlack text-zWhite">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-12 flex-row items-center justify-between">
-          <div className="flex items-center">
+    <nav className="relative">
+      <div className="relative overflow-hidden  bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.14),_transparent_35%),linear-gradient(135deg,_rgba(9,9,11,0.95)_0%,_rgba(43,43,53,0.9)_45%,_rgba(135,140,150,0.9)_100%)] px-4 py-4 shadow-[0_30px_80px_-25px_rgba(0,0,0,0.75)] backdrop-blur-xl sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-zBlack/60 border-b border-white/15" />
+        <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
             <div className="flex-shrink-0">
-              <Link className="relative block size-16 lg:size-24" href="/">
-                <Image alt="Logo" className="z-50" src="/logo.png" fill />
+              <Link
+                className="relative flex size-14 items-center justify-center overflow-hidden rounded-full border border-white/15 bg-white/10 p-1 shadow-lg sm:size-16 lg:size-20"
+                href="/"
+              >
+                <Image alt="Logo" className="object-contain" src="/logo.png" fill />
               </Link>
             </div>
             <div className="hidden xl:block">
               <div className="flex-container max-h-12 flex-row break-keep">
-                <Link href="/">
-                  <div className="text-lg">Automation och Mekatronik</div>
-                  <div className="text-sm">Chalmers tekniska högskola</div>
+                <Link className="flex flex-col" href="/">
+                  <div className="text-base font-semibold uppercase tracking-[0.2em] text-white">
+                    Automation och Mekatronik
+                  </div>
+                  <div className="text-sm text-white/70">
+                    Chalmers tekniska högskola
+                  </div>
                 </Link>
               </div>
             </div>
           </div>
-          <NavbarDesktopLinks linkItems={navbarRoutes} pathname={pathname} />
-          <NavbarMobileLinks linkItems={navbarRoutes} pathname={pathname} />
+          <div className="flex items-center gap-2">
+            <NavbarDesktopLinks linkItems={navbarRoutes} pathname={pathname} />
+            <NavbarMobileLinks linkItems={navbarRoutes} pathname={pathname} />
+          </div>
         </div>
       </div>
     </nav>

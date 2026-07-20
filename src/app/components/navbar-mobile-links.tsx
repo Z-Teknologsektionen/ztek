@@ -6,12 +6,12 @@ import { Fragment, useState, type FC } from "react";
 import { Button, buttonVariants } from "~/components/ui/button";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
 } from "~/components/ui/sheet";
 import type { NavbarItem } from "~/types/navbar-types";
 import { checkIfNavbarSubItem } from "~/utils/check-if-navbar-item";
@@ -26,11 +26,14 @@ export const NavbarMobileLinks: FC<{
   return (
     <Sheet onOpenChange={setOpen} open={open}>
       <SheetTrigger className="dark" asChild>
-        <Button className="lg:hidden" variant="ghost">
+        <Button
+          className="rounded-full border border-white/15 bg-white/10 text-white hover:bg-white/20 hover:text-white lg:hidden"
+          variant="ghost"
+        >
           <Menu />
         </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="border-white/15 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.14),_transparent_35%),linear-gradient(135deg,_rgba(9,9,11,0.95)_0%,_rgba(43,43,53,0.9)_45%,_rgba(135,140,150,0.9)_100%)] text-white">
         <SheetHeader>
           <SheetTitle className="sr-only">Navigationsfält</SheetTitle>
           <SheetDescription className="sr-only">

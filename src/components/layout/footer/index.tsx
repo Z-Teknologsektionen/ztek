@@ -6,7 +6,7 @@ import { FooterZtyretInfo } from "./footer-ztyret-info";
 
 const Footer: FC = () => {
   return (
-    <footer className="bg-zBlack pb-2 pt-8 text-zWhite">
+    <footer className="relative overflow-hidden border-t border-white/15 bg-zBlack pb-2 pt-8 text-zWhite before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_bottom,_rgba(255,255,255,0.12),_transparent_45%)] before:content-['']">
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap justify-between px-4 md:px-6 lg:px-8">
           <FooterZtyretInfo />
