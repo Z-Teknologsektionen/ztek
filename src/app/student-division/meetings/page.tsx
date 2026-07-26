@@ -3,7 +3,7 @@ export default function MeetingsPage() {
     <main className="mx-auto max-w-3xl p-6">
       <h1 className="mb-4 text-2xl font-semibold">Sektionsmöten</h1>
       <p className="text-base leading-7 text-gray-700 py-2">
-        Sektionsmöten är som riksdagsmöten fast för Z-sektionen och hålls en gång per läsperiod. 
+        Sektionsmöten är som en riksdagsmöte fast för Z-sektionen och hålls en gång per läsperiod. 
         Där beslutas det om allt som rör sektionen, 
         och alla medlemmar har rätt att delta och rösta. (Alla Z-studenter är automatiskt medlemmar i sektionen)
         
