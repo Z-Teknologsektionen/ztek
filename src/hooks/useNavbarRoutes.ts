@@ -47,10 +47,6 @@ const navbarRoutes: NavbarItem[] = [
         label: "Sektionsorgan",
         href: "/student-division/committees",
       },
-      {
-        label: "Sektionsmöten",
-        href: "/student-division/meetings",
-      },
     ],
   },
   {
