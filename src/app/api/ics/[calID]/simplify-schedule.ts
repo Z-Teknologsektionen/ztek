@@ -83,6 +83,10 @@ const simplifySchedule = (input: string): { icsCal: string; name: string } => {
     // parse
     parseInfo(vEvent.summary, eventInfo);
     parseInfo(vEvent.location || "", eventInfo);
+    parseInfo(
+      (vEvent.description || "").replace(/ID [0-9]+/gu, ""), // removes ID (like "\nID 220414", often at end of ), which, if present, does not contain ":", and would otherwise not be found
+      eventInfo,
+    );
 
     // overwrite with new
     vEvent.location = constructLocation(eventInfo);

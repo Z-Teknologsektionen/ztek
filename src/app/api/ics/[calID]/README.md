@@ -1,11 +1,7 @@
-
-
-
-
-
 # ICS API
 
-## purpose 
+## purpose
+
 Schedules (.ics Calendars) from Chalmers Timeedit are condsiderably cluttered. This API is for requesting a de-cluttered version of the calendar file.
 
 The original calendar file is taken from `https://cloud.timeedit.net/chalmers/web/public/${(await params).calID}.ics`, where `calID` is given by the API route. A link for this API may be obtained from the frontend link generator at `https://ztek.se/student/schedule`
@@ -21,6 +17,7 @@ X-WR-CALNAME:TimeEdit-TKAUT-2\, Automation och mekatronik-20260401
 ```
 
 ... and blocks like ...
+
 ```ics
 END:VEVENT
     // more key-value pairs here (or blocks but usually not)
@@ -28,11 +25,12 @@ BEGIN:VEVENT
 ```
 
 Furthermore, they apply some simple text replacement operations to the string values:
- - `,` -> `\,`
- - line break -> `\n`
- - nothing -> line break + space (this is done only on some places to limit line length)
 
- *All of the described above is handled by the ics parser supplied in the `ts-ics` package, and is nothing that'll be considered in source*
+- `,` -> `\,`
+- line break -> `\n`
+- nothing -> line break + space (this is done only on some places to limit line length)
+
+_All of the described above is handled by the ics parser supplied in the `ts-ics` package, and is nothing that'll be considered in source_
 
 ## expected input ics files
 
@@ -57,10 +55,11 @@ DESCRIPTION:ID 77261
 END:VEVENT
 ```
 
-ofc, this is not what we want, since most relevant data is lumped together in long string values (eek) of the SUMMARY and LOCATION propreties. (Thus there's a custom parser implemented for this, see below) 
+ofc, this is not what we want, since most relevant data is lumped together in long string values (eek) of the SUMMARY and LOCATION properties. (Thus there's a custom parser implemented for this, see below)
 
 The following expectations were made to these strings:
-- There's a finite (and rather small) set of keys (ie `Map link`) that may be encountered.
+
+- There's a finite (and rather small) set of keys (ie `Map link`, or `Course code`) that may be encountered.
 - key-value separator is `: `
 - key-value pair separator is inconsistent (no assumptions can be made)
 
@@ -86,38 +85,47 @@ END:VEVENT
 ## principle of operation
 
 ### route.ts
+
 This file contains the route handler (aka entry point of what'll be executed when GET request is recieved). Upon recieving a GET request, it will:
+
 1.  Send another GET request to TimeEdit
 2.  Check it doesn't recieve an error response.
-1.  Call `simplifySchedule` (see below) with the recieved calendar.
-1.  Respond with the simplified schedule.
+3.  Call `simplifySchedule` (see below) with the recieved calendar.
+4.  Respond with the simplified schedule.
 
 ### simplify-schedule.ts
+
 Calendar rewriting is implemented in the `simplifySchedule` method.
 
 1.  The ics file (actually just a string) is parsed using the `ts-ics` package
 1.  For each VEVENT block:
 
     1.  A map of key-value pairs found in the arbitrary property value strings is kept:
+
     ```tsx
     const eventInfo = new Multimap<EventFields, string>();
     ```
-    1.  SUMMARY and LOCATION's values are parsed. Found keys are output to the map. 
+
+    2.  SUMMARY and LOCATION's values are parsed. Found keys are output to the map.
+
     ```tsx
     parseInfo(vEvent.summary, eventInfo);
     parseInfo(vEvent.location || "", eventInfo);
     ```
-    1. The found data is written back to the VEVENT fields in a more human-readable manner:
+
+    3. The found data is written back to the VEVENT fields in a more human-readable manner:
+
     ```tsx
     vEvent.location = constructLocation(eventInfo);
     vEvent.summary = constructSummary(eventInfo);
     vEvent.description = constructDescription(eventInfo);
     ```
-1. The ics calendar is generated (aka reverse parsed), also using the `ts-ics` package.
+
+1.  The ics calendar is generated (aka reverse parsed), also using the `ts-ics` package.
 
 ### parsing
 
-`EnumFields` is an enum abstraction of keys that may be encountered. 
+`EnumFields` is an enum abstraction of keys that may be encountered.
 
 This is used as key for the `eventInfo` map because enums (finite set of members) are more suitable for this than strings (infinite amount of values, well... almost)
 
@@ -135,13 +143,10 @@ This is a many-to-one map, since there seems to be inconsistensies in what strin
 
 ```tsx
 const knownKeys: Map<string, EventFields> = new Map<string, EventFields>([
-  ["Klass kod",  EventFields.ClassCode],
+  ["Klass kod", EventFields.ClassCode],
   ["Class code", EventFields.ClassCode],
   ["Klass namn", EventFields.ClassName],
-  ["Name",       EventFields.ClassName],
+  ["Name", EventFields.ClassName],
   //etc etc
 ]);
 ```
-### 
-
-
