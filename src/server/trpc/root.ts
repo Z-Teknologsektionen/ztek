@@ -1,4 +1,4 @@
-import { createTRPCRouter } from "~/server/api/trpc";
+import { trpc } from "~/server/trpc/init";
 import { committeeRouter } from "./routers/committee";
 import { committeeMemberRouter } from "./routers/committee-member";
 import { documentRouter } from "./routers/document";
@@ -14,7 +14,7 @@ import { zenithMediaRouter } from "./routers/zenith-media";
  *
  * All routers added in /api/routers should be manually added here.
  */
-export const appRouter = createTRPCRouter({
+export const appRouter = trpc.router({
   committee: committeeRouter,
   oldCommittee: oldCommitteeRouter,
   member: committeeMemberRouter,

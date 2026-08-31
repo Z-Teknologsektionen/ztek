@@ -1,29 +1,70 @@
+import { AccountRoles } from "@prisma/client";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { objectId } from "~/schemas/helpers/common-zod-helpers";
+import { trpc } from "~/server/trpc/init";
 import {
-  createTRPCRouter,
-  documentProcedure,
+  enforceRoleOrAdmin,
+  protectedProcedure,
   publicProcedure,
-} from "~/server/api/trpc";
+} from "~/server/trpc/procedure-builders";
 
-export const documentRouter = createTRPCRouter({
-  getAllGroupsAsAuthed: documentProcedure.query(async ({ ctx }) => {
-    const groups = await ctx.prisma.documentGroup.findMany({
+const documentManagementProcedure = protectedProcedure.use(
+  enforceRoleOrAdmin(AccountRoles.MODIFY_DOCUMENTS),
+);
+
+export const documentRouter = trpc.router({
+  //public queries
+  getAllNonEmpty: publicProcedure.query(async ({ ctx }) => {
+    return ctx.prisma.documentGroup.findMany({
+      where: {
+        Document: {
+          some: {
+            id: {
+              not: undefined,
+            },
+          },
+        },
+      },
       select: {
         id: true,
         name: true,
         extraText: true,
-        _count: { select: { Document: true } },
-        Document: true,
+        Document: {
+          select: {
+            id: true,
+            isPDF: true,
+            title: true,
+            url: true,
+          },
+        },
       },
     });
-    return groups.map(({ _count: { Document: documentCount }, ...rest }) => ({
-      documentCount,
-      ...rest,
-    }));
   }),
-  getAllAsAuthed: documentProcedure.query(async ({ ctx }) => {
+  getOneGroupByName: publicProcedure
+    .input(z.object({ name: z.string().min(1) }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.documentGroup.findUniqueOrThrow({
+        where: {
+          name: input.name,
+        },
+        select: {
+          name: true,
+          extraText: true,
+          Document: {
+            select: {
+              id: true,
+              isPDF: true,
+              title: true,
+              url: true,
+            },
+          },
+        },
+      });
+    }),
+
+  // authed document procedures
+  getAllAsAuthed: documentManagementProcedure.query(async ({ ctx }) => {
     const documents = ctx.prisma.document.findMany({
       select: {
         group: {
@@ -43,8 +84,7 @@ export const documentRouter = createTRPCRouter({
       ...rest,
     }));
   }),
-
-  createOneAsAuthed: documentProcedure
+  createOneAsAuthed: documentManagementProcedure
     .input(
       z.object({
         title: z.string().min(1),
@@ -69,7 +109,7 @@ export const documentRouter = createTRPCRouter({
 
       return newDocument;
     }),
-  updateOneAsAuthed: documentProcedure
+  updateOneAsAuthed: documentManagementProcedure
     .input(
       z.object({
         id: objectId,
@@ -95,7 +135,7 @@ export const documentRouter = createTRPCRouter({
 
       return updatedDocument;
     }),
-  deleteOneAsAuthed: documentProcedure
+  deleteOneAsAuthed: documentManagementProcedure
     .input(
       z.object({
         id: objectId,
@@ -112,28 +152,24 @@ export const documentRouter = createTRPCRouter({
 
       return deletedDocument;
     }),
-  getOneGroupByName: publicProcedure
-    .input(z.object({ name: z.string().min(1) }))
-    .query(({ ctx, input }) => {
-      return ctx.prisma.documentGroup.findUniqueOrThrow({
-        where: {
-          name: input.name,
-        },
-        select: {
-          name: true,
-          extraText: true,
-          Document: {
-            select: {
-              id: true,
-              isPDF: true,
-              title: true,
-              url: true,
-            },
-          },
-        },
-      });
-    }),
-  createOneGroupAsAuthed: documentProcedure
+
+  // authed group procedures
+  getAllGroupsAsAuthed: documentManagementProcedure.query(async ({ ctx }) => {
+    const groups = await ctx.prisma.documentGroup.findMany({
+      select: {
+        id: true,
+        name: true,
+        extraText: true,
+        _count: { select: { Document: true } },
+        Document: true,
+      },
+    });
+    return groups.map(({ _count: { Document: documentCount }, ...rest }) => ({
+      documentCount,
+      ...rest,
+    }));
+  }),
+  createOneGroupAsAuthed: documentManagementProcedure
     .input(
       z.object({
         name: z.string().min(1),
@@ -154,7 +190,7 @@ export const documentRouter = createTRPCRouter({
 
       return newDocumentGroup;
     }),
-  updateOneGroupAsAuthed: documentProcedure
+  updateOneGroupAsAuthed: documentManagementProcedure
     .input(
       z.object({
         id: objectId,
@@ -176,7 +212,7 @@ export const documentRouter = createTRPCRouter({
 
       return updatedDocumentGroup;
     }),
-  deleteOneGroupAsAuthed: documentProcedure
+  deleteOneGroupAsAuthed: documentManagementProcedure
     .input(
       z.object({
         id: objectId,

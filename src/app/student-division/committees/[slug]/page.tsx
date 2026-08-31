@@ -1,15 +1,33 @@
 import type { Metadata } from "next";
+import { cacheTag } from "next/cache";
 import { notFound } from "next/navigation";
-import type { FC } from "react";
-import { getAllCommittees } from "~/app/student-division/committees/_utils/get-all-committees";
+import { Suspense, type FC } from "react";
+import type { RouterOutputs } from "~/utils/trpc-client/api";
+import { cacheableCaller } from "~/utils/trpc-client/caller";
 import { ActiveCommitteeSection } from "./_components/active-committee-section";
 import { OldCommitteeSection } from "./_components/old-committee-section";
-import { getCommitteeBySlug } from "./_utils/get-committee-by-slug";
 
 type CommitteePageParams = {
   params: Promise<{ slug: string }>;
 };
 
+// cached tRPC helpers
+const getCommitteeBySlug = async (
+  slug: string,
+): Promise<RouterOutputs["committee"]["getOneBySlug"]> => {
+  "use cache";
+  cacheTag("committee");
+  return await cacheableCaller.committee.getOneBySlug({ slug });
+};
+const getAllCommittees = async (): Promise<
+  RouterOutputs["committee"]["getAll"]
+> => {
+  "use cache";
+  cacheTag("committee");
+  return await cacheableCaller.committee.getAll();
+};
+
+// page metadata etc etc
 export const generateStaticParams = async (): Promise<
   {
     params: {
@@ -23,12 +41,11 @@ export const generateStaticParams = async (): Promise<
   });
   return slugs;
 };
-
 export const generateMetadata = async ({
   params,
 }: CommitteePageParams): Promise<Metadata> => {
   const { slug } = await params;
-  const committee = await getCommitteeBySlug(slug);
+  const committee = await getCommitteeBySlug(slug).catch(() => notFound());
 
   return {
     title: committee.name,
@@ -36,6 +53,7 @@ export const generateMetadata = async ({
   };
 };
 
+// FC
 const CommitteePage: FC<CommitteePageParams> = async ({
   params,
 }: CommitteePageParams) => {
@@ -56,4 +74,13 @@ const CommitteePage: FC<CommitteePageParams> = async ({
   );
 };
 
-export default CommitteePage;
+// DONT ASK: it would not build otherwise
+const CommitteePageWrapper: FC<CommitteePageParams> = ({
+  params,
+}: CommitteePageParams) => (
+  <Suspense>
+    <CommitteePage params={params} />
+  </Suspense>
+);
+
+export default CommitteePageWrapper;
