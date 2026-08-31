@@ -10,7 +10,10 @@ export const homePageSelectLinks: HomePageSelectLinkType[] = [
   },
   {
     title: "Ladok",
-    url: "https://www.student.ladok.se/student/app/studentwebb/",
+    url: "https://student.ladok.se/student/app/studentwebb/",
   },
-  { title: "Orbi", url: "https://orbiapp.io/student" },
+  {
+    title: "Lunchmenyer",
+    url: "https://www.chalmerskonferens.se/ata/johanneberg/",
+  },
 ];

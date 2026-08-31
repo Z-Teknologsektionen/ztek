@@ -19,7 +19,7 @@ export const homePageGroupedLinks: HomePageGroupedLinksType = [
       { title: "Outlook", url: "https://outlook.office.com/owa/chalmers.se" },
       {
         title: "Ladok",
-        url: "https://www.student.ladok.se/student/app/studentwebb/",
+        url: "https://student.ladok.se/student/app/studentwebb/",
       },
       { title: "Tentastatistik", url: "https://stats.ftek.se/" },
       { title: "Utskrift på Chalmers", url: "https://papercut.chalmers.se/" },
@@ -29,12 +29,16 @@ export const homePageGroupedLinks: HomePageGroupedLinksType = [
     title: "Schema & Campus",
     links: [
       {
-        title: "Lunchmeny",
-        url: "https://chalmerskonferens.se/en/lunchmenyer-johanneberg/",
+        title: "Lunchmenyer",
+        url: "https://www.chalmerskonferens.se/ata/johanneberg/",
       },
       {
         title: "Boka Grupprum",
         url: "https://cloud.timeedit.net/chalmers/web/student/",
+      },
+      {
+        title: "Timeedit",
+        url: "https://cloud.timeedit.net/chalmers/web",
       },
       {
         title: "Schema TKAUT-1",
@@ -48,10 +52,7 @@ export const homePageGroupedLinks: HomePageGroupedLinksType = [
         title: "Schema TKAUT-3",
         url: "https://cloud.timeedit.net/chalmers/web/public/ri1Q7Y4QQ57Z07Q202464693507W6Z69000y.html",
       },
-      {
-        title: "Timeedit",
-        url: "https://cloud.timeedit.net/chalmers/web/?en=t",
-      },
+      { title: "Schemaguide", url: "/student/schedule" },
       {
         title: "Felanmäl Lokaler",
         url: "https://www.chalmers.se/utbildning/dina-studier/studie-och-arbetsmiljo/fysisk-arbetsmiljo/#felanmalan-i-lokalerna",
@@ -66,10 +67,6 @@ export const homePageGroupedLinks: HomePageGroupedLinksType = [
     title: "Sektionen",
     links: [
       { title: "Zaloonen", url: "/student-division/zaloonen" },
-      {
-        title: "Orbi",
-        url: "https://orbiapp.io/student",
-      },
       {
         title: "Kårappen iOS",
         url: "https://apps.apple.com/se/app/chalmers-studentk%C3%A5r/id1633440660",
