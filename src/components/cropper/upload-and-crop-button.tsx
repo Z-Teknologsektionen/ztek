@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { Accept } from "react-dropzone";
 import { ErrorCode, useDropzone } from "react-dropzone";
 import { Button } from "~/components/ui/button";
+import { MAX_SFTP_FILE_SIZE } from "~/constants/sftp";
 import { cn } from "~/utils/utils";
 import { CropImageDialog } from "./crop-image-dialog";
 
@@ -24,7 +25,7 @@ export const UploadAndCropButton: FC<UploadAndCropButtonProps> = ({
   finalHeight,
   finalWidth,
   onComplete,
-  maxSizeBytes = 1024 * 1024 * 50, // 50 MB
+  maxSizeBytes = MAX_SFTP_FILE_SIZE /* Allow files as large as our API will anyway */,
   circularCrop,
   ruleOfThirds,
   freeCrop,
