@@ -3,15 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { FC } from "react";
+import { Suspense, type FC } from "react";
 import { useNavbarRoutes } from "~/hooks/useNavbarRoutes";
 import { NavbarDesktopLinks } from "./navbar-desktop-links";
 import { NavbarMobileLinks } from "./navbar-mobile-links";
 
 const Navbar: FC = () => {
-  const navbarRoutes = useNavbarRoutes();
-  const pathname = usePathname() || "";
-
   return (
     <nav className="z-10 mt-8 bg-zBlack text-zWhite">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -31,11 +28,23 @@ const Navbar: FC = () => {
               </div>
             </div>
           </div>
-          <NavbarDesktopLinks linkItems={navbarRoutes} pathname={pathname} />
-          <NavbarMobileLinks linkItems={navbarRoutes} pathname={pathname} />
+          <Suspense fallback={"... loading navbar"}>
+            <NavbarLinks />
+          </Suspense>
         </div>
       </div>
     </nav>
+  );
+};
+
+const NavbarLinks: FC = () => {
+  const navbarRoutes = useNavbarRoutes();
+  const pathname = usePathname() || "";
+  return (
+    <>
+      <NavbarDesktopLinks linkItems={navbarRoutes} pathname={pathname} />
+      <NavbarMobileLinks linkItems={navbarRoutes} pathname={pathname} />
+    </>
   );
 };
 

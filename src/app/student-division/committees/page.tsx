@@ -1,19 +1,24 @@
 import { CommitteeType } from "@prisma/client";
 import type { Metadata } from "next";
+import { cacheTag } from "next/cache";
 import type { FC } from "react";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import SectionTitle from "~/components/layout/section-title";
 import SectionWrapper from "~/components/layout/section-wrapper";
 import { getCommitteeTypeStringFromEnum } from "~/utils/get-committee-type-string-from-enum";
+import { cacheableCaller } from "~/utils/trpc-client/caller";
 import { CommitteesLayout } from "./_components/committee-layout";
-import { getAllCommittees } from "./_utils/get-all-committees";
 
 export const metadata: Metadata = {
   title: "Organ",
 };
 
 const CommitteesPage: FC = async () => {
-  const committees = await getAllCommittees();
+  const committees = await (async () => {
+    "use cache";
+    cacheTag("committee");
+    return await cacheableCaller.committee.getAll();
+  })();
 
   return (
     <SectionWrapper>
