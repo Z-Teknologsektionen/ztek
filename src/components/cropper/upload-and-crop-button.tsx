@@ -2,8 +2,7 @@ import { Download } from "lucide-react";
 import type { FC } from "react";
 import { useState } from "react";
 import type { Accept } from "react-dropzone";
-import { useDropzone } from "react-dropzone";
-import toast from "react-hot-toast";
+import { ErrorCode, useDropzone } from "react-dropzone";
 import { Button } from "~/components/ui/button";
 import { cn } from "~/utils/utils";
 import { CropImageDialog } from "./crop-image-dialog";
@@ -15,7 +14,7 @@ type UploadAndCropButtonProps = {
   finalHeight: number;
   finalWidth: number;
   freeCrop: boolean;
-  maxSize?: number;
+  maxSizeBytes?: number;
   onComplete: (file: File) => void;
   ruleOfThirds: boolean;
 };
@@ -25,43 +24,64 @@ export const UploadAndCropButton: FC<UploadAndCropButtonProps> = ({
   finalHeight,
   finalWidth,
   onComplete,
-  maxSize = 1024 * 1024 * 50, // 50 MB
+  maxSizeBytes = 1024 * 1024 * 50, // 50 MB
   circularCrop,
   ruleOfThirds,
   freeCrop,
   disabled,
 }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false); //cropper dialog's open state
 
   const {
     getInputProps,
     getRootProps,
-    isDragActive,
-    isDragAccept,
-    isDragReject,
-    fileRejections,
+    isDragActive /* as `isDragAccept` and `isDragReject` may be true after the end of drag-drop operation, also check `isDragActive`*/,
+    isDragAccept /* hovered payload will likely be accepted, but file size is not known until file is dropped*/,
+    isDragReject /* hovered payload will likely be rejected. HTML <img/> element inside MIME-field "text/html" is an exception. i.e. we don't know for sure abt file rejections until file is dropped*/,
+    fileRejections /* dropped files who were fur sure rejected */,
   } = useDropzone({
     disabled,
     maxFiles: 1,
     multiple: false,
-    maxSize: maxSize,
+    maxSize: maxSizeBytes,
     accept: accept,
     onDrop: (acceptedFiles) => {
-      if (fileRejections.length > 0 || !acceptedFiles[0]) {
-        toast.error(`Kunde inte ladda upp filen. Försök igen!`);
+      if (!acceptedFiles[0]) {
         setSelectedFile(null);
         return;
       }
 
-      const file = acceptedFiles[0];
+      const file = acceptedFiles[0]; // since `maxFiles`=1, the array will never be longer
       setSelectedFile(file);
       setOpen(true);
     },
   });
 
-  const isFileTooLarge =
-    fileRejections.length > 0 && fileRejections[0]!.file.size > maxSize;
+  const errorCode: string | null =
+    fileRejections.length > 0
+      ? fileRejections[0]?.errors[0]?.code || "unknown error"
+      : null;
+
+  const message: string = (() => {
+    // prioritize hover message
+    if (isDragActive && isDragAccept) return "Släpp fil";
+    if (isDragActive && isDragReject) return "(｡>﹏<)";
+
+    //else pick message from current error state
+    switch (errorCode) {
+      case null:
+        return "Släpp fil eller klicka";
+      case ErrorCode.FileInvalidType:
+        return "Ogiltig filtyp";
+      case ErrorCode.FileTooLarge:
+        return `Filen är för stor. Filer mindre än ${Math.floor(maxSizeBytes / 1024)} kiB accepteras.`;
+      case ErrorCode.TooManyFiles:
+        return "Flera filer accepteras inte";
+      default:
+        return "Oväntat fel, försök med en annan fil";
+    }
+  })();
 
   return (
     <>
@@ -85,16 +105,10 @@ export const UploadAndCropButton: FC<UploadAndCropButtonProps> = ({
           <p
             className={cn(
               "text-xs",
-              isFileTooLarge || isDragReject ? "text-danger" : "text-gray-500",
+              !isDragActive && errorCode ? "text-danger" : "text-gray-500",
             )}
           >
-            {isFileTooLarge
-              ? "File is too large"
-              : isDragReject
-                ? "Filen accepteras inte, försök med en annan fil"
-                : isDragActive && isDragAccept
-                  ? "Släpp för att ladda upp"
-                  : "Släpp fil eller klicka"}
+            {message}
           </p>
         </Button>
       </div>
