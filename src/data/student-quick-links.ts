@@ -3,7 +3,6 @@ import {
   MdAccountBalance,
   MdAnalytics,
   MdCalendarMonth,
-  MdInfo,
   MdMeetingRoom,
   MdReport,
   MdSchool,
@@ -25,7 +24,7 @@ export const studentQuickLinks: StudentQuickLinkType[] = [
   },
   {
     icon: MdMeetingRoom,
-    href: "https://cloud.timeedit.net/chalmers/web/b1/",
+    href: "https://cloud.timeedit.net/chalmers/web/student/",
     text: "Grupprum",
     tooltip: "Boka grupprum på Chalmers",
   },
@@ -46,12 +45,6 @@ export const studentQuickLinks: StudentQuickLinkType[] = [
     href: "https://www.student.ladok.se/student/app/studentwebb",
     text: "Ladok",
     tooltip: "Här kan du anmäla dig till tentor och se dina resultat.",
-  },
-  {
-    icon: MdInfo,
-    href: "https://orbiapp.io/student",
-    text: "Orbi",
-    tooltip: "Här kommer information om olika arrangemang på sektionen",
   },
   {
     icon: MdReport,

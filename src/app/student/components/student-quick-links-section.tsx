@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import type { FC } from "react";
 import SectionWrapper from "~/components/layout/section-wrapper";
@@ -13,7 +15,7 @@ import { studentQuickLinks } from "~/data/student-quick-links";
 export const StudentQuickLinksSection: FC = () => {
   return (
     <SectionWrapper className="pt-2">
-      <div className="grid grid-cols-3 gap-3 md:grid-cols-5 lg:grid-cols-7">
+      <div className="grid grid-cols-3 gap-3 md:grid-cols-6">
         {studentQuickLinks.map(({ href, icon: Icon, text, tooltip }) => (
           <TooltipProvider key={text} delayDuration={TOOLTIP_DELAY_MS}>
             <Tooltip>
