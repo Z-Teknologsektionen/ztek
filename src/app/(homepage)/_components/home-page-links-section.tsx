@@ -6,7 +6,7 @@ export const HomePageLinksSection: FC = () => {
   return (
     <div
       className="relative flex w-full items-center justify-center bg-cover bg-center object-cover py-32 drop-shadow-xl [clip-path:polygon(0%_5%,100%_0%,100%_100%,0%_100%)] md:[clip-path:polygon(0%_10%,100%_0%,100%_100%,0%_100%)] xl:[clip-path:polygon(0%_15%,100%_0%,100%_100%,0%_100%)]"
-      style={{ backgroundImage: "url(./wallpaper_automation.jpg)" }}
+      style={{ backgroundImage: "url(./wallpaper_zaloon.jpg)" }}
     >
       <div className="m-auto flex h-full max-w-[85rem] flex-col justify-center gap-10 px-4 sm:px-6 lg:px-8">
         {homePageGroupedLinks.map((group) => (
