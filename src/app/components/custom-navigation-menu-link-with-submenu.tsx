@@ -2,9 +2,9 @@ import Link from "next/link";
 import { Fragment, type FC } from "react";
 import { Button } from "~/components/ui/button";
 import {
-    NavigationMenuContent,
-    NavigationMenuItem,
-    NavigationMenuTrigger,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuTrigger,
 } from "~/components/ui/navigation-menu";
 import type { NavbarItemWithSublinks } from "~/types/navbar-types";
 import { cn } from "~/utils/utils";

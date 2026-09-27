@@ -8,7 +8,7 @@ export const ZaloonenBookingsSection: FC = () => (
   <SectionWrapper>
     <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
       <div>
-        <SectionTitle>Bokningar</SectionTitle>
+        <SectionTitle id="bookings">Bokningar</SectionTitle>
         <p className="mt-1 text-sm font-light">
           Här är Zaloonens bokningskalender. Observera att formuläret bara är en
           intresseanmälan.
