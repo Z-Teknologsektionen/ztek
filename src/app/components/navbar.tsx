@@ -20,7 +20,7 @@ const Navbar: FC = () => {
           <div className="flex items-center gap-3">
             <div className="flex-shrink-0">
               <Link
-                className="relative flex size-14 items-center justify-center rounded-full border border-white/15 bg-white/10 p-1 shadow-lg sm:size-16 lg:size-20"
+                className="relative flex size-14 items-center justify-center rounded-full p-1 sm:size-16 lg:size-20"
                 href="/"
               >
                 <Image alt="Logo" className="object-contain" src="/logo.png" fill />

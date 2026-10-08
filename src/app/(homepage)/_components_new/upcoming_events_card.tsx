@@ -1,10 +1,10 @@
 "use client";
 import {
-    Calendar as CalendarIcon,
-    ChevronsRight,
-    Clock,
-    List as ListIcon,
-    MapPin,
+  Calendar as CalendarIcon,
+  ChevronsRight,
+  Clock,
+  List as ListIcon,
+  MapPin,
 } from "lucide-react";
 import { useState } from "react";
 import { formatEventDate, sameDay } from "../_utils/date_helpers";
@@ -24,7 +24,7 @@ export default function UpcomingEventsCard() {
     <div className="mt-4 rounded-xl bg-neutral-300 p-4">
       <div className="flex items-center justify-between rounded-md bg-neutral-700 px-4 py-3">
         <h3 className="text-sm font-bold uppercase tracking-wide text-white">
-          Uppkommande händelser
+          Kalender under konstruktion
         </h3>
         <div className="flex gap-1">
           <button
@@ -58,7 +58,7 @@ export default function UpcomingEventsCard() {
               className="flex items-center justify-between gap-3 rounded-md bg-neutral-700 px-4 py-3"
             >
               <div>
-                <p className="text-sm font-bold text-white">{event.title}</p>
+                <p className="text-sm font-bold text-white">Kalender under konstruktion</p>{/*byt ut med {event.title} */}
                 <p className="mt-0.5 flex items-center gap-1 text-xs text-neutral-300">
                   <Clock size={12} />
                   {formatEventDate(event.date)}, {event.time}
@@ -97,7 +97,7 @@ export default function UpcomingEventsCard() {
               <div className="space-y-2">
                 {eventsForSelectedDay.map((event) => (
                   <div key={event.id} className="rounded-md bg-neutral-600 px-3 py-2">
-                    <p className="text-sm font-bold text-white">{event.title}</p>
+                    <p className="text-sm font-bold text-white">Kalender under konstruktion</p>{/*replace with {event.title} */ }
                     <p className="text-xs text-neutral-300">
                       {event.time} · {event.location}
                     </p>
@@ -113,7 +113,7 @@ export default function UpcomingEventsCard() {
         href="#"
         className="mt-3 flex items-center justify-center gap-1 rounded-md bg-amber-800 py-2.5 text-xs font-bold uppercase tracking-wide text-white hover:bg-amber-900"
       >
-        Se hela kalendern
+        Kalendern är under konstruktion
         <ChevronsRight size={14} />
       </a>
     </div>
