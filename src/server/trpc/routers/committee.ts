@@ -1,3 +1,4 @@
+import { AccountRoles } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
@@ -9,14 +10,26 @@ import {
   updateCommitteeSchema,
 } from "~/schemas/committee";
 import { objectId, slugString } from "~/schemas/helpers/common-zod-helpers";
+import { trpc, type TRPCContext } from "~/server/trpc/init";
 import {
-  createTRPCRouter,
-  organizationManagementProcedure,
+  committeeProcedure,
+  enforceRoleOrAdmin,
   protectedProcedure,
   publicProcedure,
-} from "~/server/api/trpc";
+} from "~/server/trpc/procedure-builders";
 
-export const committeeRouter = createTRPCRouter({
+// may edit any committee
+const organizationManagementProcedure = protectedProcedure.use(
+  enforceRoleOrAdmin(AccountRoles.ORGANIZATION_MANAGEMENT),
+);
+
+// may edit your committee
+const activeProcedure = committeeProcedure((_: TRPCContext, id: string) =>
+  Promise.resolve(id),
+);
+
+export const committeeRouter = trpc.router({
+  // public procedures
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.committee.findMany({
       orderBy: [{ order: "desc" }],
@@ -27,6 +40,7 @@ export const committeeRouter = createTRPCRouter({
         slug: true,
         image: true,
         electionPeriods: true,
+        showOldCommittee: true,
       },
     });
   }),
@@ -49,6 +63,7 @@ export const committeeRouter = createTRPCRouter({
           image: true,
           electionPeriods: true,
           socialLinks: true,
+          showOldCommittee: true,
           document: {
             select: {
               url: true,
@@ -84,6 +99,8 @@ export const committeeRouter = createTRPCRouter({
         },
       });
     }),
+
+  // active/authed procedures
   getOneByIdAsActive: protectedProcedure
     .input(
       z.object({
@@ -165,7 +182,7 @@ export const committeeRouter = createTRPCRouter({
       orderBy: [{ order: "desc" }],
     });
   }),
-  updateCommitteeAsActive: protectedProcedure
+  updateCommitteeAsActive: activeProcedure
     .input(updateCommitteeAsActiveSchema)
     .mutation(
       async ({
