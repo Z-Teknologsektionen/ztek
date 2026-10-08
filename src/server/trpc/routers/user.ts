@@ -1,12 +1,18 @@
+import { AccountRoles } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { updateUserRolesSchema } from "~/schemas/user";
-import {
-  createTRPCRouter,
-  organizationManagementProcedure,
-} from "~/server/api/trpc";
+import { trpc } from "~/server/trpc/init";
 import { canCurrentUserModifyTargetRoleUser } from "~/utils/can-user-edit-user";
+import {
+  enforceRoleOrAdmin,
+  protectedProcedure,
+} from "~/server/trpc/procedure-builders";
 
-export const userRouter = createTRPCRouter({
+const organizationManagementProcedure = protectedProcedure.use(
+  enforceRoleOrAdmin(AccountRoles.ORGANIZATION_MANAGEMENT),
+);
+
+export const userRouter = trpc.router({
   updateUserRolesAsAuthed: organizationManagementProcedure
     .input(updateUserRolesSchema)
     .mutation(({ ctx: { prisma, session }, input: { id, roles } }) => {
