@@ -1,10 +1,11 @@
 export interface EventItem {
-  id: number;
-  title: string;
+  allDay: boolean;
   date: Date;
-  time: string;
-  location: string;
   description: string;
+  id: string;
+  location: string;
+  time: string;
+  title: string;
 }
 
 export interface MonthGridCell {

@@ -12,19 +12,23 @@ import MonthCalendar from "./month_calendar";
 import useUpcomingEvents from "./upcoming_events";
 
 type ViewMode = "list" | "calendar";
+const ZALOONEN_CALENDAR_URL = "https://embed.styledcalendar.com/#KwrikxxDh0q9078hGAzF";
 
 export default function UpcomingEventsCard() {
-  const events = useUpcomingEvents();
+  const { events, status } = useUpcomingEvents();
   const [mode, setMode] = useState<ViewMode>("list");
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   const eventsForSelectedDay = events.filter((e) => sameDay(e.date, selectedDate));
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const upcomingEvents = events.filter((event) => event.date >= today);
 
   return (
     <div className="mt-4 rounded-xl bg-neutral-300 p-4">
       <div className="flex items-center justify-between rounded-md bg-neutral-700 px-4 py-3">
         <h3 className="text-sm font-bold uppercase tracking-wide text-white">
-          Kalender under konstruktion
+          Zaloonens kalender(Demo)
         </h3>
         <div className="flex gap-1">
           <button
@@ -52,13 +56,28 @@ export default function UpcomingEventsCard() {
 
       {mode === "list" ? (
         <div className="mt-2 space-y-2">
-          {events.slice(0, 3).map((event) => (
+          {status === "loading" && (
+            <p className="rounded-md bg-neutral-700 px-4 py-3 text-sm text-neutral-300">
+              Hämtar kalenderhändelser...
+            </p>
+          )}
+          {status === "error" && (
+            <p className="rounded-md bg-neutral-700 px-4 py-3 text-sm text-amber-200" role="alert">
+              Kunde inte hämta Zaloonens kalender just nu.
+            </p>
+          )}
+          {status === "ready" && upcomingEvents.length === 0 && (
+            <p className="rounded-md bg-neutral-700 px-4 py-3 text-sm text-neutral-300">
+              Inga kommande händelser.
+            </p>
+          )}
+          {status === "ready" && upcomingEvents.slice(0, 3).map((event) => (
             <div
               key={event.id}
               className="flex items-center justify-between gap-3 rounded-md bg-neutral-700 px-4 py-3"
             >
               <div>
-                <p className="text-sm font-bold text-white">Kalender under konstruktion</p>{/*byt ut med {event.title} */}
+                <p className="text-sm font-bold text-white">{event.title}</p>
                 <p className="mt-0.5 flex items-center gap-1 text-xs text-neutral-300">
                   <Clock size={12} />
                   {formatEventDate(event.date)}, {event.time}
@@ -68,8 +87,10 @@ export default function UpcomingEventsCard() {
                 </p>
               </div>
               <a
-                href="#"
                 className="shrink-0 rounded-md bg-amber-800 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-900"
+                href={ZALOONEN_CALENDAR_URL}
+                rel="noopener noreferrer"
+                target="_blank"
               >
                 Mer info
               </a>
@@ -91,16 +112,25 @@ export default function UpcomingEventsCard() {
                 month: "long",
               })}
             </p>
-            {eventsForSelectedDay.length === 0 ? (
+            {status === "loading" ? (
+              <p className="text-xs text-neutral-400">Hämtar kalenderhändelser...</p>
+            ) : status === "error" ? (
+              <p className="text-xs text-amber-200" role="alert">
+                Kunde inte hämta Zaloonens kalender just nu.
+              </p>
+            ) : eventsForSelectedDay.length === 0 ? (
               <p className="text-xs text-neutral-400">Inga händelser den här dagen.</p>
             ) : (
               <div className="space-y-2">
                 {eventsForSelectedDay.map((event) => (
                   <div key={event.id} className="rounded-md bg-neutral-600 px-3 py-2">
-                    <p className="text-sm font-bold text-white">Kalender under konstruktion</p>{/*replace with {event.title} */ }
+                    <p className="text-sm font-bold text-white">{event.title}</p>
                     <p className="text-xs text-neutral-300">
                       {event.time} · {event.location}
                     </p>
+                    {event.description && (
+                      <p className="mt-1 text-xs text-neutral-200">{event.description}</p>
+                    )}
                   </div>
                 ))}
               </div>
@@ -110,10 +140,12 @@ export default function UpcomingEventsCard() {
       )}
 
       <a
-        href="#"
         className="mt-3 flex items-center justify-center gap-1 rounded-md bg-amber-800 py-2.5 text-xs font-bold uppercase tracking-wide text-white hover:bg-amber-900"
+        href={ZALOONEN_CALENDAR_URL}
+        rel="noopener noreferrer"
+        target="_blank"
       >
-        Kalendern är under konstruktion
+        Se hela Zaloonens kalender
         <ChevronsRight size={14} />
       </a>
     </div>

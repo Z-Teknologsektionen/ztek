@@ -110,10 +110,10 @@ const HomePage = async (): Promise<ReactElement> => {
               Läs mer
             </a>
           </div>
-          <div className="mx-auto mb-10 h-px w-full bg-neutral-300 mt-20"/>
+          
         </div>
       </section>
-
+      <div className="mx-auto  h-px w-8/12 bg-neutral-300 "/>
       {/* Ny student */}
       <section className="px-6 py-16">
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-8 rounded-2xl bg-neutral-700 p-8 sm:flex-row sm:p-10">
