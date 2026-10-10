@@ -162,7 +162,7 @@ const NavigationMenuWithCentredContent = React.forwardRef<
       {...props}
     >
       {children}
-      <NavigationMenuViewport className="nav-viewport left-[var(--menu-left-position)]" />
+      <NavigationMenuViewport className="nav-viewport left-[var(--menu-left-position)] border-neutral-600 bg-neutral-600 text-white" />
       <NavigationMenuPrimitive.Indicator
         className={cn(
           "top-full z-[1] flex h-1.5 items-end justify-center overflow-hidden data-[state=visible]:animate-in data-[state=hidden]:animate-out data-[state=hidden]:fade-out data-[state=visible]:fade-in",
@@ -187,4 +187,3 @@ export {
   NavigationMenuViewport,
   NavigationMenuWithCentredContent
 };
-

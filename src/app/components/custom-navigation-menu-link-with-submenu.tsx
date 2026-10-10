@@ -21,7 +21,7 @@ export const CustomNavigationMenuLinkWithSubmenu: FC<
       >
         {label}
       </NavigationMenuTrigger>
-      <NavigationMenuContent className="rounded-[1.25rem] border border-white/15 bg-zBlack/95 p-2 text-white shadow-[0_20px_45px_-20px_rgba(0,0,0,0.75)] backdrop-blur-xl">
+      <NavigationMenuContent className="rounded-[1.25rem] border-0 bg-neutral-600 p-2 text-white shadow-[0_20px_45px_-20px_rgba(0,0,0,0.75)] backdrop-blur-xl">
         <div className="flex w-fit flex-col items-center justify-center gap-1">
           {sublinks.map((sublink) => {
             return (
