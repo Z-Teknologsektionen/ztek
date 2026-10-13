@@ -4,9 +4,9 @@ import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
 import { Toaster } from "react-hot-toast";
+import Navbar from "~/app/components/navbar";
 import Footer from "~/components/layout/footer";
 import HeadLayout from "~/components/layout/head-layout";
-import Navbar from "~/components/layout/navbar";
 import "~/styles/globals.css";
 import { api } from "~/utils/api";
 
