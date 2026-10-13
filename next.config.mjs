@@ -18,6 +18,8 @@ const config = {
     locales: ["sv"],
     defaultLocale: "sv",
   },
+  /** enables `"use cache"` directives */
+  cacheComponents: true,
   typescript: {
     ignoreBuildErrors: true,
   },

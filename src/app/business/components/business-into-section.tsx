@@ -35,7 +35,7 @@ const BusinessIntoSection: FC = () => {
         height={500}
         imageClassName="rounded max-w-full"
         photoCommittee="zFoto"
-        photographer="Dennis Holmström"
+        photographer=""
         src="/argz.jpg"
         width={750}
       />

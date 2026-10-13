@@ -6,13 +6,21 @@
     "node": "22.x"
   },
   "scripts": {
-    "build": "next build",
-    "dev": "next dev -p 5000",
-    "postinstall": "prisma generate",
+
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
+
+    "build": "next build",
+    "postinstall": "prisma generate",
+
+    "dev": "next dev -p 5000",
     "start": "next start -p 5000",
-    "typecheck": "tsc --noEmit"
+
+    "docker-test": "npm run docker-test:build && npm run docker-test:start",
+    "docker-test:build": "sudo docker build -t ztek-test:latest .",
+    "docker-test:start": "sed -E \"s/^([A-Za-z_]*=)'(.*)'\\$/\\1\\2/g\" < .env > docker.env && sudo docker run -it -p 5000:5000 --env-file docker.env ztek-test:latest"
+
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",

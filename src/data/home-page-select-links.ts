@@ -5,13 +5,15 @@ export type HomePageSelectLinkType = {
 
 export const homePageSelectLinks: HomePageSelectLinkType[] = [
   {
-    title: "Zaloonen",
-    url: "/student-division/zaloonen",
+    title: "Canvas",
+    url: "https://canla.portal.chalmers.se/canvaslogin/discovery.html?v=1",
   },
   {
-    title: "Sektionsorgan",
-    url: "/student-division/committees",
+    title: "Ladok",
+    url: "https://student.ladok.se/student/app/studentwebb/",
   },
-  { title: "Logga in", 
-    url: "/active" },
+  {
+    title: "Lunchmenyer",
+    url: "https://www.chalmerskonferens.se/ata/johanneberg/",
+  },
 ];

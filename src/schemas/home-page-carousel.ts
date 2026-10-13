@@ -19,9 +19,14 @@ const homePageCarouselBaseSchema = z.object({
   imageUrl: sftpUrl.or(emptyString),
   linkToUrl: httpsUrlString.or(emptyString.transform(() => null)).nullable(),
   committeeId: objectId,
-  startDateTime: datetimeString.nullable(),
-  endDateTime: datetimeString.nullable(),
   imageFile: sftpFile.optional().nullable(),
+
+  startDateTime: datetimeString
+    .nullable()
+    .or(z.literal("").transform((_) => null)), // html forms produce "" instead of null
+  endDateTime: datetimeString
+    .nullable()
+    .or(z.literal("").transform((_) => null)), // html forms produce "" instead of null
 });
 
 export const createHomePageCarouselSchema = homePageCarouselBaseSchema

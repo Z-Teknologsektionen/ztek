@@ -1,11 +1,16 @@
+import { cacheTag } from "next/cache";
 import type { FC } from "react";
-import { getVisibleZenithMediaByYear } from "~/app/student-division/zenith-media/_utils/get-all-zenith-media-by-year";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import { Skeleton } from "~/components/ui/skeleton";
+import { cacheableCaller } from "~/utils/trpc-client/caller";
 import { ZenithMediaCard } from "./zenith-media-card";
 
 export const ZenithMediaGrid: FC = async () => {
-  const zenithMedia = await getVisibleZenithMediaByYear();
+  const zenithMedia = await (async () => {
+    "use cache";
+    cacheTag("zenithMedia");
+    return await cacheableCaller.zenithMedia.getAllVisibleGroupedByYear();
+  })();
 
   return (
     <>

@@ -1,20 +1,25 @@
 import type { Metadata } from "next";
+import { cacheTag } from "next/cache";
 import Image from "next/image";
 import type { ReactElement } from "react";
+import { cacheableCaller } from "~/utils/trpc-client/caller";
 
 export const metadata: Metadata = {
   title: "Z",
 };
 
 import { Settings } from "lucide-react";
-import { getHomePageCarouselItems } from "~/app/(homepage)/_utils/get-home-page-carousel-items";
 import ExternalLinks from "./_components_new/external_links";
 import QuickLinks from "./_components_new/quick_links";
 import UpcomingEventsCard from "./_components_new/upcoming_events_card";
 import { HomePageHeroCarousel } from "./_components_old/home-page-hero-carousel";
 
 const HomePage = async (): Promise<ReactElement> => {
-  const carouselItems = await getHomePageCarouselItems();
+  const carouselItems = await (async () => {
+    "use cache";
+    cacheTag("home-page-carousel");
+    return await cacheableCaller.homePageCarousel.getAllVisible();
+  })();
 
   return (
     <div className="min-h-screen bg-white font-sans text-neutral-900">
@@ -90,7 +95,9 @@ const HomePage = async (): Promise<ReactElement> => {
             className="mx-auto h-40 w-full max-w-md rounded-lg"
           />
           <p className="mt-6 text-sm text-neutral-700">
-            Ett stort tack till vår huvudsponsor CPAC Systems. Kolla gärna in deras hemsida för att läsa mer om deras verksamhet och vad de kan erbjuda dig som student.
+            Ett stort tack till vår huvudsponsor CPAC Systems. Kolla gärna in
+            deras hemsida för att läsa mer om deras verksamhet och vad de kan
+            erbjuda dig som student.
           </p>
           <a
             href="https://cpacsystems.se/"
@@ -110,10 +117,9 @@ const HomePage = async (): Promise<ReactElement> => {
               Läs mer
             </a>
           </div>
-          
         </div>
       </section>
-      <div className="mx-auto  h-px w-8/12 bg-neutral-300 "/>
+      <div className="mx-auto h-px w-8/12 bg-neutral-300" />
       {/* Ny student */}
       <section className="px-6 py-16">
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-8 rounded-2xl bg-neutral-700 p-8 sm:flex-row sm:p-10">
@@ -144,8 +150,6 @@ const HomePage = async (): Promise<ReactElement> => {
           />
         </div>
       </section>
-
-      
 
       <ExternalLinks />
     </div>

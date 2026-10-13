@@ -1,19 +1,19 @@
+import type { inferRouterOutputs } from "@trpc/server";
 import Link from "next/link";
 import type { FC } from "react";
 import { Fragment } from "react";
-import type { getDocumentGroupsWithDocuments } from "~/app/documents/get-document-groups-with-documents";
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { buttonVariants } from "~/components/ui/button";
+import type { AppRouter } from "~/server/trpc/root";
 import { openUrlAsPdf } from "~/utils/open-url-as-pdf";
 
-type DocumentGroup = Awaited<
-  ReturnType<typeof getDocumentGroupsWithDocuments>
->[0];
-type Document = DocumentGroup["Document"][0];
+type DocumentGroup =
+  inferRouterOutputs<AppRouter>["document"]["getAllNonEmpty"][number];
+type Document = DocumentGroup["Document"][number];
 
 const DocumentsAccordionItem: FC<{
   documents: Document[];
