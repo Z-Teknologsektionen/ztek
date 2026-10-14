@@ -6,6 +6,7 @@ import {
   List as ListIcon,
   MapPin,
 } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { formatEventDate, sameDay } from "~/app/(homepage)/_utils/date_helpers";
 import MonthCalendar from "./month_calendar";
@@ -97,14 +98,14 @@ export default function UpcomingEventsCard() {
                     {event.location}
                   </p>
                 </div>
-                <a
+                <Link
                   className="shrink-0 rounded-md bg-amber-800 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-900"
                   href={ZALOONEN_CALENDAR_URL}
                   rel="noopener noreferrer"
                   target="_blank"
                 >
                   Mer info
-                </a>
+                </Link>
               </div>
             ))}
         </div>
@@ -161,7 +162,7 @@ export default function UpcomingEventsCard() {
         </div>
       )}
 
-      <a
+      <Link
         className="mt-3 flex items-center justify-center gap-1 rounded-md bg-amber-800 py-2.5 text-xs font-bold uppercase tracking-wide text-white hover:bg-amber-900"
         href="/student-division/zaloonen"
         rel="noopener noreferrer"
@@ -169,7 +170,7 @@ export default function UpcomingEventsCard() {
       >
         Se hela Zaloonens kalender
         <ChevronsRight size={14} />
-      </a>
+      </Link>
     </div>
   );
 }

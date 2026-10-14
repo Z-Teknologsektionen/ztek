@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { externalLinks } from "~/data/external-links";
 
 export default function ExternalLinks() {
@@ -10,16 +11,16 @@ export default function ExternalLinks() {
         <div className="mx-auto mb-8 h-px w-full bg-neutral-500" />
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {externalLinks.map(({ href, label, icon: Icon }) => (
-            <a
+            <Link
               key={label}
               className="flex flex-col items-center gap-3 rounded-xl bg-white p-6 hover:bg-neutral-100"
               href={href}
             >
-              <Icon className="text-neutral-700" size={28} strokeWidth={1.5} />
+              <Icon className="text-neutral-700" size={28} />
               <span className="text-sm font-semibold text-neutral-800">
                 {label}
               </span>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

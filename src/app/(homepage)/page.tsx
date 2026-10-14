@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { cacheTag } from "next/cache";
 import Image from "next/image";
+import Link from "next/link";
 import type { ReactElement } from "react";
 import { cacheableCaller } from "~/utils/trpc-client/caller";
 
@@ -42,18 +43,18 @@ const HomePage = async (): Promise<ReactElement> => {
               på Chalmers tekniska högskola
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <a
+              <Link
                 className="rounded-md bg-amber-800 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-900"
                 href="/student"
               >
                 Mer om programmet
-              </a>
-              <a
+              </Link>
+              <Link
                 className="rounded-md border border-neutral-500 bg-white/60 px-5 py-2.5 text-sm font-semibold text-neutral-800 hover:bg-white"
                 href="/business"
               >
                 För företag
-              </a>
+              </Link>
             </div>
 
             <QuickLinks />
@@ -99,23 +100,23 @@ const HomePage = async (): Promise<ReactElement> => {
             deras hemsida för att läsa mer om deras verksamhet och vad de kan
             erbjuda dig som student.
           </p>
-          <a
+          <Link
             className="mt-6 inline-block rounded-md bg-teal-800 px-5 py-2 text-sm font-semibold text-white hover:bg-teal-900"
             href="https://cpacsystems.se/"
           >
             Mer om sponsorn
-          </a>
+          </Link>
           <div className="mx-auto mt-12 flex max-w-3xl flex-col items-center justify-between gap-4 rounded-2xl bg-neutral-700 p-6 sm:flex-row">
             <p className="text-sm text-white sm:text-left">
               Vill er organisation sponsra eller samarbeta med oss? Mer
               information finns här:
             </p>
-            <a
+            <Link
               className="shrink-0 rounded-md bg-amber-800 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-900"
               href="/business"
             >
               Läs mer
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -134,12 +135,12 @@ const HomePage = async (): Promise<ReactElement> => {
               Det finns mängder av superbra tips till nya studenter på
               mottagningskommittens hemsida.
             </p>
-            <a
+            <Link
               className="mt-5 inline-block rounded-md bg-amber-800 px-5 py-2.5 text-xs font-bold uppercase tracking-wide text-white hover:bg-amber-900"
               href="https://www.znollk.se/"
             >
               Länk till ZoKs hemsida
-            </a>
+            </Link>
           </div>
           <Image
             alt="Illustration: lucky luke"
