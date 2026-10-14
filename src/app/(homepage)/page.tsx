@@ -24,9 +24,9 @@ const HomePage = async (): Promise<ReactElement> => {
           {/* Left column */}
           <div>
             <Settings
+              className="mb-4 text-neutral-600"
               size={40}
               strokeWidth={1.5}
-              className="mb-4 text-neutral-600"
             />
             <h1 className="text-4xl font-extrabold text-neutral-900 sm:text-5xl">
               Z-teknologsektionen
@@ -38,14 +38,14 @@ const HomePage = async (): Promise<ReactElement> => {
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <a
-                href="/student"
                 className="rounded-md bg-amber-800 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-900"
+                href="/student"
               >
                 Mer om programmet
               </a>
               <a
-                href="/business"
                 className="rounded-md border border-neutral-500 bg-white/60 px-5 py-2.5 text-sm font-semibold text-neutral-800 hover:bg-white"
+                href="/business"
               >
                 För företag
               </a>
@@ -83,18 +83,20 @@ const HomePage = async (): Promise<ReactElement> => {
           </h2>
           <div className="mx-auto mb-10 h-px w-full bg-neutral-300" />
           <Image
-            src="cpac.svg"
             alt="Logotyp: huvudsponsor"
-            width={320}
-            height={160}
             className="mx-auto h-40 w-full max-w-md rounded-lg"
+            height={160}
+            src="cpac.svg"
+            width={320}
           />
           <p className="mt-6 text-sm text-neutral-700">
-            Ett stort tack till vår huvudsponsor CPAC Systems. Kolla gärna in deras hemsida för att läsa mer om deras verksamhet och vad de kan erbjuda dig som student.
+            Ett stort tack till vår huvudsponsor CPAC Systems. Kolla gärna in
+            deras hemsida för att läsa mer om deras verksamhet och vad de kan
+            erbjuda dig som student.
           </p>
           <a
-            href="https://cpacsystems.se/"
             className="mt-6 inline-block rounded-md bg-teal-800 px-5 py-2 text-sm font-semibold text-white hover:bg-teal-900"
+            href="https://cpacsystems.se/"
           >
             Mer om sponsorn
           </a>
@@ -104,16 +106,15 @@ const HomePage = async (): Promise<ReactElement> => {
               information finns här:
             </p>
             <a
-              href="/business"
               className="shrink-0 rounded-md bg-amber-800 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-900"
+              href="/business"
             >
               Läs mer
             </a>
           </div>
-          
         </div>
       </section>
-      <div className="mx-auto  h-px w-8/12 bg-neutral-300 "/>
+      <div className="mx-auto h-px w-8/12 bg-neutral-300" />
       {/* Ny student */}
       <section className="px-6 py-16">
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-8 rounded-2xl bg-neutral-700 p-8 sm:flex-row sm:p-10">
@@ -129,23 +130,21 @@ const HomePage = async (): Promise<ReactElement> => {
               mottagningskommittens hemsida.
             </p>
             <a
-              href="https://www.znollk.se/"
               className="mt-5 inline-block rounded-md bg-amber-800 px-5 py-2.5 text-xs font-bold uppercase tracking-wide text-white hover:bg-amber-900"
+              href="https://www.znollk.se/"
             >
               Länk till ZoKs hemsida
             </a>
           </div>
           <Image
-            src="/lucky_horizontal.png"
             alt="Illustration: lucky luke"
-            width={160}
-            height={160}
             className="h-40 w-80 shrink-0 rounded-lg object-scale-down"
+            height={160}
+            src="/lucky_horizontal.png"
+            width={160}
           />
         </div>
       </section>
-
-      
 
       <ExternalLinks />
     </div>

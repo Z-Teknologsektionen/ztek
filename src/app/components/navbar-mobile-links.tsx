@@ -6,12 +6,12 @@ import { Fragment, useState, type FC } from "react";
 import { Button, buttonVariants } from "~/components/ui/button";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import {
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
 } from "~/components/ui/sheet";
 import type { NavbarItem } from "~/types/navbar-types";
 import { checkIfNavbarSubItem } from "~/utils/check-if-navbar-item";
@@ -52,6 +52,7 @@ export const NavbarMobileLinks: FC<{
                       buttonVariants({
                         size: "default",
                         variant: "link",
+                        className: "ml-4 font-normal text-white",
                       }),
                       "w-fit",
                       link.href === pathname &&
@@ -77,7 +78,7 @@ export const NavbarMobileLinks: FC<{
                         className={buttonVariants({
                           size: "default",
                           variant: "link",
-                          className: "ml-8 w-fit font-normal",
+                          className: "ml-8 w-fit font-normal color-white",
                         })}
                         href={sublink.href}
                         onClick={() => setOpen(false)}
