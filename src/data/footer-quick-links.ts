@@ -12,12 +12,12 @@ export const footerQuickLinks = [
   },
   {
     text: "TimeEdit",
-    href: "https://cloud.timeedit.net/chalmers/web/public/",
+    href: "https://cloud.timeedit.net/chalmers/web",
     blank: true,
   },
   {
     text: "Boka Grupprum",
-    href: "https://cloud.timeedit.net/chalmers/web/b1/",
+    href: "https://cloud.timeedit.net/chalmers/web/student/",
     blank: true,
   },
 ] as const satisfies FooterQuickLinks[];

@@ -1,20 +1,25 @@
 import type { Metadata } from "next";
+import { cacheTag } from "next/cache";
 import Image from "next/image";
 import type { ReactElement } from "react";
+import { cacheableCaller } from "~/utils/trpc-client/caller";
 
 export const metadata: Metadata = {
   title: "Z",
 };
 
 import { Settings } from "lucide-react";
-import { getHomePageCarouselItems } from "~/app/(homepage)/_utils/get-home-page-carousel-items";
 import ExternalLinks from "./_components_new/external_links";
 import QuickLinks from "./_components_new/quick_links";
 import UpcomingEventsCard from "./_components_new/upcoming_events_card";
 import { HomePageHeroCarousel } from "./_components_old/home-page-hero-carousel";
 
 const HomePage = async (): Promise<ReactElement> => {
-  const carouselItems = await getHomePageCarouselItems();
+  const carouselItems = await (async () => {
+    "use cache";
+    cacheTag("home-page-carousel");
+    return await cacheableCaller.homePageCarousel.getAllVisible();
+  })();
 
   return (
     <div className="min-h-screen bg-white font-sans text-neutral-900">

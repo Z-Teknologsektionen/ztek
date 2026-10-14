@@ -19,12 +19,62 @@ export const homePageGroupedLinks: HomePageGroupedLinksType = [
       { title: "Outlook", url: "https://outlook.office.com/owa/chalmers.se" },
       {
         title: "Ladok",
-        url: "https://www.student.ladok.se/student/app/studentwebb/",
+        url: "https://student.ladok.se/student/app/studentwebb/",
       },
       { title: "Tentastatistik", url: "https://stats.ftek.se/" },
       { title: "Utskrift på Chalmers", url: "https://papercut.chalmers.se/" },
     ],
   },
-  
- 
+  {
+    title: "Schema & Campus",
+    links: [
+      {
+        title: "Lunchmenyer",
+        url: "https://www.chalmerskonferens.se/ata/johanneberg/",
+      },
+      {
+        title: "Boka Grupprum",
+        url: "https://cloud.timeedit.net/chalmers/web/student/",
+      },
+      {
+        title: "Timeedit",
+        url: "https://cloud.timeedit.net/chalmers/web",
+      },
+      {
+        title: "Schema TKAUT-1",
+        url: "https://cloud.timeedit.net/chalmers/web/public/ri1Q7Y4QQ57Z07Q602464693501W6Z69000y.html",
+      },
+      {
+        title: "Schema TKAUT-2",
+        url: "https://cloud.timeedit.net/chalmers/web/public/ri1Q7Y4QQ57Z07Q102464693508W6Z69000y.html",
+      },
+      {
+        title: "Schema TKAUT-3",
+        url: "https://cloud.timeedit.net/chalmers/web/public/ri1Q7Y4QQ57Z07Q202464693507W6Z69000y.html",
+      },
+      { title: "Schemaguide", url: "/student/schedule" },
+      {
+        title: "Felanmäl Lokaler",
+        url: "https://www.chalmers.se/utbildning/dina-studier/studie-och-arbetsmiljo/fysisk-arbetsmiljo/#felanmalan-i-lokalerna",
+      },
+      {
+        title: "Trygg på chalmers",
+        url: "https://www.chalmers.se/om-chalmers/organisation-och-styrning/trygg-pa-chalmers/",
+      },
+    ],
+  },
+  {
+    title: "Sektionen",
+    links: [
+      { title: "Zaloonen", url: "/student-division/zaloonen" },
+      {
+        title: "Kårappen iOS",
+        url: "https://apps.apple.com/se/app/chalmers-studentk%C3%A5r/id1633440660",
+      },
+      {
+        title: "Kårappen Android",
+        url: "https://play.google.com/store/apps/details?id=com.helo.karappen",
+      },
+    ],
+  },
 ];

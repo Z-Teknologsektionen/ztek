@@ -1,13 +1,19 @@
+import { cacheTag } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
-import { getAllCommittees } from "~/app/student-division/committees/_utils/get-all-committees";
 import { CommitteeImage } from "~/components/committees/committee-image";
 import SecondaryTitle from "~/components/layout/secondary-title";
 import { SectionWithItemAndText } from "~/components/layout/section-with-item-and-text";
 import StyledLink from "~/components/layout/styled-link";
+import { cacheableCaller } from "~/utils/trpc-client/caller";
+
 export const StudentDivisionCommitteesSection: FC = async () => {
-  const committeeData = await getAllCommittees();
+  const committeeData = await (async () => {
+    "use cache";
+    cacheTag("committee");
+    return await cacheableCaller.committee.getAll();
+  })();
 
   return (
     <SectionWithItemAndText

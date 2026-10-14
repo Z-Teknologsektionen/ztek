@@ -1,3 +1,4 @@
+import { AccountRoles } from "@prisma/client";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { deleteFileFromSftpServer } from "~/app/api/sftp/utils/sftp-engine";
@@ -8,14 +9,19 @@ import {
   createZenithMediaServerSchema,
   updateZenithMediaServerSchema,
 } from "~/schemas/zenith-media";
+import { trpc } from "~/server/trpc/init";
 import {
-  createTRPCRouter,
+  enforceRoleOrAdmin,
+  protectedProcedure,
   publicProcedure,
-  zenithMediaProcedure,
-} from "~/server/api/trpc";
+} from "~/server/trpc/procedure-builders";
 
-export const zenithMediaRouter = createTRPCRouter({
-  getAllByYear: publicProcedure.query(async ({ ctx }) => {
+const zenithMediaProcedure = protectedProcedure.use(
+  enforceRoleOrAdmin(AccountRoles.MODIFY_ZENITH_MEDIA),
+);
+
+export const zenithMediaRouter = trpc.router({
+  getAllVisibleGroupedByYear: publicProcedure.query(async ({ ctx }) => {
     const rawMedia = await ctx.prisma.zenithMedia.findMany({
       orderBy: { year: "desc" },
       select: {
@@ -26,6 +32,34 @@ export const zenithMediaRouter = createTRPCRouter({
         coverImage: true,
         startDateTime: true,
         endDateTime: true,
+      },
+      where: {
+        AND: [
+          {
+            OR: [
+              {
+                endDateTime: {
+                  gte: new Date(),
+                },
+              },
+              {
+                endDateTime: null,
+              },
+            ],
+          },
+          {
+            OR: [
+              {
+                startDateTime: {
+                  lte: new Date(),
+                },
+              },
+              {
+                startDateTime: null,
+              },
+            ],
+          },
+        ],
       },
     });
 
@@ -40,6 +74,8 @@ export const zenithMediaRouter = createTRPCRouter({
 
     return formattedData;
   }),
+
+  // authed procedures
   getAllAsAuthed: zenithMediaProcedure.query(async ({ ctx }) => {
     return ctx.prisma.zenithMedia.findMany({
       orderBy: { createdAt: "desc" },

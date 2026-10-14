@@ -7,12 +7,12 @@ import {
   mediaOrderNumber,
   nonEmptyString,
   objectId,
-  standardString,
 } from "~/schemas/helpers/common-zod-helpers";
 import { sftpFile, sftpUrl } from "./helpers/sftp-zod-helpers";
 import {
   dateTimeIntervalCheck,
   dateTimeIntervalError,
+  datetimeString,
   validYearPastOrCurrent,
 } from "./helpers/time-zod-helpers";
 
@@ -23,8 +23,12 @@ export const zenithMediaBaseSchema = z.object({
   coverImage: base64WebPImageString.or(emptyString).or(sftpUrl), //base64 may be removed at some point in the future
   coverImageFile: sftpFile.optional().nullable(),
 
-  endDateTime: standardString.nullable(),
-  startDateTime: standardString.nullable(),
+  endDateTime: datetimeString
+    .nullable()
+    .or(z.literal("").transform((_) => null)), // html forms produce "" instead of null
+  startDateTime: datetimeString
+    .nullable()
+    .or(z.literal("").transform((_) => null)),
 });
 
 export const createZenithMediaClientSchema = zenithMediaBaseSchema

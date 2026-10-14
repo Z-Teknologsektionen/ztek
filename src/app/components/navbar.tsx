@@ -3,15 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { FC } from "react";
+import { Suspense, type FC } from "react";
 import { useNavbarRoutes } from "~/hooks/useNavbarRoutes";
 import { NavbarDesktopLinks } from "./navbar-desktop-links";
 import { NavbarMobileLinks } from "./navbar-mobile-links";
 
 const Navbar: FC = () => {
-  const navbarRoutes = useNavbarRoutes();
-  const pathname = usePathname() || "";
-
   return (
     <nav className="relative z-50">
       <div className="relative z-50 overflow-visible bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.14),_transparent_35%),linear-gradient(135deg,_rgba(9,9,11,0.95)_0%,_rgba(43,43,53,0.9)_45%,_rgba(135,140,150,0.9)_100%)] px-4 py-4 shadow-[0_30px_80px_-25px_rgba(0,0,0,0.75)] backdrop-blur-xl sm:px-6 lg:px-8">
@@ -23,7 +20,12 @@ const Navbar: FC = () => {
                 className="relative flex size-14 items-center justify-center rounded-full p-1 sm:size-16 lg:size-20"
                 href="/"
               >
-                <Image alt="Logo" className="object-contain" src="/logo.png" fill />
+                <Image
+                  alt="Logo"
+                  className="object-contain"
+                  src="/logo.png"
+                  fill
+                />
               </Link>
             </div>
             <div className="hidden xl:block">
@@ -39,13 +41,23 @@ const Navbar: FC = () => {
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <NavbarDesktopLinks linkItems={navbarRoutes} pathname={pathname} />
-            <NavbarMobileLinks linkItems={navbarRoutes} pathname={pathname} />
-          </div>
+          <Suspense fallback={"... loading navbar"}>
+            <NavbarLinks />
+          </Suspense>
         </div>
       </div>
     </nav>
+  );
+};
+
+const NavbarLinks: FC = () => {
+  const navbarRoutes = useNavbarRoutes();
+  const pathname = usePathname() || "";
+  return (
+    <>
+      <NavbarDesktopLinks linkItems={navbarRoutes} pathname={pathname} />
+      <NavbarMobileLinks linkItems={navbarRoutes} pathname={pathname} />
+    </>
   );
 };
 
