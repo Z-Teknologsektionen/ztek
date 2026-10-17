@@ -21,6 +21,11 @@ const TimeEditIntroductionSection: FC = () => {
         Notera att även om sektionen betecknas Z, betecknas programmet TKAUT. På
         samma vis kallas klasserna TKAUT-1, TKAUT-2, etc.
       </p>
+
+      <p>
+        Denna sida innehåller en post-processor för scheman, samt instruktioner
+        för hur man prenumererar på kalendrar.
+      </p>
     </SectionWrapper>
   );
 };

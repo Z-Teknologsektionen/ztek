@@ -12,8 +12,8 @@ const SchedulePage: FC = () => {
   return (
     <div className="container mx-auto mt-8 divide-y-4 divide-zDarkGray divide-opacity-20">
       <TimeEditIntroductionSection />
-      <SubscriptionInstructionsSection />
       <ScheduleLinkGeneratorSection />
+      <SubscriptionInstructionsSection />
     </div>
   );
 };

@@ -11,23 +11,35 @@ import ScheduleLinkGenerator from "./schedule-link-generator";
 const ScheduleLinkGeneratorSection: FC = () => {
   return (
     <SectionWrapper>
-      <SectionTitle>Modifiera din kalenderprenumeration</SectionTitle>
+      <SectionTitle>Schema-postprocessor</SectionTitle>
       <p>
-        Kalendern som kan prenumereras på från TimeEdit kan vara något svårläst.
+        Schemat som kan prenumereras på från TimeEdit kan vara något svårläst.
         För att Z-teknologer ska få det lättare att läsa sina kalendrar finns
-        ett API för att förenkla kalendrar från Chalmers TimeEdit.
+        här en postprocessor för att göra scheman från Chalmers TimeEdit mer
+        lättlästa.
       </p>
       <p>
-        Tyvärr finns inget som tyder på att TimeEdit-kalendrarna från Chalmers
-        kommer att fortsätta se likadana ut. Därför finns en möjlighet att
-        API:et slutar fungera som förväntat inom en snar eller avlägsen framtid.
-        Webbgruppen tar inte ansvar för missade föreläsningar.
+        Denna fungerar genom att låta din kalenderapp fråga ztek, istället för
+        TimeEdit, om en kalenderfil. Ztek hämtar då det ursprungliga schemat
+        från TimeEdit, läser det, lägger datan i en dictionary-datastruktur, och
+        skriver sedan tillbaka detta till en ny fil, med något annat utseende,
+        som den skickar tillbaka till din kalenderapp. Tyvärr finns inget som
+        tyder på att TimeEdit-scheman från Chalmers kommer att fortsätta se
+        likadana ut. Därför finns en möjlighet att postprocessorn slutar fungera
+        som förväntat inom en snar eller avlägsen framtid. Webbgruppen tar inte
+        ansvar för missade föreläsningar.
         <span className="text-red-500 dark:text-red-900">
           <b> TL;DR; </b> Använd på egen risk!
         </span>
       </p>
+      <p>
+        För att få tag på en prenumerationslänk från ztek, kopiera en
+        förgenererad nedan, eller ange länken för det schemat som ska
+        post-processas.
+      </p>
 
       <div className="flex flex-col items-stretch gap-4 md:flex-row">
+        {/* Link generator */}
         <div className="flex grow-[2] flex-col items-stretch gap-4">
           <SecondaryTitle center={true}>Länkgenerator</SecondaryTitle>
           <div className="flex grow flex-col items-stretch justify-center">
@@ -35,6 +47,7 @@ const ScheduleLinkGeneratorSection: FC = () => {
           </div>
         </div>
 
+        {/* Pre-generated */}
         <div className="flex grow-[1] flex-col items-stretch gap-4">
           <SecondaryTitle center={true}>Förgenererade länkar</SecondaryTitle>
           <div className="flex grow flex-row flex-wrap items-center justify-center gap-4 md:flex-col">
