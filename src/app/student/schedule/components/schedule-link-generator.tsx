@@ -15,9 +15,9 @@ const ScheduleLinkGenerator: FC = () => {
   const loggedIntoTimeEdit: boolean = match?.[1] == "student" || false;
 
   // put data into output and errorMsg
-  const output: string = calID
+  const output: string | null = calID
     ? `${window.location.origin}/api/ics/${calID}`
-    : "";
+    : null;
   let errorMsg: string | null;
   if (!input) errorMsg = null;
   else if (loggedIntoTimeEdit)
@@ -38,8 +38,11 @@ const ScheduleLinkGenerator: FC = () => {
         value={input}
       />
 
-      <LabeledInput title="Genererad ztek-länk" value={output} readOnly>
-        <CopyButton value={output} />
+      <LabeledInput title="Genererad ztek-länk" value={output || ""} readOnly>
+        <CopyButton
+          tooltip={!output ? "Hämta en TimeEdit-Länk först :3" : null}
+          value={output}
+        />
       </LabeledInput>
     </div>
   );
