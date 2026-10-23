@@ -7,11 +7,11 @@ import StyledLink from "~/components/layout/styled-link";
 const SubscriptionInstructionsSection: FC = () => {
   return (
     <SectionWrapper>
-      <SectionTitle>Prenumerera på kalendrar</SectionTitle>
+      <SectionTitle>Prenumerationsguide</SectionTitle>
       <p>
-        Prenumerationslänkar är länkar som leder till .ics kalenderfiler som
-        emellanåt uppdateras, vanligen för att kalendern ska visa schemat för
-        aktuell tidsperiod.
+        Kalenderprenumerationslänkar är länkar som leder till .ics kalenderfiler
+        som emellanåt uppdateras, vanligen för att kalendern ska visa schemat
+        för aktuell tidsperiod.
       </p>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
