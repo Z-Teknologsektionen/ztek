@@ -6,6 +6,7 @@
 
 /** @type {import("next").NextConfig} */
 const config = {
+  allowedDevOrigins: ["**"] /* don't block any clients on `npm run dev` */,
   reactStrictMode: true,
 
   /**
