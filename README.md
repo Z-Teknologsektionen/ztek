@@ -19,56 +19,99 @@ This guide is created to help new member of Webbgruppen to get started with the 
 
 Before you can run this project, you need to have the following installed:
 
-- Node.js: Next.js requires Node.js to run. You can download it from the [official Node.js website](https://nodejs.org/). The LTS (Long Term Support) version is recommended.
+- **Node.js**: Next.js requires Node.js to run. You can download it from the [official Node.js website](https://nodejs.org/). The LTS (Long Term Support) version is recommended.
 
-- npm: npm is the package manager for Node.js and is used to install Next.js and other dependencies. npm is included with Node.js, so you don't need to install it separately.
+- **npm**: npm is the package manager for Node.js and is used to install Next.js and other dependencies. npm is included with Node.js, so you don't need to install it separately.
 
-- Git: You will need Git to clone the project's repository. You can download it from the [official Git website](https://git-scm.com/).
+- **Git**: You will need Git to clone the project's repository. You can download it from the [official Git website](https://git-scm.com/).
 
 Furthermore, the following VS Code extensions are recommended:
 
 - [Prisma](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma)
-- [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 - [Prettier ESLint](https://marketplace.visualstudio.com/items?itemName=rvest.vs-code-prettier-eslint)
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 
 ### Launching for debugging
 
-After installing the prerequisites, you can clone the project's repository with the following command:
+ 1. **Clone the repository**:
+    After installing the prerequisites, you can clone the project's repository with the following command:
 
-```sh
-git clone https://github.com/Z-Teknologsektionen/ztek.git
-```
+    ```sh
+    git clone https://github.com/Z-Teknologsektionen/ztek.git .
+    ```
 
-To be able to access the github repository, you need to be a member of the organization Z-Teknologsektionen. If you are not a member, you can request access from Ztyret.
+    To be able to push commits to the github repository, you need to be a member of the organization Z-Teknologsektionen. If you are not a member, you can request access from Ztyret.
 
-Install the project's dependencies with the command `npm install` or `npm i`
-and run the project with `npm run dev`.
+ 1. **Add environment variables**
 
-The application might return an error when connecting to the database because no valid environment file is present. Look at `.env.example` and create a copy of it. Rename it to `.env` and fill it with the correct values. For more information, see [this link](https://www.prisma.io/docs/reference/database-reference/connection-urls#env).
+    Environment variables may contain passwords (*leik secret passwords*), and constants which depend on where the website is deployed. These are not availible from GitHub. These may be obtained from Webbgruppen's Google Drive and should be entered in a file named `.env` in the project's root folder.
 
-```.env
-DATABASE_URL=""
+    the `.env` file may look a bit like this, but with values entered:
+    ```.env
+    DATABASE_URL="file:./db.sqlite"
 
-#Next Auth
-NEXTAUTH_URL=''
-NEXTAUTH_SECRET=''
+    #Next Auth
+    NEXTAUTH_URL=''
+    NEXTAUTH_SECRET=''
 
-#Next Auth Google Login
-GOOGLE_CLIENT_ID=''
-GOOGLE_CLIENT_SECRET=''
-```
+    #Next Auth Google Login
+    GOOGLE_CLIENT_ID=''
+    GOOGLE_CLIENT_SECRET=''
 
-This is what the current `.env` file looks for this project. Reach out to other members to get the correct values.
+    #Sftp setup
+    SFTP_HOST=''
+    SFTP_PORT=''
+    SFTP_USER=''
+    SFTP_BASE_PATH=''
+    SFTP_KEY=''
+    NEXT_PUBLIC_SFTP_BASE_URL=''
+    ```
+    
+ 1. **Install dependencies**
 
-Now you should be able to run the project and connect to all relevant databases. If the code still throws an error, try restarting the ESLint server by pressing `ctrl + shift + p` and typing `ESLint: Restart ESLint Server`.
+    Install the project's dependencies with the command `npm install` or `npm i`
+
+    *Make sure to do this again whenever you checkout a branch from GitHub, since the installed packages may vary slightly, causing errors which are difficult to find (often prisma error).*
+
+1.  **Launch in development mode**
+
+    Use `npm run dev` to start the website in development mode. The page will be avalible at [http://localhost:5000](http://localhost:5000)
 
 ### Common issues
 
-When checking out a branch, always run `npm install` to make sure you have all the dependencies needed for the project. If you are having issues with the project, try running `npm run lint` and `npm run typecheck` to see if there are any errors in the code. If you are still having issues, reach out to the other members of Webbgruppen.
+ -  **Prisma DNS error**:
 
-Sometimes prisma does its own thing and throws errors. If you are having issues with prisma, try running `npx prisma generate` to regenerate the prisma files.
+    Our database client `prisma` does not seem to function when the server's (aka your computer, if you're running the page locally) DNS is set to Cloudflare. If you have difficult to explain prisma errors, it's reccommended to set your computer's preferred DNS server to `8.8.8.8`.
 
-### File Structure
+ -  **Packages not updated**:
+
+    When checking out a branch, always run `npm install` to make sure you have all the dependencies needed for the project. If you are having issues with the project, try running `npm run lint` and `npm run typecheck` to see if there are any errors in the code. If you are still having issues, reach out to the other members of Webbgruppen :3
+
+## Deployment
+
+*The website used to be deployed at [Vercel](https://vercel.com/home), any documentation mentioning Vercel may be out of date.*
+
+The website is currently hosted by [G.U.D](https://gud.chs.chalmers.se/) (a committe of Chalmers' Student Union), at their [Portainer server](https://portainer.chs.se/#!/auth) at `portainer.chs.se` or `129.16.159.15`. [Portainer](https://www.portainer.io/) is software used by them to host our (and other committees') docker containers, and give us possibility for [remote management](https://portainer.chs.se/#!/auth).
+
+Hence, for the website to be deployable on Portainer, it must be packaged into a [docker image](https://docs.docker.com/get-started/docker-overview/#images). This is done as described in the `Dockerfile` file. The image is later instantiated, into a [docker container](https://docs.docker.com/get-started/docker-overview/#containers), according to the [docker compose](https://docs.docker.com/compose/) file `compose.yaml`. Since this file contains a copy of the environment variables, it must never be committed to GitHub. Copies are avalible at Portainer, and Google Drive (hopefully not out of date).
+
+To enable Portainer to fetch our docker images, they must be stored somewhere accessible. For this, we're pushing the docker images to `ghcr.io/z-teknologsektionen/ztek` (will redirect to [our GitHub package page](https://github.com/Z-Teknologsektionen/ztek/pkgs/container/ztek) if accessed with browser instead of docker CLI) at the *GitHub Container Registry* (aka *ghcr*)
+
+To automate this process, a GitHub action as defined in `.github\workflows\build-image.yml` is run whenever a commit is made to either of branches `dev` and `main`. This will build a docker image, and push it to ghcr. Nevertheless, restarting the *docker stack* (aka the set of containers defined by a single compose file), will need to be done manually on Portainer.
+
+<!-- Before the project can be deployed to Vercel, it needs to pass some basic checks. These checks runs automatically on every commit to the repository. The checks are `npm run lint` and `npm run typecheck`. These checks are used to ensure that the code is clean and that there are no errors in the code. If the checks fail, the code might not be deployed to Vercel. -->
+
+
+## Git and Github
+
+This project is hosted on Github and is version controlled with Git. This means that all changes to the project are tracked and can be reverted if needed. The project is hosted on the Z-Teknologsektionen organization on Github. The project is divided into different branches, where the `main` branch is the branch that is deployed to the website and `dev` is deployed to the test website. The two branches are protected and you need to create a pull request to merge your changes into the `dev` branch. `main` is only updated from the `dev` branch when the team feels the code is mature enough to go to production (usually every 2 weeks). This is to ensure that the code is reviewed before it is displayed on the website. The project is also divided into different issues and features where each feature or issue has their own branch. This is to keep track of what needs to be done and to keep the project organized. The project also has a project board where the different issues and features are placed in different columns depending on their status. This is to keep track of what needs to be done and what is being worked on.
+
+All new branches should be a copy of the current `dev` branch and be named based on the issue or feature that is being worked on. When the feature or issue is done, a pull request should be created and the code should be reviewed by another member of the team. When the code is reviewed and approved, it can be merged into the `dev` branch. The code is then tested on the test website and if everything works as expected, it can be merged into the `main` branch. This is to ensure that the code is reviewed before it is displayed on the website.
+
+Feature branches should be named `feat_nameOfFeature` and issue branches should be named `fix_nameOfIssue`. This is to keep the project organized and to keep track of what needs to be done.
+
+
+## File Structure
 
 A typical Next.js project has a specific file structure. Here's a brief overview of the main directories and files you'll find in a Next.js project and their roles:
 
@@ -92,7 +135,7 @@ A typical Next.js project has a specific file structure. Here's a brief overview
 
 - `.env`: This file is used to define environment variables. This is needed to keep sensitive information like API keys and database credentials out of your codebase.
 
-#### How Files are Connected
+### How Files are Connected
 
 The `src/pages/` directory is the heart of a Next.js application. Each file in this directory corresponds to a route in your application. These files import and use components from the `src/components/` directory or any other directory you choose to structure your components in.
 
@@ -116,11 +159,11 @@ The `student-division` route is used to display the different student division c
 
 The page rendered when you visit `ztek.se/student-division` is rendered from the `index.tsx` file placed in the `student-division` folder. This enables the application to have a base route and subroutes. Within the folder, there is also a file named `zaloonen.tsx` which is displayed at the route `ztek.se/student-division/zaloonen`. So `index.tsx` in any folder corresponds to the folder name while another filename corresponds to the filename.
 
-#### Dynamic routes
+### Dynamic routes
 
 Sometimes we don't know the route, as it might depend on a name defined in some database. In this project this happens for committees at `src/pages/student-division/committees/[slug]`. Here the brackets indicate that the route is dynamic and the slug of the committee is used to display a specific committee. Each committee has the same layout, but the text and images are changed based on the api call which uses the slug to get data.
 
-#### Using different components
+### Using different components
 
 The different routes are mainly built with different components such as the `<SectionWrapper>` component. This component is used to wrap the different sections of the website and is used to keep the same layout across the different routes. Looking at the component, we can see that it has different margins for different screen sizes, making the website nice both for computers and phones. This component should be wrapped around every different page.
 
@@ -269,21 +312,9 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 ```
 
-### Git and Github
 
-This project is hosted on Github and is version controlled with Git. This means that all changes to the project are tracked and can be reverted if needed. The project is hosted on the Z-Teknologsektionen organization on Github. The project is divided into different branches, where the `main` branch is the branch that is deployed to the website and `dev` is deployed to the test website. The two branches are protected and you need to create a pull request to merge your changes into the `dev` branch. `main` is only updated from the `dev` branch when the team feels the code is mature enough to go to production (usually every 2 weeks). This is to ensure that the code is reviewed before it is displayed on the website. The project is also divided into different issues and features where each feature or issue has their own branch. This is to keep track of what needs to be done and to keep the project organized. The project also has a project board where the different issues and features are placed in different columns depending on their status. This is to keep track of what needs to be done and what is being worked on.
 
-All new branches should be a copy of the current `dev` branch and be named based on the issue or feature that is being worked on. When the feature or issue is done, a pull request should be created and the code should be reviewed by another member of the team. When the code is reviewed and approved, it can be merged into the `dev` branch. The code is then tested on the test website and if everything works as expected, it can be merged into the `main` branch. This is to ensure that the code is reviewed before it is displayed on the website.
-
-Feature branches should be named `feat_nameOfFeature` and issue branches should be named `fix_nameOfIssue`. This is to keep the project organized and to keep track of what needs to be done.
-
-### Automatic deployment
-
-The project is deployed with Vercel which streamlines the deployment process. When a pull request is created and the code is reviewed and approved, the code is automatically deployed to the test website. This is to ensure that the code works as expected and to make it easier to test the code. When the code is merged into the `main` branch, the code is automatically deployed to the production website. This is to ensure that the code is always up to date and that the website is always displaying the latest version of the code.
-
-Before the project can be deployed to Vercel, it needs to pass some basic checks. These checks runs automatically on every commit to the repository. The checks are `npm run lint` and `npm run typecheck`. These checks are used to ensure that the code is clean and that there are no errors in the code. If the checks fail, the code might not be deployed to Vercel.
-
-### Standards
+## Standards
 
 ### Prisma and Database
 
@@ -325,11 +356,8 @@ model Post {
 
 In this schema, a `User` can have many posts while a post can only have one user. The `@id` attribute is used to define the primary key, and the `@default` attribute is used to define default values. The `@unique` attribute is used to define unique constraints. The `@relation` attribute is used to define relationships between tables.
 
-### tRPC and NextAuth.js
 
-tRPC and NextAuth.js are integral parts of the project, contributing to its functionality and security.
-
-#### tRPC
+### tRPC
 
 [tRPC](https://trpc.io/) (Typed RPC) is used for defining typed APIs in TypeScript. It helps in defining API routes with type safety, making it easier to build and maintain APIs. In this project, tRPC is utilized for creating APIs for various functionalities, such as authentication and data retrieval. To add a new route to the API, a new file should be created in the `src/server/api/routers` directory. The file should be named based on the route. The file should export a `createTRPCRouter` function that defines the route and its functionality. You also need to add the implemented route in `src/server/api/root.ts`. In the front end, you fetch the data from the api as per the following example:
 
@@ -354,7 +382,7 @@ const {
 
 In this example the data is fetched from the api and the data is used to display a table. The `api` object is used to fetch the data from the api with the `useQuery` method. The `data` property will not be available until all data is loaded and while it's loading the `isLoading` property will be set to true. The `isError` property is set to true if an error is thrown while querying the database.
 
-##### NextAuth.js
+### NextAuth.js
 
 [NextAuth.js](https://next-auth.js.org/) provides authentication solutions for Next.js applications. It supports various authentication providers like Google, Facebook, GitHub, etc., making it flexible for different authentication methods. It handles authentication flows, including OAuth, JWT, and session management, ensuring secure user authentication. In this project, NextAuth.js is used for user authentication with google and session management. In `auth.ts` a user's roles and permissions are injected to the session so it can be used throughout the application. If more properties should be added to the session, it should be done in this file. To access the session properties the method `useRequireAuth()` to get a user's session and `useSession()` to get the session properties. If the user is unauthorized, the `useRequireAuth()` method will redirect the user to the login page.
 
