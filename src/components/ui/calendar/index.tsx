@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { FC, useState } from "react";
-import { formatEventDate, sameDay, type CalendarEvent } from "./calendar-helpers";
+import { formatEventDate, formatEventTime, sameDay, type CalendarEvent } from "./calendar-helpers";
 import MonthCalendar from "./month-calendar";
 
 type ViewMode = "list" | "calendar";
@@ -79,7 +79,7 @@ const Calendar: FC<{events: CalendarEvent[]} > = ({events}) => {
                   <p className="text-sm font-bold text-white">{event.title}</p>
                   <p className="mt-0.5 flex items-center gap-1 text-xs text-neutral-300">
                     <Clock size={12} />
-                    {formatEventDate(event.date)}, {event.time}
+                    {formatEventDate(event.date)}, {formatEventTime(event.date)}
                     <span className="mx-1">·</span>
                     <MapPin size={12} />
                     {event.location}
@@ -126,7 +126,9 @@ const Calendar: FC<{events: CalendarEvent[]} > = ({events}) => {
                       {event.title}
                     </p>
                     <p className="text-xs text-neutral-300">
-                      {event.time} · {event.location}
+                      {
+                      event.allDay ? "Hela dagen" : formatEventTime(event.date)
+                      } · {event.location}
                     </p>
                     {event.description && (
                       <p className="mt-1 text-xs text-neutral-200">

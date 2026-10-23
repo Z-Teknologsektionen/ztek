@@ -1,36 +1,28 @@
 import { convertIcsCalendar, extendByRecurrenceRule } from "ts-ics";
+import type { CalendarEvent } from "~/components/ui/calendar/calendar-helpers";
 
 const CALENDAR_ICS_URL =
   "https://calendar.google.com/calendar/ical/5k34kjsd0eghetn8t6cp7k1pb8%40group.calendar.google.com/public/basic.ics";
 
-export async function GET(): Promise<Response> {
+export const getZaloonenBookings = async (): Promise<CalendarEvent[]> => {
   let calendarResponse: Response;
   try {
     calendarResponse = await fetch(CALENDAR_ICS_URL, {
       next: { revalidate: 300 },
     });
   } catch {
-    return Response.json(
-      { error: "Could not connect to the Zaloonen calendar." },
-      { status: 502 },
-    );
+    throw new Error("Could not connect to the Zaloonen calendar.");
   }
 
   if (!calendarResponse.ok) {
-    return Response.json(
-      { error: "The Zaloonen calendar returned an error." },
-      { status: 502 },
-    );
+    throw new Error("The Zaloonen calendar returned an error.");
   }
 
   let calendar: ReturnType<typeof convertIcsCalendar>;
   try {
     calendar = convertIcsCalendar(undefined, await calendarResponse.text());
   } catch {
-    return Response.json(
-      { error: "The Zaloonen calendar data could not be parsed." },
-      { status: 502 },
-    );
+    throw new Error("The Zaloonen calendar data could not be parsed.");
   }
 
   const now = new Date();
@@ -49,7 +41,7 @@ export async function GET(): Promise<Response> {
     ),
   );
 
-  const events = (calendar.events ?? [])
+  const events: CalendarEvent[] = (calendar.events ?? [])
     .filter((event) => event.status !== "CANCELLED")
     .flatMap((event) => {
       const starts = event.recurrenceRule
@@ -62,16 +54,19 @@ export async function GET(): Promise<Response> {
 
       return starts
         .filter((start) => start >= rangeStart && start <= rangeEnd)
-        .map((start) => ({
-          id: `${event.uid}:${start.getTime()}`,
-          title: event.summary || "Bokning",
-          date: start.toISOString(),
-          location: event.location || "Zaloonen",
-          description: event.description || "",
-          allDay: event.start.type === "DATE",
-        }));
+        .map(
+          (start) =>
+            ({
+              id: `${event.uid}:${start.getTime()}`,
+              title: event.summary || "Bokning",
+              date: start,
+              location: event.location || "Zaloonen",
+              description: event.description || "",
+              allDay: event.start.type === "DATE",
+            }) satisfies CalendarEvent,
+        );
     })
-    .sort((a, b) => a.date.localeCompare(b.date));
+    .sort((a, b) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0));
 
-  return Response.json({ events });
-}
+  return events;
+};

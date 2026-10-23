@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 };
 
 import { Settings } from "lucide-react";
+import Calendar from "~/components/ui/calendar/index";
 import ExternalLinks from "./_components_new/external_links";
 import QuickLinks from "./_components_new/quick_links";
-import UpcomingEventsCard from "./_components_new/upcoming_events_card";
 import { HomePageHeroCarousel } from "./_components_old/home-page-hero-carousel";
 
 const HomePage = async (): Promise<ReactElement> => {
@@ -76,7 +76,7 @@ const HomePage = async (): Promise<ReactElement> => {
                 </div>
               </div>
             )}
-            <UpcomingEventsCard />
+            <Calendar />
           </div>
         </div>
       </section>

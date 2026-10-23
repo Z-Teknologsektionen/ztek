@@ -10,7 +10,6 @@ export type CalendarEvent = {
   description: string;
   id: string;
   location: string;
-  time: string;
   title: string;
 }
 
