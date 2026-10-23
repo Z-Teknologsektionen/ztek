@@ -11,7 +11,6 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { TOOLTIP_DELAY_MS } from "~/constants/delay-constants";
-import { cn } from "~/utils/utils";
 
 /**
  * Button for copying a string value to user's clipboard.
@@ -50,12 +49,7 @@ const CopyButton: FC<{
     <TooltipProvider delayDuration={TOOLTIP_DELAY_MS}>
       <Tooltip>
         <TooltipTrigger>
-          <Button
-            className={
-              cn(!value && "bg-zDarkGray") /* Grey-out if no content */
-            }
-            onClick={copyButtonHandler}
-          >
+          <Button disabled={!value} onClick={copyButtonHandler}>
             {copied ? "Kopierad" : "Kopiera"}
             {copied && <BooleanCell value={true} />}
           </Button>
