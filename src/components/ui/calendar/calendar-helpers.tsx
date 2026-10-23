@@ -1,7 +1,17 @@
 
-export interface MonthGridCell {
+export type MonthGridCell = {
   date: Date;
   inMonth: boolean; 
+}
+
+export type CalendarEvent = {
+  allDay: boolean;
+  date: Date;
+  description: string;
+  id: string;
+  location: string;
+  time: string;
+  title: string;
 }
 
 export const addDays = (date: Date, days: number): Date => {

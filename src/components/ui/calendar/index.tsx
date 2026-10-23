@@ -8,22 +8,14 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { FC, useState } from "react";
-import { formatEventDate, sameDay } from "./_utils/date_helpers";
-import MonthCalendar from "./month_calendar";
+import { formatEventDate, sameDay, type CalendarEvent } from "./calendar-helpers";
+import MonthCalendar from "./month-calendar";
 
 type ViewMode = "list" | "calendar";
 const ZALOONEN_CALENDAR_URL =
   "https://embed.styledcalendar.com/#KwrikxxDh0q9078hGAzF";
 
-export type CalendarEvent = {
-  allDay: boolean;
-  date: Date;
-  description: string;
-  id: string;
-  location: string;
-  time: string;
-  title: string;
-}
+
 
 const Calendar: FC<{events: CalendarEvent[]} > = ({events}) => {
   const [mode, setMode] = useState<ViewMode>("list");
@@ -78,8 +70,7 @@ const Calendar: FC<{events: CalendarEvent[]} > = ({events}) => {
               Inga kommande händelser.
             </p>
           )}
-          {
-            upcomingEvents.slice(0, 3).map((event) => (
+          {upcomingEvents.slice(0, 3).map((event) => (
               <div
                 key={event.id}
                 className="flex items-center justify-between gap-3 rounded-md bg-neutral-700 px-4 py-3"

@@ -1,11 +1,10 @@
 "use client";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useMemo, useState } from "react";
-import { getMonthGrid, sameDay } from "../_utils/date_helpers";
-import type { EventItem } from "../_utils/types";
+import { getMonthGrid, sameDay, type CalendarEvent } from "./calendar-helpers";
 
 interface MonthCalendarProps {
-  events: EventItem[];
+  events: CalendarEvent[];
   selectedDate: Date;
   onSelectDate: (date: Date) => void;
 }
@@ -20,7 +19,7 @@ export default function MonthCalendar({ events, selectedDate, onSelectDate }: Mo
     [viewDate]
   );
 
-  const eventsOn = (date: Date): EventItem[] => events.filter((e) => sameDay(e.date, date));
+  const eventsOn = (date: Date): CalendarEvent[] => events.filter((e) => sameDay(e.date, date));
   const monthLabel = viewDate.toLocaleDateString("sv-SE", {
     month: "long",
     year: "numeric",
