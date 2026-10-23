@@ -1,4 +1,8 @@
-import type { MonthGridCell } from "./types";
+
+export interface MonthGridCell {
+  date: Date;
+  inMonth: boolean; 
+}
 
 export const addDays = (date: Date, days: number): Date => {
   const d = new Date(date);
@@ -20,20 +24,23 @@ export const formatEventTime = (date: Date): string =>
 // Builds a 7-wide grid of cells (with leading/trailing days from
 // neighbouring months) for a given year/month. Monday-first week.
 export const getMonthGrid = (year: number, month: number): MonthGridCell[] => {
-  const firstOfMonth = new Date(year, month, 1);
-  const startOffset = (firstOfMonth.getDay() + 6) % 7; // Mon = 0
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const firstOfMonth: Date = new Date(year, month, 1);
+  const startOffset: number = (firstOfMonth.getDay() + 6) % 7; // Mon = 0
+  const daysInMonth: number = new Date(year, month + 1, 0).getDate();
 
   const cells: MonthGridCell[] = [];
+  // pad first week with days before of month
   for (let i = startOffset; i > 0; i--) {
     const date = new Date(year, month, 1 - i);
     cells.push({ date, inMonth: false });
   }
+  // add days of month
   for (let day = 1; day <= daysInMonth; day++) {
     cells.push({ date: new Date(year, month, day), inMonth: true });
   }
+  // pad last week with days after month
   while (cells.length % 7 !== 0) {
-    const last = cells[cells.length - 1].date;
+    const last = cells[cells.length - 1]!.date;
     cells.push({ date: addDays(last, 1), inMonth: false });
   }
   return cells;

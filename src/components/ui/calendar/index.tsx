@@ -7,17 +7,25 @@ import {
   MapPin,
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
-import { formatEventDate, sameDay } from "~/app/(homepage)/_utils/date_helpers";
+import { FC, useState } from "react";
+import { formatEventDate, sameDay } from "./_utils/date_helpers";
 import MonthCalendar from "./month_calendar";
-import useUpcomingEvents from "./upcoming_events";
 
 type ViewMode = "list" | "calendar";
 const ZALOONEN_CALENDAR_URL =
   "https://embed.styledcalendar.com/#KwrikxxDh0q9078hGAzF";
 
-export default function UpcomingEventsCard() {
-  const { events, status } = useUpcomingEvents();
+export type CalendarEvent = {
+  allDay: boolean;
+  date: Date;
+  description: string;
+  id: string;
+  location: string;
+  time: string;
+  title: string;
+}
+
+const Calendar: FC<{events: CalendarEvent[]} > = ({events}) => {
   const [mode, setMode] = useState<ViewMode>("list");
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
@@ -64,25 +72,13 @@ export default function UpcomingEventsCard() {
 
       {mode === "list" ? (
         <div className="mt-2 space-y-2">
-          {status === "loading" && (
-            <p className="rounded-md bg-neutral-700 px-4 py-3 text-sm text-neutral-300">
-              Hämtar kalenderhändelser...
-            </p>
-          )}
-          {status === "error" && (
-            <p
-              className="rounded-md bg-neutral-700 px-4 py-3 text-sm text-amber-200"
-              role="alert"
-            >
-              Kunde inte hämta Zaloonens kalender just nu.
-            </p>
-          )}
-          {status === "ready" && upcomingEvents.length === 0 && (
+          
+          {upcomingEvents.length === 0 && (
             <p className="rounded-md bg-neutral-700 px-4 py-3 text-sm text-neutral-300">
               Inga kommande händelser.
             </p>
           )}
-          {status === "ready" &&
+          {
             upcomingEvents.slice(0, 3).map((event) => (
               <div
                 key={event.id}
@@ -124,15 +120,7 @@ export default function UpcomingEventsCard() {
                 month: "long",
               })}
             </p>
-            {status === "loading" ? (
-              <p className="text-xs text-neutral-400">
-                Hämtar kalenderhändelser...
-              </p>
-            ) : status === "error" ? (
-              <p className="text-xs text-amber-200" role="alert">
-                Kunde inte hämta Zaloonens kalender just nu.
-              </p>
-            ) : eventsForSelectedDay.length === 0 ? (
+           {eventsForSelectedDay.length === 0 ? (
               <p className="text-xs text-neutral-400">
                 Inga händelser den här dagen.
               </p>
@@ -174,3 +162,5 @@ export default function UpcomingEventsCard() {
     </div>
   );
 }
+
+export default Calendar;
