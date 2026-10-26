@@ -1,11 +1,9 @@
 import { TRPCError } from "@trpc/server";
 import { convertIcsCalendar, extendByRecurrenceRule } from "ts-ics";
 import type { CalendarEvent } from "~/components/ui/calendar/calendar-helpers";
+import { ZALOONEN_BOOKING_ICS_URL } from "~/constants/3rd-party-apis";
 import { trpc } from "~/server/trpc/init";
 import { publicProcedure } from "~/server/trpc/procedure-builders";
-
-const CALENDAR_ICS_URL =
-  "https://calendar.google.com/calendar/ical/5k34kjsd0eghetn8t6cp7k1pb8%40group.calendar.google.com/public/basic.ics";
 
 export const zaloonenBookingRouter = trpc.router({
   /**
@@ -18,7 +16,7 @@ export const zaloonenBookingRouter = trpc.router({
   getAll: publicProcedure.query(async () => {
     let calendarResponse: Response;
     try {
-      calendarResponse = await fetch(CALENDAR_ICS_URL, {
+      calendarResponse = await fetch(ZALOONEN_BOOKING_ICS_URL, {
         next: { revalidate: 300 },
       });
     } catch {

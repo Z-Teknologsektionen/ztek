@@ -1,3 +1,4 @@
+import { TIMEEDIT_SCHEDULE_ICS_URL } from "~/constants/3rd-party-apis";
 import simplifySchedule from "./simplify-schedule";
 
 export async function GET(
@@ -8,7 +9,7 @@ export async function GET(
 
   let timeeditResponse: Response;
   const timeeditRequest: Request = new Request(
-    `https://cloud.timeedit.net/chalmers/web/public/${(await params).calID}.ics`,
+    TIMEEDIT_SCHEDULE_ICS_URL((await params).calID),
   );
 
   //poll TimeEdit
