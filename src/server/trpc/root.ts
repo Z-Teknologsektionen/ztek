@@ -7,6 +7,7 @@ import { homePageCarouselRouter } from "./routers/home-page-carousel";
 import { oldCommitteeRouter } from "./routers/old-committee";
 import { programBoardRouter } from "./routers/program-board";
 import { userRouter } from "./routers/user";
+import { zaloonenBookingRouter } from "./routers/zaloonen-booking";
 import { zenithMediaRouter } from "./routers/zenith-media";
 
 /**
@@ -24,7 +25,9 @@ export const appRouter = trpc.router({
   zenithMedia: zenithMediaRouter,
   homePageCarousel: homePageCarouselRouter,
   email: emailRouter,
+  zaloonenBooking: zaloonenBookingRouter,
 });
 
 // export type definition of API
+// (used client side, see `README.md`)
 export type AppRouter = typeof appRouter;

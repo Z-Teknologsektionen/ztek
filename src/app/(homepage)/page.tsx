@@ -68,10 +68,10 @@ const HomePage = async (): Promise<ReactElement> => {
               <div className="flex aspect-video items-center justify-center rounded-lg bg-neutral-200 px-6 text-center">
                 <div>
                   <p className="text-sm font-semibold uppercase tracking-wide text-neutral-600">
-                    Nytt i veckan
+                    Bildkarusell
                   </p>
                   <p className="mt-3 text-xl font-semibold text-neutral-800">
-                    Mer innehåll kommer snart att visas här.
+                    Hoppsan hejsan! Någon har glömt att ladda upp bilder här
                   </p>
                 </div>
               </div>

@@ -1,17 +1,25 @@
-import { useEffect, useState, type FC } from "react";
-import { getZaloonenBookings } from "~/app/(homepage)/_utils/get-zaloonen-bookings";
-import type { CalendarEvent } from "~/components/ui/calendar/calendar-helpers";
+"use server";
+
+import { cacheLife } from "next/cache";
+import { Suspense, type FC } from "react";
 import Calendar from "~/components/ui/calendar/index";
+import { cacheableCaller } from "~/utils/trpc-client/caller";
 
-const HomePageCalendar: FC = () => {
-  const [bookings, setBookings] = useState<CalendarEvent[]>([]);
+const HomePageCalendar: FC = async () => {
+  // get bookings server-side
+  const bookings = await (async () => {
+    "use cache";
+    cacheLife("hours");
+    return await cacheableCaller.zaloonenBooking.getAll();
+  })();
 
-  useEffect(() => {
-    if (bookings.length === 0)
-      async () => setBookings(await getZaloonenBookings());
-  });
-
-  return <Calendar events={bookings} />;
+  // don't pre-render `Calendar`, as it runs `new Date()`
+  // suspend until code is run on client
+  return (
+    <Suspense>
+      <Calendar events={bookings} />
+    </Suspense>
+  );
 };
 
 export default HomePageCalendar;
