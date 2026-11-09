@@ -35,24 +35,24 @@ export default function MonthCalendar({ events, selectedDate, onSelectDate }: Mo
           onClick={() =>
             setViewDate(new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1))
           }
-          className="rounded-md p-1 text-neutral-300 hover:bg-neutral-600 hover:text-white"
+          className="rounded-md p-1 text-zLightGray hover:bg-zDarkGray hover:text-zWhite"
         >
           <ChevronLeft size={18} />
         </button>
-        <span className="text-sm font-semibold capitalize text-white">{monthLabel}</span>
+        <span className="text-sm font-semibold capitalize text-zWhite">{monthLabel}</span>
         <button
           type="button"
           aria-label="Nästa månad"
           onClick={() =>
             setViewDate(new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1))
           }
-          className="rounded-md p-1 text-neutral-300 hover:bg-neutral-600 hover:text-white"
+          className="rounded-md p-1 text-zLightGray hover:bg-zDarkGray hover:text-zWhite"
         >
           <ChevronRight size={18} />
         </button>
       </div>
 
-      <div className="mb-1 grid grid-cols-7 text-center text-[11px] font-medium text-neutral-400">
+      <div className="mb-1 grid grid-cols-7 text-center text-[11px] font-medium text-zLightGray">
         {weekdayLabels.map((w, i) => (
           <div key={i}>{w}</div>
         ))}
@@ -68,12 +68,12 @@ export default function MonthCalendar({ events, selectedDate, onSelectDate }: Mo
               type="button"
               onClick={() => onSelectDate(cell.date)}
               className={`relative aspect-square rounded-md text-xs transition-colors
-                ${cell.inMonth ? "text-white" : "text-neutral-600"}
-                ${isSelected ? "bg-amber-800 text-white" : "hover:bg-neutral-600"}`}
+                ${cell.inMonth ? "text-zWhite" : "text-zDarkGray"}
+                ${isSelected ? "bg-zBrown text-zWhite" : "hover:bg-zDarkGray"}`}
             >
               {cell.date.getDate()}
               {dayEvents.length > 0 && (
-                <span className="absolute bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-amber-500" />
+                <span className="absolute bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-zBrown" />
               )}
             </button>
           );

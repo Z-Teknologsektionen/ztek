@@ -78,7 +78,7 @@ export const NavbarMobileLinks: FC<{
                         className={buttonVariants({
                           size: "default",
                           variant: "link",
-                          className: "ml-8 w-fit font-normal color-white",
+                          className: "color-white ml-8 w-fit font-normal",
                         })}
                         href={sublink.href}
                         onClick={() => setOpen(false)}

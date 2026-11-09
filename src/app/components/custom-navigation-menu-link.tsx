@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { type FC } from "react";
 import {
-    NavigationMenuItem,
-    NavigationMenuLink,
-    navigationMenuTriggerStyle,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  navigationMenuTriggerStyle,
 } from "~/components/ui/navigation-menu";
 import type { NavbarItemOnlyLink } from "~/types/navbar-types";
 import { cn } from "~/utils/utils";

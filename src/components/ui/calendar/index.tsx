@@ -30,9 +30,9 @@ const Calendar: FC<{events: CalendarEvent[]} > = ({events}) => {
   const upcomingEvents = events.filter((event) => event.date >= today);
 
   return (
-    <div className="mt-4 rounded-xl bg-neutral-300 p-4">
-      <div className="flex items-center justify-between rounded-md bg-neutral-700 px-4 py-3">
-        <h3 className="text-sm font-bold uppercase tracking-wide text-white">
+    <div className="mt-4 rounded-xl bg-zLightGray p-4">
+      <div className="flex items-center justify-between rounded-md bg-zBlack px-4 py-3">
+        <h3 className="text-sm font-bold uppercase tracking-wide text-zWhite">
           Zaloonens kalender(Demo)
         </h3>
         <div className="flex gap-1">
@@ -40,8 +40,8 @@ const Calendar: FC<{events: CalendarEvent[]} > = ({events}) => {
             aria-label="Listvy"
             className={`rounded p-1.5 ${
               mode === "list"
-                ? "bg-neutral-500 text-white"
-                : "text-neutral-300 hover:text-white"
+                ? "bg-zDarkGray text-zWhite"
+                : "text-zLightGray hover:text-zWhite"
             }`}
             onClick={() => setMode("list")}
             type="button"
@@ -52,8 +52,8 @@ const Calendar: FC<{events: CalendarEvent[]} > = ({events}) => {
             aria-label="Kalendervy"
             className={`rounded p-1.5 ${
               mode === "calendar"
-                ? "bg-neutral-500 text-white"
-                : "text-neutral-300 hover:text-white"
+                ? "bg-zDarkGray text-zWhite"
+                : "text-zLightGray hover:text-zWhite"
             }`}
             onClick={() => setMode("calendar")}
             type="button"
@@ -67,18 +67,18 @@ const Calendar: FC<{events: CalendarEvent[]} > = ({events}) => {
         <div className="mt-2 space-y-2">
           
           {upcomingEvents.length === 0 && (
-            <p className="rounded-md bg-neutral-700 px-4 py-3 text-sm text-neutral-300">
+            <p className="rounded-md bg-zLightGray px-4 py-3 text-sm text-zDarkGray">
               Inga kommande händelser.
             </p>
           )}
           {upcomingEvents.slice(0, 3).map((event) => (
               <div
                 key={event.id}
-                className="flex items-center justify-between gap-3 rounded-md bg-neutral-700 px-4 py-3"
+                className="flex items-center justify-between gap-3 rounded-md bg-zBlack px-4 py-3"
               >
                 <div>
-                  <p className="text-sm font-bold text-white">{event.title}</p>
-                  <p className="mt-0.5 flex items-center gap-1 text-xs text-neutral-300">
+                  <p className="text-sm font-bold text-zWhite">{event.title}</p>
+                  <p className="mt-0.5 flex items-center gap-1 text-xs text-zDarkGray">
                     <Clock size={12} />
                     {formatEventDate(event.date)}, {formatEventTime(event.date)}
                     <span className="mx-1">·</span>
@@ -87,7 +87,7 @@ const Calendar: FC<{events: CalendarEvent[]} > = ({events}) => {
                   </p>
                 </div>
                 <Link
-                  className="shrink-0 rounded-md bg-amber-800 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-900"
+                  className="shrink-0 rounded-md bg-zBrown px-3 py-1.5 text-xs font-semibold text-zWhite hover:bg-opacity-80"
                   href={ZALOONEN_CALENDAR_URL}
                   rel="noopener noreferrer"
                   target="_blank"
@@ -98,14 +98,14 @@ const Calendar: FC<{events: CalendarEvent[]} > = ({events}) => {
             ))}
         </div>
       ) : (
-        <div className="mt-2 rounded-md bg-neutral-700 p-4">
+        <div className="mt-2 rounded-md bg-zBlack p-4">
           <MonthCalendar
             events={events}
             onSelectDate={setSelectedDate}
             selectedDate={selectedDate}
           />
-          <div className="mt-4 border-t border-neutral-600 pt-3">
-            <p className="mb-2 text-xs font-semibold text-neutral-300">
+          <div className="mt-4 border-t border-zDarkGray pt-3">
+            <p className="mb-2 text-xs font-semibold text-zLightGray">
               {selectedDate.toLocaleDateString("sv-SE", {
                 weekday: "long",
                 day: "numeric",
@@ -113,7 +113,7 @@ const Calendar: FC<{events: CalendarEvent[]} > = ({events}) => {
               })}
             </p>
            {eventsForSelectedDay.length === 0 ? (
-              <p className="text-xs text-neutral-400">
+              <p className="text-xs text-zLightGray">
                 Inga händelser den här dagen.
               </p>
             ) : (
@@ -121,18 +121,18 @@ const Calendar: FC<{events: CalendarEvent[]} > = ({events}) => {
                 {eventsForSelectedDay.map((event) => (
                   <div
                     key={event.id}
-                    className="rounded-md bg-neutral-600 px-3 py-2"
+                    className="rounded-md bg-zLightBlack px-3 py-2"
                   >
-                    <p className="text-sm font-bold text-white">
+                    <p className="text-sm font-bold text-zWhite">
                       {event.title}
                     </p>
-                    <p className="text-xs text-neutral-300">
+                    <p className="text-xs text-zLightGray">
                       {
                       event.allDay ? "Hela dagen" : formatEventTime(event.date)
                       } · {event.location}
                     </p>
                     {event.description && (
-                      <p className="mt-1 text-xs text-neutral-200">
+                      <p className="mt-1 text-xs text-zWhite">
                         {event.description}
                       </p>
                     )}
@@ -145,7 +145,7 @@ const Calendar: FC<{events: CalendarEvent[]} > = ({events}) => {
       )}
 
       <Link
-        className="mt-3 flex items-center justify-center gap-1 rounded-md bg-amber-800 py-2.5 text-xs font-bold uppercase tracking-wide text-white hover:bg-amber-900"
+        className="mt-3 flex items-center justify-center gap-1 rounded-md bg-zBrown py-2.5 text-xs font-bold uppercase tracking-wide text-zWhite hover:bg-opacity-80"
         href="/student-division/zaloonen"
         rel="noopener noreferrer"
         target="_blank"

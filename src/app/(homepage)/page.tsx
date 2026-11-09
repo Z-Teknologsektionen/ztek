@@ -1,157 +1,21 @@
 import type { Metadata } from "next";
-import { cacheTag } from "next/cache";
-import Image from "next/image";
-import Link from "next/link";
 import type { ReactElement } from "react";
-import { cacheableCaller } from "~/utils/trpc-client/caller";
+import ExternalLinks from "./external-links";
+import HomePageHeroSection from "./home-page-hero-section";
+import HomePageNewStudentSection from "./home-page-new-student-section";
+import HomePageSponsorSection from "./home-page-sponsor-section";
 
 export const metadata: Metadata = {
   title: "Z",
 };
 
-import { Settings } from "lucide-react";
-import ExternalLinks from "./_components_new/external_links";
-import HomePageCalendar from "./_components_new/home-page-calendar";
-import QuickLinks from "./_components_new/quick_links";
-import { HomePageHeroCarousel } from "./_components_old/home-page-hero-carousel";
-
-const HomePage = async (): Promise<ReactElement> => {
-  const carouselItems = await (async () => {
-    "use cache";
-    cacheTag("home-page-carousel");
-    return await cacheableCaller.homePageCarousel.getAllVisible();
-  })();
-
+const HomePage = (): ReactElement => {
   return (
-    <div className="min-h-screen bg-white font-sans text-neutral-900">
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-neutral-200 to-neutral-400 px-6 py-14">
-        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-2">
-          {/* Left column */}
-          <div>
-            <Settings
-              className="mb-4 text-neutral-600"
-              size={40}
-              strokeWidth={1.5}
-            />
-            <h1 className="text-4xl font-extrabold text-neutral-900 sm:text-5xl">
-              Z-teknologsektionen
-            </h1>
-            <p className="mt-3 text-base text-neutral-700">
-              Automation och mekatronik
-              <br />
-              på Chalmers tekniska högskola
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link
-                className="rounded-md bg-amber-800 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-900"
-                href="/student"
-              >
-                Mer om programmet
-              </Link>
-              <Link
-                className="rounded-md border border-neutral-500 bg-white/60 px-5 py-2.5 text-sm font-semibold text-neutral-800 hover:bg-white"
-                href="/business"
-              >
-                För företag
-              </Link>
-            </div>
-
-            <QuickLinks />
-          </div>
-
-          {/* Right column */}
-          <div className="rounded-2xl bg-white p-4 shadow-xl lg:p-5">
-            {carouselItems.length > 0 ? (
-              <HomePageHeroCarousel items={carouselItems} />
-            ) : (
-              <div className="flex aspect-video items-center justify-center rounded-lg bg-neutral-200 px-6 text-center">
-                <div>
-                  <p className="text-sm font-semibold uppercase tracking-wide text-neutral-600">
-                    Bildkarusell
-                  </p>
-                  <p className="mt-3 text-xl font-semibold text-neutral-800">
-                    Hoppsan hejsan! Någon har glömt att ladda upp bilder här
-                  </p>
-                </div>
-              </div>
-            )}
-            <HomePageCalendar />
-          </div>
-        </div>
-      </section>
-
-      {/* Sponsor */}
-      <section className="px-6 py-16">
-        <div className="mx-auto max-w-5xl text-center">
-          <h2 className="mb-2 text-2xl font-extrabold text-neutral-900">
-            Sektionens huvudsponsor
-          </h2>
-          <div className="mx-auto mb-10 h-px w-full bg-neutral-300" />
-          <Image
-            alt="Logotyp: huvudsponsor"
-            className="mx-auto h-40 w-full max-w-md rounded-lg"
-            height={160}
-            src="cpac.svg"
-            width={320}
-          />
-          <p className="mt-6 text-sm text-neutral-700">
-            Ett stort tack till vår huvudsponsor CPAC Systems. Kolla gärna in
-            deras hemsida för att läsa mer om deras verksamhet och vad de kan
-            erbjuda dig som student.
-          </p>
-          <Link
-            className="mt-6 inline-block rounded-md bg-teal-800 px-5 py-2 text-sm font-semibold text-white hover:bg-teal-900"
-            href="https://cpacsystems.se/"
-          >
-            Mer om sponsorn
-          </Link>
-          <div className="mx-auto mt-12 flex max-w-3xl flex-col items-center justify-between gap-4 rounded-2xl bg-neutral-700 p-6 sm:flex-row">
-            <p className="text-sm text-white sm:text-left">
-              Vill er organisation sponsra eller samarbeta med oss? Mer
-              information finns här:
-            </p>
-            <Link
-              className="shrink-0 rounded-md bg-amber-800 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-900"
-              href="/business"
-            >
-              Läs mer
-            </Link>
-          </div>
-        </div>
-      </section>
-      <div className="mx-auto h-px w-8/12 bg-neutral-300" />
-      {/* Ny student */}
-      <section className="px-6 py-16">
-        <div className="mx-auto flex max-w-5xl flex-col items-center gap-8 rounded-2xl bg-neutral-700 p-8 sm:flex-row sm:p-10">
-          <div className="flex-1 text-center sm:text-left">
-            <h2 className="text-2xl font-extrabold text-white sm:text-3xl">
-              Ny student?
-            </h2>
-            <p className="mt-1 text-lg font-semibold text-white">
-              Eller kanske blivande?
-            </p>
-            <p className="mt-3 text-sm text-neutral-300">
-              Det finns mängder av superbra tips till nya studenter på
-              mottagningskommittens hemsida.
-            </p>
-            <Link
-              className="mt-5 inline-block rounded-md bg-amber-800 px-5 py-2.5 text-xs font-bold uppercase tracking-wide text-white hover:bg-amber-900"
-              href="https://www.znollk.se/"
-            >
-              Länk till ZoKs hemsida
-            </Link>
-          </div>
-          <Image
-            alt="Illustration: lucky luke"
-            className="h-40 w-80 shrink-0 rounded-lg object-scale-down"
-            height={160}
-            src="/lucky_horizontal.png"
-            width={160}
-          />
-        </div>
-      </section>
-
+    <div className="min-h-screen bg-zWhite font-sans text-zBlack">
+      <HomePageHeroSection />
+      <HomePageSponsorSection />
+      <div className="mx-auto h-px w-8/12 bg-zLightGray" />
+      <HomePageNewStudentSection />
       <ExternalLinks />
     </div>
   );
