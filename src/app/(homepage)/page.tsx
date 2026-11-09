@@ -1,31 +1,23 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import type { FC } from "react";
-import { HomePageHeroSection } from "./_components/home-page-hero-section";
-import { HomePageLinksSection } from "./_components/home-page-links-section";
+import type { ReactElement } from "react";
+import ExternalLinks from "./external-links";
+import HomePageHeroSection from "./home-page-hero-section";
+import HomePageNewStudentSection from "./home-page-new-student-section";
+import HomePageSponsorSection from "./home-page-sponsor-section";
 
 export const metadata: Metadata = {
   title: "Z",
 };
 
-const HomePage: FC = () => {
+const HomePage = (): ReactElement => {
   return (
-    <>
+    <div className="min-h-screen bg-zWhite font-sans text-zBlack">
       <HomePageHeroSection />
-      <div className="relative mt-12 sm:mt-14 md:mt-8">
-        <div className="absolute h-[5vh] w-full md:h-[10vh] xl:h-[15vh]">
-          <Image
-            alt="Lucky luke"
-            className="absolute bottom-[2.5vh] left-1/2 z-20 w-[30vw] min-w-[150px] drop-shadow-md -translate-x-1/2 -rotate-[4deg] transform md:bottom-[5.5vh] md:w-[24vw] xl:bottom-[9vh]"
-            height={1080}
-            src="/lucky_horizontal.png"
-            width={1920}
-            unoptimized
-          />
-        </div>
-        <HomePageLinksSection />
-      </div>
-    </>
+      <HomePageSponsorSection />
+      <div className="mx-auto h-px w-8/12 bg-zLightGray" />
+      <HomePageNewStudentSection />
+      <ExternalLinks />
+    </div>
   );
 };
 

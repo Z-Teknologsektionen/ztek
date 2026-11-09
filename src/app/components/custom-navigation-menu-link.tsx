@@ -18,7 +18,8 @@ export const CustomNavigationMenuLink: FC<
       active={pathname == href}
       className={cn(
         navigationMenuTriggerStyle(),
-        "border-0 dark:bg-transparent",
+        "rounded-full border border-white/15 bg-white/10 px-4 py-2 text-white/80 shadow-sm transition hover:bg-white/20 hover:text-white focus:bg-white/20 focus:text-white data-[active]:bg-white/20 data-[state=open]:bg-white/20",
+        pathname === href && "bg-white/20 text-white",
       )}
       asChild
     >

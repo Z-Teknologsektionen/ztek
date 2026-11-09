@@ -20,6 +20,8 @@ export default {
       colors: {
         zRed: "#ED2024",
         zBlack: "#333333",
+        zLightBlack: "#444444",
+        zBrown: "#92400E",
         zDarkGray: "#888888",
         zLightGray: "#BBBBBB",
         zWhite: "#EEEEEE",

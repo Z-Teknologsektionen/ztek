@@ -26,11 +26,14 @@ export const NavbarMobileLinks: FC<{
   return (
     <Sheet onOpenChange={setOpen} open={open}>
       <SheetTrigger className="dark" asChild>
-        <Button className="lg:hidden" variant="ghost">
+        <Button
+          className="rounded-full border border-white/15 bg-white/10 text-white hover:bg-white/20 hover:text-white lg:hidden"
+          variant="ghost"
+        >
           <Menu />
         </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="border-white/15 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.14),_transparent_35%),linear-gradient(135deg,_rgba(9,9,11,0.95)_0%,_rgba(43,43,53,0.9)_45%,_rgba(135,140,150,0.9)_100%)] text-white">
         <SheetHeader>
           <SheetTitle className="sr-only">Navigationsfält</SheetTitle>
           <SheetDescription className="sr-only">
@@ -49,6 +52,7 @@ export const NavbarMobileLinks: FC<{
                       buttonVariants({
                         size: "default",
                         variant: "link",
+                        className: "ml-4 font-normal text-white",
                       }),
                       "w-fit",
                       link.href === pathname &&
@@ -74,7 +78,7 @@ export const NavbarMobileLinks: FC<{
                         className={buttonVariants({
                           size: "default",
                           variant: "link",
-                          className: "ml-8 w-fit font-normal",
+                          className: "color-white ml-8 w-fit font-normal",
                         })}
                         href={sublink.href}
                         onClick={() => setOpen(false)}
