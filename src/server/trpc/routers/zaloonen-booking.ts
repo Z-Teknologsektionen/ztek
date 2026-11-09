@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { convertIcsCalendar, extendByRecurrenceRule } from "ts-ics";
 import type { CalendarEvent } from "~/components/ui/calendar/calendar-helpers";
-import { ZALOONEN_BOOKING_ICS_URL } from "~/constants/3rd-party-apis";
+import { ZALOONEN_BOOKING_ICS_URL } from "~/constants/third-party-apis";
 import { trpc } from "~/server/trpc/init";
 import { publicProcedure } from "~/server/trpc/procedure-builders";
 

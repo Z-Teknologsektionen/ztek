@@ -1,4 +1,4 @@
-import { TIMEEDIT_SCHEDULE_ICS_URL } from "~/constants/3rd-party-apis";
+import { TIMEEDIT_SCHEDULE_ICS_URL } from "~/constants/third-party-apis";
 import simplifySchedule from "./simplify-schedule";
 
 export async function GET(
